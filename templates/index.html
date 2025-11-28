@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MorseQuery - Real-time Audio Search</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MorseQuery</h1>
+            <p class="subtitle">Real-time Audio Streaming Search</p>
+        </header>
+
+        <div class="search-section" id="searchSection" style="display: none;">
+            <h3>Search Results for: <span id="searchKeyword"></span></h3>
+            <div id="searchResults" class="search-results">
+            </div>
+        </div>
+
+        <div class="transcription-section">
+            <h3>Live Transcription</h3>
+            <div id="transcription" class="transcription-box">
+            </div>
+        </div>
+
+        <div class="audio-player-section" id="audioPlayerSection" style="display: none;">
+            <h3>Audio Player</h3>
+            <audio id="audioPlayer" controls style="width: 100%; margin-bottom: 10px;"></audio>
+            <div class="button-group" style="display: flex; gap: 10px;">
+                <button id="playBtn" class="btn btn-primary" style="flex: 1;">
+                    <span class="icon">▶️</span> Play & Transcribe
+                </button>
+                <button id="stopAudioBtn" class="btn btn-warning" style="flex: 1;">
+                    <span class="icon">⏹️</span> Stop
+                </button>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <p><strong>Instructions:</strong> Press <kbd>SPACEBAR</kbd> anytime to search for the most relevant keyword from your transcription!</p>
+            <p id="status">Status: Ready</p>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <h3>Audio Source</h3>
+                <div class="button-group">
+                    <button id="micBtn" class="btn btn-primary">
+                        <span class="icon">🎤</span> Microphone
+                    </button>
+                    <label for="fileInput" class="btn btn-secondary">
+                        <span class="icon">📁</span> Upload File
+                        <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+                    </label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Speech Recognition</h3>
+                <div class="button-group">
+                    <button id="whisperBtn" class="btn btn-info active">
+                        <span class="icon">🔊</span> Whisper (Local)
+                    </button>
+                    <button id="googleBtn" class="btn btn-info">
+                        <span class="icon">☁️</span> Google STT
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Search Mode</h3>
+                <div class="button-group">
+                    <button id="instantSearchBtn" class="btn btn-info">
+                        <span class="icon">⚡</span> Instant Word
+                    </button>
+                    <button id="tfidfSearchBtn" class="btn btn-info active">
+                        <span class="icon">🎯</span> Important Word
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <h3>Search Type</h3>
+                <div class="button-group">
+                    <button id="textSearchBtn" class="btn btn-success active">
+                        <span class="icon">📝</span> Text Search
+                    </button>
+                    <button id="imageSearchBtn" class="btn btn-success">
+                        <span class="icon">🖼️</span> Image Search
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <button id="clearBtn" class="btn btn-warning">
+                    <span class="icon">🗑️</span> Clear Session
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,23 @@
+.env
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+*.log
+venv/
+env/
+.vscode/
+.idea/
+*.wav
+*.mp3
+*.mp4
+google-credentials.json
+
+# Exclude all arctic-*.json files (API credentials)
+arctic-*.json
