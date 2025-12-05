@@ -25,6 +25,7 @@ const instantSearchBtn = document.getElementById('instantSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
 const textSearchBtn = document.getElementById('textSearchBtn');
 const imageSearchBtn = document.getElementById('imageSearchBtn');
+const bothSearchBtn = document.getElementById('bothSearchBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusEl = document.getElementById('status');
 const transcriptionEl = document.getElementById('transcription');
@@ -108,6 +109,7 @@ instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
 textSearchBtn.addEventListener('click', () => setSearchType('text'));
 imageSearchBtn.addEventListener('click', () => setSearchType('image'));
+bothSearchBtn.addEventListener('click', () => setSearchType('both'));
 clearBtn.addEventListener('click', clearSession);
 playBtn.addEventListener('click', playAndTranscribe);
 stopAudioBtn.addEventListener('click', stopAudioPlayback);
@@ -182,8 +184,15 @@ function setSearchType(type) {
 
     textSearchBtn.classList.toggle('active', type === 'text');
     imageSearchBtn.classList.toggle('active', type === 'image');
+    bothSearchBtn.classList.toggle('active', type === 'both');
 
-    updateStatus(`Search type: ${type}`);
+    const typeNames = {
+        text: 'Text Only',
+        image: 'Image Only',
+        both: 'Text+Image'
+    };
+
+    updateStatus(`Search type: ${typeNames[type]}`);
 }
 
 async function toggleMicrophone() {
@@ -614,11 +623,83 @@ function triggerSearch() {
 
 function displaySearchResults(data) {
     const modeIcon = data.mode === 'instant' ? '⚡' : '🎯';
-    const modeName = data.mode === 'instant' ? 'Instant' : 'TF-IDF';
+    const modeName = data.mode === 'instant' ? 'Instant' : 'Important';
 
     searchKeywordEl.textContent = `${modeIcon} ${data.keyword} (${modeName})`;
     searchResultsEl.innerHTML = '';
 
+    // Handle 'both' type - display both text and image results
+    if (data.type === 'both') {
+        const textResults = data.results.text || [];
+        const imageResults = data.results.image || [];
+
+        if (textResults.length === 0 && imageResults.length === 0) {
+            searchResultsEl.innerHTML = '<p>No results found.</p>';
+            searchSection.style.display = 'block';
+            return;
+        }
+
+        // Display text results section
+        if (textResults.length > 0) {
+            const textHeader = document.createElement('h3');
+            textHeader.textContent = '📝 Text Results';
+            textHeader.style.marginTop = '0';
+            searchResultsEl.appendChild(textHeader);
+
+            textResults.forEach(result => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'search-result-item';
+
+                // If image is available, display it alongside the text
+                if (result.image) {
+                    resultDiv.innerHTML = `
+                        <div style="display: flex; gap: 15px; align-items: start;">
+                            <img src="${result.image}" alt="${result.title}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; flex-shrink: 0;" onerror="this.style.display='none'">
+                            <div style="flex: 1;">
+                                <h4>${result.title}</h4>
+                                <p>${result.snippet}</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h4>${result.title}</h4>
+                        <p>${result.snippet}</p>
+                    `;
+                }
+                searchResultsEl.appendChild(resultDiv);
+            });
+        }
+
+        // Display image results section
+        if (imageResults.length > 0) {
+            const imageHeader = document.createElement('h3');
+            imageHeader.textContent = '🖼️ Image Results';
+            imageHeader.style.marginTop = '20px';
+            searchResultsEl.appendChild(imageHeader);
+
+            imageResults.forEach(result => {
+                const resultDiv = document.createElement('div');
+                resultDiv.className = 'search-result-item image-result';
+                resultDiv.innerHTML = `
+                    <a href="${result.link}" target="_blank">
+                        <img src="${result.thumbnail}" alt="${result.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                    </a>
+                    <div class="image-result-info">
+                        <h4>${result.title}</h4>
+                        <p>${result.context}</p>
+                    </div>
+                `;
+                searchResultsEl.appendChild(resultDiv);
+            });
+        }
+
+        searchSection.style.display = 'block';
+        updateStatus(`Found ${textResults.length} text + ${imageResults.length} image results for "${data.keyword}"`);
+        return;
+    }
+
+    // Handle single type (text or image)
     if (data.results.length === 0) {
         searchResultsEl.innerHTML = '<p>No results found.</p>';
         searchSection.style.display = 'block';
@@ -630,10 +711,11 @@ function displaySearchResults(data) {
             const resultDiv = document.createElement('div');
             resultDiv.className = 'search-result-item image-result';
             resultDiv.innerHTML = `
-                <img src="${result.thumbnail}" alt="${result.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                <a href="${result.link}" target="_blank">
+                    <img src="${result.thumbnail}" alt="${result.title}" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect fill=%22%23ddd%22 width=%22150%22 height=%22150%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22 dy=%22.3em%22%3ENo Image%3C/text%3E%3C/svg%3E'">
+                </a>
                 <div class="image-result-info">
                     <h4>${result.title}</h4>
-                    <a href="${result.link}" target="_blank">${result.link}</a>
                     <p>${result.context}</p>
                 </div>
             `;
@@ -643,11 +725,24 @@ function displaySearchResults(data) {
         data.results.forEach(result => {
             const resultDiv = document.createElement('div');
             resultDiv.className = 'search-result-item';
-            resultDiv.innerHTML = `
-                <h4>${result.title}</h4>
-                <a href="${result.link}" target="_blank">${result.link}</a>
-                <p>${result.snippet}</p>
-            `;
+
+            // If image is available, display it alongside the text
+            if (result.image) {
+                resultDiv.innerHTML = `
+                    <div style="display: flex; gap: 15px; align-items: start;">
+                        <img src="${result.image}" alt="${result.title}" style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px; flex-shrink: 0;" onerror="this.style.display='none'">
+                        <div style="flex: 1;">
+                            <h4>${result.title}</h4>
+                            <p>${result.snippet}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <h4>${result.title}</h4>
+                    <p>${result.snippet}</p>
+                `;
+            }
             searchResultsEl.appendChild(resultDiv);
         });
     }
