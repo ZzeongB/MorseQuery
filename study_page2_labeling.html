@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Retrospective Labeling</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .progress {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        video {
+            width: 100%;
+            max-width: 800px;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        .transcript {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            user-select: text;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            font-weight: bold;
+            padding: 2px 4px;
+        }
+        .question {
+            margin-bottom: 25px;
+        }
+        .question-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .radio-option, .checkbox-option {
+            margin: 8px 0;
+            display: block;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 5px;
+            font-family: inherit;
+        }
+        textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+        .submit-btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .complete-message {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress" id="progressIndicator"></div>
+
+        <div id="labelingForm">
+            <video id="videoPlayer" controls>
+                <source src="" type="video/mp4">
+            </video>
+
+            <div class="transcript" id="transcriptDisplay"></div>
+
+            <form id="gestureForm">
+                <div class="question">
+                    <div class="question-label">Q1. Intended Action (select one)</div>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="lookup" required>
+                        Look up an unfamiliar word or concept
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="translate">
+                        Translate a phrase
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="clarify">
+                        Clarify an ambiguous or similar-sounding term
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="replay">
+                        Replay or review a missed segment
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="bookmark">
+                        Bookmark a segment for later
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="followup">
+                        Trigger a follow-up action (e.g., reminder, task)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="intended_action" value="other">
+                        Other (please specify)
+                    </label>
+                    <input type="text" id="intended_action_other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <div class="question-label">Q2. Target of Action</div>
+                    <label class="radio-option">
+                        <input type="radio" name="target_type" value="specific_word" required>
+                        A specific word or phrase (select in transcript)
+                    </label>
+                    <input type="text" id="selected_text" placeholder="Type or paste the word/phrase from transcript...">
+
+                    <label class="radio-option">
+                        <input type="radio" name="target_type" value="broader_context">
+                        The broader context of the current segment (select + describe)
+                    </label>
+                    <textarea id="context_description" placeholder="Describe the broader context..."></textarea>
+
+                    <label class="radio-option">
+                        <input type="radio" name="target_type" value="background_knowledge">
+                        Implicit or assumed background knowledge (describe)
+                    </label>
+                    <textarea id="background_description" placeholder="Describe the background knowledge..."></textarea>
+
+                    <label class="radio-option">
+                        <input type="radio" name="target_type" value="other">
+                        Other (please specify)
+                    </label>
+                    <input type="text" id="target_other" placeholder="Please specify...">
+                </div>
+
+                <div class="question">
+                    <div class="question-label">Q3. Desired Output Form</div>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="text_results" required>
+                        Text-based search results
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="image_results">
+                        Image-based results
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="text_image_results">
+                        Text + image results
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="summary">
+                        Short synthesized summary
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="structured">
+                        Structured format (e.g., table, timeline, list)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="audio">
+                        Audio response
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="actionable">
+                        Actionable output (e.g., definition, link, task)
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="desired_output" value="other">
+                        Other (please specify)
+                    </label>
+                    <input type="text" id="desired_output_other" placeholder="Please specify...">
+                </div>
+
+                <button type="submit" class="submit-btn">Submit</button>
+                <div style="clear: both;"></div>
+            </form>
+        </div>
+
+        <div id="completeMessage" style="display: none;" class="complete-message">
+            All gestures have been labeled. Thank you for participating!
+        </div>
+    </div>
+
+    <script>
+        let gestures = JSON.parse(sessionStorage.getItem('gestures')) || [];
+        let currentIndex = parseInt(sessionStorage.getItem('currentGestureIndex')) || 0;
+        let labeledData = JSON.parse(sessionStorage.getItem('labeledData')) || [];
+        let transcriptData = JSON.parse(sessionStorage.getItem('transcriptData')) || {};
+
+        const video = document.getElementById('videoPlayer');
+        const videoUrl = sessionStorage.getItem('videoUrl');
+        video.src = videoUrl;
+
+        function displayGesture(index) {
+            if (index >= gestures.length) {
+                document.getElementById('labelingForm').style.display = 'none';
+                document.getElementById('completeMessage').style.display = 'block';
+
+                // Download labeled data
+                const dataStr = JSON.stringify(labeledData, null, 2);
+                const dataBlob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'labeled_gestures_' + new Date().toISOString() + '.json';
+                link.click();
+                return;
+            }
+
+            const gesture = gestures[index];
+            const gestureTime = gesture.video_time;
+
+            // Update progress
+            document.getElementById('progressIndicator').textContent =
+                `Gesture ${index + 1} of ${gestures.length}`;
+
+            // Set video to 30 seconds before gesture time
+            const startTime = Math.max(0, gestureTime - 30);
+            video.currentTime = startTime;
+
+            // Display transcript with highlighted gesture timestamp
+            displayTranscript(startTime, gestureTime);
+
+            // Reset form
+            document.getElementById('gestureForm').reset();
+        }
+
+        function displayTranscript(startTime, gestureTime) {
+            const endTime = startTime + 60;
+
+            // Get transcript for this time window
+            // This assumes transcriptData has time-aligned transcript
+            // Format: { "start_time": "text", ... }
+
+            let transcriptHTML = '';
+            if (Object.keys(transcriptData).length === 0) {
+                transcriptHTML = '[Transcript for ' + formatTime(startTime) + ' - ' +
+                                formatTime(endTime) + '. Gesture at ' +
+                                '<span class="highlight">' + formatTime(gestureTime) + '</span>]';
+            } else {
+                // Build transcript with highlighted gesture time
+                for (let time in transcriptData) {
+                    const t = parseFloat(time);
+                    if (t >= startTime && t < endTime) {
+                        if (Math.abs(t - gestureTime) < 1.0) {
+                            transcriptHTML += '<span class="highlight">' + transcriptData[time] + '</span> ';
+                        } else {
+                            transcriptHTML += transcriptData[time] + ' ';
+                        }
+                    }
+                }
+            }
+
+            document.getElementById('transcriptDisplay').innerHTML = transcriptHTML;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        document.getElementById('gestureForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const gesture = gestures[currentIndex];
+            const formData = new FormData(e.target);
+
+            // Collect data
+            const labeledGesture = {
+                gesture_timestamp: gesture.gesture_timestamp,
+                video_time: gesture.video_time,
+                intended_action: formData.get('intended_action'),
+                intended_action_other: formData.get('intended_action') === 'other' ?
+                    document.getElementById('intended_action_other').value : null,
+                target_type: formData.get('target_type'),
+                selected_text: formData.get('target_type') === 'specific_word' ?
+                    document.getElementById('selected_text').value : null,
+                target_description: formData.get('target_type') === 'broader_context' ?
+                    document.getElementById('context_description').value :
+                    (formData.get('target_type') === 'background_knowledge' ?
+                     document.getElementById('background_description').value : null),
+                target_other: formData.get('target_type') === 'other' ?
+                    document.getElementById('target_other').value : null,
+                desired_output_form: formData.get('desired_output'),
+                desired_output_other: formData.get('desired_output') === 'other' ?
+                    document.getElementById('desired_output_other').value : null
+            };
+
+            labeledData.push(labeledGesture);
+            sessionStorage.setItem('labeledData', JSON.stringify(labeledData));
+
+            currentIndex++;
+            sessionStorage.setItem('currentGestureIndex', currentIndex.toString());
+
+            displayGesture(currentIndex);
+        });
+
+        // Initialize
+        displayGesture(currentIndex);
+    </script>
+</body>
+</html>
