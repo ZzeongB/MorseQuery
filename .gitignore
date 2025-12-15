@@ -21,3 +21,6 @@ google-credentials.json
 
 # Exclude all arctic-*.json files (API credentials)
 arctic-*.json
+
+# Session logs
+logs/

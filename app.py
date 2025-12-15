@@ -5,6 +5,7 @@ import tempfile
 import threading
 from datetime import datetime
 
+import nltk
 import numpy as np
 import pandas as pd
 import requests
@@ -13,6 +14,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from google.cloud import speech
+from nltk.stem import WordNetLemmatizer
 from pydub import AudioSegment
 
 load_dotenv()
@@ -20,6 +22,47 @@ load_dotenv()
 # Create logs directory if it doesn't exist
 LOGS_DIR = os.path.join(os.path.dirname(__file__), "logs")
 os.makedirs(LOGS_DIR, exist_ok=True)
+
+# Initialize NLTK lemmatizer
+try:
+    nltk.data.find("corpora/wordnet")
+except LookupError:
+    print("[NLTK] Downloading WordNet data...")
+    nltk.download("wordnet", quiet=True)
+    nltk.download("omw-1.4", quiet=True)
+
+lemmatizer = WordNetLemmatizer()
+
+# Common English contractions
+CONTRACTIONS = {
+    "you're": "you are",
+    "we're": "we are",
+    "they're": "they are",
+    "i'm": "i am",
+    "he's": "he is",
+    "she's": "she is",
+    "it's": "it is",
+    "that's": "that is",
+    "what's": "what is",
+    "there's": "there is",
+    "who's": "who is",
+    "where's": "where is",
+    "won't": "will not",
+    "can't": "cannot",
+    "don't": "do not",
+    "doesn't": "does not",
+    "didn't": "did not",
+    "haven't": "have not",
+    "hasn't": "has not",
+    "hadn't": "had not",
+    "wouldn't": "would not",
+    "shouldn't": "should not",
+    "couldn't": "could not",
+    "isn't": "is not",
+    "aren't": "are not",
+    "wasn't": "was not",
+    "weren't": "were not",
+}
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "morsequery-secret-key"
@@ -70,6 +113,52 @@ load_lexicon()
 
 # Store transcription history per session
 transcription_sessions = {}
+
+
+def preprocess_word(word):
+    """Preprocess word for lexicon lookup
+
+    1. Expand contractions (you're -> you are)
+    2. Lemmatize to base form (declares -> declare, remains -> remain)
+    3. Return the most searchable form
+
+    Args:
+        word: Original word from transcription
+
+    Returns:
+        Preprocessed word in base form, or None if should be skipped
+    """
+    # Remove punctuation and lowercase
+    cleaned = "".join(c for c in word if c.isalnum()).lower()
+
+    if not cleaned or len(cleaned) < 3:
+        return None
+
+    # Expand contractions first
+    if cleaned in CONTRACTIONS:
+        # Return the first word of the expansion
+        # e.g., "you're" -> "you are" -> "you"
+        expanded = CONTRACTIONS[cleaned].split()[0]
+        cleaned = expanded
+
+    # Lemmatize: try as verb, then noun, then adjective
+    # Verbs: declares -> declare, remains -> remain
+    lemma_v = lemmatizer.lemmatize(cleaned, pos="v")
+    if lemma_v != cleaned:
+        return lemma_v
+
+    # Nouns: cats -> cat
+    lemma_n = lemmatizer.lemmatize(cleaned, pos="n")
+    if lemma_n != cleaned:
+        return lemma_n
+
+    # Adjectives: better -> good
+    lemma_a = lemmatizer.lemmatize(cleaned, pos="a")
+    if lemma_a != cleaned:
+        return lemma_a
+
+    # No lemmatization needed, return as-is
+    return cleaned
 
 
 class TranscriptionSession:
@@ -157,15 +246,16 @@ class TranscriptionSession:
         candidate_words = []
 
         for word in recent_words:
-            # Remove punctuation and lowercase
-            cleaned = "".join(c for c in word if c.isalnum()).lower()
+            # Preprocess word (expand contractions, lemmatize)
+            cleaned = preprocess_word(word)
 
-            # Skip very short words
-            if not cleaned or len(cleaned) < 3:
+            # Skip if preprocessing returned None
+            if not cleaned:
                 continue
 
-            # Check lexicon frequency
+            # Check lexicon frequency (using preprocessed form)
             freq_value = lexicon_dict.get(cleaned)
+            print(f"[Lexicon] '{word}' -> preprocessed: '{cleaned}'")
 
             # Keep words that are:
             # 1. Not in lexicon (freq_value is None)
@@ -191,8 +281,9 @@ class TranscriptionSession:
 
         if not candidate_words:
             # No candidates found - fallback to last word
-            print("[Lexicon] No rare words found, using last word as fallback")
-            return self.words[-1] if self.words else ""
+            fallback_word = self.words[-1] if self.words else ""
+            print(f"[Lexicon] ⚠️ No important words found (all freq >= 3.0), using fallback: '{fallback_word}'")
+            return fallback_word
 
         # Sort by frequency (lowest first, with not-in-lexicon/-1 first)
         candidate_words.sort(key=lambda x: x[1])
@@ -253,15 +344,16 @@ class TranscriptionSession:
         candidate_words = []
 
         for word in recent_words:
-            # Remove punctuation and lowercase
-            cleaned = "".join(c for c in word if c.isalnum()).lower()
+            # Preprocess word (expand contractions, lemmatize)
+            cleaned = preprocess_word(word)
 
-            # Skip very short words
-            if not cleaned or len(cleaned) < 3:
+            # Skip if preprocessing returned None
+            if not cleaned:
                 continue
 
-            # Check lexicon frequency
+            # Check lexicon frequency (using preprocessed form)
             freq_value = lexicon_dict.get(cleaned)
+            print(f"[Recent] '{word}' -> preprocessed: '{cleaned}'")
 
             # Only keep words with importance threshold below 3.0:
             # 1. Not in lexicon (freq_value is None) -> highest importance
@@ -293,10 +385,11 @@ class TranscriptionSession:
 
         if not candidate_words:
             # No high-importance words found - fallback to last recent word
-            print(
-                "[Recent] No high-importance words (freq < 3.0) found in recent words, using last recent word as fallback"
-            )
             fallback_word = recent_words[-1] if recent_words else ""
+            print(
+                f"[Recent] ⚠️ No important words found (all freq >= 3.0) in last {time_threshold}s"
+            )
+            print(f"[Recent] Using fallback: '{fallback_word}'")
 
             # Log the analysis even when using fallback
             self._log_event(
@@ -306,7 +399,9 @@ class TranscriptionSession:
                     "recent_words": recent_words,
                     "candidates": [],
                     "selected_keyword": fallback_word,
-                    "selection_reason": "fallback_no_high_importance_words",
+                    "selected_frequency": None,
+                    "selection_reason": "fallback_no_important_words",
+                    "is_fallback": True,
                 },
             )
 
@@ -349,6 +444,7 @@ class TranscriptionSession:
                 "selected_keyword": selected_word,
                 "selected_frequency": selected_freq,
                 "selection_reason": "highest_importance",
+                "is_fallback": False,
             },
         )
 
@@ -450,7 +546,9 @@ def process_whisper_background(audio_data, file_format, session_id):
     try:
         # Check if audio data is valid
         if not audio_data or len(audio_data) < 100:
-            print(f"[Whisper] Audio data too small: {len(audio_data)} bytes - skipping silently")
+            print(
+                f"[Whisper] Audio data too small: {len(audio_data)} bytes - skipping silently"
+            )
             # Silently skip without showing error to user
             return
 
@@ -503,7 +601,7 @@ def process_whisper_background(audio_data, file_format, session_id):
         # Handle specific tensor reshape errors (empty/invalid audio)
         error_msg = str(e)
         if "cannot reshape tensor" in error_msg or "0 elements" in error_msg:
-            print(f"[Whisper] Empty or invalid audio data - skipping silently")
+            print("[Whisper] Empty or invalid audio data - skipping silently")
             # Silently skip without showing error to user
             # This is normal in real-time recording scenarios
         elif "Linear(in_features=" in error_msg or "out_features=" in error_msg:
@@ -530,9 +628,7 @@ def process_whisper_background(audio_data, file_format, session_id):
         print(f"[Whisper] Value error (likely audio format issue): {error_msg}")
         socketio.emit(
             "error",
-            {
-                "message": "Audio format error. Please try a different recording format."
-            },
+            {"message": "Audio format error. Please try a different recording format."},
             room=session_id,
         )
 
@@ -923,7 +1019,6 @@ def google_custom_search(query, search_type="text"):
 
     if "items" in data:
         for item in data["items"]:
-            print(item)
             if search_type == "image":
                 results.append(
                     {
