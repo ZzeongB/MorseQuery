@@ -5,7 +5,7 @@ const socket = io();
 let state = {
     isRecording: false,
     recognitionMode: 'whisper', // 'whisper' or 'google'
-    searchMode: 'tfidf', // 'instant' or 'tfidf'
+    searchMode: 'recent', // 'instant' or 'tfidf'
     searchType: 'text', // 'text' or 'image'
     mediaRecorder: null,
     audioContext: null,
@@ -22,6 +22,7 @@ const fileInput = document.getElementById('fileInput');
 const whisperBtn = document.getElementById('whisperBtn');
 const googleBtn = document.getElementById('googleBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
+const recentSearchBtn = document.getElementById('recentSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
 const textSearchBtn = document.getElementById('textSearchBtn');
 const imageSearchBtn = document.getElementById('imageSearchBtn');
@@ -106,6 +107,7 @@ fileInput.addEventListener('change', handleFileUpload);
 whisperBtn.addEventListener('click', () => setRecognitionMode('whisper'));
 googleBtn.addEventListener('click', () => setRecognitionMode('google'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
+recentSearchBtn.addEventListener('click', () => setSearchMode('recent'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
 textSearchBtn.addEventListener('click', () => setSearchType('text'));
 imageSearchBtn.addEventListener('click', () => setSearchType('image'));
@@ -169,10 +171,12 @@ function setSearchMode(mode) {
     state.searchMode = mode;
 
     instantSearchBtn.classList.toggle('active', mode === 'instant');
+    recentSearchBtn.classList.toggle('active', mode === 'recent');
     tfidfSearchBtn.classList.toggle('active', mode === 'tfidf');
 
     const modeNames = {
         instant: 'Instant Word (최신 단어)',
+        recent: 'Recent 5s (최근 5초)',
         tfidf: 'Important Word (중요 단어)'
     };
 
@@ -609,6 +613,17 @@ function triggerSearch() {
             type: state.searchType
         });
 
+    } else if (state.searchMode === 'recent') {
+        // Recent search: important word from last 5 seconds
+        console.log('[Recent Search] Requesting important keyword from last 5 seconds');
+        updateStatus('⏱️ Finding important word from last 5 seconds...');
+
+        socket.emit('search_request', {
+            mode: 'recent',
+            time_threshold: 5,
+            type: state.searchType
+        });
+
     } else {
         // TF-IDF search: let server calculate important word
         console.log('[TF-IDF Search] Requesting important keyword from server');
@@ -622,8 +637,17 @@ function triggerSearch() {
 }
 
 function displaySearchResults(data) {
-    const modeIcon = data.mode === 'instant' ? '⚡' : '🎯';
-    const modeName = data.mode === 'instant' ? 'Instant' : 'Important';
+    let modeIcon, modeName;
+    if (data.mode === 'instant') {
+        modeIcon = '⚡';
+        modeName = 'Instant';
+    } else if (data.mode === 'recent') {
+        modeIcon = '⏱️';
+        modeName = 'Recent 5s';
+    } else {
+        modeIcon = '🎯';
+        modeName = 'Important';
+    }
 
     searchKeywordEl.textContent = `${modeIcon} ${data.keyword} (${modeName})`;
     searchResultsEl.innerHTML = '';
