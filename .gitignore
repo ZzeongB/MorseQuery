@@ -25,3 +25,4 @@ arctic-*.json
 # Session logs
 logs/
 study_data/
+data/
