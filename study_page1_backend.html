@@ -51,16 +51,16 @@
     <div class="container">
         <div class="instruction">
             Press any button whenever you want the system to do something for you.
-            <br>
             For example, you might want to look something up, clarify a part you didn’t catch, or save something for later.
             <br><br>
-            <strong>There is no right or wrong timing.</strong>
-            <br>
-            Press any button whenever it feels natural to you to interrupt and ask the system for help.
+            <div>
+                <strong>There is no right or wrong timing.</strong>
+            </div>
+            Press the SPACE bar whenever it feels natural to you to interrupt and ask the system for help.
         </div>
 
         <video id="videoPlayer" controls>
-            <source src="" type="video/mp4">
+            <source src="/video/OOPT_video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
@@ -68,35 +68,46 @@
     </div>
 
     <script>
-        // Initialize session data
-        if (!sessionStorage.getItem('gestures')) {
-            sessionStorage.setItem('gestures', JSON.stringify([]));
-        }
-        if (!sessionStorage.getItem('videoUrl')) {
-            // Default video URL - should be set before study begins
-            sessionStorage.setItem('videoUrl', 'OOPT_video.mp4');
+        const API_URL = window.location.origin;
+        let sessionId = null;
+
+        // Create session on load
+        async function createSession() {
+            const response = await fetch(`${API_URL}/api/session/create`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            sessionId = data.session_id;
+            sessionStorage.setItem('study_session_id', sessionId);
         }
 
         const video = document.getElementById('videoPlayer');
-        const videoUrl = sessionStorage.getItem('videoUrl');
-        video.src = videoUrl;
 
         // Log button press timestamps
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', async function(event) {
+            if (!sessionId) return;
+
             const currentTime = video.currentTime;
             const timestamp = new Date().toISOString();
 
-            const gestures = JSON.parse(sessionStorage.getItem('gestures'));
-            gestures.push({
-                gesture_timestamp: timestamp,
-                video_time: currentTime
+            await fetch(`${API_URL}/api/gesture/log`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    gesture_timestamp: timestamp,
+                    video_time: currentTime
+                })
             });
-            sessionStorage.setItem('gestures', JSON.stringify(gestures));
         });
 
         function proceedToLabeling() {
-            window.location.href = 'study_page2_labeling.html';
+            window.location.href = '/label';
         }
+
+        // Initialize session
+        createSession();
     </script>
 </body>
 </html>
