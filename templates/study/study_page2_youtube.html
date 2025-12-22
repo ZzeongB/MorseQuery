@@ -171,7 +171,7 @@
 
         <div id="labelingForm">
             <div class="instruction">
-                Watch the ±10 second clip around when you pressed spacebar.
+                Watch the 3 second clip before when you pressed spacebar.
                 Then select the word(s) you were targeting and describe what you wanted to know.
             </div>
 
@@ -182,9 +182,8 @@
                     <div id="player"></div>
                 </div>
                 <div class="time-controls">
-                    <button class="time-btn" onclick="jumpToTime('start')">← Start (-10s)</button>
+                    <button class="time-btn" onclick="jumpToTime('start')">← Start (-3s)</button>
                     <button class="time-btn center" onclick="jumpToTime('gesture')">◉ Gesture (0s)</button>
-                    <button class="time-btn" onclick="jumpToTime('end')">End (+10s) →</button>
                 </div>
             </div>
 
@@ -429,9 +428,9 @@
                     `Video ${currentVideoIndex + 1} - Gesture ${index + 1} of ${gestures.length}`;
             }
 
-            // Calculate clip boundaries (±10 seconds, but respect video boundaries)
-            const clipStart = Math.max(video.start_time, gestureTime - 10);
-            const clipEnd = Math.min(video.end_time, gestureTime + 10);
+            // Calculate clip boundaries (-3 to 0 seconds, but respect video boundaries)
+            const clipStart = Math.max(video.start_time, gestureTime - 3);
+            const clipEnd = gestureTime;
 
             // Store current clip info for time navigation
             currentClipStart = clipStart;
@@ -531,10 +530,10 @@
                     seg.words.forEach((word, idx) => {
                         const cleanWord = word.word.trim();
                         const wordId = `select-${seg.start}-${idx}`;
-                        const isInHighlightRange = word.start >= highlightStart && word.start <= highlightEnd;
+                        const isInHighlightRange = word.start >= highlightStart && word.start < highlightEnd;
 
                         if (isInHighlightRange) {
-                            // Words in ±10s range: highlighted and clickable
+                            // Words in -3s to 0s range: highlighted and clickable
                             if (!firstHighlightedWordId) {
                                 firstHighlightedWordId = wordId;
                             }
@@ -543,7 +542,7 @@
                                                     data-time="${word.start}"
                                                     onclick="selectWordFromQuestion('${wordId}', '${cleanWord.replace(/'/g, "\\'")}', ${word.start})">${word.word}</span>`;
                         } else {
-                            // Words outside ±10s range: clickable but not highlighted
+                            // Words outside -3s to 0s range: clickable but not highlighted
                             clickableWordsHtml += `<span class="selectable-word" id="${wordId}"
                                                     data-word="${cleanWord}"
                                                     data-time="${word.start}"

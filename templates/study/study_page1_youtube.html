@@ -196,7 +196,7 @@
             }
 
             currentVideoIndex = index;
-            const video = videos[0]; // Always use first video for tutorial
+            const video = isTutorial ? videos[0] : videos[index];
             pressCount = 0;
             videoStarted = false;
             document.getElementById('pressCount').textContent = pressCount;
@@ -204,9 +204,9 @@
             let startTime, endTime, titleText;
 
             if (isTutorial) {
-                // Tutorial: first 20 seconds of video 1
+                // Tutorial: first 60 seconds of video 1
                 startTime = video.start_time; // 885 (14:45)
-                endTime = video.start_time + 20; // 905 (15:05)
+                endTime = video.start_time + 60; // 945 (15:45)
                 titleText = `Tutorial - Practice (${formatTime(startTime)} - ${formatTime(endTime)})`;
                 document.getElementById('currentVideo').textContent = 'Tutorial';
                 document.getElementById('totalVideos').textContent = '';
