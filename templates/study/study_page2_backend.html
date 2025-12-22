@@ -205,6 +205,10 @@
 
         <div id="completeMessage" style="display: none;" class="complete-message">
             All gestures have been labeled. Thank you for participating!
+            <br><br>
+            <p style="color: #666; font-size: 14px;">
+                Your data has been saved on the server.
+            </p>
         </div>
     </div>
 
@@ -246,12 +250,49 @@
             document.getElementById('gestureForm').reset();
         }
 
-        function displayTranscript(startTime, gestureTime) {
+        async function displayTranscript(startTime, gestureTime) {
             const endTime = startTime + 60;
-            const transcriptHTML = '[Transcript for ' + formatTime(startTime) + ' - ' +
-                                 formatTime(endTime) + '. Gesture at ' +
-                                 '<span class="highlight">' + formatTime(gestureTime) + '</span>]';
-            document.getElementById('transcriptDisplay').innerHTML = transcriptHTML;
+
+            try {
+                // Fetch transcript segments for this time range
+                const response = await fetch(
+                    `${API_URL}/api/transcript/get?start=${startTime}&end=${endTime}`
+                );
+                const data = await response.json();
+
+                if (data.error) {
+                    document.getElementById('transcriptDisplay').innerHTML =
+                        '<p style="color: #999;">Transcript not available</p>';
+                    return;
+                }
+
+                // Build transcript HTML with highlighting
+                let transcriptHTML = '<p style="margin-bottom: 10px; color: #666; font-size: 14px;">';
+                transcriptHTML += 'Transcript: ' + formatTime(startTime) + ' - ' + formatTime(endTime);
+                transcriptHTML += ' | Gesture at <span class="highlight">' + formatTime(gestureTime) + '</span>';
+                transcriptHTML += '</p>';
+
+                // Add each segment with highlighting if it contains the gesture time
+                data.segments.forEach(segment => {
+                    const isGestureSegment = segment.start <= gestureTime && segment.end >= gestureTime;
+
+                    if (isGestureSegment) {
+                        transcriptHTML += '<span class="highlight">';
+                        transcriptHTML += '<strong>[' + formatTime(segment.start) + ']</strong> ';
+                        transcriptHTML += segment.text;
+                        transcriptHTML += '</span> ';
+                    } else {
+                        transcriptHTML += '<strong>[' + formatTime(segment.start) + ']</strong> ';
+                        transcriptHTML += segment.text + ' ';
+                    }
+                });
+
+                document.getElementById('transcriptDisplay').innerHTML = transcriptHTML;
+            } catch (error) {
+                console.error('Error loading transcript:', error);
+                document.getElementById('transcriptDisplay').innerHTML =
+                    '<p style="color: #999;">Error loading transcript</p>';
+            }
         }
 
         function formatTime(seconds) {
@@ -298,19 +339,10 @@
         });
 
         async function completeSession() {
-            const response = await fetch(`${API_URL}/api/session/complete/${sessionId}`, {
+            // Mark session as complete on server
+            await fetch(`${API_URL}/api/session/complete/${sessionId}`, {
                 method: 'POST'
             });
-            const data = await response.json();
-
-            // Download final data
-            const dataStr = JSON.stringify(data.labeled_data, null, 2);
-            const dataBlob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(dataBlob);
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = 'labeled_gestures_' + sessionId + '.json';
-            link.click();
         }
 
         loadGestures();

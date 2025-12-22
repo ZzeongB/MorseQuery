@@ -13,7 +13,9 @@
       "Bash(ls:*)",
       "Bash(curl:*)",
       "Bash(tree:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(python:*)",
+      "Bash(source venv/bin/activate)"
     ],
     "deny": [],
     "ask": []

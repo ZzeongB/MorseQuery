@@ -91,7 +91,9 @@ def load_lexicon():
     """Load OpenLexicon.xlsx and create lookup dictionary"""
     global lexicon_df, lexicon_dict
     try:
-        lexicon_path = os.path.join(os.path.dirname(__file__), "OpenLexicon.xlsx")
+        lexicon_path = os.path.join(
+            os.path.dirname(__file__), "data/lexicon/OpenLexicon.xlsx"
+        )
         print(f"Loading OpenLexicon from {lexicon_path}...")
         lexicon_df = pd.read_excel(lexicon_path)
 
@@ -211,14 +213,14 @@ class TranscriptionSession:
                 self.word_timestamps.append(current_time)
 
                 # Log each word addition
-                self._log_event(
-                    "word_added",
-                    {
-                        "word": word,
-                        "timestamp": current_time.isoformat(),
-                        "word_index": len(self.words) - 1,
-                    },
-                )
+                # self._log_event(
+                #     "word_added",
+                #     {
+                #         "word": word,
+                #         "timestamp": current_time.isoformat(),
+                #         "word_index": len(self.words) - 1,
+                #     },
+                # )
 
     def get_top_keyword(self, context_window=20):
         """Extract most relevant keyword using OpenLexicon frequency filtering
@@ -282,7 +284,9 @@ class TranscriptionSession:
         if not candidate_words:
             # No candidates found - fallback to last word
             fallback_word = self.words[-1] if self.words else ""
-            print(f"[Lexicon] ⚠️ No important words found (all freq >= 3.0), using fallback: '{fallback_word}'")
+            print(
+                f"[Lexicon] ⚠️ No important words found (all freq >= 3.0), using fallback: '{fallback_word}'"
+            )
             return fallback_word
 
         # Sort by frequency (lowest first, with not-in-lexicon/-1 first)

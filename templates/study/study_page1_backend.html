@@ -45,12 +45,26 @@
         .next-btn:hover {
             background-color: #1976d2;
         }
+        .counter-display {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .counter-display .count {
+            color: #2196f3;
+            font-size: 24px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="instruction">
-            Press any button whenever you want the system to do something for you.
+            Press the SPACE bar whenever you want the system to do something for you.
             For example, you might want to look something up, clarify a part you didn’t catch, or save something for later.
             <br><br>
             <div>
@@ -64,12 +78,17 @@
             Your browser does not support the video tag.
         </video>
 
+        <div class="counter-display">
+            Spacebar presses recorded: <span class="count" id="pressCount">0</span>
+        </div>
+
         <button class="next-btn" onclick="proceedToLabeling()">Next →</button>
     </div>
 
     <script>
         const API_URL = window.location.origin;
         let sessionId = null;
+        let pressCount = 0;
 
         // Create session on load
         async function createSession() {
@@ -84,12 +103,18 @@
 
         const video = document.getElementById('videoPlayer');
 
-        // Log button press timestamps
+        // Log spacebar press timestamps only
         document.addEventListener('keydown', async function(event) {
+            // Only record spacebar presses
+            if (event.code !== 'Space') return;
             if (!sessionId) return;
 
             const currentTime = video.currentTime;
             const timestamp = new Date().toISOString();
+
+            // Increment and update counter
+            pressCount++;
+            document.getElementById('pressCount').textContent = pressCount;
 
             await fetch(`${API_URL}/api/gesture/log`, {
                 method: 'POST',

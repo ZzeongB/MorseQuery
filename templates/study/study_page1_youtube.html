@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Study - Data Collection</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+        }
+        .instruction {
+            font-size: 18px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 450px;
+        }
+        #player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .progress-info {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .video-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2196f3;
+            margin-bottom: 10px;
+        }
+        .counter-display {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .counter-display .count {
+            color: #2196f3;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .next-btn {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #2196f3;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            float: right;
+        }
+        .next-btn:hover {
+            background-color: #1976d2;
+        }
+        .next-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .feedback-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(33, 150, 243, 0.9);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 8px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 9999;
+            display: none;
+            animation: fadeInOut 0.6s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="instruction">
+            Press the SPACE bar whenever you want the system to do something for you.
+            For example, you might want to look something up, clarify a part you didn't catch, or save something for later.
+            <br><br>
+            <div>
+                <strong>There is no right or wrong timing.</strong>
+            </div>
+            Press the SPACE bar whenever it feels natural to you to interrupt and ask the system for help.
+        </div>
+
+        <div class="progress-info">
+            <div class="video-title" id="videoTitle">Loading videos...</div>
+            <div id="videoProgress">Video <span id="currentVideo">1</span> of <span id="totalVideos">4</span></div>
+        </div>
+
+        <div class="video-container">
+            <div id="player"></div>
+        </div>
+
+        <div class="counter-display">
+            Spacebar presses recorded (this video): <span class="count" id="pressCount">0</span>
+        </div>
+
+        <button class="next-btn" id="nextBtn" onclick="nextVideo()">Next Video →</button>
+    </div>
+
+    <div class="feedback-indicator" id="feedbackIndicator">✓ Recorded!</div>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        const API_URL = window.location.origin;
+        let sessionId = null;
+        let player = null;
+        let videos = [];
+        let currentVideoIndex = 0;
+        let pressCount = 0;
+        let videoStarted = false;
+        let isTutorial = false;
+
+        // Get parameters from URL
+        function getVideoIndexFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const videoParam = params.get('video');
+            const tutorialParam = params.get('tutorial');
+            isTutorial = tutorialParam === 'true';
+            return videoParam ? parseInt(videoParam) : 0;
+        }
+
+        // Create or retrieve session
+        async function createSession() {
+            // Check if session already exists
+            sessionId = sessionStorage.getItem('study_session_id');
+            if (!sessionId) {
+                const response = await fetch(`${API_URL}/api/session/create`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                sessionId = data.session_id;
+                sessionStorage.setItem('study_session_id', sessionId);
+            }
+        }
+
+        // Load YouTube videos configuration
+        async function loadVideos() {
+            const response = await fetch(`${API_URL}/api/youtube/videos`);
+            const data = await response.json();
+            videos = data.videos;
+            document.getElementById('totalVideos').textContent = videos.length;
+        }
+
+        // YouTube iframe API ready callback
+        function onYouTubeIframeAPIReady() {
+            currentVideoIndex = getVideoIndexFromURL();
+            loadVideos().then(() => {
+                loadVideo(currentVideoIndex);
+            });
+        }
+
+        function loadVideo(index) {
+            if (!isTutorial && index >= videos.length) {
+                // All videos completed - this shouldn't happen in new flow
+                window.location.href = '/youtube-complete';
+                return;
+            }
+
+            currentVideoIndex = index;
+            const video = videos[0]; // Always use first video for tutorial
+            pressCount = 0;
+            videoStarted = false;
+            document.getElementById('pressCount').textContent = pressCount;
+
+            let startTime, endTime, titleText;
+
+            if (isTutorial) {
+                // Tutorial: first 20 seconds of video 1
+                startTime = video.start_time; // 885 (14:45)
+                endTime = video.start_time + 20; // 905 (15:05)
+                titleText = `Tutorial - Practice (${formatTime(startTime)} - ${formatTime(endTime)})`;
+                document.getElementById('currentVideo').textContent = 'Tutorial';
+                document.getElementById('totalVideos').textContent = '';
+                document.getElementById('videoProgress').innerHTML = '<strong>Tutorial Session</strong> - Practice using the spacebar';
+            } else {
+                // Normal video
+                startTime = video.start_time;
+                endTime = video.end_time;
+                titleText = `${video.title} (${formatTime(startTime)} - ${formatTime(endTime)})`;
+                document.getElementById('currentVideo').textContent = index + 1;
+                document.getElementById('totalVideos').textContent = videos.length;
+            }
+
+            document.getElementById('videoTitle').textContent = titleText;
+
+            // Update button text
+            document.getElementById('nextBtn').textContent = isTutorial ? 'Next: Practice Labeling →' : 'Next: Label This Video →';
+            document.getElementById('nextBtn').disabled = false;
+
+            if (player) {
+                player.loadVideoById({
+                    videoId: video.video_id,
+                    startSeconds: startTime,
+                    endSeconds: endTime
+                });
+            } else {
+                player = new YT.Player('player', {
+                    height: '450',
+                    width: '800',
+                    videoId: video.video_id,
+                    playerVars: {
+                        start: startTime,
+                        end: endTime,
+                        autoplay: 0,
+                        controls: 1,
+                        modestbranding: 1,
+                        rel: 0
+                    },
+                    events: {
+                        'onReady': onPlayerReady,
+                        'onStateChange': onPlayerStateChange
+                    }
+                });
+            }
+        }
+
+        function onPlayerReady(event) {
+            console.log('Player ready');
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data === YT.PlayerState.PLAYING) {
+                videoStarted = true;
+            }
+        }
+
+        function nextVideo() {
+            // Go to labeling page
+            if (isTutorial) {
+                window.location.href = `/youtube-label?tutorial=true`;
+            } else {
+                window.location.href = `/youtube-label?video=${currentVideoIndex}`;
+            }
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return mins + ':' + (secs < 10 ? '0' : '') + secs;
+        }
+
+        // Log spacebar press timestamps
+        document.addEventListener('keydown', async function(event) {
+            // Only record spacebar presses
+            if (event.code !== 'Space') return;
+
+            // Prevent default spacebar behavior (pausing video) FIRST
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!sessionId || !player || !videoStarted) return;
+
+            const currentTime = player.getCurrentTime();
+            const timestamp = new Date().toISOString();
+            const video = videos[currentVideoIndex];
+
+            // Show visual feedback
+            showFeedback();
+
+            // Increment counter
+            pressCount++;
+            document.getElementById('pressCount').textContent = pressCount;
+
+            await fetch(`${API_URL}/api/gesture/log`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    session_id: sessionId,
+                    gesture_timestamp: timestamp,
+                    video_time: currentTime,
+                    video_id: video.video_id,
+                    video_index: isTutorial ? -1 : currentVideoIndex, // -1 indicates tutorial
+                    is_tutorial: isTutorial
+                })
+            });
+
+            console.log(`Spacebar pressed at ${currentTime}s for video ${currentVideoIndex}`);
+        });
+
+        function showFeedback() {
+            const indicator = document.getElementById('feedbackIndicator');
+            indicator.style.display = 'block';
+            setTimeout(() => {
+                indicator.style.display = 'none';
+            }, 600);
+        }
+
+        // Initialize session
+        createSession();
+    </script>
+</body>
+</html>
