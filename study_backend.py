@@ -210,6 +210,7 @@ def submit_label():
         "video_time": data.get("video_time"),
         "video_id": data.get("video_id"),
         "video_index": data.get("video_index"),
+        "is_tutorial": data.get("is_tutorial", False),
         "target_source": data.get("target_source", ""),
         "target_word": data.get("target_word"),
         "target_word_timestamp": data.get("target_word_timestamp"),

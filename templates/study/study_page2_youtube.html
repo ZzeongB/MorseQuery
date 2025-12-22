@@ -345,28 +345,40 @@
         }
 
         async function loadGestures() {
-            currentVideoIndex = getVideoIndexFromURL();
-
             const response = await fetch(`${API_URL}/api/gestures/get/${sessionId}`);
             const data = await response.json();
 
-            // Filter gestures for current video only
-            gestures = data.gestures.filter(g => g.video_index === currentVideoIndex);
+            // Filter gestures based on tutorial mode
+            if (isTutorial) {
+                gestures = data.gestures.filter(g => g.is_tutorial === true);
+                currentVideoIndex = -1; // Tutorial uses -1
+            } else {
+                currentVideoIndex = getVideoIndexFromURL();
+                gestures = data.gestures.filter(g => g.video_index === currentVideoIndex);
+            }
 
             // Load videos first
             await loadVideos();
 
-            // If no gestures for this video, skip to next video
+            // If no gestures, proceed
             if (gestures.length === 0) {
                 document.getElementById('labelingForm').style.display = 'none';
                 document.getElementById('completeMessage').style.display = 'block';
-                document.getElementById('completeMessage').innerHTML = `
-                    <h2>No spacebar presses for Video ${currentVideoIndex + 1}</h2>
-                    <p>Proceeding to next video...</p>
-                `;
-                setTimeout(() => {
-                    proceedToNextVideo();
-                }, 2000);
+                if (isTutorial) {
+                    document.getElementById('completeMessage').innerHTML = `
+                        <h2>No spacebar presses in tutorial</h2>
+                        <p>Please try again. Press spacebar at least once during the tutorial video.</p>
+                        <button onclick="window.location.href='/youtube?tutorial=true'" style="margin-top: 20px; padding: 12px 24px; font-size: 16px; background-color: #2196f3; color: white; border: none; border-radius: 4px; cursor: pointer;">Retry Tutorial</button>
+                    `;
+                } else {
+                    document.getElementById('completeMessage').innerHTML = `
+                        <h2>No spacebar presses for Video ${currentVideoIndex + 1}</h2>
+                        <p>Proceeding to next video...</p>
+                    `;
+                    setTimeout(() => {
+                        proceedToNextVideo();
+                    }, 2000);
+                }
             } else {
                 displayGesture(0);
             }
@@ -406,11 +418,16 @@
             currentGestureIndex = index;
             const gesture = gestures[index];
             const gestureTime = gesture.video_time;
-            const videoIndex = gesture.video_index;
+            const videoIndex = gesture.is_tutorial ? 0 : gesture.video_index;
             const video = videos[videoIndex];
 
-            document.getElementById('progressIndicator').textContent =
-                `Video ${currentVideoIndex + 1} - Gesture ${index + 1} of ${gestures.length}`;
+            if (isTutorial) {
+                document.getElementById('progressIndicator').textContent =
+                    `Tutorial - Practice Gesture ${index + 1} of ${gestures.length}`;
+            } else {
+                document.getElementById('progressIndicator').textContent =
+                    `Video ${currentVideoIndex + 1} - Gesture ${index + 1} of ${gestures.length}`;
+            }
 
             // Calculate clip boundaries (±10 seconds, but respect video boundaries)
             const clipStart = Math.max(video.start_time, gestureTime - 10);
@@ -692,6 +709,7 @@
                 video_time: gesture.video_time,
                 video_id: gesture.video_id,
                 video_index: gesture.video_index,
+                is_tutorial: isTutorial,
                 target_source: targetSource,
                 target_word: targetWord,
                 target_word_timestamp: selectedWordTimestamp,
@@ -714,6 +732,19 @@
         });
 
         async function proceedToNextVideo() {
+            if (isTutorial) {
+                // Tutorial complete, start actual study from video 0
+                document.getElementById('completeMessage').innerHTML = `
+                    <h2>Tutorial Complete!</h2>
+                    <p>Great! Now you're ready to start the actual study.</p>
+                    <p>Redirecting to first video...</p>
+                `;
+                setTimeout(() => {
+                    window.location.href = `/youtube?video=0`;
+                }, 2000);
+                return;
+            }
+
             const nextVideoIndex = currentVideoIndex + 1;
 
             // Check if there are more videos
