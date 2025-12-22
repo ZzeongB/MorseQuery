@@ -476,7 +476,10 @@
         async function loadTranscript(startTime, endTime) {
             try {
                 const gesture = gestures[currentGestureIndex];
-                const video = videos[gesture.video_index];
+                // In tutorial mode some gestures may not have a video_index set.
+                // Use the tutorial video (index 0) as a fallback to avoid undefined access.
+                const videoIndex = (gesture && gesture.is_tutorial) ? 0 : (gesture ? gesture.video_index : 0);
+                const video = videos[videoIndex] || videos[0];
 
                 // Load wider range for scrolling (±60 seconds from gesture time)
                 const expandedStart = Math.max(video.start_time, currentGestureTime - 60);
