@@ -15,7 +15,9 @@
       "Bash(tree:*)",
       "Bash(find:*)",
       "Bash(python:*)",
-      "Bash(source venv/bin/activate)"
+      "Bash(source venv/bin/activate)",
+      "Bash(mkdir:*)",
+      "Bash(git mv:*)"
     ],
     "deny": [],
     "ask": []

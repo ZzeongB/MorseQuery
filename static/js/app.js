@@ -24,6 +24,7 @@ const googleBtn = document.getElementById('googleBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
 const recentSearchBtn = document.getElementById('recentSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
+const gptSearchBtn = document.getElementById('gptSearchBtn');
 const textSearchBtn = document.getElementById('textSearchBtn');
 const imageSearchBtn = document.getElementById('imageSearchBtn');
 const bothSearchBtn = document.getElementById('bothSearchBtn');
@@ -109,6 +110,7 @@ googleBtn.addEventListener('click', () => setRecognitionMode('google'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
 recentSearchBtn.addEventListener('click', () => setSearchMode('recent'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
+gptSearchBtn.addEventListener('click', () => setSearchMode('gpt'));
 textSearchBtn.addEventListener('click', () => setSearchType('text'));
 imageSearchBtn.addEventListener('click', () => setSearchType('image'));
 bothSearchBtn.addEventListener('click', () => setSearchType('both'));
@@ -173,11 +175,13 @@ function setSearchMode(mode) {
     instantSearchBtn.classList.toggle('active', mode === 'instant');
     recentSearchBtn.classList.toggle('active', mode === 'recent');
     tfidfSearchBtn.classList.toggle('active', mode === 'tfidf');
+    gptSearchBtn.classList.toggle('active', mode === 'gpt');
 
     const modeNames = {
         instant: 'Instant Word (최신 단어)',
         recent: 'Recent 5s (최근 5초)',
-        tfidf: 'Important Word (중요 단어)'
+        tfidf: 'Important Word (중요 단어)',
+        gpt: 'GPT (AI 예측)'
     };
 
     updateStatus(`Search mode: ${modeNames[mode]}`);
@@ -624,6 +628,17 @@ function triggerSearch() {
             type: state.searchType
         });
 
+    } else if (state.searchMode === 'gpt') {
+        // GPT search: use GPT to predict what user wants to look up
+        console.log('[GPT Search] Requesting GPT prediction from last 3 seconds');
+        updateStatus('🤖 GPT is predicting keyword...');
+
+        socket.emit('search_request', {
+            mode: 'gpt',
+            time_threshold: 3,
+            type: state.searchType
+        });
+
     } else {
         // TF-IDF search: let server calculate important word
         console.log('[TF-IDF Search] Requesting important keyword from server');
@@ -644,6 +659,9 @@ function displaySearchResults(data) {
     } else if (data.mode === 'recent') {
         modeIcon = '⏱️';
         modeName = 'Recent 5s';
+    } else if (data.mode === 'gpt') {
+        modeIcon = '🤖';
+        modeName = 'GPT';
     } else {
         modeIcon = '🎯';
         modeName = 'Important';

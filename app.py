@@ -15,6 +15,7 @@ from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
 from google.cloud import speech
 from nltk.stem import WordNetLemmatizer
+from openai import OpenAI
 from pydub import AudioSegment
 
 load_dotenv()
@@ -81,6 +82,9 @@ whisper_model = None
 # Google Custom Search API config
 GOOGLE_SEARCH_API_KEY = os.getenv("GOOGLE_CUSTOM_SEARCH_API_KEY")
 GOOGLE_SEARCH_ENGINE_ID = os.getenv("GOOGLE_CUSTOM_SEARCH_ENGINE_ID")
+
+# Initialize OpenAI client for GPT-based keyword extraction
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Load OpenLexicon for keyword extraction
 lexicon_df = None
@@ -453,6 +457,164 @@ class TranscriptionSession:
         )
 
         return selected_word
+
+    def get_top_keyword_gpt(self, time_threshold=3):
+        """Use GPT to predict which word the user would want to look up
+
+        Uses a few-shot prompt based on video lecture transcription patterns
+        to intelligently predict technical terms, unfamiliar vocabulary, and
+        concepts that need clarification.
+
+        Args:
+            time_threshold: Number of seconds to look back for context (default: 3)
+
+        Returns:
+            GPT-predicted keyword that user would want to look up
+        """
+        from datetime import datetime, timedelta
+
+        if len(self.words) == 0 or len(self.word_timestamps) == 0:
+            return ""
+
+        if len(self.words) == 1:
+            return self.words[0]
+
+        # Get recent context words (last N seconds)
+        current_time = datetime.utcnow()
+        threshold_time = current_time - timedelta(seconds=time_threshold)
+
+        recent_words = []
+        for word, timestamp in zip(self.words, self.word_timestamps):
+            if timestamp >= threshold_time:
+                recent_words.append(word)
+
+        if not recent_words:
+            # Fallback to last word
+            print(
+                f"[GPT] No words found in last {time_threshold}s, using last word as fallback"
+            )
+            return self.words[-1] if self.words else ""
+
+        context_text = " ".join(recent_words)
+        print(f"\n[GPT] Context ({time_threshold}s): {context_text}")
+
+        # Create GPT prompt (based on test_gpt_prediction.py)
+        prompt = """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
+
+Given the transcript context, predict which word(s) the user selected. The selected words should be:
+- Technical terms or unfamiliar vocabulary
+- Concepts that need clarification
+- Names or specific references
+- Words that might need visual aids
+
+Few-shot examples:
+
+Example 1:
+Context: I get paid for this,
+User selected: paid
+Intent: clarify-detail
+
+Example 2:
+Context: spark gap,
+User selected: spark gap
+Intent: clarify-detail, visual-aid
+
+Example 3:
+Context: metaphorically
+User selected: metaphorically
+Intent: unfamiliar-vocab
+
+Example 4:
+Context: cortex.
+User selected: cortex
+Intent: clarify-detail, visual-aid
+
+Example 5:
+Context: Lonnie Sujonsen
+User selected: Lonnie Sujonsen
+Intent: unfamiliar-vocab
+
+Example 6:
+Context: chronic fatigue
+User selected: chronic fatigue
+Intent: clarify-detail
+
+Example 7:
+Context: pancreas
+User selected: pancreas
+Intent: clarify-detail, visual-aid
+
+Now predict for this new context:
+
+Context: """ + context_text + """
+User selected: """
+
+        try:
+            # Call GPT API (using gpt-4o-mini like in test script)
+            response = openai_client.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.3,
+                max_tokens=50,
+            )
+
+            raw_response = response.choices[0].message.content.strip()
+            print(f"[GPT] Raw response: {raw_response}")
+
+            # Parse the response to extract "User selected:" and "Intent:"
+            # Expected format: "User selected: keyword\nIntent: intent_type"
+            predicted_keyword = raw_response
+            intent = None
+
+            # Split by newline to separate user selected and intent
+            lines = raw_response.split('\n')
+
+            for line in lines:
+                line = line.strip()
+                if line.lower().startswith('user selected:'):
+                    # Extract keyword after "User selected:"
+                    predicted_keyword = line.split(':', 1)[1].strip()
+                elif line.lower().startswith('intent:'):
+                    # Extract intent after "Intent:"
+                    intent = line.split(':', 1)[1].strip()
+
+            print(f"[GPT] Extracted keyword: {predicted_keyword}")
+            if intent:
+                print(f"[GPT] Extracted intent: {intent}")
+
+            # Log the GPT prediction with both keyword and intent
+            self._log_event(
+                "keyword_extraction_gpt",
+                {
+                    "time_threshold_seconds": time_threshold,
+                    "context": context_text,
+                    "raw_response": raw_response,
+                    "predicted_keyword": predicted_keyword,
+                    "predicted_intent": intent,
+                    "model": "gpt-4o-mini",
+                    "temperature": 0.3,
+                },
+            )
+
+            return predicted_keyword
+
+        except Exception as e:
+            print(f"[GPT] Error calling GPT API: {e}")
+            # Fallback to last word on error
+            fallback = recent_words[-1] if recent_words else ""
+            print(f"[GPT] Using fallback: {fallback}")
+
+            self._log_event(
+                "keyword_extraction_gpt",
+                {
+                    "time_threshold_seconds": time_threshold,
+                    "context": context_text,
+                    "error": str(e),
+                    "fallback_keyword": fallback,
+                },
+            )
+
+            return fallback
 
     def log_search_action(self, search_mode, search_type, keyword, num_results=0):
         """Log when user performs a search (spacebar action)"""
@@ -923,7 +1085,7 @@ def handle_audio_chunk_google(data):
 def handle_search_request(data):
     """Handle search request triggered by spacebar"""
     session_id = request.sid
-    search_mode = data.get("mode", "tfidf")  # 'instant', 'recent', or 'tfidf'
+    search_mode = data.get("mode", "tfidf")  # 'instant', 'recent', 'important', or 'gpt'
     search_type = data.get("type", "text")  # 'text' or 'image'
 
     print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
@@ -946,8 +1108,13 @@ def handle_search_request(data):
         print(
             f"[Recent Search] Calculated keyword from last {time_threshold}s: {keyword}"
         )
+    elif search_mode == "gpt":
+        # GPT mode: use GPT to predict what user wants to look up
+        time_threshold = data.get("time_threshold", 3)  # default 3 seconds
+        keyword = transcription_sessions[session_id].get_top_keyword_gpt(time_threshold)
+        print(f"[GPT Search] GPT predicted keyword from last {time_threshold}s: {keyword}")
     else:
-        # TF-IDF mode: calculate important keyword
+        # TF-IDF/Important mode: calculate important keyword
         keyword = transcription_sessions[session_id].get_top_keyword()
         print(f"[TF-IDF Search] Calculated keyword: {keyword}")
 
