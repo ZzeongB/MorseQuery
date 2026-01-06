@@ -713,8 +713,14 @@
                 video_index: gesture.video_index,
                 is_tutorial: isTutorial,
                 target_source: targetSource,
-                target_word: targetWord,
-                target_word_timestamp: selectedWordTimestamp,
+                target_word: targetWord,  // Consecutive phrase (e.g., "neural network architecture")
+                target_word_timestamp: selectedWordTimestamp,  // First word's timestamp
+                target_words_discrete: targetSource === 'transcript' && selectedWords.length > 0
+                    ? selectedWords.map(w => w.word)
+                    : null,  // Discrete word array (e.g., ["neural", "network", "architecture"])
+                selected_words_with_time: targetSource === 'transcript' && selectedWords.length > 0
+                    ? selectedWords.map(w => ({ word: w.word, time: w.time }))
+                    : null,  // Discrete word sequence with timestamps
                 pressed_timestamp: gesture.video_time,
                 intent_types: intents,
                 intent_other_text: formData.get('intent_other_text') || ''

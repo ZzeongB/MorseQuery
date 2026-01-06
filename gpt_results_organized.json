@@ -1,0 +1,290 @@
+{
+  "summary": {
+    "overall_accuracy": 0.6521739130434783,
+    "total_tests": 23,
+    "total_matches": 15,
+    "successful_single_word": 11,
+    "successful_multi_word": 4,
+    "failed": 8
+  },
+  "successful_multi_word_examples": [
+    {
+      "index": 4,
+      "context": " really  are  related  to  black  holes.  Like,  I  get  paid  for  this,",
+      "actual": "I get paid for this,",
+      "predicted": "User selected: I get paid for this,  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "농담에 대한 자세한 설명",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 5,
+      "context": " And  I'm  going  to  run  these  wires  across  a  spark  gap,",
+      "actual": "spark gap,",
+      "predicted": "spark gap  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 15,
+      "context": " in  the  morning.  So  we  can  split  her  breakfast.  It  could  be  overnight  oats,  which  is",
+      "actual": "overnight oats, chia seeds",
+      "predicted": "User selected: overnight oats  \nIntent: lookup_meaning",
+      "intent": "find_images",
+      "intent_other_text": "",
+      "overlap": 0.5,
+      "is_match": true
+    },
+    {
+      "index": 23,
+      "context": " to  understand  the  benefits  of  my  work  by  the  way,  but  it's  a  cool  visual  tool.",
+      "actual": "cool visual tool.",
+      "predicted": "cool visual tool  \nIntent: lookup_meaning, find_images",
+      "intent": "background_info, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    }
+  ],
+  "failed_examples": [
+    {
+      "index": 0,
+      "context": " so  let's  look  at  specifics  of  that.  I'm  not  kidding,  they  really  are  related  to  black  holes.",
+      "actual": "they really are related to black holes.",
+      "predicted": "User selected: black holes  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "농담이 빠르게 지나가서 이해를 잘못했는데 이에 대한 추가적인 설명이 있으면 더 좋았을 것 같다고 생각이 듭니다.",
+      "overlap": 0.2857142857142857,
+      "is_match": false
+    },
+    {
+      "index": 12,
+      "context": " Okay?  All  right.  Moving  along  the  hippocampus.  I  know  you  guys",
+      "actual": "hippocampus. gripe H .M.",
+      "predicted": "hippocampus  \nIntent: lookup_meaning, background_info",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 0.25,
+      "is_match": false
+    },
+    {
+      "index": 3,
+      "context": " so  let's  look  at  specifics  of  that.  I'm  not  kidding,  they  really  are  related  to  black  holes.",
+      "actual": "they really are related to black holes.",
+      "predicted": "User selected: I'm not kidding  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "농담에 대한 자세한 설명",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 7,
+      "context": " obviously  more  than  numerology,  because  it  explains  with  one  tunable  coefficient,  a  tremendous",
+      "actual": "coefficient,",
+      "predicted": "User selected: numerology  \nIntent: lookup_meaning",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 10,
+      "context": " make  a  stop  in  the  phalamus  and  then  they  go  up  to  somatosensory",
+      "actual": "somatosensory",
+      "predicted": "User selected: phalamus  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 13,
+      "context": " the  hippocampus  involved  both  in  this  kind  of  long  term  episodic  memory  that",
+      "actual": "episodic",
+      "predicted": "hippocampus  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "단어가 빨리 넘어가서 어떤 단어였는지 궁금함",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 16,
+      "context": " on  different  eating  opportunities  without  being  over  full,  but  at",
+      "actual": "over full,",
+      "predicted": "User selected: eating opportunities  \nIntent: lookup_meaning",
+      "intent": "other",
+      "intent_other_text": "잘 들리지 않아서 다른 단어라고 생각해서 궁금함",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 24,
+      "context": " There  are  three  main  mechanisms  that  are  going  on  on  a  physiological  level  that",
+      "actual": "physiological",
+      "predicted": "three main mechanisms  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    }
+  ],
+  "successful_single_word_examples": [
+    {
+      "index": 8,
+      "context": " We're  just  going  to  talk  about  three  of  the  most  important  ones.  The  phalamus,  this  big",
+      "actual": "phalamus,",
+      "predicted": "phalamus  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 11,
+      "context": " sort  of  see  that  here  from  the  nose.  It  goes  straight  up  into  Ulfactory",
+      "actual": "Ulfactory",
+      "predicted": "User selected: Ulfactory  \nIntent: lookup_meaning, find_images",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 17,
+      "context": " I  need  some  food.  And  this  is  kind  of  a  reset  of  your  circadian  rhythm,  your",
+      "actual": "circadian",
+      "predicted": "circadian rhythm  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 18,
+      "context": " rhythm,  your  body  is  starting  to  fall  in  line,  your  hypothalamus",
+      "actual": "hypothalamus",
+      "predicted": "hypothalamus  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 19,
+      "context": " stressing  my  self  out.  And  then  I'm  slamming  something  that",
+      "actual": "slamming",
+      "predicted": "User selected: slamming something  \nIntent: other  \nUser's reason: 이 부분에서 어떤 감정이나 상황을 표현하는지 더 알고 싶었습니다.",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 20,
+      "context": " are  the  kind  of  person  like  I  am  that  you've  bought  into  all  the  BS,",
+      "actual": "BS,",
+      "predicted": "User selected: BS  \nIntent: lookup_meaning  \nUser's reason: \"이 표현이 어떤 의미인지 더 알고 싶어서 선택했습니다.\"",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 21,
+      "context": " onwards,  we  get  a  signal  to  put  on  more  visceral  fat.  So  that's",
+      "actual": "visceral",
+      "predicted": "visceral fat  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 22,
+      "context": " coffee  to  hold  them  through.  And  you  do  a  dexa  and  what's",
+      "actual": "dexa",
+      "predicted": "User selected: dexa  \nIntent: lookup_meaning",
+      "intent": "find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 26,
+      "context": " but  if  you  look  at  the  cartilage  of  somebody  who's  a  hundred  years  old,  the  cartilage  is  brown.",
+      "actual": "cartilage",
+      "predicted": "cartilage  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 27,
+      "context": " and  the  glycation,  they  also  increase  inflammation.  And  inflammation  is  just  a  nasty",
+      "actual": "inflammation",
+      "predicted": "inflammation  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning, background_info, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 29,
+      "context": " too  much  insulin  over  time,  that's  the  reason  we  get  type  to  diabetes.  So  essentially,",
+      "actual": "diabetes.",
+      "predicted": "type 2 diabetes  \nIntent: lookup_meaning",
+      "intent": "other",
+      "intent_other_text": "정확하게 못 들어서 어떤 의미인지 궁금함",
+      "overlap": 1.0,
+      "is_match": true
+    }
+  ],
+  "intent_breakdown": {
+    "other": {
+      "total": 6,
+      "matches": 2
+    },
+    "lookup_meaning": {
+      "total": 11,
+      "matches": 9
+    },
+    "background_info": {
+      "total": 5,
+      "matches": 3
+    },
+    "find_images": {
+      "total": 5,
+      "matches": 5
+    }
+  },
+  "word_count_breakdown": {
+    "7": {
+      "total": 2,
+      "matches": 0
+    },
+    "5": {
+      "total": 1,
+      "matches": 1
+    },
+    "2": {
+      "total": 2,
+      "matches": 1
+    },
+    "1": {
+      "total": 15,
+      "matches": 11
+    },
+    "4": {
+      "total": 2,
+      "matches": 1
+    },
+    "3": {
+      "total": 1,
+      "matches": 1
+    }
+  }
+}

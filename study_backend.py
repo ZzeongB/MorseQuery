@@ -214,6 +214,8 @@ def submit_label():
         "target_source": data.get("target_source", ""),
         "target_word": data.get("target_word"),
         "target_word_timestamp": data.get("target_word_timestamp"),
+        "target_words_discrete": data.get("target_words_discrete"),
+        "selected_words_with_time": data.get("selected_words_with_time"),
         "pressed_timestamp": data.get("pressed_timestamp"),
         "intent_types": data.get("intent_types", []),
         "intent_other_text": data.get("intent_other_text", ""),

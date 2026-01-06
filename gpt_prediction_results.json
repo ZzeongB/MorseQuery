@@ -1,0 +1,301 @@
+{
+  "few_shot_examples": [
+    {
+      "context": " really  are  related  to  black  holes.  Like,  I  get  paid  for  this,",
+      "target": "I get paid for this,",
+      "intent": "other",
+      "intent_other_text": "\uc544\uae4c\ub791 \ub3d9\uc77c\ud558\uac8c \uccad\uc911\ub4e4\uc774 \uc6c3\uc740 \uc774\uc720\ub97c \ucacc \ub354 \uba85\ud655\ud558\uac8c \uc54c\uace0 \uc2f6\uc5c8\uc2b5\ub2c8\ub2e4."
+    },
+    {
+      "context": " And  I'm  going  to  run  these  wires  across  a  spark  gap,",
+      "target": "spark gap,",
+      "intent": "lookup_meaning",
+      "intent_other_text": ""
+    },
+    {
+      "context": " to  do  by  Newton,  and  metaphorically  speaking,  and",
+      "target": "metaphorically",
+      "intent": "lookup_meaning",
+      "intent_other_text": ""
+    },
+    {
+      "context": " goes  by  way  of  the  phalamus  on  route  to  the  cortex.",
+      "target": "cortex.",
+      "intent": "lookup_meaning",
+      "intent_other_text": ""
+    },
+    {
+      "context": " H .M.  So  there's  a  case  of  Lonnie  Sujonsen.",
+      "target": "Lonnie Sujonsen.",
+      "intent": "background_info",
+      "intent_other_text": ""
+    },
+    {
+      "context": " spikes,  which  most  of  us  have,  is  the  sense  of  chronic  fatigue.",
+      "target": "chronic fatigue.",
+      "intent": "lookup_meaning, background_info",
+      "intent_other_text": ""
+    },
+    {
+      "context": " it  senses  this  big  glucose  spike,  it  calls  your  pancreas  and  it's  like,",
+      "target": "pancreas",
+      "intent": "background_info, find_images",
+      "intent_other_text": ""
+    }
+  ],
+  "results": [
+    {
+      "index": 0,
+      "context": " so  let's  look  at  specifics  of  that.  I'm  not  kidding,  they  really  are  related  to  black  holes.",
+      "actual": "they really are related to black holes.",
+      "predicted": "User selected: black holes  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "\ub18d\ub2f4\uc774 \ube60\ub974\uac8c \uc9c0\ub098\uac00\uc11c \uc774\ud574\ub97c \uc798\ubabb\ud588\ub294\ub370 \uc774\uc5d0 \ub300\ud55c \ucd94\uac00\uc801\uc778 \uc124\uba85\uc774 \uc788\uc73c\uba74 \ub354 \uc88b\uc558\uc744 \uac83 \uac19\ub2e4\uace0 \uc0dd\uac01\uc774 \ub4ed\ub2c8\ub2e4.",
+      "overlap": 0.2857142857142857,
+      "is_match": false
+    },
+    {
+      "index": 3,
+      "context": " so  let's  look  at  specifics  of  that.  I'm  not  kidding,  they  really  are  related  to  black  holes.",
+      "actual": "they really are related to black holes.",
+      "predicted": "User selected: I'm not kidding  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "\ub18d\ub2f4\uc5d0 \ub300\ud55c \uc790\uc138\ud55c \uc124\uba85",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 4,
+      "context": " really  are  related  to  black  holes.  Like,  I  get  paid  for  this,",
+      "actual": "I get paid for this,",
+      "predicted": "User selected: I get paid for this,  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "\ub18d\ub2f4\uc5d0 \ub300\ud55c \uc790\uc138\ud55c \uc124\uba85",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 5,
+      "context": " And  I'm  going  to  run  these  wires  across  a  spark  gap,",
+      "actual": "spark gap,",
+      "predicted": "spark gap  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 7,
+      "context": " obviously  more  than  numerology,  because  it  explains  with  one  tunable  coefficient,  a  tremendous",
+      "actual": "coefficient,",
+      "predicted": "User selected: numerology  \nIntent: lookup_meaning",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 8,
+      "context": " We're  just  going  to  talk  about  three  of  the  most  important  ones.  The  phalamus,  this  big",
+      "actual": "phalamus,",
+      "predicted": "phalamus  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 10,
+      "context": " make  a  stop  in  the  phalamus  and  then  they  go  up  to  somatosensory",
+      "actual": "somatosensory",
+      "predicted": "User selected: phalamus  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 11,
+      "context": " sort  of  see  that  here  from  the  nose.  It  goes  straight  up  into  Ulfactory",
+      "actual": "Ulfactory",
+      "predicted": "User selected: Ulfactory  \nIntent: lookup_meaning, find_images",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 12,
+      "context": " Okay?  All  right.  Moving  along  the  hippocampus.  I  know  you  guys",
+      "actual": "hippocampus. gripe H .M.",
+      "predicted": "hippocampus  \nIntent: lookup_meaning, background_info",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 0.25,
+      "is_match": false
+    },
+    {
+      "index": 13,
+      "context": " the  hippocampus  involved  both  in  this  kind  of  long  term  episodic  memory  that",
+      "actual": "episodic",
+      "predicted": "hippocampus  \nIntent: other",
+      "intent": "other",
+      "intent_other_text": "\ub2e8\uc5b4\uac00 \ube68\ub9ac \ub118\uc5b4\uac00\uc11c \uc5b4\ub5a4 \ub2e8\uc5b4\uc600\ub294\uc9c0 \uad81\uae08\ud568",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 15,
+      "context": " in  the  morning.  So  we  can  split  her  breakfast.  It  could  be  overnight  oats,  which  is",
+      "actual": "overnight oats, chia seeds",
+      "predicted": "User selected: overnight oats  \nIntent: lookup_meaning",
+      "intent": "find_images",
+      "intent_other_text": "",
+      "overlap": 0.5,
+      "is_match": true
+    },
+    {
+      "index": 16,
+      "context": " on  different  eating  opportunities  without  being  over  full,  but  at",
+      "actual": "over full,",
+      "predicted": "User selected: eating opportunities  \nIntent: lookup_meaning",
+      "intent": "other",
+      "intent_other_text": "\uc798 \ub4e4\ub9ac\uc9c0 \uc54a\uc544\uc11c \ub2e4\ub978 \ub2e8\uc5b4\ub77c\uace0 \uc0dd\uac01\ud574\uc11c \uad81\uae08\ud568",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 17,
+      "context": " I  need  some  food.  And  this  is  kind  of  a  reset  of  your  circadian  rhythm,  your",
+      "actual": "circadian",
+      "predicted": "circadian rhythm  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 18,
+      "context": " rhythm,  your  body  is  starting  to  fall  in  line,  your  hypothalamus",
+      "actual": "hypothalamus",
+      "predicted": "hypothalamus  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 19,
+      "context": " stressing  my  self  out.  And  then  I'm  slamming  something  that",
+      "actual": "slamming",
+      "predicted": "User selected: slamming something  \nIntent: other  \nUser's reason: \uc774 \ubd80\ubd84\uc5d0\uc11c \uc5b4\ub5a4 \uac10\uc815\uc774\ub098 \uc0c1\ud669\uc744 \ud45c\ud604\ud558\ub294\uc9c0 \ub354 \uc54c\uace0 \uc2f6\uc5c8\uc2b5\ub2c8\ub2e4.",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 20,
+      "context": " are  the  kind  of  person  like  I  am  that  you've  bought  into  all  the  BS,",
+      "actual": "BS,",
+      "predicted": "User selected: BS  \nIntent: lookup_meaning  \nUser's reason: \"\uc774 \ud45c\ud604\uc774 \uc5b4\ub5a4 \uc758\ubbf8\uc778\uc9c0 \ub354 \uc54c\uace0 \uc2f6\uc5b4\uc11c \uc120\ud0dd\ud588\uc2b5\ub2c8\ub2e4.\"",
+      "intent": "background_info",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 21,
+      "context": " onwards,  we  get  a  signal  to  put  on  more  visceral  fat.  So  that's",
+      "actual": "visceral",
+      "predicted": "visceral fat  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 22,
+      "context": " coffee  to  hold  them  through.  And  you  do  a  dexa  and  what's",
+      "actual": "dexa",
+      "predicted": "User selected: dexa  \nIntent: lookup_meaning",
+      "intent": "find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 23,
+      "context": " to  understand  the  benefits  of  my  work  by  the  way,  but  it's  a  cool  visual  tool.",
+      "actual": "cool visual tool.",
+      "predicted": "cool visual tool  \nIntent: lookup_meaning, find_images",
+      "intent": "background_info, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 24,
+      "context": " There  are  three  main  mechanisms  that  are  going  on  on  a  physiological  level  that",
+      "actual": "physiological",
+      "predicted": "three main mechanisms  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 0.0,
+      "is_match": false
+    },
+    {
+      "index": 26,
+      "context": " but  if  you  look  at  the  cartilage  of  somebody  who's  a  hundred  years  old,  the  cartilage  is  brown.",
+      "actual": "cartilage",
+      "predicted": "cartilage  \nIntent: lookup_meaning, background_info",
+      "intent": "lookup_meaning",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 27,
+      "context": " and  the  glycation,  they  also  increase  inflammation.  And  inflammation  is  just  a  nasty",
+      "actual": "inflammation",
+      "predicted": "inflammation  \nIntent: lookup_meaning",
+      "intent": "lookup_meaning, background_info, find_images",
+      "intent_other_text": "",
+      "overlap": 1.0,
+      "is_match": true
+    },
+    {
+      "index": 29,
+      "context": " too  much  insulin  over  time,  that's  the  reason  we  get  type  to  diabetes.  So  essentially,",
+      "actual": "diabetes.",
+      "predicted": "type 2 diabetes  \nIntent: lookup_meaning",
+      "intent": "other",
+      "intent_other_text": "\uc815\ud655\ud558\uac8c \ubabb \ub4e4\uc5b4\uc11c \uc5b4\ub5a4 \uc758\ubbf8\uc778\uc9c0 \uad81\uae08\ud568",
+      "overlap": 1.0,
+      "is_match": true
+    }
+  ],
+  "summary": {
+    "total": 23,
+    "matches": 15,
+    "accuracy": 0.6521739130434783,
+    "intent_breakdown": {
+      "other": {
+        "total": 6,
+        "matches": 2
+      },
+      "lookup_meaning": {
+        "total": 11,
+        "matches": 9
+      },
+      "background_info": {
+        "total": 5,
+        "matches": 3
+      },
+      "find_images": {
+        "total": 5,
+        "matches": 5
+      }
+    }
+  }
+}
