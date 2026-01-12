@@ -13,7 +13,8 @@ let state = {
     audioChunks: [],
     currentAudioFile: null,
     isProcessingAudio: false,
-    lastWord: '' // Track the most recent word
+    lastWord: '', // Track the most recent word
+    isVideoFile: false // Track if current file is video
 };
 
 // DOM elements
@@ -31,6 +32,12 @@ const bothSearchBtn = document.getElementById('bothSearchBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusEl = document.getElementById('status');
 const transcriptionEl = document.getElementById('transcription');
+
+// Layout containers
+const videoLayout = document.getElementById('videoLayout');
+const defaultLayout = document.getElementById('defaultLayout');
+
+// Default layout elements
 const searchSection = document.getElementById('searchSection');
 const searchKeywordEl = document.getElementById('searchKeyword');
 const searchResultsEl = document.getElementById('searchResults');
@@ -38,6 +45,14 @@ const audioPlayerSection = document.getElementById('audioPlayerSection');
 const audioPlayer = document.getElementById('audioPlayer');
 const playBtn = document.getElementById('playBtn');
 const stopAudioBtn = document.getElementById('stopAudioBtn');
+
+// Video layout elements
+const videoPlayer = document.getElementById('videoPlayer');
+const playVideoBtn = document.getElementById('playVideoBtn');
+const stopVideoBtn = document.getElementById('stopVideoBtn');
+const videoSearchSection = document.getElementById('videoSearchSection');
+const videoSearchKeywordEl = document.getElementById('videoSearchKeyword');
+const videoSearchResultsEl = document.getElementById('videoSearchResults');
 
 // Socket event handlers
 socket.on('connect', () => {
@@ -117,6 +132,8 @@ bothSearchBtn.addEventListener('click', () => setSearchType('both'));
 clearBtn.addEventListener('click', clearSession);
 playBtn.addEventListener('click', playAndTranscribe);
 stopAudioBtn.addEventListener('click', stopAudioPlayback);
+playVideoBtn.addEventListener('click', playVideoAndTranscribe);
+stopVideoBtn.addEventListener('click', stopVideoPlayback);
 
 // Spacebar listener for search
 document.addEventListener('keydown', (e) => {
@@ -218,6 +235,10 @@ async function startRecording() {
     }
 
     try {
+        // Use default layout for microphone recording
+        videoLayout.style.display = 'none';
+        defaultLayout.style.display = 'block';
+
         // Show transcription and info sections for microphone input
         document.querySelector('.transcription-section').style.display = 'block';
         document.querySelector('.info-box').style.display = 'block';
@@ -307,18 +328,35 @@ function handleFileUpload(event) {
     // Store the file
     state.currentAudioFile = file;
 
-    // Create object URL for audio player
-    const audioURL = URL.createObjectURL(file);
-    audioPlayer.src = audioURL;
+    // Check file extension to determine if it's a video file
+    const fileName = file.name.toLowerCase();
+    const isVideo = fileName.endsWith('.mp4') || fileName.endsWith('.mov') || fileName.endsWith('.avi') || fileName.endsWith('.webm');
+    state.isVideoFile = isVideo;
 
-    // Hide transcription and info sections when playing uploaded file
-    document.querySelector('.transcription-section').style.display = 'none';
-    document.querySelector('.info-box').style.display = 'none';
+    // Create object URL
+    const fileURL = URL.createObjectURL(file);
 
-    // Show audio player section
-    audioPlayerSection.style.display = 'block';
+    if (isVideo) {
+        // Video file: show video layout with left video + right search results
+        videoLayout.style.display = 'block';
+        defaultLayout.style.display = 'none';
+        document.querySelector('.info-box').style.display = 'none';
 
-    updateStatus(`Audio file loaded: ${file.name}. Click "Play & Transcribe" to start.`);
+        videoPlayer.src = fileURL;
+
+        updateStatus(`Video file loaded: ${file.name}. Click "Play & Transcribe" to start.`);
+    } else {
+        // Audio file: show default layout with transcription and audio player
+        videoLayout.style.display = 'none';
+        defaultLayout.style.display = 'block';
+        document.querySelector('.transcription-section').style.display = 'none';
+        document.querySelector('.info-box').style.display = 'none';
+
+        audioPlayer.src = fileURL;
+        audioPlayerSection.style.display = 'block';
+
+        updateStatus(`Audio file loaded: ${file.name}. Click "Play & Transcribe" to start.`);
+    }
 
     // Reset file input
     fileInput.value = '';
@@ -603,6 +641,120 @@ function stopAudioPlayback() {
     updateStatus('Audio playback stopped');
 }
 
+async function captureVideoPlaybackRealtime() {
+    console.log('[CaptureVideoPlayback] Setting up real-time audio capture from video player');
+
+    // Create AudioContext and connect video player as source (extracts audio track)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 48000 });
+    const source = audioContext.createMediaElementSource(videoPlayer);
+
+    // Create destination for capturing audio
+    const destination = audioContext.createMediaStreamDestination();
+
+    // Connect: videoPlayer -> destination (for capture) AND -> audioContext.destination (for playback)
+    source.connect(destination);
+    source.connect(audioContext.destination);
+
+    // Create MediaRecorder to capture the stream (like microphone recording)
+    const options = { mimeType: 'audio/webm;codecs=opus' };
+    const mediaRecorder = new MediaRecorder(destination.stream, options);
+
+    let audioChunks = [];
+
+    mediaRecorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+            audioChunks.push(event.data);
+        }
+    };
+
+    mediaRecorder.onstop = () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        sendAudioToServer(audioBlob);
+        audioChunks = [];
+    };
+
+    // Start recording from the video player audio output
+    mediaRecorder.start();
+
+    // Send chunks every 2 seconds (like microphone recording)
+    const recordingInterval = setInterval(() => {
+        if (mediaRecorder && mediaRecorder.state === 'recording') {
+            mediaRecorder.stop();
+            mediaRecorder.start();
+        }
+    }, 2000);
+
+    // Play the video
+    videoPlayer.play();
+    updateStatus('Playing video and transcribing audio in real-time...');
+
+    // Clean up when playback ends
+    videoPlayer.onended = () => {
+        console.log('[CaptureVideoPlayback] Playback ended, cleaning up');
+
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+            mediaRecorder.stop();
+        }
+        clearInterval(recordingInterval);
+
+        audioContext.close();
+
+        state.isProcessingAudio = false;
+        playVideoBtn.disabled = false;
+        playVideoBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
+        updateStatus('Video playback and transcription finished');
+    };
+
+    // Handle pause/stop
+    videoPlayer.onpause = () => {
+        if (!videoPlayer.ended) {
+            console.log('[CaptureVideoPlayback] Playback paused');
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+            }
+            clearInterval(recordingInterval);
+        }
+    };
+}
+
+async function playVideoAndTranscribe() {
+    if (!state.currentAudioFile) {
+        updateStatus('No video file loaded', true);
+        return;
+    }
+
+    if (state.isProcessingAudio) {
+        updateStatus('Already processing video', true);
+        return;
+    }
+
+    state.isProcessingAudio = true;
+    playVideoBtn.disabled = true;
+    playVideoBtn.innerHTML = '<span class="icon">⏳</span> Processing...';
+
+    console.log(`[PlayVideoAndTranscribe] Starting real-time capture of video audio playback`);
+
+    try {
+        // Capture video audio playback in real-time (like microphone)
+        await captureVideoPlaybackRealtime();
+    } catch (error) {
+        console.error('[PlayVideoAndTranscribe] Error:', error);
+        updateStatus('Error processing video: ' + error.message, true);
+        state.isProcessingAudio = false;
+        playVideoBtn.disabled = false;
+        playVideoBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
+    }
+}
+
+function stopVideoPlayback() {
+    videoPlayer.pause();
+    videoPlayer.currentTime = 0;
+    state.isProcessingAudio = false;
+    playVideoBtn.disabled = false;
+    playVideoBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
+    updateStatus('Video playback stopped');
+}
+
 function triggerSearch() {
     if (!transcriptionEl.textContent || transcriptionEl.textContent === 'Transcribed text will appear here...') {
         updateStatus('No transcription available for search', true);
@@ -675,8 +827,13 @@ function displaySearchResults(data) {
         modeName = 'Important';
     }
 
-    searchKeywordEl.textContent = `${modeIcon} ${data.keyword} (${modeName})`;
-    searchResultsEl.innerHTML = '';
+    // Use video layout elements if video file, otherwise use default layout
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    keywordEl.textContent = `${modeIcon} ${data.keyword} (${modeName})`;
+    resultsEl.innerHTML = '';
 
     // Handle 'both' type - display both text and image results
     if (data.type === 'both') {
@@ -684,8 +841,8 @@ function displaySearchResults(data) {
         const imageResults = data.results.image || [];
 
         if (textResults.length === 0 && imageResults.length === 0) {
-            searchResultsEl.innerHTML = '<p>No results found.</p>';
-            searchSection.style.display = 'block';
+            resultsEl.innerHTML = '<p>No results found.</p>';
+            sectionEl.style.display = 'block';
             return;
         }
 
@@ -694,7 +851,7 @@ function displaySearchResults(data) {
             const textHeader = document.createElement('h3');
             textHeader.textContent = '📝 Text Results';
             textHeader.style.marginTop = '0';
-            searchResultsEl.appendChild(textHeader);
+            resultsEl.appendChild(textHeader);
 
             textResults.forEach(result => {
                 const resultDiv = document.createElement('div');
@@ -717,7 +874,7 @@ function displaySearchResults(data) {
                         <p>${result.snippet}</p>
                     `;
                 }
-                searchResultsEl.appendChild(resultDiv);
+                resultsEl.appendChild(resultDiv);
             });
         }
 
@@ -726,7 +883,7 @@ function displaySearchResults(data) {
             const imageHeader = document.createElement('h3');
             imageHeader.textContent = '🖼️ Image Results';
             imageHeader.style.marginTop = '20px';
-            searchResultsEl.appendChild(imageHeader);
+            resultsEl.appendChild(imageHeader);
 
             imageResults.forEach(result => {
                 const resultDiv = document.createElement('div');
@@ -740,19 +897,19 @@ function displaySearchResults(data) {
                         <p>${result.context}</p>
                     </div>
                 `;
-                searchResultsEl.appendChild(resultDiv);
+                resultsEl.appendChild(resultDiv);
             });
         }
 
-        searchSection.style.display = 'block';
+        sectionEl.style.display = 'block';
         updateStatus(`Found ${textResults.length} text + ${imageResults.length} image results for "${data.keyword}"`);
         return;
     }
 
     // Handle single type (text or image)
     if (data.results.length === 0) {
-        searchResultsEl.innerHTML = '<p>No results found.</p>';
-        searchSection.style.display = 'block';
+        resultsEl.innerHTML = '<p>No results found.</p>';
+        sectionEl.style.display = 'block';
         return;
     }
 
@@ -769,7 +926,7 @@ function displaySearchResults(data) {
                     <p>${result.context}</p>
                 </div>
             `;
-            searchResultsEl.appendChild(resultDiv);
+            resultsEl.appendChild(resultDiv);
         });
     } else {
         data.results.forEach(result => {
@@ -793,11 +950,11 @@ function displaySearchResults(data) {
                     <p>${result.snippet}</p>
                 `;
             }
-            searchResultsEl.appendChild(resultDiv);
+            resultsEl.appendChild(resultDiv);
         });
     }
 
-    searchSection.style.display = 'block';
+    sectionEl.style.display = 'block';
     updateStatus(`Found ${data.results.length} results for "${data.keyword}"`);
 }
 
@@ -806,19 +963,36 @@ function clearSession() {
         stopRecording();
     }
 
-    // Stop audio playback if playing
+    // Stop audio/video playback if playing
     if (state.isProcessingAudio) {
-        stopAudioPlayback();
+        if (state.isVideoFile) {
+            stopVideoPlayback();
+        } else {
+            stopAudioPlayback();
+        }
     }
 
-    // Hide and reset audio player
-    audioPlayerSection.style.display = 'none';
+    // Reset audio and video players
     audioPlayer.src = '';
-    state.currentAudioFile = null;
+    videoPlayer.src = '';
 
-    // Show transcription and info sections again
+    // Reset layouts: hide video layout, show default layout
+    videoLayout.style.display = 'none';
+    defaultLayout.style.display = 'block';
+
+    // Hide audio player section in default layout
+    audioPlayerSection.style.display = 'none';
+
+    // Show transcription and info sections in default layout
     document.querySelector('.transcription-section').style.display = 'block';
     document.querySelector('.info-box').style.display = 'block';
+
+    // Hide search sections
+    searchSection.style.display = 'none';
+
+    // Reset state
+    state.currentAudioFile = null;
+    state.isVideoFile = false;
 
     socket.emit('clear_session');
 }

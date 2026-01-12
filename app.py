@@ -816,14 +816,14 @@ def handle_audio_chunk_whisper(data):
     try:
         print("\n" + "=" * 50)
         print("[Whisper] Received audio chunk request")
-        print(f"Session ID: {session_id}")
+        # print(f"Session ID: {session_id}")
 
         # Decode base64 audio data
         audio_data = base64.b64decode(data["audio"])
 
         # Detect file type from data or use provided format
         file_format = data.get("format", "webm")
-        print(f"Format: {file_format}, Data size: {len(audio_data)} bytes")
+        # print(f"Format: {file_format}, Data size: {len(audio_data)} bytes")
 
         emit(
             "status",
@@ -864,9 +864,9 @@ def handle_audio_chunk_realtime(data):
         phrase_timeout = data.get("phrase_timeout", 3)  # seconds
         is_final = data.get("is_final", False)
 
-        print(
-            f"Format: {file_format}, Data size: {len(audio_data)} bytes, is_final: {is_final}"
-        )
+        # print(
+        #     f"Format: {file_format}, Data size: {len(audio_data)} bytes, is_final: {is_final}"
+        # )
 
         session = transcription_sessions[session_id]
         now = datetime.utcnow()
@@ -900,7 +900,7 @@ def handle_audio_chunk_realtime(data):
             # Accumulate audio data
             session.phrase_bytes += raw_data
 
-            print(f"Accumulated audio size: {len(session.phrase_bytes)} bytes")
+            # print(f"Accumulated audio size: {len(session.phrase_bytes)} bytes")
 
             # Check if accumulated audio is valid
             if len(session.phrase_bytes) < 100:
@@ -1082,10 +1082,8 @@ def handle_audio_chunk_google(data):
 def handle_search_request(data):
     """Handle search request triggered by spacebar"""
     session_id = request.sid
-    
-    search_mode = data.get(
-        "mode", "gpt"
-    )  # 'instant', 'recent', 'important', or 'gpt'
+
+    search_mode = data.get("mode", "gpt")  # 'instant', 'recent', 'important', or 'gpt'
     search_type = data.get("type", "text")  # 'text' or 'image'
 
     print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
@@ -1110,7 +1108,7 @@ def handle_search_request(data):
         )
     elif search_mode == "gpt":
         # GPT mode: use GPT to predict what user wants to look up
-        time_threshold = data.get("time_threshold", 3)  # default 3 seconds
+        time_threshold = data.get("time_threshold", 5)  # default 3 seconds
         keyword = transcription_sessions[session_id].get_top_keyword_gpt(time_threshold)
         print(
             f"[GPT Search] GPT predicted keyword from last {time_threshold}s: {keyword}"
