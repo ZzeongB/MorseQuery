@@ -499,7 +499,8 @@ class TranscriptionSession:
         print(f"\n[GPT] Context ({time_threshold}s): {context_text}")
 
         # Create GPT prompt (based on test_gpt_prediction.py)
-        prompt = """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
+        prompt = (
+            """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
 
 Given the transcript context, predict which word(s) the user selected. The selected words should be:
 - Technical terms or unfamiliar vocabulary
@@ -510,44 +511,40 @@ Given the transcript context, predict which word(s) the user selected. The selec
 Few-shot examples:
 
 Example 1:
-Context: I get paid for this,
-User selected: paid
-Intent: clarify-detail
+Context: really  are  related  to  black  holes.  Like,  I  get  paid  for  this,
+User selected: I get paid for this,
 
 Example 2:
-Context: spark gap,
+Context: And  I'm  going  to  run  these  wires  across  a  spark  gap,
 User selected: spark gap
-Intent: clarify-detail, visual-aid
 
 Example 3:
-Context: metaphorically
+Context: to  do  by  Newton,  and  metaphorically  speaking,  and,
 User selected: metaphorically
-Intent: unfamiliar-vocab
 
 Example 4:
-Context: cortex.
+Context: goes  by  way  of  the  phalamus  on  route  to  the  cortex.
 User selected: cortex
-Intent: clarify-detail, visual-aid
 
 Example 5:
-Context: Lonnie Sujonsen
+Context: H .M.  So  there's  a  case  of  Lonnie  Sujonsen.
 User selected: Lonnie Sujonsen
-Intent: unfamiliar-vocab
 
 Example 6:
-Context: chronic fatigue
+Context: spikes,  which  most  of  us  have,  is  the  sense  of  chronic  fatigue.
 User selected: chronic fatigue
-Intent: clarify-detail
 
 Example 7:
-Context: pancreas
+Context: it  senses  this  big  glucose  spike,  it  calls  your  pancreas  and  it's  like, 
 User selected: pancreas
-Intent: clarify-detail, visual-aid
 
 Now predict for this new context:
 
-Context: """ + context_text + """
+Context: """
+            + context_text
+            + """
 User selected: """
+        )
 
         try:
             # Call GPT API (using gpt-4o-mini like in test script)
@@ -567,16 +564,16 @@ User selected: """
             intent = None
 
             # Split by newline to separate user selected and intent
-            lines = raw_response.split('\n')
+            lines = raw_response.split("\n")
 
             for line in lines:
                 line = line.strip()
-                if line.lower().startswith('user selected:'):
+                if line.lower().startswith("user selected:"):
                     # Extract keyword after "User selected:"
-                    predicted_keyword = line.split(':', 1)[1].strip()
-                elif line.lower().startswith('intent:'):
+                    predicted_keyword = line.split(":", 1)[1].strip()
+                elif line.lower().startswith("intent:"):
                     # Extract intent after "Intent:"
-                    intent = line.split(':', 1)[1].strip()
+                    intent = line.split(":", 1)[1].strip()
 
             print(f"[GPT] Extracted keyword: {predicted_keyword}")
             if intent:
@@ -751,7 +748,7 @@ def process_whisper_background(audio_data, file_format, session_id):
         result = whisper_model.transcribe(temp_path)
         text = result["text"].strip()
 
-        print(f"Transcription result: {text}")
+        # print(f"Transcription result: {text}")
 
         if text:
             transcription_sessions[session_id].add_text(text)
@@ -1085,7 +1082,10 @@ def handle_audio_chunk_google(data):
 def handle_search_request(data):
     """Handle search request triggered by spacebar"""
     session_id = request.sid
-    search_mode = data.get("mode", "tfidf")  # 'instant', 'recent', 'important', or 'gpt'
+    
+    search_mode = data.get(
+        "mode", "gpt"
+    )  # 'instant', 'recent', 'important', or 'gpt'
     search_type = data.get("type", "text")  # 'text' or 'image'
 
     print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
@@ -1112,7 +1112,9 @@ def handle_search_request(data):
         # GPT mode: use GPT to predict what user wants to look up
         time_threshold = data.get("time_threshold", 3)  # default 3 seconds
         keyword = transcription_sessions[session_id].get_top_keyword_gpt(time_threshold)
-        print(f"[GPT Search] GPT predicted keyword from last {time_threshold}s: {keyword}")
+        print(
+            f"[GPT Search] GPT predicted keyword from last {time_threshold}s: {keyword}"
+        )
     else:
         # TF-IDF/Important mode: calculate important keyword
         keyword = transcription_sessions[session_id].get_top_keyword()

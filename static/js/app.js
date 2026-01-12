@@ -5,7 +5,7 @@ const socket = io();
 let state = {
     isRecording: false,
     recognitionMode: 'whisper', // 'whisper' or 'google'
-    searchMode: 'recent', // 'instant' or 'tfidf'
+    searchMode: 'gpt', // 'instant' or 'tfidf'
     searchType: 'text', // 'text' or 'image'
     mediaRecorder: null,
     audioContext: null,
@@ -181,7 +181,7 @@ function setSearchMode(mode) {
         instant: 'Instant Word (최신 단어)',
         recent: 'Recent 5s (최근 5초)',
         tfidf: 'Important Word (중요 단어)',
-        gpt: 'GPT (AI 예측)'
+        gpt: 'GPT 4o mini'
     };
 
     updateStatus(`Search mode: ${modeNames[mode]}`);
@@ -218,6 +218,10 @@ async function startRecording() {
     }
 
     try {
+        // Show transcription and info sections for microphone input
+        document.querySelector('.transcription-section').style.display = 'block';
+        document.querySelector('.info-box').style.display = 'block';
+
         // Request microphone access
         const stream = await navigator.mediaDevices.getUserMedia({
             audio: {
@@ -306,6 +310,10 @@ function handleFileUpload(event) {
     // Create object URL for audio player
     const audioURL = URL.createObjectURL(file);
     audioPlayer.src = audioURL;
+
+    // Hide transcription and info sections when playing uploaded file
+    document.querySelector('.transcription-section').style.display = 'none';
+    document.querySelector('.info-box').style.display = 'none';
 
     // Show audio player section
     audioPlayerSection.style.display = 'block';
@@ -661,7 +669,7 @@ function displaySearchResults(data) {
         modeName = 'Recent 5s';
     } else if (data.mode === 'gpt') {
         modeIcon = '🤖';
-        modeName = 'GPT';
+        modeName = 'GPT 4o mini';
     } else {
         modeIcon = '🎯';
         modeName = 'Important';
@@ -807,6 +815,10 @@ function clearSession() {
     audioPlayerSection.style.display = 'none';
     audioPlayer.src = '';
     state.currentAudioFile = null;
+
+    // Show transcription and info sections again
+    document.querySelector('.transcription-section').style.display = 'block';
+    document.querySelector('.info-box').style.display = 'block';
 
     socket.emit('clear_session');
 }
