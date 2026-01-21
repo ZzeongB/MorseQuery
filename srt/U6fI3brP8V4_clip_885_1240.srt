@@ -1,315 +1,315 @@
 188
-00:14:45,160 --> 00:14:51,150
+00:00:00,000 --> 00:00:05,990
 OK so moving on to more 8.04 things. Back to
 atoms. So let's look at specifics of that.
 
 189
-00:14:51,150 --> 00:14:58,630
+00:00:05,990 --> 00:00:13,470
 I'm not kidding, they really are related to
 black holes. I get paid for this. So here's
 
 190
-00:14:58,630 --> 00:15:03,720
+00:00:13,470 --> 00:00:18,560
 a nice fact, so let's get to atomic spectra.
 So to study atomic spectra, here's the experiment
 
 191
-00:15:03,720 --> 00:15:08,670
+00:00:18,560 --> 00:00:23,510
 I want to run. The experiment I want to run
 starts out with some sort of power plant.
 
 192
-00:15:08,670 --> 00:15:13,970
+00:00:23,510 --> 00:00:28,810
 And out of the power plant come two wires.
 And I'm going to run these wires across a
 
 193
-00:15:13,970 --> 00:15:19,380
+00:00:28,810 --> 00:00:34,220
 spark gap, you know, a piece of metal here,
 a piece of metal here, and put them inside
 
 194
-00:15:19,380 --> 00:15:25,230
+00:00:34,220 --> 00:00:40,070
 a container, which has some gas. Like H2 or
 neon or whatever you want. But some simple
 
 195
-00:15:25,230 --> 00:15:28,130
+00:00:40,070 --> 00:00:42,970
 gas inside here.
 
 196
-00:15:28,130 --> 00:15:32,339
+00:00:42,970 --> 00:00:47,179
 So we've got an electric potential established
 across it. Again, we don't want so much potential
 
 197
-00:15:32,339 --> 00:15:38,070
+00:00:47,179 --> 00:00:52,910
 that it sparks, but we do want to excite the
 H2. So we can even make it spark, it doesn't
 
 198
-00:15:38,070 --> 00:15:41,730
+00:00:52,910 --> 00:00:56,570
 really matter too much. The important thing
 is that we're going to excite the hydrogen,
 
 199
-00:15:41,730 --> 00:15:48,210
+00:00:56,570 --> 00:01:03,050
 and in exciting the hydrogen the excited hydrogen
 is going to send out light. And then I'm going
 
 200
-00:15:48,210 --> 00:15:56,850
+00:01:03,050 --> 00:01:11,690
 to take this light-- we take the light, and
 I'm gonna shine this on a prism, something
 
 201
-00:15:56,850 --> 00:16:05,930
+00:01:11,690 --> 00:01:20,770
 I was taught to do by Newton. And-- metaphorically
 speaking-- and look at the image of this light
 
 202
-00:16:05,930 --> 00:16:08,610
+00:01:20,770 --> 00:01:23,450
 having passed through the prism.
 
 203
-00:16:08,610 --> 00:16:14,330
+00:01:23,450 --> 00:01:29,170
 And what you find is you find a very distinct
 set of patterns. You do not get a continuous
 
 204
-00:16:14,330 --> 00:16:17,480
+00:01:29,170 --> 00:01:32,320
 band. In fact what you get-- I'm going to
 have a hard time drawing this so let me draw
 
 205
-00:16:17,480 --> 00:16:22,740
+00:01:32,320 --> 00:01:37,580
 down here. I'm now going to draw the intensity
 of the light incident on the screen on this
 
 206
-00:16:22,740 --> 00:16:27,600
+00:01:37,580 --> 00:01:42,440
 piece of paper-- people really used to use
 pieces of paper for this, which is kind of
 
 207
-00:16:27,600 --> 00:16:30,300
+00:01:42,440 --> 00:01:45,140
 awesome-- as a function of the wavelength,
 and I'll measure it in angstroms.
 
 208
-00:16:30,300 --> 00:16:39,690
+00:01:45,140 --> 00:01:54,530
 And what you discover is-- here's around 1,000
 angstroms-- you get a bunch of lines. Get
 
 209
-00:16:39,690 --> 00:16:43,860
+00:01:54,530 --> 00:01:58,700
 these spikes. And they start to spread out,
 and then there aren't so many. And then at
 
 210
-00:16:43,860 --> 00:17:01,120
+00:01:58,700 --> 00:02:15,960
 around 3,000, you get another set. And then
 at around 10,000, you get another set.
 
 211
-00:17:01,120 --> 00:17:06,819
+00:02:15,960 --> 00:02:21,659
 This is around 10,000.
 
 212
-00:17:06,819 --> 00:17:10,220
+00:02:21,659 --> 00:02:25,060
 And here's the interesting thing about these.
 So the discovery of these lines-- these are
 
 213
-00:17:10,220 --> 00:17:19,020
+00:02:25,060 --> 00:02:33,860
 named after a guy named Lyman, these are--
 these are named after a guy named-- Ballmer.
 
 214
-00:17:19,020 --> 00:17:29,400
+00:02:33,860 --> 00:02:44,240
 Thank you. Steve Ballmer. And these are passion,
 like passion fruit. So. Everyone needs a mnemonic,
 
 215
-00:17:29,400 --> 00:17:36,679
+00:02:44,240 --> 00:02:51,519
 OK. And so these people identified these lines
 and explained various things about them.
 
 216
-00:17:36,679 --> 00:17:39,900
+00:02:51,519 --> 00:02:54,740
 But here's an interesting fact. If you replace
 this nuclear power plant with a coal plant,
 
 217
-00:17:39,900 --> 00:17:43,890
+00:02:54,740 --> 00:02:58,730
 it makes no difference. If you replace this
 prism by a different prism, it makes no difference
 
 218
-00:17:43,890 --> 00:17:49,670
+00:02:58,730 --> 00:03:04,510
 to where the lines are. If you change this
 mechanism of exciting the hydrogen, it makes
 
 219
-00:17:49,670 --> 00:17:52,910
+00:03:04,510 --> 00:03:07,750
 no difference. As long as it's hydrogen--
 as long as it's hydrogen in here you get the
 
 220
-00:17:52,910 --> 00:17:56,190
+00:03:07,750 --> 00:03:11,030
 same lines, mainly with different intensities
 depending upon how exactly you do the experiment.
 
 221
-00:17:56,190 --> 00:18:02,350
+00:03:11,030 --> 00:03:17,190
 But you get the same position of the lines.
 And that's a really striking thing.
 
 222
-00:18:02,350 --> 00:18:06,790
+00:03:17,190 --> 00:03:21,630
 Now if you use a different chemical, a different
 gas in here, like neon, you get a very different
 
 223
-00:18:06,790 --> 00:18:10,900
+00:03:21,630 --> 00:03:25,740
 set of lines. And a very different effective
 color now when you eyeball this thing. So
 
 224
-00:18:10,900 --> 00:18:18,630
+00:03:25,740 --> 00:03:33,470
 Ballmer, incidentally-- and I think this is
 actually why he got blamed for that particular
 
 225
-00:18:18,630 --> 00:18:22,929
+00:03:33,470 --> 00:03:37,769
 series, although I don't know the history--
 Ballmer noticed by being-- depending on which
 
 226
-00:18:22,929 --> 00:18:28,500
+00:03:37,769 --> 00:03:43,340
 biography you read-- very clever or very obsessed
 that these guys, this particular set, could
 
 227
-00:18:28,500 --> 00:18:31,250
+00:03:43,340 --> 00:03:46,090
 be-- they're wavelengths. If you wrote their
 wavelengths and labeled them by an integer
 
 228
-00:18:31,250 --> 00:18:37,110
+00:03:46,090 --> 00:03:51,950
 n, where n ran from 3 to any positive integer
 above 3, could be written as 36. So this is
 
 229
-00:18:37,110 --> 00:18:44,020
+00:03:51,950 --> 00:03:58,860
 pure numerology. 36, 46 angstroms times the
 function n squared over n squared minus 4,
 
 230
-00:18:44,020 --> 00:18:48,679
+00:03:58,860 --> 00:04:03,519
 where N is equal to 3, 4, dot dot dot-- an
 integer.
 
 231
-00:18:48,679 --> 00:18:51,270
+00:04:03,519 --> 00:04:06,110
 And it turns out if you just plug in these
 integers, you get a pretty good approximation
 
 232
-00:18:51,270 --> 00:18:58,020
+00:04:06,110 --> 00:04:12,860
 to this series of lines. This is a hallowed
 tradition, a phenomenological fit to some
 
 233
-00:18:58,020 --> 00:19:02,760
+00:04:12,860 --> 00:04:17,600
 data. Where did it come from? It came from
 his creative or obsessed mind. So this was
 
 234
-00:19:02,760 --> 00:19:10,510
+00:04:17,600 --> 00:04:25,350
 Ballmer. And this is specifically for hydrogen
 gas, H2.
 
 235
-00:19:10,510 --> 00:19:16,750
+00:04:25,350 --> 00:04:31,590
 So Rydberg and Ritz, R and R, said, well actually
 we can do one better. Now that they realized
 
 236
-00:19:16,750 --> 00:19:19,720
+00:04:31,590 --> 00:04:34,560
 that this is true, they looked at the whole
 sequence. And they found a really neat little
 
 237
-00:19:19,720 --> 00:19:24,750
+00:04:34,560 --> 00:04:39,590
 expression, which is that 1 over the wavelength
 is equal to a single constant parameter. Not
 
 238
-00:19:24,750 --> 00:19:30,559
+00:04:39,590 --> 00:04:45,399
 just for all these, but for all of them. One
 single numerical coefficient times 1 over
 
 239
-00:19:30,559 --> 00:19:36,460
+00:04:45,399 --> 00:04:51,300
 m squared minus 1 over n squared-- n is an
 integer greater than zero and greater in particular
 
 240
-00:19:36,460 --> 00:19:41,450
+00:04:51,300 --> 00:04:56,290
 than m. And if you plug in any value of n
 and any value of m, for sufficiently reasonable--
 
 241
-00:19:41,450 --> 00:19:43,770
+00:04:56,290 --> 00:04:58,610
 I mean, if you put in 10 million integers
 you're not going to see it because it's way
 
 242
-00:19:43,770 --> 00:19:52,750
+00:04:58,610 --> 00:05:07,590
 out there, but if you put in or-- rather,
 in here-- if you put any value of n and m,
 
 243
-00:19:52,750 --> 00:20:03,390
+00:05:07,590 --> 00:05:18,230
 you will get one of these lines. So again,
 why? You know, as it's said, who ordered that.
 
 244
-00:20:03,390 --> 00:20:06,030
+00:05:18,230 --> 00:05:20,870
 So this is experimental result three that
 we're going to have to deal with. When you
 
 245
-00:20:06,030 --> 00:20:09,530
+00:05:20,870 --> 00:05:24,370
 look at atoms and you look at the specter
 of light coming off of them, their spectra
 
 246
-00:20:09,530 --> 00:20:14,799
+00:05:24,370 --> 00:05:29,639
 are discrete. But they're not just stupidly
 discrete, they're discrete with real structure.
 
 247
-00:20:14,799 --> 00:20:19,559
+00:05:29,639 --> 00:05:34,399
 Something that begs for an explanation. This
 is obviously more than numerology, because
 
 248
-00:20:19,559 --> 00:20:25,179
+00:05:34,399 --> 00:05:40,019
 it explains with one tunable coefficient a
 tremendous number of spectral lines. And there's
 
 249
-00:20:25,179 --> 00:20:29,760
+00:05:40,019 --> 00:05:44,600
 a difference-- and crucially, these both work
 specifically for hydrogen. For different atoms
 
 250
-00:20:29,760 --> 00:20:31,450
+00:05:44,600 --> 00:05:46,290
 you need a totally different formula.
 
 251
-00:20:31,450 --> 00:20:44,740
+00:05:46,290 --> 00:05:59,580
 But again, there's always some formula that
 nails those spectral lines. Why? Questions?

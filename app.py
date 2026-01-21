@@ -14,7 +14,6 @@ import whisper
 from dotenv import load_dotenv
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO, emit
-from google.cloud import speech
 from nltk.stem import WordNetLemmatizer
 from openai import OpenAI
 from pydub import AudioSegment
@@ -187,16 +186,17 @@ class TranscriptionSession:
         self.session_start_time = datetime.utcnow()
         self.event_log = []  # List of all events (words added, searches performed)
 
-        # Log session start
+        # Log session start (don't save immediately during init)
         self._log_event(
             "session_start",
             {
                 "session_id": session_id,
                 "start_time": self.session_start_time.isoformat(),
             },
+            save_immediately=False,
         )
 
-    def _log_event(self, event_type, data):
+    def _log_event(self, event_type, data, save_immediately=True):
         """Internal method to log events"""
         event = {
             "timestamp": datetime.utcnow().isoformat(),
@@ -205,6 +205,10 @@ class TranscriptionSession:
         }
         self.event_log.append(event)
         print(f"[LOG] {event_type}: {data}")
+
+        # Save logs immediately for real-time persistence
+        if save_immediately:
+            self.save_logs_to_file()
 
     def add_text(self, text):
         if text.strip():
@@ -462,7 +466,7 @@ class TranscriptionSession:
 
         return selected_word
 
-    def get_top_keyword_gpt(self, time_threshold=3):
+    def get_top_keyword_gpt(self, time_threshold=10):
         """Use GPT to predict which word the user would want to look up
 
         Uses a few-shot prompt based on video lecture transcription patterns
@@ -643,7 +647,7 @@ User selected: """
 
             return fallback
 
-    def log_search_action(self, search_mode, search_type, keyword, num_results=0):
+    def log_search_action(self, search_mode, search_type, keyword=None, num_results=0):
         """Log when user performs a search (spacebar action)"""
         self._log_event(
             "search_action",
@@ -682,6 +686,41 @@ User selected: """
         except Exception as e:
             print(f"[LOG] Error saving logs: {e}")
             return None
+
+
+def parse_srt(srt_content):
+    """Parse SRT file content and return list of (start_time_ms, end_time_ms, text) tuples"""
+    import re
+
+    entries = []
+    blocks = re.split(r"\n\n+", srt_content.strip())
+
+    for block in blocks:
+        lines = block.strip().split("\n")
+        if len(lines) >= 2:
+            # Find timestamp line (contains -->)
+            timestamp_line = None
+            text_start_idx = 0
+            for i, line in enumerate(lines):
+                if "-->" in line:
+                    timestamp_line = line
+                    text_start_idx = i + 1
+                    break
+
+            if timestamp_line:
+                # Parse timestamp: 00:00:11,040 --> 00:00:14,337
+                match = re.match(
+                    r"(\d+):(\d+):(\d+),(\d+)\s*-->\s*(\d+):(\d+):(\d+),(\d+)",
+                    timestamp_line,
+                )
+                if match:
+                    h1, m1, s1, ms1, h2, m2, s2, ms2 = map(int, match.groups())
+                    start_ms = h1 * 3600000 + m1 * 60000 + s1 * 1000 + ms1
+                    end_ms = h2 * 3600000 + m2 * 60000 + s2 * 1000 + ms2
+                    text = " ".join(lines[text_start_idx:])
+                    entries.append((start_ms, end_ms, text))
+
+    return entries
 
 
 @app.route("/")
@@ -740,7 +779,9 @@ def process_whisper_background(audio_data, file_format, session_id):
     temp_path = None
 
     audio_received_time = datetime.utcnow()
-    print(f"[TIMING] Whisper chunk processing started at: {audio_received_time.isoformat()}")
+    print(
+        f"[TIMING] Whisper chunk processing started at: {audio_received_time.isoformat()}"
+    )
 
     try:
         # Check if audio data is valid
@@ -783,25 +824,50 @@ def process_whisper_background(audio_data, file_format, session_id):
         )
 
         transcription_start_time = datetime.utcnow()
-        print(f"[TIMING] Whisper transcription started at: {transcription_start_time.isoformat()}")
+        print(
+            f"[TIMING] Whisper transcription started at: {transcription_start_time.isoformat()}"
+        )
 
         result = whisper_model.transcribe(temp_path)
         text = result["text"].strip()
 
         transcription_end_time = datetime.utcnow()
-        transcription_duration = (transcription_end_time - transcription_start_time).total_seconds()
+        transcription_duration = (
+            transcription_end_time - transcription_start_time
+        ).total_seconds()
         total_duration = (transcription_end_time - audio_received_time).total_seconds()
 
         print(f"Transcription: {text}")
-        print(f"[TIMING] Whisper transcription completed at: {transcription_end_time.isoformat()}")
+        print(
+            f"[TIMING] Whisper transcription completed at: {transcription_end_time.isoformat()}"
+        )
         print(f"[TIMING] Whisper transcription duration: {transcription_duration:.3f}s")
         print(f"[TIMING] Total Whisper processing time: {total_duration:.3f}s")
 
         if text:
             word_add_time = datetime.utcnow()
-            transcription_sessions[session_id].add_text(text)
-            print(f"[Whisper] ✓ Words added to session at {word_add_time.isoformat()}: '{text}'")
-            print(f"[Whisper] Total words in session now: {len(transcription_sessions[session_id].words)}")
+            session = transcription_sessions[session_id]
+            session.add_text(text)
+            print(
+                f"[Whisper] ✓ Words added to session at {word_add_time.isoformat()}: '{text}'"
+            )
+            print(
+                f"[Whisper] Total words in session now: {len(session.words)}"
+            )
+
+            # Log Whisper transcription to JSON
+            session._log_event(
+                "whisper_transcription",
+                {
+                    "text": text,
+                    "word_count": len(text.split()),
+                    "transcription_duration_seconds": transcription_duration,
+                    "total_processing_seconds": total_duration,
+                    "audio_size_bytes": len(audio_data),
+                    "format": file_format,
+                },
+            )
+
             socketio.emit(
                 "transcription", {"text": text, "source": "whisper"}, room=session_id
             )
@@ -1055,6 +1121,22 @@ def handle_audio_chunk_realtime(data):
                     print(
                         f"[Real-time] Total words in session now: {len(session.words)}"
                     )
+
+                    # Log real-time Whisper transcription to JSON
+                    session._log_event(
+                        "whisper_transcription",
+                        {
+                            "text": text,
+                            "word_count": len(text.split()),
+                            "transcription_duration_seconds": transcription_duration,
+                            "total_processing_seconds": total_duration,
+                            "mode": "realtime",
+                            "is_complete": True,
+                            "phrase_complete": phrase_complete,
+                            "is_final": is_final,
+                        },
+                    )
+
                     socketio.emit(
                         "transcription",
                         {
@@ -1093,74 +1175,6 @@ def handle_audio_chunk_realtime(data):
         )
 
 
-@socketio.on("start_google_streaming")
-def handle_start_google_streaming():
-    """Start Google Speech-to-Text streaming"""
-    emit("status", {"message": "Google Speech-to-Text ready"})
-
-
-@socketio.on("audio_chunk_google")
-def handle_audio_chunk_google(data):
-    """Process audio chunk with Google Speech-to-Text"""
-    session_id = request.sid
-
-    try:
-        client = speech.SpeechClient()
-
-        # Decode audio
-        audio_data = base64.b64decode(data["audio"])
-        file_format = data.get("format", "webm")
-
-        print(
-            f"Processing Google STT: format={file_format}, size={len(audio_data)} bytes"
-        )
-
-        # Map format to Google encoding
-        encoding_map = {
-            "webm": speech.RecognitionConfig.AudioEncoding.WEBM_OPUS,
-            "mp3": speech.RecognitionConfig.AudioEncoding.MP3,
-            "flac": speech.RecognitionConfig.AudioEncoding.FLAC,
-            "wav": speech.RecognitionConfig.AudioEncoding.LINEAR16,
-            "m4a": speech.RecognitionConfig.AudioEncoding.MP3,  # Treat m4a as MP3
-            "mp4": speech.RecognitionConfig.AudioEncoding.MP3,
-            "ogg": speech.RecognitionConfig.AudioEncoding.OGG_OPUS,
-        }
-
-        encoding = encoding_map.get(
-            file_format, speech.RecognitionConfig.AudioEncoding.WEBM_OPUS
-        )
-
-        audio = speech.RecognitionAudio(content=audio_data)
-        config = speech.RecognitionConfig(
-            encoding=encoding,
-            sample_rate_hertz=48000,
-            language_code="en-US",
-            enable_automatic_punctuation=True,
-        )
-
-        emit("status", {"message": "Transcribing with Google STT..."})
-        response = client.recognize(config=config, audio=audio)
-
-        transcribed = False
-        for result in response.results:
-            text = result.alternatives[0].transcript
-            if text:
-                transcription_sessions[session_id].add_text(text)
-                emit("transcription", {"text": text, "source": "google"})
-                transcribed = True
-                print(f"Google STT result: {text}")
-
-        if not transcribed:
-            emit("status", {"message": "No speech detected in audio"})
-
-    except Exception as e:
-        print(f"Google STT error: {str(e)}")
-        import traceback
-
-        traceback.print_exc()
-        emit("error", {"message": f"Google STT error: {str(e)}"})
-
-
 @socketio.on("search_request")
 def handle_search_request(data):
     """Handle search request triggered by spacebar"""
@@ -1178,6 +1192,13 @@ def handle_search_request(data):
     print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
     print(
         f"[TIMING] Search request received at (server): {search_request_time.isoformat()}"
+    )
+    # log action
+    transcription_sessions[session_id].log_search_action(
+        search_mode=search_mode,
+        search_type=search_type,
+        # keyword="not yet",
+        # num_results="not yet",
     )
 
     if client_timestamp:
@@ -1367,6 +1388,161 @@ def handle_clear_session():
     # Create new session
     transcription_sessions[session_id] = TranscriptionSession(session_id)
     emit("session_cleared", {"status": "Session cleared"})
+
+
+@socketio.on("clear_srt")
+def handle_clear_srt():
+    """Clear SRT data from session"""
+    session_id = request.sid
+
+    if session_id in transcription_sessions:
+        session = transcription_sessions[session_id]
+        if hasattr(session, "srt_entries"):
+            del session.srt_entries
+        if hasattr(session, "last_srt_text"):
+            del session.last_srt_text
+        session._log_event("srt_cleared", {})
+        print(f"[SRT] Cleared SRT data for session {session_id}")
+
+
+@socketio.on("check_srt_for_media")
+def handle_check_srt_for_media(data):
+    """Check if matching SRT file exists for uploaded media file"""
+    session_id = request.sid
+    media_filename = data.get("filename", "")
+
+    if not media_filename:
+        return
+
+    # Get base name without extension
+    base_name = os.path.splitext(media_filename)[0]
+
+    # Search for matching SRT in srt/ directory (including subdirectories)
+    srt_dir = os.path.join(os.path.dirname(__file__), "srt")
+    srt_path = None
+
+    # Check direct match first
+    for root, dirs, files in os.walk(srt_dir):
+        for file in files:
+            if file.endswith(".srt"):
+                file_base = os.path.splitext(file)[0]
+                # Check if SRT filename matches media filename
+                if file_base == base_name or file_base.startswith(base_name):
+                    srt_path = os.path.join(root, file)
+                    break
+        if srt_path:
+            break
+
+    if srt_path and os.path.exists(srt_path):
+        try:
+            with open(srt_path, "r", encoding="utf-8") as f:
+                srt_content = f.read()
+
+            entries = parse_srt(srt_content)
+            print(f"[SRT] Auto-loaded matching SRT: {srt_path} ({len(entries)} entries)")
+
+            if session_id not in transcription_sessions:
+                transcription_sessions[session_id] = TranscriptionSession(session_id)
+
+            session = transcription_sessions[session_id]
+            session.srt_entries = entries
+            session.srt_index = 0
+
+            session._log_event(
+                "srt_auto_loaded",
+                {
+                    "media_file": media_filename,
+                    "srt_file": os.path.basename(srt_path),
+                    "entry_count": len(entries),
+                },
+            )
+
+            emit("srt_loaded", {
+                "count": len(entries),
+                "status": f"Auto-loaded SRT: {os.path.basename(srt_path)}",
+                "auto": True
+            })
+        except Exception as e:
+            print(f"[SRT] Error auto-loading SRT: {e}")
+    else:
+        print(f"[SRT] No matching SRT found for: {media_filename}")
+        emit("srt_not_found", {"filename": media_filename})
+
+
+@socketio.on("load_srt")
+def handle_load_srt(data):
+    """Load transcription from SRT file content"""
+    session_id = request.sid
+    srt_content = data.get("content", "")
+
+    if session_id not in transcription_sessions:
+        transcription_sessions[session_id] = TranscriptionSession(session_id)
+
+    session = transcription_sessions[session_id]
+
+    try:
+        entries = parse_srt(srt_content)
+        print(f"[SRT] Parsed {len(entries)} subtitle entries")
+
+        # Store SRT entries for timed playback
+        session.srt_entries = entries
+        session.srt_index = 0
+
+        # Log SRT load event
+        session._log_event(
+            "srt_loaded",
+            {
+                "entry_count": len(entries),
+                "total_duration_ms": entries[-1][1] if entries else 0,
+            },
+        )
+
+        emit("srt_loaded", {"count": len(entries), "status": "SRT file loaded"})
+    except Exception as e:
+        print(f"[SRT] Error parsing SRT: {e}")
+        emit("error", {"message": f"SRT parse error: {str(e)}"})
+
+
+@socketio.on("srt_time_update")
+def handle_srt_time_update(data):
+    """Send transcription based on current video time"""
+    session_id = request.sid
+    current_time_ms = data.get("time_ms", 0)
+
+    if session_id not in transcription_sessions:
+        return
+
+    session = transcription_sessions[session_id]
+
+    if not hasattr(session, "srt_entries") or not session.srt_entries:
+        return
+
+    # Find entries that should be displayed at current time
+    for start_ms, end_ms, text in session.srt_entries:
+        if start_ms <= current_time_ms <= end_ms:
+            # Check if this text was already added recently
+            if not hasattr(session, "last_srt_text") or session.last_srt_text != text:
+                session.last_srt_text = text
+                session.add_text(text)
+
+                # Log SRT transcription event
+                session._log_event(
+                    "srt_transcription",
+                    {
+                        "video_time_ms": current_time_ms,
+                        "subtitle_start_ms": start_ms,
+                        "subtitle_end_ms": end_ms,
+                        "text": text,
+                        "word_count": len(text.split()),
+                    },
+                )
+
+                emit(
+                    "transcription",
+                    {"text": text, "source": "srt", "is_complete": True},
+                )
+                print(f"[SRT] Transcription at {current_time_ms}ms: {text[:50]}...")
+            break
 
 
 if __name__ == "__main__":

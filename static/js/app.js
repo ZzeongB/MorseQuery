@@ -14,14 +14,16 @@ let state = {
     currentAudioFile: null,
     isProcessingAudio: false,
     lastWord: '', // Track the most recent word
-    isVideoFile: false // Track if current file is video
+    isVideoFile: false, // Track if current file is video
+    srtLoaded: false, // Track if SRT file is loaded
+    srtTimeUpdateInterval: null // Interval for SRT time updates
 };
 
 // DOM elements
 const micBtn = document.getElementById('micBtn');
 const fileInput = document.getElementById('fileInput');
+const srtInput = document.getElementById('srtInput');
 const whisperBtn = document.getElementById('whisperBtn');
-const googleBtn = document.getElementById('googleBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
 const recentSearchBtn = document.getElementById('recentSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
@@ -117,11 +119,31 @@ socket.on('session_cleared', () => {
     updateStatus('Session cleared');
 });
 
+socket.on('srt_loaded', (data) => {
+    console.log('[SRT] Loaded:', data);
+    state.srtLoaded = true;
+    state.recognitionMode = null; // Disable Whisper when SRT is loaded
+
+    // Update UI - deactivate Whisper button, activate SRT
+    whisperBtn.classList.remove('active');
+    srtInput.parentElement.classList.add('active');
+
+    const autoMsg = data.auto ? ' (auto-detected)' : '';
+    updateStatus(`SRT loaded: ${data.count} entries${autoMsg}. Click "Play & Transcribe" to start.`);
+});
+
+socket.on('srt_not_found', (data) => {
+    console.log('[SRT] Not found for:', data.filename);
+    if (!state.srtLoaded) {
+        updateStatus(`No SRT found for ${data.filename}. Will use Whisper for transcription.`);
+    }
+});
+
 // Button event listeners
 micBtn.addEventListener('click', toggleMicrophone);
 fileInput.addEventListener('change', handleFileUpload);
+srtInput.addEventListener('change', handleSrtUpload);
 whisperBtn.addEventListener('click', () => setRecognitionMode('whisper'));
-googleBtn.addEventListener('click', () => setRecognitionMode('google'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
 recentSearchBtn.addEventListener('click', () => setSearchMode('recent'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
@@ -174,15 +196,19 @@ function updateCurrentTranscription(text) {
 function setRecognitionMode(mode) {
     state.recognitionMode = mode;
 
+    // Clear SRT when Whisper is selected
+    if (state.srtLoaded) {
+        state.srtLoaded = false;
+        srtInput.parentElement.classList.remove('active');
+        socket.emit('clear_srt');
+    }
+
     whisperBtn.classList.toggle('active', mode === 'whisper');
-    googleBtn.classList.toggle('active', mode === 'google');
 
     updateStatus(`Recognition mode: ${mode}`);
 
     if (mode === 'whisper') {
         socket.emit('start_whisper');
-    } else if (mode === 'google') {
-        socket.emit('start_google_streaming');
     }
 }
 
@@ -315,26 +341,46 @@ function stopRecording() {
     updateStatus('Recording stopped');
 }
 
+function handleSrtUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        const srtContent = e.target.result;
+        socket.emit('load_srt', { content: srtContent });
+        console.log('[SRT] Sent SRT content to server');
+    };
+    reader.readAsText(file);
+    srtInput.value = '';
+    updateStatus(`Loading SRT file: ${file.name}...`);
+}
+
 function handleFileUpload(event) {
-    if (!state.recognitionMode) {
-        alert('Please select a recognition mode first (Whisper or Google STT)');
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const fileName = file.name.toLowerCase();
+
+    // For audio/video, need recognition mode unless SRT is already loaded
+    if (!state.srtLoaded && !state.recognitionMode) {
+        alert('Please select a recognition mode (Whisper/Google STT) or load an SRT file first');
         fileInput.value = '';
         return;
     }
-
-    const file = event.target.files[0];
-    if (!file) return;
 
     // Store the file
     state.currentAudioFile = file;
 
     // Check file extension to determine if it's a video file
-    const fileName = file.name.toLowerCase();
     const isVideo = fileName.endsWith('.mp4') || fileName.endsWith('.mov') || fileName.endsWith('.avi') || fileName.endsWith('.webm');
     state.isVideoFile = isVideo;
 
     // Create object URL
     const fileURL = URL.createObjectURL(file);
+
+    // Check for matching SRT file on server
+    socket.emit('check_srt_for_media', { filename: file.name });
 
     if (isVideo) {
         // Video file: show video layout with left video + right search results
@@ -344,7 +390,7 @@ function handleFileUpload(event) {
 
         videoPlayer.src = fileURL;
 
-        updateStatus(`Video file loaded: ${file.name}. Click "Play & Transcribe" to start.`);
+        updateStatus(`Video file loaded: ${file.name}. Checking for SRT...`);
     } else {
         // Audio file: show default layout with transcription and audio player
         videoLayout.style.display = 'none';
@@ -355,7 +401,7 @@ function handleFileUpload(event) {
         audioPlayer.src = fileURL;
         audioPlayerSection.style.display = 'block';
 
-        updateStatus(`Audio file loaded: ${file.name}. Click "Play & Transcribe" to start.`);
+        updateStatus(`Audio file loaded: ${file.name}. Checking for SRT...`);
     }
 
     // Reset file input
@@ -366,12 +412,7 @@ function sendAudioToServer(audioBlob) {
     const reader = new FileReader();
     reader.onloadend = () => {
         const base64Audio = reader.result.split(',')[1];
-
-        const eventName = state.recognitionMode === 'whisper'
-            ? 'audio_chunk_whisper'
-            : 'audio_chunk_google';
-
-        socket.emit(eventName, { audio: base64Audio, format: 'webm' });
+        socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
     };
     reader.readAsDataURL(audioBlob);
 }
@@ -381,12 +422,8 @@ function sendAudioToServerWithFormat(audioBlob, format) {
     reader.onloadend = () => {
         const base64Audio = reader.result.split(',')[1];
 
-        const eventName = state.recognitionMode === 'whisper'
-            ? 'audio_chunk_whisper'
-            : 'audio_chunk_google';
-
-        console.log(`[Send] Sending audio to server via ${eventName}: format=${format}, size=${audioBlob.size} bytes, base64 length=${base64Audio.length}`);
-        socket.emit(eventName, { audio: base64Audio, format: format });
+        console.log(`[Send] Sending audio to server: format=${format}, size=${audioBlob.size} bytes, base64 length=${base64Audio.length}`);
+        socket.emit('audio_chunk_whisper', { audio: base64Audio, format: format });
 
         updateStatus(`Audio sent (${format}, ${Math.round(audioBlob.size / 1024)}KB). Processing...`);
     };
@@ -618,11 +655,15 @@ async function playAndTranscribe() {
     playBtn.disabled = true;
     playBtn.innerHTML = '<span class="icon">⏳</span> Processing...';
 
-    console.log(`[PlayAndTranscribe] Starting real-time capture of audio playback`);
-
     try {
-        // Capture audio playback in real-time (like microphone)
-        await captureAudioPlaybackRealtime();
+        // If SRT is loaded, use SRT-based transcription synced with audio time
+        if (state.srtLoaded) {
+            console.log('[PlayAndTranscribe] Using SRT transcription (Whisper disabled)');
+            await playAudioWithSrt();
+        } else {
+            console.log('[PlayAndTranscribe] Using Whisper transcription');
+            await captureAudioPlaybackRealtime();
+        }
     } catch (error) {
         console.error('[PlayAndTranscribe] Error:', error);
         updateStatus('Error processing file: ' + error.message, true);
@@ -632,9 +673,61 @@ async function playAndTranscribe() {
     }
 }
 
+async function playAudioWithSrt() {
+    console.log('[PlayAudioWithSrt] Playing audio with SRT transcription');
+
+    // Play the audio
+    audioPlayer.play();
+    updateStatus('Playing audio with SRT transcription...');
+
+    // Send time updates to server every 200ms
+    state.srtTimeUpdateInterval = setInterval(() => {
+        if (!audioPlayer.paused && !audioPlayer.ended) {
+            const currentTimeMs = Math.floor(audioPlayer.currentTime * 1000);
+            socket.emit('srt_time_update', { time_ms: currentTimeMs });
+        }
+    }, 200);
+
+    // Clean up when playback ends
+    audioPlayer.onended = () => {
+        console.log('[PlayAudioWithSrt] Playback ended');
+        clearInterval(state.srtTimeUpdateInterval);
+        state.srtTimeUpdateInterval = null;
+        state.isProcessingAudio = false;
+        playBtn.disabled = false;
+        playBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
+        updateStatus('Audio playback finished');
+    };
+
+    // Handle pause
+    audioPlayer.onpause = () => {
+        if (!audioPlayer.ended) {
+            console.log('[PlayAudioWithSrt] Playback paused');
+            clearInterval(state.srtTimeUpdateInterval);
+            state.srtTimeUpdateInterval = null;
+        }
+    };
+
+    // Handle resume
+    audioPlayer.onplay = () => {
+        if (!state.srtTimeUpdateInterval) {
+            state.srtTimeUpdateInterval = setInterval(() => {
+                if (!audioPlayer.paused && !audioPlayer.ended) {
+                    const currentTimeMs = Math.floor(audioPlayer.currentTime * 1000);
+                    socket.emit('srt_time_update', { time_ms: currentTimeMs });
+                }
+            }, 200);
+        }
+    };
+}
+
 function stopAudioPlayback() {
     audioPlayer.pause();
     audioPlayer.currentTime = 0;
+    if (state.srtTimeUpdateInterval) {
+        clearInterval(state.srtTimeUpdateInterval);
+        state.srtTimeUpdateInterval = null;
+    }
     state.isProcessingAudio = false;
     playBtn.disabled = false;
     playBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
@@ -732,11 +825,16 @@ async function playVideoAndTranscribe() {
     playVideoBtn.disabled = true;
     playVideoBtn.innerHTML = '<span class="icon">⏳</span> Processing...';
 
-    console.log(`[PlayVideoAndTranscribe] Starting real-time capture of video audio playback`);
-
     try {
-        // Capture video audio playback in real-time (like microphone)
-        await captureVideoPlaybackRealtime();
+        // If SRT is loaded, use SRT-based transcription synced with video time
+        if (state.srtLoaded) {
+            console.log('[PlayVideoAndTranscribe] Using SRT transcription (Whisper disabled)');
+            await playVideoWithSrt();
+        } else {
+            // Capture video audio playback in real-time (like microphone)
+            console.log('[PlayVideoAndTranscribe] Using Whisper transcription');
+            await captureVideoPlaybackRealtime();
+        }
     } catch (error) {
         console.error('[PlayVideoAndTranscribe] Error:', error);
         updateStatus('Error processing video: ' + error.message, true);
@@ -746,9 +844,61 @@ async function playVideoAndTranscribe() {
     }
 }
 
+async function playVideoWithSrt() {
+    console.log('[PlayVideoWithSrt] Playing video with SRT transcription');
+
+    // Play the video
+    videoPlayer.play();
+    updateStatus('Playing video with SRT transcription...');
+
+    // Send time updates to server every 200ms
+    state.srtTimeUpdateInterval = setInterval(() => {
+        if (!videoPlayer.paused && !videoPlayer.ended) {
+            const currentTimeMs = Math.floor(videoPlayer.currentTime * 1000);
+            socket.emit('srt_time_update', { time_ms: currentTimeMs });
+        }
+    }, 200);
+
+    // Clean up when playback ends
+    videoPlayer.onended = () => {
+        console.log('[PlayVideoWithSrt] Playback ended');
+        clearInterval(state.srtTimeUpdateInterval);
+        state.srtTimeUpdateInterval = null;
+        state.isProcessingAudio = false;
+        playVideoBtn.disabled = false;
+        playVideoBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
+        updateStatus('Video playback finished');
+    };
+
+    // Handle pause
+    videoPlayer.onpause = () => {
+        if (!videoPlayer.ended) {
+            console.log('[PlayVideoWithSrt] Playback paused');
+            clearInterval(state.srtTimeUpdateInterval);
+            state.srtTimeUpdateInterval = null;
+        }
+    };
+
+    // Handle resume
+    videoPlayer.onplay = () => {
+        if (!state.srtTimeUpdateInterval) {
+            state.srtTimeUpdateInterval = setInterval(() => {
+                if (!videoPlayer.paused && !videoPlayer.ended) {
+                    const currentTimeMs = Math.floor(videoPlayer.currentTime * 1000);
+                    socket.emit('srt_time_update', { time_ms: currentTimeMs });
+                }
+            }, 200);
+        }
+    };
+}
+
 function stopVideoPlayback() {
     videoPlayer.pause();
     videoPlayer.currentTime = 0;
+    if (state.srtTimeUpdateInterval) {
+        clearInterval(state.srtTimeUpdateInterval);
+        state.srtTimeUpdateInterval = null;
+    }
     state.isProcessingAudio = false;
     playVideoBtn.disabled = false;
     playVideoBtn.innerHTML = '<span class="icon">▶️</span> Play & Transcribe';
@@ -796,12 +946,12 @@ function triggerSearch() {
 
     } else if (state.searchMode === 'gpt') {
         // GPT search: use GPT to predict what user wants to look up
-        console.log('[GPT Search] Requesting GPT prediction from last 3 seconds');
+        console.log('[GPT Search] Requesting GPT prediction from last 10 seconds');
         updateStatus('🤖 GPT is predicting keyword...');
 
         socket.emit('search_request', {
             mode: 'gpt',
-            time_threshold: 3,
+            time_threshold: 10,
             type: state.searchType,
             client_timestamp: spacebarPressTime
         });
@@ -980,6 +1130,12 @@ function clearSession() {
         }
     }
 
+    // Clear SRT interval if running
+    if (state.srtTimeUpdateInterval) {
+        clearInterval(state.srtTimeUpdateInterval);
+        state.srtTimeUpdateInterval = null;
+    }
+
     // Reset audio and video players
     audioPlayer.src = '';
     videoPlayer.src = '';
@@ -1001,6 +1157,10 @@ function clearSession() {
     // Reset state
     state.currentAudioFile = null;
     state.isVideoFile = false;
+    state.srtLoaded = false;
+
+    // Reset SRT button state
+    srtInput.parentElement.classList.remove('active');
 
     socket.emit('clear_session');
 }

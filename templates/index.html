@@ -82,7 +82,7 @@
                     </button>
                     <label for="fileInput" class="btn btn-secondary">
                         <span class="icon">📁</span> Upload File
-                        <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+                        <input type="file" id="fileInput" accept="audio/*,video/*" style="display: none;">
                     </label>
                 </div>
             </div>
@@ -93,9 +93,10 @@
                     <button id="whisperBtn" class="btn btn-info active">
                         <span class="icon">🔊</span> Whisper (Local)
                     </button>
-                    <button id="googleBtn" class="btn btn-info">
-                        <span class="icon">☁️</span> Google STT
-                    </button>
+                    <label for="srtInput" class="btn btn-info">
+                        <span class="icon">📝</span> Load SRT
+                        <input type="file" id="srtInput" accept=".srt" style="display: none;">
+                    </label>
                 </div>
             </div>
 
