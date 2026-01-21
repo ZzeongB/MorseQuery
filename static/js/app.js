@@ -761,6 +761,10 @@ function triggerSearch() {
         return;
     }
 
+    // Log client-side timestamp when spacebar is pressed
+    const spacebarPressTime = new Date().toISOString();
+    console.log(`[TIMING] Spacebar pressed at (client): ${spacebarPressTime}`);
+
     if (state.searchMode === 'instant') {
         // Instant search: use the last word
         if (!state.lastWord) {
@@ -774,7 +778,8 @@ function triggerSearch() {
         socket.emit('search_request', {
             mode: 'instant',
             keyword: state.lastWord,
-            type: state.searchType
+            type: state.searchType,
+            client_timestamp: spacebarPressTime
         });
 
     } else if (state.searchMode === 'recent') {
@@ -785,7 +790,8 @@ function triggerSearch() {
         socket.emit('search_request', {
             mode: 'recent',
             time_threshold: 5,
-            type: state.searchType
+            type: state.searchType,
+            client_timestamp: spacebarPressTime
         });
 
     } else if (state.searchMode === 'gpt') {
@@ -796,7 +802,8 @@ function triggerSearch() {
         socket.emit('search_request', {
             mode: 'gpt',
             time_threshold: 3,
-            type: state.searchType
+            type: state.searchType,
+            client_timestamp: spacebarPressTime
         });
 
     } else {
@@ -806,7 +813,8 @@ function triggerSearch() {
 
         socket.emit('search_request', {
             mode: 'tfidf',
-            type: state.searchType
+            type: state.searchType,
+            client_timestamp: spacebarPressTime
         });
     }
 }

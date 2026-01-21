@@ -3,6 +3,7 @@ import json
 import os
 import tempfile
 import threading
+import warnings
 from datetime import datetime
 
 import nltk
@@ -17,6 +18,9 @@ from google.cloud import speech
 from nltk.stem import WordNetLemmatizer
 from openai import OpenAI
 from pydub import AudioSegment
+
+# Ignore FP16 warning from Whisper
+warnings.filterwarnings("ignore", message="FP16 is not supported on CPU")
 
 load_dotenv()
 
@@ -483,6 +487,23 @@ class TranscriptionSession:
         current_time = datetime.utcnow()
         threshold_time = current_time - timedelta(seconds=time_threshold)
 
+        print(f"\n[GPT DEBUG] Current time: {current_time.isoformat()}")
+        print(
+            f"[GPT DEBUG] Threshold time: {threshold_time.isoformat()} ({time_threshold}s ago)"
+        )
+        print(f"[GPT DEBUG] Total words in session: {len(self.words)}")
+
+        # Show last 10 words with their timestamps
+        print("[GPT DEBUG] Last 10 words with timestamps:")
+        for i in range(max(0, len(self.words) - 10), len(self.words)):
+            word = self.words[i]
+            timestamp = self.word_timestamps[i]
+            time_diff = (current_time - timestamp).total_seconds()
+            in_range = "✓" if timestamp >= threshold_time else "✗"
+            print(
+                f"  {in_range} [{i}] '{word}' at {timestamp.isoformat()} ({time_diff:.2f}s ago)"
+            )
+
         recent_words = []
         for word, timestamp in zip(self.words, self.word_timestamps):
             if timestamp >= threshold_time:
@@ -491,12 +512,13 @@ class TranscriptionSession:
         if not recent_words:
             # Fallback to last word
             print(
-                f"[GPT] No words found in last {time_threshold}s, using last word as fallback"
+                f"[GPT] ⚠️ No words found in last {time_threshold}s, using last word as fallback"
             )
             return self.words[-1] if self.words else ""
 
         context_text = " ".join(recent_words)
-        print(f"\n[GPT] Context ({time_threshold}s): {context_text}")
+        print(f"\n[GPT] ✓ Found {len(recent_words)} words in last {time_threshold}s")
+        print(f"[GPT] Context sent to GPT: '{context_text}'")
 
         # Create GPT prompt (based on test_gpt_prediction.py)
         prompt = (
@@ -548,6 +570,9 @@ User selected: """
 
         try:
             # Call GPT API (using gpt-4o-mini like in test script)
+            gpt_start_time = datetime.utcnow()
+            print(f"[TIMING] GPT API call started at: {gpt_start_time.isoformat()}")
+
             response = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
@@ -555,8 +580,13 @@ User selected: """
                 max_tokens=50,
             )
 
+            gpt_end_time = datetime.utcnow()
+            gpt_duration = (gpt_end_time - gpt_start_time).total_seconds()
+
             raw_response = response.choices[0].message.content.strip()
             print(f"[GPT] Raw response: {raw_response}")
+            print(f"[TIMING] GPT API call completed at: {gpt_end_time.isoformat()}")
+            print(f"[TIMING] GPT API duration: {gpt_duration:.3f}s")
 
             # Parse the response to extract "User selected:" and "Intent:"
             # Expected format: "User selected: keyword\nIntent: intent_type"
@@ -695,16 +725,22 @@ def handle_start_whisper():
     global whisper_model
     if whisper_model is None:
         emit("status", {"message": "Loading Whisper model..."})
-        whisper_model = whisper.load_model("base")
-        emit("status", {"message": "Whisper model loaded"})
+        # Use 'tiny' model for faster processing with lower latency
+        whisper_model = whisper.load_model("tiny")
+        emit("status", {"message": "Whisper model loaded (tiny)"})
     else:
         emit("status", {"message": "Whisper already loaded"})
 
 
 def process_whisper_background(audio_data, file_format, session_id):
     """Background thread for Whisper processing"""
+    from datetime import datetime
+
     global whisper_model
     temp_path = None
+
+    audio_received_time = datetime.utcnow()
+    print(f"[TIMING] Whisper chunk processing started at: {audio_received_time.isoformat()}")
 
     try:
         # Check if audio data is valid
@@ -733,25 +769,39 @@ def process_whisper_background(audio_data, file_format, session_id):
             temp_audio.write(audio_data)
             temp_path = temp_audio.name
 
-        print(f"Processing audio file: {temp_path}, size: {len(audio_data)} bytes")
+        # print(f"Processing audio file: {temp_path}, size: {len(audio_data)} bytes")
 
         # Transcribe with Whisper
         if whisper_model is None:
             socketio.emit(
                 "status", {"message": "Loading Whisper model..."}, room=session_id
             )
-            whisper_model = whisper.load_model("base")
+            whisper_model = whisper.load_model("tiny")
 
         socketio.emit(
             "status", {"message": "Transcribing with Whisper..."}, room=session_id
         )
+
+        transcription_start_time = datetime.utcnow()
+        print(f"[TIMING] Whisper transcription started at: {transcription_start_time.isoformat()}")
+
         result = whisper_model.transcribe(temp_path)
         text = result["text"].strip()
 
-        # print(f"Transcription result: {text}")
+        transcription_end_time = datetime.utcnow()
+        transcription_duration = (transcription_end_time - transcription_start_time).total_seconds()
+        total_duration = (transcription_end_time - audio_received_time).total_seconds()
+
+        print(f"Transcription: {text}")
+        print(f"[TIMING] Whisper transcription completed at: {transcription_end_time.isoformat()}")
+        print(f"[TIMING] Whisper transcription duration: {transcription_duration:.3f}s")
+        print(f"[TIMING] Total Whisper processing time: {total_duration:.3f}s")
 
         if text:
+            word_add_time = datetime.utcnow()
             transcription_sessions[session_id].add_text(text)
+            print(f"[Whisper] ✓ Words added to session at {word_add_time.isoformat()}: '{text}'")
+            print(f"[Whisper] Total words in session now: {len(transcription_sessions[session_id].words)}")
             socketio.emit(
                 "transcription", {"text": text, "source": "whisper"}, room=session_id
             )
@@ -814,7 +864,7 @@ def handle_audio_chunk_whisper(data):
     session_id = request.sid
 
     try:
-        print("\n" + "=" * 50)
+        # print("\n" + "=" * 50)
         print("[Whisper] Received audio chunk request")
         # print(f"Session ID: {session_id}")
 
@@ -854,9 +904,13 @@ def handle_audio_chunk_realtime(data):
     try:
         from datetime import datetime, timedelta
 
+        # Log audio chunk arrival time
+        audio_received_time = datetime.utcnow()
+
         print("\n" + "=" * 50)
         print("[Real-time] Received audio chunk")
         print(f"Session ID: {session_id}")
+        print(f"[TIMING] Audio received at: {audio_received_time.isoformat()}")
 
         # Decode base64 audio data
         audio_data = base64.b64decode(data["audio"])
@@ -926,14 +980,33 @@ def handle_audio_chunk_realtime(data):
                 socketio.emit(
                     "status", {"message": "Loading Whisper model..."}, room=session_id
                 )
-                whisper_model = whisper.load_model("base")
+                whisper_model = whisper.load_model("tiny")
 
             socketio.emit("status", {"message": "Transcribing..."}, room=session_id)
+
+            transcription_start_time = datetime.utcnow()
+            print(
+                f"[TIMING] Transcription started at: {transcription_start_time.isoformat()}"
+            )
 
             try:
                 result = whisper_model.transcribe(audio_np, fp16=False)
                 text = result["text"].strip()
+
+                transcription_end_time = datetime.utcnow()
+                transcription_duration = (
+                    transcription_end_time - transcription_start_time
+                ).total_seconds()
+                total_duration = (
+                    transcription_end_time - audio_received_time
+                ).total_seconds()
+
                 print(f"Transcription: {text}")
+                print(
+                    f"[TIMING] Transcription completed at: {transcription_end_time.isoformat()}"
+                )
+                print(f"[TIMING] Transcription duration: {transcription_duration:.3f}s")
+                print(f"[TIMING] Total processing time: {total_duration:.3f}s")
             except RuntimeError as whisper_error:
                 error_msg = str(whisper_error)
                 if "cannot reshape tensor" in error_msg or "0 elements" in error_msg:
@@ -973,8 +1046,15 @@ def handle_audio_chunk_realtime(data):
             if text:
                 # Update or append transcription (like demo)
                 if phrase_complete or is_final:
+                    word_add_time = datetime.utcnow()
                     session.transcription_lines.append(text)
                     session.add_text(text)
+                    print(
+                        f"[Real-time] ✓ COMPLETE phrase added to session at {word_add_time.isoformat()}: '{text}'"
+                    )
+                    print(
+                        f"[Real-time] Total words in session now: {len(session.words)}"
+                    )
                     socketio.emit(
                         "transcription",
                         {
@@ -986,6 +1066,9 @@ def handle_audio_chunk_realtime(data):
                     )
                 else:
                     session.transcription_lines[-1] = text
+                    print(
+                        f"[Real-time] ⏳ INCOMPLETE phrase (not added to session): '{text}'"
+                    )
                     socketio.emit(
                         "transcription",
                         {
@@ -1081,18 +1164,44 @@ def handle_audio_chunk_google(data):
 @socketio.on("search_request")
 def handle_search_request(data):
     """Handle search request triggered by spacebar"""
+    from datetime import datetime
+
     session_id = request.sid
+    search_request_time = datetime.utcnow()
 
     search_mode = data.get("mode", "gpt")  # 'instant', 'recent', 'important', or 'gpt'
     search_type = data.get("type", "text")  # 'text' or 'image'
+    client_timestamp = data.get(
+        "client_timestamp"
+    )  # Client-side timestamp when spacebar was pressed
 
     print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
+    print(
+        f"[TIMING] Search request received at (server): {search_request_time.isoformat()}"
+    )
+
+    if client_timestamp:
+        # Calculate client-server latency
+        try:
+            client_time = datetime.fromisoformat(
+                client_timestamp.replace("Z", "+00:00")
+            )
+            latency = (search_request_time - client_time).total_seconds()
+            print(f"[TIMING] Client pressed spacebar at: {client_timestamp}")
+            print(f"[TIMING] Client-server latency: {latency:.3f}s")
+        except Exception as e:
+            print(f"[TIMING] Could not parse client timestamp: {e}")
 
     if session_id not in transcription_sessions:
         emit("error", {"message": "No active session"})
         return
 
     # Get keyword based on search mode
+    keyword_extraction_start = datetime.utcnow()
+    print(
+        f"[TIMING] Keyword extraction started at: {keyword_extraction_start.isoformat()}"
+    )
+
     if search_mode == "instant":
         # Use the keyword provided by client (last word)
         keyword = data.get("keyword", "")
@@ -1117,6 +1226,15 @@ def handle_search_request(data):
         # TF-IDF/Important mode: calculate important keyword
         keyword = transcription_sessions[session_id].get_top_keyword()
         print(f"[TF-IDF Search] Calculated keyword: {keyword}")
+
+    keyword_extraction_end = datetime.utcnow()
+    keyword_extraction_duration = (
+        keyword_extraction_end - keyword_extraction_start
+    ).total_seconds()
+    print(
+        f"[TIMING] Keyword extraction completed at: {keyword_extraction_end.isoformat()}"
+    )
+    print(f"[TIMING] Keyword extraction duration: {keyword_extraction_duration:.3f}s")
 
     if not keyword:
         emit("error", {"message": "No keywords available for search"})

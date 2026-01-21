@@ -1,0 +1,5844 @@
+2
+00:00:11,040 --> 00:00:14,337
+NANCY KANWISHER: So seeing
+where animals are going,
+
+3
+00:00:14,337 --> 00:00:16,379
+so you can avoid them if
+they're coming after you
+
+4
+00:00:16,379 --> 00:00:19,020
+or so you can catch them if
+you're going after them, right?
+
+5
+00:00:19,020 --> 00:00:23,160
+One of the arguably
+uniquely human abilities
+
+6
+00:00:23,160 --> 00:00:25,560
+is precision throwing, right?
+
+7
+00:00:25,560 --> 00:00:26,940
+No other animal can do that.
+
+8
+00:00:26,940 --> 00:00:28,740
+That's a very human thing.
+
+9
+00:00:28,740 --> 00:00:31,140
+Although, visual motion is
+shared with lots of ability
+
+10
+00:00:31,140 --> 00:00:33,060
+to see motion is shared
+with lots of animals.
+
+11
+00:00:33,060 --> 00:00:34,770
+What else did you notice?
+
+12
+00:00:34,770 --> 00:00:40,200
+What else seemed funny or harder
+to discern with stop motion?
+
+13
+00:00:40,200 --> 00:00:41,070
+Yeah?
+
+14
+00:00:41,070 --> 00:00:44,370
+AUDIENCE: We care about small
+details like [INAUDIBLE]
+
+15
+00:00:44,370 --> 00:00:47,533
+to understand what
+the person is seeing.
+
+16
+00:00:47,533 --> 00:00:48,450
+NANCY KANWISHER: Yeah.
+
+17
+00:00:48,450 --> 00:00:52,097
+Yeah, so I was
+making notes to self.
+
+18
+00:00:52,097 --> 00:00:53,430
+I haven't done that demo before.
+
+19
+00:00:53,430 --> 00:00:55,347
+But in future, it would
+be really good to have
+
+20
+00:00:55,347 --> 00:00:57,300
+the audio quality terrible.
+
+21
+00:00:57,300 --> 00:00:59,130
+Because if the audio
+quality is terrible,
+
+22
+00:00:59,130 --> 00:01:00,868
+you would lean more
+on lip reading.
+
+23
+00:01:00,868 --> 00:01:02,160
+And we might have noticed more.
+
+24
+00:01:02,160 --> 00:01:04,739
+But it's really hard to
+do that probably even
+
+25
+00:01:04,739 --> 00:01:08,550
+at relatively fast flicker rates
+because that motion information
+
+26
+00:01:08,550 --> 00:01:09,270
+is important.
+
+27
+00:01:09,270 --> 00:01:10,200
+Absolutely.
+
+28
+00:01:10,200 --> 00:01:10,860
+What else?
+
+30
+00:01:17,110 --> 00:01:18,700
+How about beyond
+just lip reading?
+
+31
+00:01:18,700 --> 00:01:21,685
+What else did you notice about
+the faces, mine or Jim's?
+
+33
+00:01:24,712 --> 00:01:25,420
+Could you-- yeah?
+
+34
+00:01:25,420 --> 00:01:26,545
+AUDIENCE: They were static.
+
+35
+00:01:26,545 --> 00:01:28,600
+So it was kind of hard
+to tell like emotion
+
+36
+00:01:28,600 --> 00:01:31,870
+because a lot of the
+ways we express emotion
+
+37
+00:01:31,870 --> 00:01:32,568
+is very nuanced.
+
+38
+00:01:32,568 --> 00:01:33,610
+NANCY KANWISHER: Exactly.
+
+39
+00:01:33,610 --> 00:01:34,480
+Exactly.
+
+40
+00:01:34,480 --> 00:01:36,730
+Facial expressions
+are incredibly subtle.
+
+41
+00:01:36,730 --> 00:01:39,250
+Like little
+microexpressions flicker
+
+42
+00:01:39,250 --> 00:01:41,950
+across the face in a tenth
+of a second and go away,
+
+43
+00:01:41,950 --> 00:01:43,360
+and you guys detect them.
+
+44
+00:01:43,360 --> 00:01:47,230
+Like we're very, very
+sensitive to those things.
+
+45
+00:01:47,230 --> 00:01:52,642
+Sometimes if you see somebody
+in a hallway and, for a moment,
+
+46
+00:01:52,642 --> 00:01:54,850
+there's an expression that
+flickers across their face
+
+47
+00:01:54,850 --> 00:01:56,530
+and then they give
+you a normal smile,
+
+48
+00:01:56,530 --> 00:01:58,090
+but you can tell
+from that expression
+
+49
+00:01:58,090 --> 00:01:59,840
+that actually they
+didn't want to see you,
+
+50
+00:01:59,840 --> 00:02:01,150
+for whatever reason, right?
+
+51
+00:02:01,150 --> 00:02:02,290
+We catch those things.
+
+52
+00:02:02,290 --> 00:02:03,832
+We're really, really
+good at catching
+
+53
+00:02:03,832 --> 00:02:05,560
+those little
+fleeting expressions.
+
+54
+00:02:05,560 --> 00:02:07,900
+And those probably have to
+do with not just sampling
+
+55
+00:02:07,900 --> 00:02:09,940
+with fine temporal frequency
+but probably seeing
+
+56
+00:02:09,940 --> 00:02:12,670
+the direction of motion of
+each little part of the face.
+
+57
+00:02:12,670 --> 00:02:13,480
+OK?
+
+58
+00:02:13,480 --> 00:02:15,940
+OK, so this is just
+common sense reasoning
+
+59
+00:02:15,940 --> 00:02:17,980
+about what we might
+have motion for.
+
+60
+00:02:17,980 --> 00:02:18,610
+OK?
+
+61
+00:02:18,610 --> 00:02:22,090
+And so you guys got all the
+things that I had in mind.
+
+62
+00:02:22,090 --> 00:02:25,840
+OK, so now the next question,
+just kind of thought question,
+
+63
+00:02:25,840 --> 00:02:29,860
+speculation question, given
+these many different things
+
+64
+00:02:29,860 --> 00:02:33,100
+that make motion important
+to us, biologically,
+
+65
+00:02:33,100 --> 00:02:36,310
+ecologically, in
+our daily lives,
+
+66
+00:02:36,310 --> 00:02:38,170
+maybe that's important
+enough that we
+
+67
+00:02:38,170 --> 00:02:42,850
+might allocate special brain
+machinery to processing motion.
+
+68
+00:02:42,850 --> 00:02:44,860
+What do you think?
+
+69
+00:02:44,860 --> 00:02:45,850
+Important enough?
+
+70
+00:02:45,850 --> 00:02:48,550
+Could you get by if you lived
+in a strobe world all the time?
+
+71
+00:02:48,550 --> 00:02:49,930
+Could you survive just fine?
+
+73
+00:02:53,630 --> 00:02:54,577
+Hard to say, right?
+
+74
+00:02:54,577 --> 00:02:55,160
+Might be hard.
+
+75
+00:02:55,160 --> 00:02:58,070
+I mean, we probably don't need
+to go hunting down predators.
+
+76
+00:02:58,070 --> 00:03:00,058
+But you walk across
+Vassar Street.
+
+77
+00:03:00,058 --> 00:03:01,850
+And there's some pretty
+dangerous predators
+
+78
+00:03:01,850 --> 00:03:04,100
+coming down Vassar Street
+in the way of cars, right?
+
+79
+00:03:04,100 --> 00:03:05,690
+You need to know
+where they're going
+
+80
+00:03:05,690 --> 00:03:07,482
+and whether you can
+cross in front of them.
+
+81
+00:03:07,482 --> 00:03:10,285
+So it's actually pretty
+hard to live life
+
+82
+00:03:10,285 --> 00:03:11,660
+without being able
+to see motion.
+
+83
+00:03:11,660 --> 00:03:14,540
+And I'll tell you about a woman
+who has that experience later
+
+84
+00:03:14,540 --> 00:03:16,040
+in the lecture.
+
+85
+00:03:16,040 --> 00:03:19,817
+OK, next question,
+just think about this.
+
+86
+00:03:19,817 --> 00:03:21,650
+I'm not going to test
+you on it or anything.
+
+87
+00:03:21,650 --> 00:03:23,150
+It's not the topic
+of this course.
+
+88
+00:03:23,150 --> 00:03:25,130
+But it's a perspective
+you should take.
+
+89
+00:03:25,130 --> 00:03:28,460
+Imagine that this
+were a CS course
+
+90
+00:03:28,460 --> 00:03:30,770
+and I gave you a
+segment of video.
+
+91
+00:03:30,770 --> 00:03:33,950
+And your task was to
+write some code that
+
+92
+00:03:33,950 --> 00:03:36,770
+takes that video input
+and says whether objects
+
+93
+00:03:36,770 --> 00:03:40,430
+are moving in that movie or
+says which objects are moving
+
+94
+00:03:40,430 --> 00:03:43,010
+or how much they're moving or
+what direction they're moving.
+
+95
+00:03:43,010 --> 00:03:45,290
+What kind of code
+would you have to write
+
+96
+00:03:45,290 --> 00:03:48,740
+to take that video input
+to try to figure that out?
+
+97
+00:03:48,740 --> 00:03:50,148
+OK, so just think about that.
+
+98
+00:03:50,148 --> 00:03:52,190
+We're not going to be
+writing code in this class.
+
+99
+00:03:52,190 --> 00:03:53,898
+But a lot of what
+we're going to be doing
+
+100
+00:03:53,898 --> 00:03:56,330
+is thinking about,
+how do you take
+
+101
+00:03:56,330 --> 00:03:58,610
+this kind of perceptual
+input and come out
+
+102
+00:03:58,610 --> 00:04:00,350
+with that kind of
+perceptual inference?
+
+103
+00:04:00,350 --> 00:04:02,780
+And what kinds of
+computations would
+
+104
+00:04:02,780 --> 00:04:06,380
+have to go on in between whether
+those computations are going on
+
+105
+00:04:06,380 --> 00:04:09,260
+in code that you guys write
+or in a piece of brain that's
+
+106
+00:04:09,260 --> 00:04:10,700
+doing that computation?
+
+107
+00:04:10,700 --> 00:04:13,430
+And thinking about how
+you might write the code
+
+108
+00:04:13,430 --> 00:04:15,080
+gives you really
+important insights
+
+109
+00:04:15,080 --> 00:04:17,209
+about what the brain
+might be doing.
+
+110
+00:04:17,209 --> 00:04:18,200
+OK?
+
+111
+00:04:18,200 --> 00:04:20,610
+All right, so that's the
+point of all of that.
+
+112
+00:04:20,610 --> 00:04:22,600
+The Marr reading talks
+about all of this.
+
+113
+00:04:22,600 --> 00:04:24,350
+And the key point we're
+trying to get here
+
+114
+00:04:24,350 --> 00:04:27,260
+is that you can't
+understand perception
+
+115
+00:04:27,260 --> 00:04:30,290
+without thinking about what
+each perceptual inference is
+
+116
+00:04:30,290 --> 00:04:33,020
+necessary for ecologically
+in daily lives
+
+117
+00:04:33,020 --> 00:04:36,020
+and about the computational
+challenges involved
+
+118
+00:04:36,020 --> 00:04:37,490
+in making that inference.
+
+119
+00:04:37,490 --> 00:04:38,240
+OK?
+
+120
+00:04:38,240 --> 00:04:42,950
+So we'll get back to all
+that next week and beyond.
+
+121
+00:04:42,950 --> 00:04:45,135
+But meanwhile, here's
+the agenda for today.
+
+122
+00:04:45,135 --> 00:04:46,010
+So here's the agenda.
+
+123
+00:04:46,010 --> 00:04:47,090
+We just did the demo.
+
+124
+00:04:47,090 --> 00:04:50,420
+We're now going to skip and do
+some neuroanatomy, absolutely
+
+125
+00:04:50,420 --> 00:04:51,200
+bare basics.
+
+126
+00:04:51,200 --> 00:04:54,650
+Because on Wednesday, we
+have this amazing opportunity
+
+127
+00:04:54,650 --> 00:04:58,730
+to have one of the most famous
+neuroscientists in the world
+
+128
+00:04:58,730 --> 00:05:00,950
+do a dissection of
+a real human brain
+
+129
+00:05:00,950 --> 00:05:02,390
+right here right
+in front of you.
+
+130
+00:05:02,390 --> 00:05:03,920
+It's going to be awesome.
+
+131
+00:05:03,920 --> 00:05:07,640
+And I don't want to
+waste that opportunity
+
+132
+00:05:07,640 --> 00:05:10,520
+or embarrass ourselves
+by having people not
+
+133
+00:05:10,520 --> 00:05:11,468
+know the bare basics.
+
+134
+00:05:11,468 --> 00:05:13,010
+So we're going to
+do the bare basics.
+
+135
+00:05:13,010 --> 00:05:15,537
+It's all stuff you should
+know from 900 and 901.
+
+136
+00:05:15,537 --> 00:05:17,120
+And I'm going to
+whip through it fast,
+
+137
+00:05:17,120 --> 00:05:18,745
+so we can get to more
+interesting stuff
+
+138
+00:05:18,745 --> 00:05:20,180
+and get back to visual motion.
+
+139
+00:05:20,180 --> 00:05:21,140
+OK?
+
+140
+00:05:21,140 --> 00:05:22,910
+That's the agenda.
+
+141
+00:05:22,910 --> 00:05:25,340
+All right, so some
+absolute bare basics
+
+142
+00:05:25,340 --> 00:05:28,910
+of the brain, the human brain
+contains about 100 billion,
+
+143
+00:05:28,910 --> 00:05:30,530
+10 to the 11th neurons.
+
+144
+00:05:30,530 --> 00:05:32,250
+And that's a very big number.
+
+145
+00:05:32,250 --> 00:05:34,850
+That's such a big number it's
+approximately Jeff Bezos'
+
+146
+00:05:34,850 --> 00:05:35,700
+worth.
+
+147
+00:05:35,700 --> 00:05:38,100
+Well, it was until Mackenzie
+got into the picture.
+
+148
+00:05:38,100 --> 00:05:39,088
+So we'll see.
+
+149
+00:05:39,088 --> 00:05:40,880
+No, you don't need to
+remember this number.
+
+150
+00:05:40,880 --> 00:05:43,190
+Just know it's a
+really big number.
+
+151
+00:05:43,190 --> 00:05:45,150
+Basics of a neuron,
+here's a neuron.
+
+152
+00:05:45,150 --> 00:05:47,460
+A neuron is a cell like
+any other cell in the body.
+
+153
+00:05:47,460 --> 00:05:49,520
+It's got a cell body
+and a nucleus, just
+
+154
+00:05:49,520 --> 00:05:50,922
+like any other
+cell in your body.
+
+155
+00:05:50,922 --> 00:05:52,880
+But the thing that's
+distinctive about a neuron
+
+156
+00:05:52,880 --> 00:05:55,483
+is it has a big long
+process called an axon.
+
+157
+00:05:55,483 --> 00:05:57,650
+It's got a bunch of dendrites,
+the little processes,
+
+158
+00:05:57,650 --> 00:06:00,110
+the little thingies
+near the cell body.
+
+159
+00:06:00,110 --> 00:06:04,190
+And out at the tip of the axon,
+that's your classic neuron.
+
+160
+00:06:04,190 --> 00:06:06,740
+Many neurons have
+a myelin sheath,
+
+161
+00:06:06,740 --> 00:06:11,150
+a layer of rolled up fat
+around the axon made up
+
+162
+00:06:11,150 --> 00:06:12,110
+of other cells.
+
+163
+00:06:12,110 --> 00:06:14,952
+That makes the axon conduct
+neural signals faster.
+
+164
+00:06:14,952 --> 00:06:16,160
+OK, you should know all that.
+
+165
+00:06:16,160 --> 00:06:17,955
+I'm not trying to insult
+your intelligence.
+
+166
+00:06:17,955 --> 00:06:20,330
+I'm just trying to make sure
+everybody's with the program
+
+167
+00:06:20,330 --> 00:06:20,870
+here.
+
+168
+00:06:20,870 --> 00:06:24,710
+OK, so you have thousands
+of synapses on each neuron.
+
+169
+00:06:24,710 --> 00:06:28,280
+And that means you have-- to
+put it technically-- a shitload
+
+170
+00:06:28,280 --> 00:06:29,990
+of synapses in your brain.
+
+171
+00:06:29,990 --> 00:06:31,040
+OK?
+
+172
+00:06:31,040 --> 00:06:35,210
+Another important point, the
+brain runs on a mere 20 watts.
+
+173
+00:06:35,210 --> 00:06:38,570
+And if you're not impressed
+with that, reflect on the fact
+
+174
+00:06:38,570 --> 00:06:41,930
+that IBM's Watson
+runs on 20,000 watts.
+
+175
+00:06:41,930 --> 00:06:44,240
+So one of the cool things
+about the human brain
+
+176
+00:06:44,240 --> 00:06:45,800
+is not just all
+the awesome stuff
+
+177
+00:06:45,800 --> 00:06:48,080
+that we can do that
+still no computer can do,
+
+178
+00:06:48,080 --> 00:06:50,090
+that I talked about
+last time, but also
+
+179
+00:06:50,090 --> 00:06:52,730
+how incredibly
+energetically efficiently
+
+180
+00:06:52,730 --> 00:06:55,550
+we do it with our human brains.
+
+181
+00:06:55,550 --> 00:06:58,400
+So most of this course is
+going to talk about the cortex.
+
+182
+00:06:58,400 --> 00:07:00,450
+That's all the stuff on
+the outside of the brain.
+
+183
+00:07:00,450 --> 00:07:01,825
+That's that sheet
+wrapping around
+
+184
+00:07:01,825 --> 00:07:06,200
+the outside of the brain,
+that folded outer surface.
+
+185
+00:07:06,200 --> 00:07:12,290
+It's approximately the size
+and area of a large pizza.
+
+186
+00:07:12,290 --> 00:07:14,780
+But there are lots of
+other important bits too.
+
+187
+00:07:14,780 --> 00:07:16,430
+And I'm going to just
+do whirlwind tour
+
+188
+00:07:16,430 --> 00:07:18,625
+of those other bits now.
+
+189
+00:07:18,625 --> 00:07:20,000
+OK, so you can
+think of the brain
+
+190
+00:07:20,000 --> 00:07:22,988
+as composed of four major
+kinds of components.
+
+191
+00:07:22,988 --> 00:07:24,530
+Deep down in the
+bottom of the brain,
+
+192
+00:07:24,530 --> 00:07:27,447
+you have the brain stem, where
+the spinal cord comes in here.
+
+193
+00:07:27,447 --> 00:07:29,030
+And the rest of the
+brain is up there.
+
+194
+00:07:29,030 --> 00:07:30,780
+And the brain stem
+is right down here.
+
+195
+00:07:30,780 --> 00:07:33,500
+And the cerebellum, this
+little cauliflower like thing
+
+196
+00:07:33,500 --> 00:07:36,470
+that sits out right back there.
+
+197
+00:07:36,470 --> 00:07:39,080
+And in the middle
+of the brain, you
+
+198
+00:07:39,080 --> 00:07:40,790
+have the limbic system
+with a whole bunch
+
+199
+00:07:40,790 --> 00:07:41,810
+of subcortical regions.
+
+200
+00:07:41,810 --> 00:07:44,940
+And we'll talk about a
+few of those in a moment.
+
+201
+00:07:44,940 --> 00:07:48,710
+And you have white matter,
+all the cables and connections
+
+202
+00:07:48,710 --> 00:07:51,020
+that go from one part of
+the brain to another part.
+
+203
+00:07:51,020 --> 00:07:53,610
+This is an actual
+dissected human brain.
+
+204
+00:07:53,610 --> 00:07:55,830
+And all those kind of
+weird fibrous things
+
+205
+00:07:55,830 --> 00:07:59,640
+are bundles of axons connecting
+remote parts of the brain
+
+206
+00:07:59,640 --> 00:08:00,460
+to each other.
+
+207
+00:08:00,460 --> 00:08:03,040
+You can see them in
+gross dissection.
+
+208
+00:08:03,040 --> 00:08:04,710
+OK?
+
+209
+00:08:04,710 --> 00:08:06,310
+And of course, you
+have the cortex.
+
+210
+00:08:06,310 --> 00:08:09,125
+OK, so these are just four
+major things to think about.
+
+211
+00:08:09,125 --> 00:08:11,250
+And before we spend the
+rest of the course on that,
+
+212
+00:08:11,250 --> 00:08:13,050
+we're going to do just
+a teeny little bit
+
+213
+00:08:13,050 --> 00:08:15,300
+on the other major bits.
+
+214
+00:08:15,300 --> 00:08:16,570
+OK, and I'm going fast.
+
+215
+00:08:16,570 --> 00:08:19,050
+So just stop me if any
+of this isn't clear.
+
+216
+00:08:19,050 --> 00:08:21,960
+All right, so the reason
+we're doing this in part
+
+217
+00:08:21,960 --> 00:08:24,390
+is that, with a
+dissection of a brain,
+
+218
+00:08:24,390 --> 00:08:26,520
+some of the main
+things you see are
+
+219
+00:08:26,520 --> 00:08:28,320
+those subcortical
+structures, right?
+
+220
+00:08:28,320 --> 00:08:31,620
+And so even though the course
+is going to focus on the cortex,
+
+221
+00:08:31,620 --> 00:08:34,110
+each little different bit of
+the cortex to the naked eye
+
+222
+00:08:34,110 --> 00:08:35,940
+looks like any other
+bit of the cortex.
+
+223
+00:08:35,940 --> 00:08:38,940
+It's the subcortical stuff
+that looks different, right?
+
+224
+00:08:38,940 --> 00:08:40,830
+So that's why we're doing this.
+
+225
+00:08:40,830 --> 00:08:43,500
+OK, bare basics
+on the brain stem,
+
+226
+00:08:43,500 --> 00:08:45,480
+you can think of it
+as a bunch of relays
+
+227
+00:08:45,480 --> 00:08:49,410
+in here, different centers that
+connect information coming up
+
+228
+00:08:49,410 --> 00:08:53,590
+from the spinal cord and send
+it through into the cerebellum.
+
+229
+00:08:53,590 --> 00:08:57,060
+So it's, in many ways, the most
+primitive part of the brain.
+
+230
+00:08:57,060 --> 00:08:59,340
+That means it's
+shared with animals
+
+231
+00:08:59,340 --> 00:09:00,930
+that branched off
+from us very far
+
+232
+00:09:00,930 --> 00:09:03,540
+back in mammalian evolution.
+
+233
+00:09:03,540 --> 00:09:05,740
+But it's also essential to life.
+
+234
+00:09:05,740 --> 00:09:06,240
+OK?
+
+235
+00:09:06,240 --> 00:09:09,582
+So you can get by with
+most of your cortex gone.
+
+236
+00:09:09,582 --> 00:09:11,040
+Like you may not
+have a lot of fun.
+
+237
+00:09:11,040 --> 00:09:12,707
+You may not really
+know what's going on.
+
+238
+00:09:12,707 --> 00:09:14,100
+But you will stay alive.
+
+239
+00:09:14,100 --> 00:09:16,890
+But you can't get by without
+your brain stem, right?
+
+240
+00:09:16,890 --> 00:09:20,850
+It controls all kinds of basic
+crucial bodily functions,
+
+241
+00:09:20,850 --> 00:09:24,390
+like breathing, consciousness,
+temperature regulation,
+
+242
+00:09:24,390 --> 00:09:24,930
+et cetera.
+
+243
+00:09:24,930 --> 00:09:27,660
+So it's not interesting
+cognitively.
+
+244
+00:09:27,660 --> 00:09:30,420
+But it's crucial for life.
+
+245
+00:09:30,420 --> 00:09:33,810
+Cerebellum, this
+beautiful thing here,
+
+246
+00:09:33,810 --> 00:09:37,380
+it's basically involved
+in motor coordination.
+
+247
+00:09:37,380 --> 00:09:39,450
+But from there on out,
+there's a huge debate
+
+248
+00:09:39,450 --> 00:09:41,380
+about its possible
+role in cognition.
+
+249
+00:09:41,380 --> 00:09:43,440
+And so there's lots of
+brain-imaging studies
+
+250
+00:09:43,440 --> 00:09:46,140
+where people find that
+the cerebellum is engaged
+
+251
+00:09:46,140 --> 00:09:48,210
+in all kinds of
+things from aspects
+
+252
+00:09:48,210 --> 00:09:51,120
+of perception up through aspects
+of language understanding.
+
+253
+00:09:51,120 --> 00:09:55,290
+You can find activations
+in brain-imaging studies.
+
+254
+00:09:55,290 --> 00:09:57,930
+Nonetheless, the best
+guess is that you actually
+
+255
+00:09:57,930 --> 00:10:01,510
+don't need a cerebellum
+for any of this.
+
+256
+00:10:01,510 --> 00:10:03,133
+So if anybody's
+interested, I'm going
+
+257
+00:10:03,133 --> 00:10:04,800
+to actually try to
+remember to put it up
+
+258
+00:10:04,800 --> 00:10:06,258
+as an optional
+reading on the site.
+
+259
+00:10:06,258 --> 00:10:08,550
+There's a recent
+article in The Atlantic
+
+260
+00:10:08,550 --> 00:10:11,910
+or The New Yorker about a
+kid who had no cerebellum.
+
+261
+00:10:11,910 --> 00:10:15,330
+And he learned to
+walk late and slow.
+
+262
+00:10:15,330 --> 00:10:16,707
+Nobody knew what
+his problem was.
+
+263
+00:10:16,707 --> 00:10:18,540
+But he learned to do
+pretty much everything.
+
+264
+00:10:18,540 --> 00:10:20,070
+Like he's pretty much fine.
+
+265
+00:10:20,070 --> 00:10:22,480
+His motor coordination
+isn't great, but he's fine.
+
+266
+00:10:22,480 --> 00:10:23,100
+Yeah?
+
+267
+00:10:23,100 --> 00:10:25,100
+AUDIENCE: How would you
+define the consciousness
+
+268
+00:10:25,100 --> 00:10:25,890
+in this context?
+
+269
+00:10:25,890 --> 00:10:27,060
+NANCY KANWISHER: Oh,
+that's a good question.
+
+270
+00:10:27,060 --> 00:10:28,343
+And it's a big question.
+
+271
+00:10:28,343 --> 00:10:30,510
+And it's a question that
+nobody knows how to answer,
+
+272
+00:10:30,510 --> 00:10:31,540
+not just me.
+
+273
+00:10:31,540 --> 00:10:34,410
+So Christof Koch,
+who does more work
+
+274
+00:10:34,410 --> 00:10:35,910
+on the neural basis
+of consciousness
+
+275
+00:10:35,910 --> 00:10:37,590
+than just about
+anybody, has been
+
+276
+00:10:37,590 --> 00:10:40,090
+going around saying,
+for about 15 years,
+
+277
+00:10:40,090 --> 00:10:42,485
+we must not get stuck on
+a premature definition
+
+278
+00:10:42,485 --> 00:10:43,860
+of consciousness
+because we don't
+
+279
+00:10:43,860 --> 00:10:46,193
+know what that thing is that
+we're trying to understand.
+
+280
+00:10:46,193 --> 00:10:50,360
+So I'll hide behind Christof's
+parry of that question
+
+281
+00:10:50,360 --> 00:10:52,360
+and say we'll talk about
+it later in the course.
+
+282
+00:10:52,360 --> 00:10:54,960
+But there are many
+different ways
+
+283
+00:10:54,960 --> 00:10:57,840
+of defining it from the
+difference between being awake
+
+284
+00:10:57,840 --> 00:11:00,240
+versus asleep, which is
+some of the functions that
+
+285
+00:11:00,240 --> 00:11:04,500
+go on here, the difference
+between being knocked out
+
+286
+00:11:04,500 --> 00:11:06,678
+and completely unconscious
+under general anesthesia,
+
+287
+00:11:06,678 --> 00:11:08,220
+which is different
+from being asleep.
+
+288
+00:11:08,220 --> 00:11:10,020
+Those kind of states
+of consciousness
+
+289
+00:11:10,020 --> 00:11:13,980
+are regulated, in
+part, in here, yeah.
+
+290
+00:11:13,980 --> 00:11:16,380
+OK, so you can get by
+without a cerebellum.
+
+291
+00:11:16,380 --> 00:11:19,260
+But it's not recommended.
+
+292
+00:11:19,260 --> 00:11:23,310
+Moving right along, all
+those subcortical bits, we're
+
+293
+00:11:23,310 --> 00:11:25,830
+just going to talk about three
+of the most important ones,
+
+294
+00:11:25,830 --> 00:11:28,350
+the thalamus, this
+big guy right smack
+
+295
+00:11:28,350 --> 00:11:31,290
+in the middle of the brain,
+very large structure,
+
+296
+00:11:31,290 --> 00:11:33,690
+the hippocampus,
+and the amygdala.
+
+297
+00:11:33,690 --> 00:11:35,670
+OK, let's talk
+about the thalamus.
+
+298
+00:11:35,670 --> 00:11:37,680
+Think about the thalamus
+as a Grand Central
+
+299
+00:11:37,680 --> 00:11:41,040
+Station of the brain, OK,
+with all of these connections
+
+300
+00:11:41,040 --> 00:11:42,960
+going to all those
+parts of cortex
+
+301
+00:11:42,960 --> 00:11:45,910
+coming in and out of
+the thalamus like that.
+
+302
+00:11:45,910 --> 00:11:46,980
+OK?
+
+303
+00:11:46,980 --> 00:11:50,460
+So one of the key things
+about the thalamus
+
+304
+00:11:50,460 --> 00:11:53,640
+is that most of the
+incoming sensory information
+
+305
+00:11:53,640 --> 00:11:57,570
+goes by way of the thalamus
+en route to the cortex.
+
+306
+00:11:57,570 --> 00:11:58,110
+OK?
+
+307
+00:11:58,110 --> 00:12:00,780
+So if you start with
+your ear, there's
+
+308
+00:12:00,780 --> 00:12:02,700
+sensory endings in
+your ear that we'll
+
+309
+00:12:02,700 --> 00:12:04,290
+talk about later in the term.
+
+310
+00:12:04,290 --> 00:12:07,380
+And they send neurons into
+this, the thalamus here,
+
+311
+00:12:07,380 --> 00:12:09,935
+this yellow thing, through
+a bunch of different stages.
+
+312
+00:12:09,935 --> 00:12:11,310
+They make a stop
+in the thalamus.
+
+313
+00:12:11,310 --> 00:12:13,440
+And then they come up
+here to this green patch,
+
+314
+00:12:13,440 --> 00:12:15,480
+which is auditory cortex.
+
+315
+00:12:15,480 --> 00:12:16,620
+OK?
+
+316
+00:12:16,620 --> 00:12:20,520
+Similarly,
+somatosensory endings,
+
+317
+00:12:20,520 --> 00:12:22,560
+touch sensors in
+your skin that enable
+
+318
+00:12:22,560 --> 00:12:25,380
+you to feel when
+you're being touched
+
+319
+00:12:25,380 --> 00:12:27,750
+come in through the skin.
+
+320
+00:12:27,750 --> 00:12:30,150
+And they make a stop
+in the thalamus.
+
+321
+00:12:30,150 --> 00:12:34,140
+And then they go up to
+somatosensory cortex up there.
+
+322
+00:12:34,140 --> 00:12:35,580
+OK?
+
+323
+00:12:35,580 --> 00:12:40,290
+Similarly, visual signals
+that come in from your eyes
+
+324
+00:12:40,290 --> 00:12:45,510
+make a stop in the thalamus and
+then go up to visual cortex.
+
+325
+00:12:45,510 --> 00:12:48,270
+OK, what's the name of the
+structure in the thalamus
+
+326
+00:12:48,270 --> 00:12:50,478
+that those axons
+make a synapse in?
+
+327
+00:12:50,478 --> 00:12:52,520
+Coming up from the eyes,
+you make a synapse here.
+
+328
+00:12:52,520 --> 00:12:54,620
+And you go up to visual cortex.
+
+329
+00:12:54,620 --> 00:12:55,470
+AUDIENCE: LGN.
+
+330
+00:12:55,470 --> 00:12:56,720
+NANCY KANWISHER: LGN, perfect.
+
+331
+00:12:56,720 --> 00:12:57,470
+What does it stand for?
+
+332
+00:12:57,470 --> 00:12:58,740
+AUDIENCE: Lateral
+geniculate nucleus.
+
+333
+00:12:58,740 --> 00:12:59,220
+NANCY KANWISHER: Perfect.
+
+334
+00:12:59,220 --> 00:13:00,450
+OK, you should know that.
+
+335
+00:13:00,450 --> 00:13:03,930
+This is review from 900, 901.
+
+336
+00:13:03,930 --> 00:13:06,580
+OK, yes?
+
+337
+00:13:06,580 --> 00:13:07,080
+Sorry.
+
+338
+00:13:07,080 --> 00:13:12,150
+OK, which sensory modality does
+not go through the thalamus
+
+339
+00:13:12,150 --> 00:13:14,370
+en route to cortex
+between the sensory nerve
+
+340
+00:13:14,370 --> 00:13:17,450
+endings and the cortex?
+
+341
+00:13:17,450 --> 00:13:17,950
+Sorry?
+
+342
+00:13:17,950 --> 00:13:18,730
+AUDIENCE: Olfactory.
+
+343
+00:13:18,730 --> 00:13:19,570
+NANCY KANWISHER: Yes.
+
+344
+00:13:19,570 --> 00:13:20,080
+Yes.
+
+345
+00:13:20,080 --> 00:13:21,122
+You guys are on the ball.
+
+346
+00:13:21,122 --> 00:13:23,830
+Yes, olfactory system is
+the one sensory modality
+
+347
+00:13:23,830 --> 00:13:26,090
+that doesn't make a
+stop in the cortex.
+
+348
+00:13:26,090 --> 00:13:27,340
+You can sort of see that here.
+
+349
+00:13:27,340 --> 00:13:31,240
+From the nose, it goes straight
+up into olfactory cortex
+
+350
+00:13:31,240 --> 00:13:33,280
+right there.
+
+351
+00:13:33,280 --> 00:13:36,670
+All right, so that's
+the standard view
+
+352
+00:13:36,670 --> 00:13:38,890
+of the thalamus is this
+kind of like relay station
+
+353
+00:13:38,890 --> 00:13:41,680
+where all the external sensory
+information comes in there,
+
+354
+00:13:41,680 --> 00:13:43,810
+makes a stop, and then
+goes up to cortex.
+
+355
+00:13:43,810 --> 00:13:44,710
+OK?
+
+356
+00:13:44,710 --> 00:13:46,400
+That's my thalamus act.
+
+357
+00:13:46,400 --> 00:13:46,900
+Boom.
+
+358
+00:13:46,900 --> 00:13:47,620
+Like that, right?
+
+359
+00:13:47,620 --> 00:13:48,520
+OK.
+
+360
+00:13:48,520 --> 00:13:51,790
+But, increasingly,
+there's evidence
+
+361
+00:13:51,790 --> 00:13:54,280
+that the thalamus is much
+more than a relay station.
+
+362
+00:13:54,280 --> 00:13:56,380
+And why would you bother
+with a relay anyway?
+
+363
+00:13:56,380 --> 00:13:57,340
+Kind of doesn't mean anything.
+
+364
+00:13:57,340 --> 00:13:58,360
+Kind of means like
+we don't know what's
+
+365
+00:13:58,360 --> 00:14:00,220
+going on here because
+you wouldn't just make
+
+366
+00:14:00,220 --> 00:14:02,970
+a synapse for no reason, right?
+
+367
+00:14:02,970 --> 00:14:05,098
+OK, and so the
+first thing to note,
+
+368
+00:14:05,098 --> 00:14:06,640
+is there are lots
+of connections that
+
+369
+00:14:06,640 --> 00:14:08,420
+go back down the other way?
+
+370
+00:14:08,420 --> 00:14:10,720
+There are 10 times
+as many connections
+
+371
+00:14:10,720 --> 00:14:12,880
+that go from primary
+visual cortex
+
+372
+00:14:12,880 --> 00:14:15,610
+right here in me, right
+here in this guy in red,
+
+373
+00:14:15,610 --> 00:14:19,360
+there are 10 times as many
+that go backwards down
+
+374
+00:14:19,360 --> 00:14:23,680
+to the thalamus as go forwards.
+
+375
+00:14:23,680 --> 00:14:25,210
+That's mind blowing, right?
+
+376
+00:14:25,210 --> 00:14:27,580
+Information comes from the
+eyes up into the brain.
+
+377
+00:14:27,580 --> 00:14:30,493
+What the hell are those things
+doing going backwards, OK?
+
+378
+00:14:30,493 --> 00:14:32,660
+Well, they're doing all
+kinds of interesting things.
+
+379
+00:14:32,660 --> 00:14:35,118
+So that's the first indication
+that the thalamus isn't just
+
+380
+00:14:35,118 --> 00:14:39,080
+relaying stuff in a
+stupid, passive way.
+
+381
+00:14:39,080 --> 00:14:40,630
+And the second
+whole line of work,
+
+382
+00:14:40,630 --> 00:14:42,160
+which many people
+are working on,
+
+383
+00:14:42,160 --> 00:14:45,040
+but I think some of the most
+awesome work on this topic
+
+384
+00:14:45,040 --> 00:14:48,430
+is done by our own Mike
+Halassa in this department.
+
+385
+00:14:48,430 --> 00:14:50,290
+And he does these
+incredible studies
+
+386
+00:14:50,290 --> 00:14:53,200
+that you can do in mice with
+these spectacular methods
+
+387
+00:14:53,200 --> 00:14:56,530
+that we can't use in humans,
+where he can really take apart
+
+388
+00:14:56,530 --> 00:14:59,020
+the circuit and
+magnificent detail.
+
+389
+00:14:59,020 --> 00:15:00,610
+And he's showing
+that the thalamus
+
+390
+00:15:00,610 --> 00:15:04,180
+is involved in all kinds
+of high-level cognitive
+
+391
+00:15:04,180 --> 00:15:05,920
+computations in mice.
+
+392
+00:15:05,920 --> 00:15:07,150
+It's really stunning work.
+
+393
+00:15:07,150 --> 00:15:09,820
+When the mice have to switch
+from doing one task to another,
+
+394
+00:15:09,820 --> 00:15:14,170
+the thalamus plays a key role in
+gating the flow of information
+
+395
+00:15:14,170 --> 00:15:18,040
+from one cortical
+region to another, OK?
+
+396
+00:15:18,040 --> 00:15:20,650
+All right, moving along,
+the hippocampus, I you
+
+397
+00:15:20,650 --> 00:15:21,820
+guys all learned about this.
+
+398
+00:15:21,820 --> 00:15:23,560
+The number one gripe
+in this department
+
+399
+00:15:23,560 --> 00:15:25,690
+as we learn about
+H.M. in every course.
+
+400
+00:15:25,690 --> 00:15:26,990
+So that's going to happen here.
+
+401
+00:15:26,990 --> 00:15:28,720
+But it's going to
+last about 20 seconds.
+
+402
+00:15:28,720 --> 00:15:29,770
+So here goes.
+
+403
+00:15:29,770 --> 00:15:32,207
+That's a normal slice
+of the brain like this.
+
+404
+00:15:32,207 --> 00:15:33,790
+Here's the hippocampus
+on either side.
+
+405
+00:15:33,790 --> 00:15:37,660
+It's like a whole curled up deal
+right there and right there.
+
+406
+00:15:37,660 --> 00:15:41,080
+And here is H.M.'s brain,
+the famous H.M., who
+
+407
+00:15:41,080 --> 00:15:44,110
+had surgery to remove his
+hippocampus on both sides,
+
+408
+00:15:44,110 --> 00:15:47,950
+and completely lost his episodic
+memory for anything that
+
+409
+00:15:47,950 --> 00:15:49,730
+happened after his surgery.
+
+410
+00:15:49,730 --> 00:15:50,230
+OK?
+
+411
+00:15:50,230 --> 00:15:53,440
+You all remember that, right?
+
+412
+00:15:53,440 --> 00:15:55,570
+If anybody hasn't heard
+of H.M., send me an email.
+
+413
+00:15:55,570 --> 00:15:57,580
+And I'll give you some
+background reading.
+
+414
+00:15:57,580 --> 00:16:00,870
+OK, so very loosely,
+the hippocampus
+
+415
+00:16:00,870 --> 00:16:03,910
+involved both in this kind
+of long-term episodic memory
+
+416
+00:16:03,910 --> 00:16:05,200
+that H.M. lost.
+
+417
+00:16:05,200 --> 00:16:08,050
+And it also plays a
+key role in navigation,
+
+418
+00:16:08,050 --> 00:16:12,230
+which we'll talk about in
+great detail in a few weeks.
+
+419
+00:16:12,230 --> 00:16:14,200
+And I just want to say
+that some cases are
+
+420
+00:16:14,200 --> 00:16:16,960
+even more extreme than H.M.
+
+421
+00:16:16,960 --> 00:16:19,490
+So there's a case of
+Lonni Sue Johnson.
+
+422
+00:16:19,490 --> 00:16:21,340
+And I am trying to
+get you guys a video.
+
+423
+00:16:21,340 --> 00:16:22,550
+And I didn't get it in time.
+
+424
+00:16:22,550 --> 00:16:25,175
+But I'll show it to you later in
+the term if you're interested.
+
+425
+00:16:25,175 --> 00:16:28,000
+Lonni Sue Johnson
+had a viral infection
+
+426
+00:16:28,000 --> 00:16:29,600
+that went up into her brain.
+
+427
+00:16:29,600 --> 00:16:32,080
+She was an extremely
+accomplished person.
+
+428
+00:16:32,080 --> 00:16:34,510
+She did illustrations on
+the cover of The New Yorker.
+
+429
+00:16:34,510 --> 00:16:35,440
+She was a pilot.
+
+430
+00:16:35,440 --> 00:16:37,900
+She had her own
+farm in which she
+
+431
+00:16:37,900 --> 00:16:42,430
+raised lots of stuff, a
+very smart, interesting,
+
+432
+00:16:42,430 --> 00:16:46,360
+multitalented woman, who
+had this terrible tragedy
+
+433
+00:16:46,360 --> 00:16:49,240
+of getting viral
+encephalitis at I
+
+434
+00:16:49,240 --> 00:16:51,130
+don't know what
+age, but middle age.
+
+435
+00:16:51,130 --> 00:16:56,440
+And she now does not remember
+a single event in her life.
+
+436
+00:16:56,440 --> 00:16:57,550
+She's smart.
+
+437
+00:16:57,550 --> 00:16:58,720
+She's funny.
+
+438
+00:16:58,720 --> 00:17:01,330
+Her personality
+is totally intact.
+
+439
+00:17:01,330 --> 00:17:02,920
+She can answer questions.
+
+440
+00:17:02,920 --> 00:17:03,580
+She can paint.
+
+441
+00:17:03,580 --> 00:17:05,270
+She can do all kinds of things.
+
+442
+00:17:05,270 --> 00:17:08,440
+But she does not remember
+a single event in her life.
+
+443
+00:17:08,440 --> 00:17:10,180
+That's pretty astonishing.
+
+444
+00:17:10,180 --> 00:17:13,359
+Reflect on what it means
+to have the sense of self
+
+445
+00:17:13,359 --> 00:17:15,310
+if you don't remember
+anything in your life.
+
+446
+00:17:15,310 --> 00:17:15,810
+Yeah?
+
+447
+00:17:15,810 --> 00:17:17,780
+AUDIENCE: Can she
+remember her name?
+
+448
+00:17:17,780 --> 00:17:18,710
+NANCY KANWISHER:
+That's a good question.
+
+449
+00:17:18,710 --> 00:17:19,420
+I'm not sure she.
+
+450
+00:17:19,420 --> 00:17:20,980
+Might know her-- yes,
+she does know her name.
+
+451
+00:17:20,980 --> 00:17:22,720
+Actually, it is
+evident in this video.
+
+452
+00:17:22,720 --> 00:17:25,270
+But the video, well, so
+she doesn't remember.
+
+453
+00:17:25,270 --> 00:17:27,069
+At one point in this
+video, she's asked,
+
+454
+00:17:27,069 --> 00:17:29,170
+were you ever married?
+
+455
+00:17:29,170 --> 00:17:32,890
+And she's lovely and sweet and
+gentle and kind of low key.
+
+456
+00:17:32,890 --> 00:17:35,200
+And she's like, you know,
+just don't remember.
+
+457
+00:17:35,200 --> 00:17:36,040
+I might have been.
+
+458
+00:17:36,040 --> 00:17:37,210
+I might have been.
+
+459
+00:17:37,210 --> 00:17:39,590
+She was married for 10 years.
+
+460
+00:17:39,590 --> 00:17:41,590
+So that's the hippocampus.
+
+461
+00:17:41,590 --> 00:17:42,170
+Important.
+
+462
+00:17:42,170 --> 00:17:43,503
+You don't want to lose that one.
+
+463
+00:17:43,503 --> 00:17:44,590
+Yeah?
+
+464
+00:17:44,590 --> 00:17:47,170
+AUDIENCE: About H.M.,
+if the hippocampus
+
+465
+00:17:47,170 --> 00:17:50,590
+is used in long-term memory,
+why is it that it being removed
+
+466
+00:17:50,590 --> 00:17:54,267
+caused him to not form memories?
+
+467
+00:17:54,267 --> 00:17:56,350
+NANCY KANWISHER: Well, so
+long-term memory means--
+
+468
+00:17:56,350 --> 00:17:57,880
+it's a vague term.
+
+469
+00:17:57,880 --> 00:18:00,550
+It means the formation
+and retrieval
+
+470
+00:18:00,550 --> 00:18:02,780
+of memories that are
+going to last a long time.
+
+471
+00:18:02,780 --> 00:18:05,320
+So in H.M.'s case, he can
+access a lot of the memories
+
+472
+00:18:05,320 --> 00:18:07,030
+from before his injury.
+
+473
+00:18:07,030 --> 00:18:10,060
+In Lonni Sue's case,
+she can't do even that.
+
+474
+00:18:10,060 --> 00:18:11,860
+OK?
+
+475
+00:18:11,860 --> 00:18:16,300
+All right, the
+amygdala, OK, amygdala
+
+476
+00:18:16,300 --> 00:18:18,520
+is a Greek word
+that means almond.
+
+477
+00:18:18,520 --> 00:18:22,330
+Because the amygdala is the
+size and shape of an almond.
+
+478
+00:18:22,330 --> 00:18:26,170
+And so just for fun, we're
+passing around some almonds,
+
+479
+00:18:26,170 --> 00:18:28,360
+my favorite kind.
+
+480
+00:18:28,360 --> 00:18:30,070
+Have some almonds
+and pass them around.
+
+481
+00:18:30,070 --> 00:18:35,080
+All right, OK, so
+the amygdala is
+
+482
+00:18:35,080 --> 00:18:38,500
+involved in experiencing
+and recognizing emotions,
+
+483
+00:18:38,500 --> 00:18:40,000
+especially fear.
+
+484
+00:18:40,000 --> 00:18:42,460
+The simple statement that you
+should remember about what
+
+485
+00:18:42,460 --> 00:18:46,090
+the amygdala does is just
+remember the four F's.
+
+486
+00:18:46,090 --> 00:18:49,870
+You guys all know about the
+four F's, fighting, fleeing,
+
+487
+00:18:49,870 --> 00:18:51,040
+feeding, and mating.
+
+489
+00:18:53,890 --> 00:18:59,080
+OK, patient SM lost her
+amygdala on both sides.
+
+490
+00:18:59,080 --> 00:18:59,980
+OK?
+
+491
+00:18:59,980 --> 00:19:02,590
+She cannot experience fear.
+
+492
+00:19:02,590 --> 00:19:05,290
+She doesn't recognize
+fear on facial expressions
+
+493
+00:19:05,290 --> 00:19:06,500
+of other people.
+
+494
+00:19:06,500 --> 00:19:09,340
+And she doesn't
+experience fear herself.
+
+495
+00:19:09,340 --> 00:19:10,150
+OK?
+
+496
+00:19:10,150 --> 00:19:13,780
+And so that's the
+striking piece of evidence
+
+497
+00:19:13,780 --> 00:19:15,280
+on what the amygdala does.
+
+498
+00:19:15,280 --> 00:19:18,790
+Her face recognition is
+normal, recognizing identities.
+
+499
+00:19:18,790 --> 00:19:20,540
+Her IQ is normal.
+
+500
+00:19:20,540 --> 00:19:23,710
+She's overly trusting
+of other people.
+
+501
+00:19:23,710 --> 00:19:26,013
+OK?
+
+502
+00:19:26,013 --> 00:19:27,430
+OK, so that's all
+you need to know
+
+503
+00:19:27,430 --> 00:19:29,950
+about the amygdala for now.
+
+504
+00:19:29,950 --> 00:19:33,160
+OK, let's talk about white
+matter, just brief review.
+
+505
+00:19:33,160 --> 00:19:36,280
+Here's a kind of tunnel
+through a piece of cortex.
+
+506
+00:19:36,280 --> 00:19:38,650
+OK, so my brain cortex is
+wrapping around like that.
+
+507
+00:19:38,650 --> 00:19:41,560
+If we took a piece like
+this, just took a segment out
+
+508
+00:19:41,560 --> 00:19:43,840
+like that, this is the
+outside of the brain up there.
+
+509
+00:19:43,840 --> 00:19:45,610
+Cortex runs like this.
+
+510
+00:19:45,610 --> 00:19:48,340
+And gray matter is the
+stuff on the outer surface
+
+511
+00:19:48,340 --> 00:19:51,430
+that's full of cell bodies, OK?
+
+512
+00:19:51,430 --> 00:19:54,580
+White matter are the
+axons, the processes
+
+513
+00:19:54,580 --> 00:19:56,200
+that come out of
+those cell bodies
+
+514
+00:19:56,200 --> 00:19:58,610
+and travel elsewhere
+in the brain.
+
+515
+00:19:58,610 --> 00:19:59,110
+OK?
+
+516
+00:19:59,110 --> 00:20:00,490
+Everybody clear on that?
+
+517
+00:20:00,490 --> 00:20:02,860
+OK, so we got gray matter up
+here and white matter down
+
+518
+00:20:02,860 --> 00:20:06,370
+there, mostly myelinated axons
+that have that layer of fat
+
+519
+00:20:06,370 --> 00:20:09,010
+to make them conduct fast.
+
+520
+00:20:09,010 --> 00:20:13,220
+And so you'll see bundles of
+white matter in the dissection.
+
+521
+00:20:13,220 --> 00:20:15,790
+And so here's an
+actual photograph
+
+522
+00:20:15,790 --> 00:20:17,050
+of the slice through a brain.
+
+523
+00:20:17,050 --> 00:20:19,960
+So all that white stuff
+up there is white matter.
+
+524
+00:20:19,960 --> 00:20:22,240
+OK, and so you might
+say, well, that's
+
+525
+00:20:22,240 --> 00:20:24,190
+just a big bunch of wires.
+
+526
+00:20:24,190 --> 00:20:25,880
+Who cares about that?
+
+527
+00:20:25,880 --> 00:20:26,860
+That's a good question.
+
+528
+00:20:26,860 --> 00:20:29,560
+But actually, the wires
+are pretty damn interesting
+
+529
+00:20:29,560 --> 00:20:31,540
+and pretty fundamental.
+
+530
+00:20:31,540 --> 00:20:33,370
+And so I'll just give
+you a few reasons.
+
+531
+00:20:33,370 --> 00:20:34,960
+And you don't need to
+memorize every one of these.
+
+532
+00:20:34,960 --> 00:20:37,430
+I'm trying to give you a gist
+of why we might care about this.
+
+533
+00:20:37,430 --> 00:20:39,763
+And then there will be a whole
+other lecture on networks
+
+534
+00:20:39,763 --> 00:20:41,680
+and connectivity
+later in the course.
+
+535
+00:20:41,680 --> 00:20:45,640
+Well, first of all, white matter
+is 45% of the human brain, OK?
+
+536
+00:20:45,640 --> 00:20:48,160
+So it takes up a lot of space,
+all those wires connecting
+
+537
+00:20:48,160 --> 00:20:50,440
+one bit to another bit.
+
+538
+00:20:50,440 --> 00:20:53,620
+And I would say we cannot
+possibly understand the cortex
+
+539
+00:20:53,620 --> 00:20:56,860
+and how it works or any little
+piece of it without knowing
+
+540
+00:20:56,860 --> 00:20:59,530
+the connectivity of each
+piece to each other bit
+
+541
+00:20:59,530 --> 00:21:00,880
+of the cortex, right?
+
+542
+00:21:00,880 --> 00:21:03,910
+Imagine trying to understand
+a computer or a circuit
+
+543
+00:21:03,910 --> 00:21:06,850
+without being able to see the
+connections between the bits.
+
+544
+00:21:06,850 --> 00:21:08,223
+Like it would drive you crazy.
+
+545
+00:21:08,223 --> 00:21:10,390
+That's the situation we're
+in now in human cognitive
+
+546
+00:21:10,390 --> 00:21:10,960
+neuroscience.
+
+547
+00:21:10,960 --> 00:21:12,550
+It, frankly, drives me insane.
+
+548
+00:21:12,550 --> 00:21:13,660
+But that's where we are.
+
+550
+00:21:16,570 --> 00:21:19,570
+Next thing, the
+long-range connectivity
+
+551
+00:21:19,570 --> 00:21:21,970
+of each little bit of cortex,
+some little bit right there
+
+552
+00:21:21,970 --> 00:21:24,790
+in my brain, is
+connected to some bunch
+
+553
+00:21:24,790 --> 00:21:26,950
+of other remote
+regions in my brain.
+
+554
+00:21:26,950 --> 00:21:29,230
+And that particular
+set of connections
+
+555
+00:21:29,230 --> 00:21:31,970
+is distinctive for
+that patch of cortex.
+
+556
+00:21:31,970 --> 00:21:34,780
+So you can think of it as
+a connectivity fingerprint
+
+557
+00:21:34,780 --> 00:21:36,382
+of a patch of cortex.
+
+558
+00:21:36,382 --> 00:21:38,590
+OK, so one of the ways that
+the different bits differ
+
+559
+00:21:38,590 --> 00:21:40,930
+from each other is by
+way of their connectivity
+
+560
+00:21:40,930 --> 00:21:41,705
+fingerprints.
+
+561
+00:21:41,705 --> 00:21:43,330
+And I'm going to skip
+the rest of these
+
+562
+00:21:43,330 --> 00:21:45,250
+because we're going to
+get back to them later.
+
+563
+00:21:45,250 --> 00:21:46,625
+And I'm going to
+run out of time.
+
+564
+00:21:46,625 --> 00:21:51,010
+And I'm going to assign the
+TAs to sound the gong at 12:15.
+
+565
+00:21:51,010 --> 00:21:51,730
+OK?
+
+566
+00:21:51,730 --> 00:21:52,900
+Good.
+
+567
+00:21:52,900 --> 00:21:55,220
+All right, now we're
+up to the cortex.
+
+568
+00:21:55,220 --> 00:21:58,000
+This is really,
+laughably, shallow.
+
+569
+00:21:58,000 --> 00:22:00,650
+But whatever, that's
+what we're doing here.
+
+570
+00:22:00,650 --> 00:22:01,570
+So here's this cortex.
+
+571
+00:22:01,570 --> 00:22:03,362
+And as I mentioned,
+it's a whole big sheet.
+
+572
+00:22:03,362 --> 00:22:05,650
+And the different bits look
+really similar if you just
+
+573
+00:22:05,650 --> 00:22:07,300
+look at them or slice them up.
+
+574
+00:22:07,300 --> 00:22:08,860
+So how are we
+going to figure out
+
+575
+00:22:08,860 --> 00:22:11,350
+how this thing is organized?
+
+576
+00:22:11,350 --> 00:22:15,170
+Well, OK, now we're up
+here talking about cortex.
+
+577
+00:22:15,170 --> 00:22:17,410
+All right, let's start
+with the easy parts,
+
+578
+00:22:17,410 --> 00:22:19,240
+which you've already seen.
+
+579
+00:22:19,240 --> 00:22:20,830
+You've already
+seen this up here.
+
+580
+00:22:20,830 --> 00:22:27,550
+These colored bits, visual
+cortex, auditory cortex,
+
+581
+00:22:27,550 --> 00:22:33,250
+somatosensory cortex, gustatory
+taste cortex, those bits
+
+582
+00:22:33,250 --> 00:22:35,380
+are like the easy
+parts of cortex.
+
+583
+00:22:35,380 --> 00:22:37,930
+Those are called
+primary sensory regions.
+
+584
+00:22:37,930 --> 00:22:40,790
+There's also motor cortex right
+in front of sensory cortex.
+
+585
+00:22:40,790 --> 00:22:43,630
+So those are the
+primary regions.
+
+586
+00:22:43,630 --> 00:22:45,340
+They're primary in
+the sense of this
+
+587
+00:22:45,340 --> 00:22:48,310
+is the first place that
+sensory information lands up
+
+588
+00:22:48,310 --> 00:22:51,820
+at the cortex coming up
+from the senses, right?
+
+589
+00:22:51,820 --> 00:22:57,670
+OK, and all of that input is
+wired through what structure?
+
+591
+00:23:00,248 --> 00:23:01,040
+AUDIENCE: Thalamus.
+
+592
+00:23:01,040 --> 00:23:01,915
+NANCY KANWISHER: Yes.
+
+593
+00:23:01,915 --> 00:23:03,380
+Thank you.
+
+594
+00:23:03,380 --> 00:23:06,440
+So how are these
+regions organized?
+
+595
+00:23:06,440 --> 00:23:08,150
+Well, they have maps.
+
+596
+00:23:08,150 --> 00:23:10,640
+Every one of these
+regions has a map.
+
+597
+00:23:10,640 --> 00:23:12,840
+And each of them has a
+map of a different thing.
+
+598
+00:23:12,840 --> 00:23:14,830
+So let's start
+with visual cortex,
+
+599
+00:23:14,830 --> 00:23:16,580
+and we're going to
+talk about the map that
+
+600
+00:23:16,580 --> 00:23:18,210
+lives in visual cortex.
+
+601
+00:23:18,210 --> 00:23:20,780
+But the prior condition
+for understanding that map
+
+602
+00:23:20,780 --> 00:23:23,533
+is to understand the concept
+of receptive field, which
+
+603
+00:23:23,533 --> 00:23:24,200
+you should know.
+
+604
+00:23:24,200 --> 00:23:27,020
+So I'm going to whip
+through it quickly.
+
+605
+00:23:27,020 --> 00:23:29,510
+OK, so here is how
+you map the receptive
+
+606
+00:23:29,510 --> 00:23:33,480
+field as a property of an
+individual cell in a brain.
+
+607
+00:23:33,480 --> 00:23:33,980
+OK?
+
+608
+00:23:33,980 --> 00:23:36,950
+So the classic way in
+animal neuroscience
+
+609
+00:23:36,950 --> 00:23:39,680
+is you place an
+electrode in the brain
+
+610
+00:23:39,680 --> 00:23:42,810
+next to a neuron in
+monkey visual cortex.
+
+611
+00:23:42,810 --> 00:23:43,310
+OK?
+
+612
+00:23:43,310 --> 00:23:44,180
+So here's this monkey.
+
+613
+00:23:44,180 --> 00:23:45,847
+He's got an electrode
+right in his brain
+
+614
+00:23:45,847 --> 00:23:47,660
+right next to a neuron
+in visual cortex.
+
+615
+00:23:47,660 --> 00:23:51,260
+And every time that neuron
+fires, you get a spike.
+
+616
+00:23:51,260 --> 00:23:52,430
+You hear a spike.
+
+617
+00:23:52,430 --> 00:23:56,990
+OK, now you train the monkey
+to stare at a fixation spot
+
+618
+00:23:56,990 --> 00:23:59,030
+without moving its eyes.
+
+619
+00:23:59,030 --> 00:24:01,520
+OK, I can do this with
+humans without training you.
+
+620
+00:24:01,520 --> 00:24:04,290
+I can just tell you, look
+at the tip of my nose.
+
+621
+00:24:04,290 --> 00:24:06,667
+OK, so keep your eyes
+on the tip of my nose.
+
+622
+00:24:06,667 --> 00:24:08,250
+I can see if you're
+looking elsewhere.
+
+623
+00:24:08,250 --> 00:24:09,590
+So look at the tip of my nose.
+
+624
+00:24:09,590 --> 00:24:10,280
+OK?
+
+625
+00:24:10,280 --> 00:24:11,860
+OK, so you train a
+monkey to do that.
+
+626
+00:24:11,860 --> 00:24:12,860
+That takes a few months.
+
+627
+00:24:12,860 --> 00:24:14,150
+And then they can do that.
+
+628
+00:24:14,150 --> 00:24:16,970
+And then while recording
+from neurons in his brain,
+
+629
+00:24:16,970 --> 00:24:19,460
+you put stimuli over here,
+put a flash over there
+
+630
+00:24:19,460 --> 00:24:22,850
+or a flash over here or a flash
+over here or a flash over here.
+
+631
+00:24:22,850 --> 00:24:24,350
+OK, you can stop
+looking at my nose.
+
+632
+00:24:24,350 --> 00:24:26,630
+It's not all that fabulous
+a nose, I realize.
+
+633
+00:24:26,630 --> 00:24:32,840
+OK, so a receptive field is
+the place in the visual world
+
+634
+00:24:32,840 --> 00:24:35,460
+that makes a given neuron fire.
+
+635
+00:24:35,460 --> 00:24:35,960
+OK?
+
+636
+00:24:35,960 --> 00:24:37,550
+So if there's a
+neuron in your brain
+
+637
+00:24:37,550 --> 00:24:40,700
+that responds to a flash here
+but not a flash here or here
+
+638
+00:24:40,700 --> 00:24:44,150
+or here or here, the
+receptive field of that neuron
+
+639
+00:24:44,150 --> 00:24:45,410
+is right there.
+
+640
+00:24:45,410 --> 00:24:47,180
+Everybody got that idea?
+
+641
+00:24:47,180 --> 00:24:49,670
+OK, so in visual
+cortex, neurons have
+
+642
+00:24:49,670 --> 00:24:50,890
+restricted receptive fields.
+
+643
+00:24:50,890 --> 00:24:53,390
+They don't respond to anything
+anywhere in the visual field.
+
+644
+00:24:53,390 --> 00:24:56,480
+They respond to a
+particular place in space.
+
+645
+00:24:56,480 --> 00:24:58,940
+OK, if that's confusing
+at all, ask a question.
+
+646
+00:24:58,940 --> 00:25:01,200
+Because it will come
+up again and again.
+
+647
+00:25:01,200 --> 00:25:03,200
+All right, so that's what
+the rest of this slide
+
+648
+00:25:03,200 --> 00:25:04,100
+says, what I just said.
+
+649
+00:25:04,100 --> 00:25:04,620
+Blah, blah, blah.
+
+650
+00:25:04,620 --> 00:25:05,060
+It doesn't matter.
+
+651
+00:25:05,060 --> 00:25:06,170
+That's a receptive field.
+
+652
+00:25:06,170 --> 00:25:09,740
+Different visual neurons have
+different receptive fields
+
+653
+00:25:09,740 --> 00:25:11,870
+for different parts of space.
+
+654
+00:25:11,870 --> 00:25:13,940
+Now here comes the
+important idea.
+
+655
+00:25:13,940 --> 00:25:16,940
+In visual cortex,
+two neurons that
+
+656
+00:25:16,940 --> 00:25:19,580
+are next to each
+other in visual cortex
+
+657
+00:25:19,580 --> 00:25:22,490
+have nearby receptive fields.
+
+658
+00:25:22,490 --> 00:25:23,990
+OK?
+
+659
+00:25:23,990 --> 00:25:26,870
+So that's the
+concept of retinotopy
+
+660
+00:25:26,870 --> 00:25:29,100
+or the map in visual cortex.
+
+661
+00:25:29,100 --> 00:25:31,670
+So you basically have a
+map of the visual world
+
+662
+00:25:31,670 --> 00:25:36,073
+in your visual cortex because
+there's this systematic layout
+
+663
+00:25:36,073 --> 00:25:37,490
+just like you have
+in your retina.
+
+664
+00:25:37,490 --> 00:25:39,602
+In your retina, visual
+information comes in.
+
+665
+00:25:39,602 --> 00:25:41,810
+And because of optics,
+different parts of your retina
+
+666
+00:25:41,810 --> 00:25:43,700
+respond to different
+parts of the image.
+
+667
+00:25:43,700 --> 00:25:47,300
+But that information is
+propagated back through the LGN
+
+668
+00:25:47,300 --> 00:25:49,670
+up to primary visual
+cortex where you still
+
+669
+00:25:49,670 --> 00:25:53,750
+have a map of the visual space
+up in primary visual cortex.
+
+670
+00:25:53,750 --> 00:25:55,130
+OK?
+
+671
+00:25:55,130 --> 00:25:58,850
+So that map is called
+retinotopic in visual cortex
+
+672
+00:25:58,850 --> 00:26:02,550
+because it's oriented
+like the retina.
+
+673
+00:26:02,550 --> 00:26:05,210
+And so here's a particularly
+kind of gruesome but very
+
+674
+00:26:05,210 --> 00:26:08,900
+literal depiction of this
+property of retinotopy
+
+675
+00:26:08,900 --> 00:26:10,370
+in a monkey brain.
+
+676
+00:26:10,370 --> 00:26:13,640
+This is an experiment done
+very long ago by Roger Tootell.
+
+677
+00:26:13,640 --> 00:26:19,880
+And what he did was he used
+a method called deoxyglucose.
+
+678
+00:26:19,880 --> 00:26:23,060
+And so what deoxyglucose
+is a molecule that's
+
+679
+00:26:23,060 --> 00:26:25,160
+a whole lot like glucose.
+
+680
+00:26:25,160 --> 00:26:27,720
+But it's got one little
+change in the molecule,
+
+681
+00:26:27,720 --> 00:26:29,990
+which means it gets stuck
+on the metabolic chain.
+
+682
+00:26:29,990 --> 00:26:33,260
+And so it gets taken up by cells
+that want to take up glucose.
+
+683
+00:26:33,260 --> 00:26:36,020
+And then it gets stuck in
+there and can't be broken down.
+
+684
+00:26:36,020 --> 00:26:39,870
+So it builds up in cells that
+are metabolically active.
+
+685
+00:26:39,870 --> 00:26:40,370
+OK?
+
+686
+00:26:40,370 --> 00:26:42,110
+So you can put a
+little radioactive
+
+687
+00:26:42,110 --> 00:26:47,330
+tracer on deoxyglucose, inject
+it into a person or an animal.
+
+688
+00:26:47,330 --> 00:26:51,140
+And what happens is it builds
+up with this radioactive tag
+
+689
+00:26:51,140 --> 00:26:53,210
+on all the cells
+that were active.
+
+690
+00:26:53,210 --> 00:26:54,600
+Make sense?
+
+691
+00:26:54,600 --> 00:26:58,790
+OK, so Tootell did an
+experiment where he had
+
+692
+00:26:58,790 --> 00:27:00,590
+the monkey fixate on a spot.
+
+693
+00:27:00,590 --> 00:27:02,550
+And he presented
+this stimulus here.
+
+694
+00:27:02,550 --> 00:27:04,160
+So the monkey's
+fixating right there.
+
+695
+00:27:04,160 --> 00:27:06,950
+And this stimulus is
+flashing on and off.
+
+696
+00:27:06,950 --> 00:27:10,400
+He injects the radioactive
+deoxyglucose into the monkey
+
+697
+00:27:10,400 --> 00:27:13,580
+while the monkey's
+looking at this.
+
+698
+00:27:13,580 --> 00:27:16,940
+And then, I'm sorry to say, he
+killed the monkey, rolled out
+
+699
+00:27:16,940 --> 00:27:19,040
+visual cortex into a sheet.
+
+700
+00:27:19,040 --> 00:27:21,090
+And there it is.
+
+701
+00:27:21,090 --> 00:27:23,600
+And you can see the
+bullseye pattern
+
+702
+00:27:23,600 --> 00:27:26,570
+that the monkey was looking
+at across the surface
+
+703
+00:27:26,570 --> 00:27:28,400
+of visual cortex.
+
+704
+00:27:28,400 --> 00:27:30,740
+Does everybody get that?
+
+705
+00:27:30,740 --> 00:27:32,810
+OK, so that shows
+you very literally
+
+706
+00:27:32,810 --> 00:27:35,240
+what a retinotopic
+map is in the brain.
+
+707
+00:27:35,240 --> 00:27:38,120
+It's just like the map of the
+visual world in the retina.
+
+708
+00:27:38,120 --> 00:27:40,220
+But there it is up in
+the back of the brain.
+
+709
+00:27:40,220 --> 00:27:42,320
+And humans have this too.
+
+710
+00:27:42,320 --> 00:27:44,300
+OK?
+
+711
+00:27:44,300 --> 00:27:47,090
+And so this can be shown in
+humans with functional MRI.
+
+712
+00:27:47,090 --> 00:27:49,970
+We'll talk later more about
+the methods of functional MRI.
+
+713
+00:27:49,970 --> 00:27:53,480
+But here's a very
+high-resolution functional MRI
+
+714
+00:27:53,480 --> 00:27:57,170
+experiment done by some
+people over MGH Charlestown.
+
+715
+00:27:57,170 --> 00:27:59,330
+By the way, when I
+have names on slides,
+
+716
+00:27:59,330 --> 00:28:02,660
+it's just because, in science,
+we don't get paid that much.
+
+717
+00:28:02,660 --> 00:28:05,600
+And so our credit for our cool
+data is kind of all we have.
+
+718
+00:28:05,600 --> 00:28:08,150
+And so I can't stand to
+talk about other people's
+
+719
+00:28:08,150 --> 00:28:10,005
+cool experiments without
+giving them credit.
+
+720
+00:28:10,005 --> 00:28:11,630
+I do not expect you
+to learn the names.
+
+721
+00:28:11,630 --> 00:28:13,417
+It's just my little
+personal tic that I
+
+722
+00:28:13,417 --> 00:28:15,500
+need to have their name
+there to give them credit,
+
+723
+00:28:15,500 --> 00:28:17,167
+even though you don't
+know who they are.
+
+724
+00:28:17,167 --> 00:28:18,080
+OK.
+
+725
+00:28:18,080 --> 00:28:20,930
+OK, so what this guy
+John Polimeni did
+
+726
+00:28:20,930 --> 00:28:24,110
+was show human subjects
+this stimulus here.
+
+727
+00:28:24,110 --> 00:28:25,790
+They were fixating right there.
+
+728
+00:28:25,790 --> 00:28:28,070
+And the stimulus is
+flickering with the dots kind
+
+729
+00:28:28,070 --> 00:28:29,330
+of dancing around.
+
+730
+00:28:29,330 --> 00:28:31,910
+And then he looked on
+the back in visual cortex
+
+731
+00:28:31,910 --> 00:28:36,470
+on the surface of the brain,
+and he sees an M there.
+
+732
+00:28:36,470 --> 00:28:37,790
+It's the same stimulus.
+
+733
+00:28:37,790 --> 00:28:39,560
+It's just flipped
+upside down, which
+
+734
+00:28:39,560 --> 00:28:40,728
+is not deep or interesting.
+
+735
+00:28:40,728 --> 00:28:42,770
+The cortex has to be
+oriented one way or another.
+
+736
+00:28:42,770 --> 00:28:45,830
+The brain doesn't care whether
+you turn it around, right?
+
+737
+00:28:45,830 --> 00:28:47,690
+And your map of visual
+space is upside down
+
+738
+00:28:47,690 --> 00:28:49,220
+in the back of the head.
+
+739
+00:28:49,220 --> 00:28:51,980
+And you see that M. Does
+everybody get how that also
+
+740
+00:28:51,980 --> 00:28:55,130
+shows retinotopic
+properties in the brain
+
+741
+00:28:55,130 --> 00:28:56,510
+in human visual cortex?
+
+742
+00:28:56,510 --> 00:28:58,820
+OK.
+
+743
+00:28:58,820 --> 00:29:01,670
+All right, so the key
+idea of retinotopy
+
+744
+00:29:01,670 --> 00:29:04,340
+is that adjacent parts
+of the visual field
+
+745
+00:29:04,340 --> 00:29:07,260
+are mapped to adjacent
+parts of the cortex.
+
+746
+00:29:07,260 --> 00:29:11,600
+All right, OK, a little bit of
+terminology just because people
+
+747
+00:29:11,600 --> 00:29:13,340
+are fast and loose
+with these things.
+
+748
+00:29:13,340 --> 00:29:17,030
+I've already referred to V1
+and primary visual cortex.
+
+749
+00:29:17,030 --> 00:29:18,950
+It's also sometimes
+called striate cortex.
+
+750
+00:29:18,950 --> 00:29:20,550
+It's all the same thing.
+
+751
+00:29:20,550 --> 00:29:22,220
+It's the part of
+the visual cortex
+
+752
+00:29:22,220 --> 00:29:25,130
+where the information first
+comes up from the LGN right
+
+753
+00:29:25,130 --> 00:29:26,640
+back here.
+
+754
+00:29:26,640 --> 00:29:28,230
+So in me, it's right there.
+
+755
+00:29:28,230 --> 00:29:30,650
+Most of it is in the space
+between the two hemispheres.
+
+756
+00:29:30,650 --> 00:29:33,210
+But a little bit
+sticks out on the side.
+
+757
+00:29:33,210 --> 00:29:35,630
+So in this person, that
+yellowy orange stuff,
+
+758
+00:29:35,630 --> 00:29:37,400
+that's primary
+visual cortex, which
+
+759
+00:29:37,400 --> 00:29:39,690
+is the same as V1
+and striate cortex.
+
+760
+00:29:39,690 --> 00:29:40,190
+OK?
+
+761
+00:29:40,190 --> 00:29:42,650
+That's just terminology.
+
+762
+00:29:42,650 --> 00:29:45,260
+All right, just as we have
+maps for visual space,
+
+763
+00:29:45,260 --> 00:29:47,580
+we have maps for touch space.
+
+764
+00:29:47,580 --> 00:29:49,790
+And so you've probably
+seen this diagram here
+
+765
+00:29:49,790 --> 00:29:53,570
+of the map of touch space going
+across somatosensory cortex
+
+766
+00:29:53,570 --> 00:29:54,390
+like this.
+
+767
+00:29:54,390 --> 00:29:56,510
+So this is a picture
+of a slice like that,
+
+768
+00:29:56,510 --> 00:29:59,210
+showing you which parts of the
+body are mapped out to which
+
+769
+00:29:59,210 --> 00:30:00,680
+parts of space.
+
+770
+00:30:00,680 --> 00:30:02,810
+And you can see that
+particularly important parts
+
+771
+00:30:02,810 --> 00:30:05,990
+of the body get
+bigger bits of cortex.
+
+772
+00:30:05,990 --> 00:30:06,890
+Yeah?
+
+773
+00:30:06,890 --> 00:30:11,150
+OK, just as we have visual
+maps and touch maps,
+
+774
+00:30:11,150 --> 00:30:14,040
+we have auditory maps
+in auditory cortex,
+
+775
+00:30:14,040 --> 00:30:17,420
+which is right on the top of
+the temporal lobe right in here.
+
+776
+00:30:17,420 --> 00:30:20,120
+And what's mapped out
+in auditory cortex
+
+777
+00:30:20,120 --> 00:30:23,150
+is auditory frequency,
+high versus low
+
+778
+00:30:23,150 --> 00:30:26,100
+versus high
+frequencies of sound.
+
+779
+00:30:26,100 --> 00:30:29,120
+And so you see that here's a
+piece of auditory cortex in one
+
+780
+00:30:29,120 --> 00:30:31,640
+subject, showing
+you regions that
+
+781
+00:30:31,640 --> 00:30:34,640
+respond to high frequencies, low
+frequencies, high frequencies.
+
+782
+00:30:34,640 --> 00:30:36,830
+Here it is another
+subject, high, low, high,
+
+783
+00:30:36,830 --> 00:30:39,320
+another subject,
+high, low, high.
+
+784
+00:30:39,320 --> 00:30:44,030
+OK, so the point of all of this
+is that primary somatosensory
+
+785
+00:30:44,030 --> 00:30:45,350
+cortex has maps.
+
+786
+00:30:45,350 --> 00:30:46,700
+Everybody clear on this?
+
+787
+00:30:46,700 --> 00:30:50,510
+The different sensory modalities
+map different dimensions.
+
+788
+00:30:50,510 --> 00:30:53,870
+OK, so what about
+the rest of cortex?
+
+789
+00:30:53,870 --> 00:30:55,610
+Like you can see,
+most of the cortex
+
+790
+00:30:55,610 --> 00:30:58,970
+is not primary sensory cortex.
+
+791
+00:30:58,970 --> 00:31:00,980
+Is the rest of cortex just mush?
+
+792
+00:31:00,980 --> 00:31:04,130
+Or are there separate bits
+like primary sensory areas?
+
+794
+00:31:06,980 --> 00:31:10,340
+And if so, do those
+other bits have maps?
+
+795
+00:31:10,340 --> 00:31:14,450
+And if so, what
+are those maps of?
+
+796
+00:31:14,450 --> 00:31:15,140
+OK?
+
+797
+00:31:15,140 --> 00:31:17,060
+We just took you
+from 100 years ago
+
+798
+00:31:17,060 --> 00:31:20,480
+to the cutting edge of the field
+is asking this question in lots
+
+799
+00:31:20,480 --> 00:31:22,340
+of different ways right now.
+
+800
+00:31:22,340 --> 00:31:24,770
+OK?
+
+801
+00:31:24,770 --> 00:31:28,160
+OK, let's back up and ask,
+what counts as a cortical area
+
+802
+00:31:28,160 --> 00:31:28,910
+anyway?
+
+803
+00:31:28,910 --> 00:31:32,150
+I just posited that these
+primary sensory regions
+
+804
+00:31:32,150 --> 00:31:34,050
+count as distinct things.
+
+805
+00:31:34,050 --> 00:31:35,810
+They're like the things, right?
+
+806
+00:31:35,810 --> 00:31:37,450
+They're separate
+things in the brain.
+
+807
+00:31:37,450 --> 00:31:37,950
+OK?
+
+808
+00:31:37,950 --> 00:31:40,370
+And if for no other reason,
+then they get direct input
+
+809
+00:31:40,370 --> 00:31:42,680
+from the thalamus, right?
+
+810
+00:31:42,680 --> 00:31:46,970
+OK, but let's back up
+and ask, what exactly
+
+811
+00:31:46,970 --> 00:31:48,560
+is a cortical area?
+
+812
+00:31:48,560 --> 00:31:51,800
+And we're going to
+consider this question
+
+813
+00:31:51,800 --> 00:31:54,860
+by considering the three
+key criteria for what
+
+814
+00:31:54,860 --> 00:31:57,110
+counts as a cortical area.
+
+815
+00:31:57,110 --> 00:32:00,470
+OK, the first one is that
+that region of cortex
+
+816
+00:32:00,470 --> 00:32:04,040
+is distinct from its
+neighbors in function.
+
+817
+00:32:04,040 --> 00:32:06,230
+Neurons there fire in
+response to something
+
+818
+00:32:06,230 --> 00:32:08,587
+different from the neurons
+in the neighboring region.
+
+819
+00:32:08,587 --> 00:32:09,920
+OK, that's very vague right now.
+
+820
+00:32:09,920 --> 00:32:12,950
+But we'll illustrate that.
+
+821
+00:32:12,950 --> 00:32:13,730
+The next one is--
+
+822
+00:32:13,730 --> 00:32:17,120
+I mentioned this before--
+each distinct region of cortex
+
+823
+00:32:17,120 --> 00:32:19,190
+has a different
+set of connections
+
+824
+00:32:19,190 --> 00:32:20,430
+to other parts of the brain.
+
+825
+00:32:20,430 --> 00:32:23,300
+It has a distinct
+connectivity fingerprint.
+
+826
+00:32:23,300 --> 00:32:24,770
+OK?
+
+827
+00:32:24,770 --> 00:32:28,760
+And the third thing is,
+for at least some regions
+
+828
+00:32:28,760 --> 00:32:30,980
+of the cortex, they're
+physically different.
+
+829
+00:32:30,980 --> 00:32:33,560
+If you slice them up and stain
+them and look at them really
+
+830
+00:32:33,560 --> 00:32:35,270
+carefully, they
+might look a little
+
+831
+00:32:35,270 --> 00:32:37,850
+different than other
+bits of the cortex.
+
+832
+00:32:37,850 --> 00:32:38,690
+OK?
+
+833
+00:32:38,690 --> 00:32:40,760
+So those are three of
+the key criteria that
+
+834
+00:32:40,760 --> 00:32:44,120
+have been used to say, this bit
+of cortex, it's a thing, right?
+
+835
+00:32:44,120 --> 00:32:46,280
+It's distinct, right?
+
+836
+00:32:46,280 --> 00:32:49,760
+OK, so let's look at
+the classic example
+
+837
+00:32:49,760 --> 00:32:51,440
+beyond those primary regions.
+
+838
+00:32:51,440 --> 00:32:53,180
+Those are the most
+classic regions.
+
+839
+00:32:53,180 --> 00:32:54,950
+Those are the primary regions
+we've already talked about.
+
+840
+00:32:54,950 --> 00:32:57,000
+Those are the ones nobody
+would fight you on that.
+
+841
+00:32:57,000 --> 00:32:58,070
+This one is next in line.
+
+842
+00:32:58,070 --> 00:33:00,490
+Nobody would fight
+you if you say,
+
+843
+00:33:00,490 --> 00:33:03,502
+visual area MT, that's an area.
+
+844
+00:33:03,502 --> 00:33:04,210
+Well, they might.
+
+845
+00:33:04,210 --> 00:33:05,410
+But most people wouldn't.
+
+846
+00:33:05,410 --> 00:33:09,700
+OK, and then from there on out,
+it's all fighting all the time.
+
+847
+00:33:09,700 --> 00:33:12,430
+OK, so let's talk
+about visual area MT.
+
+848
+00:33:12,430 --> 00:33:14,960
+It's a little patch of the
+cortex in a monkey brain.
+
+849
+00:33:14,960 --> 00:33:17,080
+This is a side view
+of a monkey brain.
+
+850
+00:33:17,080 --> 00:33:21,220
+And in this human brain, it's
+that little patch right there.
+
+851
+00:33:21,220 --> 00:33:26,500
+OK, so this region
+meets all the criteria
+
+852
+00:33:26,500 --> 00:33:29,030
+to be a distinct visual area.
+
+853
+00:33:29,030 --> 00:33:30,800
+So how do we know this?
+
+854
+00:33:30,800 --> 00:33:33,440
+Well, we know this from lots
+and lots of different methods.
+
+855
+00:33:33,440 --> 00:33:35,732
+So I'm going to whip through
+a few of those to give you
+
+856
+00:33:35,732 --> 00:33:37,570
+a gist of how we
+can find evidence
+
+857
+00:33:37,570 --> 00:33:39,430
+that that region is
+distinct in functional
+
+858
+00:33:39,430 --> 00:33:43,960
+connectivity and the physical
+stuff, sometimes called
+
+859
+00:33:43,960 --> 00:33:45,850
+cytoarchitecture.
+
+860
+00:33:45,850 --> 00:33:47,170
+OK?
+
+861
+00:33:47,170 --> 00:33:49,270
+All right, function,
+how would we
+
+862
+00:33:49,270 --> 00:33:51,820
+know that region has
+a different function?
+
+863
+00:33:51,820 --> 00:33:54,280
+Well, one way,
+the classic way is
+
+864
+00:33:54,280 --> 00:33:57,880
+to record from individual
+neurons in monkey brains.
+
+865
+00:33:57,880 --> 00:34:01,600
+So if you stick a neuron
+into monkey visual cortex
+
+866
+00:34:01,600 --> 00:34:04,127
+while the monkey is
+looking at the stimulus
+
+867
+00:34:04,127 --> 00:34:05,710
+that I'll show you
+in a second, you'll
+
+868
+00:34:05,710 --> 00:34:07,930
+hear the responses of
+an individual neuron.
+
+869
+00:34:07,930 --> 00:34:10,780
+Each click will be the response
+of an individual neuron
+
+870
+00:34:10,780 --> 00:34:12,530
+to the stimulus.
+
+871
+00:34:12,530 --> 00:34:17,790
+So let's play this thing, except
+it's not making any sound.
+
+872
+00:34:17,790 --> 00:34:18,929
+Chris, can you help me?
+
+874
+00:34:22,469 --> 00:34:24,126
+Oh, right.
+
+875
+00:34:24,126 --> 00:34:24,626
+Duh.
+
+877
+00:34:45,690 --> 00:34:48,929
+That part, OK, see when the
+bar of light moves this way,
+
+878
+00:34:48,929 --> 00:34:53,643
+it makes a lot of firing and
+not when it moves the other way?
+
+879
+00:34:53,643 --> 00:34:54,810
+Let's watch it for a second.
+
+880
+00:34:54,810 --> 00:34:55,980
+Watch the bar move again.
+
+882
+00:35:12,235 --> 00:35:12,735
+See?
+
+883
+00:35:12,735 --> 00:35:13,740
+It responds less
+when it's moving
+
+884
+00:35:13,740 --> 00:35:15,090
+in a different direction.
+
+885
+00:35:15,090 --> 00:35:15,882
+Everybody got that?
+
+887
+00:35:18,870 --> 00:35:23,400
+What is this area
+right there called?
+
+888
+00:35:23,400 --> 00:35:26,754
+Yeah, this area right
+here in the middle.
+
+889
+00:35:26,754 --> 00:35:27,630
+AUDIENCE: [INAUDIBLE]
+
+890
+00:35:27,630 --> 00:35:28,500
+NANCY KANWISHER: Exactly.
+
+891
+00:35:28,500 --> 00:35:29,625
+That's the receptive field.
+
+892
+00:35:29,625 --> 00:35:34,440
+That's the part of visual space
+that makes this neuron fire.
+
+893
+00:35:34,440 --> 00:35:37,590
+OK, this neuron also has a
+property called direction.
+
+894
+00:35:37,590 --> 00:35:39,540
+It's sensitive to
+motion, as you see.
+
+895
+00:35:39,540 --> 00:35:43,710
+But it's also specific to
+specific directions of motion.
+
+896
+00:35:43,710 --> 00:35:45,570
+Everybody see that?
+
+897
+00:35:45,570 --> 00:35:50,280
+OK, so that's a
+direction-selective neuron
+
+898
+00:35:50,280 --> 00:35:52,590
+in monkey area MT.
+
+899
+00:35:52,590 --> 00:35:55,560
+And here's a way of showing,
+with data, what you guys just
+
+900
+00:35:55,560 --> 00:35:56,370
+saw.
+
+901
+00:35:56,370 --> 00:35:58,380
+This is a map of
+different directions
+
+902
+00:35:58,380 --> 00:35:59,860
+in polar coordinates.
+
+903
+00:35:59,860 --> 00:36:02,160
+And this shows you how much--
+
+904
+00:36:02,160 --> 00:36:04,960
+this is a single cell
+being described here.
+
+905
+00:36:04,960 --> 00:36:07,230
+This is the direction
+selectivity of that cell,
+
+906
+00:36:07,230 --> 00:36:09,810
+showing you that when
+the stimulus moves
+
+907
+00:36:09,810 --> 00:36:11,970
+in this direction, you
+get a lot of firing.
+
+908
+00:36:11,970 --> 00:36:14,550
+When it moves in this
+direction, you get less firing.
+
+909
+00:36:14,550 --> 00:36:17,250
+And can everybody see how this
+plot shows you the direction
+
+910
+00:36:17,250 --> 00:36:18,720
+selectivity of that cell?
+
+911
+00:36:18,720 --> 00:36:20,010
+Make sense?
+
+912
+00:36:20,010 --> 00:36:20,880
+Right.
+
+913
+00:36:20,880 --> 00:36:23,910
+OK, so that shows you what
+you just saw in the movie.
+
+914
+00:36:23,910 --> 00:36:27,480
+So this is one way to establish
+the function of visual area
+
+915
+00:36:27,480 --> 00:36:30,300
+MT is stick electrodes in
+there and record directly
+
+916
+00:36:30,300 --> 00:36:33,810
+from them when a monkey looks
+at different kinds of stimuli.
+
+917
+00:36:33,810 --> 00:36:36,840
+And you see direction
+selectivity when you do that.
+
+918
+00:36:36,840 --> 00:36:41,970
+OK, further, if you actually
+do this systematically,
+
+919
+00:36:41,970 --> 00:36:47,520
+moving across next door
+bits of monkey area MT,
+
+920
+00:36:47,520 --> 00:36:49,890
+what you find is that,
+as we said before,
+
+921
+00:36:49,890 --> 00:36:54,390
+nearby bits of cortex respond
+to similar things, in this case,
+
+922
+00:36:54,390 --> 00:36:56,380
+to similar directions of motion.
+
+923
+00:36:56,380 --> 00:36:57,660
+So here's a little diagram.
+
+924
+00:36:57,660 --> 00:37:01,830
+As you move across the cortex,
+you see a systematic change
+
+925
+00:37:01,830 --> 00:37:03,780
+in the direction
+selectivity of neurons
+
+926
+00:37:03,780 --> 00:37:05,770
+as you move across the cortex.
+
+927
+00:37:05,770 --> 00:37:10,380
+So in MT, we have a map
+of direction preference,
+
+928
+00:37:10,380 --> 00:37:13,530
+just as we had a map
+of spatial location
+
+929
+00:37:13,530 --> 00:37:15,060
+in primary visual cortex.
+
+930
+00:37:15,060 --> 00:37:16,830
+Make sense?
+
+931
+00:37:16,830 --> 00:37:20,260
+OK, now because those neurons
+are clustered like that--
+
+932
+00:37:20,260 --> 00:37:21,810
+I forget what my next point was.
+
+933
+00:37:21,810 --> 00:37:22,050
+No.
+
+934
+00:37:22,050 --> 00:37:22,380
+Never mind.
+
+935
+00:37:22,380 --> 00:37:23,505
+We'll get that in a second.
+
+936
+00:37:23,505 --> 00:37:24,780
+OK, what about humans?
+
+937
+00:37:24,780 --> 00:37:26,140
+OK, so here's a monkey brain.
+
+938
+00:37:26,140 --> 00:37:27,810
+Here's a neuron
+in a monkey brain.
+
+939
+00:37:27,810 --> 00:37:28,860
+What about humans?
+
+940
+00:37:28,860 --> 00:37:30,915
+Can we record from
+single neurons in humans?
+
+941
+00:37:30,915 --> 00:37:31,770
+What do you think?
+
+943
+00:37:34,857 --> 00:37:35,940
+Do we ever get to do that?
+
+945
+00:37:38,820 --> 00:37:39,442
+Yeah?
+
+946
+00:37:39,442 --> 00:37:40,770
+AUDIENCE: Like neurosurgeons.
+
+947
+00:37:40,770 --> 00:37:41,710
+NANCY KANWISHER: Yeah.
+
+948
+00:37:41,710 --> 00:37:42,800
+Yeah.
+
+949
+00:37:42,800 --> 00:37:45,380
+Neurosurgeons,
+very occasionally,
+
+950
+00:37:45,380 --> 00:37:48,110
+enable us to record
+from individual neurons
+
+951
+00:37:48,110 --> 00:37:49,310
+in human brains.
+
+952
+00:37:49,310 --> 00:37:51,710
+It's the most awesome data ever.
+
+953
+00:37:51,710 --> 00:37:55,040
+Of course, we only do it
+when the neurosurgeons
+
+954
+00:37:55,040 --> 00:37:56,780
+have decided, for
+clinical reasons,
+
+955
+00:37:56,780 --> 00:37:58,340
+to put electrodes
+in human brains.
+
+956
+00:37:58,340 --> 00:38:02,360
+They need to do this to map
+out epilepsy before surgery.
+
+957
+00:38:02,360 --> 00:38:04,395
+And sometimes those
+patients are super nice
+
+958
+00:38:04,395 --> 00:38:06,020
+and say, yes, I'll
+look at your stimuli
+
+959
+00:38:06,020 --> 00:38:09,390
+or listen to your stimuli while
+you record from my neurons.
+
+960
+00:38:09,390 --> 00:38:11,390
+And then we get the
+most awesome data ever.
+
+961
+00:38:11,390 --> 00:38:12,728
+But it's very, very rare.
+
+962
+00:38:12,728 --> 00:38:14,270
+I don't know of any
+data where people
+
+963
+00:38:14,270 --> 00:38:17,610
+have reported individual
+neurons in area MT in humans.
+
+964
+00:38:17,610 --> 00:38:18,110
+Yeah?
+
+965
+00:38:18,110 --> 00:38:19,950
+AUDIENCE: So how
+powerful should an fMRI
+
+966
+00:38:19,950 --> 00:38:22,910
+be to be able to record
+such information?
+
+967
+00:38:22,910 --> 00:38:24,620
+NANCY KANWISHER: Oh,
+we're getting there.
+
+968
+00:38:24,620 --> 00:38:28,340
+OK, so given that
+we, very rarely,
+
+969
+00:38:28,340 --> 00:38:31,680
+get to record from
+individual neurons in humans
+
+970
+00:38:31,680 --> 00:38:34,310
+and we want to more
+generally if there is
+
+971
+00:38:34,310 --> 00:38:36,860
+an MT in humans, what do we do?
+
+972
+00:38:36,860 --> 00:38:39,410
+We pop subjects
+in an MRI scanner.
+
+973
+00:38:39,410 --> 00:38:44,120
+And we show them moving
+dots or stationary dots.
+
+974
+00:38:44,120 --> 00:38:46,173
+And we scan them
+with functional MRI.
+
+975
+00:38:46,173 --> 00:38:47,840
+We'll go through the
+details of how this
+
+976
+00:38:47,840 --> 00:38:49,590
+works more in future lectures.
+
+977
+00:38:49,590 --> 00:38:51,350
+But what you see,
+basically, is this
+
+978
+00:38:51,350 --> 00:38:53,450
+is a slice through
+the brain like this.
+
+979
+00:38:53,450 --> 00:38:58,100
+And you see this region
+right here responds more
+
+980
+00:38:58,100 --> 00:38:59,850
+to the moving dots.
+
+981
+00:38:59,850 --> 00:39:00,750
+This is the response.
+
+982
+00:39:00,750 --> 00:39:01,790
+This is time here.
+
+983
+00:39:01,790 --> 00:39:03,980
+This is when the moving
+dots are on high response.
+
+984
+00:39:03,980 --> 00:39:06,560
+And then when it switches
+to stationary dots,
+
+985
+00:39:06,560 --> 00:39:08,510
+the response drops.
+
+986
+00:39:08,510 --> 00:39:11,000
+OK, so with functional
+MRI, you can also
+
+987
+00:39:11,000 --> 00:39:14,000
+find the visual area empty
+by the higher response
+
+988
+00:39:14,000 --> 00:39:15,602
+to moving than stationary dots.
+
+989
+00:39:15,602 --> 00:39:17,060
+Does that make
+sense, more or less?
+
+990
+00:39:17,060 --> 00:39:18,977
+I mean, I'm not giving
+you any of the details.
+
+991
+00:39:18,977 --> 00:39:20,600
+But for now, they
+don't really matter.
+
+992
+00:39:20,600 --> 00:39:23,420
+OK, so that's cool.
+
+993
+00:39:23,420 --> 00:39:27,320
+But does that tell us
+that neurons in human MT
+
+994
+00:39:27,320 --> 00:39:29,330
+are specific for the
+direction of motion?
+
+996
+00:39:37,155 --> 00:39:37,655
+Yes?
+
+997
+00:39:37,655 --> 00:39:40,580
+AUDIENCE: Are the moving dots
+moving to a specific location?
+
+998
+00:39:40,580 --> 00:39:42,788
+NANCY KANWISHER: They're
+moving in all the directions
+
+999
+00:39:42,788 --> 00:39:45,250
+you see here.
+
+1000
+00:39:45,250 --> 00:39:46,540
+No, it doesn't.
+
+1001
+00:39:46,540 --> 00:39:49,660
+It tells us it's sensitive
+to the presence of motion
+
+1002
+00:39:49,660 --> 00:39:51,970
+but not the direction of motion.
+
+1003
+00:39:51,970 --> 00:39:53,260
+OK?
+
+1004
+00:39:53,260 --> 00:39:56,650
+So if we want to really know,
+is human MT like monkey MT
+
+1005
+00:39:56,650 --> 00:39:59,560
+or is this really human
+MT, we want to know,
+
+1006
+00:39:59,560 --> 00:40:02,380
+are the neurons in there not
+just responsive to motion
+
+1007
+00:40:02,380 --> 00:40:04,840
+but are neurons specific
+for particular directions
+
+1008
+00:40:04,840 --> 00:40:07,480
+of motion, OK?
+
+1009
+00:40:07,480 --> 00:40:10,360
+So how would we do that?
+
+1010
+00:40:10,360 --> 00:40:13,270
+OK, well, there's lots
+of ways of doing that.
+
+1011
+00:40:13,270 --> 00:40:14,950
+But actually, one of
+the charming things
+
+1012
+00:40:14,950 --> 00:40:17,327
+is you can do that
+without an MRI scanner.
+
+1013
+00:40:17,327 --> 00:40:18,910
+That is it won't
+tell you whether it's
+
+1014
+00:40:18,910 --> 00:40:19,785
+MT you're looking at.
+
+1015
+00:40:19,785 --> 00:40:22,210
+But we can ask the question
+of whether your brains have
+
+1016
+00:40:22,210 --> 00:40:25,460
+neurons that are tuned
+for particular directions.
+
+1017
+00:40:25,460 --> 00:40:30,370
+So for this demo, I want you
+to fixate right in the center.
+
+1018
+00:40:30,370 --> 00:40:32,810
+And do not move your
+eyes from that dot.
+
+1019
+00:40:32,810 --> 00:40:34,585
+And I'm going to keep
+talking for a while,
+
+1020
+00:40:34,585 --> 00:40:37,420
+while you keep fixating
+right on that dot.
+
+1021
+00:40:37,420 --> 00:40:39,520
+And so what I'm
+going to show you
+
+1022
+00:40:39,520 --> 00:40:41,420
+is something called
+an after effect.
+
+1023
+00:40:41,420 --> 00:40:45,070
+This is also known as the
+psychophysicist's electrode.
+
+1024
+00:40:45,070 --> 00:40:48,310
+Psychophysicists are people
+who just measure behavior.
+
+1025
+00:40:48,310 --> 00:40:50,740
+And from behavior,
+they can infer
+
+1026
+00:40:50,740 --> 00:40:52,450
+how individual neurons work.
+
+1027
+00:40:52,450 --> 00:40:54,520
+And that is about as
+awesome as it gets.
+
+1028
+00:40:54,520 --> 00:40:56,705
+That's much more impressive
+than just recording
+
+1029
+00:40:56,705 --> 00:40:57,580
+from the damn neuron.
+
+1030
+00:40:57,580 --> 00:40:59,980
+Inferring from
+very indirect data
+
+1031
+00:40:59,980 --> 00:41:02,880
+how the neuron works from
+behavior, now, that is pretty--
+
+1032
+00:41:02,880 --> 00:41:03,380
+oops.
+
+1033
+00:41:03,380 --> 00:41:04,390
+OK, sorry.
+
+1034
+00:41:04,390 --> 00:41:07,420
+Look directly at my face.
+
+1035
+00:41:07,420 --> 00:41:08,410
+You see anything?
+
+1036
+00:41:08,410 --> 00:41:09,680
+I didn't see it stop.
+
+1037
+00:41:09,680 --> 00:41:11,770
+OK, we're going
+to-- oh, here we go.
+
+1038
+00:41:11,770 --> 00:41:12,280
+Oh, right.
+
+1039
+00:41:12,280 --> 00:41:14,000
+OK, just fixate on
+the center again.
+
+1040
+00:41:14,000 --> 00:41:14,500
+Sorry.
+
+1041
+00:41:14,500 --> 00:41:17,020
+I forgot this guy
+was going to stop.
+
+1042
+00:41:17,020 --> 00:41:19,930
+So keep looking at the center.
+
+1043
+00:41:19,930 --> 00:41:22,247
+And then when it
+stops in a little bit,
+
+1044
+00:41:22,247 --> 00:41:23,830
+then keep your eyes
+right on that dot.
+
+1045
+00:41:23,830 --> 00:41:25,038
+And you can see what happens.
+
+1046
+00:41:25,038 --> 00:41:26,163
+AUDIENCE: [INAUDIBLE]
+
+1047
+00:41:26,163 --> 00:41:27,580
+NANCY KANWISHER:
+Oh, that's right.
+
+1048
+00:41:27,580 --> 00:41:28,450
+Good point.
+
+1049
+00:41:28,450 --> 00:41:29,950
+Yes, right now,
+it's alternating.
+
+1050
+00:41:29,950 --> 00:41:30,540
+Nothing's going to happen.
+
+1051
+00:41:30,540 --> 00:41:31,150
+But that's OK.
+
+1052
+00:41:31,150 --> 00:41:32,858
+We're going to have
+the whole experience.
+
+1053
+00:41:32,858 --> 00:41:35,206
+Keep fixating on the dot.
+
+1054
+00:41:35,206 --> 00:41:38,000
+It's good the TAs
+are on the ball.
+
+1055
+00:41:38,000 --> 00:41:39,930
+OK, fixate on the dot.
+
+1056
+00:41:39,930 --> 00:41:42,040
+Anybody see anything?
+
+1057
+00:41:42,040 --> 00:41:43,240
+Not really.
+
+1058
+00:41:43,240 --> 00:41:43,740
+That's OK.
+
+1059
+00:41:43,740 --> 00:41:45,602
+You're not supposed to.
+
+1060
+00:41:45,602 --> 00:41:46,810
+That's the control condition.
+
+1061
+00:41:46,810 --> 00:41:48,700
+It was alternating directions.
+
+1062
+00:41:48,700 --> 00:41:49,550
+OK?
+
+1063
+00:41:49,550 --> 00:41:52,570
+So I think it's going
+to start moving again.
+
+1064
+00:41:52,570 --> 00:41:53,260
+I'm not sure.
+
+1065
+00:41:53,260 --> 00:41:54,160
+Let's go back.
+
+1066
+00:41:54,160 --> 00:41:55,420
+Let's just start it again.
+
+1067
+00:41:55,420 --> 00:41:57,045
+OK, I'm sorry I blew
+it the first time.
+
+1068
+00:41:57,045 --> 00:41:58,300
+But let's just get this right.
+
+1069
+00:41:58,300 --> 00:42:01,960
+OK, fixate on the center
+and just keep your eyes
+
+1070
+00:42:01,960 --> 00:42:04,100
+right on that center.
+
+1071
+00:42:04,100 --> 00:42:07,090
+So this one, it's
+not alternating.
+
+1072
+00:42:07,090 --> 00:42:10,300
+And it's going to do this
+for around 30 seconds.
+
+1073
+00:42:10,300 --> 00:42:13,233
+And so the whole point of
+this is a way with behavior
+
+1074
+00:42:13,233 --> 00:42:14,650
+to ask the question
+of whether you
+
+1075
+00:42:14,650 --> 00:42:18,070
+have neurons in your brain
+tuned to specific directions
+
+1076
+00:42:18,070 --> 00:42:19,510
+of motion.
+
+1077
+00:42:19,510 --> 00:42:22,300
+And something as low-tech
+and simple as an aftereffect
+
+1078
+00:42:22,300 --> 00:42:23,290
+can tell you that.
+
+1080
+00:42:26,100 --> 00:42:26,655
+Keep looking.
+
+1082
+00:42:29,760 --> 00:42:31,400
+Did you guys see anything?
+
+1083
+00:42:31,400 --> 00:42:33,860
+What did you see?
+
+1084
+00:42:33,860 --> 00:42:35,060
+What happened?
+
+1085
+00:42:35,060 --> 00:42:39,170
+AUDIENCE: It wasn't
+moving exactly [INAUDIBLE]
+
+1086
+00:42:39,170 --> 00:42:40,490
+NANCY KANWISHER: Uh huh.
+
+1087
+00:42:40,490 --> 00:42:41,750
+Well, it actually should--
+
+1088
+00:42:41,750 --> 00:42:43,250
+well, now it's doing
+something else.
+
+1089
+00:42:43,250 --> 00:42:44,630
+But it should shrink at the end.
+
+1090
+00:42:44,630 --> 00:42:46,230
+Did you guys see it shrink?
+
+1091
+00:42:46,230 --> 00:42:47,690
+OK, so that's an after effect.
+
+1092
+00:42:47,690 --> 00:42:49,400
+And the simple
+version of the story
+
+1093
+00:42:49,400 --> 00:42:51,530
+is that you are tiring
+out your neurons that
+
+1094
+00:42:51,530 --> 00:42:53,510
+are sensitive to outward
+motion while you stare
+
+1095
+00:42:53,510 --> 00:42:55,050
+at all that outward motion.
+
+1096
+00:42:55,050 --> 00:42:57,770
+And after you kind of burn
+them out and exhaust them,
+
+1097
+00:42:57,770 --> 00:42:59,780
+then when you look at
+something stationary,
+
+1098
+00:42:59,780 --> 00:43:02,300
+it looks like it's going inward.
+
+1099
+00:43:02,300 --> 00:43:03,410
+OK?
+
+1100
+00:43:03,410 --> 00:43:06,200
+And the general idea is
+you have pools of neuron--
+
+1101
+00:43:06,200 --> 00:43:08,120
+the easiest way to
+account for that is you
+
+1102
+00:43:08,120 --> 00:43:11,340
+have pools of neurons tuned
+for different directions.
+
+1103
+00:43:11,340 --> 00:43:13,430
+And that's why, if you
+tire out one batch,
+
+1104
+00:43:13,430 --> 00:43:15,720
+you have a net signal
+in the other direction.
+
+1105
+00:43:15,720 --> 00:43:16,910
+Does that make sense?
+
+1106
+00:43:16,910 --> 00:43:19,130
+This is all very relevant
+to your assignment which
+
+1107
+00:43:19,130 --> 00:43:21,410
+is due tomorrow night at 6:00.
+
+1108
+00:43:21,410 --> 00:43:24,400
+This phenomenon was used in the
+scanner for that experiment.
+
+1109
+00:43:24,400 --> 00:43:28,670
+You can think about how you
+would use this phenomenon
+
+1110
+00:43:28,670 --> 00:43:32,480
+to ask whether there's direction
+selectivity, not just responses
+
+1111
+00:43:32,480 --> 00:43:34,670
+to motion, in human MT.
+
+1112
+00:43:34,670 --> 00:43:35,782
+Yeah?
+
+1113
+00:43:35,782 --> 00:43:37,490
+AUDIENCE: I'm just a
+little bit confused.
+
+1114
+00:43:37,490 --> 00:43:40,970
+So even when an image
+is completely still,
+
+1115
+00:43:40,970 --> 00:43:43,340
+like even if you're
+not detecting motion,
+
+1116
+00:43:43,340 --> 00:43:45,110
+those neurons are still firing?
+
+1118
+00:43:47,073 --> 00:43:48,740
+NANCY KANWISHER:
+That's a good question.
+
+1119
+00:43:48,740 --> 00:43:52,373
+But most likely,
+the simple cases--
+
+1120
+00:43:52,373 --> 00:43:54,290
+this may have not worked
+beautifully, in part,
+
+1121
+00:43:54,290 --> 00:43:57,410
+because I screwed it up and
+didn't notice when it stopped.
+
+1122
+00:43:57,410 --> 00:44:00,290
+But if it works well, you should
+get a pretty powerful sense
+
+1123
+00:44:00,290 --> 00:44:03,050
+that after you see it
+expanding, then when it's still,
+
+1124
+00:44:03,050 --> 00:44:05,100
+it should seem to
+be contracting.
+
+1125
+00:44:05,100 --> 00:44:06,980
+So when that happens--
+
+1126
+00:44:06,980 --> 00:44:10,400
+the reading assigned for
+today, tomorrow night
+
+1127
+00:44:10,400 --> 00:44:12,050
+tells you what
+happens in your brain
+
+1128
+00:44:12,050 --> 00:44:15,320
+during that time when you are
+looking at stationary stimuli
+
+1129
+00:44:15,320 --> 00:44:17,678
+but experiencing motion.
+
+1130
+00:44:17,678 --> 00:44:19,220
+So there's no motion
+in the stimulus.
+
+1131
+00:44:19,220 --> 00:44:21,300
+But there's motion
+in your percept.
+
+1132
+00:44:21,300 --> 00:44:21,800
+OK?
+
+1133
+00:44:21,800 --> 00:44:23,430
+So that's the question.
+
+1134
+00:44:23,430 --> 00:44:23,930
+All right?
+
+1135
+00:44:23,930 --> 00:44:25,520
+So read the paper and find out.
+
+1136
+00:44:25,520 --> 00:44:27,490
+Yeah?
+
+1137
+00:44:27,490 --> 00:44:33,880
+All right, so all of that tells
+us just that there are neurons
+
+1138
+00:44:33,880 --> 00:44:36,400
+someplace in your brain that
+are sensitive to the direction
+
+1139
+00:44:36,400 --> 00:44:37,270
+of motion.
+
+1140
+00:44:37,270 --> 00:44:40,900
+It doesn't tell us that
+they're in MT in particular.
+
+1141
+00:44:40,900 --> 00:44:43,330
+But the assigned reading
+will talk about that.
+
+1142
+00:44:43,330 --> 00:44:45,040
+OK?
+
+1143
+00:44:45,040 --> 00:44:48,130
+Right, a further
+bit of evidence is
+
+1144
+00:44:48,130 --> 00:44:51,520
+remember I said how, in
+monkeys, next door bits in MT
+
+1145
+00:44:51,520 --> 00:44:54,820
+have similar
+direction selectivity.
+
+1146
+00:44:54,820 --> 00:44:58,030
+That means you can also
+inject an electrical signal
+
+1147
+00:44:58,030 --> 00:45:02,140
+in a little patch of MT and
+give the monkey a net percept
+
+1148
+00:45:02,140 --> 00:45:04,540
+of a direction of motion.
+
+1149
+00:45:04,540 --> 00:45:05,980
+OK?
+
+1150
+00:45:05,980 --> 00:45:08,690
+If all the neurons were
+scrambled around spatially,
+
+1151
+00:45:08,690 --> 00:45:11,860
+so that there was no clustering
+of neurons sensitive to, say,
+
+1152
+00:45:11,860 --> 00:45:14,080
+this direction of
+motion, then stimulation
+
+1153
+00:45:14,080 --> 00:45:15,298
+wouldn't do anything.
+
+1154
+00:45:15,298 --> 00:45:16,840
+But if you train a
+monkey to tell you
+
+1155
+00:45:16,840 --> 00:45:18,693
+what direction of
+motion he's seeing
+
+1156
+00:45:18,693 --> 00:45:20,860
+and you show him just random
+dots that aren't moving
+
+1157
+00:45:20,860 --> 00:45:24,100
+in any direction and you
+stimulate one little patch,
+
+1158
+00:45:24,100 --> 00:45:26,740
+it'll tell you the
+direction of motion
+
+1159
+00:45:26,740 --> 00:45:29,590
+of the neurons in
+that little patch.
+
+1160
+00:45:29,590 --> 00:45:32,620
+And that is much more
+powerful evidence
+
+1161
+00:45:32,620 --> 00:45:37,180
+that that region is not
+only responsive to motion
+
+1162
+00:45:37,180 --> 00:45:41,090
+but causally involved in
+your perception of motion.
+
+1163
+00:45:41,090 --> 00:45:41,590
+OK?
+
+1164
+00:45:41,590 --> 00:45:45,400
+I'm a little obsessed with this
+distinction between recording
+
+1165
+00:45:45,400 --> 00:45:47,480
+responses and
+establishing causality.
+
+1166
+00:45:47,480 --> 00:45:49,820
+So we'll go over this
+in more detail later.
+
+1167
+00:45:49,820 --> 00:45:52,850
+But I want you to start
+getting used to that idea.
+
+1168
+00:45:52,850 --> 00:45:59,920
+Another way to test the causal
+role of area MT in motion
+
+1169
+00:45:59,920 --> 00:46:04,060
+is with patients with
+brain damage in area MT.
+
+1170
+00:46:04,060 --> 00:46:06,250
+So there's one
+famous patient who
+
+1171
+00:46:06,250 --> 00:46:08,440
+had brain damage
+right there, which
+
+1172
+00:46:08,440 --> 00:46:10,900
+is right where MT usually is.
+
+1173
+00:46:10,900 --> 00:46:12,970
+And she could not see motion.
+
+1174
+00:46:12,970 --> 00:46:14,590
+And she reports
+all kinds of things
+
+1175
+00:46:14,590 --> 00:46:18,190
+like difficulty crossing the
+street, difficulty catching
+
+1176
+00:46:18,190 --> 00:46:22,180
+balls, difficulty
+pouring water into a cup,
+
+1177
+00:46:22,180 --> 00:46:25,180
+OK, just as you
+guys saw earlier.
+
+1178
+00:46:25,180 --> 00:46:28,600
+That's called
+akinetopsia, right?
+
+1179
+00:46:28,600 --> 00:46:29,950
+Kinetics, motion.
+
+1180
+00:46:29,950 --> 00:46:32,050
+A, not motion, right?
+
+1181
+00:46:32,050 --> 00:46:34,000
+Opsia, eyes.
+
+1182
+00:46:34,000 --> 00:46:36,100
+OK.
+
+1183
+00:46:36,100 --> 00:46:38,980
+All right, so I started
+with these criteria
+
+1184
+00:46:38,980 --> 00:46:43,240
+for what makes something
+a distinct area.
+
+1185
+00:46:43,240 --> 00:46:45,525
+And one piece of
+evidence is function.
+
+1186
+00:46:45,525 --> 00:46:46,900
+And I just give
+you a whole bunch
+
+1187
+00:46:46,900 --> 00:46:49,390
+of different kinds of
+evidence for distinct function
+
+1188
+00:46:49,390 --> 00:46:52,150
+and visual area MT,
+that it's specifically
+
+1189
+00:46:52,150 --> 00:46:55,030
+involved in motion processing.
+
+1190
+00:46:55,030 --> 00:46:57,643
+And the two other criteria,
+which are getting short shrift,
+
+1191
+00:46:57,643 --> 00:46:58,810
+but I'll just toss them off.
+
+1192
+00:46:58,810 --> 00:47:00,200
+And we'll return to them.
+
+1193
+00:47:00,200 --> 00:47:03,980
+One is the distinct
+connectivity of that region.
+
+1194
+00:47:03,980 --> 00:47:07,120
+OK, so you may have seen
+this horrific wiring diagram
+
+1195
+00:47:07,120 --> 00:47:08,860
+of visual cortex in monkeys.
+
+1196
+00:47:08,860 --> 00:47:11,830
+I think it comes up in like
+half the talks in classes
+
+1197
+00:47:11,830 --> 00:47:13,450
+in my field.
+
+1198
+00:47:13,450 --> 00:47:15,500
+This is the one down here.
+
+1199
+00:47:15,500 --> 00:47:17,890
+And so there's lots and lots
+of different visual areas.
+
+1200
+00:47:17,890 --> 00:47:20,290
+And there's a whole
+fancy wiring diagram.
+
+1201
+00:47:20,290 --> 00:47:24,303
+And smack in the middle of this
+diagram, that's visual area MT.
+
+1202
+00:47:24,303 --> 00:47:25,970
+And if you blow this
+up and stare at it,
+
+1203
+00:47:25,970 --> 00:47:29,200
+you'll see that MT has a
+particular set of connections
+
+1204
+00:47:29,200 --> 00:47:31,660
+to other visual
+regions in cortex.
+
+1205
+00:47:31,660 --> 00:47:33,633
+And its particular
+set of connections
+
+1206
+00:47:33,633 --> 00:47:35,050
+are different from
+the connections
+
+1207
+00:47:35,050 --> 00:47:36,910
+of any of those other regions.
+
+1208
+00:47:36,910 --> 00:47:40,390
+It's part of its connectivity
+fingerprint or signature.
+
+1209
+00:47:40,390 --> 00:47:43,540
+And that's another piece of
+evidence that it's a thing.
+
+1210
+00:47:43,540 --> 00:47:44,050
+OK?
+
+1211
+00:47:44,050 --> 00:47:47,080
+It's not just another like
+amorphous bit of cortex.
+
+1212
+00:47:47,080 --> 00:47:50,930
+It's a particular
+thing in the brain.
+
+1213
+00:47:50,930 --> 00:47:53,140
+And finally, you might
+wonder, is that bit
+
+1214
+00:47:53,140 --> 00:47:54,945
+of cortex physically different?
+
+1215
+00:47:54,945 --> 00:47:56,320
+Are the cells in
+there different?
+
+1216
+00:47:56,320 --> 00:48:00,610
+Are the layers of cortex
+different in any way?
+
+1217
+00:48:00,610 --> 00:48:04,450
+And you may remember,
+from probably 900,
+
+1218
+00:48:04,450 --> 00:48:05,890
+about Brodmann areas.
+
+1219
+00:48:05,890 --> 00:48:08,020
+Like this dude
+Korbinian Brodmann
+
+1220
+00:48:08,020 --> 00:48:10,870
+sliced up lots of dead
+brains, looked at them
+
+1221
+00:48:10,870 --> 00:48:13,870
+under a microscope,
+and argued that there
+
+1222
+00:48:13,870 --> 00:48:16,180
+were 52 different
+parts just from what
+
+1223
+00:48:16,180 --> 00:48:18,740
+it looked like if you slice
+them up under a microscope.
+
+1224
+00:48:18,740 --> 00:48:19,240
+OK?
+
+1225
+00:48:19,240 --> 00:48:21,220
+So we called those
+Brodmann areas.
+
+1226
+00:48:21,220 --> 00:48:24,010
+And area 17, this
+primary visual cortex,
+
+1227
+00:48:24,010 --> 00:48:27,040
+comes from Brodmann's
+terminology.
+
+1228
+00:48:27,040 --> 00:48:29,560
+And so he argued that there--
+
+1229
+00:48:29,560 --> 00:48:32,170
+he thought these were
+distinct organs in the brain.
+
+1230
+00:48:32,170 --> 00:48:35,620
+And he even inferred the
+specific histological
+
+1231
+00:48:35,620 --> 00:48:37,450
+differentiation of
+the cortical areas
+
+1232
+00:48:37,450 --> 00:48:40,120
+proves irrefutably their
+specific functional
+
+1233
+00:48:40,120 --> 00:48:41,440
+differentiation.
+
+1234
+00:48:41,440 --> 00:48:42,220
+Well, it doesn't.
+
+1235
+00:48:42,220 --> 00:48:43,210
+But never mind.
+
+1236
+00:48:43,210 --> 00:48:44,950
+Kind of sounded good.
+
+1237
+00:48:44,950 --> 00:48:47,440
+Anyway, that was his idea.
+
+1238
+00:48:47,440 --> 00:48:50,080
+And these kinds
+of distinct, kind
+
+1239
+00:48:50,080 --> 00:48:53,320
+of cellular, physical,
+anatomical differences
+
+1240
+00:48:53,320 --> 00:48:57,370
+are very salient for
+primary cortical areas
+
+1241
+00:48:57,370 --> 00:49:01,150
+for vision and audition
+and touch and motor cortex.
+
+1242
+00:49:01,150 --> 00:49:04,700
+But they're much muckier
+for lots of other areas.
+
+1243
+00:49:04,700 --> 00:49:07,360
+One important exception,
+which is why we chose this,
+
+1244
+00:49:07,360 --> 00:49:09,070
+is area MT.
+
+1245
+00:49:09,070 --> 00:49:10,582
+And so I'll end in one minute.
+
+1246
+00:49:10,582 --> 00:49:12,290
+But just to tell you
+where this is going,
+
+1247
+00:49:12,290 --> 00:49:14,800
+this is a flattened piece
+of monkey cortex rolled out
+
+1248
+00:49:14,800 --> 00:49:16,160
+like with a baking roller.
+
+1249
+00:49:16,160 --> 00:49:16,660
+No.
+
+1250
+00:49:16,660 --> 00:49:17,290
+I don't know.
+
+1251
+00:49:17,290 --> 00:49:18,350
+Something like that.
+
+1252
+00:49:18,350 --> 00:49:19,750
+So here's monkey cortex.
+
+1253
+00:49:19,750 --> 00:49:20,877
+And there's V1 and V2.
+
+1254
+00:49:20,877 --> 00:49:21,710
+And it's a big mess.
+
+1255
+00:49:21,710 --> 00:49:24,670
+But that big dark blob,
+this bit of cortex
+
+1256
+00:49:24,670 --> 00:49:28,260
+is stained with something
+called cytochrome oxidase.
+
+1257
+00:49:28,260 --> 00:49:30,840
+And that indicates
+metabolic activity.
+
+1258
+00:49:30,840 --> 00:49:35,130
+MT neurons are very highly
+metabolically active.
+
+1259
+00:49:35,130 --> 00:49:38,110
+And so here's a map
+of visual cortex.
+
+1260
+00:49:38,110 --> 00:49:40,590
+And that exactly is area MT.
+
+1261
+00:49:40,590 --> 00:49:44,430
+So area MT actually
+is histologically
+
+1262
+00:49:44,430 --> 00:49:48,600
+or cytoarchitectonically
+different from its neighbors
+
+1263
+00:49:48,600 --> 00:49:53,220
+and fits all of the criteria
+for a cortical area.
+
+1264
+00:49:53,220 --> 00:49:53,760
+OK?
+
+1265
+00:49:53,760 --> 00:49:55,360
+I went one minute over.
+
+1266
+00:49:55,360 --> 00:49:57,360
+I realize I threw out
+a lot of terminology.
+
+1267
+00:49:57,360 --> 00:49:58,950
+I don't want you to
+memorize too much.
+
+1268
+00:49:58,950 --> 00:50:00,575
+So I made a list of
+the kinds of things
+
+1269
+00:50:00,575 --> 00:50:02,940
+that you should understand
+from this lecture, the things
+
+1270
+00:50:02,940 --> 00:50:05,330
+that I think are important.

@@ -103,7 +103,10 @@ Inspired by `whisper_real_time/transcribe_demo.py`:
 
 ## Important Notes
 
-- The Whisper model loads lazily on first use (downloads ~140MB for base model)
+- The Whisper model uses the 'tiny' model for low latency real-time transcription (downloads ~75MB on first use)
+  - Tiny model is faster but less accurate than base/small models
+  - Optimized for quick response time to minimize delay between speech and keyword extraction
+- FP16 warnings are suppressed (CPU doesn't support FP16, falls back to FP32 automatically)
 - Google Cloud APIs require billing to be enabled even for free tier
 - Port 5001 is hardcoded in `app.py:490` (not the default Flask 5000)
 - HTTPS is required for microphone access in browsers (use self-signed cert for dev)
