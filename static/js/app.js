@@ -4,8 +4,8 @@ const socket = io();
 // State management
 let state = {
     isRecording: false,
-    recognitionMode: 'whisper', // 'whisper' or 'google'
-    searchMode: 'gpt', // 'instant' or 'tfidf'
+    recognitionMode: 'whisper', // 'whisper', 'gemini', or 'google'
+    searchMode: 'gpt', // 'instant', 'tfidf', 'gpt', or 'gemini'
     searchType: 'text', // 'text' or 'image'
     mediaRecorder: null,
     audioContext: null,
@@ -24,7 +24,12 @@ let state = {
     currentGptKeywordIndex: 0,
     // Options
     showSearchResults: true, // Toggle Google search results on/off
-    showAllKeywords: false   // Show all GPT keywords at once instead of one by one
+    showAllKeywords: false,  // Show all GPT keywords at once instead of one by one
+    // Gemini Live state
+    geminiConnected: false,
+    geminiCaptions: '',
+    geminiSummary: { overall_context: '', current_segment: '' },
+    geminiTerms: []
 };
 
 // DOM elements
@@ -32,10 +37,12 @@ const micBtn = document.getElementById('micBtn');
 const fileInput = document.getElementById('fileInput');
 const srtInput = document.getElementById('srtInput');
 const whisperBtn = document.getElementById('whisperBtn');
+const geminiBtn = document.getElementById('geminiBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
 const recentSearchBtn = document.getElementById('recentSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
 const gptSearchBtn = document.getElementById('gptSearchBtn');
+const geminiSearchBtn = document.getElementById('geminiSearchBtn');
 const textSearchBtn = document.getElementById('textSearchBtn');
 const imageSearchBtn = document.getElementById('imageSearchBtn');
 const bothSearchBtn = document.getElementById('bothSearchBtn');
@@ -117,22 +124,23 @@ socket.on('transcription', (data) => {
 socket.on('search_keyword', (data) => {
     console.log('[Search Keyword]', data);
 
-    // Update GPT keyword state for double-spacebar navigation
-    if (data.mode === 'gpt' && data.total_keywords > 0) {
+    // Update GPT/Gemini keyword state for double-spacebar navigation
+    if ((data.mode === 'gpt' || data.mode === 'gemini') && data.total_keywords > 0) {
         state.hasGptKeywords = true;
         state.totalGptKeywords = data.total_keywords;
         state.currentGptKeywordIndex = data.current_index;
     }
 
     // Build status message with description if available
-    let statusMsg = `🔍 Searching for: "${data.keyword}"`;
-    if (data.mode === 'gpt' && data.total_keywords > 1) {
+    const modeIcon = data.mode === 'gemini' ? '✨' : '🔍';
+    let statusMsg = `${modeIcon} Searching for: "${data.keyword}"`;
+    if ((data.mode === 'gpt' || data.mode === 'gemini') && data.total_keywords > 1) {
         statusMsg += ` (${data.current_index + 1}/${data.total_keywords})`;
     }
     if (data.description) {
         statusMsg += ` - ${data.description}`;
     }
-    if (data.mode === 'gpt' && data.total_keywords > 1) {
+    if ((data.mode === 'gpt' || data.mode === 'gemini') && data.total_keywords > 1) {
         statusMsg += ' [Double-space for next]';
     }
     updateStatus(statusMsg);
@@ -154,6 +162,50 @@ socket.on('session_cleared', () => {
     transcriptionEl.textContent = '';
     searchSection.style.display = 'none';
     updateStatus('Session cleared');
+});
+
+// Gemini Live event handlers
+socket.on('gemini_connected', (data) => {
+    console.log('[Gemini] Connected:', data);
+    state.geminiConnected = true;
+    geminiBtn.classList.add('active');
+    updateStatus('Gemini Live connected. Start speaking or play audio.');
+});
+
+socket.on('gemini_disconnected', (data) => {
+    console.log('[Gemini] Disconnected:', data);
+    state.geminiConnected = false;
+    geminiBtn.classList.remove('active');
+    updateStatus('Gemini Live disconnected');
+});
+
+socket.on('gemini_transcription', (data) => {
+    console.log('[Gemini Transcription]', data);
+
+    // Update state with Gemini data
+    state.geminiCaptions = data.captions || '';
+    state.geminiSummary = data.summary || { overall_context: '', current_segment: '' };
+    state.geminiTerms = data.terms || [];
+
+    // Display captions as transcription
+    if (data.captions) {
+        // Replace transcription with Gemini captions
+        transcriptionEl.textContent = data.captions;
+        transcriptionEl.scrollTop = transcriptionEl.scrollHeight;
+    }
+
+    // Update GPT keyword state with Gemini terms (for double-spacebar navigation)
+    if (data.terms && data.terms.length > 0) {
+        state.hasGptKeywords = true;
+        state.totalGptKeywords = data.terms.length;
+    }
+
+    // Show summary and terms status
+    let statusMsg = `Gemini: ${data.terms?.length || 0} terms extracted`;
+    if (data.summary?.current_segment) {
+        statusMsg += ` | ${data.summary.current_segment}`;
+    }
+    updateStatus(statusMsg);
 });
 
 socket.on('srt_loaded', (data) => {
@@ -181,10 +233,12 @@ micBtn.addEventListener('click', toggleMicrophone);
 fileInput.addEventListener('change', handleFileUpload);
 srtInput.addEventListener('change', handleSrtUpload);
 whisperBtn.addEventListener('click', () => setRecognitionMode('whisper'));
+geminiBtn.addEventListener('click', () => setRecognitionMode('gemini'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
 recentSearchBtn.addEventListener('click', () => setSearchMode('recent'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
 gptSearchBtn.addEventListener('click', () => setSearchMode('gpt'));
+geminiSearchBtn.addEventListener('click', () => setSearchMode('gemini'));
 textSearchBtn.addEventListener('click', () => setSearchType('text'));
 imageSearchBtn.addEventListener('click', () => setSearchType('image'));
 bothSearchBtn.addEventListener('click', () => setSearchType('both'));
@@ -204,8 +258,8 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
 
-        // Check if double-spacebar detection should be active (GPT mode with multiple keywords)
-        if (state.searchMode === 'gpt' &&
+        // Check if double-spacebar detection should be active (GPT/Gemini mode with multiple keywords)
+        if ((state.searchMode === 'gpt' || state.searchMode === 'gemini') &&
             state.hasGptKeywords &&
             state.totalGptKeywords > 1) {
 
@@ -223,7 +277,7 @@ document.addEventListener('keydown', (e) => {
                 }, DOUBLE_SPACEBAR_THRESHOLD);
             }
         } else {
-            // Not in GPT mode with multiple keywords - trigger search immediately
+            // Not in GPT/Gemini mode with multiple keywords - trigger search immediately
             triggerSearch();
         }
     }
@@ -258,9 +312,14 @@ function updateCurrentTranscription(text) {
 }
 
 function setRecognitionMode(mode) {
+    // Stop previous mode if needed
+    if (state.recognitionMode === 'gemini' && mode !== 'gemini' && state.geminiConnected) {
+        socket.emit('stop_gemini_live');
+    }
+
     state.recognitionMode = mode;
 
-    // Clear SRT when Whisper is selected
+    // Clear SRT when Whisper or Gemini is selected
     if (state.srtLoaded) {
         state.srtLoaded = false;
         srtInput.parentElement.classList.remove('active');
@@ -268,11 +327,21 @@ function setRecognitionMode(mode) {
     }
 
     whisperBtn.classList.toggle('active', mode === 'whisper');
+    geminiBtn.classList.toggle('active', mode === 'gemini');
 
-    updateStatus(`Recognition mode: ${mode}`);
+    const modeNames = {
+        whisper: 'Whisper (Local)',
+        gemini: 'Gemini Live'
+    };
+
+    updateStatus(`Recognition mode: ${modeNames[mode] || mode}`);
 
     if (mode === 'whisper') {
         socket.emit('start_whisper');
+    } else if (mode === 'gemini') {
+        socket.emit('start_gemini_live');
+        // Also switch search mode to Gemini for better UX
+        setSearchMode('gemini');
     }
 }
 
@@ -283,12 +352,14 @@ function setSearchMode(mode) {
     recentSearchBtn.classList.toggle('active', mode === 'recent');
     tfidfSearchBtn.classList.toggle('active', mode === 'tfidf');
     gptSearchBtn.classList.toggle('active', mode === 'gpt');
+    geminiSearchBtn.classList.toggle('active', mode === 'gemini');
 
     const modeNames = {
         instant: 'Instant Word (최신 단어)',
         recent: 'Recent 5s (최근 5초)',
         tfidf: 'Important Word (중요 단어)',
-        gpt: 'GPT 4o mini'
+        gpt: 'GPT 4o mini',
+        gemini: 'Gemini Terms (AI 추출)'
     };
 
     updateStatus(`Search mode: ${modeNames[mode]}`);
@@ -488,7 +559,12 @@ function sendAudioToServer(audioBlob) {
     const reader = new FileReader();
     reader.onloadend = () => {
         const base64Audio = reader.result.split(',')[1];
-        socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
+        // Send to appropriate backend based on recognition mode
+        if (state.recognitionMode === 'gemini') {
+            socket.emit('audio_chunk_gemini_live', { audio: base64Audio, format: 'webm' });
+        } else {
+            socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
+        }
     };
     reader.readAsDataURL(audioBlob);
 }
@@ -1036,6 +1112,25 @@ function triggerSearch() {
             skip_search: !state.showSearchResults
         });
 
+    } else if (state.searchMode === 'gemini') {
+        // Gemini search: use terms extracted by Gemini Live
+        console.log('[Gemini Search] Requesting Gemini-extracted terms');
+
+        if (!state.geminiConnected && state.geminiTerms.length === 0) {
+            updateStatus('✨ Start Gemini Live first to extract terms', true);
+            return;
+        }
+
+        updateStatus('✨ Showing Gemini-extracted terms...');
+
+        socket.emit('search_request', {
+            mode: 'gemini',
+            type: state.searchType,
+            client_timestamp: spacebarPressTime,
+            show_all_keywords: state.showAllKeywords,
+            skip_search: !state.showSearchResults
+        });
+
     } else {
         // TF-IDF search: let server calculate important word
         console.log('[TF-IDF Search] Requesting important keyword from server');
@@ -1067,8 +1162,11 @@ function displayAllKeywords(data) {
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
 
     const keywords = data.keywords || [];
+    const isGemini = data.mode === 'gemini';
+    const icon = isGemini ? '✨' : '🤖';
+    const source = isGemini ? 'Gemini' : 'GPT';
 
-    keywordEl.innerHTML = `🤖 GPT Keywords (${keywords.length} total)`;
+    keywordEl.innerHTML = `${icon} ${source} Keywords (${keywords.length} total)`;
 
     resultsEl.innerHTML = '';
 
@@ -1112,14 +1210,17 @@ function displayKeywordWithDescription(data) {
     } else if (data.mode === 'gpt') {
         modeIcon = '🤖';
         modeName = 'GPT';
+    } else if (data.mode === 'gemini') {
+        modeIcon = '✨';
+        modeName = 'Gemini';
     } else {
         modeIcon = '🎯';
         modeName = 'Important';
     }
 
-    // Build keyword display with index for GPT mode
+    // Build keyword display with index for GPT/Gemini mode
     let displayText = `${modeIcon} ${data.keyword}`;
-    if (data.mode === 'gpt' && data.total_keywords > 1) {
+    if ((data.mode === 'gpt' || data.mode === 'gemini') && data.total_keywords > 1) {
         displayText += ` (${data.current_index + 1}/${data.total_keywords})`;
     } else {
         displayText += ` (${modeName})`;
@@ -1133,7 +1234,7 @@ function displayKeywordWithDescription(data) {
     }
 
     // Add hint for double-spacebar if more keywords available
-    if (data.mode === 'gpt' && data.total_keywords > 1) {
+    if ((data.mode === 'gpt' || data.mode === 'gemini') && data.total_keywords > 1) {
         keywordEl.innerHTML += `<div class="keyword-hint">Press spacebar twice quickly for next keyword</div>`;
     }
 
@@ -1151,6 +1252,9 @@ function displaySearchResults(data) {
     } else if (data.mode === 'gpt') {
         modeIcon = '🤖';
         modeName = 'GPT 4o mini';
+    } else if (data.mode === 'gemini') {
+        modeIcon = '✨';
+        modeName = 'Gemini Terms';
     } else {
         modeIcon = '🎯';
         modeName = 'Important';
@@ -1334,6 +1438,16 @@ function clearSession() {
     state.totalGptKeywords = 0;
     state.currentGptKeywordIndex = 0;
     state.lastSpacebarTime = 0;
+
+    // Reset Gemini state
+    if (state.geminiConnected) {
+        socket.emit('stop_gemini_live');
+    }
+    state.geminiConnected = false;
+    state.geminiCaptions = '';
+    state.geminiSummary = { overall_context: '', current_segment: '' };
+    state.geminiTerms = [];
+    geminiBtn.classList.remove('active');
 
     // Reset SRT button state
     srtInput.parentElement.classList.remove('active');
