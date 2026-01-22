@@ -278,9 +278,29 @@ kbd {
     font-weight: 600;
 }
 
-#searchKeyword {
+#searchKeyword, #videoSearchKeyword {
     color: #4a5cf7;
     font-weight: 600;
+}
+
+.keyword-description {
+    color: #666;
+    font-weight: 400;
+    font-size: 0.9em;
+    margin-top: 8px;
+    padding: 10px;
+    background: #f0f9ff;
+    border-radius: 6px;
+    border-left: 3px solid #4a5cf7;
+    line-height: 1.5;
+}
+
+.keyword-hint {
+    color: #888;
+    font-weight: 400;
+    font-size: 0.8em;
+    margin-top: 8px;
+    font-style: italic;
 }
 
 .search-results {

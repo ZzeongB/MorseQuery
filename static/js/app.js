@@ -16,7 +16,15 @@ let state = {
     lastWord: '', // Track the most recent word
     isVideoFile: false, // Track if current file is video
     srtLoaded: false, // Track if SRT file is loaded
-    srtTimeUpdateInterval: null // Interval for SRT time updates
+    srtTimeUpdateInterval: null, // Interval for SRT time updates
+    // Double-spacebar detection for GPT keyword navigation
+    lastSpacebarTime: 0,
+    hasGptKeywords: false, // Track if GPT keywords are available
+    totalGptKeywords: 0,
+    currentGptKeywordIndex: 0,
+    // Options
+    showSearchResults: true, // Toggle Google search results on/off
+    showAllKeywords: false   // Show all GPT keywords at once instead of one by one
 };
 
 // DOM elements
@@ -31,6 +39,8 @@ const gptSearchBtn = document.getElementById('gptSearchBtn');
 const textSearchBtn = document.getElementById('textSearchBtn');
 const imageSearchBtn = document.getElementById('imageSearchBtn');
 const bothSearchBtn = document.getElementById('bothSearchBtn');
+const toggleSearchResultsBtn = document.getElementById('toggleSearchResultsBtn');
+const showAllKeywordsBtn = document.getElementById('showAllKeywordsBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusEl = document.getElementById('status');
 const transcriptionEl = document.getElementById('transcription');
@@ -105,12 +115,39 @@ socket.on('transcription', (data) => {
 });
 
 socket.on('search_keyword', (data) => {
-    console.log('[Search Keyword]', data.keyword);
-    updateStatus(`🔍 Searching for: "${data.keyword}"`);
+    console.log('[Search Keyword]', data);
+
+    // Update GPT keyword state for double-spacebar navigation
+    if (data.mode === 'gpt' && data.total_keywords > 0) {
+        state.hasGptKeywords = true;
+        state.totalGptKeywords = data.total_keywords;
+        state.currentGptKeywordIndex = data.current_index;
+    }
+
+    // Build status message with description if available
+    let statusMsg = `🔍 Searching for: "${data.keyword}"`;
+    if (data.mode === 'gpt' && data.total_keywords > 1) {
+        statusMsg += ` (${data.current_index + 1}/${data.total_keywords})`;
+    }
+    if (data.description) {
+        statusMsg += ` - ${data.description}`;
+    }
+    if (data.mode === 'gpt' && data.total_keywords > 1) {
+        statusMsg += ' [Double-space for next]';
+    }
+    updateStatus(statusMsg);
+
+    // Update keyword display with description
+    displayKeywordWithDescription(data);
 });
 
 socket.on('search_results', (data) => {
     displaySearchResults(data);
+});
+
+socket.on('all_keywords', (data) => {
+    console.log('[All Keywords]', data);
+    displayAllKeywords(data);
 });
 
 socket.on('session_cleared', () => {
@@ -151,17 +188,44 @@ gptSearchBtn.addEventListener('click', () => setSearchMode('gpt'));
 textSearchBtn.addEventListener('click', () => setSearchType('text'));
 imageSearchBtn.addEventListener('click', () => setSearchType('image'));
 bothSearchBtn.addEventListener('click', () => setSearchType('both'));
+toggleSearchResultsBtn.addEventListener('click', toggleSearchResults);
+showAllKeywordsBtn.addEventListener('click', toggleShowAllKeywords);
 clearBtn.addEventListener('click', clearSession);
 playBtn.addEventListener('click', playAndTranscribe);
 stopAudioBtn.addEventListener('click', stopAudioPlayback);
 playVideoBtn.addEventListener('click', playVideoAndTranscribe);
 stopVideoBtn.addEventListener('click', stopVideoPlayback);
 
-// Spacebar listener for search
+// Spacebar listener for search (with double-spacebar detection)
+const DOUBLE_SPACEBAR_THRESHOLD = 400; // ms
+let spacebarTimer = null;
+
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
-        triggerSearch();
+
+        // Check if double-spacebar detection should be active (GPT mode with multiple keywords)
+        if (state.searchMode === 'gpt' &&
+            state.hasGptKeywords &&
+            state.totalGptKeywords > 1) {
+
+            if (spacebarTimer) {
+                // Second spacebar within threshold - cancel pending search and trigger next keyword
+                clearTimeout(spacebarTimer);
+                spacebarTimer = null;
+                console.log('[Double Spacebar] Requesting next keyword');
+                triggerNextKeyword();
+            } else {
+                // First spacebar - wait for potential second
+                spacebarTimer = setTimeout(() => {
+                    spacebarTimer = null;
+                    triggerSearch();
+                }, DOUBLE_SPACEBAR_THRESHOLD);
+            }
+        } else {
+            // Not in GPT mode with multiple keywords - trigger search immediately
+            triggerSearch();
+        }
     }
 });
 
@@ -244,6 +308,18 @@ function setSearchType(type) {
     };
 
     updateStatus(`Search type: ${typeNames[type]}`);
+}
+
+function toggleSearchResults() {
+    state.showSearchResults = !state.showSearchResults;
+    toggleSearchResultsBtn.classList.toggle('active', state.showSearchResults);
+    updateStatus(`Search results: ${state.showSearchResults ? 'ON' : 'OFF'}`);
+}
+
+function toggleShowAllKeywords() {
+    state.showAllKeywords = !state.showAllKeywords;
+    showAllKeywordsBtn.classList.toggle('active', state.showAllKeywords);
+    updateStatus(`Show all keywords: ${state.showAllKeywords ? 'ON' : 'OFF'}`);
 }
 
 async function toggleMicrophone() {
@@ -929,7 +1005,8 @@ function triggerSearch() {
             mode: 'instant',
             keyword: state.lastWord,
             type: state.searchType,
-            client_timestamp: spacebarPressTime
+            client_timestamp: spacebarPressTime,
+            skip_search: !state.showSearchResults
         });
 
     } else if (state.searchMode === 'recent') {
@@ -941,7 +1018,8 @@ function triggerSearch() {
             mode: 'recent',
             time_threshold: 5,
             type: state.searchType,
-            client_timestamp: spacebarPressTime
+            client_timestamp: spacebarPressTime,
+            skip_search: !state.showSearchResults
         });
 
     } else if (state.searchMode === 'gpt') {
@@ -953,7 +1031,9 @@ function triggerSearch() {
             mode: 'gpt',
             time_threshold: 10,
             type: state.searchType,
-            client_timestamp: spacebarPressTime
+            client_timestamp: spacebarPressTime,
+            show_all_keywords: state.showAllKeywords,
+            skip_search: !state.showSearchResults
         });
 
     } else {
@@ -964,9 +1044,100 @@ function triggerSearch() {
         socket.emit('search_request', {
             mode: 'tfidf',
             type: state.searchType,
-            client_timestamp: spacebarPressTime
+            client_timestamp: spacebarPressTime,
+            skip_search: !state.showSearchResults
         });
     }
+}
+
+function triggerNextKeyword() {
+    // Request next GPT keyword (for double-spacebar)
+    console.log('[Next Keyword] Requesting next keyword');
+    updateStatus('🔄 Loading next keyword...');
+
+    socket.emit('next_keyword', {
+        type: state.searchType
+    });
+}
+
+function displayAllKeywords(data) {
+    // Use video layout elements if video file, otherwise use default layout
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    const keywords = data.keywords || [];
+
+    keywordEl.innerHTML = `🤖 GPT Keywords (${keywords.length} total)`;
+
+    resultsEl.innerHTML = '';
+
+    keywords.forEach((item, index) => {
+        const keywordDiv = document.createElement('div');
+        keywordDiv.className = 'search-result-item';
+        keywordDiv.style.cursor = 'pointer';
+        keywordDiv.innerHTML = `
+            <h4>${index + 1}. ${item.keyword}</h4>
+            ${item.description ? `<p>${item.description}</p>` : ''}
+        `;
+
+        // Click to search this keyword
+        keywordDiv.addEventListener('click', () => {
+            console.log(`[All Keywords] Clicking keyword: ${item.keyword}`);
+            socket.emit('search_single_keyword', {
+                keyword: item.keyword,
+                type: state.searchType
+            });
+        });
+
+        resultsEl.appendChild(keywordDiv);
+    });
+
+    sectionEl.style.display = 'block';
+    updateStatus(`Found ${keywords.length} GPT keywords. Click one to search.`);
+}
+
+function displayKeywordWithDescription(data) {
+    // Use video layout elements if video file, otherwise use default layout
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    let modeIcon, modeName;
+    if (data.mode === 'instant') {
+        modeIcon = '⚡';
+        modeName = 'Instant';
+    } else if (data.mode === 'recent') {
+        modeIcon = '⏱️';
+        modeName = 'Recent 5s';
+    } else if (data.mode === 'gpt') {
+        modeIcon = '🤖';
+        modeName = 'GPT';
+    } else {
+        modeIcon = '🎯';
+        modeName = 'Important';
+    }
+
+    // Build keyword display with index for GPT mode
+    let displayText = `${modeIcon} ${data.keyword}`;
+    if (data.mode === 'gpt' && data.total_keywords > 1) {
+        displayText += ` (${data.current_index + 1}/${data.total_keywords})`;
+    } else {
+        displayText += ` (${modeName})`;
+    }
+
+    keywordEl.innerHTML = displayText;
+
+    // Add description below keyword if available
+    if (data.description) {
+        keywordEl.innerHTML += `<div class="keyword-description">${data.description}</div>`;
+    }
+
+    // Add hint for double-spacebar if more keywords available
+    if (data.mode === 'gpt' && data.total_keywords > 1) {
+        keywordEl.innerHTML += `<div class="keyword-hint">Press spacebar twice quickly for next keyword</div>`;
+    }
+
+    sectionEl.style.display = 'block';
 }
 
 function displaySearchResults(data) {
@@ -986,11 +1157,10 @@ function displaySearchResults(data) {
     }
 
     // Use video layout elements if video file, otherwise use default layout
-    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
 
-    keywordEl.textContent = `${modeIcon} ${data.keyword} (${modeName})`;
+    // Don't overwrite keyword - it's already set by displayKeywordWithDescription with description
     resultsEl.innerHTML = '';
 
     // Handle 'both' type - display both text and image results
@@ -1158,6 +1328,12 @@ function clearSession() {
     state.currentAudioFile = null;
     state.isVideoFile = false;
     state.srtLoaded = false;
+
+    // Reset GPT keyword state
+    state.hasGptKeywords = false;
+    state.totalGptKeywords = 0;
+    state.currentGptKeywordIndex = 0;
+    state.lastSpacebarTime = 0;
 
     // Reset SRT button state
     srtInput.parentElement.classList.remove('active');

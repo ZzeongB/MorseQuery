@@ -585,7 +585,6 @@ Context: """
         try:
             # Call GPT API (using gpt-4o-mini like in test script)
             gpt_start_time = datetime.utcnow()
-            print(f"[TIMING] GPT API call started at: {gpt_start_time.isoformat()}")
 
             response = openai_client.chat.completions.create(
                 model="gpt-4o-mini",
@@ -598,9 +597,6 @@ Context: """
             gpt_duration = (gpt_end_time - gpt_start_time).total_seconds()
 
             raw_response = response.choices[0].message.content.strip()
-            print(f"[GPT] Raw response: {raw_response}")
-            print(f"[TIMING] GPT API call completed at: {gpt_end_time.isoformat()}")
-            print(f"[TIMING] GPT API duration: {gpt_duration:.3f}s")
 
             # Parse the response to extract multiple "Keyword:" and "Description:" pairs
             # Expected format:
@@ -622,18 +618,22 @@ Context: """
                 elif line.lower().startswith("description:") and current_keyword:
                     # Complete the pair with description
                     description = line.split(":", 1)[1].strip()
-                    keyword_description_pairs.append({
-                        "keyword": current_keyword,
-                        "description": description,
-                    })
+                    keyword_description_pairs.append(
+                        {
+                            "keyword": current_keyword,
+                            "description": description,
+                        }
+                    )
                     current_keyword = None
 
             # Handle case where keyword has no description
             if current_keyword:
-                keyword_description_pairs.append({
-                    "keyword": current_keyword,
-                    "description": None,
-                })
+                keyword_description_pairs.append(
+                    {
+                        "keyword": current_keyword,
+                        "description": None,
+                    }
+                )
 
             # Use first keyword as the main predicted keyword
             if keyword_description_pairs:
@@ -644,12 +644,6 @@ Context: """
             # Store all keyword-description pairs in session for double-spacebar navigation
             self.gpt_keyword_pairs = keyword_description_pairs
             self.current_keyword_index = 0  # Reset to first keyword
-
-            print(f"[GPT] Extracted {len(keyword_description_pairs)} keyword-description pairs:")
-            for i, pair in enumerate(keyword_description_pairs):
-                print(f"  [{i+1}] Keyword: {pair['keyword']}")
-                if pair['description']:
-                    print(f"      Description: {pair['description']}")
 
             # Log the GPT prediction with all keyword-description pairs
             self._log_event(
@@ -817,10 +811,6 @@ def process_whisper_background(audio_data, file_format, session_id):
     temp_path = None
 
     audio_received_time = datetime.utcnow()
-    print(
-        f"[TIMING] Whisper chunk processing started at: {audio_received_time.isoformat()}"
-    )
-
     try:
         # Check if audio data is valid
         if not audio_data or len(audio_data) < 100:
@@ -862,9 +852,6 @@ def process_whisper_background(audio_data, file_format, session_id):
         )
 
         transcription_start_time = datetime.utcnow()
-        print(
-            f"[TIMING] Whisper transcription started at: {transcription_start_time.isoformat()}"
-        )
 
         result = whisper_model.transcribe(temp_path)
         text = result["text"].strip()
@@ -875,21 +862,10 @@ def process_whisper_background(audio_data, file_format, session_id):
         ).total_seconds()
         total_duration = (transcription_end_time - audio_received_time).total_seconds()
 
-        print(f"Transcription: {text}")
-        print(
-            f"[TIMING] Whisper transcription completed at: {transcription_end_time.isoformat()}"
-        )
-        print(f"[TIMING] Whisper transcription duration: {transcription_duration:.3f}s")
-        print(f"[TIMING] Total Whisper processing time: {total_duration:.3f}s")
-
         if text:
             word_add_time = datetime.utcnow()
             session = transcription_sessions[session_id]
             session.add_text(text)
-            print(
-                f"[Whisper] ✓ Words added to session at {word_add_time.isoformat()}: '{text}'"
-            )
-            print(f"[Whisper] Total words in session now: {len(session.words)}")
 
             # Log Whisper transcription to JSON
             session._log_event(
@@ -966,10 +942,6 @@ def handle_audio_chunk_whisper(data):
     session_id = request.sid
 
     try:
-        # print("\n" + "=" * 50)
-        print("[Whisper] Received audio chunk request")
-        # print(f"Session ID: {session_id}")
-
         # Decode base64 audio data
         audio_data = base64.b64decode(data["audio"])
 
@@ -1008,11 +980,6 @@ def handle_audio_chunk_realtime(data):
 
         # Log audio chunk arrival time
         audio_received_time = datetime.utcnow()
-
-        print("\n" + "=" * 50)
-        print("[Real-time] Received audio chunk")
-        print(f"Session ID: {session_id}")
-        print(f"[TIMING] Audio received at: {audio_received_time.isoformat()}")
 
         # Decode base64 audio data
         audio_data = base64.b64decode(data["audio"])
@@ -1087,9 +1054,6 @@ def handle_audio_chunk_realtime(data):
             socketio.emit("status", {"message": "Transcribing..."}, room=session_id)
 
             transcription_start_time = datetime.utcnow()
-            print(
-                f"[TIMING] Transcription started at: {transcription_start_time.isoformat()}"
-            )
 
             try:
                 result = whisper_model.transcribe(audio_np, fp16=False)
@@ -1103,12 +1067,6 @@ def handle_audio_chunk_realtime(data):
                     transcription_end_time - audio_received_time
                 ).total_seconds()
 
-                print(f"Transcription: {text}")
-                print(
-                    f"[TIMING] Transcription completed at: {transcription_end_time.isoformat()}"
-                )
-                print(f"[TIMING] Transcription duration: {transcription_duration:.3f}s")
-                print(f"[TIMING] Total processing time: {total_duration:.3f}s")
             except RuntimeError as whisper_error:
                 error_msg = str(whisper_error)
                 if "cannot reshape tensor" in error_msg or "0 elements" in error_msg:
@@ -1148,15 +1106,8 @@ def handle_audio_chunk_realtime(data):
             if text:
                 # Update or append transcription (like demo)
                 if phrase_complete or is_final:
-                    word_add_time = datetime.utcnow()
                     session.transcription_lines.append(text)
                     session.add_text(text)
-                    print(
-                        f"[Real-time] ✓ COMPLETE phrase added to session at {word_add_time.isoformat()}: '{text}'"
-                    )
-                    print(
-                        f"[Real-time] Total words in session now: {len(session.words)}"
-                    )
 
                     # Log real-time Whisper transcription to JSON
                     session._log_event(
@@ -1224,11 +1175,11 @@ def handle_search_request(data):
     client_timestamp = data.get(
         "client_timestamp"
     )  # Client-side timestamp when spacebar was pressed
+    skip_search = data.get("skip_search", False)  # Skip Google search if true
+    show_all_keywords = data.get(
+        "show_all_keywords", False
+    )  # Show all GPT keywords at once
 
-    print(f"\n[Search Request] Mode: {search_mode}, Type: {search_type}")
-    print(
-        f"[TIMING] Search request received at (server): {search_request_time.isoformat()}"
-    )
     # log action
     transcription_sessions[session_id].log_search_action(
         search_mode=search_mode,
@@ -1255,43 +1206,23 @@ def handle_search_request(data):
 
     # Get keyword based on search mode
     keyword_extraction_start = datetime.utcnow()
-    print(
-        f"[TIMING] Keyword extraction started at: {keyword_extraction_start.isoformat()}"
-    )
 
     if search_mode == "instant":
         # Use the keyword provided by client (last word)
         keyword = data.get("keyword", "")
-        print(f"[Instant Search] Using client-provided keyword: {keyword}")
     elif search_mode == "recent":
         # Recent mode: important word from last 5 seconds
         time_threshold = data.get("time_threshold", 5)  # default 5 seconds
         keyword = transcription_sessions[
             session_id
         ].get_top_keyword_with_time_threshold(time_threshold)
-        print(
-            f"[Recent Search] Calculated keyword from last {time_threshold}s: {keyword}"
-        )
     elif search_mode == "gpt":
         # GPT mode: use GPT to predict what user wants to look up
         time_threshold = data.get("time_threshold", 5)  # default 3 seconds
         keyword = transcription_sessions[session_id].get_top_keyword_gpt(time_threshold)
-        print(
-            f"[GPT Search] GPT predicted keyword from last {time_threshold}s: {keyword}"
-        )
     else:
         # TF-IDF/Important mode: calculate important keyword
         keyword = transcription_sessions[session_id].get_top_keyword()
-        print(f"[TF-IDF Search] Calculated keyword: {keyword}")
-
-    keyword_extraction_end = datetime.utcnow()
-    keyword_extraction_duration = (
-        keyword_extraction_end - keyword_extraction_start
-    ).total_seconds()
-    print(
-        f"[TIMING] Keyword extraction completed at: {keyword_extraction_end.isoformat()}"
-    )
-    print(f"[TIMING] Keyword extraction duration: {keyword_extraction_duration:.3f}s")
 
     if not keyword:
         emit("error", {"message": "No keywords available for search"})
@@ -1312,13 +1243,29 @@ def handle_search_request(data):
         if current_index < len(session.gpt_keyword_pairs):
             description = session.gpt_keyword_pairs[current_index].get("description")
 
-    emit("search_keyword", {
-        "keyword": keyword_clean,
-        "mode": search_mode,
-        "description": description,
-        "total_keywords": total_keywords,
-        "current_index": current_index
-    })
+    # If show_all_keywords is enabled and in GPT mode, emit all keywords at once
+    if show_all_keywords and search_mode == "gpt" and session.gpt_keyword_pairs:
+        emit(
+            "all_keywords", {"keywords": session.gpt_keyword_pairs, "mode": search_mode}
+        )
+        if skip_search:
+            return
+    else:
+        emit(
+            "search_keyword",
+            {
+                "keyword": keyword_clean,
+                "mode": search_mode,
+                "description": description,
+                "total_keywords": total_keywords,
+                "current_index": current_index,
+            },
+        )
+
+    # Skip Google search if requested
+    if skip_search:
+        print("[Search] Skipping Google search (skip_search=True)")
+        return
 
     # Perform Google Custom Search
     try:
@@ -1349,7 +1296,6 @@ def handle_search_request(data):
                 "results": search_results,
             },
         )
-        print(f"[Search] Found {num_results} results for '{keyword_clean}'")
     except Exception as e:
         print(f"Search error: {str(e)}")
         emit("error", {"message": f"Search error: {str(e)}"})
@@ -1360,8 +1306,6 @@ def handle_next_keyword(data):
     """Handle double-spacebar request to show next GPT keyword"""
     session_id = request.sid
     search_type = data.get("type", "text")
-
-    print(f"\n[Next Keyword] Request received")
 
     if session_id not in transcription_sessions:
         emit("error", {"message": "No active session"})
@@ -1383,16 +1327,17 @@ def handle_next_keyword(data):
     keyword = current_pair.get("keyword", "")
     description = current_pair.get("description")
 
-    print(f"[Next Keyword] Showing keyword {session.current_keyword_index + 1}/{len(session.gpt_keyword_pairs)}: {keyword}")
-
     # Emit the new keyword info
-    emit("search_keyword", {
-        "keyword": keyword,
-        "mode": "gpt",
-        "description": description,
-        "total_keywords": len(session.gpt_keyword_pairs),
-        "current_index": session.current_keyword_index
-    })
+    emit(
+        "search_keyword",
+        {
+            "keyword": keyword,
+            "mode": "gpt",
+            "description": description,
+            "total_keywords": len(session.gpt_keyword_pairs),
+            "current_index": session.current_keyword_index,
+        },
+    )
 
     # Perform search for the new keyword
     try:
@@ -1423,7 +1368,63 @@ def handle_next_keyword(data):
                 "results": search_results,
             },
         )
-        print(f"[Next Keyword] Found {num_results} results for '{keyword}'")
+    except Exception as e:
+        print(f"Search error: {str(e)}")
+        emit("error", {"message": f"Search error: {str(e)}"})
+
+
+@socketio.on("search_single_keyword")
+def handle_search_single_keyword(data):
+    """Handle click on a keyword from all_keywords list"""
+    session_id = request.sid
+    keyword = data.get("keyword", "")
+    search_type = data.get("type", "text")
+
+    if not keyword:
+        emit("error", {"message": "No keyword provided"})
+        return
+
+    # Emit the keyword info
+    emit(
+        "search_keyword",
+        {
+            "keyword": keyword,
+            "mode": "gpt",
+            "description": None,
+            "total_keywords": 1,
+            "current_index": 0,
+        },
+    )
+
+    # Perform Google Custom Search
+    try:
+        search_results = google_custom_search(keyword, search_type)
+
+        # Calculate number of results
+        if search_type == "both" and isinstance(search_results, dict):
+            num_results = len(search_results.get("text", [])) + len(
+                search_results.get("image", [])
+            )
+        else:
+            num_results = len(search_results) if isinstance(search_results, list) else 0
+
+        if session_id in transcription_sessions:
+            transcription_sessions[session_id].log_search_action(
+                search_mode="gpt_single",
+                search_type=search_type,
+                keyword=keyword,
+                num_results=num_results,
+            )
+
+        emit(
+            "search_results",
+            {
+                "keyword": keyword,
+                "mode": "gpt",
+                "type": search_type,
+                "results": search_results,
+            },
+        )
     except Exception as e:
         print(f"Search error: {str(e)}")
         emit("error", {"message": f"Search error: {str(e)}"})
@@ -1674,7 +1675,6 @@ def handle_srt_time_update(data):
                     "transcription",
                     {"text": text, "source": "srt", "is_complete": True},
                 )
-                print(f"[SRT] Transcription at {current_time_ms}ms: {text[:50]}...")
             break
 
 
