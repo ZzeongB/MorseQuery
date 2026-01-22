@@ -528,48 +528,52 @@ class TranscriptionSession:
         prompt = (
             """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
 
-Given the transcript context, predict which word(s) the user selected. The selected words should be:
+Given the transcript context, predict which word(s) the user selected and provide a short description. The selected words should be:
 - Technical terms or unfamiliar vocabulary
 - Concepts that need clarification
 - Names or specific references
 - Words that might need visual aids
 
+Respond in this exact format:
+Keyword: <the selected word or phrase>
+Description: <a brief 1-sentence description of what this term means>
+
 Few-shot examples:
 
 Example 1:
 Context: really  are  related  to  black  holes.  Like,  I  get  paid  for  this,
-User selected: I get paid for this,
+Keyword: black holes
+Description: Regions in space where gravity is so strong that nothing, not even light, can escape.
 
 Example 2:
 Context: And  I'm  going  to  run  these  wires  across  a  spark  gap,
-User selected: spark gap
+Keyword: spark gap
+Description: A device with two electrodes separated by a gap filled with gas, used to produce electrical sparks.
 
 Example 3:
 Context: to  do  by  Newton,  and  metaphorically  speaking,  and,
-User selected: metaphorically
+Keyword: metaphorically
+Description: Speaking in a figurative way, using comparisons that are not literally true.
 
 Example 4:
 Context: goes  by  way  of  the  phalamus  on  route  to  the  cortex.
-User selected: cortex
+Keyword: cortex
+Description: The outer layer of the brain responsible for higher cognitive functions like thinking and memory.
 
 Example 5:
-Context: H .M.  So  there's  a  case  of  Lonnie  Sujonsen.
-User selected: Lonnie Sujonsen
+Context: spikes,  which  most  of  us  have,  is  the  sense  of  chronic  fatigue.
+Keyword: chronic fatigue
+Description: Persistent tiredness that lasts for an extended period and is not relieved by rest.
 
 Example 6:
-Context: spikes,  which  most  of  us  have,  is  the  sense  of  chronic  fatigue.
-User selected: chronic fatigue
-
-Example 7:
-Context: it  senses  this  big  glucose  spike,  it  calls  your  pancreas  and  it's  like, 
-User selected: pancreas
+Context: it  senses  this  big  glucose  spike,  it  calls  your  pancreas  and  it's  like,
+Keyword: pancreas
+Description: An organ that produces insulin and digestive enzymes, regulating blood sugar levels.
 
 Now predict for this new context:
 
 Context: """
             + context_text
-            + """
-User selected: """
         )
 
         try:
@@ -592,28 +596,52 @@ User selected: """
             print(f"[TIMING] GPT API call completed at: {gpt_end_time.isoformat()}")
             print(f"[TIMING] GPT API duration: {gpt_duration:.3f}s")
 
-            # Parse the response to extract "User selected:" and "Intent:"
-            # Expected format: "User selected: keyword\nIntent: intent_type"
-            predicted_keyword = raw_response
-            intent = None
+            # Parse the response to extract multiple "Keyword:" and "Description:" pairs
+            # Expected format:
+            # Keyword: keyword1
+            # Description: description1
+            # Keyword: keyword2
+            # Description: description2
+            keyword_description_pairs = []
+            current_keyword = None
 
-            # Split by newline to separate user selected and intent
+            # Split by newline to separate keyword and description
             lines = raw_response.split("\n")
 
             for line in lines:
                 line = line.strip()
-                if line.lower().startswith("user selected:"):
-                    # Extract keyword after "User selected:"
-                    predicted_keyword = line.split(":", 1)[1].strip()
-                elif line.lower().startswith("intent:"):
-                    # Extract intent after "Intent:"
-                    intent = line.split(":", 1)[1].strip()
+                if line.lower().startswith("keyword:"):
+                    # Start a new keyword-description pair
+                    current_keyword = line.split(":", 1)[1].strip()
+                elif line.lower().startswith("description:") and current_keyword:
+                    # Complete the pair with description
+                    description = line.split(":", 1)[1].strip()
+                    keyword_description_pairs.append({
+                        "keyword": current_keyword,
+                        "description": description,
+                    })
+                    current_keyword = None
 
-            print(f"[GPT] Extracted keyword: {predicted_keyword}")
-            if intent:
-                print(f"[GPT] Extracted intent: {intent}")
+            # Handle case where keyword has no description
+            if current_keyword:
+                keyword_description_pairs.append({
+                    "keyword": current_keyword,
+                    "description": None,
+                })
 
-            # Log the GPT prediction with both keyword and intent
+            # Use first keyword as the main predicted keyword
+            if keyword_description_pairs:
+                predicted_keyword = keyword_description_pairs[0]["keyword"]
+            else:
+                predicted_keyword = raw_response
+
+            print(f"[GPT] Extracted {len(keyword_description_pairs)} keyword-description pairs:")
+            for i, pair in enumerate(keyword_description_pairs):
+                print(f"  [{i+1}] Keyword: {pair['keyword']}")
+                if pair['description']:
+                    print(f"      Description: {pair['description']}")
+
+            # Log the GPT prediction with all keyword-description pairs
             self._log_event(
                 "keyword_extraction_gpt",
                 {
@@ -621,7 +649,7 @@ User selected: """
                     "context": context_text,
                     "raw_response": raw_response,
                     "predicted_keyword": predicted_keyword,
-                    "predicted_intent": intent,
+                    "keyword_description_pairs": keyword_description_pairs,
                     "model": "gpt-4o-mini",
                     "temperature": 0.3,
                 },
@@ -851,9 +879,7 @@ def process_whisper_background(audio_data, file_format, session_id):
             print(
                 f"[Whisper] ✓ Words added to session at {word_add_time.isoformat()}: '{text}'"
             )
-            print(
-                f"[Whisper] Total words in session now: {len(session.words)}"
-            )
+            print(f"[Whisper] Total words in session now: {len(session.words)}")
 
             # Log Whisper transcription to JSON
             session._log_event(
@@ -1439,7 +1465,9 @@ def handle_check_srt_for_media(data):
                 srt_content = f.read()
 
             entries = parse_srt(srt_content)
-            print(f"[SRT] Auto-loaded matching SRT: {srt_path} ({len(entries)} entries)")
+            print(
+                f"[SRT] Auto-loaded matching SRT: {srt_path} ({len(entries)} entries)"
+            )
 
             if session_id not in transcription_sessions:
                 transcription_sessions[session_id] = TranscriptionSession(session_id)
@@ -1457,11 +1485,14 @@ def handle_check_srt_for_media(data):
                 },
             )
 
-            emit("srt_loaded", {
-                "count": len(entries),
-                "status": f"Auto-loaded SRT: {os.path.basename(srt_path)}",
-                "auto": True
-            })
+            emit(
+                "srt_loaded",
+                {
+                    "count": len(entries),
+                    "status": f"Auto-loaded SRT: {os.path.basename(srt_path)}",
+                    "auto": True,
+                },
+            )
         except Exception as e:
             print(f"[SRT] Error auto-loading SRT: {e}")
     else:
