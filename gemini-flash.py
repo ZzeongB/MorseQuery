@@ -103,6 +103,12 @@ load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 client = genai.Client(http_options={"api_version": "v1beta"}, api_key=API_KEY)
 
+from google.genai import types
+
+grounding_tool = types.Tool(google_search=types.GoogleSearch())
+
+tools = [{"google_search": {}}]
+
 CONFIG = {"response_modalities": ["AUDIO"]}
 
 STUDY_CONFIG = {
@@ -110,8 +116,13 @@ STUDY_CONFIG = {
     "system_instruction": """You are a real-time learning assistant. Listen to the audio and perform the following tasks:
 
 1. **[Captions]**: Transcribe what you hear in real time (verbatim, in the original language).
-2. **[Summary]**: Continuously update a short summary that captures the overall context and key points of everything said so far. Update it as new information comes in.
+2. **[Summary]**: Continuously update the summary with TWO parts:
+   - **Overall context**: a brief one-line summary of everything understood so far.
+   - **Current segment**: a one-line summary of what is being discussed right now.
+   Update both as new information comes in.
+
 3. **[Terms]**: When technical terms, difficult words, or important concepts appear, briefly explain them.
+   Always provide at least THREE terms when possible.
 
 Output format:
 [Captions] Transcribed content...
@@ -119,9 +130,135 @@ Output format:
 [Terms] Term: explanation...
 
 Be concise and respond in real time.""",
+    "tools": tools,
 }
 
 pya = pyaudio.PyAudio()
+
+import re
+from typing import Dict, List
+
+SECTION_RE = re.compile(r"\[(Captions|Summary|Terms)\]", re.IGNORECASE)
+
+
+def _norm_ws(s: str) -> str:
+    """Collapse weird newlines/spaces into readable single spaces."""
+    s = s.replace("\r\n", "\n").replace("\r", "\n")
+    # keep newlines for section splitting, but normalize inside fields later
+    return s
+
+
+def _squash_inline(s: str) -> str:
+    """Turn arbitrary newlines into spaces, collapse repeated whitespace."""
+    s = re.sub(r"[ \t]*\n[ \t]*", " ", s)  # newline -> space
+    s = re.sub(r"\s{2,}", " ", s).strip()
+    return s
+
+
+def _parse_terms_block(text: str) -> List[Dict[str, str]]:
+    """
+    Parse a terms block where entries are like:
+    Term: Amygdala - A brain structure...
+    but newlines can appear anywhere.
+    """
+    if not text:
+        return []
+
+    t = _norm_ws(text)
+
+    # Robustly match Term entries across arbitrary newlines
+    # - Term label may be 'Term:' possibly with extra spaces/newlines
+    # - Separator between term and definition may be ' - ' or ':' (fallback)
+    term_pat = re.compile(
+        r"""
+        Term\s*:\s*
+        (?P<term>.+?)
+        \s*(?:-\s*|:\s*)
+        (?P<defn>.+?)
+        (?=(?:\n?\s*Term\s*:|\Z))
+        """,
+        re.IGNORECASE | re.DOTALL | re.VERBOSE,
+    )
+
+    terms: List[Dict[str, str]] = []
+    for m in term_pat.finditer(t):
+        term = _squash_inline(m.group("term"))
+        definition = _squash_inline(m.group("defn"))
+        if term and definition:
+            terms.append({"term": term, "definition": definition})
+
+    return terms
+
+
+def parse_realtime_output(raw: str) -> Dict[str, object]:
+    """
+    Parse model output that contains:
+      [Captions] ...
+      [Summary] Overall context: ... Current segment: ...
+      [Terms] Term: ... - ...
+    while being resilient to arbitrary newlines.
+    """
+    raw = _norm_ws(raw)
+
+    # Split into sections by markers, but keep any preamble text
+    matches = list(SECTION_RE.finditer(raw))
+    sections: Dict[str, str] = {"captions": "", "summary": "", "terms": ""}
+    preamble = raw[: matches[0].start()] if matches else raw
+
+    # Collect section contents
+    for i, m in enumerate(matches):
+        name = m.group(1).lower()
+        start = m.end()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(raw)
+        content = raw[start:end].strip()
+
+        if name == "captions":
+            sections["captions"] += (
+                ("\n" + content) if sections["captions"] else content
+            )
+        elif name == "summary":
+            sections["summary"] += ("\n" + content) if sections["summary"] else content
+        elif name == "terms":
+            sections["terms"] += ("\n" + content) if sections["terms"] else content
+
+    # Parse captions (join lines robustly)
+    captions = _squash_inline(sections["captions"])
+
+    # Parse summary (handle broken labels like "Current\n segment")
+    summary_text = sections["summary"]
+    summary_text_inline = _squash_inline(summary_text)
+
+    overall = ""
+    current = ""
+
+    m_overall = re.search(
+        r"Overall\s*context\s*:\s*(.+?)(?=(Current\s*segment\s*:|$))",
+        summary_text_inline,
+        flags=re.IGNORECASE,
+    )
+    if m_overall:
+        overall = _squash_inline(m_overall.group(1))
+
+    m_current = re.search(
+        r"Current\s*segment\s*:\s*(.+)$", summary_text_inline, flags=re.IGNORECASE
+    )
+    if m_current:
+        current = _squash_inline(m_current.group(1))
+
+    # Parse terms: include preamble terms + [Terms] block terms
+    terms = []
+    terms.extend(_parse_terms_block(preamble))
+    terms.extend(_parse_terms_block(sections["terms"]))
+
+    return {
+        "captions": captions,
+        "summary": {
+            "overall_context": overall,
+            "current_segment": current,
+        },
+        "terms": terms,
+        "raw_sections": sections,  # 디버깅 필요 없으면 제거해도 됨
+    }
 
 
 class AudioLoop:
@@ -363,10 +500,43 @@ class AudioLoop:
     async def receive_text(self):
         """Background task to receive text responses for study mode"""
         while True:
-            turn = self.session.receive()
-            async for response in turn:
-                if text := response.text:
-                    self._print_formatted(text)
+            try:
+                turn = self.session.receive()
+                async for response in turn:
+                    try:
+                        # 텍스트 출력
+                        text = getattr(response, "text", None)
+                        if text:
+                            self._print_formatted(text)
+
+                        # print(response.__dict__)
+
+                        # 후보가 없는 경우 대비
+                        candidates = getattr(response, "candidates", None)
+                        if not candidates:
+                            continue
+
+                        print("Yes candidate")
+
+                        candidate = candidates[0]
+
+                        # grounding metadata 안전 접근
+                        metadata = getattr(candidate, "grounding_metadata", None)
+                        if metadata:
+                            supports = getattr(metadata, "grounding_supports", None)
+                            chunks = getattr(metadata, "grounding_chunks", None)
+                            if supports and chunks:
+                                print(supports, chunks)
+
+                    except Exception as e:
+                        # 개별 response 처리 중 에러
+                        print(f"[receive_text] response handling error: {e}")
+                        continue
+
+            except Exception as e:
+                # receive() 자체가 실패한 경우
+                print(f"[receive_text] session receive error: {e}")
+                await asyncio.sleep(0.5)  # 과도한 루프 방지
 
     def _print_formatted(self, text):
         """Print text with ANSI colors based on tag type"""
@@ -378,11 +548,11 @@ class AudioLoop:
 
         lines = text.split("\n")
         for line in lines:
-            if "[자막]" in line:
+            if "[Captions]" in line:
                 print(f"{WHITE}{line}{RESET}")
-            elif "[요약]" in line:
+            elif "[Summary]" in line:
                 print(f"{YELLOW}{line}{RESET}")
-            elif "[용어]" in line:
+            elif "[Terms]" in line:
                 print(f"{GREEN}{line}{RESET}")
             else:
                 print(line)
