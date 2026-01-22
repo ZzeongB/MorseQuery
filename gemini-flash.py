@@ -76,6 +76,7 @@ import mss
 import PIL.Image
 import pyaudio
 from google import genai
+from google.genai import types
 from pydub import AudioSegment
 
 if sys.version_info < (3, 11, 0):
@@ -103,6 +104,11 @@ load_dotenv()
 API_KEY = os.getenv("GOOGLE_API_KEY")
 client = genai.Client(http_options={"api_version": "v1beta"}, api_key=API_KEY)
 
+grounding_tool = types.Tool(google_search=types.GoogleSearch())
+
+tools = [{"google_search": {}}]
+config = types.GenerateContentConfig(tools=[grounding_tool])
+
 CONFIG = {"response_modalities": ["AUDIO"]}
 
 STUDY_CONFIG = {
@@ -119,6 +125,7 @@ Output format:
 [Terms] Term: explanation...
 
 Be concise and respond in real time.""",
+    "tools": tools,
 }
 
 pya = pyaudio.PyAudio()
@@ -363,10 +370,41 @@ class AudioLoop:
     async def receive_text(self):
         """Background task to receive text responses for study mode"""
         while True:
-            turn = self.session.receive()
-            async for response in turn:
-                if text := response.text:
-                    self._print_formatted(text)
+            try:
+                turn = self.session.receive()
+                async for response in turn:
+                    try:
+                        # 후보가 없는 경우 대비
+                        candidates = getattr(response, "candidates", None)
+                        if not candidates:
+                            continue
+
+                        candidate = candidates[0]
+
+                        # grounding metadata 안전 접근
+                        metadata = getattr(candidate, "grounding_metadata", None)
+                        if metadata:
+                            supports = getattr(metadata, "grounding_supports", None)
+                            chunks = getattr(metadata, "grounding_chunks", None)
+                            if supports and chunks:
+                                print(supports, chunks)
+
+                        # 텍스트 출력
+                        text = getattr(response, "text", None)
+                        if text:
+                            self._print_formatted(text)
+                        else:
+                            print("No text")
+
+                    except Exception as e:
+                        # 개별 response 처리 중 에러
+                        print(f"[receive_text] response handling error: {e}")
+                        continue
+
+            except Exception as e:
+                # receive() 자체가 실패한 경우
+                print(f"[receive_text] session receive error: {e}")
+                await asyncio.sleep(0.5)  # 과도한 루프 방지
 
     def _print_formatted(self, text):
         """Print text with ANSI colors based on tag type"""
@@ -378,11 +416,11 @@ class AudioLoop:
 
         lines = text.split("\n")
         for line in lines:
-            if "[자막]" in line:
+            if "[Captions]" in line:
                 print(f"{WHITE}{line}{RESET}")
-            elif "[요약]" in line:
+            elif "[Summary]" in line:
                 print(f"{YELLOW}{line}{RESET}")
-            elif "[용어]" in line:
+            elif "[Terms]" in line:
                 print(f"{GREEN}{line}{RESET}")
             else:
                 print(line)
