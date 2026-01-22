@@ -182,6 +182,10 @@ class TranscriptionSession:
         self.phrase_time = None
         self.transcription_lines = [""]
 
+        # GPT keyword extraction state (for double-spacebar navigation)
+        self.gpt_keyword_pairs = []  # List of {keyword, description} dicts
+        self.current_keyword_index = 0  # Current keyword being shown
+
         # Logging system
         self.session_start_time = datetime.utcnow()
         self.event_log = []  # List of all events (words added, searches performed)
@@ -525,50 +529,52 @@ class TranscriptionSession:
         print(f"[GPT] Context sent to GPT: '{context_text}'")
 
         # Create GPT prompt (based on test_gpt_prediction.py)
+        # Request multiple keywords ranked by importance
         prompt = (
             """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
 
-Given the transcript context, predict which word(s) the user selected and provide a short description. The selected words should be:
+Given the transcript context, predict the TOP 3 words/phrases the user would want to look up, ranked by importance (most important first). The selected words should be:
 - Technical terms or unfamiliar vocabulary
 - Concepts that need clarification
 - Names or specific references
 - Words that might need visual aids
 
-Respond in this exact format:
-Keyword: <the selected word or phrase>
-Description: <a brief 1-sentence description of what this term means>
+Respond with EXACTLY 3 keyword-description pairs in this format:
+Keyword: <word or phrase 1 - most important>
+Description: <a brief 1-sentence description>
+Keyword: <word or phrase 2 - second most important>
+Description: <a brief 1-sentence description>
+Keyword: <word or phrase 3 - third most important>
+Description: <a brief 1-sentence description>
 
 Few-shot examples:
 
 Example 1:
-Context: really  are  related  to  black  holes.  Like,  I  get  paid  for  this,
+Context: really are related to black holes. Like, I get paid for this,
 Keyword: black holes
 Description: Regions in space where gravity is so strong that nothing, not even light, can escape.
+Keyword: gravity
+Description: The force that attracts objects toward each other, especially the Earth's pull on objects.
+Keyword: paid
+Description: Receiving money in exchange for work or services.
 
 Example 2:
-Context: And  I'm  going  to  run  these  wires  across  a  spark  gap,
-Keyword: spark gap
-Description: A device with two electrodes separated by a gap filled with gas, used to produce electrical sparks.
-
-Example 3:
-Context: to  do  by  Newton,  and  metaphorically  speaking,  and,
-Keyword: metaphorically
-Description: Speaking in a figurative way, using comparisons that are not literally true.
-
-Example 4:
-Context: goes  by  way  of  the  phalamus  on  route  to  the  cortex.
+Context: goes by way of the thalamus on route to the cortex.
 Keyword: cortex
 Description: The outer layer of the brain responsible for higher cognitive functions like thinking and memory.
+Keyword: thalamus
+Description: A brain region that relays sensory and motor signals to the cerebral cortex.
+Keyword: route
+Description: A path or way taken to reach a destination.
 
-Example 5:
-Context: spikes,  which  most  of  us  have,  is  the  sense  of  chronic  fatigue.
-Keyword: chronic fatigue
-Description: Persistent tiredness that lasts for an extended period and is not relieved by rest.
-
-Example 6:
-Context: it  senses  this  big  glucose  spike,  it  calls  your  pancreas  and  it's  like,
+Example 3:
+Context: it senses this big glucose spike, it calls your pancreas and it's like,
 Keyword: pancreas
 Description: An organ that produces insulin and digestive enzymes, regulating blood sugar levels.
+Keyword: glucose spike
+Description: A rapid increase in blood sugar levels, often after eating carbohydrates.
+Keyword: insulin
+Description: A hormone that regulates blood sugar by helping cells absorb glucose.
 
 Now predict for this new context:
 
@@ -634,6 +640,10 @@ Context: """
                 predicted_keyword = keyword_description_pairs[0]["keyword"]
             else:
                 predicted_keyword = raw_response
+
+            # Store all keyword-description pairs in session for double-spacebar navigation
+            self.gpt_keyword_pairs = keyword_description_pairs
+            self.current_keyword_index = 0  # Reset to first keyword
 
             print(f"[GPT] Extracted {len(keyword_description_pairs)} keyword-description pairs:")
             for i, pair in enumerate(keyword_description_pairs):
@@ -1290,7 +1300,25 @@ def handle_search_request(data):
     # Clean the keyword (remove punctuation)
     keyword_clean = "".join(c for c in keyword if c.isalnum() or c.isspace()).strip()
 
-    emit("search_keyword", {"keyword": keyword_clean, "mode": search_mode})
+    # Get description and keyword count for GPT mode
+    session = transcription_sessions[session_id]
+    description = None
+    total_keywords = 1
+    current_index = 0
+
+    if search_mode == "gpt" and session.gpt_keyword_pairs:
+        total_keywords = len(session.gpt_keyword_pairs)
+        current_index = session.current_keyword_index
+        if current_index < len(session.gpt_keyword_pairs):
+            description = session.gpt_keyword_pairs[current_index].get("description")
+
+    emit("search_keyword", {
+        "keyword": keyword_clean,
+        "mode": search_mode,
+        "description": description,
+        "total_keywords": total_keywords,
+        "current_index": current_index
+    })
 
     # Perform Google Custom Search
     try:
@@ -1322,6 +1350,80 @@ def handle_search_request(data):
             },
         )
         print(f"[Search] Found {num_results} results for '{keyword_clean}'")
+    except Exception as e:
+        print(f"Search error: {str(e)}")
+        emit("error", {"message": f"Search error: {str(e)}"})
+
+
+@socketio.on("next_keyword")
+def handle_next_keyword(data):
+    """Handle double-spacebar request to show next GPT keyword"""
+    session_id = request.sid
+    search_type = data.get("type", "text")
+
+    print(f"\n[Next Keyword] Request received")
+
+    if session_id not in transcription_sessions:
+        emit("error", {"message": "No active session"})
+        return
+
+    session = transcription_sessions[session_id]
+
+    # Check if we have GPT keyword pairs
+    if not session.gpt_keyword_pairs:
+        emit("error", {"message": "No GPT keywords available. Press spacebar first."})
+        return
+
+    # Move to next keyword (cycle back to first if at end)
+    session.current_keyword_index += 1
+    if session.current_keyword_index >= len(session.gpt_keyword_pairs):
+        session.current_keyword_index = 0  # Cycle back to first
+
+    current_pair = session.gpt_keyword_pairs[session.current_keyword_index]
+    keyword = current_pair.get("keyword", "")
+    description = current_pair.get("description")
+
+    print(f"[Next Keyword] Showing keyword {session.current_keyword_index + 1}/{len(session.gpt_keyword_pairs)}: {keyword}")
+
+    # Emit the new keyword info
+    emit("search_keyword", {
+        "keyword": keyword,
+        "mode": "gpt",
+        "description": description,
+        "total_keywords": len(session.gpt_keyword_pairs),
+        "current_index": session.current_keyword_index
+    })
+
+    # Perform search for the new keyword
+    try:
+        search_results = google_custom_search(keyword, search_type)
+
+        # Calculate number of results
+        if search_type == "both" and isinstance(search_results, dict):
+            num_results = len(search_results.get("text", [])) + len(
+                search_results.get("image", [])
+            )
+        else:
+            num_results = len(search_results) if isinstance(search_results, list) else 0
+
+        # Log the search action
+        session.log_search_action(
+            search_mode="gpt_next",
+            search_type=search_type,
+            keyword=keyword,
+            num_results=num_results,
+        )
+
+        emit(
+            "search_results",
+            {
+                "keyword": keyword,
+                "mode": "gpt",
+                "type": search_type,
+                "results": search_results,
+            },
+        )
+        print(f"[Next Keyword] Found {num_results} results for '{keyword}'")
     except Exception as e:
         print(f"Search error: {str(e)}")
         emit("error", {"message": f"Search error: {str(e)}"})
