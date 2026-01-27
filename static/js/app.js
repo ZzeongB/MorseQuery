@@ -29,7 +29,14 @@ let state = {
     geminiConnected: false,
     geminiCaptions: '',
     geminiSummary: { overall_context: '', current_segment: '' },
-    geminiTerms: []
+    geminiTerms: [],
+    // Gemini Inference control - only show response after spacebar, until Done
+    geminiInferWaiting: false,  // true = waiting for response after spacebar
+    geminiInferBuffer: '',      // buffer for streaming response
+    geminiInferOnDemand: true,  // true = show only after spacebar, false = show all responses
+    // Gemini terms management (for multiple terms per response)
+    geminiInferTerms: [],       // all terms from current response
+    geminiInferTermIndex: 0     // current term index for navigation
 };
 
 // DOM elements
@@ -38,6 +45,7 @@ const fileInput = document.getElementById('fileInput');
 const srtInput = document.getElementById('srtInput');
 const whisperBtn = document.getElementById('whisperBtn');
 const geminiBtn = document.getElementById('geminiBtn');
+const geminiInferBtn = document.getElementById('geminiInferBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
 const recentSearchBtn = document.getElementById('recentSearchBtn');
 const tfidfSearchBtn = document.getElementById('tfidfSearchBtn');
@@ -48,6 +56,7 @@ const imageSearchBtn = document.getElementById('imageSearchBtn');
 const bothSearchBtn = document.getElementById('bothSearchBtn');
 const toggleSearchResultsBtn = document.getElementById('toggleSearchResultsBtn');
 const showAllKeywordsBtn = document.getElementById('showAllKeywordsBtn');
+const inferOnDemandBtn = document.getElementById('inferOnDemandBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusEl = document.getElementById('status');
 const transcriptionEl = document.getElementById('transcription');
@@ -168,16 +177,135 @@ socket.on('session_cleared', () => {
 socket.on('gemini_connected', (data) => {
     console.log('[Gemini] Connected:', data);
     state.geminiConnected = true;
-    geminiBtn.classList.add('active');
-    updateStatus('Gemini Live connected. Start speaking or play audio.');
+    // Activate the correct button based on recognition mode
+    if (state.recognitionMode === 'gemini_infer') {
+        geminiInferBtn.classList.add('active');
+        updateStatus('Gemini Live (Inference) connected. Press SPACE to ask for search suggestions.');
+    } else {
+        geminiBtn.classList.add('active');
+        updateStatus('Gemini Live connected. Start speaking or play audio.');
+    }
 });
 
 socket.on('gemini_disconnected', (data) => {
     console.log('[Gemini] Disconnected:', data);
     state.geminiConnected = false;
     geminiBtn.classList.remove('active');
+    geminiInferBtn.classList.remove('active');
     updateStatus('Gemini Live disconnected');
 });
+
+socket.on('gemini_inference', (data) => {
+    console.log('[Gemini Inference]', data, 'state.geminiInferWaiting:', state.geminiInferWaiting, 'state.geminiInferOnDemand:', state.geminiInferOnDemand);
+
+    // On-demand mode: only process if waiting for response (spacebar was pressed)
+    if (state.geminiInferOnDemand && !state.geminiInferWaiting) {
+        console.log('[Gemini Inference] Ignoring - on-demand mode, not waiting');
+        return;
+    }
+
+    console.log('[Gemini Inference] Processing response...');
+
+    // Buffer the streaming response
+    if (data.text) {
+        state.geminiInferBuffer += data.text + ' ';
+        // Update transcription area with buffered content
+        transcriptionEl.textContent = state.geminiInferBuffer.trim();
+        transcriptionEl.scrollTop = transcriptionEl.scrollHeight;
+    }
+
+    // When Done signal received - DON'T reset waiting here
+    // Wait for gemini_search_terms to arrive and display results
+    if (data.is_done) {
+        console.log('[Gemini Inference] Done signal received - waiting for search terms');
+        if (!state.geminiInferOnDemand) {
+            // Continuous mode: just clear buffer for next response
+            state.geminiInferBuffer = '';
+            updateStatus('Gemini inference received.');
+        }
+        // On-demand mode: keep waiting=true until gemini_search_terms arrives
+    }
+});
+
+socket.on('gemini_search_term', (data) => {
+    console.log('[Gemini Search Term] (legacy)', data);
+    // Legacy single term handler - redirect to new format
+    if (data.term) {
+        const termsData = {
+            terms: [{ term: data.term, definition: data.definition || '' }],
+            total: 1,
+            is_done: data.is_done
+        };
+        handleGeminiSearchTerms(termsData);
+    }
+});
+
+socket.on('gemini_search_terms', (data) => {
+    console.log('[Gemini Search Terms]', data);
+    handleGeminiSearchTerms(data);
+});
+
+function handleGeminiSearchTerms(data) {
+    console.log('[handleGeminiSearchTerms]', data, 'state.geminiInferWaiting:', state.geminiInferWaiting, 'state.geminiInferOnDemand:', state.geminiInferOnDemand);
+
+    // On-demand mode: only process if waiting for response (spacebar was pressed)
+    if (state.geminiInferOnDemand && !state.geminiInferWaiting) {
+        console.log('[handleGeminiSearchTerms] Ignoring - on-demand mode, not waiting');
+        return;
+    }
+
+    console.log('[handleGeminiSearchTerms] Processing terms...');
+
+    // Store all terms
+    state.geminiInferTerms = data.terms || [];
+    state.geminiInferTermIndex = 0;
+
+    // Display first term or error
+    if (state.geminiInferTerms.length > 0) {
+        displayCurrentInferTerm();
+    } else {
+        // No terms - show error
+        const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+        const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+        keywordEl.innerHTML = `🔮 <span style="color: #999">${data.error || 'No terms found'}</span>`;
+        keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE to try again</div>`;
+        sectionEl.style.display = 'block';
+        updateStatus('No search terms found. Press SPACE to try again.');
+    }
+
+    if (data.is_done && state.geminiInferOnDemand) {
+        // Stop waiting after displaying
+        state.geminiInferWaiting = false;
+        state.geminiInferBuffer = '';
+        console.log('[handleGeminiSearchTerms] Done - waiting reset to false');
+    }
+}
+
+function displayCurrentInferTerm() {
+    if (state.geminiInferTerms.length === 0) return;
+
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    const currentTerm = state.geminiInferTerms[state.geminiInferTermIndex];
+    const total = state.geminiInferTerms.length;
+
+    keywordEl.innerHTML = `🔮 ${currentTerm.term}`;
+    if (total > 1) {
+        keywordEl.innerHTML += ` <span style="opacity: 0.6">(${state.geminiInferTermIndex + 1}/${total})</span>`;
+    }
+    if (currentTerm.definition) {
+        keywordEl.innerHTML += `<div class="keyword-description">${currentTerm.definition}</div>`;
+    }
+    if (total > 1) {
+        keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE for next term, or double-SPACE for new query</div>`;
+    } else {
+        keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE for next query</div>`;
+    }
+    sectionEl.style.display = 'block';
+
+    updateStatus(`🔮 Gemini suggests: "${currentTerm.term}" (${state.geminiInferTermIndex + 1}/${total})`);
+}
 
 socket.on('gemini_transcription', (data) => {
     console.log('[Gemini Transcription]', data);
@@ -234,6 +362,7 @@ fileInput.addEventListener('change', handleFileUpload);
 srtInput.addEventListener('change', handleSrtUpload);
 whisperBtn.addEventListener('click', () => setRecognitionMode('whisper'));
 geminiBtn.addEventListener('click', () => setRecognitionMode('gemini'));
+geminiInferBtn.addEventListener('click', () => setRecognitionMode('gemini_infer'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
 recentSearchBtn.addEventListener('click', () => setSearchMode('recent'));
 tfidfSearchBtn.addEventListener('click', () => setSearchMode('tfidf'));
@@ -244,6 +373,7 @@ imageSearchBtn.addEventListener('click', () => setSearchType('image'));
 bothSearchBtn.addEventListener('click', () => setSearchType('both'));
 toggleSearchResultsBtn.addEventListener('click', toggleSearchResults);
 showAllKeywordsBtn.addEventListener('click', toggleShowAllKeywords);
+inferOnDemandBtn.addEventListener('click', toggleInferOnDemand);
 clearBtn.addEventListener('click', clearSession);
 playBtn.addEventListener('click', playAndTranscribe);
 stopAudioBtn.addEventListener('click', stopAudioPlayback);
@@ -312,9 +442,15 @@ function updateCurrentTranscription(text) {
 }
 
 function setRecognitionMode(mode) {
-    // Stop previous mode if needed
-    if (state.recognitionMode === 'gemini' && mode !== 'gemini' && state.geminiConnected) {
+    // Stop previous Gemini mode if switching away from it
+    if ((state.recognitionMode === 'gemini' || state.recognitionMode === 'gemini_infer') &&
+        mode !== 'gemini' && mode !== 'gemini_infer' && state.geminiConnected) {
         socket.emit('stop_gemini_live');
+    }
+
+    // Stop Whisper if switching to Gemini mode
+    if (state.recognitionMode === 'whisper' && (mode === 'gemini' || mode === 'gemini_infer')) {
+        socket.emit('stop_whisper');
     }
 
     state.recognitionMode = mode;
@@ -328,10 +464,12 @@ function setRecognitionMode(mode) {
 
     whisperBtn.classList.toggle('active', mode === 'whisper');
     geminiBtn.classList.toggle('active', mode === 'gemini');
+    geminiInferBtn.classList.toggle('active', mode === 'gemini_infer');
 
     const modeNames = {
         whisper: 'Whisper (Local)',
-        gemini: 'Gemini Live'
+        gemini: 'Gemini Live (Transcription)',
+        gemini_infer: 'Gemini Live (Inference)'
     };
 
     updateStatus(`Recognition mode: ${modeNames[mode] || mode}`);
@@ -339,8 +477,9 @@ function setRecognitionMode(mode) {
     if (mode === 'whisper') {
         socket.emit('start_whisper');
     } else if (mode === 'gemini') {
-        socket.emit('start_gemini_live');
-        // Keep GPT as default search mode (Gemini Live only does transcription)
+        socket.emit('start_gemini_live', { mode: 'transcription' });
+    } else if (mode === 'gemini_infer') {
+        socket.emit('start_gemini_live', { mode: 'inference' });
     }
 }
 
@@ -390,6 +529,16 @@ function toggleShowAllKeywords() {
     state.showAllKeywords = !state.showAllKeywords;
     showAllKeywordsBtn.classList.toggle('active', state.showAllKeywords);
     updateStatus(`Show all keywords: ${state.showAllKeywords ? 'ON' : 'OFF'}`);
+}
+
+function toggleInferOnDemand() {
+    state.geminiInferOnDemand = !state.geminiInferOnDemand;
+    inferOnDemandBtn.classList.toggle('active', state.geminiInferOnDemand);
+    if (state.geminiInferOnDemand) {
+        updateStatus('Infer On-Demand: ON (press SPACE to see response)');
+    } else {
+        updateStatus('Infer On-Demand: OFF (show all responses continuously)');
+    }
 }
 
 async function toggleMicrophone() {
@@ -559,7 +708,8 @@ function sendAudioToServer(audioBlob) {
     reader.onloadend = () => {
         const base64Audio = reader.result.split(',')[1];
         // Send to appropriate backend based on recognition mode
-        if (state.recognitionMode === 'gemini') {
+        // Both 'gemini' (transcription) and 'gemini_infer' (inference) modes use Gemini Live
+        if (state.recognitionMode === 'gemini' || state.recognitionMode === 'gemini_infer') {
             socket.emit('audio_chunk_gemini_live', { audio: base64Audio, format: 'webm' });
         } else {
             socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
@@ -1057,6 +1207,35 @@ function stopVideoPlayback() {
 }
 
 function triggerSearch() {
+    console.log('[triggerSearch] Called, recognitionMode:', state.recognitionMode);
+
+    // If in Gemini Infer mode
+    if (state.recognitionMode === 'gemini_infer') {
+        console.log('[triggerSearch] Gemini Infer mode, terms:', state.geminiInferTerms.length, 'index:', state.geminiInferTermIndex);
+
+        // If we have multiple terms, navigate to next term first
+        if (state.geminiInferTerms.length > 1 &&
+            state.geminiInferTermIndex < state.geminiInferTerms.length - 1) {
+            // Move to next term
+            state.geminiInferTermIndex++;
+            displayCurrentInferTerm();
+            console.log(`[Gemini Infer] Showing next term (${state.geminiInferTermIndex + 1}/${state.geminiInferTerms.length})`);
+            return;
+        }
+
+        // Otherwise request new inference
+        state.geminiInferWaiting = true;
+        state.geminiInferBuffer = '';
+        state.geminiInferTerms = [];
+        state.geminiInferTermIndex = 0;
+        transcriptionEl.textContent = '';  // Clear previous response
+
+        console.log('[Gemini Infer] Requesting search inference, setting geminiInferWaiting = true');
+        updateStatus('🔮 Asking Gemini what to search...');
+        socket.emit('gemini_infer_search');
+        return;
+    }
+
     if (!transcriptionEl.textContent || transcriptionEl.textContent === 'Transcribed text will appear here...') {
         updateStatus('No transcription available for search', true);
         return;
@@ -1446,7 +1625,12 @@ function clearSession() {
     state.geminiCaptions = '';
     state.geminiSummary = { overall_context: '', current_segment: '' };
     state.geminiTerms = [];
+    state.geminiInferWaiting = false;
+    state.geminiInferBuffer = '';
+    state.geminiInferTerms = [];
+    state.geminiInferTermIndex = 0;
     geminiBtn.classList.remove('active');
+    geminiInferBtn.classList.remove('active');
 
     // Reset SRT button state
     srtInput.parentElement.classList.remove('active');

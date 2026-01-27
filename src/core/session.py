@@ -43,7 +43,9 @@ class TranscriptionSession:
         # Gemini Live API state
         self.gemini_active = False
         self.gemini_session = None
+        self.gemini_mode = "transcription"  # "transcription" or "inference"
         self.gemini_audio_queue = None
+        self.gemini_text_queue = None  # For inference requests
         self.gemini_raw_output = ""
         self.gemini_parse_buffer = ""  # Buffer for incomplete sections
         self.gemini_captions = ""
