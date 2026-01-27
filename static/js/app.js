@@ -340,8 +340,7 @@ function setRecognitionMode(mode) {
         socket.emit('start_whisper');
     } else if (mode === 'gemini') {
         socket.emit('start_gemini_live');
-        // Also switch search mode to Gemini for better UX
-        setSearchMode('gemini');
+        // Keep GPT as default search mode (Gemini Live only does transcription)
     }
 }
 

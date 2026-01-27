@@ -14,10 +14,11 @@ from pydub import AudioSegment
 from src.core.config import (
     GEMINI_MODEL,
     GEMINI_SEND_SAMPLE_RATE,
-    GEMINI_STUDY_CONFIG,
+    GEMINI_TRANSCRIPTION_CONFIG,
     GOOGLE_API_KEY,
 )
 from src.core.session import TranscriptionSession
+from handlers.search import process_pending_search
 
 # Initialize Gemini client
 gemini_client = None
@@ -53,13 +54,15 @@ def run_gemini_live_loop(session_id, socketio, transcription_sessions):
             return
 
         try:
+            print(f"[Gemini] Attempting to connect for session {session_id}...")
             socketio.emit(
                 "status", {"message": "Connecting to Gemini Live..."}, room=session_id
             )
 
             async with gemini_client.aio.live.connect(
-                model=GEMINI_MODEL, config=GEMINI_STUDY_CONFIG
+                model=GEMINI_MODEL, config=GEMINI_TRANSCRIPTION_CONFIG
             ) as gemini_session:
+                print(f"[Gemini] Connected successfully for session {session_id}")
                 session.gemini_session = gemini_session
                 session.gemini_active = True
                 session.gemini_audio_queue = asyncio.Queue(maxsize=10)
@@ -133,39 +136,33 @@ def run_gemini_live_loop(session_id, socketio, transcription_sessions):
                                                         text = (text or "") + part_text
 
                                 if text:
-                                    print(
-                                        f"[Gemini] Got text ({len(text)} chars): {text[:200]}..."
-                                    )
+                                    text = text.strip()
+                                    if text:
+                                        print(f"[Gemini] Transcription: {text}")
 
-                                    parsed = session.update_gemini_data(text)
+                                        # Add to session (for GPT keyword extraction)
+                                        session.add_text(text)
 
-                                    socketio.emit(
-                                        "gemini_transcription",
-                                        {
-                                            "raw": text,
-                                            "captions": session.gemini_captions,
-                                            "summary": session.gemini_summary,
-                                            "terms": session.gemini_terms,
-                                        },
-                                        room=session_id,
-                                    )
-
-                                    if len(session.gemini_raw_output) % 500 < len(text):
-                                        session._log_event(
-                                            "gemini_output",
+                                        # Emit as standard transcription (like Whisper)
+                                        socketio.emit(
+                                            "transcription",
                                             {
-                                                "raw_text_length": len(
-                                                    session.gemini_raw_output
-                                                ),
-                                                "captions": session.gemini_captions[
-                                                    :200
-                                                ]
-                                                if session.gemini_captions
-                                                else "",
-                                                "summary": session.gemini_summary,
-                                                "terms": session.gemini_terms,
+                                                "text": text,
+                                                "source": "gemini-live",
                                             },
+                                            room=session_id,
                                         )
+
+                                        # Log transcription
+                                        session._log_event(
+                                            "gemini_transcription",
+                                            {"text": text, "word_count": len(text.split())},
+                                        )
+
+                                        # Check for pending search and process it
+                                        if session.pending_search:
+                                            print(f"[Gemini] Pending search detected, processing...")
+                                            process_pending_search(session, session_id, socketio)
                                 else:
                                     data = getattr(response, "data", None)
                                     if data:
@@ -237,9 +234,12 @@ def register_gemini_handlers(socketio, transcription_sessions):
 
         # Reset Gemini state
         session.gemini_raw_output = ""
+        session.gemini_parse_buffer = ""  # Reset buffer for new session
         session.gemini_captions = ""
         session.gemini_summary = {"overall_context": "", "current_segment": ""}
         session.gemini_terms = []
+        session.gemini_recent_terms = []  # Reset recent terms
+        session.gemini_recent_term_index = 0
 
         session._log_event("gemini_live_start", {"model": GEMINI_MODEL})
 

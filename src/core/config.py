@@ -64,6 +64,23 @@ GEMINI_MODEL = "models/gemini-2.0-flash-exp"
 GEMINI_SEND_SAMPLE_RATE = 16000
 GEMINI_CHUNK_SIZE = 1024
 
+# Transcription-only config (simple, accurate speech recognition)
+GEMINI_TRANSCRIPTION_CONFIG = {
+    "response_modalities": ["TEXT"],
+    "system_instruction": """You are a speech-to-text transcription system. Your ONLY job is to transcribe exactly what you hear.
+
+Rules:
+- Output ONLY the transcribed text, nothing else
+- Transcribe verbatim in the original language
+- Do not add any labels, headers, or formatting
+- Do not summarize or interpret
+- Do not add punctuation unless clearly spoken
+- Output text immediately as you hear it
+
+Example: If someone says "Hello world how are you", output exactly: Hello world how are you""",
+}
+
+# Study mode config (with captions, summary, terms)
 GEMINI_STUDY_CONFIG = {
     "response_modalities": ["TEXT"],
     "system_instruction": """You are a real-time learning assistant. Listen to the audio and perform the following tasks:

@@ -2,18 +2,23 @@
 
 import json
 import os
+import re
 from datetime import datetime, timedelta
 from typing import Dict, List
 
 import pandas as pd
+from google import genai
 from openai import OpenAI
 
-from src.core.config import LOGS_DIR, OPENAI_API_KEY
-from src.core.gemini_parser import parse_gemini_output
+from src.core.config import GOOGLE_API_KEY, LOGS_DIR, OPENAI_API_KEY, SECTION_RE
+from src.core.gemini_parser import _parse_terms_block
 from src.core.lexicon import lexicon_dict, preprocess_word
 
 # Initialize OpenAI client for GPT-based keyword extraction
 openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
+
+# Initialize Gemini client for on-demand keyword extraction
+gemini_client = genai.Client(api_key=GOOGLE_API_KEY) if GOOGLE_API_KEY else None
 
 
 class TranscriptionSession:
@@ -40,10 +45,18 @@ class TranscriptionSession:
         self.gemini_session = None
         self.gemini_audio_queue = None
         self.gemini_raw_output = ""
+        self.gemini_parse_buffer = ""  # Buffer for incomplete sections
         self.gemini_captions = ""
         self.gemini_summary = {"overall_context": "", "current_segment": ""}
-        self.gemini_terms: List[Dict] = []
+        self.gemini_terms: List[Dict] = []  # All accumulated terms
         self.gemini_terms_history: List[Dict] = []
+        self.gemini_recent_terms: List[Dict] = []  # Most recently parsed terms batch
+        self.gemini_recent_term_index = 0  # Navigation index for recent terms
+
+        # Pending search state (wait for transcription before GPT call)
+        self.pending_search: Dict = None  # {timestamp, search_type, client_timestamp, ...}
+        self.pending_search_text_before: str = ""  # Text at spacebar moment
+        self.pending_search_timeout: float = 1.0  # Seconds to wait for new transcription
 
         # Logging system
         self.session_start_time = datetime.utcnow()
@@ -85,46 +98,125 @@ class TranscriptionSession:
                 self.word_timestamps.append(current_time)
 
     def update_gemini_data(self, raw_text: str) -> Dict:
-        """Update Gemini data from raw model output."""
+        """Update Gemini data using buffer-based parsing.
+
+        Buffer approach:
+        1. Add new text to buffer
+        2. Find section markers ([Captions], [Summary], [Terms])
+        3. If 2+ markers exist, parse complete sections (between markers)
+        4. Keep incomplete section (after last marker) in buffer for next time
+        """
+        # Keep raw_output for logging/debugging
         self.gemini_raw_output += raw_text
+        self.gemini_parse_buffer += raw_text
 
-        print(
-            f"[Gemini DEBUG] Raw text chunk ({len(raw_text)} chars): {raw_text[:200]}..."
-        )
-        print(f"[Gemini DEBUG] Total accumulated ({len(self.gemini_raw_output)} chars)")
+        print(f"[Gemini Buffer] New chunk ({len(raw_text)} chars), buffer now {len(self.gemini_parse_buffer)} chars")
 
-        parsed = parse_gemini_output(self.gemini_raw_output)
+        # Find all section markers in buffer
+        markers = list(SECTION_RE.finditer(self.gemini_parse_buffer))
 
-        print(
-            f"[Gemini DEBUG] Parsed captions: {parsed['captions'][:100] if parsed['captions'] else 'EMPTY'}..."
-        )
-        print(f"[Gemini DEBUG] Parsed summary: {parsed['summary']}")
-        print(
-            f"[Gemini DEBUG] Parsed terms ({len(parsed['terms'])}): {parsed['terms']}"
-        )
+        # Result for this update (only newly parsed content)
+        parsed = {
+            "captions": "",
+            "summary": {"overall_context": "", "current_segment": ""},
+            "terms": [],
+        }
 
-        if parsed["captions"]:
-            self.gemini_captions = parsed["captions"]
+        if len(markers) < 2:
+            # Not enough markers - keep buffering
+            print(f"[Gemini Buffer] Only {len(markers)} marker(s), waiting for more...")
+            return parsed
 
+        # Parse complete sections (all except the last one which may be incomplete)
+        last_parsed_pos = 0
+
+        for i in range(len(markers) - 1):
+            section_name = markers[i].group(1).lower()
+            content_start = markers[i].end()
+            content_end = markers[i + 1].start()
+            content = self.gemini_parse_buffer[content_start:content_end].strip()
+            last_parsed_pos = markers[i + 1].start()
+
+            # Clean content (remove leading colons, etc.)
+            content = re.sub(r"^[\s:]+", "", content)
+
+            if not content:
+                continue
+
+            print(f"[Gemini Buffer] Parsing complete section [{section_name}]: '{content[:50]}...'")
+
+            if section_name in ("caption", "captions"):
+                # Append captions to session (like Whisper)
+                self.add_text(content)
+                if self.gemini_captions:
+                    self.gemini_captions += " " + content
+                else:
+                    self.gemini_captions = content
+                parsed["captions"] = content
+
+            elif section_name in ("summary", "summ"):
+                # Parse summary structure
+                self._parse_summary_content(content, parsed["summary"])
+
+            elif section_name in ("term", "terms"):
+                # Parse terms using existing parser
+                new_terms = _parse_terms_block(content)
+                if new_terms:
+                    parsed["terms"].extend(new_terms)
+                    # Append unique terms to session
+                    existing_names = {t["term"].lower() for t in self.gemini_terms}
+                    for term in new_terms:
+                        if term["term"].lower() not in existing_names:
+                            self.gemini_terms.append(term)
+                            existing_names.add(term["term"].lower())
+                            print(f"[Gemini Buffer] New term: {term['term']}")
+
+                    # Also update history
+                    existing_history = {t["term"].lower() for t in self.gemini_terms_history}
+                    for term in new_terms:
+                        if term["term"].lower() not in existing_history:
+                            self.gemini_terms_history.append(term)
+
+                    # Update recent terms (for spacebar navigation)
+                    self.gemini_recent_terms = new_terms
+                    self.gemini_recent_term_index = 0
+                    print(f"[Gemini Buffer] Recent terms updated: {[t['term'] for t in new_terms]}")
+
+        # Keep only the unparsed part (from last marker onwards)
+        self.gemini_parse_buffer = self.gemini_parse_buffer[last_parsed_pos:]
+        print(f"[Gemini Buffer] Keeping {len(self.gemini_parse_buffer)} chars in buffer for next time")
+
+        # Update session summary with latest parsed values
         if parsed["summary"]["overall_context"]:
-            self.gemini_summary["overall_context"] = parsed["summary"][
-                "overall_context"
-            ]
+            self.gemini_summary["overall_context"] = parsed["summary"]["overall_context"]
         if parsed["summary"]["current_segment"]:
-            self.gemini_summary["current_segment"] = parsed["summary"][
-                "current_segment"
-            ]
-
-        if parsed["terms"]:
-            self.gemini_terms = parsed["terms"]
-            existing_term_names = {t["term"].lower() for t in self.gemini_terms_history}
-            for term in parsed["terms"]:
-                if term["term"].lower() not in existing_term_names:
-                    self.gemini_terms_history.append(term)
-                    existing_term_names.add(term["term"].lower())
-                    print(f"[Gemini DEBUG] New term added: {term['term']}")
+            self.gemini_summary["current_segment"] = parsed["summary"]["current_segment"]
 
         return parsed
+
+    def _parse_summary_content(self, content: str, summary_dict: Dict):
+        """Parse summary content and extract overall_context and current_segment."""
+        # Pattern for "- **Overall context**: text" or "Overall context: text"
+        overall_patterns = [
+            r"-?\s*\*\*\s*Overall\s*(?:context)?\s*\*\*\s*:\s*(.+?)(?=-\s*\*\*|$)",
+            r"Overall\s*(?:context)?\s*:\s*(.+?)(?=Current|Segment|$)",
+        ]
+        for pattern in overall_patterns:
+            m = re.search(pattern, content, re.IGNORECASE | re.DOTALL)
+            if m:
+                summary_dict["overall_context"] = re.sub(r"\s+", " ", m.group(1)).strip()
+                break
+
+        # Pattern for "- **Current segment**: text" or "Current segment: text"
+        current_patterns = [
+            r"-?\s*\*\*\s*Current\s*(?:segment)?\s*\*\*\s*:\s*(.+?)(?=-\s*\*\*|\[|$)",
+            r"Current\s*(?:segment)?\s*:\s*(.+?)(?=\[|$)",
+        ]
+        for pattern in current_patterns:
+            m = re.search(pattern, content, re.IGNORECASE | re.DOTALL)
+            if m:
+                summary_dict["current_segment"] = re.sub(r"\s+", " ", m.group(1)).strip()
+                break
 
     def get_gemini_terms_for_search(self) -> List[Dict]:
         """Get Gemini terms formatted for search (like GPT keyword pairs)."""
@@ -504,6 +596,119 @@ Context: """
 
             return fallback
 
+    def get_top_keyword_gemini_ondemand(self, time_threshold: int = 10) -> str:
+        """Use Gemini to extract keywords on-demand when user presses spacebar.
+
+        Args:
+            time_threshold: Number of seconds of recent captions to use (default: 10)
+
+        Returns:
+            Gemini-predicted keyword that user would want to look up
+        """
+        if not gemini_client:
+            print("[Gemini OnDemand] Gemini client not initialized, falling back")
+            return self.get_top_keyword()
+
+        # Build context from recent captions and summary
+        context_parts = []
+
+        # Get recent portion of gemini_captions (approximate last N seconds)
+        if self.gemini_captions:
+            # Use last ~100 words as approximation for 10 seconds
+            words = self.gemini_captions.split()
+            recent_words_count = min(len(words), 100)
+            recent_captions = " ".join(words[-recent_words_count:])
+            context_parts.append(f"Recent transcript: {recent_captions}")
+
+        # Add summary context
+        if self.gemini_summary["overall_context"]:
+            context_parts.append(f"Overall context: {self.gemini_summary['overall_context']}")
+        if self.gemini_summary["current_segment"]:
+            context_parts.append(f"Current segment: {self.gemini_summary['current_segment']}")
+
+        if not context_parts:
+            print("[Gemini OnDemand] No context available")
+            return ""
+
+        context_text = "\n".join(context_parts)
+        print(f"[Gemini OnDemand] Context:\n{context_text[:300]}...")
+
+        prompt = f"""You are analyzing a transcript. The user wants to look up important terms.
+
+Given the context below, identify the TOP 3 most important terms or concepts that a user would want to search for. These should be:
+- Technical terms or unfamiliar vocabulary
+- Concepts that need clarification
+- Names or specific references
+- Words that might need visual aids
+
+{context_text}
+
+Respond with EXACTLY 3 terms in this format:
+Term: <word or phrase 1 - most important>
+Definition: <a brief 1-sentence explanation>
+Term: <word or phrase 2>
+Definition: <a brief 1-sentence explanation>
+Term: <word or phrase 3>
+Definition: <a brief 1-sentence explanation>"""
+
+        try:
+            response = gemini_client.models.generate_content(
+                model="models/gemini-2.0-flash-exp",
+                contents=prompt,
+            )
+
+            raw_response = response.text.strip()
+            print(f"[Gemini OnDemand] Raw response:\n{raw_response}")
+
+            # Parse response into term-definition pairs
+            keyword_pairs = []
+            current_term = None
+
+            lines = raw_response.split("\n")
+            for line in lines:
+                line = line.strip()
+                if line.lower().startswith("term:"):
+                    current_term = line.split(":", 1)[1].strip()
+                elif line.lower().startswith("definition:") and current_term:
+                    definition = line.split(":", 1)[1].strip()
+                    keyword_pairs.append({
+                        "term": current_term,
+                        "definition": definition,
+                    })
+                    current_term = None
+
+            if current_term:
+                keyword_pairs.append({"term": current_term, "definition": ""})
+
+            if keyword_pairs:
+                # Update recent terms for navigation
+                self.gemini_recent_terms = keyword_pairs
+                self.gemini_recent_term_index = 0
+                predicted_keyword = keyword_pairs[0]["term"]
+                print(f"[Gemini OnDemand] Extracted terms: {[t['term'] for t in keyword_pairs]}")
+            else:
+                predicted_keyword = raw_response.split("\n")[0] if raw_response else ""
+
+            self._log_event(
+                "keyword_extraction_gemini_ondemand",
+                {
+                    "context": context_text[:500],
+                    "raw_response": raw_response,
+                    "predicted_keyword": predicted_keyword,
+                    "keyword_pairs": keyword_pairs,
+                },
+            )
+
+            return predicted_keyword
+
+        except Exception as e:
+            print(f"[Gemini OnDemand] Error: {e}")
+            self._log_event(
+                "keyword_extraction_gemini_ondemand",
+                {"context": context_text[:500], "error": str(e)},
+            )
+            return ""
+
     def log_search_action(
         self,
         search_mode: str,
@@ -538,6 +743,7 @@ Context: """
                 "total_words": len(self.words),
                 "total_events": len(self.event_log),
                 "full_transcription": self.full_text,
+                "full_gemini_response": self.gemini_raw_output,
                 "events": self.event_log,
             }
 
