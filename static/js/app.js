@@ -267,10 +267,19 @@ function handleGeminiSearchTerms(data) {
         // No terms - show error
         const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
         const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
-        keywordEl.innerHTML = `🔮 <span style="color: #999">${data.error || 'No terms found'}</span>`;
-        keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE to try again</div>`;
-        sectionEl.style.display = 'block';
-        updateStatus('No search terms found. Press SPACE to try again.');
+
+        // Check if this was a filtered response
+        if (data.filtered) {
+            keywordEl.innerHTML = `🔄 <span style="color: #f0ad4e">No new terms available</span>`;
+            keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE to request again</div>`;
+            sectionEl.style.display = 'block';
+            updateStatus('⏳ No new terms. Press SPACE to try again.');
+        } else {
+            keywordEl.innerHTML = `🔮 <span style="color: #999">${data.error || 'No terms found'}</span>`;
+            keywordEl.innerHTML += `<div class="keyword-hint">Press SPACE to try again</div>`;
+            sectionEl.style.display = 'block';
+            updateStatus('No search terms found. Press SPACE to try again.');
+        }
     }
 
     if (data.is_done && state.geminiInferOnDemand) {
@@ -399,9 +408,40 @@ document.addEventListener('keydown', (e) => {
         if (!e.repeat && spacebarDownTime === 0) {
             spacebarDownTime = Date.now();
             isLongPress = false;
+
+            // Show immediate feedback on keydown (Gemini Infer mode only)
+            if (state.recognitionMode === 'gemini_infer') {
+                showPressFeedback('detecting');
+            }
         }
     }
 });
+
+// Visual feedback for press type detection
+function showPressFeedback(type) {
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    switch(type) {
+        case 'detecting':
+            keywordEl.innerHTML = `<span style="color: #667eea">⏳ Hold for long-press, release for single/double...</span>`;
+            updateStatus('⏳ Detecting press type...');
+            break;
+        case 'single':
+            keywordEl.innerHTML = `<span style="color: #667eea">🔮 Single press - asking Gemini...</span>`;
+            updateStatus('🔮 Single press - asking Gemini...');
+            break;
+        case 'double':
+            keywordEl.innerHTML = `<span style="color: #17a2b8">⏭️ Double press - showing next term...</span>`;
+            updateStatus('⏭️ Double press - next term...');
+            break;
+        case 'long':
+            keywordEl.innerHTML = `<span style="color: #28a745">🔎 Long press - Google searching...</span>`;
+            updateStatus('🔎 Long press - Google searching...');
+            break;
+    }
+    sectionEl.style.display = 'block';
+}
 
 document.addEventListener('keyup', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
@@ -415,6 +455,7 @@ document.addEventListener('keyup', (e) => {
             // Long press: Google search current term
             if (pressDuration >= LONG_PRESS_THRESHOLD) {
                 console.log('[Spacebar] Long press detected - Google search');
+                showPressFeedback('long');
                 triggerGoogleSearchCurrentTerm();
                 spacebarPressCount = 0;
                 if (spacebarTimer) {
@@ -433,6 +474,7 @@ document.addEventListener('keyup', (e) => {
                 spacebarTimer = null;
                 spacebarPressCount = 0;
                 console.log('[Spacebar] Double press detected - next term');
+                showPressFeedback('double');
                 triggerNextInferTerm();
                 return;
             }
@@ -444,6 +486,7 @@ document.addEventListener('keyup', (e) => {
                 if (spacebarPressCount === 1) {
                     // Single press: new query
                     console.log('[Spacebar] Single press - new query');
+                    showPressFeedback('single');
                     triggerSearch();
                 }
                 spacebarPressCount = 0;

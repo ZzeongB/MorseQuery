@@ -35,6 +35,34 @@ TERM_PATTERN = re.compile(r"Term:\s*([^\n\[]+?)(?:\s*Definition:|\s*Done\.|\s*\[
 DEFINITION_PATTERN = re.compile(r"Definition:\s*([^\[\n]+?)(?:\s*Done\.|\s*\[|$)", re.IGNORECASE)
 DONE_PATTERN = re.compile(r"Done\.?\s*$", re.IGNORECASE)
 
+# Patterns for bad/unhelpful responses that should be filtered out
+# Only filter clearly useless responses - be less strict to allow more through
+BAD_RESPONSE_PATTERNS = [
+    re.compile(r"^\s*\.?\s*Done\.?\s*$", re.IGNORECASE),  # Just "Done." or ". Done."
+    re.compile(r"^\s*\[?\s*SearchQuery\s*\]?\s*I have already suggested.+Done\.?\s*$", re.IGNORECASE),  # "[SearchQuery] I have already suggested X. Done."
+    re.compile(r"^\s*I have already suggested.+Done\.?\s*$", re.IGNORECASE),  # "I have already suggested X. Done." without [SearchQuery]
+]
+
+
+def is_bad_response(text):
+    """Check if the response is a bad/unhelpful response that should be filtered.
+
+    Only filters clearly useless responses. Returns False for most responses
+    to allow them through (lower barrier).
+
+    Returns:
+        True if the response should be filtered out, False otherwise.
+    """
+    if not text:
+        return True
+
+    # Check against bad response patterns
+    for pattern in BAD_RESPONSE_PATTERNS:
+        if pattern.match(text.strip()):  # Use match instead of search for stricter checking
+            return True
+
+    return False
+
 
 def parse_inference_response(text):
     """Parse Gemini inference response to extract search terms and definitions.
@@ -295,6 +323,42 @@ def run_gemini_live_loop(
                                                 print(
                                                     f"[Gemini Inference] Done signal received. Full response:\n{full_response}"
                                                 )
+
+                                                # Check if this is a bad response that should be filtered
+                                                if is_bad_response(full_response):
+                                                    print(
+                                                        f"[Gemini Inference] BAD RESPONSE FILTERED: {full_response}"
+                                                    )
+                                                    # Log the filtered response
+                                                    session._log_event(
+                                                        "gemini_inference_filtered",
+                                                        {
+                                                            "full_response": full_response,
+                                                            "reason": "bad_response_pattern",
+                                                        },
+                                                    )
+                                                    # Clear buffer and emit error to frontend
+                                                    session.inference_buffer = ""
+                                                    socketio.emit(
+                                                        "gemini_inference",
+                                                        {
+                                                            "text": "",
+                                                            "is_done": True,
+                                                        },
+                                                        room=session_id,
+                                                    )
+                                                    socketio.emit(
+                                                        "gemini_search_terms",
+                                                        {
+                                                            "terms": [],
+                                                            "total": 0,
+                                                            "is_done": True,
+                                                            "error": "No new terms available. Try again.",
+                                                            "filtered": True,
+                                                        },
+                                                        room=session_id,
+                                                    )
+                                                    continue  # Skip to next response
 
                                                 parsed = parse_inference_response(
                                                     full_response
