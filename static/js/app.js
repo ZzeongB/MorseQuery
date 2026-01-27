@@ -380,38 +380,138 @@ stopAudioBtn.addEventListener('click', stopAudioPlayback);
 playVideoBtn.addEventListener('click', playVideoAndTranscribe);
 stopVideoBtn.addEventListener('click', stopVideoPlayback);
 
-// Spacebar listener for search (with double-spacebar detection)
-const DOUBLE_SPACEBAR_THRESHOLD = 400; // ms
+// Spacebar listener for search
+// Gemini Infer mode: single=new query, double=next term, long=Google search
+// Other modes: single=search, double=next keyword (GPT/Gemini)
+const DOUBLE_PRESS_THRESHOLD = 300; // ms - time window for double press
+const LONG_PRESS_THRESHOLD = 500; // ms - hold time for long press
+
 let spacebarTimer = null;
+let spacebarDownTime = 0;
+let spacebarPressCount = 0;
+let isLongPress = false;
 
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
 
-        // Check if double-spacebar detection should be active (GPT/Gemini mode with multiple keywords)
+        // Record press start time (only on first keydown, not repeat)
+        if (!e.repeat && spacebarDownTime === 0) {
+            spacebarDownTime = Date.now();
+            isLongPress = false;
+        }
+    }
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.code === 'Space' && e.target === document.body) {
+        e.preventDefault();
+
+        const pressDuration = Date.now() - spacebarDownTime;
+        spacebarDownTime = 0;
+
+        // Gemini Infer mode special handling
+        if (state.recognitionMode === 'gemini_infer') {
+            // Long press: Google search current term
+            if (pressDuration >= LONG_PRESS_THRESHOLD) {
+                console.log('[Spacebar] Long press detected - Google search');
+                triggerGoogleSearchCurrentTerm();
+                spacebarPressCount = 0;
+                if (spacebarTimer) {
+                    clearTimeout(spacebarTimer);
+                    spacebarTimer = null;
+                }
+                return;
+            }
+
+            // Short press: check for double press
+            spacebarPressCount++;
+
+            if (spacebarPressCount === 2) {
+                // Double press: next term
+                clearTimeout(spacebarTimer);
+                spacebarTimer = null;
+                spacebarPressCount = 0;
+                console.log('[Spacebar] Double press detected - next term');
+                triggerNextInferTerm();
+                return;
+            }
+
+            // First press: wait for potential second press
+            if (spacebarTimer) clearTimeout(spacebarTimer);
+            spacebarTimer = setTimeout(() => {
+                spacebarTimer = null;
+                if (spacebarPressCount === 1) {
+                    // Single press: new query
+                    console.log('[Spacebar] Single press - new query');
+                    triggerSearch();
+                }
+                spacebarPressCount = 0;
+            }, DOUBLE_PRESS_THRESHOLD);
+
+            return;
+        }
+
+        // Non-Gemini Infer modes (original behavior)
         if ((state.searchMode === 'gpt' || state.searchMode === 'gemini') &&
             state.hasGptKeywords &&
             state.totalGptKeywords > 1) {
 
-            if (spacebarTimer) {
-                // Second spacebar within threshold - cancel pending search and trigger next keyword
+            spacebarPressCount++;
+
+            if (spacebarPressCount === 2) {
                 clearTimeout(spacebarTimer);
                 spacebarTimer = null;
+                spacebarPressCount = 0;
                 console.log('[Double Spacebar] Requesting next keyword');
                 triggerNextKeyword();
-            } else {
-                // First spacebar - wait for potential second
-                spacebarTimer = setTimeout(() => {
-                    spacebarTimer = null;
-                    triggerSearch();
-                }, DOUBLE_SPACEBAR_THRESHOLD);
+                return;
             }
+
+            if (spacebarTimer) clearTimeout(spacebarTimer);
+            spacebarTimer = setTimeout(() => {
+                spacebarTimer = null;
+                spacebarPressCount = 0;
+                triggerSearch();
+            }, DOUBLE_PRESS_THRESHOLD);
         } else {
-            // Not in GPT/Gemini mode with multiple keywords - trigger search immediately
             triggerSearch();
         }
     }
 });
+
+function triggerNextInferTerm() {
+    // Move to next term in the list
+    if (state.geminiInferTerms.length > 1 &&
+        state.geminiInferTermIndex < state.geminiInferTerms.length - 1) {
+        state.geminiInferTermIndex++;
+        displayCurrentInferTerm();
+        console.log(`[Gemini Infer] Showing next term (${state.geminiInferTermIndex + 1}/${state.geminiInferTerms.length})`);
+    } else {
+        // No more terms - show message
+        updateStatus('No more terms. Press SPACE for new query.');
+    }
+}
+
+function triggerGoogleSearchCurrentTerm() {
+    // Google search the current term
+    if (state.geminiInferTerms.length === 0 || !state.geminiInferTerms[state.geminiInferTermIndex]) {
+        updateStatus('No term to search. Press SPACE for new query.', true);
+        return;
+    }
+
+    const currentTerm = state.geminiInferTerms[state.geminiInferTermIndex];
+    console.log(`[Gemini Infer] Google searching: ${currentTerm.term}`);
+    updateStatus(`🔍 Searching Google for: "${currentTerm.term}"...`);
+
+    // Emit search request to server
+    socket.emit('search_request', {
+        mode: 'instant',
+        keyword: currentTerm.term,
+        type: state.searchType,
+        skip_search: false
+    });
+}
 
 // Functions
 function updateStatus(message, isError = false) {
@@ -1209,21 +1309,12 @@ function stopVideoPlayback() {
 function triggerSearch() {
     console.log('[triggerSearch] Called, recognitionMode:', state.recognitionMode);
 
-    // If in Gemini Infer mode
+    // If in Gemini Infer mode - always request new inference
+    // (double-press for next term is handled separately in triggerNextInferTerm)
     if (state.recognitionMode === 'gemini_infer') {
-        console.log('[triggerSearch] Gemini Infer mode, terms:', state.geminiInferTerms.length, 'index:', state.geminiInferTermIndex);
+        console.log('[triggerSearch] Gemini Infer mode - requesting new inference');
 
-        // If we have multiple terms, navigate to next term first
-        if (state.geminiInferTerms.length > 1 &&
-            state.geminiInferTermIndex < state.geminiInferTerms.length - 1) {
-            // Move to next term
-            state.geminiInferTermIndex++;
-            displayCurrentInferTerm();
-            console.log(`[Gemini Infer] Showing next term (${state.geminiInferTermIndex + 1}/${state.geminiInferTerms.length})`);
-            return;
-        }
-
-        // Otherwise request new inference
+        // Request new inference
         state.geminiInferWaiting = true;
         state.geminiInferBuffer = '';
         state.geminiInferTerms = [];
