@@ -40,6 +40,9 @@ class TranscriptionSession:
         self.gpt_keyword_pairs: List[Dict] = []
         self.current_keyword_index = 0
 
+        # Whisper streaming state
+        self.whisper_active = False  # Whether Whisper streaming is active
+
         # Gemini Live API state
         self.gemini_active = False
         self.gemini_session = None

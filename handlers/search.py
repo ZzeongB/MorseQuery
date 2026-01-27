@@ -1,11 +1,31 @@
 """Search-related SocketIO event handlers."""
 
+import threading
 from datetime import datetime
 
 from flask import request
 from flask_socketio import emit
 
 from src.core.search import count_results, google_custom_search
+
+
+def _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0):
+    """Start a background thread to process pending search after timeout.
+
+    If the pending search is still present after timeout, process it with current text.
+    """
+    def timeout_handler():
+        import time
+        time.sleep(timeout_seconds)
+
+        # Check if pending search still exists (not yet processed by transcription)
+        if session.pending_search:
+            print(f"[Pending Search] Timeout after {timeout_seconds}s, processing with current text")
+            process_pending_search(session, session_id, socketio)
+
+    thread = threading.Thread(target=timeout_handler)
+    thread.daemon = True
+    thread.start()
 
 
 def process_pending_search(session, session_id, socketio):
@@ -168,15 +188,43 @@ def register_search_handlers(socketio, transcription_sessions):
                     "time_threshold": time_threshold,
                     "words_before": len(session.words),
                     "client_timestamp": client_timestamp,
+                    "source": "gemini",
                 }
                 session._log_event(
                     "pending_search_set",
                     {
                         "words_at_spacebar": len(session.words),
                         "client_timestamp": client_timestamp,
+                        "source": "gemini",
                     },
                 )
                 emit("status", {"message": "Waiting for transcription..."})
+                return
+
+            # If Whisper streaming is active, wait for next transcription before calling GPT
+            elif session.whisper_active:
+                print(f"[GPT Search] Whisper active, setting pending search (words so far: {len(session.words)})")
+                session.pending_search = {
+                    "timestamp": datetime.utcnow(),
+                    "search_type": search_type,
+                    "skip_search": skip_search,
+                    "show_all_keywords": show_all_keywords,
+                    "time_threshold": time_threshold,
+                    "words_before": len(session.words),
+                    "client_timestamp": client_timestamp,
+                    "source": "whisper",
+                }
+                session._log_event(
+                    "pending_search_set",
+                    {
+                        "words_at_spacebar": len(session.words),
+                        "client_timestamp": client_timestamp,
+                        "source": "whisper",
+                    },
+                )
+                emit("status", {"message": "Waiting for transcription..."})
+                # Start timeout - if no transcription arrives within 2s, process with current text
+                _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0)
                 return
 
             keyword = session.get_top_keyword_gpt(time_threshold)

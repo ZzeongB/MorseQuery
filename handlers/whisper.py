@@ -12,6 +12,8 @@ from flask import request
 from flask_socketio import emit
 from pydub import AudioSegment
 
+from handlers.search import process_pending_search
+
 # Global Whisper model (lazy loaded)
 whisper_model = None
 
@@ -94,6 +96,11 @@ def process_whisper_background(
             socketio.emit(
                 "transcription", {"text": text, "source": "whisper"}, room=session_id
             )
+
+            # Check for pending search and process it
+            if session.pending_search:
+                print("[Whisper] Pending search detected, processing...")
+                process_pending_search(session, session_id, socketio)
         else:
             socketio.emit(
                 "status", {"message": "No speech detected in audio"}, room=session_id
@@ -162,6 +169,10 @@ def register_whisper_handlers(socketio, transcription_sessions):
         session_id = request.sid
 
         try:
+            # Mark Whisper as actively streaming
+            if session_id in transcription_sessions:
+                transcription_sessions[session_id].whisper_active = True
+
             audio_data = base64.b64decode(data["audio"])
             file_format = data.get("format", "webm")
 
@@ -204,6 +215,7 @@ def register_whisper_handlers(socketio, transcription_sessions):
             is_final = data.get("is_final", False)
 
             session = transcription_sessions[session_id]
+            session.whisper_active = True  # Mark Whisper as actively streaming
             now = datetime.utcnow()
 
             phrase_complete = False
@@ -338,6 +350,11 @@ def register_whisper_handlers(socketio, transcription_sessions):
                             },
                             room=session_id,
                         )
+
+                        # Check for pending search and process it
+                        if session.pending_search:
+                            print("[Whisper Real-time] Pending search detected, processing...")
+                            process_pending_search(session, session_id, socketio)
                     else:
                         session.transcription_lines[-1] = text
                         print(
