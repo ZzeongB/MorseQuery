@@ -182,7 +182,9 @@ def register_search_handlers(socketio, transcription_sessions):
             time_threshold = data.get("time_threshold", 5)
             keyword = session.get_top_keyword_with_time_threshold(time_threshold)
         elif search_mode == "gpt":
-            time_threshold = 30  # data.get("time_threshold", 30)
+            time_threshold = (
+                15  # data.get("time_threshold", 30) ### MANUAL THRESHOLD HERE
+            )
 
             # If Gemini Live is active, wait for next transcription before calling GPT
             if session.gemini_active:
@@ -394,6 +396,7 @@ def register_search_handlers(socketio, transcription_sessions):
         session_id = request.sid
         search_type = data.get("type", "text")
         search_mode = data.get("mode", "gpt")  # Support both gpt and gemini modes
+        skip_search = data.get("skip_search", False)
 
         if session_id not in transcription_sessions:
             emit("error", {"message": "No active session"})
@@ -430,29 +433,30 @@ def register_search_handlers(socketio, transcription_sessions):
                 },
             )
 
-            try:
-                search_results = google_custom_search(keyword, search_type)
-                num_results = count_results(search_results, search_type)
+            if not skip_search:
+                try:
+                    search_results = google_custom_search(keyword, search_type)
+                    num_results = count_results(search_results, search_type)
 
-                session.log_search_action(
-                    search_mode="gemini_next",
-                    search_type=search_type,
-                    keyword=keyword,
-                    num_results=num_results,
-                )
+                    session.log_search_action(
+                        search_mode="gemini_next",
+                        search_type=search_type,
+                        keyword=keyword,
+                        num_results=num_results,
+                    )
 
-                emit(
-                    "search_results",
-                    {
-                        "keyword": keyword,
-                        "mode": "gemini",
-                        "type": search_type,
-                        "results": search_results,
-                    },
-                )
-            except Exception as e:
-                print(f"Search error: {str(e)}")
-                emit("error", {"message": f"Search error: {str(e)}"})
+                    emit(
+                        "search_results",
+                        {
+                            "keyword": keyword,
+                            "mode": "gemini",
+                            "type": search_type,
+                            "results": search_results,
+                        },
+                    )
+                except Exception as e:
+                    print(f"Search error: {str(e)}")
+                    emit("error", {"message": f"Search error: {str(e)}"})
             return
 
         # Handle GPT mode navigation (original logic)
@@ -481,29 +485,30 @@ def register_search_handlers(socketio, transcription_sessions):
             },
         )
 
-        try:
-            search_results = google_custom_search(keyword, search_type)
-            num_results = count_results(search_results, search_type)
+        if not skip_search:
+            try:
+                search_results = google_custom_search(keyword, search_type)
+                num_results = count_results(search_results, search_type)
 
-            session.log_search_action(
-                search_mode="gpt_next",
-                search_type=search_type,
-                keyword=keyword,
-                num_results=num_results,
-            )
+                session.log_search_action(
+                    search_mode="gpt_next",
+                    search_type=search_type,
+                    keyword=keyword,
+                    num_results=num_results,
+                )
 
-            emit(
-                "search_results",
-                {
-                    "keyword": keyword,
-                    "mode": "gpt",
-                    "type": search_type,
-                    "results": search_results,
-                },
-            )
-        except Exception as e:
-            print(f"Search error: {str(e)}")
-            emit("error", {"message": f"Search error: {str(e)}"})
+                emit(
+                    "search_results",
+                    {
+                        "keyword": keyword,
+                        "mode": "gpt",
+                        "type": search_type,
+                        "results": search_results,
+                    },
+                )
+            except Exception as e:
+                print(f"Search error: {str(e)}")
+                emit("error", {"message": f"Search error: {str(e)}"})
 
     @socketio.on("search_single_keyword")
     def handle_search_single_keyword(data):
@@ -551,3 +556,95 @@ def register_search_handlers(socketio, transcription_sessions):
         except Exception as e:
             print(f"Search error: {str(e)}")
             emit("error", {"message": f"Search error: {str(e)}"})
+
+    @socketio.on("search_grounding")
+    def handle_search_grounding(data):
+        """Handle Google Search Grounding request using Gemini API."""
+        import os
+
+        from google import genai
+        from google.genai import types
+
+        keyword = data.get("keyword", "")
+        if not keyword:
+            emit("error", {"message": "No keyword provided for grounding search"})
+            return
+
+        print(f"[Search Grounding] Keyword: {keyword}")
+
+        try:
+            api_key = os.getenv("GOOGLE_API_KEY")
+            if not api_key:
+                emit("error", {"message": "GOOGLE_API_KEY not configured"})
+                return
+
+            client = genai.Client(api_key=api_key)
+            grounding_tool = types.Tool(google_search=types.GoogleSearch())
+            config = types.GenerateContentConfig(tools=[grounding_tool])
+
+            # Generate content with Google Search grounding
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                contents=f"Please provide information about: {keyword}",
+                config=config,
+            )
+
+            # Extract text and citations
+            text = response.text
+            citations = []
+
+            # Process grounding metadata if available
+            if (
+                response.candidates
+                and response.candidates[0].grounding_metadata
+                and response.candidates[0].grounding_metadata.grounding_supports
+            ):
+                supports = response.candidates[0].grounding_metadata.grounding_supports
+                chunks = response.candidates[0].grounding_metadata.grounding_chunks
+
+                # Sort supports by end_index in descending order
+                sorted_supports = sorted(
+                    supports, key=lambda s: s.segment.end_index, reverse=True
+                )
+
+                for support in sorted_supports:
+                    end_index = support.segment.end_index
+                    if support.grounding_chunk_indices:
+                        citation_refs = []
+                        for i in support.grounding_chunk_indices:
+                            if i < len(chunks):
+                                uri = chunks[i].web.uri
+                                title = getattr(chunks[i].web, "title", f"Source {i + 1}")
+                                # Add to citations list if not already present
+                                existing = next(
+                                    (c for c in citations if c["uri"] == uri), None
+                                )
+                                if not existing:
+                                    citations.append(
+                                        {"index": len(citations) + 1, "uri": uri, "title": title}
+                                    )
+                                    citation_refs.append(len(citations))
+                                else:
+                                    citation_refs.append(existing["index"])
+
+                        # Insert citation markers
+                        citation_string = "".join(
+                            [f"[{ref}]" for ref in citation_refs]
+                        )
+                        text = text[:end_index] + citation_string + text[end_index:]
+
+            print(f"[Search Grounding] Response: {text[:100]}...")
+            print(f"[Search Grounding] Citations: {len(citations)}")
+
+            emit(
+                "search_grounding_result",
+                {
+                    "keyword": keyword,
+                    "text": text,
+                    "citations": citations,
+                },
+            )
+
+        except Exception as e:
+            print(f"Search grounding error: {str(e)}")
+            emit("error", {"message": f"Search grounding error: {str(e)}"})

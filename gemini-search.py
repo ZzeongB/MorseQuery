@@ -10,17 +10,24 @@ API_KEY = os.getenv("GOOGLE_API_KEY")
 
 client = genai.Client(api_key=API_KEY)
 
+
 grounding_tool = types.Tool(google_search=types.GoogleSearch())
 
 config = types.GenerateContentConfig(tools=[grounding_tool])
 
+import time
+
+before = time.time()
+
 response = client.models.generate_content(
-    model="models/gemini-2.0-flash-exp",
+    model="gemini-2.5-flash-lite",
     contents="Who won the euro 2024?",
     config=config,
 )
 
-print(response.text)
+after = time.time()
+print(after - before)
+# print(response.text)
 
 
 def add_citations(response):

@@ -500,7 +500,7 @@ class TranscriptionSession:
         prompt = (
             """You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
 
-Given the transcript context, predict the TOP 3 words/phrases the user would want to look up, ranked by importance (most important first). The selected words should be:
+Given the transcript context, predict the top three words or phrases the user would most likely want to look up, ranked by recency and importance (with the most recent and most important first). The selected words or phrases should be:
 - Technical terms or unfamiliar vocabulary
 - Concepts that need clarification
 - Names or specific references
@@ -556,13 +556,14 @@ Context: """
                 model="gpt-4o-mini",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.3,
-                max_tokens=50,
+                max_tokens=200,
             )
 
             gpt_end_time = datetime.utcnow()
             gpt_duration = (gpt_end_time - gpt_start_time).total_seconds()
 
             raw_response = response.choices[0].message.content.strip()
+            print("[GPT] finish response for ", response.choices[0].finish_reason)
 
             keyword_description_pairs = []
             current_keyword = None

@@ -25,6 +25,7 @@ let state = {
     // Options
     showSearchResults: true, // Toggle Google search results on/off
     showAllKeywords: false,  // Show all GPT keywords at once instead of one by one
+    longPressMode: 'results', // 'results' = Google search results, 'grounding' = Gemini grounded text
     // Gemini Live state
     geminiConnected: false,
     geminiCaptions: '',
@@ -60,6 +61,7 @@ const bothSearchBtn = document.getElementById('bothSearchBtn');
 const toggleSearchResultsBtn = document.getElementById('toggleSearchResultsBtn');
 const showAllKeywordsBtn = document.getElementById('showAllKeywordsBtn');
 const inferOnDemandBtn = document.getElementById('inferOnDemandBtn');
+const longPressModeBtn = document.getElementById('longPressModeBtn');
 const clearBtn = document.getElementById('clearBtn');
 const statusEl = document.getElementById('status');
 const transcriptionEl = document.getElementById('transcription');
@@ -202,6 +204,11 @@ socket.on('search_keyword', (data) => {
 
 socket.on('search_results', (data) => {
     displaySearchResults(data);
+});
+
+socket.on('search_grounding_result', (data) => {
+    console.log('[Search Grounding Result]', data);
+    displayGroundingResult(data);
 });
 
 socket.on('all_keywords', (data) => {
@@ -426,6 +433,7 @@ bothSearchBtn.addEventListener('click', () => setSearchType('both'));
 toggleSearchResultsBtn.addEventListener('click', toggleSearchResults);
 showAllKeywordsBtn.addEventListener('click', toggleShowAllKeywords);
 inferOnDemandBtn.addEventListener('click', toggleInferOnDemand);
+longPressModeBtn.addEventListener('click', toggleLongPressMode);
 clearBtn.addEventListener('click', clearSession);
 playBtn.addEventListener('click', playAndTranscribe);
 stopAudioBtn.addEventListener('click', stopAudioPlayback);
@@ -452,8 +460,8 @@ document.addEventListener('keydown', (e) => {
             spacebarDownTime = Date.now();
             isLongPress = false;
 
-            // Show immediate feedback on keydown (Gemini Infer mode only)
-            if (state.recognitionMode === 'gemini_infer') {
+            // Show immediate feedback on keydown (Gemini Infer and OpenAI Realtime modes)
+            if (state.recognitionMode === 'gemini_infer' || state.recognitionMode === 'openai') {
                 showPressFeedback('detecting');
             }
         }
@@ -461,26 +469,50 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Visual feedback for press type detection
-function showPressFeedback(type) {
+function showPressFeedback(type, mode = null) {
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
 
+    // Determine which mode we're in
+    const currentMode = mode || state.recognitionMode;
+    const isOpenAI = currentMode === 'openai';
+
     switch(type) {
         case 'detecting':
-            keywordEl.innerHTML = `<span style="color: #667eea">⏳ Hold for long-press, release for single/double...</span>`;
-            updateStatus('⏳ Detecting press type...');
+            if (isOpenAI) {
+                keywordEl.innerHTML = `<span style="color: #10a37f">Long press detected</span>`;
+                updateStatus('⏳ Detecting press type...');
+            } else {
+                keywordEl.innerHTML = `<span style="color: #667eea">Long press detected</span>`;
+                updateStatus('⏳ Detecting press type...');
+            }
             break;
         case 'single':
-            keywordEl.innerHTML = `<span style="color: #667eea">🔮 Single press - asking Gemini...</span>`;
-            updateStatus('🔮 Single press - asking Gemini...');
+            if (isOpenAI) {
+                keywordEl.innerHTML = `<span style="color: #10a37f">Single press</span>`;
+                updateStatus('🎯 Single press - searching...');
+            } else {
+                keywordEl.innerHTML = `<span style="color: #667eea">Single press</span>`;
+                updateStatus('🔮 Single press - asking Gemini...');
+            }
             break;
         case 'double':
-            keywordEl.innerHTML = `<span style="color: #17a2b8">⏭️ Double press - showing next term...</span>`;
-            updateStatus('⏭️ Double press - next term...');
+            if (isOpenAI) {
+                keywordEl.innerHTML = `<span style="color: #17a2b8">Double press</span>`;
+                updateStatus('⏭️ Double press - next keyword...');
+            } else {
+                keywordEl.innerHTML = `<span style="color: #17a2b8">Double press</span>`;
+                updateStatus('⏭️ Double press - next term...');
+            }
             break;
         case 'long':
-            keywordEl.innerHTML = `<span style="color: #28a745">🔎 Long press - Google searching...</span>`;
-            updateStatus('🔎 Long press - Google searching...');
+            if (isOpenAI) {
+                keywordEl.innerHTML = `<span style="color: #28a745">Long press - Google searching...</span>`;
+                updateStatus('🔎 Long press - Google searching...');
+            } else {
+                keywordEl.innerHTML = `<span style="color: #28a745">Long press - Google searching...</span>`;
+                updateStatus('🔎 Long press - Google searching...');
+            }
             break;
     }
     sectionEl.style.display = 'block';
@@ -538,6 +570,55 @@ document.addEventListener('keyup', (e) => {
             return;
         }
 
+        // OpenAI Realtime mode special handling
+        if (state.recognitionMode === 'openai') {
+            // Long press: Google search
+            if (pressDuration >= LONG_PRESS_THRESHOLD) {
+                console.log('[Spacebar] Long press detected - Google search');
+                showPressFeedback('long');
+                triggerSearch();
+                spacebarPressCount = 0;
+                if (spacebarTimer) {
+                    clearTimeout(spacebarTimer);
+                    spacebarTimer = null;
+                }
+                return;
+            }
+
+            // Short press: check for double press
+            spacebarPressCount++;
+
+            if (spacebarPressCount === 2) {
+                // Double press: next keyword (if GPT keywords available)
+                clearTimeout(spacebarTimer);
+                spacebarTimer = null;
+                spacebarPressCount = 0;
+                console.log('[Spacebar] Double press detected - next keyword');
+                showPressFeedback('double');
+                if (state.hasGptKeywords && state.totalGptKeywords > 1) {
+                    triggerNextKeyword();
+                } else {
+                    updateStatus('No keywords to navigate. Press single for new search.');
+                }
+                return;
+            }
+
+            // First press: wait for potential second press
+            if (spacebarTimer) clearTimeout(spacebarTimer);
+            spacebarTimer = setTimeout(() => {
+                spacebarTimer = null;
+                if (spacebarPressCount === 1) {
+                    // Single press: new search
+                    console.log('[Spacebar] Single press - new search');
+                    showPressFeedback('single');
+                    triggerSearch();
+                }
+                spacebarPressCount = 0;
+            }, DOUBLE_PRESS_THRESHOLD);
+
+            return;
+        }
+
         // Non-Gemini Infer modes (original behavior)
         if ((state.searchMode === 'gpt' || state.searchMode === 'gemini') &&
             state.hasGptKeywords &&
@@ -580,23 +661,63 @@ function triggerNextInferTerm() {
 }
 
 function triggerGoogleSearchCurrentTerm() {
-    // Google search the current term
+    // Google search the current term (for Gemini Infer mode)
     if (state.geminiInferTerms.length === 0 || !state.geminiInferTerms[state.geminiInferTermIndex]) {
         updateStatus('No term to search. Press SPACE for new query.', true);
         return;
     }
 
     const currentTerm = state.geminiInferTerms[state.geminiInferTermIndex];
-    console.log(`[Gemini Infer] Google searching: ${currentTerm.term}`);
-    updateStatus(`🔍 Searching Google for: "${currentTerm.term}"...`);
+    console.log(`[Gemini Infer] Long press - mode: ${state.longPressMode}, term: ${currentTerm.term}`);
 
-    // Emit search request to server
-    socket.emit('search_request', {
-        mode: 'instant',
-        keyword: currentTerm.term,
-        type: state.searchType,
-        skip_search: false
-    });
+    if (state.longPressMode === 'grounding') {
+        // Use Gemini grounding search
+        updateStatus(`📝 Getting grounded info for: "${currentTerm.term}"...`);
+        socket.emit('search_grounding', {
+            keyword: currentTerm.term
+        });
+    } else {
+        // Use Google search results (default)
+        updateStatus(`🔍 Searching Google for: "${currentTerm.term}"...`);
+        socket.emit('search_request', {
+            mode: 'instant',
+            keyword: currentTerm.term,
+            type: state.searchType,
+            skip_search: false
+        });
+    }
+}
+
+function triggerLongPressSearch() {
+    // Handle long press search for OpenAI mode
+    // Get the last keyword from searchKeywordEl or use last word
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    let keyword = state.lastWord;
+
+    // Try to extract keyword from the keyword display
+    const keywordText = keywordEl.querySelector('.keyword-text');
+    if (keywordText) {
+        // Extract just the keyword text without emoji
+        keyword = keywordText.textContent.replace(/^[^\w]*/, '').trim();
+    }
+
+    if (!keyword) {
+        updateStatus('No keyword available for search.', true);
+        return;
+    }
+
+    console.log(`[Long Press] Mode: ${state.longPressMode}, Keyword: ${keyword}`);
+
+    if (state.longPressMode === 'grounding') {
+        // Use Gemini grounding search
+        updateStatus(`📝 Getting grounded info for: "${keyword}"...`);
+        socket.emit('search_grounding', {
+            keyword: keyword
+        });
+    } else {
+        // Use regular search (default)
+        triggerSearch();
+    }
 }
 
 // Functions
@@ -779,6 +900,17 @@ function toggleInferOnDemand() {
     } else {
         updateStatus('Infer On-Demand: OFF (show all responses continuously)');
     }
+}
+
+function toggleLongPressMode() {
+    // Toggle between 'results' and 'grounding'
+    state.longPressMode = state.longPressMode === 'results' ? 'grounding' : 'results';
+    const isGrounding = state.longPressMode === 'grounding';
+    longPressModeBtn.classList.toggle('active', isGrounding);
+    longPressModeBtn.innerHTML = isGrounding
+        ? '<span class="icon">📝</span> Long Press: Grounding'
+        : '<span class="icon">📄</span> Long Press: Results';
+    updateStatus(`Long press mode: ${isGrounding ? 'Grounding (AI text)' : 'Results (links)'}`);
 }
 
 async function toggleMicrophone() {
@@ -1565,7 +1697,8 @@ function triggerNextKeyword() {
     updateStatus('🔄 Loading next keyword...');
 
     socket.emit('next_keyword', {
-        type: state.searchType
+        type: state.searchType,
+        skip_search: !state.showSearchResults
     });
 }
 
@@ -1802,6 +1935,47 @@ function displaySearchResults(data) {
 
     sectionEl.style.display = 'block';
     updateStatus(`Found ${data.results.length} results for "${data.keyword}"`);
+}
+
+function displayGroundingResult(data) {
+    // Use video layout elements if video file, otherwise use default layout
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    // Display keyword
+    keywordEl.innerHTML = `<span class="keyword-text">🔎 ${data.keyword}</span>`;
+
+    // Process text to convert citation markers [n] to clickable links
+    let processedText = data.text;
+    if (data.citations && data.citations.length > 0) {
+        // Replace [n] with clickable citation links
+        data.citations.forEach(citation => {
+            const marker = `[${citation.index}]`;
+            const link = `<a href="${citation.uri}" target="_blank" class="citation-link" title="${citation.title || citation.uri}">[${citation.index}]</a>`;
+            processedText = processedText.split(marker).join(link);
+        });
+    }
+
+    // Display the grounded text with citations
+    resultsEl.innerHTML = `
+        <div class="grounding-result">
+            <div class="grounding-text">${processedText.replace(/\n/g, '<br>')}</div>
+            ${data.citations && data.citations.length > 0 ? `
+                <div class="citation-list">
+                    <h4>Sources:</h4>
+                    ${data.citations.map(c => `
+                        <div class="citation-item">
+                            <a href="${c.uri}" target="_blank">[${c.index}] ${c.title || 'Source'}</a>
+                        </div>
+                    `).join('')}
+                </div>
+            ` : ''}
+        </div>
+    `;
+
+    sectionEl.style.display = 'block';
+    updateStatus(`Grounding result for "${data.keyword}" with ${data.citations?.length || 0} sources`);
 }
 
 function clearSession() {
