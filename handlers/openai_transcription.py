@@ -281,32 +281,15 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                         room=session_id,
                                     )
 
-                                    # Check pending search - compare timestamps
+                                    # Check pending search - wait for 2 EV_DONEs after spacebar
                                     if session.pending_search:
-                                        pending_ts = session.pending_search.get(
-                                            "client_timestamp"
-                                        )
-                                        last_audio_ts = session.last_audio_timestamp
-
+                                        ev_done_count = session.pending_search.get("ev_done_count", 0) + 1
+                                        session.pending_search["ev_done_count"] = ev_done_count
                                         print(
-                                            f"[OpenAI] Pending search check: pending_ts={pending_ts}, last_audio_ts={last_audio_ts}"
+                                            f"[OpenAI] Pending search: EV_DONE {ev_done_count}/2"
                                         )
-
-                                        # Process if we've processed audio up to the user action time
-                                        if pending_ts and last_audio_ts:
-                                            if last_audio_ts >= pending_ts:
-                                                print(
-                                                    "[OpenAI] Audio caught up to user action, processing search"
-                                                )
-                                                process_pending_search(
-                                                    session, session_id, socketio
-                                                )
-                                            else:
-                                                print(
-                                                    f"[OpenAI] Still waiting for more audio (audio={last_audio_ts} < action={pending_ts})"
-                                                )
-                                        else:
-                                            # Fallback: process anyway if timestamps missing
+                                        if ev_done_count >= 2:
+                                            print("[OpenAI] 2 EV_DONEs received, processing search")
                                             process_pending_search(
                                                 session, session_id, socketio
                                             )

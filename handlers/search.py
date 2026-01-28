@@ -9,18 +9,22 @@ from flask_socketio import emit
 from src.core.search import count_results, google_custom_search
 
 
-def _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0):
+def _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=10.0):
     """Start a background thread to process pending search after timeout.
 
     If the pending search is still present after timeout, process it with current text.
     """
+
     def timeout_handler():
         import time
+
         time.sleep(timeout_seconds)
 
         # Check if pending search still exists (not yet processed by transcription)
         if session.pending_search:
-            print(f"[Pending Search] Timeout after {timeout_seconds}s, processing with current text")
+            print(
+                f"[Pending Search] Timeout after {timeout_seconds}s, processing with current text"
+            )
             process_pending_search(session, session_id, socketio)
 
     thread = threading.Thread(target=timeout_handler)
@@ -42,7 +46,7 @@ def process_pending_search(session, session_id, socketio):
     search_type = pending.get("search_type", "text")
     skip_search = pending.get("skip_search", False)
     show_all_keywords = pending.get("show_all_keywords", False)
-    time_threshold = pending.get("time_threshold", 10)
+    time_threshold = pending.get("time_threshold", 30)
 
     print(f"[Pending Search] Processing with {len(session.words)} words available")
 
@@ -57,7 +61,8 @@ def process_pending_search(session, session_id, socketio):
                 "delay_seconds": delay,
                 "words_before": pending.get("words_before", 0),
                 "words_after": len(session.words),
-                "new_text_received": len(session.words) - pending.get("words_before", 0),
+                "new_text_received": len(session.words)
+                - pending.get("words_before", 0),
             },
         )
 
@@ -65,7 +70,9 @@ def process_pending_search(session, session_id, socketio):
     keyword = session.get_top_keyword_gpt(time_threshold)
 
     if not keyword:
-        socketio.emit("error", {"message": "No keywords available for search"}, room=session_id)
+        socketio.emit(
+            "error", {"message": "No keywords available for search"}, room=session_id
+        )
         return
 
     keyword_clean = "".join(c for c in keyword if c.isalnum() or c.isspace()).strip()
@@ -175,11 +182,13 @@ def register_search_handlers(socketio, transcription_sessions):
             time_threshold = data.get("time_threshold", 5)
             keyword = session.get_top_keyword_with_time_threshold(time_threshold)
         elif search_mode == "gpt":
-            time_threshold = data.get("time_threshold", 10)
+            time_threshold = 30  # data.get("time_threshold", 30)
 
             # If Gemini Live is active, wait for next transcription before calling GPT
             if session.gemini_active:
-                print(f"[GPT Search] Gemini Live active, setting pending search (words so far: {len(session.words)})")
+                print(
+                    f"[GPT Search] Gemini Live active, setting pending search (words so far: {len(session.words)})"
+                )
                 session.pending_search = {
                     "timestamp": datetime.utcnow(),
                     "search_type": search_type,
@@ -203,7 +212,9 @@ def register_search_handlers(socketio, transcription_sessions):
 
             # If Whisper streaming is active, wait for next transcription before calling GPT
             elif session.whisper_active:
-                print(f"[GPT Search] Whisper active, setting pending search (words so far: {len(session.words)})")
+                print(
+                    f"[GPT Search] Whisper active, setting pending search (words so far: {len(session.words)})"
+                )
                 session.pending_search = {
                     "timestamp": datetime.utcnow(),
                     "search_type": search_type,
@@ -224,12 +235,16 @@ def register_search_handlers(socketio, transcription_sessions):
                 )
                 emit("status", {"message": "Waiting for transcription..."})
                 # Start timeout - if no transcription arrives within 2s, process with current text
-                _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0)
+                _start_pending_search_timeout(
+                    session, session_id, socketio, timeout_seconds=10.0
+                )
                 return
 
             # If OpenAI Realtime is active, wait for next transcription before calling GPT
             elif session.openai_active:
-                print(f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})")
+                print(
+                    f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})"
+                )
                 session.pending_search = {
                     "timestamp": datetime.utcnow(),
                     "search_type": search_type,
@@ -250,7 +265,9 @@ def register_search_handlers(socketio, transcription_sessions):
                 )
                 emit("status", {"message": "Waiting for OpenAI transcription..."})
                 # Start timeout - if no transcription arrives within 2s, process with current text
-                _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0)
+                _start_pending_search_timeout(
+                    session, session_id, socketio, timeout_seconds=10.0
+                )
                 return
 
             keyword = session.get_top_keyword_gpt(time_threshold)
@@ -284,10 +301,12 @@ def register_search_handlers(socketio, transcription_sessions):
             keyword = recent_terms[idx]["keyword"]
             description = recent_terms[idx].get("description")
 
-            print(f"[Gemini Search] Using recent term [{idx+1}/{len(recent_terms)}]: {keyword}")
+            print(
+                f"[Gemini Search] Using recent term [{idx+1}/{len(recent_terms)}]: {keyword}"
+            )
         elif search_mode == "gemini_ondemand":
             # On-demand: query Gemini for keywords when spacebar is pressed
-            time_threshold = data.get("time_threshold", 10)
+            time_threshold = data.get("time_threshold", 30)
             keyword = session.get_top_keyword_gemini_ondemand(time_threshold)
 
             if not keyword:
@@ -396,7 +415,9 @@ def register_search_handlers(socketio, transcription_sessions):
             keyword = current_term.get("term", "")
             description = current_term.get("definition")
 
-            print(f"[Gemini Next] Term [{session.gemini_recent_term_index+1}/{len(session.gemini_recent_terms)}]: {keyword}")
+            print(
+                f"[Gemini Next] Term [{session.gemini_recent_term_index+1}/{len(session.gemini_recent_terms)}]: {keyword}"
+            )
 
             emit(
                 "search_keyword",
