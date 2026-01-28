@@ -1,3 +1,5 @@
+# https://github.com/openai/openai-cookbook/blob/main/examples/Speech_transcription_methods.ipynb
+
 # ─── Standard Library ──────────────────────────────────────────────────────────
 import asyncio
 import base64  # encode raw PCM bytes → base64 before sending JSON
@@ -78,6 +80,7 @@ async def _send_audio(ws, pcm: np.ndarray, chunk: int, sr: int) -> None:
         await ws.send(json.dumps(payload))
         t_next += dur
         await asyncio.sleep(max(0, t_next - time.monotonic()))
+    print("end sending")
 
     await ws.send(json.dumps({"type": "input_audio_buffer.end"}))
 
