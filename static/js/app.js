@@ -572,11 +572,11 @@ document.addEventListener('keyup', (e) => {
 
         // OpenAI Realtime mode special handling
         if (state.recognitionMode === 'openai') {
-            // Long press: Google search
+            // Long press: search based on longPressMode setting
             if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                console.log('[Spacebar] Long press detected - Google search');
+                console.log('[Spacebar] Long press detected - mode:', state.longPressMode);
                 showPressFeedback('long');
-                triggerSearch();
+                triggerLongPressSearch();
                 spacebarPressCount = 0;
                 if (spacebarTimer) {
                     clearTimeout(spacebarTimer);

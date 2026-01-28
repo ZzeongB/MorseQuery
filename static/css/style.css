@@ -378,3 +378,58 @@ kbd {
         grid-template-columns: 1fr;
     }
 }
+
+/* Grounding result styles */
+.grounding-result {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.grounding-text {
+    line-height: 1.7;
+    color: #333;
+    font-size: 1em;
+}
+
+.citation-link {
+    color: #667eea;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.85em;
+    vertical-align: super;
+    margin: 0 1px;
+    cursor: pointer;
+}
+
+.citation-link:hover {
+    color: #5a67d8;
+    text-decoration: underline;
+}
+
+.citation-list {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #e0e0e0;
+}
+
+.citation-list h4 {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.citation-item {
+    margin-bottom: 6px;
+}
+
+.citation-item a {
+    color: #555;
+    text-decoration: none;
+    font-size: 0.85em;
+}
+
+.citation-item a:hover {
+    color: #667eea;
+    text-decoration: underline;
+}
