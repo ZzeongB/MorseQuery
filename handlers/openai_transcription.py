@@ -19,8 +19,8 @@ import numpy as np
 import websockets
 from flask import request
 from flask_socketio import emit
-
 from handlers.search import process_pending_search
+
 from src.core.config import OPENAI_API_KEY
 
 # Enable nested asyncio
@@ -56,8 +56,13 @@ def convert_webm_to_pcm(audio_data: bytes, file_format: str) -> np.ndarray:
     temp_output = None
     try:
         suffix_map = {
-            "webm": ".webm", "wav": ".wav", "mp3": ".mp3",
-            "mp4": ".mp4", "m4a": ".m4a", "ogg": ".ogg", "flac": ".flac",
+            "webm": ".webm",
+            "wav": ".wav",
+            "mp3": ".mp3",
+            "mp4": ".mp4",
+            "m4a": ".m4a",
+            "ogg": ".ogg",
+            "flac": ".flac",
         }
         suffix = suffix_map.get(file_format, ".webm")
 
@@ -71,12 +76,22 @@ def convert_webm_to_pcm(audio_data: bytes, file_format: str) -> np.ndarray:
         # Convert to raw PCM: mono, 24kHz, 16-bit signed little-endian
         subprocess.run(
             [
-                "ffmpeg", "-y", "-i", temp_input,
-                "-ar", str(TARGET_SR), "-ac", "1",
-                "-f", "s16le", "-acodec", "pcm_s16le",
-                temp_output
+                "ffmpeg",
+                "-y",
+                "-i",
+                temp_input,
+                "-ar",
+                str(TARGET_SR),
+                "-ac",
+                "1",
+                "-f",
+                "s16le",
+                "-acodec",
+                "pcm_s16le",
+                temp_output,
             ],
-            capture_output=True, check=True
+            capture_output=True,
+            check=True,
         )
 
         # Read raw PCM and convert to float32
@@ -152,6 +167,7 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                 session.openai_ws = ws
                 session.openai_active = True
                 session.openai_audio_queue = asyncio.Queue()
+                session.last_audio_timestamp = None  # Track last audio chunk timestamp
 
                 socketio.emit(
                     "status",
@@ -163,9 +179,37 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                     """Send audio chunks from queue to OpenAI."""
                     while session.openai_active:
                         try:
-                            pcm_float = await asyncio.wait_for(
+                            # Queue contains (pcm_float, timestamp) tuples
+                            item = await asyncio.wait_for(
                                 session.openai_audio_queue.get(), timeout=1.0
                             )
+                            pcm_float, audio_timestamp = item
+
+                            # Update last audio timestamp
+                            session.last_audio_timestamp = audio_timestamp
+                            # print("[OpenAI] Last audio timestamp:", audio_timestamp)
+
+                            # import time
+                            # from datetime import datetime
+
+                            # # 현재 시간 (unix timestamp, seconds)
+                            # current_ts = time.time()
+                            # print("Current timestamp (unix):", current_ts)
+
+                            # # OpenAI audio timestamp (ISO 8601, UTC) → unix timestamp
+                            # openai_dt = datetime.fromisoformat(
+                            #     audio_timestamp.replace("Z", "+00:00")
+                            # )
+                            # openai_ts = openai_dt.timestamp()
+
+                            # print("OpenAI timestamp (unix):", openai_ts)
+
+                            # # 차이 계산
+                            # diff_sec = current_ts - openai_ts
+                            # print(
+                            #     f"Time difference: {diff_sec:.3f} seconds ({diff_sec*1000:.1f} ms)"
+                            # )
+
                             # Send as base64 encoded PCM16
                             payload = {
                                 "type": "input_audio_buffer.append",
@@ -220,7 +264,11 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
 
                                     session._log_event(
                                         "openai_transcription",
-                                        {"text": text, "word_count": len(text.split())},
+                                        {
+                                            "text": text,
+                                            "word_count": len(text.split()),
+                                            "last_audio_timestamp": session.last_audio_timestamp,
+                                        },
                                     )
 
                                     socketio.emit(
@@ -233,12 +281,40 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                         room=session_id,
                                     )
 
-                                    # Check pending search
+                                    # Check pending search - compare timestamps
                                     if session.pending_search:
-                                        process_pending_search(session, session_id, socketio)
+                                        pending_ts = session.pending_search.get(
+                                            "client_timestamp"
+                                        )
+                                        last_audio_ts = session.last_audio_timestamp
+
+                                        print(
+                                            f"[OpenAI] Pending search check: pending_ts={pending_ts}, last_audio_ts={last_audio_ts}"
+                                        )
+
+                                        # Process if we've processed audio up to the user action time
+                                        if pending_ts and last_audio_ts:
+                                            if last_audio_ts >= pending_ts:
+                                                print(
+                                                    "[OpenAI] Audio caught up to user action, processing search"
+                                                )
+                                                process_pending_search(
+                                                    session, session_id, socketio
+                                                )
+                                            else:
+                                                print(
+                                                    f"[OpenAI] Still waiting for more audio (audio={last_audio_ts} < action={pending_ts})"
+                                                )
+                                        else:
+                                            # Fallback: process anyway if timestamps missing
+                                            process_pending_search(
+                                                session, session_id, socketio
+                                            )
 
                             elif typ == "error":
-                                error_msg = ev.get("error", {}).get("message", "Unknown")
+                                error_msg = ev.get("error", {}).get(
+                                    "message", "Unknown"
+                                )
                                 print(f"[OpenAI] Server error: {error_msg}")
                                 socketio.emit(
                                     "error",
@@ -268,6 +344,7 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
         except Exception as e:
             print(f"[OpenAI] Session error: {e}")
             import traceback
+
             traceback.print_exc()
             socketio.emit(
                 "error",
@@ -353,19 +430,23 @@ def register_openai_transcription_handlers(socketio, transcription_sessions):
         try:
             audio_data = base64.b64decode(data["audio"])
             file_format = data.get("format", "webm")
+            audio_timestamp = data.get(
+                "timestamp"
+            )  # Client timestamp when audio was recorded
 
             # Convert to float32 PCM
             pcm_float = convert_webm_to_pcm(audio_data, file_format)
 
             if len(pcm_float) > 0:
-                # Queue the audio for sending
+                # Queue the audio with timestamp for sending
                 try:
-                    session.openai_audio_queue.put_nowait(pcm_float)
+                    session.openai_audio_queue.put_nowait((pcm_float, audio_timestamp))
                 except asyncio.QueueFull:
                     print("[OpenAI] Audio queue full, dropping chunk")
 
         except Exception as e:
             print(f"[OpenAI] Audio processing error: {e}")
             import traceback
+
             traceback.print_exc()
             emit("error", {"message": f"Audio error: {str(e)}"})

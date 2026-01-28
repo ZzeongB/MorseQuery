@@ -227,6 +227,32 @@ def register_search_handlers(socketio, transcription_sessions):
                 _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0)
                 return
 
+            # If OpenAI Realtime is active, wait for next transcription before calling GPT
+            elif session.openai_active:
+                print(f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})")
+                session.pending_search = {
+                    "timestamp": datetime.utcnow(),
+                    "search_type": search_type,
+                    "skip_search": skip_search,
+                    "show_all_keywords": show_all_keywords,
+                    "time_threshold": time_threshold,
+                    "words_before": len(session.words),
+                    "client_timestamp": client_timestamp,
+                    "source": "openai",
+                }
+                session._log_event(
+                    "pending_search_set",
+                    {
+                        "words_at_spacebar": len(session.words),
+                        "client_timestamp": client_timestamp,
+                        "source": "openai",
+                    },
+                )
+                emit("status", {"message": "Waiting for OpenAI transcription..."})
+                # Start timeout - if no transcription arrives within 2s, process with current text
+                _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=2.0)
+                return
+
             keyword = session.get_top_keyword_gpt(time_threshold)
         elif search_mode == "gemini":
             # Use most recently parsed terms (not all accumulated terms)

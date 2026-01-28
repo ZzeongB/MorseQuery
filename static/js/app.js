@@ -948,13 +948,16 @@ function sendAudioToServer(audioBlob) {
     reader.onloadend = () => {
         const base64Audio = reader.result.split(',')[1];
         // Send to appropriate backend based on recognition mode
+        // Include timestamp for tracking when audio was recorded
+        const audioTimestamp = new Date().toISOString();
+
         // Both 'gemini' (transcription) and 'gemini_infer' (inference) modes use Gemini Live
         if (state.recognitionMode === 'gemini' || state.recognitionMode === 'gemini_infer') {
-            socket.emit('audio_chunk_gemini_live', { audio: base64Audio, format: 'webm' });
+            socket.emit('audio_chunk_gemini_live', { audio: base64Audio, format: 'webm', timestamp: audioTimestamp });
         } else if (state.recognitionMode === 'openai') {
-            socket.emit('audio_chunk_openai', { audio: base64Audio, format: 'webm' });
+            socket.emit('audio_chunk_openai', { audio: base64Audio, format: 'webm', timestamp: audioTimestamp });
         } else {
-            socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
+            socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm', timestamp: audioTimestamp });
         }
     };
     reader.readAsDataURL(audioBlob);
