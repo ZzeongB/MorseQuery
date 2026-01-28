@@ -226,8 +226,8 @@ def main(max_alignment_edits=None):
         print("REF:", ref_path.name)
         print()
 
-        hyp_text = extract_text_from_srt(srt_path)
-        ref_text = ref_path.read_text(encoding="utf-8", errors="ignore")
+        ref_text = extract_text_from_srt(srt_path)
+        hyp_text = ref_path.read_text(encoding="utf-8", errors="ignore")
 
         metrics, out = compute_metrics_and_alignment(ref_text, hyp_text)
 

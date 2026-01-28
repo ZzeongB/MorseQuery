@@ -566,11 +566,12 @@ def register_search_handlers(socketio, transcription_sessions):
         from google.genai import types
 
         keyword = data.get("keyword", "")
+        description = data.get("description", "")
         if not keyword:
             emit("error", {"message": "No keyword provided for grounding search"})
             return
 
-        print(f"[Search Grounding] Keyword: {keyword}")
+        print(f"[Search Grounding] Keyword: {keyword}, Description: {description}")
 
         try:
             api_key = os.getenv("GOOGLE_API_KEY")
@@ -582,10 +583,16 @@ def register_search_handlers(socketio, transcription_sessions):
             grounding_tool = types.Tool(google_search=types.GoogleSearch())
             config = types.GenerateContentConfig(tools=[grounding_tool])
 
+            # Build prompt with keyword and description
+            if description:
+                prompt = f"Please provide detailed information about: {keyword} ({description})"
+            else:
+                prompt = f"Please provide information about: {keyword}"
+
             # Generate content with Google Search grounding
             response = client.models.generate_content(
                 model="gemini-2.5-flash-lite",
-                contents=f"Please provide information about: {keyword}",
+                contents=prompt,
                 config=config,
             )
 

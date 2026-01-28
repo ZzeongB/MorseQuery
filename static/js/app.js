@@ -13,7 +13,9 @@ let state = {
     audioChunks: [],
     currentAudioFile: null,
     isProcessingAudio: false,
-    lastWord: '', // Track the most recent word
+    lastWord: '', // Track the most recent word from transcription
+    currentKeyword: '', // Track the current displayed/searched keyword
+    currentDescription: '', // Track the current keyword's description
     isVideoFile: false, // Track if current file is video
     srtLoaded: false, // Track if SRT file is loaded
     srtTimeUpdateInterval: null, // Interval for SRT time updates
@@ -25,7 +27,7 @@ let state = {
     // Options
     showSearchResults: true, // Toggle Google search results on/off
     showAllKeywords: false,  // Show all GPT keywords at once instead of one by one
-    longPressMode: 'results', // 'results' = Google search results, 'grounding' = Gemini grounded text
+    longPressMode: 'grounding', // 'results' = Google search results, 'grounding' = Gemini grounded text
     // Gemini Live state
     geminiConnected: false,
     geminiCaptions: '',
@@ -450,6 +452,85 @@ let spacebarTimer = null;
 let spacebarDownTime = 0;
 let spacebarPressCount = 0;
 let isLongPress = false;
+let longPressTimer = null;
+let longPressAnimationFrame = null;
+let longPressTriggered = false;
+
+function startLongPressTimer() {
+    const startTime = Date.now();
+    longPressTriggered = false;
+
+    // Show circular progress
+    showCircularProgress(0);
+
+    function updateProgress() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / LONG_PRESS_THRESHOLD, 1);
+
+        showCircularProgress(progress);
+
+        if (progress >= 1 && !longPressTriggered) {
+            // Threshold reached - auto trigger long press
+            longPressTriggered = true;
+            isLongPress = true;
+            cancelLongPressTimer();
+
+            console.log('[Spacebar] Long press auto-triggered');
+            showPressFeedback('long');
+
+            // Trigger based on mode
+            if (state.recognitionMode === 'gemini_infer') {
+                triggerGoogleSearchCurrentTerm();
+            } else if (state.recognitionMode === 'openai') {
+                triggerLongPressSearch();
+            }
+        } else if (progress < 1) {
+            longPressAnimationFrame = requestAnimationFrame(updateProgress);
+        }
+    }
+
+    longPressAnimationFrame = requestAnimationFrame(updateProgress);
+}
+
+function cancelLongPressTimer() {
+    if (longPressAnimationFrame) {
+        cancelAnimationFrame(longPressAnimationFrame);
+        longPressAnimationFrame = null;
+    }
+    hideCircularProgress();
+}
+
+function showCircularProgress(progress) {
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    // Calculate stroke-dashoffset for circular progress (circumference = 2 * PI * r)
+    const radius = 20;
+    const circumference = 2 * Math.PI * radius;
+    const offset = circumference * (1 - progress);
+
+    const progressColor = state.recognitionMode === 'openai' ? '#10a37f' : '#667eea';
+    const bgColor = state.recognitionMode === 'openai' ? '#d4edda' : '#e8ebf7';
+
+    keywordEl.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <svg width="50" height="50" viewBox="0 0 50 50" style="transform: rotate(-90deg);">
+                <circle cx="25" cy="25" r="${radius}" fill="none" stroke="${bgColor}" stroke-width="4"/>
+                <circle cx="25" cy="25" r="${radius}" fill="none" stroke="${progressColor}" stroke-width="4"
+                    stroke-dasharray="${circumference}" stroke-dashoffset="${offset}"
+                    stroke-linecap="round" style="transition: stroke-dashoffset 0.05s linear;"/>
+            </svg>
+            <span style="color: ${progressColor}; font-weight: 500;">
+                ${progress < 1 ? 'Hold for long press...' : 'Long press!'}
+            </span>
+        </div>
+    `;
+    sectionEl.style.display = 'block';
+}
+
+function hideCircularProgress() {
+    // Progress will be replaced by the next feedback message
+}
 
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
@@ -459,10 +540,11 @@ document.addEventListener('keydown', (e) => {
         if (!e.repeat && spacebarDownTime === 0) {
             spacebarDownTime = Date.now();
             isLongPress = false;
+            longPressTriggered = false;
 
-            // Show immediate feedback on keydown (Gemini Infer and OpenAI Realtime modes)
+            // Show immediate feedback with circular progress (Gemini Infer and OpenAI Realtime modes)
             if (state.recognitionMode === 'gemini_infer' || state.recognitionMode === 'openai') {
-                showPressFeedback('detecting');
+                startLongPressTimer();
             }
         }
     }
@@ -480,10 +562,10 @@ function showPressFeedback(type, mode = null) {
     switch(type) {
         case 'detecting':
             if (isOpenAI) {
-                keywordEl.innerHTML = `<span style="color: #10a37f">Long press detected</span>`;
+                keywordEl.innerHTML = `<span style="color: #10a37f">Hold for 5 seconds for long press</span>`;
                 updateStatus('⏳ Detecting press type...');
             } else {
-                keywordEl.innerHTML = `<span style="color: #667eea">Long press detected</span>`;
+                keywordEl.innerHTML = `<span style="color: #667eea">Hold for 5 seconds for long press</span>`;
                 updateStatus('⏳ Detecting press type...');
             }
             break;
@@ -522,24 +604,21 @@ document.addEventListener('keyup', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
 
-        const pressDuration = Date.now() - spacebarDownTime;
         spacebarDownTime = 0;
+
+        // Cancel long press timer
+        cancelLongPressTimer();
+
+        // If long press was already auto-triggered, skip further processing
+        if (longPressTriggered) {
+            longPressTriggered = false;
+            spacebarPressCount = 0;
+            return;
+        }
 
         // Gemini Infer mode special handling
         if (state.recognitionMode === 'gemini_infer') {
-            // Long press: Google search current term
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                console.log('[Spacebar] Long press detected - Google search');
-                showPressFeedback('long');
-                triggerGoogleSearchCurrentTerm();
-                spacebarPressCount = 0;
-                if (spacebarTimer) {
-                    clearTimeout(spacebarTimer);
-                    spacebarTimer = null;
-                }
-                return;
-            }
-
+            // Long press already handled by auto-trigger, skip manual check
             // Short press: check for double press
             spacebarPressCount++;
 
@@ -572,19 +651,7 @@ document.addEventListener('keyup', (e) => {
 
         // OpenAI Realtime mode special handling
         if (state.recognitionMode === 'openai') {
-            // Long press: search based on longPressMode setting
-            if (pressDuration >= LONG_PRESS_THRESHOLD) {
-                console.log('[Spacebar] Long press detected - mode:', state.longPressMode);
-                showPressFeedback('long');
-                triggerLongPressSearch();
-                spacebarPressCount = 0;
-                if (spacebarTimer) {
-                    clearTimeout(spacebarTimer);
-                    spacebarTimer = null;
-                }
-                return;
-            }
-
+            // Long press already handled by auto-trigger, skip manual check
             // Short press: check for double press
             spacebarPressCount++;
 
@@ -668,13 +735,15 @@ function triggerGoogleSearchCurrentTerm() {
     }
 
     const currentTerm = state.geminiInferTerms[state.geminiInferTermIndex];
-    console.log(`[Gemini Infer] Long press - mode: ${state.longPressMode}, term: ${currentTerm.term}`);
+    const description = currentTerm.definition || '';
+    console.log(`[Gemini Infer] Long press - mode: ${state.longPressMode}, term: ${currentTerm.term}, definition: ${description}`);
 
     if (state.longPressMode === 'grounding') {
         // Use Gemini grounding search
         updateStatus(`📝 Getting grounded info for: "${currentTerm.term}"...`);
         socket.emit('search_grounding', {
-            keyword: currentTerm.term
+            keyword: currentTerm.term,
+            description: description
         });
     } else {
         // Use Google search results (default)
@@ -690,29 +759,23 @@ function triggerGoogleSearchCurrentTerm() {
 
 function triggerLongPressSearch() {
     // Handle long press search for OpenAI mode
-    // Get the last keyword from searchKeywordEl or use last word
-    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
-    let keyword = state.lastWord;
-
-    // Try to extract keyword from the keyword display
-    const keywordText = keywordEl.querySelector('.keyword-text');
-    if (keywordText) {
-        // Extract just the keyword text without emoji
-        keyword = keywordText.textContent.replace(/^[^\w]*/, '').trim();
-    }
+    // Use the current keyword from state (set by displayKeywordWithDescription)
+    const keyword = state.currentKeyword || state.lastWord;
+    const description = state.currentDescription || '';
 
     if (!keyword) {
-        updateStatus('No keyword available for search.', true);
+        updateStatus('No keyword available for search. Do a search first.', true);
         return;
     }
 
-    console.log(`[Long Press] Mode: ${state.longPressMode}, Keyword: ${keyword}`);
+    console.log(`[Long Press] Mode: ${state.longPressMode}, Keyword: ${keyword}, Description: ${description}`);
 
     if (state.longPressMode === 'grounding') {
         // Use Gemini grounding search
         updateStatus(`📝 Getting grounded info for: "${keyword}"...`);
         socket.emit('search_grounding', {
-            keyword: keyword
+            keyword: keyword,
+            description: description
         });
     } else {
         // Use regular search (default)
@@ -1747,6 +1810,10 @@ function displayKeywordWithDescription(data) {
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
 
+    // Track the current keyword and description for long press search
+    state.currentKeyword = data.keyword;
+    state.currentDescription = data.description || '';
+
     let modeIcon, modeName;
     if (data.mode === 'instant') {
         modeIcon = '⚡';
@@ -1937,6 +2004,44 @@ function displaySearchResults(data) {
     updateStatus(`Found ${data.results.length} results for "${data.keyword}"`);
 }
 
+function parseSimpleMarkdown(text) {
+    // Simple Markdown parser for basic formatting
+    let html = text;
+
+    // Escape HTML first (but preserve our citation links which will be added later)
+    // Skip this since we want to allow our citation links
+
+    // Bold: **text** or __text__
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+
+    // Italic: *text* or _text_ (but not inside words)
+    html = html.replace(/(?<!\w)\*([^*\n]+?)\*(?!\w)/g, '<em>$1</em>');
+    html = html.replace(/(?<!\w)_([^_\n]+?)_(?!\w)/g, '<em>$1</em>');
+
+    // Headers: # ## ###
+    html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
+    html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
+
+    // Bullet lists: * or - at start of line
+    html = html.replace(/^[\*\-] (.+)$/gm, '<li>$1</li>');
+    // Wrap consecutive <li> in <ul>
+    html = html.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>');
+
+    // Numbered lists: 1. 2. etc
+    html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+
+    // Line breaks (for lines not already converted)
+    html = html.replace(/\n/g, '<br>');
+
+    // Clean up extra <br> after block elements
+    html = html.replace(/<\/(h[234]|ul|li)><br>/g, '</$1>');
+    html = html.replace(/<br><(h[234]|ul)/g, '<$1');
+
+    return html;
+}
+
 function displayGroundingResult(data) {
     // Use video layout elements if video file, otherwise use default layout
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
@@ -1949,7 +2054,7 @@ function displayGroundingResult(data) {
     // Process text to convert citation markers [n] to clickable links
     let processedText = data.text;
     if (data.citations && data.citations.length > 0) {
-        // Replace [n] with clickable citation links
+        // Replace [n] with clickable citation links (do this before markdown parsing)
         data.citations.forEach(citation => {
             const marker = `[${citation.index}]`;
             const link = `<a href="${citation.uri}" target="_blank" class="citation-link" title="${citation.title || citation.uri}">[${citation.index}]</a>`;
@@ -1957,10 +2062,13 @@ function displayGroundingResult(data) {
         });
     }
 
+    // Apply Markdown formatting
+    processedText = parseSimpleMarkdown(processedText);
+
     // Display the grounded text with citations
     resultsEl.innerHTML = `
         <div class="grounding-result">
-            <div class="grounding-text">${processedText.replace(/\n/g, '<br>')}</div>
+            <div class="grounding-text">${processedText}</div>
             ${data.citations && data.citations.length > 0 ? `
                 <div class="citation-list">
                     <h4>Sources:</h4>
