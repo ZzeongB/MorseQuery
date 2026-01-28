@@ -10,9 +10,8 @@ import numpy as np
 import whisper
 from flask import request
 from flask_socketio import emit
-from pydub import AudioSegment
-
 from handlers.search import process_pending_search
+from pydub import AudioSegment
 
 # Global Whisper model (lazy loaded)
 whisper_model = None
@@ -22,7 +21,7 @@ def get_whisper_model():
     """Get or load the Whisper model."""
     global whisper_model
     if whisper_model is None:
-        whisper_model = whisper.load_model("tiny")
+        whisper_model = whisper.load_model("small")
     return whisper_model
 
 
@@ -79,23 +78,68 @@ def process_whisper_background(
 
         if text:
             session = transcription_sessions[session_id]
-            session.add_text(text)
 
-            session._log_event(
-                "whisper_transcription",
-                {
-                    "text": text,
-                    "word_count": len(text.split()),
-                    "transcription_duration_seconds": transcription_duration,
-                    "total_processing_seconds": total_duration,
-                    "audio_size_bytes": len(audio_data),
-                    "format": file_format,
-                },
-            )
+            # Check if correction mode is active
+            if session.correction_mode_active and session.correction_buffer:
+                # Apply correction using Gemini buffer
+                corrected_segment = session.correction_buffer.add_whisper(
+                    text, datetime.utcnow()
+                )
 
-            socketio.emit(
-                "transcription", {"text": text, "source": "whisper"}, room=session_id
-            )
+                # Use corrected text for session
+                final_text = corrected_segment.text
+                session.add_text(final_text)
+
+                session._log_event(
+                    "whisper_transcription_corrected",
+                    {
+                        "original_text": text,
+                        "corrected_text": final_text,
+                        "was_corrected": corrected_segment.is_corrected,
+                        "similarity": corrected_segment.similarity,
+                        "word_count": len(final_text.split()),
+                        "transcription_duration_seconds": transcription_duration,
+                        "total_processing_seconds": total_duration,
+                        "audio_size_bytes": len(audio_data),
+                        "format": file_format,
+                    },
+                )
+
+                # Emit corrected transcription event
+                socketio.emit(
+                    "transcription_corrected",
+                    {
+                        "text": final_text,
+                        "original_text": text
+                        if corrected_segment.is_corrected
+                        else None,
+                        "was_corrected": corrected_segment.is_corrected,
+                        "similarity": corrected_segment.similarity,
+                        "source": "whisper-corrected",
+                    },
+                    room=session_id,
+                )
+            else:
+                # Normal mode - no correction
+                session.add_text(text)
+
+                session._log_event(
+                    "whisper_transcription",
+                    {
+                        "text": text,
+                        "word_count": len(text.split()),
+                        "transcription_duration_seconds": transcription_duration,
+                        "total_processing_seconds": total_duration,
+                        "audio_size_bytes": len(audio_data),
+                        "format": file_format,
+                    },
+                )
+
+                socketio.emit(
+                    "transcription",
+                    {"text": text, "source": "whisper"},
+                    room=session_id,
+                )
 
             # Check for pending search and process it
             if session.pending_search:
@@ -325,35 +369,81 @@ def register_whisper_handlers(socketio, transcription_sessions):
                 if text:
                     if phrase_complete or is_final:
                         session.transcription_lines.append(text)
-                        session.add_text(text)
 
-                        session._log_event(
-                            "whisper_transcription",
-                            {
-                                "text": text,
-                                "word_count": len(text.split()),
-                                "transcription_duration_seconds": transcription_duration,
-                                "total_processing_seconds": total_duration,
-                                "mode": "realtime",
-                                "is_complete": True,
-                                "phrase_complete": phrase_complete,
-                                "is_final": is_final,
-                            },
-                        )
+                        # Check if correction mode is active
+                        if session.correction_mode_active and session.correction_buffer:
+                            # Apply correction using Gemini buffer
+                            corrected_segment = session.correction_buffer.add_whisper(
+                                text, datetime.utcnow()
+                            )
 
-                        socketio.emit(
-                            "transcription",
-                            {
-                                "text": text,
-                                "source": "whisper-realtime",
-                                "is_complete": True,
-                            },
-                            room=session_id,
-                        )
+                            final_text = corrected_segment.text
+                            session.add_text(final_text)
+
+                            session._log_event(
+                                "whisper_transcription_corrected",
+                                {
+                                    "original_text": text,
+                                    "corrected_text": final_text,
+                                    "was_corrected": corrected_segment.is_corrected,
+                                    "similarity": corrected_segment.similarity,
+                                    "word_count": len(final_text.split()),
+                                    "transcription_duration_seconds": transcription_duration,
+                                    "total_processing_seconds": total_duration,
+                                    "mode": "realtime",
+                                    "is_complete": True,
+                                    "phrase_complete": phrase_complete,
+                                    "is_final": is_final,
+                                },
+                            )
+
+                            socketio.emit(
+                                "transcription_corrected",
+                                {
+                                    "text": final_text,
+                                    "original_text": text
+                                    if corrected_segment.is_corrected
+                                    else None,
+                                    "was_corrected": corrected_segment.is_corrected,
+                                    "similarity": corrected_segment.similarity,
+                                    "source": "whisper-realtime-corrected",
+                                    "is_complete": True,
+                                },
+                                room=session_id,
+                            )
+                        else:
+                            # Normal mode - no correction
+                            session.add_text(text)
+
+                            session._log_event(
+                                "whisper_transcription",
+                                {
+                                    "text": text,
+                                    "word_count": len(text.split()),
+                                    "transcription_duration_seconds": transcription_duration,
+                                    "total_processing_seconds": total_duration,
+                                    "mode": "realtime",
+                                    "is_complete": True,
+                                    "phrase_complete": phrase_complete,
+                                    "is_final": is_final,
+                                },
+                            )
+
+                            socketio.emit(
+                                "transcription",
+                                {
+                                    "text": text,
+                                    "source": "whisper-realtime",
+                                    "is_complete": True,
+                                },
+                                room=session_id,
+                            )
 
                         # Check for pending search and process it
                         if session.pending_search:
-                            print("[Whisper Real-time] Pending search detected, processing...")
+                            print(
+                                "[Whisper Real-time] Pending search detected, processing..."
+                            )
                             process_pending_search(session, session_id, socketio)
                     else:
                         session.transcription_lines[-1] = text
@@ -382,3 +472,56 @@ def register_whisper_handlers(socketio, transcription_sessions):
             socketio.emit(
                 "error", {"message": f"Real-time error: {str(e)}"}, room=session_id
             )
+
+    @socketio.on("start_correction_mode")
+    def handle_start_correction_mode():
+        """Start Whisper + Gemini correction mode."""
+        from src.core.correction import CorrectionBuffer
+
+        session_id = request.sid
+
+        if session_id not in transcription_sessions:
+            emit("error", {"message": "No active session"})
+            return
+
+        session = transcription_sessions[session_id]
+
+        # Initialize correction buffer
+        session.correction_buffer = CorrectionBuffer(
+            window_seconds=5.0,
+            similarity_threshold=0.6,
+        )
+        session.correction_mode_active = True
+        session.whisper_active = True
+
+        session._log_event("correction_mode_start", {})
+
+        emit("status", {"message": "Correction mode started (Whisper + Gemini)"})
+        emit("correction_mode_started", {"status": "active"})
+        print(f"[Correction] Mode started for session {session_id}")
+
+    @socketio.on("stop_correction_mode")
+    def handle_stop_correction_mode():
+        """Stop correction mode."""
+        session_id = request.sid
+
+        if session_id not in transcription_sessions:
+            emit("error", {"message": "No active session"})
+            return
+
+        session = transcription_sessions[session_id]
+
+        # Get stats before clearing
+        stats = {}
+        if session.correction_buffer:
+            stats = session.correction_buffer.get_correction_stats()
+            session.correction_buffer.clear()
+
+        session.correction_mode_active = False
+        session.correction_buffer = None
+
+        session._log_event("correction_mode_stop", {"stats": stats})
+
+        emit("status", {"message": "Correction mode stopped"})
+        emit("correction_mode_stopped", {"status": "inactive", "stats": stats})
+        print(f"[Correction] Mode stopped for session {session_id}, stats: {stats}")

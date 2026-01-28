@@ -10,9 +10,9 @@ import threading
 from flask import request
 from flask_socketio import emit
 from google import genai
+from handlers.search import process_pending_search
 from pydub import AudioSegment
 
-from handlers.search import process_pending_search
 from src.core.config import (
     GEMINI_INFERENCE_CONFIG,
     GEMINI_MODEL,
@@ -31,16 +31,25 @@ INFER_SEARCH_PROMPT = (
 # Allow variations: [SearchQuery], [ SearchQuery], [[SearchQuery], [  SearchQuery ], etc.
 SEARCH_QUERY_PATTERN = re.compile(r"\[+\s*SearchQuery\s*\]", re.IGNORECASE)
 # Pattern to extract Term and Definition (more flexible)
-TERM_PATTERN = re.compile(r"Term:\s*([^\n\[]+?)(?:\s*Definition:|\s*Done\.|\s*\[|$)", re.IGNORECASE)
-DEFINITION_PATTERN = re.compile(r"Definition:\s*([^\[\n]+?)(?:\s*Done\.|\s*\[|$)", re.IGNORECASE)
+TERM_PATTERN = re.compile(
+    r"Term:\s*([^\n\[]+?)(?:\s*Definition:|\s*Done\.|\s*\[|$)", re.IGNORECASE
+)
+DEFINITION_PATTERN = re.compile(
+    r"Definition:\s*([^\[\n]+?)(?:\s*Done\.|\s*\[|$)", re.IGNORECASE
+)
 DONE_PATTERN = re.compile(r"Done\.?\s*$", re.IGNORECASE)
 
 # Patterns for bad/unhelpful responses that should be filtered out
 # Only filter clearly useless responses - be less strict to allow more through
 BAD_RESPONSE_PATTERNS = [
     re.compile(r"^\s*\.?\s*Done\.?\s*$", re.IGNORECASE),  # Just "Done." or ". Done."
-    re.compile(r"^\s*\[?\s*SearchQuery\s*\]?\s*I have already suggested.+Done\.?\s*$", re.IGNORECASE),  # "[SearchQuery] I have already suggested X. Done."
-    re.compile(r"^\s*I have already suggested.+Done\.?\s*$", re.IGNORECASE),  # "I have already suggested X. Done." without [SearchQuery]
+    re.compile(
+        r"^\s*\[?\s*SearchQuery\s*\]?\s*I have already suggested.+Done\.?\s*$",
+        re.IGNORECASE,
+    ),  # "[SearchQuery] I have already suggested X. Done."
+    re.compile(
+        r"^\s*I have already suggested.+Done\.?\s*$", re.IGNORECASE
+    ),  # "I have already suggested X. Done." without [SearchQuery]
 ]
 
 
@@ -58,7 +67,9 @@ def is_bad_response(text):
 
     # Check against bad response patterns
     for pattern in BAD_RESPONSE_PATTERNS:
-        if pattern.match(text.strip()):  # Use match instead of search for stricter checking
+        if pattern.match(
+            text.strip()
+        ):  # Use match instead of search for stricter checking
             return True
 
     return False
@@ -92,15 +103,15 @@ def parse_inference_response(text):
         return result
 
     # Normalize text - remove extra brackets and spaces around SearchQuery
-    normalized = re.sub(r'\[\s*\[+', '[', text)  # [[ -> [
-    normalized = re.sub(r'\[\s+', '[', normalized)  # [ SearchQuery] -> [SearchQuery]
+    normalized = re.sub(r"\[\s*\[+", "[", text)  # [[ -> [
+    normalized = re.sub(r"\[\s+", "[", normalized)  # [ SearchQuery] -> [SearchQuery]
 
     # Check if this is a search query response (check both original and normalized)
     if SEARCH_QUERY_PATTERN.search(text) or SEARCH_QUERY_PATTERN.search(normalized):
         result["is_search_query"] = True
 
         # Split by [SearchQuery] markers to get individual blocks
-        blocks = re.split(r'\[+\s*SearchQuery\s*\]', normalized, flags=re.IGNORECASE)
+        blocks = re.split(r"\[+\s*SearchQuery\s*\]", normalized, flags=re.IGNORECASE)
 
         for block in blocks:
             if not block.strip():
@@ -115,10 +126,7 @@ def parse_inference_response(text):
                 definition = def_match.group(1).strip() if def_match else ""
 
                 if term:
-                    result["terms"].append({
-                        "term": term,
-                        "definition": definition
-                    })
+                    result["terms"].append({"term": term, "definition": definition})
 
         # Set first term for backwards compatibility
         if result["terms"]:
@@ -136,7 +144,8 @@ def parse_inference_response(text):
 gemini_client = None
 if GOOGLE_API_KEY:
     gemini_client = genai.Client(
-        http_options={"api_version": "v1beta"}, api_key=GOOGLE_API_KEY
+        # http_options={"api_version": "v1beta"},
+        api_key=GOOGLE_API_KEY
     )
     print("[Gemini] Client initialized")
 else:
@@ -299,7 +308,9 @@ def run_gemini_live_loop(
                                                 session.inference_buffer = ""
 
                                             # Append to buffer (replace newline with space)
-                                            session.inference_buffer += text.replace("\n", " ") + " "
+                                            session.inference_buffer += (
+                                                text.replace("\n", " ") + " "
+                                            )
 
                                             # Emit streaming update to frontend (for live display)
                                             socketio.emit(
@@ -391,20 +402,28 @@ def run_gemini_live_loop(
                                                 terms_to_send = parsed["terms"]
 
                                                 # If no terms parsed, create fallback from raw text
-                                                if not terms_to_send and parsed.get("raw_text"):
+                                                if not terms_to_send and parsed.get(
+                                                    "raw_text"
+                                                ):
                                                     # Try to extract something useful
                                                     raw = parsed["raw_text"]
                                                     # Use first line or first 50 chars as term
-                                                    fallback_term = raw.split('\n')[0][:50].strip()
+                                                    fallback_term = raw.split("\n")[0][
+                                                        :50
+                                                    ].strip()
                                                     if fallback_term:
-                                                        terms_to_send = [{
-                                                            "term": fallback_term,
-                                                            "definition": "(parsing failed)"
-                                                        }]
+                                                        terms_to_send = [
+                                                            {
+                                                                "term": fallback_term,
+                                                                "definition": "(parsing failed)",
+                                                            }
+                                                        ]
 
                                                 if terms_to_send:
                                                     # Store all terms for navigation
-                                                    session.gemini_recent_terms = terms_to_send
+                                                    session.gemini_recent_terms = (
+                                                        terms_to_send
+                                                    )
                                                     session.gemini_recent_term_index = 0
 
                                                     # Emit all extracted terms
@@ -433,13 +452,26 @@ def run_gemini_live_loop(
                                                         },
                                                         room=session_id,
                                                     )
-                                                    print("[Gemini Inference] No terms could be parsed")
+                                                    print(
+                                                        "[Gemini Inference] No terms could be parsed"
+                                                    )
 
                                                 # Clear buffer for next inference request
                                                 session.inference_buffer = ""
                                         else:
                                             # Transcription mode: standard handling
                                             print(f"[Gemini] Transcription: {text}")
+
+                                            # Add to correction buffer if correction mode is active
+                                            if (
+                                                session.correction_mode_active
+                                                and session.correction_buffer
+                                            ):
+                                                from datetime import datetime
+
+                                                session.correction_buffer.add_gemini(
+                                                    text, datetime.utcnow()
+                                                )
 
                                             # Add to session (for GPT keyword extraction)
                                             session.add_text(text)

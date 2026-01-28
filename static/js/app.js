@@ -4,7 +4,7 @@ const socket = io();
 // State management
 let state = {
     isRecording: false,
-    recognitionMode: 'whisper', // 'whisper', 'gemini', or 'google'
+    recognitionMode: 'whisper', // 'whisper', 'openai', 'gemini', or 'google'
     searchMode: 'gpt', // 'instant', 'tfidf', 'gpt', or 'gemini'
     searchType: 'text', // 'text' or 'image'
     mediaRecorder: null,
@@ -36,7 +36,9 @@ let state = {
     geminiInferOnDemand: true,  // true = show only after spacebar, false = show all responses
     // Gemini terms management (for multiple terms per response)
     geminiInferTerms: [],       // all terms from current response
-    geminiInferTermIndex: 0     // current term index for navigation
+    geminiInferTermIndex: 0,    // current term index for navigation
+    // Correction mode (Whisper + Gemini parallel)
+    correctionModeActive: false
 };
 
 // DOM elements
@@ -44,6 +46,7 @@ const micBtn = document.getElementById('micBtn');
 const fileInput = document.getElementById('fileInput');
 const srtInput = document.getElementById('srtInput');
 const whisperBtn = document.getElementById('whisperBtn');
+const openaiBtn = document.getElementById('openaiBtn');
 const geminiBtn = document.getElementById('geminiBtn');
 const geminiInferBtn = document.getElementById('geminiInferBtn');
 const instantSearchBtn = document.getElementById('instantSearchBtn');
@@ -106,7 +109,7 @@ socket.on('transcription', (data) => {
     console.log('[Transcription]', data);
 
     // Handle real-time transcription updates (like transcribe_demo.py)
-    if (data.source === 'whisper-realtime') {
+    if (data.source === 'whisper-realtime' || data.source === 'openai-realtime') {
         if (data.is_complete) {
             // New complete phrase - append it
             appendTranscription(data.text);
@@ -128,6 +131,45 @@ socket.on('transcription', (data) => {
     }
 
     updateStatus(`Transcribed (${data.source}): ${data.text}`);
+});
+
+// Handle corrected transcription (Whisper + Gemini correction mode)
+socket.on('transcription_corrected', (data) => {
+    console.log('[Transcription Corrected]', data);
+
+    if (data.was_corrected && data.original_text) {
+        // Show correction visually
+        appendCorrectedTranscription(data.original_text, data.text, data.similarity);
+        console.log(`[Correction] "${data.original_text}" -> "${data.text}" (sim=${data.similarity})`);
+    } else {
+        // No correction needed - append normally
+        appendTranscription(data.text);
+    }
+
+    // Track the last word for instant search
+    const words = data.text.trim().split(/\s+/);
+    if (words.length > 0) {
+        state.lastWord = words[words.length - 1];
+    }
+
+    const correctionStatus = data.was_corrected ? ' [CORRECTED]' : '';
+    updateStatus(`Transcribed (${data.source})${correctionStatus}: ${data.text}`);
+});
+
+// Handle correction mode status events
+socket.on('correction_mode_started', (data) => {
+    console.log('[Correction Mode] Started', data);
+    state.correctionModeActive = true;
+    updateCorrectionModeUI(true);
+});
+
+socket.on('correction_mode_stopped', (data) => {
+    console.log('[Correction Mode] Stopped', data);
+    state.correctionModeActive = false;
+    updateCorrectionModeUI(false);
+    if (data.stats) {
+        console.log('[Correction Mode] Stats:', data.stats);
+    }
 });
 
 socket.on('search_keyword', (data) => {
@@ -370,6 +412,7 @@ micBtn.addEventListener('click', toggleMicrophone);
 fileInput.addEventListener('change', handleFileUpload);
 srtInput.addEventListener('change', handleSrtUpload);
 whisperBtn.addEventListener('click', () => setRecognitionMode('whisper'));
+openaiBtn.addEventListener('click', () => setRecognitionMode('openai'));
 geminiBtn.addEventListener('click', () => setRecognitionMode('gemini'));
 geminiInferBtn.addEventListener('click', () => setRecognitionMode('gemini_infer'));
 instantSearchBtn.addEventListener('click', () => setSearchMode('instant'));
@@ -584,6 +627,56 @@ function updateCurrentTranscription(text) {
     transcriptionEl.scrollTop = transcriptionEl.scrollHeight;
 }
 
+function appendCorrectedTranscription(originalText, correctedText, similarity) {
+    // Show corrected transcription with visual indication
+    if (transcriptionEl.textContent === 'Transcribed text will appear here...') {
+        transcriptionEl.textContent = '';
+    }
+
+    // Create correction indicator
+    const simPercent = Math.round(similarity * 100);
+    const correctionSpan = document.createElement('span');
+    correctionSpan.style.cssText = 'background-color: #ffe0b2; padding: 2px 4px; border-radius: 3px; margin: 0 2px;';
+    correctionSpan.innerHTML = `<s style="color: #999; font-size: 0.9em;">${originalText}</s> → <strong style="color: #2e7d32;">${correctedText}</strong> <small style="color: #666;">(${simPercent}%)</small>`;
+
+    transcriptionEl.appendChild(document.createTextNode(' '));
+    transcriptionEl.appendChild(correctionSpan);
+    transcriptionEl.scrollTop = transcriptionEl.scrollHeight;
+}
+
+function updateCorrectionModeUI(isActive) {
+    // Update UI to reflect correction mode status
+    const correctionBtn = document.getElementById('correctionModeBtn');
+    if (correctionBtn) {
+        if (isActive) {
+            correctionBtn.classList.add('active');
+            correctionBtn.textContent = 'Correction: ON';
+            correctionBtn.style.backgroundColor = '#4caf50';
+        } else {
+            correctionBtn.classList.remove('active');
+            correctionBtn.textContent = 'Correction: OFF';
+            correctionBtn.style.backgroundColor = '';
+        }
+    }
+
+    // Update status
+    updateStatus(isActive ? 'Correction mode active (Whisper + Gemini)' : 'Correction mode inactive');
+}
+
+function toggleCorrectionMode() {
+    // Toggle correction mode (Whisper + Gemini parallel)
+    if (state.correctionModeActive) {
+        // Stop correction mode
+        socket.emit('stop_correction_mode');
+        socket.emit('stop_gemini_live');
+    } else {
+        // Start correction mode - need both Whisper and Gemini Live
+        socket.emit('start_correction_mode');
+        socket.emit('start_gemini_live', { mode: 'transcription' });
+        updateStatus('Starting correction mode (Whisper + Gemini)...');
+    }
+}
+
 function setRecognitionMode(mode) {
     // Stop previous Gemini mode if switching away from it
     if ((state.recognitionMode === 'gemini' || state.recognitionMode === 'gemini_infer') &&
@@ -591,14 +684,14 @@ function setRecognitionMode(mode) {
         socket.emit('stop_gemini_live');
     }
 
-    // Stop Whisper if switching to Gemini mode
-    if (state.recognitionMode === 'whisper' && (mode === 'gemini' || mode === 'gemini_infer')) {
+    // Stop Whisper if switching to other modes
+    if (state.recognitionMode === 'whisper' && mode !== 'whisper') {
         socket.emit('stop_whisper');
     }
 
     state.recognitionMode = mode;
 
-    // Clear SRT when Whisper or Gemini is selected
+    // Clear SRT when speech recognition is selected
     if (state.srtLoaded) {
         state.srtLoaded = false;
         srtInput.parentElement.classList.remove('active');
@@ -606,11 +699,13 @@ function setRecognitionMode(mode) {
     }
 
     whisperBtn.classList.toggle('active', mode === 'whisper');
+    openaiBtn.classList.toggle('active', mode === 'openai');
     geminiBtn.classList.toggle('active', mode === 'gemini');
     geminiInferBtn.classList.toggle('active', mode === 'gemini_infer');
 
     const modeNames = {
         whisper: 'Whisper (Local)',
+        openai: 'OpenAI Realtime',
         gemini: 'Gemini Live (Transcription)',
         gemini_infer: 'Gemini Live (Inference)'
     };
@@ -619,6 +714,8 @@ function setRecognitionMode(mode) {
 
     if (mode === 'whisper') {
         socket.emit('start_whisper');
+    } else if (mode === 'openai') {
+        socket.emit('start_openai_transcription');
     } else if (mode === 'gemini') {
         socket.emit('start_gemini_live', { mode: 'transcription' });
     } else if (mode === 'gemini_infer') {
@@ -854,6 +951,8 @@ function sendAudioToServer(audioBlob) {
         // Both 'gemini' (transcription) and 'gemini_infer' (inference) modes use Gemini Live
         if (state.recognitionMode === 'gemini' || state.recognitionMode === 'gemini_infer') {
             socket.emit('audio_chunk_gemini_live', { audio: base64Audio, format: 'webm' });
+        } else if (state.recognitionMode === 'openai') {
+            socket.emit('audio_chunk_openai', { audio: base64Audio, format: 'webm' });
         } else {
             socket.emit('audio_chunk_whisper', { audio: base64Audio, format: 'webm' });
         }
@@ -1765,6 +1864,7 @@ function clearSession() {
     state.geminiInferTermIndex = 0;
     geminiBtn.classList.remove('active');
     geminiInferBtn.classList.remove('active');
+    openaiBtn.classList.remove('active');
 
     // Reset SRT button state
     srtInput.parentElement.classList.remove('active');

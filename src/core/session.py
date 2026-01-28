@@ -43,6 +43,10 @@ class TranscriptionSession:
         # Whisper streaming state
         self.whisper_active = False  # Whether Whisper streaming is active
 
+        # OpenAI transcription state
+        self.openai_active = False  # Whether OpenAI transcription is active
+        self.openai_phrase_bytes = b""  # Accumulated audio for realtime mode
+
         # Gemini Live API state
         self.gemini_active = False
         self.gemini_session = None
@@ -62,6 +66,10 @@ class TranscriptionSession:
         self.pending_search: Dict = None  # {timestamp, search_type, client_timestamp, ...}
         self.pending_search_text_before: str = ""  # Text at spacebar moment
         self.pending_search_timeout: float = 1.0  # Seconds to wait for new transcription
+
+        # Correction mode state (Whisper + Gemini Live parallel)
+        self.correction_mode_active: bool = False
+        self.correction_buffer = None  # CorrectionBuffer instance when active
 
         # Logging system
         self.session_start_time = datetime.utcnow()
