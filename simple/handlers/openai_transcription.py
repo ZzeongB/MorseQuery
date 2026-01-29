@@ -15,8 +15,8 @@ import numpy as np
 import websockets
 from flask import request
 from flask_socketio import emit
-from handlers.search import process_pending_search
 
+from handlers.search import process_pending_search
 from src.core.config import OPENAI_API_KEY
 
 # Enable nested asyncio
@@ -106,7 +106,7 @@ def convert_webm_to_pcm(audio_data: bytes, file_format: str) -> np.ndarray:
             os.unlink(temp_output)
 
 
-def _session_config(model: str, vad: float = 0.5) -> dict:
+def _session_config(model: str, vad: float = 0.3) -> dict:
     """Session config."""
     return {
         "type": "transcription_session.update",
@@ -115,8 +115,8 @@ def _session_config(model: str, vad: float = 0.5) -> dict:
             "turn_detection": {
                 "type": "server_vad",
                 "threshold": vad,
-                "prefix_padding_ms": 300,
-                "silence_duration_ms": 500,
+                "prefix_padding_ms": 200,
+                "silence_duration_ms": 200,
             },
             "input_audio_transcription": {
                 "model": model,
@@ -271,7 +271,7 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                         print(
                                             f"[OpenAI] Pending search: EV_DONE {ev_done_count}/2"
                                         )
-                                        if ev_done_count >= 2:
+                                        if ev_done_count >= 1:
                                             print(
                                                 "[OpenAI] 2 EV_DONEs received, processing search"
                                             )
