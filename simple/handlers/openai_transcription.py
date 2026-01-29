@@ -16,6 +16,7 @@ import websockets
 from flask import request
 from flask_socketio import emit
 from handlers.search import process_pending_search
+from handlers.auto_inference import trigger_auto_inference
 
 from src.core.config import OPENAI_API_KEY
 
@@ -284,6 +285,11 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                             process_pending_search(
                                                 session, session_id, socketio
                                             )
+                                    # Auto-inference on sentence end (if mode is "sentence")
+                                    elif session.auto_inference_mode == "sentence":
+                                        trigger_auto_inference(
+                                            session, session_id, socketio
+                                        )
 
                             elif typ == "error":
                                 error_msg = ev.get("error", {}).get(

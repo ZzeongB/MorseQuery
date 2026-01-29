@@ -49,6 +49,19 @@
         <video id="videoPlayer" style="display: none;"></video>
         <input type="file" id="fileInput" accept="audio/*,video/*" style="display: none;">
 
+        <!-- Auto-inference controls -->
+        <div class="auto-inference-bar" id="autoInferenceBar">
+            <label class="auto-label">Auto:</label>
+            <select id="autoModeSelect" class="auto-select">
+                <option value="off">Off</option>
+                <option value="time">Time</option>
+                <option value="sentence">Sentence</option>
+            </select>
+            <input type="number" id="autoIntervalInput" class="auto-interval"
+                   value="3" min="1" max="30" step="0.5" title="Interval (seconds)">
+            <span class="auto-interval-label">s</span>
+        </div>
+
         <!-- Minimal controls (hidden by default, show on hover) -->
         <div class="controls-bar" id="controlsBar">
             <button id="micBtn" class="control-btn" title="Microphone">🎤</button>

@@ -262,6 +262,56 @@ body {
     border-radius: 12px;
 }
 
+/* Auto-inference bar */
+.auto-inference-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: #f9fafb;
+    border-top: 1px solid #f0f0f0;
+}
+
+.auto-label {
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.auto-select {
+    padding: 4px 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    background: white;
+    color: #374151;
+    cursor: pointer;
+}
+
+.auto-select:focus {
+    outline: none;
+    border-color: #10a37f;
+}
+
+.auto-interval {
+    width: 50px;
+    padding: 4px 6px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.auto-interval:focus {
+    outline: none;
+    border-color: #10a37f;
+}
+
+.auto-interval-label {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
 /* Controls bar */
 .controls-bar {
     display: flex;

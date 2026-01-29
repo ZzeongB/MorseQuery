@@ -12,6 +12,8 @@ let state = {
     keywordHistory: [],
     currentKeyword: null,
     currentDescription: null,
+    autoInferenceMode: 'off',
+    autoInferenceInterval: 3.0,
 };
 
 // DOM elements
@@ -36,6 +38,8 @@ const fileBtn = document.getElementById('fileBtn');
 const clearBtn = document.getElementById('clearBtn');
 const fileInput = document.getElementById('fileInput');
 const audioPlayer = document.getElementById('audioPlayer');
+const autoModeSelect = document.getElementById('autoModeSelect');
+const autoIntervalInput = document.getElementById('autoIntervalInput');
 
 // Socket events
 socket.on('connect', () => {
@@ -125,11 +129,43 @@ socket.on('session_cleared', () => {
     setStatus('connected', 'Session cleared');
 });
 
+socket.on('auto_inference_status', (data) => {
+    console.log('[Auto-Inference] Status:', data);
+    state.autoInferenceMode = data.mode;
+    state.autoInferenceInterval = data.interval;
+    autoModeSelect.value = data.mode;
+    autoIntervalInput.value = data.interval;
+    updateAutoInferenceUI();
+});
+
 // Button events
 micBtn.addEventListener('click', toggleMicrophone);
 fileBtn.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', handleFileUpload);
 clearBtn.addEventListener('click', clearSession);
+
+// Auto-inference events
+autoModeSelect.addEventListener('change', () => {
+    const mode = autoModeSelect.value;
+    const interval = parseFloat(autoIntervalInput.value) || 3.0;
+    socket.emit('set_auto_inference', { mode, interval });
+    updateAutoInferenceUI();
+});
+
+autoIntervalInput.addEventListener('change', () => {
+    if (state.autoInferenceMode === 'time') {
+        const mode = autoModeSelect.value;
+        const interval = parseFloat(autoIntervalInput.value) || 3.0;
+        socket.emit('set_auto_inference', { mode, interval });
+    }
+});
+
+function updateAutoInferenceUI() {
+    // Show/hide interval input based on mode
+    const showInterval = autoModeSelect.value === 'time';
+    autoIntervalInput.style.display = showInterval ? 'inline-block' : 'none';
+    document.querySelector('.auto-interval-label').style.display = showInterval ? 'inline' : 'none';
+}
 
 // Spacebar handling
 const DOUBLE_PRESS_THRESHOLD = 300;
@@ -526,3 +562,6 @@ function clearSession() {
     if (state.isRecording) stopRecording();
     socket.emit('clear_session');
 }
+
+// Initialize UI
+updateAutoInferenceUI();

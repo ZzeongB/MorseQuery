@@ -16,6 +16,22 @@ openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
 class TranscriptionSession:
     """Manages transcription state for a single user session."""
 
+    # ============================================================
+    # AUTO-INFERENCE CONFIGURATION OPTIONS
+    # ============================================================
+    # Auto-inference mode: "off", "time", "sentence"
+    AUTO_INFERENCE_DEFAULT_MODE = "off"
+
+    # Time-based auto-inference interval (seconds)
+    AUTO_INFERENCE_TIME_INTERVAL = 3.0
+
+    # Minimum words required before auto-inference triggers
+    AUTO_INFERENCE_MIN_WORDS = 3
+
+    # Cooldown between auto-inferences (seconds) to avoid spam
+    AUTO_INFERENCE_COOLDOWN = 2.0
+    # ============================================================
+
     def __init__(self, session_id: str):
         self.session_id = session_id
         self.words: List[str] = []
@@ -38,6 +54,13 @@ class TranscriptionSession:
 
         # Pending search state
         self.pending_search: Dict = None
+
+        # Auto-inference state
+        self.auto_inference_mode = self.AUTO_INFERENCE_DEFAULT_MODE  # "off", "time", "sentence"
+        self.auto_inference_interval = self.AUTO_INFERENCE_TIME_INTERVAL
+        self.last_auto_inference_time: datetime = None
+        self.last_auto_inference_word_count = 0
+        self.auto_inference_timer_active = False
 
         # Logging system
         self.session_start_time = datetime.utcnow()
@@ -98,8 +121,12 @@ class TranscriptionSession:
         """Get list of all keywords from history."""
         return [h["keyword"] for h in self.keyword_history]
 
-    def get_top_keyword_gpt(self, time_threshold: int = 15) -> List[Dict]:
+    def get_top_keyword_gpt(self, time_threshold: int = 15, auto_mode: bool = False) -> List[Dict]:
         """Use GPT to predict keywords. Returns list of keyword-description pairs.
+
+        Args:
+            time_threshold: How many seconds of recent words to consider
+            auto_mode: If True, GPT can return 0-3 keywords (flexible). If False, exactly 3.
 
         Excludes keywords that were already extracted in previous calls.
         """
@@ -123,7 +150,7 @@ class TranscriptionSession:
             return []
 
         context_text = " ".join(recent_words)
-        print(f"\n[GPT] Found {len(recent_words)} words in last {time_threshold}s")
+        print(f"\n[GPT] Found {len(recent_words)} words in last {time_threshold}s (auto_mode={auto_mode})")
         print(f"[GPT] Context sent to GPT: '{context_text}'")
 
         # Build exclusion list from history
@@ -133,7 +160,24 @@ class TranscriptionSession:
             exclusion_text = f"\n\nIMPORTANT: Do NOT suggest these keywords that were already extracted: {', '.join(history_keywords)}"
             print(f"[GPT] Excluding keywords: {history_keywords}")
 
-        prompt = f"""You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
+        # Different prompt for auto mode vs manual mode
+        if auto_mode:
+            prompt = f"""You are analyzing transcripts in real-time. Extract important keywords that users might want to look up.
+
+Given the transcript context, identify words or phrases worth looking up. The selected words or phrases should be:
+- Technical terms or unfamiliar vocabulary
+- Concepts that need clarification
+- Names or specific references
+- Words that might need visual aids
+
+Return 0 to 3 keywords. If there are no important keywords in this context, respond with "None".
+If there are keywords, use this format for each:
+Keyword: <word or phrase>
+Description: <a brief 1-sentence description>{exclusion_text}
+
+Context: {context_text}"""
+        else:
+            prompt = f"""You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
 
 Given the transcript context, predict the top three words or phrases the user would most likely want to look up. The selected words or phrases should be:
 - Technical terms or unfamiliar vocabulary
@@ -245,6 +289,43 @@ Context: {context_text}"""
                 "transcription_length": len(self.full_text),
             },
         )
+
+    def should_auto_inference(self) -> bool:
+        """Check if auto-inference should trigger based on current mode and state."""
+        if self.auto_inference_mode == "off":
+            return False
+
+        # Check minimum word count since last inference
+        new_words = len(self.words) - self.last_auto_inference_word_count
+        if new_words < self.AUTO_INFERENCE_MIN_WORDS:
+            return False
+
+        # Check cooldown
+        if self.last_auto_inference_time:
+            elapsed = (datetime.utcnow() - self.last_auto_inference_time).total_seconds()
+            if elapsed < self.AUTO_INFERENCE_COOLDOWN:
+                return False
+
+        return True
+
+    def mark_auto_inference_done(self):
+        """Mark that auto-inference was just performed."""
+        self.last_auto_inference_time = datetime.utcnow()
+        self.last_auto_inference_word_count = len(self.words)
+
+    def set_auto_inference_mode(self, mode: str, interval: float = None):
+        """Set auto-inference mode and optionally the interval."""
+        if mode in ("off", "time", "sentence"):
+            self.auto_inference_mode = mode
+            if interval is not None and interval > 0:
+                self.auto_inference_interval = interval
+            self._log_event(
+                "auto_inference_mode_changed",
+                {
+                    "mode": mode,
+                    "interval": self.auto_inference_interval,
+                },
+            )
 
     def save_logs_to_file(self) -> str | None:
         """Save session logs to a JSON file."""
