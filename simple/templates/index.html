@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MorseQuery</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="widget">
+        <!-- Status indicator -->
+        <div class="status-bar">
+            <div class="status-dot" id="statusDot"></div>
+            <span id="statusText">Ready</span>
+        </div>
+
+        <!-- Current keywords (from single press) -->
+        <div class="keywords-panel" id="keywordsPanel">
+            <div class="keywords-list" id="keywordsList"></div>
+        </div>
+
+        <!-- Selected keyword description (from double press) -->
+        <div class="description-panel" id="descriptionPanel">
+            <div class="selected-keyword" id="selectedKeyword"></div>
+            <div class="keyword-description" id="keywordDescription"></div>
+        </div>
+
+        <!-- Grounding result (from long press) -->
+        <div class="grounding-panel" id="groundingPanel">
+            <div class="grounding-keyword" id="groundingKeyword"></div>
+            <div class="grounding-text" id="groundingText"></div>
+            <div class="citation-list" id="citationList"></div>
+        </div>
+
+        <!-- Keyword history -->
+        <div class="history-panel" id="historyPanel">
+            <div class="history-title">History</div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+
+        <!-- Hidden audio/video elements -->
+        <audio id="audioPlayer" style="display: none;"></audio>
+        <video id="videoPlayer" style="display: none;"></video>
+        <input type="file" id="fileInput" accept="audio/*,video/*" style="display: none;">
+
+        <!-- Minimal controls (hidden by default, show on hover) -->
+        <div class="controls-bar" id="controlsBar">
+            <button id="micBtn" class="control-btn" title="Microphone">🎤</button>
+            <button id="fileBtn" class="control-btn" title="Upload File">📁</button>
+            <button id="clearBtn" class="control-btn" title="Clear">🗑️</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
