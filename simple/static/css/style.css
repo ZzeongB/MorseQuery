@@ -15,7 +15,7 @@ body {
 }
 
 .widget {
-    width: 320px;
+    width: 600px;
     background: white;
     border-radius: 16px;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
@@ -74,27 +74,30 @@ body {
     flex: 1;
 }
 
-/* Keywords panel */
-.keywords-panel {
-    display: none;
-    padding: 12px;
-    border-bottom: 1px solid #f0f0f0;
+/* Two-column main content */
+.main-content {
+    display: flex;
+    min-height: 300px;
+    max-height: 500px;
 }
 
-.keywords-panel.visible {
-    display: block;
+/* Left column - Keywords list */
+.left-column {
+    width: 180px;
+    border-right: 1px solid #f0f0f0;
+    background: #fafafa;
+    overflow-y: auto;
 }
 
 .keywords-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    padding: 8px;
 }
 
 .keyword-item {
-    padding: 6px 12px;
-    background: #f3f4f6;
-    border-radius: 20px;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    background: white;
+    border-radius: 8px;
     font-size: 13px;
     color: #374151;
     cursor: pointer;
@@ -103,7 +106,7 @@ body {
 }
 
 .keyword-item:hover {
-    background: #e5e7eb;
+    background: #f3f4f6;
 }
 
 .keyword-item.active {
@@ -112,78 +115,102 @@ body {
     color: #065f46;
 }
 
-.keyword-text {
+.keyword-item .keyword-text {
     font-weight: 500;
+    display: block;
 }
 
-/* Description panel */
-.description-panel {
+.keyword-item .keyword-time {
+    font-size: 10px;
+    color: #9ca3af;
+    margin-top: 2px;
+}
+
+.keyword-item.active .keyword-time {
+    color: #059669;
+}
+
+/* Empty keywords state */
+.keywords-empty {
+    padding: 20px 12px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 12px;
+}
+
+/* Right column - Detail view */
+.right-column {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+}
+
+.detail-panel {
     display: none;
-    padding: 16px;
+    padding: 20px;
+    height: 100%;
+}
+
+.detail-panel.visible {
+    display: block;
+}
+
+/* Description view */
+.description-view {
     background: #f0fdf4;
+}
+
+.detail-keyword {
+    font-size: 18px;
+    font-weight: 600;
+    color: #065f46;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #d1fae5;
 }
 
-.description-panel.visible {
-    display: block;
-}
-
-#selectedKeyword {
-    font-size: 16px;
-    font-weight: 600;
-    color: #065f46;
-    margin-bottom: 8px;
-}
-
-#keywordDescription {
+.detail-description {
     font-size: 14px;
     color: #374151;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 
-/* Grounding panel */
-.grounding-panel {
-    display: none;
-    padding: 16px;
-    max-height: 400px;
-    overflow-y: auto;
+/* Grounding view */
+.grounding-view {
+    background: white;
 }
 
-.grounding-panel.visible {
-    display: block;
-}
-
-#groundingKeyword {
-    font-size: 14px;
+.grounding-keyword {
+    font-size: 16px;
     font-weight: 600;
     color: #10a37f;
-    margin-bottom: 12px;
-    padding-bottom: 8px;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
     border-bottom: 1px solid #e5e7eb;
 }
 
-#groundingText {
+.grounding-text {
     font-size: 14px;
     color: #374151;
     line-height: 1.7;
 }
 
-#groundingText strong {
+.grounding-text strong {
     font-weight: 600;
     color: #111;
 }
 
-#groundingText h2, #groundingText h3, #groundingText h4 {
+.grounding-text h2, .grounding-text h3, .grounding-text h4 {
     margin: 16px 0 8px;
     color: #111;
 }
 
-#groundingText ul {
+.grounding-text ul {
     margin: 8px 0;
     padding-left: 20px;
 }
 
-#groundingText li {
+.grounding-text li {
     margin: 4px 0;
 }
 
@@ -199,9 +226,9 @@ body {
     text-decoration: underline;
 }
 
-#citationList {
-    margin-top: 16px;
-    padding-top: 12px;
+.citation-list {
+    margin-top: 20px;
+    padding-top: 16px;
     border-top: 1px solid #e5e7eb;
 }
 
@@ -217,7 +244,7 @@ body {
     font-size: 12px;
     color: #666;
     text-decoration: none;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -227,39 +254,22 @@ body {
     color: #10a37f;
 }
 
-/* History panel */
-.history-panel {
-    display: none;
-    padding: 12px 16px;
-    background: #fafafa;
-    border-top: 1px solid #f0f0f0;
-}
-
-.history-panel.visible {
-    display: block;
-}
-
-.history-title {
-    font-size: 11px;
-    font-weight: 600;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-}
-
-.history-list {
+/* Empty state */
+.empty-view {
     display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    background: #fafafa;
 }
 
-.history-item {
-    font-size: 12px;
-    color: #6b7280;
-    padding: 4px 8px;
-    background: #e5e7eb;
-    border-radius: 12px;
+.empty-view.visible {
+    display: flex;
+}
+
+.empty-message {
+    font-size: 14px;
+    color: #9ca3af;
+    text-align: center;
 }
 
 /* Auto-inference bar */
@@ -389,89 +399,3 @@ body {
     }
 }
 
-.waiting-panel {
-    display: none;
-    padding: 20px;
-    text-align: center;
-}
-
-.waiting-panel.visible {
-    display: block;
-}
-
-.waiting-spinner {
-    width: 32px;
-    height: 32px;
-    border: 3px solid #fed7aa;
-    border-top-color: #f97316;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    margin: 0 auto 12px;
-}
-
-.waiting-message {
-    font-size: 14px;
-    color: #ea580c;
-    font-weight: 500;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* Vertical layout for keywords */
-.keywords-list.vertical {
-    flex-direction: column;
-    gap: 8px;
-}
-
-.keywords-list.vertical .keyword-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 12px;
-    border-radius: 8px;
-}
-
-.keywords-list.vertical .keyword-item .keyword-text {
-    font-size: 14px;
-    margin-bottom: 4px;
-}
-
-.keywords-list.vertical .keyword-item .keyword-desc {
-    font-size: 12px;
-    color: #666;
-    font-weight: 400;
-}
-
-.keywords-list.vertical .keyword-item.active .keyword-desc {
-    color: #065f46;
-}
-
-/* Vertical layout for history */
-.history-list.vertical {
-    flex-direction: column;
-    gap: 6px;
-}
-
-.history-list.vertical .history-item {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 12px;
-    border-radius: 8px;
-}
-
-.history-list.vertical .history-item .history-keyword {
-    font-weight: 500;
-    font-size: 13px;
-    color: #374151;
-}
-
-.history-list.vertical .history-item .history-desc {
-    font-size: 11px;
-    color: #9ca3af;
-    margin-top: 2px;
-}

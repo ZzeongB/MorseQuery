@@ -14,34 +14,33 @@
             <span id="statusText">Ready</span>
         </div>
 
-        <!-- Waiting indicator (shown when loading) -->
-        <div class="waiting-panel" id="waitingPanel">
-            <div class="waiting-spinner"></div>
-            <div class="waiting-message" id="waitingMessage">Loading...</div>
-        </div>
+        <!-- Two-column layout -->
+        <div class="main-content" id="mainContent">
+            <!-- Left column: Keywords list -->
+            <div class="left-column">
+                <div class="keywords-list" id="keywordsList"></div>
+            </div>
 
-        <!-- Current keywords (from single press) -->
-        <div class="keywords-panel" id="keywordsPanel">
-            <div class="keywords-list vertical" id="keywordsList"></div>
-        </div>
+            <!-- Right column: Detail view -->
+            <div class="right-column" id="rightColumn">
+                <!-- Description (default view) -->
+                <div class="detail-panel description-view" id="descriptionPanel">
+                    <div class="detail-keyword" id="selectedKeyword"></div>
+                    <div class="detail-description" id="keywordDescription"></div>
+                </div>
 
-        <!-- Selected keyword description (from double press) -->
-        <div class="description-panel" id="descriptionPanel">
-            <div class="selected-keyword" id="selectedKeyword"></div>
-            <div class="keyword-description" id="keywordDescription"></div>
-        </div>
+                <!-- Grounding (long press view) -->
+                <div class="detail-panel grounding-view" id="groundingPanel">
+                    <div class="grounding-keyword" id="groundingKeyword"></div>
+                    <div class="grounding-text" id="groundingText"></div>
+                    <div class="citation-list" id="citationList"></div>
+                </div>
 
-        <!-- Grounding result (from long press) -->
-        <div class="grounding-panel" id="groundingPanel">
-            <div class="grounding-keyword" id="groundingKeyword"></div>
-            <div class="grounding-text" id="groundingText"></div>
-            <div class="citation-list" id="citationList"></div>
-        </div>
-
-        <!-- Keyword history -->
-        <div class="history-panel" id="historyPanel">
-            <div class="history-title">History</div>
-            <div class="history-list vertical" id="historyList"></div>
+                <!-- Empty state -->
+                <div class="detail-panel empty-view" id="emptyPanel">
+                    <div class="empty-message">Press SPACE to extract keywords</div>
+                </div>
+            </div>
         </div>
 
         <!-- Hidden audio/video elements -->

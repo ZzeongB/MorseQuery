@@ -1,4 +1,4 @@
-// MorseQuery Simple - Widget Frontend
+// MorseQuery Simple - Widget Frontend (Two-column layout)
 const socket = io();
 
 // State
@@ -7,9 +7,8 @@ let state = {
     mediaRecorder: null,
     audioStream: null,
     audioChunks: [],
-    currentKeywords: [],
+    allKeywords: [],         // Unified list (new + history, most recent first)
     currentKeywordIndex: 0,
-    keywordHistory: [],
     currentKeyword: null,
     currentDescription: null,
     autoInferenceMode: 'off',
@@ -20,10 +19,9 @@ let state = {
 const widget = document.querySelector('.widget');
 const statusDot = document.getElementById('statusDot');
 const statusText = document.getElementById('statusText');
-const waitingPanel = document.getElementById('waitingPanel');
-const waitingMessage = document.getElementById('waitingMessage');
-const keywordsPanel = document.getElementById('keywordsPanel');
+const mainContent = document.getElementById('mainContent');
 const keywordsList = document.getElementById('keywordsList');
+const rightColumn = document.getElementById('rightColumn');
 const descriptionPanel = document.getElementById('descriptionPanel');
 const selectedKeyword = document.getElementById('selectedKeyword');
 const keywordDescription = document.getElementById('keywordDescription');
@@ -31,8 +29,7 @@ const groundingPanel = document.getElementById('groundingPanel');
 const groundingKeyword = document.getElementById('groundingKeyword');
 const groundingText = document.getElementById('groundingText');
 const citationList = document.getElementById('citationList');
-const historyPanel = document.getElementById('historyPanel');
-const historyList = document.getElementById('historyList');
+const emptyPanel = document.getElementById('emptyPanel');
 const micBtn = document.getElementById('micBtn');
 const fileBtn = document.getElementById('fileBtn');
 const clearBtn = document.getElementById('clearBtn');
@@ -61,7 +58,6 @@ socket.on('error', (data) => {
 });
 
 socket.on('transcription', (data) => {
-    // Just update status briefly to show we're receiving audio
     if (data.is_complete) {
         setStatus('listening', 'Listening...');
     }
@@ -71,20 +67,29 @@ socket.on('keywords_extracted', (data) => {
     console.log('[Keywords]', data);
     hideWaitingState();
 
-    state.currentKeywords = data.keywords || [];
+    // Merge new keywords with history (new first, then history)
+    const newKeywords = data.keywords || [];
+    const history = data.history || [];
+
+    // Build unified list: new keywords at top, then history
+    state.allKeywords = [...newKeywords];
+
+    // Add history items that aren't duplicates
+    history.forEach(h => {
+        const exists = state.allKeywords.some(k => k.keyword === h.keyword);
+        if (!exists) {
+            state.allKeywords.push(h);
+        }
+    });
+
     state.currentKeywordIndex = 0;
-    state.keywordHistory = data.history || [];
 
-    displayKeywords(state.currentKeywords);
-    updateHistory(state.keywordHistory);
+    renderKeywordsList();
 
-    // Auto-show description for first keyword
-    if (state.currentKeywords.length > 0) {
-        const firstKw = state.currentKeywords[0];
-        displayDescription(firstKw.keyword, firstKw.description);
+    // Auto-select first keyword
+    if (state.allKeywords.length > 0) {
+        selectKeyword(0);
     }
-
-    hideGrounding();
 
     setStatus('connected', 'Keywords extracted');
 });
@@ -110,21 +115,29 @@ socket.on('grounding_result', (data) => {
 });
 
 socket.on('keyword_history', (data) => {
-    state.keywordHistory = data.history || [];
-    updateHistory(state.keywordHistory);
+    // Update history in allKeywords
+    const history = data.history || [];
+    const currentNew = state.allKeywords.filter(k => k.isNew);
+
+    state.allKeywords = [...currentNew];
+    history.forEach(h => {
+        const exists = state.allKeywords.some(k => k.keyword === h.keyword);
+        if (!exists) {
+            state.allKeywords.push(h);
+        }
+    });
+
+    renderKeywordsList();
 });
 
 socket.on('session_cleared', () => {
-    state.currentKeywords = [];
+    state.allKeywords = [];
     state.currentKeywordIndex = 0;
-    state.keywordHistory = [];
     state.currentKeyword = null;
     state.currentDescription = null;
 
-    hideKeywords();
-    hideDescription();
-    hideGrounding();
-    updateHistory([]);
+    renderKeywordsList();
+    showEmptyState();
 
     setStatus('connected', 'Session cleared');
 });
@@ -161,7 +174,6 @@ autoIntervalInput.addEventListener('change', () => {
 });
 
 function updateAutoInferenceUI() {
-    // Show/hide interval input based on mode
     const showInterval = autoModeSelect.value === 'time';
     autoIntervalInput.style.display = showInterval ? 'inline-block' : 'none';
     document.querySelector('.auto-interval-label').style.display = showInterval ? 'inline' : 'none';
@@ -204,7 +216,6 @@ document.addEventListener('keyup', (e) => {
         spacebarPressCount++;
 
         if (spacebarPressCount === 2) {
-            // Double press: next keyword / show description
             clearTimeout(spacebarTimer);
             spacebarTimer = null;
             spacebarPressCount = 0;
@@ -255,7 +266,7 @@ function cancelLongPressTimer() {
 // Press handlers
 function handleSinglePress() {
     console.log('[Action] Single press - extract keywords');
-    showWaitingState('🤖 Extracting keywords...');
+    showWaitingState('Extracting keywords...');
     setStatus('processing', 'Extracting keywords...');
 
     socket.emit('search_request', {
@@ -266,26 +277,28 @@ function handleSinglePress() {
 function handleDoublePress() {
     console.log('[Action] Double press - next keyword');
 
-    if (state.currentKeywords.length === 0) {
+    if (state.allKeywords.length === 0) {
         setStatus('error', 'No keywords. Press SPACE first.');
         return;
     }
 
-    socket.emit('next_keyword', {});
+    // Move to next keyword locally
+    const nextIndex = (state.currentKeywordIndex + 1) % state.allKeywords.length;
+    selectKeyword(nextIndex);
 }
 
 function handleLongPress() {
     console.log('[Action] Long press - get grounding');
 
-    const keyword = state.currentKeyword || (state.currentKeywords[0]?.keyword);
-    const description = state.currentDescription || (state.currentKeywords[0]?.description);
+    const keyword = state.currentKeyword || (state.allKeywords[0]?.keyword);
+    const description = state.currentDescription || (state.allKeywords[0]?.description);
 
     if (!keyword) {
         setStatus('error', 'No keyword selected');
         return;
     }
 
-    showWaitingState(`📝 Getting detailed info for "${keyword}"...`);
+    showWaitingState(`Getting detailed info for "${keyword}"...`);
     setStatus('processing', 'Getting detailed info...');
 
     socket.emit('search_grounding', {
@@ -302,25 +315,21 @@ function setStatus(type, message) {
 
 function showWaitingState(message = 'Loading...') {
     widget.classList.add('waiting');
-    waitingPanel.classList.add('visible');
-    waitingMessage.textContent = message;
-    // Hide other panels while waiting
-    hideKeywords();
-    hideDescription();
-    hideGrounding();
+    setStatus('processing', message);
 }
 
 function hideWaitingState() {
     widget.classList.remove('waiting');
-    waitingPanel.classList.remove('visible');
 }
 
-function displayKeywords(keywords) {
-    keywordsPanel.classList.add('visible');
+function renderKeywordsList() {
+    if (state.allKeywords.length === 0) {
+        keywordsList.innerHTML = '<div class="keywords-empty">No keywords yet</div>';
+        return;
+    }
 
-    // Vertical layout - keyword only in list
-    keywordsList.innerHTML = keywords.map((kw, i) => `
-        <div class="keyword-item ${i === 0 ? 'active' : ''}" data-index="${i}">
+    keywordsList.innerHTML = state.allKeywords.map((kw, i) => `
+        <div class="keyword-item ${i === state.currentKeywordIndex ? 'active' : ''}" data-index="${i}">
             <span class="keyword-text">${kw.keyword}</span>
         </div>
     `).join('');
@@ -329,20 +338,24 @@ function displayKeywords(keywords) {
     keywordsList.querySelectorAll('.keyword-item').forEach(item => {
         item.addEventListener('click', () => {
             const index = parseInt(item.dataset.index);
-            socket.emit('select_keyword', { index });
+            selectKeyword(index);
         });
     });
-
-    // Auto-select first keyword
-    if (keywords.length > 0) {
-        state.currentKeyword = keywords[0].keyword;
-        state.currentDescription = keywords[0].description;
-    }
 }
 
-function hideKeywords() {
-    keywordsPanel.classList.remove('visible');
-    keywordsList.innerHTML = '';
+function selectKeyword(index) {
+    if (index < 0 || index >= state.allKeywords.length) return;
+
+    state.currentKeywordIndex = index;
+    const kw = state.allKeywords[index];
+    state.currentKeyword = kw.keyword;
+    state.currentDescription = kw.description;
+
+    highlightKeyword(index);
+    displayDescription(kw.keyword, kw.description);
+    hideGrounding();
+
+    setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length})`);
 }
 
 function highlightKeyword(index) {
@@ -352,6 +365,9 @@ function highlightKeyword(index) {
 }
 
 function displayDescription(keyword, description) {
+    hideEmptyState();
+    hideGrounding();
+
     descriptionPanel.classList.add('visible');
     selectedKeyword.textContent = keyword;
     keywordDescription.textContent = description || 'No description available';
@@ -362,6 +378,9 @@ function hideDescription() {
 }
 
 function displayGrounding(keyword, text, citations) {
+    hideDescription();
+    hideEmptyState();
+
     groundingPanel.classList.add('visible');
     groundingKeyword.textContent = keyword;
 
@@ -396,17 +415,14 @@ function hideGrounding() {
     groundingPanel.classList.remove('visible');
 }
 
-function updateHistory(history) {
-    if (history.length === 0) {
-        historyPanel.classList.remove('visible');
-        return;
-    }
+function showEmptyState() {
+    hideDescription();
+    hideGrounding();
+    emptyPanel.classList.add('visible');
+}
 
-    historyPanel.classList.add('visible');
-    // Vertical layout - keyword only in list
-    historyList.innerHTML = history.map(h => `
-        <div class="history-item">${h.keyword}</div>
-    `).join('');
+function hideEmptyState() {
+    emptyPanel.classList.remove('visible');
 }
 
 function showLongPressIndicator(progress) {
@@ -517,7 +533,6 @@ function handleFileUpload(e) {
     const url = URL.createObjectURL(file);
     audioPlayer.src = url;
 
-    // Capture and stream audio
     const audioContext = new AudioContext({ sampleRate: 48000 });
     const source = audioContext.createMediaElementSource(audioPlayer);
     const dest = audioContext.createMediaStreamDestination();
@@ -565,3 +580,4 @@ function clearSession() {
 
 // Initialize UI
 updateAutoInferenceUI();
+showEmptyState();
