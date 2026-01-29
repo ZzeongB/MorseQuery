@@ -344,16 +344,21 @@ function handleGeminiSearchTerms(data) {
 function displayCurrentInferTerm() {
     if (state.geminiInferTerms.length === 0) return;
 
+    // Hide waiting state
+    hideWaitingState();
+
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
 
     const currentTerm = state.geminiInferTerms[state.geminiInferTermIndex];
     const total = state.geminiInferTerms.length;
+    const isFirstTerm = state.geminiInferTermIndex === 0;
 
     keywordEl.innerHTML = `🔮 ${currentTerm.term}`;
     if (total > 1) {
         keywordEl.innerHTML += ` <span style="opacity: 0.6">(${state.geminiInferTermIndex + 1}/${total})</span>`;
     }
+    // Always show definition/description for first term
     if (currentTerm.definition) {
         keywordEl.innerHTML += `<div class="keyword-description">${currentTerm.definition}</div>`;
     }
@@ -740,6 +745,7 @@ function triggerGoogleSearchCurrentTerm() {
 
     if (state.longPressMode === 'grounding') {
         // Use Gemini grounding search
+        showWaitingState(`📝 Getting detailed info for "${currentTerm.term}"...`);
         updateStatus(`📝 Getting grounded info for: "${currentTerm.term}"...`);
         socket.emit('search_grounding', {
             keyword: currentTerm.term,
@@ -747,6 +753,7 @@ function triggerGoogleSearchCurrentTerm() {
         });
     } else {
         // Use Google search results (default)
+        showWaitingState(`🔍 Searching Google for "${currentTerm.term}"...`);
         updateStatus(`🔍 Searching Google for: "${currentTerm.term}"...`);
         socket.emit('search_request', {
             mode: 'instant',
@@ -772,6 +779,7 @@ function triggerLongPressSearch() {
 
     if (state.longPressMode === 'grounding') {
         // Use Gemini grounding search
+        showWaitingState(`📝 Getting detailed info for "${keyword}"...`);
         updateStatus(`📝 Getting grounded info for: "${keyword}"...`);
         socket.emit('search_grounding', {
             keyword: keyword,
@@ -787,6 +795,28 @@ function triggerLongPressSearch() {
 function updateStatus(message, isError = false) {
     statusEl.textContent = 'Status: ' + message;
     statusEl.style.color = isError ? '#dc3545' : '#667eea';
+}
+
+// Waiting state management
+function showWaitingState(message = 'Searching...') {
+    const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
+    const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    sectionEl.classList.add('waiting');
+    sectionEl.style.display = 'block';
+    keywordEl.innerHTML = `
+        <div class="waiting-indicator">
+            <div class="waiting-spinner"></div>
+            <span>${message}</span>
+        </div>
+    `;
+    resultsEl.innerHTML = '';
+}
+
+function hideWaitingState() {
+    const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+    sectionEl.classList.remove('waiting');
 }
 
 function appendTranscription(text) {
@@ -1662,6 +1692,7 @@ function triggerSearch() {
         transcriptionEl.textContent = '';  // Clear previous response
 
         console.log('[Gemini Infer] Requesting search inference, setting geminiInferWaiting = true');
+        showWaitingState('🔮 Asking Gemini what to search...');
         updateStatus('🔮 Asking Gemini what to search...');
         socket.emit('gemini_infer_search');
         return;
@@ -1684,6 +1715,7 @@ function triggerSearch() {
         }
 
         console.log(`[Instant Search] Searching for last word: "${state.lastWord}"`);
+        showWaitingState(`⚡ Searching for "${state.lastWord}"...`);
         updateStatus(`⚡ Instant search: "${state.lastWord}"`);
 
         socket.emit('search_request', {
@@ -1697,6 +1729,7 @@ function triggerSearch() {
     } else if (state.searchMode === 'recent') {
         // Recent search: important word from last 5 seconds
         console.log('[Recent Search] Requesting important keyword from last 5 seconds');
+        showWaitingState('⏱️ Finding important word...');
         updateStatus('⏱️ Finding important word from last 5 seconds...');
 
         socket.emit('search_request', {
@@ -1710,6 +1743,7 @@ function triggerSearch() {
     } else if (state.searchMode === 'gpt') {
         // GPT search: use GPT to predict what user wants to look up
         console.log('[GPT Search] Requesting GPT prediction from last 10 seconds');
+        showWaitingState('🤖 GPT is predicting keyword...');
         updateStatus('🤖 GPT is predicting keyword...');
 
         socket.emit('search_request', {
@@ -1730,6 +1764,7 @@ function triggerSearch() {
             return;
         }
 
+        showWaitingState('✨ Getting Gemini terms...');
         updateStatus('✨ Showing Gemini-extracted terms...');
 
         socket.emit('search_request', {
@@ -1743,6 +1778,7 @@ function triggerSearch() {
     } else {
         // TF-IDF search: let server calculate important word
         console.log('[TF-IDF Search] Requesting important keyword from server');
+        showWaitingState('🎯 Calculating important keyword...');
         updateStatus('🎯 Calculating important keyword...');
 
         socket.emit('search_request', {
@@ -1766,6 +1802,9 @@ function triggerNextKeyword() {
 }
 
 function displayAllKeywords(data) {
+    // Hide waiting state
+    hideWaitingState();
+
     // Use video layout elements if video file, otherwise use default layout
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;
@@ -1778,15 +1817,16 @@ function displayAllKeywords(data) {
 
     keywordEl.innerHTML = `${icon} ${source} Keywords (${keywords.length} total)`;
 
+    // Use vertical layout for keywords - keyword only in list
     resultsEl.innerHTML = '';
+    const historyContainer = document.createElement('div');
+    historyContainer.className = 'keyword-history';
 
     keywords.forEach((item, index) => {
         const keywordDiv = document.createElement('div');
-        keywordDiv.className = 'search-result-item';
-        keywordDiv.style.cursor = 'pointer';
+        keywordDiv.className = 'keyword-history-item';
         keywordDiv.innerHTML = `
-            <h4>${index + 1}. ${item.keyword}</h4>
-            ${item.description ? `<p>${item.description}</p>` : ''}
+            <div class="keyword-text">${index + 1}. ${item.keyword}</div>
         `;
 
         // Click to search this keyword
@@ -1798,17 +1838,21 @@ function displayAllKeywords(data) {
             });
         });
 
-        resultsEl.appendChild(keywordDiv);
+        historyContainer.appendChild(keywordDiv);
     });
 
+    resultsEl.appendChild(historyContainer);
     sectionEl.style.display = 'block';
-    updateStatus(`Found ${keywords.length} GPT keywords. Click one to search.`);
+    updateStatus(`Found ${keywords.length} ${source} keywords. Click one to search.`);
 }
 
 function displayKeywordWithDescription(data) {
     // Use video layout elements if video file, otherwise use default layout
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const sectionEl = state.isVideoFile ? videoSearchSection : searchSection;
+
+    // Hide waiting state
+    hideWaitingState();
 
     // Track the current keyword and description for long press search
     state.currentKeyword = data.keyword;
@@ -1842,8 +1886,12 @@ function displayKeywordWithDescription(data) {
 
     keywordEl.innerHTML = displayText;
 
-    // Add description below keyword if available
-    if (data.description) {
+    // Always show description for first keyword (index 0) or if description is available
+    // For GPT/Gemini mode with multiple keywords, always show description on first result
+    const isFirstKeyword = !data.current_index || data.current_index === 0;
+    if (data.description && isFirstKeyword) {
+        keywordEl.innerHTML += `<div class="keyword-description">${data.description}</div>`;
+    } else if (data.description) {
         keywordEl.innerHTML += `<div class="keyword-description">${data.description}</div>`;
     }
 
@@ -1856,6 +1904,9 @@ function displayKeywordWithDescription(data) {
 }
 
 function displaySearchResults(data) {
+    // Hide waiting state
+    hideWaitingState();
+
     let modeIcon, modeName;
     if (data.mode === 'instant') {
         modeIcon = '⚡';
@@ -2043,6 +2094,9 @@ function parseSimpleMarkdown(text) {
 }
 
 function displayGroundingResult(data) {
+    // Hide waiting state
+    hideWaitingState();
+
     // Use video layout elements if video file, otherwise use default layout
     const keywordEl = state.isVideoFile ? videoSearchKeywordEl : searchKeywordEl;
     const resultsEl = state.isVideoFile ? videoSearchResultsEl : searchResultsEl;

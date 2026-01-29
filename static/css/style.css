@@ -473,3 +473,82 @@ kbd {
     margin: 6px 0;
     line-height: 1.5;
 }
+
+/* Waiting/Loading state for keyword section */
+.search-section.waiting {
+    background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+    border: 2px solid #f97316;
+    border-radius: 12px;
+    padding: 20px;
+    animation: pulse-orange 1.5s ease-in-out infinite;
+}
+
+.search-section.waiting h3 {
+    color: #ea580c;
+}
+
+@keyframes pulse-orange {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(249, 115, 22, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px 4px rgba(249, 115, 22, 0.2);
+    }
+}
+
+.waiting-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    color: #ea580c;
+    font-weight: 500;
+}
+
+.waiting-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #fed7aa;
+    border-top-color: #f97316;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Vertical layout for keyword history */
+.keyword-history {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.keyword-history-item {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.keyword-history-item:hover {
+    background: #f0f9ff;
+    border-color: #4a5cf7;
+}
+
+.keyword-history-item .keyword-text {
+    font-weight: 600;
+    color: #4a5cf7;
+    margin-bottom: 4px;
+}
+
+.keyword-history-item .keyword-desc {
+    font-size: 0.9em;
+    color: #666;
+}
