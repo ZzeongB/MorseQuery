@@ -243,7 +243,7 @@ function startLongPressTimer() {
 
         showLongPressIndicator(progress);
 
-        if (progress >= 1 && !longPressTriggered) {
+        if (progress >= 0.3 && !longPressTriggered) {
             longPressTriggered = true;
             cancelLongPressTimer();
             handleLongPress();
