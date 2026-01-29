@@ -15,8 +15,11 @@ let state = {
 };
 
 // DOM elements
+const widget = document.querySelector('.widget');
 const statusDot = document.getElementById('statusDot');
 const statusText = document.getElementById('statusText');
+const waitingPanel = document.getElementById('waitingPanel');
+const waitingMessage = document.getElementById('waitingMessage');
 const keywordsPanel = document.getElementById('keywordsPanel');
 const keywordsList = document.getElementById('keywordsList');
 const descriptionPanel = document.getElementById('descriptionPanel');
@@ -62,13 +65,21 @@ socket.on('transcription', (data) => {
 
 socket.on('keywords_extracted', (data) => {
     console.log('[Keywords]', data);
+    hideWaitingState();
+
     state.currentKeywords = data.keywords || [];
     state.currentKeywordIndex = 0;
     state.keywordHistory = data.history || [];
 
     displayKeywords(state.currentKeywords);
     updateHistory(state.keywordHistory);
-    hideDescription();
+
+    // Auto-show description for first keyword
+    if (state.currentKeywords.length > 0) {
+        const firstKw = state.currentKeywords[0];
+        displayDescription(firstKw.keyword, firstKw.description);
+    }
+
     hideGrounding();
 
     setStatus('connected', 'Keywords extracted');
@@ -89,6 +100,7 @@ socket.on('keyword_selected', (data) => {
 
 socket.on('grounding_result', (data) => {
     console.log('[Grounding]', data);
+    hideWaitingState();
     displayGrounding(data.keyword, data.text, data.citations);
     setStatus('connected', 'Detailed info loaded');
 });
@@ -207,6 +219,7 @@ function cancelLongPressTimer() {
 // Press handlers
 function handleSinglePress() {
     console.log('[Action] Single press - extract keywords');
+    showWaitingState('🤖 Extracting keywords...');
     setStatus('processing', 'Extracting keywords...');
 
     socket.emit('search_request', {
@@ -236,6 +249,7 @@ function handleLongPress() {
         return;
     }
 
+    showWaitingState(`📝 Getting detailed info for "${keyword}"...`);
     setStatus('processing', 'Getting detailed info...');
 
     socket.emit('search_grounding', {
@@ -250,9 +264,25 @@ function setStatus(type, message) {
     statusText.textContent = message;
 }
 
+function showWaitingState(message = 'Loading...') {
+    widget.classList.add('waiting');
+    waitingPanel.classList.add('visible');
+    waitingMessage.textContent = message;
+    // Hide other panels while waiting
+    hideKeywords();
+    hideDescription();
+    hideGrounding();
+}
+
+function hideWaitingState() {
+    widget.classList.remove('waiting');
+    waitingPanel.classList.remove('visible');
+}
+
 function displayKeywords(keywords) {
     keywordsPanel.classList.add('visible');
 
+    // Vertical layout - keyword only in list
     keywordsList.innerHTML = keywords.map((kw, i) => `
         <div class="keyword-item ${i === 0 ? 'active' : ''}" data-index="${i}">
             <span class="keyword-text">${kw.keyword}</span>
@@ -337,6 +367,7 @@ function updateHistory(history) {
     }
 
     historyPanel.classList.add('visible');
+    // Vertical layout - keyword only in list
     historyList.innerHTML = history.map(h => `
         <div class="history-item">${h.keyword}</div>
     `).join('');

@@ -14,9 +14,15 @@
             <span id="statusText">Ready</span>
         </div>
 
+        <!-- Waiting indicator (shown when loading) -->
+        <div class="waiting-panel" id="waitingPanel">
+            <div class="waiting-spinner"></div>
+            <div class="waiting-message" id="waitingMessage">Loading...</div>
+        </div>
+
         <!-- Current keywords (from single press) -->
         <div class="keywords-panel" id="keywordsPanel">
-            <div class="keywords-list" id="keywordsList"></div>
+            <div class="keywords-list vertical" id="keywordsList"></div>
         </div>
 
         <!-- Selected keyword description (from double press) -->
@@ -35,7 +41,7 @@
         <!-- Keyword history -->
         <div class="history-panel" id="historyPanel">
             <div class="history-title">History</div>
-            <div class="history-list" id="historyList"></div>
+            <div class="history-list vertical" id="historyList"></div>
         </div>
 
         <!-- Hidden audio/video elements -->
