@@ -15,8 +15,8 @@ import numpy as np
 import websockets
 from flask import request
 from flask_socketio import emit
-
 from handlers.search import process_pending_search
+
 from src.core.config import OPENAI_API_KEY
 
 # Enable nested asyncio
@@ -116,7 +116,7 @@ def _session_config(model: str, vad: float = 0.3) -> dict:
                 "type": "server_vad",
                 "threshold": vad,
                 "prefix_padding_ms": 200,
-                "silence_duration_ms": 200,
+                "silence_duration_ms": 50,
             },
             "input_audio_transcription": {
                 "model": model,
@@ -235,7 +235,13 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                 current.clear()
 
                                 if text:
-                                    print(f"[OpenAI] Transcription: {text}")
+                                    YELLOW = "\033[93m"
+                                    RESET = "\033[0m"
+
+                                    print(
+                                        f"[OpenAI] Transcription: {YELLOW}{text}{RESET}"
+                                    )
+
                                     session.add_text(text)
 
                                     session._log_event(

@@ -86,11 +86,13 @@ class TranscriptionSession:
                 for h in self.keyword_history
             )
             if not exists:
-                self.keyword_history.append({
-                    "keyword": kw["keyword"],
-                    "description": kw.get("description", ""),
-                    "timestamp": datetime.utcnow().isoformat(),
-                })
+                self.keyword_history.append(
+                    {
+                        "keyword": kw["keyword"],
+                        "description": kw.get("description", ""),
+                        "timestamp": datetime.utcnow().isoformat(),
+                    }
+                )
 
     def get_history_keywords_list(self) -> List[str]:
         """Get list of all keywords from history."""
@@ -158,7 +160,7 @@ Context: {context_text}"""
             )
 
             raw_response = response.choices[0].message.content.strip()
-            print(f"[GPT] Raw response: {raw_response}")
+            # print(f"[GPT] Raw response: {raw_response}")
 
             keyword_description_pairs = []
             current_keyword = None
@@ -172,18 +174,26 @@ Context: {context_text}"""
                 elif line.lower().startswith("description:") and current_keyword:
                     description = line.split(":", 1)[1].strip()
                     # Skip if keyword is in history
-                    if current_keyword.lower() not in [h.lower() for h in history_keywords]:
-                        keyword_description_pairs.append({
-                            "keyword": current_keyword,
-                            "description": description,
-                        })
+                    if current_keyword.lower() not in [
+                        h.lower() for h in history_keywords
+                    ]:
+                        keyword_description_pairs.append(
+                            {
+                                "keyword": current_keyword,
+                                "description": description,
+                            }
+                        )
                     current_keyword = None
 
-            if current_keyword and current_keyword.lower() not in [h.lower() for h in history_keywords]:
-                keyword_description_pairs.append({
-                    "keyword": current_keyword,
-                    "description": None,
-                })
+            if current_keyword and current_keyword.lower() not in [
+                h.lower() for h in history_keywords
+            ]:
+                keyword_description_pairs.append(
+                    {
+                        "keyword": current_keyword,
+                        "description": None,
+                    }
+                )
 
             # Store current batch and add to history
             self.gpt_keyword_pairs = keyword_description_pairs
