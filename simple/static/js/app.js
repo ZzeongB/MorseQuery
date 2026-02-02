@@ -11,8 +11,10 @@ let state = {
     currentKeywordIndex: 0,
     currentKeyword: null,
     currentDescription: null,
+    groundingCache: {},      // Cache grounding results by keyword: { keyword: { text, citations, image } }
     autoInferenceMode: 'off',
     autoInferenceInterval: 3.0,
+    currentConfig: 1,        // Current prompt configuration (1-6)
 };
 
 // DOM elements
@@ -25,9 +27,11 @@ const rightColumn = document.getElementById('rightColumn');
 const descriptionPanel = document.getElementById('descriptionPanel');
 const selectedKeyword = document.getElementById('selectedKeyword');
 const keywordDescription = document.getElementById('keywordDescription');
+const descriptionImage = document.getElementById('descriptionImage');
 const groundingPanel = document.getElementById('groundingPanel');
 const groundingKeyword = document.getElementById('groundingKeyword');
 const groundingText = document.getElementById('groundingText');
+const groundingImage = document.getElementById('groundingImage');
 const citationList = document.getElementById('citationList');
 const emptyPanel = document.getElementById('emptyPanel');
 const micBtn = document.getElementById('micBtn');
@@ -37,6 +41,7 @@ const fileInput = document.getElementById('fileInput');
 const audioPlayer = document.getElementById('audioPlayer');
 const autoModeSelect = document.getElementById('autoModeSelect');
 const autoIntervalInput = document.getElementById('autoIntervalInput');
+const configSelect = document.getElementById('configSelect');
 
 // Socket events
 socket.on('connect', () => {
@@ -58,14 +63,12 @@ socket.on('error', (data) => {
 });
 
 socket.on('transcription', (data) => {
-    if (data.is_complete) {
-        setStatus('listening', 'Listening...');
-    }
+    // Transcription received, no status change needed
 });
 
 socket.on('keywords_extracted', (data) => {
     console.log('[Keywords]', data);
-    hideWaitingState();
+    hideWaitingKeywords();
 
     // Merge new keywords with history (new first, then history)
     const newKeywords = data.keywords || [];
@@ -109,8 +112,23 @@ socket.on('keyword_selected', (data) => {
 
 socket.on('grounding_result', (data) => {
     console.log('[Grounding]', data);
-    hideWaitingState();
-    displayGrounding(data.keyword, data.text, data.citations);
+    hideWaitingDetail();
+
+    // Cache the grounding result for this keyword
+    state.groundingCache[data.keyword] = {
+        text: data.text,
+        citations: data.citations,
+        image: data.image,
+    };
+
+    // Update the keyword in allKeywords to mark it has grounding
+    const kwIndex = state.allKeywords.findIndex(k => k.keyword === data.keyword);
+    if (kwIndex !== -1) {
+        state.allKeywords[kwIndex].hasGrounding = true;
+    }
+
+    // Display in the description panel (replacing short description)
+    displayKeywordDetail(data.keyword, data.text, data.citations, data.image);
     setStatus('connected', 'Detailed info loaded');
 });
 
@@ -135,6 +153,7 @@ socket.on('session_cleared', () => {
     state.currentKeywordIndex = 0;
     state.currentKeyword = null;
     state.currentDescription = null;
+    state.groundingCache = {};
 
     renderKeywordsList();
     showEmptyState();
@@ -149,6 +168,12 @@ socket.on('auto_inference_status', (data) => {
     autoModeSelect.value = data.mode;
     autoIntervalInput.value = data.interval;
     updateAutoInferenceUI();
+});
+
+socket.on('config_status', (data) => {
+    console.log('[Config] Status:', data);
+    state.currentConfig = data.config_id;
+    configSelect.value = data.config_id;
 });
 
 // Button events
@@ -173,29 +198,46 @@ autoIntervalInput.addEventListener('change', () => {
     }
 });
 
+// Configuration selector event
+configSelect.addEventListener('change', () => {
+    const configId = parseInt(configSelect.value);
+    state.currentConfig = configId;
+    socket.emit('set_config', { config_id: configId });
+    console.log('[Config] Changed to:', configId);
+});
+
 function updateAutoInferenceUI() {
     const showInterval = autoModeSelect.value === 'time';
     autoIntervalInput.style.display = showInterval ? 'inline-block' : 'none';
     document.querySelector('.auto-interval-label').style.display = showInterval ? 'inline' : 'none';
 }
 
-// Spacebar handling
-const DOUBLE_PRESS_THRESHOLD = 300;
-const LONG_PRESS_THRESHOLD = 500;
+// Spacebar / Right-click handling
+const DOUBLE_PRESS_THRESHOLD_KEY = 300;
+const DOUBLE_PRESS_THRESHOLD_MOUSE = 400;
+const LONG_PRESS_THRESHOLD_KEY = 500;
+const LONG_PRESS_THRESHOLD_MOUSE = 800;
 
-let spacebarTimer = null;
-let spacebarPressCount = 0;
-let spacebarDownTime = 0;
+let pressTimer = null;
+let pressCount = 0;
+let pressDownTime = 0;
 let longPressAnimationFrame = null;
 let longPressTriggered = false;
+let currentLongPressThreshold = LONG_PRESS_THRESHOLD_KEY;
+let currentDoublePressThreshold = DOUBLE_PRESS_THRESHOLD_KEY;
+let currentInputType = 'key'; // 'key' or 'mouse'
 
+// Spacebar events
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
 
-        if (!e.repeat && spacebarDownTime === 0) {
-            spacebarDownTime = Date.now();
+        if (!e.repeat && pressDownTime === 0) {
+            pressDownTime = Date.now();
             longPressTriggered = false;
+            currentLongPressThreshold = LONG_PRESS_THRESHOLD_KEY;
+            currentDoublePressThreshold = DOUBLE_PRESS_THRESHOLD_KEY;
+            currentInputType = 'key';
             startLongPressTimer();
         }
     }
@@ -204,50 +246,77 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keyup', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
-        spacebarDownTime = 0;
-        cancelLongPressTimer();
-
-        if (longPressTriggered) {
-            longPressTriggered = false;
-            spacebarPressCount = 0;
-            return;
-        }
-
-        spacebarPressCount++;
-
-        if (spacebarPressCount === 2) {
-            clearTimeout(spacebarTimer);
-            spacebarTimer = null;
-            spacebarPressCount = 0;
-            handleDoublePress();
-            return;
-        }
-
-        if (spacebarTimer) clearTimeout(spacebarTimer);
-        spacebarTimer = setTimeout(() => {
-            spacebarTimer = null;
-            if (spacebarPressCount === 1) {
-                handleSinglePress();
-            }
-            spacebarPressCount = 0;
-        }, DOUBLE_PRESS_THRESHOLD);
+        handlePressUp();
     }
 });
+
+// Right-click events
+document.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+
+    if (pressDownTime === 0) {
+        pressDownTime = Date.now();
+        longPressTriggered = false;
+        currentLongPressThreshold = LONG_PRESS_THRESHOLD_MOUSE;
+        currentDoublePressThreshold = DOUBLE_PRESS_THRESHOLD_MOUSE;
+        currentInputType = 'mouse';
+        startLongPressTimer();
+    }
+});
+
+document.addEventListener('mouseup', (e) => {
+    if (e.button === 2 && pressDownTime > 0) {
+        handlePressUp();
+    }
+});
+
+// Unified press-up handler
+function handlePressUp() {
+    pressDownTime = 0;
+    cancelLongPressTimer();
+
+    if (longPressTriggered) {
+        longPressTriggered = false;
+        pressCount = 0;
+        return;
+    }
+
+    pressCount++;
+
+    if (pressCount === 2) {
+        clearTimeout(pressTimer);
+        pressTimer = null;
+        pressCount = 0;
+        handleDoublePress();
+        return;
+    }
+
+    if (pressTimer) clearTimeout(pressTimer);
+    pressTimer = setTimeout(() => {
+        pressTimer = null;
+        if (pressCount === 1) {
+            handleSinglePress();
+        }
+        pressCount = 0;
+    }, currentDoublePressThreshold);
+}
 
 function startLongPressTimer() {
     const startTime = Date.now();
 
     function updateProgress() {
         const elapsed = Date.now() - startTime;
-        const progress = Math.min(elapsed / LONG_PRESS_THRESHOLD, 1);
+        const progress = Math.min(elapsed / currentLongPressThreshold, 1);
 
         showLongPressIndicator(progress);
 
-        if (progress >= 0.3 && !longPressTriggered) {
+        if (progress >= 0.5 && !longPressTriggered) {
             longPressTriggered = true;
-            cancelLongPressTimer();
             handleLongPress();
-        } else if (progress < 1) {
+        } else if(progress >= 1) {
+            cancelLongPressTimer();
+        }
+        else if (progress < 1) {
             longPressAnimationFrame = requestAnimationFrame(updateProgress);
         }
     }
@@ -265,9 +334,8 @@ function cancelLongPressTimer() {
 
 // Press handlers
 function handleSinglePress() {
-    console.log('[Action] Single press - extract keywords');
-    showWaitingState('Extracting keywords...');
-    setStatus('processing', 'Extracting keywords...');
+    console.log(`[${currentInputType}] single`);
+    showWaitingKeywords('Extracting keywords...');
 
     socket.emit('search_request', {
         client_timestamp: new Date().toISOString(),
@@ -275,7 +343,7 @@ function handleSinglePress() {
 }
 
 function handleDoublePress() {
-    console.log('[Action] Double press - next keyword');
+    console.log(`[${currentInputType}] double`);
 
     if (state.allKeywords.length === 0) {
         setStatus('error', 'No keywords. Press SPACE first.');
@@ -288,7 +356,7 @@ function handleDoublePress() {
 }
 
 function handleLongPress() {
-    console.log('[Action] Long press - get grounding');
+    console.log(`[${currentInputType}] long`);
 
     const keyword = state.currentKeyword || (state.allKeywords[0]?.keyword);
     const description = state.currentDescription || (state.allKeywords[0]?.description);
@@ -298,8 +366,7 @@ function handleLongPress() {
         return;
     }
 
-    showWaitingState(`Getting detailed info for "${keyword}"...`);
-    setStatus('processing', 'Getting detailed info...');
+    showWaitingDetail(`Getting detailed info for "${keyword}"...`);
 
     socket.emit('search_grounding', {
         keyword: keyword,
@@ -313,13 +380,22 @@ function setStatus(type, message) {
     statusText.textContent = message;
 }
 
-function showWaitingState(message = 'Loading...') {
-    widget.classList.add('waiting');
+function showWaitingKeywords(message = 'Extracting keywords...') {
+    widget.classList.add('waiting-keywords');
     setStatus('processing', message);
 }
 
-function hideWaitingState() {
-    widget.classList.remove('waiting');
+function hideWaitingKeywords() {
+    widget.classList.remove('waiting-keywords');
+}
+
+function showWaitingDetail(message = 'Loading details...') {
+    widget.classList.add('waiting-detail');
+    setStatus('processing', message);
+}
+
+function hideWaitingDetail() {
+    widget.classList.remove('waiting-detail');
 }
 
 function renderKeywordsList() {
@@ -350,10 +426,17 @@ function selectKeyword(index) {
     const kw = state.allKeywords[index];
     state.currentKeyword = kw.keyword;
     state.currentDescription = kw.description;
+    state.currentImage = kw.image;
 
     highlightKeyword(index);
-    displayDescription(kw.keyword, kw.description);
-    hideGrounding();
+
+    // Check if we have cached grounding for this keyword
+    const cached = state.groundingCache[kw.keyword];
+    if (cached) {
+        displayKeywordDetail(kw.keyword, cached.text, cached.citations, cached.image);
+    } else {
+        displayDescription(kw.keyword, kw.description, kw.image);
+    }
 
     setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length})`);
 }
@@ -364,20 +447,56 @@ function highlightKeyword(index) {
     });
 }
 
-function displayDescription(keyword, description) {
+function displayDescription(keyword, description, imageUrl) {
     hideEmptyState();
     hideGrounding();
 
     descriptionPanel.classList.add('visible');
+    descriptionPanel.classList.remove('has-grounding');
     selectedKeyword.textContent = keyword;
-    keywordDescription.textContent = description || 'No description available';
+
+    // Build content with inline image
+    let content = description || 'No description available';
+    if (imageUrl) {
+        content = `<img src="${imageUrl}" alt="${keyword}" onerror="this.style.display='none'"> ${content}`;
+    }
+    keywordDescription.innerHTML = content;
+
+    // Clear citation list in description panel
+    const citationArea = descriptionPanel.querySelector('.description-citations');
+    if (citationArea) citationArea.innerHTML = '';
+}
+
+function displayKeywordDetail(keyword, text, citations, imageUrl) {
+    hideEmptyState();
+    hideGrounding();
+
+    descriptionPanel.classList.add('visible');
+    descriptionPanel.classList.add('has-grounding');
+    selectedKeyword.textContent = keyword;
+
+    // Remove citation markers from text
+    let processedText = text;
+    if (citations && citations.length > 0) {
+        citations.forEach(c => {
+            const marker = `[${c.index}]`;
+            processedText = processedText.split(marker).join('');
+        });
+    }
+
+    // Build content with inline image
+    let content = parseMarkdown(processedText);
+    if (imageUrl) {
+        content = `<img src="${imageUrl}" alt="${keyword}" onerror="this.style.display='none'"> ${content}`;
+    }
+    keywordDescription.innerHTML = content;
 }
 
 function hideDescription() {
     descriptionPanel.classList.remove('visible');
 }
 
-function displayGrounding(keyword, text, citations) {
+function displayGrounding(keyword, text, citations, imageUrl) {
     hideDescription();
     hideEmptyState();
 
@@ -395,6 +514,15 @@ function displayGrounding(keyword, text, citations) {
     }
 
     groundingText.innerHTML = parseMarkdown(processedText);
+
+    // Display image if available
+    if (imageUrl) {
+        groundingImage.innerHTML = `<img src="${imageUrl}" alt="${keyword}" onerror="this.parentElement.style.display='none'">`;
+        groundingImage.style.display = 'block';
+    } else {
+        groundingImage.innerHTML = '';
+        groundingImage.style.display = 'none';
+    }
 
     // Citation list
     if (citations && citations.length > 0) {
@@ -427,7 +555,7 @@ function hideEmptyState() {
 
 function showLongPressIndicator(progress) {
     const pct = Math.round(progress * 100);
-    statusDot.style.background = `conic-gradient(#10a37f ${pct}%, #e5e7eb ${pct}%)`;
+    statusDot.style.background = `conic-gradient(#f59e0b ${pct}%, #e5e7eb ${pct}%)`;
     if (progress < 1) {
         setStatus('processing', 'Hold for details...');
     }
@@ -491,7 +619,6 @@ async function startRecording() {
 
         state.isRecording = true;
         micBtn.classList.add('active');
-        setStatus('listening', 'Listening...');
 
     } catch (err) {
         setStatus('error', 'Mic access denied');
@@ -511,7 +638,6 @@ function stopRecording() {
 
     state.isRecording = false;
     micBtn.classList.remove('active');
-    setStatus('connected', 'Stopped');
 }
 
 function sendAudio(blob) {
@@ -561,13 +687,11 @@ function handleFileUpload(e) {
     }, 2000);
 
     audioPlayer.play();
-    setStatus('listening', 'Playing file...');
 
     audioPlayer.onended = () => {
         if (recorder.state !== 'inactive') recorder.stop();
         clearInterval(interval);
         audioContext.close();
-        setStatus('connected', 'Playback finished');
     };
 
     fileInput.value = '';

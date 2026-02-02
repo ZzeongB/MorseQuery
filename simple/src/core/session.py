@@ -8,6 +8,7 @@ from typing import Dict, List
 from openai import OpenAI
 
 from src.core.config import LOGS_DIR, OPENAI_API_KEY
+from src.core.prompt_config import get_config
 
 # Initialize OpenAI client for GPT-based keyword extraction
 openai_client = OpenAI(api_key=OPENAI_API_KEY) if OPENAI_API_KEY else None
@@ -61,6 +62,9 @@ class TranscriptionSession:
         self.last_auto_inference_time: datetime = None
         self.last_auto_inference_word_count = 0
         self.auto_inference_timer_active = False
+
+        # Prompt configuration
+        self.config_id = 1  # Default configuration
 
         # Logging system
         self.session_start_time = datetime.utcnow()
@@ -326,6 +330,22 @@ Context: {context_text}"""
                     "interval": self.auto_inference_interval,
                 },
             )
+
+    def set_config(self, config_id: int):
+        """Set the prompt configuration."""
+        if config_id in range(1, 7):
+            self.config_id = config_id
+            self._log_event(
+                "config_changed",
+                {
+                    "config_id": config_id,
+                    "config": get_config(config_id),
+                },
+            )
+
+    def get_current_config(self) -> dict:
+        """Get the current prompt configuration."""
+        return get_config(self.config_id)
 
     def save_logs_to_file(self) -> str | None:
         """Save session logs to a JSON file."""

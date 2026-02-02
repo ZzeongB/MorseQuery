@@ -6,16 +6,33 @@ from datetime import datetime
 from flask import request
 from flask_socketio import emit
 
+from src.core.search import google_custom_search
+
+
+def _fetch_image_for_keyword(keyword: str) -> str | None:
+    """Fetch a representative image for a keyword using Google Image Search."""
+    try:
+        results = google_custom_search(keyword, search_type="image")
+        if results and len(results) > 0:
+            # Return the first image's link (full image URL)
+            return results[0].get("link") or results[0].get("thumbnail")
+    except Exception as e:
+        print(f"[Image Search] Error fetching image for '{keyword}': {e}")
+    return None
+
 
 def _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=10.0):
     """Start a background thread to process pending search after timeout."""
 
     def timeout_handler():
         import time
+
         time.sleep(timeout_seconds)
 
         if session.pending_search:
-            print(f"[Pending Search] Timeout after {timeout_seconds}s, processing with current text")
+            print(
+                f"[Pending Search] Timeout after {timeout_seconds}s, processing with current text"
+            )
             process_pending_search(session, session_id, socketio)
 
     thread = threading.Thread(target=timeout_handler)
@@ -46,7 +63,8 @@ def process_pending_search(session, session_id, socketio):
                 "delay_seconds": delay,
                 "words_before": pending.get("words_before", 0),
                 "words_after": len(session.words),
-                "new_text_received": len(session.words) - pending.get("words_before", 0),
+                "new_text_received": len(session.words)
+                - pending.get("words_before", 0),
             },
         )
 
@@ -58,6 +76,10 @@ def process_pending_search(session, session_id, socketio):
             "error", {"message": "No keywords available for search"}, room=session_id
         )
         return
+
+    # Fetch images for keywords
+    for kw in keywords:
+        kw["image"] = _fetch_image_for_keyword(kw.get("keyword", ""))
 
     # Emit the keyword list (single press result)
     socketio.emit(
@@ -101,7 +123,9 @@ def register_search_handlers(socketio, transcription_sessions):
 
         if client_timestamp:
             try:
-                client_time = datetime.fromisoformat(client_timestamp.replace("Z", "+00:00"))
+                client_time = datetime.fromisoformat(
+                    client_timestamp.replace("Z", "+00:00")
+                )
                 latency = (datetime.utcnow() - client_time).total_seconds()
                 print(f"[TIMING] Client pressed spacebar at: {client_timestamp}")
                 print(f"[TIMING] Client-server latency: {latency:.3f}s")
@@ -110,7 +134,9 @@ def register_search_handlers(socketio, transcription_sessions):
 
         # If OpenAI Realtime is active, wait for next transcription before calling GPT
         if session.openai_active:
-            print(f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})")
+            print(
+                f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})"
+            )
             session.pending_search = {
                 "timestamp": datetime.utcnow(),
                 "time_threshold": time_threshold,
@@ -127,7 +153,9 @@ def register_search_handlers(socketio, transcription_sessions):
                 },
             )
             emit("status", {"message": "Extracting keywords..."})
-            _start_pending_search_timeout(session, session_id, socketio, timeout_seconds=10.0)
+            _start_pending_search_timeout(
+                session, session_id, socketio, timeout_seconds=10.0
+            )
             return
 
         # If not streaming, process immediately
@@ -136,6 +164,10 @@ def register_search_handlers(socketio, transcription_sessions):
         if not keywords:
             emit("error", {"message": "No keywords available for search"})
             return
+
+        # Fetch images for keywords
+        for kw in keywords:
+            kw["image"] = _fetch_image_for_keyword(kw.get("keyword", ""))
 
         # Emit the keyword list
         emit(
@@ -226,6 +258,7 @@ def register_search_handlers(socketio, transcription_sessions):
         from google import genai
         from google.genai import types
 
+        session_id = request.sid
         keyword = data.get("keyword", "")
         description = data.get("description", "")
         if not keyword:
@@ -233,6 +266,15 @@ def register_search_handlers(socketio, transcription_sessions):
             return
 
         print(f"[Search Grounding] Keyword: {keyword}, Description: {description}")
+
+        # Get prompt config from session
+        session = transcription_sessions.get(session_id)
+        prompt_prefix = ""
+        if session:
+            session_config = session.get_current_config()
+            prompt_prefix = session_config.get("gemini_search_prompt_prefix", "")
+            if prompt_prefix:
+                print(f"[Search Grounding] Using prompt prefix: {prompt_prefix}")
 
         try:
             api_key = os.getenv("GOOGLE_API_KEY")
@@ -245,9 +287,21 @@ def register_search_handlers(socketio, transcription_sessions):
             config = types.GenerateContentConfig(tools=[grounding_tool])
 
             if description:
-                prompt = f"Please provide detailed information about: {keyword} ({description})"
+                prompt = (
+                    f"{prompt_prefix}"
+                    f"Please provide detailed information in 1–2 paragraphs about: "
+                    f"{keyword} ({description}). "
+                    f"Highlight only the most important terms and concepts using **bold**, "
+                    f"and do not overuse bold formatting."
+                )
             else:
-                prompt = f"Please provide information about: {keyword}"
+                prompt = (
+                    f"{prompt_prefix}"
+                    f"Please provide detailed information in 1–2 paragraphs about: "
+                    f"{keyword}. "
+                    f"Highlight only the most important terms and concepts using **bold**, "
+                    f"and do not overuse bold formatting."
+                )
 
             response = client.models.generate_content(
                 model="gemini-2.5-flash-lite",
@@ -277,13 +331,19 @@ def register_search_handlers(socketio, transcription_sessions):
                         for i in support.grounding_chunk_indices:
                             if i < len(chunks):
                                 uri = chunks[i].web.uri
-                                title = getattr(chunks[i].web, "title", f"Source {i + 1}")
+                                title = getattr(
+                                    chunks[i].web, "title", f"Source {i + 1}"
+                                )
                                 existing = next(
                                     (c for c in citations if c["uri"] == uri), None
                                 )
                                 if not existing:
                                     citations.append(
-                                        {"index": len(citations) + 1, "uri": uri, "title": title}
+                                        {
+                                            "index": len(citations) + 1,
+                                            "uri": uri,
+                                            "title": title,
+                                        }
                                     )
                                     citation_refs.append(len(citations))
                                 else:
@@ -295,12 +355,16 @@ def register_search_handlers(socketio, transcription_sessions):
             print(f"[Search Grounding] Response: {text[:100]}...")
             print(f"[Search Grounding] Citations: {len(citations)}")
 
+            # Fetch image for the keyword
+            image_url = _fetch_image_for_keyword(keyword)
+
             emit(
                 "grounding_result",
                 {
                     "keyword": keyword,
                     "text": text,
                     "citations": citations,
+                    "image": image_url,
                 },
             )
 

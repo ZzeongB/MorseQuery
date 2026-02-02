@@ -25,14 +25,22 @@
             <div class="right-column" id="rightColumn">
                 <!-- Description (default view) -->
                 <div class="detail-panel description-view" id="descriptionPanel">
-                    <div class="detail-keyword" id="selectedKeyword"></div>
-                    <div class="detail-description" id="keywordDescription"></div>
+                    <div class="description-content">
+                        <div class="detail-keyword" id="selectedKeyword"></div>
+                        <div class="detail-description" id="keywordDescription"></div>
+                    </div>
+                    <div class="detail-image" id="descriptionImage"></div>
                 </div>
 
                 <!-- Grounding (long press view) -->
                 <div class="detail-panel grounding-view" id="groundingPanel">
-                    <div class="grounding-keyword" id="groundingKeyword"></div>
-                    <div class="grounding-text" id="groundingText"></div>
+                    <div class="grounding-main">
+                        <div class="grounding-content">
+                            <div class="grounding-keyword" id="groundingKeyword"></div>
+                            <div class="grounding-text" id="groundingText"></div>
+                        </div>
+                        <div class="grounding-image" id="groundingImage"></div>
+                    </div>
                     <div class="citation-list" id="citationList"></div>
                 </div>
 
@@ -48,23 +56,33 @@
         <video id="videoPlayer" style="display: none;"></video>
         <input type="file" id="fileInput" accept="audio/*,video/*" style="display: none;">
 
-        <!-- Auto-inference controls -->
-        <div class="auto-inference-bar" id="autoInferenceBar">
-            <label class="auto-label">Auto:</label>
-            <select id="autoModeSelect" class="auto-select">
-                <option value="off">Off</option>
-                <option value="time">Time</option>
-                <option value="sentence">Sentence</option>
-            </select>
-            <input type="number" id="autoIntervalInput" class="auto-interval"
-                   value="3" min="1" max="30" step="0.5" title="Interval (seconds)">
-            <span class="auto-interval-label">s</span>
-        </div>
-
         <!-- Minimal controls (hidden by default, show on hover) -->
         <div class="controls-bar" id="controlsBar">
             <button id="micBtn" class="control-btn" title="Microphone">🎤</button>
             <button id="fileBtn" class="control-btn" title="Upload File">📁</button>
+
+            <!-- Auto-inference controls (inline) -->
+            <div class="auto-controls">
+                <select id="autoModeSelect" class="auto-select" title="Auto-inference mode">
+                    <option value="off">Auto: Off</option>
+                    <option value="time">Auto: Time</option>
+                    <option value="sentence">Auto: Sentence</option>
+                </select>
+                <input type="number" id="autoIntervalInput" class="auto-interval"
+                       value="3" min="1" max="30" step="0.5" title="Interval (seconds)">
+                <span class="auto-interval-label">s</span>
+            </div>
+
+            <!-- Configuration selector -->
+            <select id="configSelect" class="config-select" title="Prompt configuration">
+                <option value="1">1: Default</option>
+                <option value="2">2: Technical</option>
+                <option value="3">3: Medical</option>
+                <option value="4">4: Business</option>
+                <option value="5">5: Academic</option>
+                <option value="6">6: Korean</option>
+            </select>
+
             <button id="clearBtn" class="control-btn" title="Clear">🗑️</button>
         </div>
     </div>

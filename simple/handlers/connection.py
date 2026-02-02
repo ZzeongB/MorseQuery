@@ -61,3 +61,23 @@ def register_connection_handlers(socketio, transcription_sessions):
 
         transcription_sessions[session_id] = TranscriptionSession(session_id)
         emit("session_cleared", {"status": "Session cleared"})
+
+    @socketio.on("set_config")
+    def handle_set_config(data):
+        """Set prompt configuration."""
+        session_id = request.sid
+        config_id = data.get("config_id", 1)
+
+        if session_id in transcription_sessions:
+            session = transcription_sessions[session_id]
+            session.set_config(config_id)
+            config = session.get_current_config()
+            emit(
+                "config_status",
+                {
+                    "config_id": config_id,
+                    "name": config.get("name", ""),
+                    "description": config.get("description", ""),
+                },
+            )
+            print(f"[Config] Session {session_id} set to config {config_id}: {config.get('name')}")

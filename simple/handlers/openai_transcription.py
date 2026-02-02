@@ -107,8 +107,8 @@ def convert_webm_to_pcm(audio_data: bytes, file_format: str) -> np.ndarray:
             os.unlink(temp_output)
 
 
-def _session_config(model: str, vad: float = 0.3) -> dict:
-    """Session config."""
+def _session_config(model: str, vad: float = 0.3, prompt: str = "", language: str = "en") -> dict:
+    """Session config with customizable prompt and language."""
     return {
         "type": "transcription_session.update",
         "session": {
@@ -121,8 +121,8 @@ def _session_config(model: str, vad: float = 0.3) -> dict:
             },
             "input_audio_transcription": {
                 "model": model,
-                "prompt": "",
-                "language": "en",
+                "prompt": prompt,
+                "language": language,
             },
         },
     }
@@ -154,31 +154,30 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
 
         try:
             print(f"[OpenAI] Connecting for session {session_id}...")
-            socketio.emit(
-                "status",
-                {"message": "Connecting to OpenAI Realtime..."},
-                room=session_id,
-            )
 
             async with websockets.connect(
                 RT_URL, additional_headers=headers, max_size=None
             ) as ws:
                 print(f"[OpenAI] Connected for session {session_id}")
 
-                # Send session config
-                await ws.send(json.dumps(_session_config(MODEL_NAME)))
+                # Get config from session
+                config = session.get_current_config()
+                transcription_prompt = config.get("openai_transcription_prompt", "")
+                transcription_language = config.get("openai_transcription_language", "en")
+                print(f"[OpenAI] Using config: prompt='{transcription_prompt}', language='{transcription_language}'")
+
+                # Send session config with custom prompt and language
+                await ws.send(json.dumps(_session_config(
+                    MODEL_NAME,
+                    prompt=transcription_prompt,
+                    language=transcription_language
+                )))
 
                 # Store session state
                 session.openai_ws = ws
                 session.openai_active = True
                 session.openai_audio_queue = asyncio.Queue()
                 session.last_audio_timestamp = None
-
-                socketio.emit(
-                    "status",
-                    {"message": "OpenAI Realtime connected. Start speaking."},
-                    room=session_id,
-                )
 
                 async def send_audio():
                     """Send audio chunks from queue to OpenAI."""
@@ -336,11 +335,6 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
             session.openai_ws = None
             if session_id in openai_live_sessions:
                 del openai_live_sessions[session_id]
-            socketio.emit(
-                "status",
-                {"message": "OpenAI Realtime disconnected"},
-                room=session_id,
-            )
 
     try:
         loop.run_until_complete(openai_session_handler())
@@ -374,7 +368,6 @@ def register_openai_transcription_handlers(socketio, transcription_sessions):
         thread.start()
 
         openai_live_sessions[session_id] = thread
-        emit("status", {"message": "Starting OpenAI Realtime..."})
 
     @socketio.on("stop_openai_transcription")
     def handle_stop_openai_transcription():
@@ -387,8 +380,6 @@ def register_openai_transcription_handlers(socketio, transcription_sessions):
 
         if session_id in openai_live_sessions:
             del openai_live_sessions[session_id]
-
-        emit("status", {"message": "OpenAI Realtime stopped"})
 
     @socketio.on("audio_chunk_openai")
     def handle_audio_chunk_openai(data):
