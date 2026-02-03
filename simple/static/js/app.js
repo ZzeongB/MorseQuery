@@ -19,8 +19,6 @@ let state = {
 
 // DOM elements
 const widget = document.querySelector('.widget');
-const statusDot = document.getElementById('statusDot');
-const statusText = document.getElementById('statusText');
 const mainContent = document.getElementById('mainContent');
 const keywordsList = document.getElementById('keywordsList');
 const rightColumn = document.getElementById('rightColumn');
@@ -226,13 +224,36 @@ let longPressTriggered = false;
 let currentLongPressThreshold = LONG_PRESS_THRESHOLD_KEY;
 let currentDoublePressThreshold = DOUBLE_PRESS_THRESHOLD_KEY;
 let currentInputType = 'key'; // 'key' or 'mouse'
+let lastShortClickTime = 0; // Track short click for short+long combo
+const SHORT_LONG_COMBO_THRESHOLD = 500; // ms window for short+long combo
+let isComboMode = false; // Track if we're in short+long combo mode
+let comboNavigateInterval = null; // For continuous navigation
+const COMBO_NAVIGATE_DELAY = 600; // ms between each navigation
+
+// Check and enter combo mode on press start
+function checkComboMode() {
+    const timeSinceShortClick = Date.now() - lastShortClickTime;
+    if (lastShortClickTime > 0 && timeSinceShortClick < SHORT_LONG_COMBO_THRESHOLD) {
+        isComboMode = true;
+        // Cancel pending single press
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+            pressCount = 0;
+        }
+    } else {
+        isComboMode = false;
+    }
+}
 
 // Spacebar events
 document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
+        if (isLoading()) return;
 
         if (!e.repeat && pressDownTime === 0) {
+            checkComboMode();
             pressDownTime = Date.now();
             longPressTriggered = false;
             currentLongPressThreshold = LONG_PRESS_THRESHOLD_KEY;
@@ -253,50 +274,70 @@ document.addEventListener('keyup', (e) => {
 // Right-click events
 document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
+    if (isLoading()) return;
 
     if (pressDownTime === 0) {
+        checkComboMode();
         pressDownTime = Date.now();
         longPressTriggered = false;
         currentLongPressThreshold = LONG_PRESS_THRESHOLD_MOUSE;
         currentDoublePressThreshold = DOUBLE_PRESS_THRESHOLD_MOUSE;
         currentInputType = 'mouse';
+        widget.classList.add('pinch-active');
         startLongPressTimer();
     }
 });
 
 document.addEventListener('mouseup', (e) => {
-    if (e.button === 2 && pressDownTime > 0) {
-        handlePressUp();
+    if (e.button === 2) {
+        widget.classList.remove('pinch-active');
+        if (pressDownTime > 0) {
+            handlePressUp();
+        }
     }
 });
 
 // Unified press-up handler
 function handlePressUp() {
+    const wasLongPress = longPressTriggered;
     pressDownTime = 0;
     cancelLongPressTimer();
+    stopComboNavigation();
 
-    if (longPressTriggered) {
+    if (wasLongPress) {
         longPressTriggered = false;
         pressCount = 0;
+        lastShortClickTime = 0;
+        isComboMode = false;
         return;
     }
 
-    pressCount++;
+    // Check for double tap using lastShortClickTime
+    const now = Date.now();
+    const timeSinceLastShort = now - lastShortClickTime;
 
-    if (pressCount === 2) {
-        clearTimeout(pressTimer);
-        pressTimer = null;
+    if (lastShortClickTime > 0 && timeSinceLastShort < currentDoublePressThreshold) {
+        // Double tap detected
+        if (pressTimer) {
+            clearTimeout(pressTimer);
+            pressTimer = null;
+        }
         pressCount = 0;
+        lastShortClickTime = 0;
+        isComboMode = false;
         handleDoublePress();
         return;
     }
 
+    // Record short click time for double tap / short+long combo
+    lastShortClickTime = now;
+    isComboMode = false;
+
+    // Wait for potential double tap
     if (pressTimer) clearTimeout(pressTimer);
     pressTimer = setTimeout(() => {
         pressTimer = null;
-        if (pressCount === 1) {
-            handleSinglePress();
-        }
+        handleSinglePress();
         pressCount = 0;
     }, currentDoublePressThreshold);
 }
@@ -356,6 +397,15 @@ function handleDoublePress() {
 }
 
 function handleLongPress() {
+    // Check for short+long combo (navigate options)
+    if (isComboMode) {
+        console.log(`[${currentInputType}] short+long combo`);
+        lastShortClickTime = 0;
+        isComboMode = false;
+        handleShortLongCombo();
+        return;
+    }
+
     console.log(`[${currentInputType}] long`);
 
     const keyword = state.currentKeyword || (state.allKeywords[0]?.keyword);
@@ -374,28 +424,81 @@ function handleLongPress() {
     });
 }
 
+function handleShortLongCombo() {
+    if (state.allKeywords.length === 0) {
+        setStatus('error', 'No keywords to navigate');
+        return;
+    }
+
+    // Navigate immediately
+    navigateToNextKeyword();
+
+    // Start continuous navigation while held
+    comboNavigateInterval = setInterval(() => {
+        navigateToNextKeyword();
+    }, COMBO_NAVIGATE_DELAY);
+}
+
+function navigateToNextKeyword() {
+    if (state.allKeywords.length === 0) return;
+    const nextIndex = (state.currentKeywordIndex + 1) % state.allKeywords.length;
+    selectKeyword(nextIndex);
+    console.log(`[Navigate] ${nextIndex + 1}/${state.allKeywords.length}`);
+}
+
+function stopComboNavigation() {
+    if (comboNavigateInterval) {
+        clearInterval(comboNavigateInterval);
+        comboNavigateInterval = null;
+    }
+}
+
 // UI functions
 function setStatus(type, message) {
-    statusDot.className = 'status-dot ' + type;
-    statusText.textContent = message;
+    // Status bar removed - just log for debugging
+    console.log(`[Status] ${type}: ${message}`);
+}
+
+function showLoading(type = 'keyword') {
+    widget.classList.add('loading');
+    widget.classList.remove('loading-detail');
+    if (type === 'detail') {
+        widget.classList.add('loading-detail');
+    }
+}
+
+function hideLoading() {
+    widget.classList.remove('loading');
+    widget.classList.remove('loading-detail');
+}
+
+function hideControlsBar() {
+    const controlsBar = document.getElementById('controlsBar');
+    if (controlsBar) {
+        controlsBar.style.display = 'none';
+    }
+}
+
+function isLoading() {
+    return widget.classList.contains('loading');
 }
 
 function showWaitingKeywords(message = 'Extracting keywords...') {
-    widget.classList.add('waiting-keywords');
+    showLoading();
     setStatus('processing', message);
 }
 
 function hideWaitingKeywords() {
-    widget.classList.remove('waiting-keywords');
+    hideLoading();
 }
 
 function showWaitingDetail(message = 'Loading details...') {
-    widget.classList.add('waiting-detail');
+    showLoading('detail');
     setStatus('processing', message);
 }
 
 function hideWaitingDetail() {
-    widget.classList.remove('waiting-detail');
+    hideLoading();
 }
 
 function renderKeywordsList() {
@@ -444,6 +547,10 @@ function selectKeyword(index) {
 function highlightKeyword(index) {
     keywordsList.querySelectorAll('.keyword-item').forEach((item, i) => {
         item.classList.toggle('active', i === index);
+        // Scroll to make the active item visible
+        if (i === index) {
+            item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
     });
 }
 
@@ -554,15 +661,11 @@ function hideEmptyState() {
 }
 
 function showLongPressIndicator(progress) {
-    const pct = Math.round(progress * 100);
-    statusDot.style.background = `conic-gradient(#f59e0b ${pct}%, #e5e7eb ${pct}%)`;
-    if (progress < 1) {
-        setStatus('processing', 'Hold for details...');
-    }
+    // No additional indicator needed - border handled by pinch-active class
 }
 
 function hideLongPressIndicator() {
-    statusDot.style.background = '';
+    // Border removed by removing pinch-active class
 }
 
 function parseMarkdown(text) {
@@ -619,6 +722,7 @@ async function startRecording() {
 
         state.isRecording = true;
         micBtn.classList.add('active');
+        hideControlsBar();
 
     } catch (err) {
         setStatus('error', 'Mic access denied');
@@ -687,6 +791,7 @@ function handleFileUpload(e) {
     }, 2000);
 
     audioPlayer.play();
+    hideControlsBar();
 
     audioPlayer.onended = () => {
         if (recorder.state !== 'inactive') recorder.stop();
