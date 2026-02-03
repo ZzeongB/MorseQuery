@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Pinch Gesture Test</title>
+    <title>Pinch Test</title>
     <style>
         * {
             margin: 0;
@@ -14,109 +14,81 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #1a1a2e;
-            color: white;
+            background: #f5f5f5;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            transition: background 0.15s ease;
         }
 
-        .instruction {
-            font-size: 2rem;
-            margin-bottom: 2rem;
+        body.pressing {
+            background: #e0f2fe;
+        }
+
+        .card {
             text-align: center;
-            padding: 0 1rem;
         }
 
-        .gesture-type {
-            color: #00d4ff;
-            font-weight: bold;
+        .target {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #333;
+            margin-bottom: 3rem;
         }
 
-        .signal {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            background: #333;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .target strong {
+            font-weight: 600;
+        }
+
+        .result {
             font-size: 1.2rem;
+            height: 2rem;
+            color: #666;
             margin-bottom: 2rem;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
-        .signal.detected {
-            background: #00ff88;
-            color: #000;
-            transform: scale(1.2);
+        .result.correct {
+            color: #22c55e;
+            font-weight: 500;
         }
 
-        .signal.wrong {
-            background: #ff4444;
-            color: white;
+        .result.wrong {
+            color: #ef4444;
+            font-weight: 500;
         }
 
-        .detected-gesture {
-            font-size: 1.5rem;
-            margin-top: 1rem;
-            min-height: 2rem;
-        }
-
-        .stats {
-            position: fixed;
-            bottom: 2rem;
+        .score {
             font-size: 0.9rem;
-            color: #888;
-        }
-
-        .context-indicator {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            padding: 0.5rem 1rem;
-            background: #ff6b00;
-            color: white;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            opacity: 0;
-            transition: opacity 0.1s;
-        }
-
-        .context-indicator.show {
-            opacity: 1;
+            color: #999;
         }
 
         .next-btn {
             margin-top: 2rem;
-            padding: 1rem 2rem;
-            font-size: 1rem;
-            background: #00d4ff;
-            color: #000;
+            padding: 0.8rem 2rem;
+            font-size: 0.9rem;
+            background: #333;
+            color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 100px;
             cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .show-next .next-btn {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
-    <div class="instruction">
-        Press <span class="gesture-type" id="target"></span>
+    <div class="card">
+        <div class="target" id="target"></div>
+        <div class="result" id="result"></div>
+        <div class="score" id="score">0 / 0</div>
+        <button class="next-btn" id="nextBtn">Next</button>
     </div>
-
-    <div class="signal" id="signal">
-        Waiting...
-    </div>
-
-    <div class="detected-gesture" id="detected"></div>
-
-    <button class="next-btn" id="nextBtn">Next</button>
-
-    <div class="stats" id="stats">Score: 0 / 0</div>
-    <div class="context-indicator" id="contextIndicator">ContextMenu</div>
 
     <script>
         const gestures = ['pinch', 'double-pinch', 'long-pinch'];
@@ -124,60 +96,53 @@
         let correct = 0;
         let total = 0;
 
-        // Gesture detection state
         let touchStartTime = 0;
-        let lastPinchTime = 0;
         let isPinching = false;
         let pinchCount = 0;
         let pinchTimer = null;
         let longPinchTimer = null;
 
-        const LONG_PINCH_THRESHOLD = 500; // ms
-        const DOUBLE_PINCH_THRESHOLD = 400; // ms between clicks
+        const LONG_PINCH_THRESHOLD = 500;
+        const DOUBLE_PINCH_THRESHOLD = 400;
 
         const targetEl = document.getElementById('target');
-        const signalEl = document.getElementById('signal');
-        const detectedEl = document.getElementById('detected');
-        const statsEl = document.getElementById('stats');
+        const resultEl = document.getElementById('result');
+        const scoreEl = document.getElementById('score');
         const nextBtn = document.getElementById('nextBtn');
 
         function randomGesture() {
             targetGesture = gestures[Math.floor(Math.random() * gestures.length)];
-            targetEl.textContent = targetGesture;
-            signalEl.textContent = 'Waiting...';
-            signalEl.className = 'signal';
-            detectedEl.textContent = '';
+            targetEl.innerHTML = `<strong>${targetGesture}</strong>`;
+            resultEl.textContent = '';
+            resultEl.className = 'result';
+            document.body.classList.remove('show-next');
             pinchCount = 0;
         }
 
         function showResult(detectedGesture) {
-            detectedEl.textContent = `Detected: ${detectedGesture}`;
             total++;
 
             if (detectedGesture === targetGesture) {
                 correct++;
-                signalEl.textContent = 'Correct!';
-                signalEl.className = 'signal detected';
-                // Auto advance after correct
-                setTimeout(randomGesture, 800);
+                resultEl.textContent = '✓';
+                resultEl.className = 'result correct';
+                setTimeout(randomGesture, 600);
             } else {
-                signalEl.textContent = 'Wrong!';
-                signalEl.className = 'signal wrong';
+                resultEl.textContent = `✗  ${detectedGesture}`;
+                resultEl.className = 'result wrong';
+                document.body.classList.add('show-next');
             }
 
-            statsEl.textContent = `Score: ${correct} / ${total}`;
+            scoreEl.textContent = `${correct} / ${total}`;
         }
 
-        // Right-click (contextmenu) detection
-        const contextIndicator = document.getElementById('contextIndicator');
         document.body.addEventListener('mousedown', (e) => {
-            if (e.button === 2) { // Right-click
+            if (e.button === 2) {
                 e.preventDefault();
                 isPinching = true;
                 touchStartTime = Date.now();
-                contextIndicator.classList.add('show');
+                document.body.classList.add('pressing');
 
-                // Start long pinch detection
                 longPinchTimer = setTimeout(() => {
                     if (isPinching) {
                         clearTimeout(pinchTimer);
@@ -190,8 +155,8 @@
         });
 
         document.body.addEventListener('mouseup', (e) => {
-            if (e.button === 2) { // Right-click release
-                contextIndicator.classList.remove('show');
+            if (e.button === 2) {
+                document.body.classList.remove('pressing');
                 if (!isPinching) return;
                 e.preventDefault();
                 const duration = Date.now() - touchStartTime;
@@ -199,10 +164,8 @@
 
                 clearTimeout(longPinchTimer);
 
-                // If it was a long pinch, already handled
                 if (duration >= LONG_PINCH_THRESHOLD) return;
 
-                // Short pinch - check for double
                 pinchCount++;
 
                 if (pinchTimer) clearTimeout(pinchTimer);
@@ -218,14 +181,8 @@
             }
         });
 
-        // Prevent context menu
-        document.body.addEventListener('contextmenu', (e) => {
-            e.preventDefault();
-        });
-
+        document.body.addEventListener('contextmenu', (e) => e.preventDefault());
         nextBtn.addEventListener('click', randomGesture);
-
-        // Initialize
         randomGesture();
     </script>
 </body>
