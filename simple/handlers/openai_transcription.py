@@ -15,9 +15,9 @@ import numpy as np
 import websockets
 from flask import request
 from flask_socketio import emit
-from handlers.search import process_pending_search
-from handlers.auto_inference import trigger_auto_inference
 
+from handlers.auto_inference import trigger_auto_inference
+from handlers.search import process_pending_search
 from src.core.config import OPENAI_API_KEY
 
 # Enable nested asyncio
@@ -107,7 +107,9 @@ def convert_webm_to_pcm(audio_data: bytes, file_format: str) -> np.ndarray:
             os.unlink(temp_output)
 
 
-def _session_config(model: str, vad: float = 0.3, prompt: str = "", language: str = "en") -> dict:
+def _session_config(
+    model: str, vad: float = 0.3, prompt: str = "", language: str = "en"
+) -> dict:
     """Session config with customizable prompt and language."""
     return {
         "type": "transcription_session.update",
@@ -163,15 +165,23 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                 # Get config from session
                 config = session.get_current_config()
                 transcription_prompt = config.get("openai_transcription_prompt", "")
-                transcription_language = config.get("openai_transcription_language", "en")
-                print(f"[OpenAI] Using config: prompt='{transcription_prompt}', language='{transcription_language}'")
+                transcription_language = config.get(
+                    "openai_transcription_language", "en"
+                )
+                print(
+                    f"[OpenAI] Using config: prompt='{transcription_prompt}', language='{transcription_language}'"
+                )
 
                 # Send session config with custom prompt and language
-                await ws.send(json.dumps(_session_config(
-                    MODEL_NAME,
-                    prompt=transcription_prompt,
-                    language=transcription_language
-                )))
+                await ws.send(
+                    json.dumps(
+                        _session_config(
+                            MODEL_NAME,
+                            prompt=transcription_prompt,
+                            language=transcription_language,
+                        )
+                    )
+                )
 
                 # Store session state
                 session.openai_ws = ws
@@ -277,7 +287,7 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                         print(
                                             f"[OpenAI] Pending search: EV_DONE {ev_done_count}/2"
                                         )
-                                        if ev_done_count >= 1:
+                                        if ev_done_count >= 2:
                                             print(
                                                 "[OpenAI] 2 EV_DONEs received, processing search"
                                             )
