@@ -374,7 +374,7 @@ function cancelLongPressTimer() {
 }
 
 // Press handlers
-function handleSinglePress() {
+function handleDoublePress() { 
     console.log(`[${currentInputType}] single`);
     showWaitingKeywords('Extracting keywords...');
 
@@ -383,7 +383,7 @@ function handleSinglePress() {
     });
 }
 
-function handleDoublePress() {
+function handleSinglePress() {
     console.log(`[${currentInputType}] double`);
 
     if (state.allKeywords.length === 0) {
