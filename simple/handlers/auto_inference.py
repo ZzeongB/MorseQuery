@@ -1,13 +1,10 @@
 """Auto-inference SocketIO event handlers."""
 
 import threading
-from datetime import datetime
 
 from flask import request
 from flask_socketio import emit
 
-
-# Store auto-inference timers per session
 auto_inference_timers = {}
 
 
@@ -16,11 +13,13 @@ def trigger_auto_inference(session, session_id, socketio):
     if not session.should_auto_inference():
         return
 
-    print(f"[Auto-Inference] Triggering for session {session_id}, mode={session.auto_inference_mode}")
+    print(
+        f"[Auto-Inference] Triggering for session {session_id}, mode={session.auto_inference_mode}"
+    )
 
-    # Call GPT for keywords (auto_mode=True allows 0-3 keywords)
+    # Call Gemini for keywords (auto_mode=True allows 0-3 keywords)
     time_threshold = 15
-    keywords = session.get_top_keyword_gpt(time_threshold, auto_mode=True)
+    keywords = session.get_top_keyword_gemini(time_threshold, auto_mode=True)
 
     if not keywords:
         print("[Auto-Inference] No keywords extracted")
@@ -39,7 +38,7 @@ def trigger_auto_inference(session, session_id, socketio):
     )
 
     session.log_search_action(
-        search_mode="gpt_auto",
+        search_mode="gemini_auto",
         search_type="text",
         keyword=keywords[0]["keyword"] if keywords else None,
         num_results=len(keywords),
@@ -48,7 +47,9 @@ def trigger_auto_inference(session, session_id, socketio):
     print(f"[Auto-Inference] Extracted keywords: {[k['keyword'] for k in keywords]}")
 
 
-def start_time_based_auto_inference(session, session_id, socketio, transcription_sessions):
+def start_time_based_auto_inference(
+    session, session_id, socketio, transcription_sessions
+):
     """Start a background timer for time-based auto-inference."""
     if session_id in auto_inference_timers:
         # Already running
@@ -65,11 +66,13 @@ def start_time_based_auto_inference(session, session_id, socketio, transcription
             if not current_session.openai_active:
                 # Wait until transcription is active
                 import time
+
                 time.sleep(1)
                 continue
 
             # Wait for interval
             import time
+
             time.sleep(current_session.auto_inference_interval)
 
             # Check again after sleep
@@ -91,7 +94,9 @@ def start_time_based_auto_inference(session, session_id, socketio, transcription
     thread.daemon = True
     thread.start()
     auto_inference_timers[session_id] = thread
-    print(f"[Auto-Inference] Timer started for session {session_id}, interval={session.auto_inference_interval}s")
+    print(
+        f"[Auto-Inference] Timer started for session {session_id}, interval={session.auto_inference_interval}s"
+    )
 
 
 def stop_auto_inference_timer(session_id):

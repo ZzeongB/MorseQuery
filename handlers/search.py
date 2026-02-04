@@ -621,23 +621,27 @@ def register_search_handlers(socketio, transcription_sessions):
                         for i in support.grounding_chunk_indices:
                             if i < len(chunks):
                                 uri = chunks[i].web.uri
-                                title = getattr(chunks[i].web, "title", f"Source {i + 1}")
+                                title = getattr(
+                                    chunks[i].web, "title", f"Source {i + 1}"
+                                )
                                 # Add to citations list if not already present
                                 existing = next(
                                     (c for c in citations if c["uri"] == uri), None
                                 )
                                 if not existing:
                                     citations.append(
-                                        {"index": len(citations) + 1, "uri": uri, "title": title}
+                                        {
+                                            "index": len(citations) + 1,
+                                            "uri": uri,
+                                            "title": title,
+                                        }
                                     )
                                     citation_refs.append(len(citations))
                                 else:
                                     citation_refs.append(existing["index"])
 
                         # Insert citation markers
-                        citation_string = "".join(
-                            [f"[{ref}]" for ref in citation_refs]
-                        )
+                        citation_string = "".join([f"[{ref}]" for ref in citation_refs])
                         text = text[:end_index] + citation_string + text[end_index:]
 
             print(f"[Search Grounding] Response: {text[:100]}...")

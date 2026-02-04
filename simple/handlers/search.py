@@ -68,8 +68,8 @@ def process_pending_search(session, session_id, socketio):
             },
         )
 
-    # Call GPT - now returns list of keyword pairs
-    keywords = session.get_top_keyword_gpt(time_threshold)
+    # Call Gemini - now returns list of keyword pairs
+    keywords = session.get_top_keyword_gemini(time_threshold)
 
     if not keywords:
         socketio.emit(
@@ -92,7 +92,7 @@ def process_pending_search(session, session_id, socketio):
     )
 
     session.log_search_action(
-        search_mode="gpt",
+        search_mode="gemini",
         search_type="text",
         keyword=keywords[0]["keyword"] if keywords else None,
         num_results=len(keywords),
@@ -119,7 +119,7 @@ def register_search_handlers(socketio, transcription_sessions):
         session = transcription_sessions[session_id]
 
         # Log action
-        session.log_search_action(search_mode="gpt", search_type="text")
+        session.log_search_action(search_mode="gemini", search_type="text")
 
         if client_timestamp:
             try:
@@ -135,7 +135,7 @@ def register_search_handlers(socketio, transcription_sessions):
         # If OpenAI Realtime is active, wait for next transcription before calling GPT
         if session.openai_active:
             print(
-                f"[GPT Search] OpenAI active, setting pending search (words so far: {len(session.words)})"
+                f"[Gemini Search] OpenAI active, setting pending search (words so far: {len(session.words)})"
             )
             session.pending_search = {
                 "timestamp": datetime.utcnow(),
@@ -159,7 +159,7 @@ def register_search_handlers(socketio, transcription_sessions):
             return
 
         # If not streaming, process immediately
-        keywords = session.get_top_keyword_gpt(time_threshold)
+        keywords = session.get_top_keyword_gemini(time_threshold)
 
         if not keywords:
             emit("error", {"message": "No keywords available for search"})
@@ -179,7 +179,7 @@ def register_search_handlers(socketio, transcription_sessions):
         )
 
         session.log_search_action(
-            search_mode="gpt",
+            search_mode="gemini",
             search_type="text",
             keyword=keywords[0]["keyword"] if keywords else None,
             num_results=len(keywords),
