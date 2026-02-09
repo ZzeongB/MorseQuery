@@ -3,6 +3,7 @@
 from flask import request
 from flask_socketio import emit
 
+from handlers.context_manager import stop_context_manager
 from src.core.session import TranscriptionSession
 
 
@@ -19,6 +20,9 @@ def register_connection_handlers(socketio, transcription_sessions):
     @socketio.on("disconnect")
     def handle_disconnect():
         session_id = request.sid
+        # Stop context manager
+        stop_context_manager(session_id)
+
         if session_id in transcription_sessions:
             session = transcription_sessions[session_id]
             session._log_event(
@@ -42,6 +46,8 @@ def register_connection_handlers(socketio, transcription_sessions):
     def handle_clear_session():
         """Clear transcription session."""
         session_id = request.sid
+        # Stop context manager
+        stop_context_manager(session_id)
 
         if session_id in transcription_sessions:
             old_session = transcription_sessions[session_id]

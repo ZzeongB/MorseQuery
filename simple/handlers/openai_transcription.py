@@ -17,6 +17,7 @@ from flask import request
 from flask_socketio import emit
 
 from handlers.auto_inference import trigger_auto_inference
+from handlers.context_manager import start_context_manager
 from handlers.search import process_pending_search
 from src.core.config import OPENAI_API_KEY
 
@@ -188,6 +189,11 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                 session.openai_active = True
                 session.openai_audio_queue = asyncio.Queue()
                 session.last_audio_timestamp = None
+
+                # Start context manager for periodic context summarization
+                start_context_manager(
+                    session, session_id, socketio, transcription_sessions
+                )
 
                 async def send_audio():
                     """Send audio chunks from queue to OpenAI."""

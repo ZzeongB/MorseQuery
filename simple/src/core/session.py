@@ -80,6 +80,13 @@ class TranscriptionSession:
         # Prompt configuration
         self.config_id = 1  # Default configuration
 
+        # Context manager state
+        self.context_summary = ""  # Latest context summary (1-2 sentences)
+        self.context_last_updated = None  # When context was last updated
+        self.context_manager_active = False  # Whether context manager is running
+        self.context_update_interval = 5.0  # Seconds between context updates
+        self.context_last_word_count = 0  # Words when context was last generated
+
         # Logging system
         self.session_start_time = datetime.utcnow()
         self.event_log: List[Dict] = []
@@ -335,9 +342,15 @@ Context: {context_text}"""
             exclusion_text = f"\n\nIMPORTANT: Do NOT suggest these keywords that were already extracted: {', '.join(history_keywords)}"
             print(f"[Gemini] Excluding keywords: {history_keywords}")
 
+        # Build conversation context summary if available
+        context_summary_text = ""
+        if self.context_summary:
+            context_summary_text = f"\n\nConversation topic: {self.context_summary}"
+            print(f"[Gemini] Including context summary: {self.context_summary}")
+
         # Different prompt for auto mode vs manual mode
         if auto_mode:
-            prompt = f"""You are analyzing transcripts in real-time. Extract important keywords that users might want to look up.
+            prompt = f"""You are analyzing transcripts in real-time. Extract important keywords that users might want to look up.{context_summary_text}
 
 Given the transcript context, identify words or phrases worth looking up. The selected words or phrases should be:
 - Technical terms or unfamiliar vocabulary
@@ -348,11 +361,11 @@ Given the transcript context, identify words or phrases worth looking up. The se
 Return 0 to 3 keywords. If there are no important keywords in this context, respond with "None".
 If there are keywords, use this format for each:
 Keyword: <word or phrase>
-Description: <a brief 1-sentence description>{exclusion_text}
+Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>{exclusion_text}
 
 Context: {context_text}"""
         else:
-            prompt = f"""You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.
+            prompt = f"""You are analyzing transcripts. Users listen to content and select specific words or phrases they want to look up.{context_summary_text}
 
 Given the transcript context, predict the top three words or phrases the user would most likely want to look up. The selected words or phrases should be:
 - Technical terms or unfamiliar vocabulary
@@ -362,11 +375,11 @@ Given the transcript context, predict the top three words or phrases the user wo
 
 Respond with EXACTLY 3 keyword-description pairs in this format:
 Keyword: <word or phrase 1 - most important>
-Description: <a brief 1-sentence description>
+Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>
 Keyword: <word or phrase 2 - second most important>
-Description: <a brief 1-sentence description>
+Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>
 Keyword: <word or phrase 3 - third most important>
-Description: <a brief 1-sentence description>{exclusion_text}
+Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>{exclusion_text}
 
 Context: {context_text}"""
 
@@ -428,6 +441,7 @@ Context: {context_text}"""
                 {
                     "time_threshold_seconds": time_threshold,
                     "context": context_text,
+                    "context_summary": self.context_summary,
                     "raw_response": raw_response,
                     "keyword_description_pairs": keyword_description_pairs,
                     "excluded_keywords": history_keywords,
