@@ -11,10 +11,11 @@ let state = {
     currentKeywordIndex: 0,
     currentKeyword: null,
     currentDescription: null,
-    groundingCache: {},      // Cache grounding results by keyword: { keyword: { text, citations, image } }
+    groundingCache: {},      // Cache grounding results by keyword: { keyword: { levels: { 1: {...}, 2: {...}, 3: {...} }, currentLevel: 0 } }
     autoInferenceMode: 'off',
     autoInferenceInterval: 3.0,
     currentConfig: 1,        // Current prompt configuration (1-6)
+    viewedKeywords: new Set(), // Track keywords user has actually selected/viewed
 };
 
 // DOM elements
@@ -72,13 +73,16 @@ socket.on('keywords_extracted', (data) => {
     const newKeywords = data.keywords || [];
     const history = data.history || [];
 
-    // Build unified list: new keywords at top, then history
+    // Build unified list: new keywords at top
     state.allKeywords = [...newKeywords];
 
-    // Add history items that aren't duplicates
+    // Add history items that:
+    // 1. Are not duplicates of new keywords
+    // 2. Have NOT been viewed by the user
     history.forEach(h => {
-        const exists = state.allKeywords.some(k => k.keyword === h.keyword);
-        if (!exists) {
+        const existsInNew = state.allKeywords.some(k => k.keyword === h.keyword);
+        const wasViewed = state.viewedKeywords.has(h.keyword);
+        if (!existsInNew && !wasViewed) {
             state.allKeywords.push(h);
         }
     });
@@ -112,22 +116,31 @@ socket.on('grounding_result', (data) => {
     console.log('[Grounding]', data);
     hideWaitingDetail();
 
-    // Cache the grounding result for this keyword
-    state.groundingCache[data.keyword] = {
+    const level = data.detail_level || 1;
+
+    // Initialize cache structure for this keyword if needed
+    if (!state.groundingCache[data.keyword]) {
+        state.groundingCache[data.keyword] = { levels: {}, currentLevel: 0 };
+    }
+
+    // Cache the grounding result at the appropriate level
+    state.groundingCache[data.keyword].levels[level] = {
         text: data.text,
         citations: data.citations,
         image: data.image,
     };
+    state.groundingCache[data.keyword].currentLevel = level;
 
     // Update the keyword in allKeywords to mark it has grounding
     const kwIndex = state.allKeywords.findIndex(k => k.keyword === data.keyword);
     if (kwIndex !== -1) {
         state.allKeywords[kwIndex].hasGrounding = true;
+        state.allKeywords[kwIndex].detailLevel = level;
     }
 
     // Display in the description panel (replacing short description)
-    displayKeywordDetail(data.keyword, data.text, data.citations, data.image);
-    setStatus('connected', 'Detailed info loaded');
+    displayKeywordDetail(data.keyword, data.text, data.citations, data.image, level);
+    setStatus('connected', `Detail level ${level}/3`);
 });
 
 socket.on('keyword_history', (data) => {
@@ -136,9 +149,11 @@ socket.on('keyword_history', (data) => {
     const currentNew = state.allKeywords.filter(k => k.isNew);
 
     state.allKeywords = [...currentNew];
+    // Only add history items that haven't been viewed
     history.forEach(h => {
         const exists = state.allKeywords.some(k => k.keyword === h.keyword);
-        if (!exists) {
+        const wasViewed = state.viewedKeywords.has(h.keyword);
+        if (!exists && !wasViewed) {
             state.allKeywords.push(h);
         }
     });
@@ -152,6 +167,7 @@ socket.on('session_cleared', () => {
     state.currentKeyword = null;
     state.currentDescription = null;
     state.groundingCache = {};
+    state.viewedKeywords = new Set(); // Clear viewed keywords on session clear
 
     renderKeywordsList();
     showEmptyState();
@@ -416,11 +432,33 @@ function handleLongPress() {
         return;
     }
 
-    showWaitingDetail(`Getting detailed info for "${keyword}"...`);
+    // Get current detail level for this keyword (0 = no detail yet)
+    const cached = state.groundingCache[keyword];
+    const currentLevel = cached?.currentLevel || 0;
+    const nextLevel = Math.min(currentLevel + 1, 3); // Max level is 3
+
+    // If already at max level, show message and return
+    if (currentLevel >= 3) {
+        setStatus('connected', 'Maximum detail level reached');
+        return;
+    }
+
+    // Check if we already have the next level cached
+    if (cached?.levels?.[nextLevel]) {
+        const levelData = cached.levels[nextLevel];
+        state.groundingCache[keyword].currentLevel = nextLevel;
+        displayKeywordDetail(keyword, levelData.text, levelData.citations, levelData.image, nextLevel);
+        setStatus('connected', `Detail level ${nextLevel}/3`);
+        return;
+    }
+
+    const levelLabels = { 1: 'basic', 2: 'detailed', 3: 'comprehensive' };
+    showWaitingDetail(`Getting ${levelLabels[nextLevel]} info for "${keyword}"...`);
 
     socket.emit('search_grounding', {
         keyword: keyword,
         description: description || '',
+        detail_level: nextLevel,
     });
 }
 
@@ -507,7 +545,10 @@ function renderKeywordsList() {
         return;
     }
 
-    keywordsList.innerHTML = state.allKeywords.map((kw, i) => `
+    // Only show 3 keywords
+    const visibleKeywords = state.allKeywords.slice(0, 3);
+
+    keywordsList.innerHTML = visibleKeywords.map((kw, i) => `
         <div class="keyword-item ${i === state.currentKeywordIndex ? 'active' : ''}" data-index="${i}">
             <span class="keyword-text">${kw.keyword}</span>
         </div>
@@ -531,17 +572,21 @@ function selectKeyword(index) {
     state.currentDescription = kw.description;
     state.currentImage = kw.image;
 
+    // Mark this keyword as viewed (user has seen its description)
+    state.viewedKeywords.add(kw.keyword);
+
     highlightKeyword(index);
 
     // Check if we have cached grounding for this keyword
     const cached = state.groundingCache[kw.keyword];
-    if (cached) {
-        displayKeywordDetail(kw.keyword, cached.text, cached.citations, cached.image);
+    if (cached && cached.currentLevel > 0 && cached.levels[cached.currentLevel]) {
+        const levelData = cached.levels[cached.currentLevel];
+        displayKeywordDetail(kw.keyword, levelData.text, levelData.citations, levelData.image, cached.currentLevel);
+        setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length}) - Level ${cached.currentLevel}/3`);
     } else {
         displayDescription(kw.keyword, kw.description, kw.image);
+        setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length})`);
     }
-
-    setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length})`);
 }
 
 function highlightKeyword(index) {
@@ -574,13 +619,16 @@ function displayDescription(keyword, description, imageUrl) {
     if (citationArea) citationArea.innerHTML = '';
 }
 
-function displayKeywordDetail(keyword, text, citations, imageUrl) {
+function displayKeywordDetail(keyword, text, citations, imageUrl, level = 1) {
     hideEmptyState();
     hideGrounding();
 
     descriptionPanel.classList.add('visible');
     descriptionPanel.classList.add('has-grounding');
-    selectedKeyword.textContent = keyword;
+
+    // Show keyword with level indicator
+    const levelIndicator = level > 0 ? ` <span class="detail-level">${'●'.repeat(level)}${'○'.repeat(3 - level)}</span>` : '';
+    selectedKeyword.innerHTML = keyword + levelIndicator;
 
     // Remove citation markers from text
     let processedText = text;

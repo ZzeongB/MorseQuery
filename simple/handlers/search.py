@@ -48,7 +48,7 @@ def process_pending_search(session, session_id, socketio):
     pending = session.pending_search
     session.pending_search = None
 
-    time_threshold = pending.get("time_threshold", 15)
+    time_threshold = pending.get("time_threshold", 5)
 
     print(f"[Pending Search] Processing with {len(session.words)} words available")
 
@@ -110,7 +110,7 @@ def register_search_handlers(socketio, transcription_sessions):
         """
         session_id = request.sid
         client_timestamp = data.get("client_timestamp")
-        time_threshold = 15
+        time_threshold = 5
 
         if session_id not in transcription_sessions:
             emit("error", {"message": "No active session"})
@@ -252,7 +252,13 @@ def register_search_handlers(socketio, transcription_sessions):
 
     @socketio.on("search_grounding")
     def handle_search_grounding(data):
-        """Handle long-press: Google Search Grounding using Gemini API."""
+        """Handle long-press: Google Search Grounding using Gemini API.
+
+        Supports progressive detail levels:
+        - Level 1: Brief overview (1 paragraph)
+        - Level 2: Detailed explanation (2-3 paragraphs)
+        - Level 3: Comprehensive information (4+ paragraphs with examples)
+        """
         import os
 
         from google import genai
@@ -261,11 +267,13 @@ def register_search_handlers(socketio, transcription_sessions):
         session_id = request.sid
         keyword = data.get("keyword", "")
         description = data.get("description", "")
+        detail_level = data.get("detail_level", 1)  # 1, 2, or 3
+
         if not keyword:
             emit("error", {"message": "No keyword provided for grounding search"})
             return
 
-        print(f"[Search Grounding] Keyword: {keyword}, Description: {description}")
+        print(f"[Search Grounding] Keyword: {keyword}, Description: {description}, Level: {detail_level}")
 
         # Get prompt config from session
         session = transcription_sessions.get(session_id)
@@ -275,6 +283,32 @@ def register_search_handlers(socketio, transcription_sessions):
             prompt_prefix = session_config.get("gemini_search_prompt_prefix", "")
             if prompt_prefix:
                 print(f"[Search Grounding] Using prompt prefix: {prompt_prefix}")
+
+        # Define prompts for different detail levels
+        level_prompts = {
+            1: (
+                f"{prompt_prefix}"
+                f"Provide a brief overview in 1 short paragraph about: "
+                f"{keyword}{' (' + description + ')' if description else ''}. "
+                f"Focus on the most essential definition or meaning. "
+                f"Use **bold** sparingly for key terms only."
+            ),
+            2: (
+                f"{prompt_prefix}"
+                f"Provide a detailed explanation in 2-3 paragraphs about: "
+                f"{keyword}{' (' + description + ')' if description else ''}. "
+                f"Include key characteristics, context, and significance. "
+                f"Use **bold** for important terms and concepts."
+            ),
+            3: (
+                f"{prompt_prefix}"
+                f"Provide comprehensive information in 4 or more paragraphs about: "
+                f"{keyword}{' (' + description + ')' if description else ''}. "
+                f"Include: detailed explanation, historical context or background, "
+                f"practical examples or applications, and related concepts. "
+                f"Use **bold** for important terms. Be thorough but clear."
+            ),
+        }
 
         try:
             api_key = os.getenv("GOOGLE_API_KEY")
@@ -286,22 +320,7 @@ def register_search_handlers(socketio, transcription_sessions):
             grounding_tool = types.Tool(google_search=types.GoogleSearch())
             config = types.GenerateContentConfig(tools=[grounding_tool])
 
-            if description:
-                prompt = (
-                    f"{prompt_prefix}"
-                    f"Please provide detailed information in 1–2 paragraphs about: "
-                    f"{keyword} ({description}). "
-                    f"Highlight only the most important terms and concepts using **bold**, "
-                    f"and do not overuse bold formatting."
-                )
-            else:
-                prompt = (
-                    f"{prompt_prefix}"
-                    f"Please provide detailed information in 1–2 paragraphs about: "
-                    f"{keyword}. "
-                    f"Highlight only the most important terms and concepts using **bold**, "
-                    f"and do not overuse bold formatting."
-                )
+            prompt = level_prompts.get(detail_level, level_prompts[1])
 
             response = client.models.generate_content(
                 model="gemini-2.5-flash-lite",
@@ -352,7 +371,7 @@ def register_search_handlers(socketio, transcription_sessions):
                         citation_string = "".join([f"[{ref}]" for ref in citation_refs])
                         text = text[:end_index] + citation_string + text[end_index:]
 
-            print(f"[Search Grounding] Response: {text[:100]}...")
+            print(f"[Search Grounding] Level {detail_level} Response: {text[:100]}...")
             print(f"[Search Grounding] Citations: {len(citations)}")
 
             # Fetch image for the keyword
@@ -365,6 +384,7 @@ def register_search_handlers(socketio, transcription_sessions):
                     "text": text,
                     "citations": citations,
                     "image": image_url,
+                    "detail_level": detail_level,
                 },
             )
 

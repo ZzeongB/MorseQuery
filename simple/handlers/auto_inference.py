@@ -18,7 +18,7 @@ def trigger_auto_inference(session, session_id, socketio):
     )
 
     # Call Gemini for keywords (auto_mode=True allows 0-3 keywords)
-    time_threshold = 15
+    time_threshold = 5
     keywords = session.get_top_keyword_gemini(time_threshold, auto_mode=True)
 
     if not keywords:

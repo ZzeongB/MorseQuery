@@ -9,7 +9,7 @@ body {
     background: #000;
     min-height: 100vh;
     display: flex;
-    align-items: flex-start;
+    align-items: flex-end;
     justify-content: center;
     padding: 10px;
 }
@@ -77,18 +77,22 @@ body {
 /* Two-column main content */
 .main-content {
     display: flex;
-    min-height: 100px;
 }
 
 /* Left column - Keywords list */
 .left-column {
-    width: 140px;
+    width: 120px;
     background: #000;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .keywords-list {
     padding: 6px;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
 .keyword-item {
@@ -140,12 +144,14 @@ body {
     flex: 1;
     overflow-y: visible;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
 }
 
 .detail-panel {
     display: none;
     padding: 8px 10px;
-    height: 100%;
 }
 
 .detail-panel.visible {
@@ -169,19 +175,34 @@ body {
     display: none;
 }
 
+/* Detail level indicator (●●○) */
+.detail-level {
+    font-size: 10px;
+    color: #4ade80;
+    margin-left: 6px;
+    letter-spacing: 2px;
+}
+
 .detail-description {
     font-size: 13px;
     color: #ccc;
     line-height: 1.4;
+    position: fixed;
+    bottom: 25px;
+    left: 140px;
+    right: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 12px;
 }
 
-/* Image floated to top-right */
+/* Image at bottom right */
 .detail-description img {
-    float: right;
     max-height: 140px;
     width: auto;
-    margin: 0 0 8px 12px;
     border-radius: 6px;
+    flex-shrink: 0;
 }
 
 /* When description has grounding (long description) */

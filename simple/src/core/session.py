@@ -147,7 +147,7 @@ class TranscriptionSession:
         return [h["keyword"] for h in self.keyword_history]
 
     def get_top_keyword_gpt(
-        self, time_threshold: int = 15, auto_mode: bool = False
+        self, time_threshold: int = 5, auto_mode: bool = False
     ) -> List[Dict]:
         """Use GPT to predict keywords. Returns list of keyword-description pairs.
 
@@ -300,7 +300,7 @@ Context: {context_text}"""
             return []
 
     def get_top_keyword_gemini(
-        self, time_threshold: int = 15, auto_mode: bool = False
+        self, time_threshold: int = 5, auto_mode: bool = False
     ) -> List[Dict]:
         """Use Gemini to predict keywords. Returns list of keyword-description pairs.
 
