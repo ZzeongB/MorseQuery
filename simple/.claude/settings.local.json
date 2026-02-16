@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "Bash(cat:*)",
-      "Bash(python:*)"
+      "Bash(python:*)",
+      "WebFetch(domain:developers.openai.com)",
+      "Bash(source ../venv/bin/activate)"
     ]
   }
 }
