@@ -26,11 +26,9 @@ const rightColumn = document.getElementById('rightColumn');
 const descriptionPanel = document.getElementById('descriptionPanel');
 const selectedKeyword = document.getElementById('selectedKeyword');
 const keywordDescription = document.getElementById('keywordDescription');
-const descriptionImage = document.getElementById('descriptionImage');
 const groundingPanel = document.getElementById('groundingPanel');
 const groundingKeyword = document.getElementById('groundingKeyword');
 const groundingText = document.getElementById('groundingText');
-const groundingImage = document.getElementById('groundingImage');
 const citationList = document.getElementById('citationList');
 const emptyPanel = document.getElementById('emptyPanel');
 const micBtn = document.getElementById('micBtn');
@@ -68,6 +66,13 @@ socket.on('transcription', (data) => {
 socket.on('keywords_extracted', (data) => {
     console.log('[Keywords]', data);
     hideWaitingKeywords();
+
+    // Handle error case (e.g., Gemini couldn't extract keywords)
+    if (data.error) {
+        console.warn('[Keywords] Error:', data.error);
+        setStatus('error', data.error);
+        setTimeout(() => setStatus('connected', 'Ready'), 3000);
+    }
 
     // Merge new keywords with history (new first, then history)
     const newKeywords = data.keywords || [];
@@ -267,6 +272,7 @@ document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && e.target === document.body) {
         e.preventDefault();
         if (isLoading()) return;
+        if (state.autoInferenceMode !== 'off') return; // Disable gestures in auto mode
 
         if (!e.repeat && pressDownTime === 0) {
             checkComboMode();
@@ -291,6 +297,7 @@ document.addEventListener('keyup', (e) => {
 document.addEventListener('contextmenu', (e) => {
     e.preventDefault();
     if (isLoading()) return;
+    if (state.autoInferenceMode !== 'off') return; // Disable gestures in auto mode
 
     if (pressDownTime === 0) {
         checkComboMode();
@@ -570,7 +577,6 @@ function selectKeyword(index) {
     const kw = state.allKeywords[index];
     state.currentKeyword = kw.keyword;
     state.currentDescription = kw.description;
-    state.currentImage = kw.image;
 
     // Mark this keyword as viewed (user has seen its description)
     state.viewedKeywords.add(kw.keyword);
@@ -581,10 +587,10 @@ function selectKeyword(index) {
     const cached = state.groundingCache[kw.keyword];
     if (cached && cached.currentLevel > 0 && cached.levels[cached.currentLevel]) {
         const levelData = cached.levels[cached.currentLevel];
-        displayKeywordDetail(kw.keyword, levelData.text, levelData.citations, levelData.image, cached.currentLevel);
+        displayKeywordDetail(kw.keyword, levelData.text, levelData.citations, null, cached.currentLevel);
         setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length}) - Level ${cached.currentLevel}/3`);
     } else {
-        displayDescription(kw.keyword, kw.description, kw.image);
+        displayDescription(kw.keyword, kw.description);
         setStatus('connected', `${kw.keyword} (${index + 1}/${state.allKeywords.length})`);
     }
 }
@@ -599,7 +605,7 @@ function highlightKeyword(index) {
     });
 }
 
-function displayDescription(keyword, description, imageUrl) {
+function displayDescription(keyword, description) {
     hideEmptyState();
     hideGrounding();
 
@@ -607,19 +613,14 @@ function displayDescription(keyword, description, imageUrl) {
     descriptionPanel.classList.remove('has-grounding');
     selectedKeyword.textContent = keyword;
 
-    // Build content with inline image
-    let content = description || 'No description available';
-    if (imageUrl) {
-        content = `<img src="${imageUrl}" alt="${keyword}" onerror="this.style.display='none'"> ${content}`;
-    }
-    keywordDescription.innerHTML = content;
+    keywordDescription.innerHTML = description || 'No description available';
 
     // Clear citation list in description panel
     const citationArea = descriptionPanel.querySelector('.description-citations');
     if (citationArea) citationArea.innerHTML = '';
 }
 
-function displayKeywordDetail(keyword, text, citations, imageUrl, level = 1) {
+function displayKeywordDetail(keyword, text, citations, _imageUrl, level = 1) {
     hideEmptyState();
     hideGrounding();
 
@@ -639,19 +640,14 @@ function displayKeywordDetail(keyword, text, citations, imageUrl, level = 1) {
         });
     }
 
-    // Build content with inline image
-    let content = parseMarkdown(processedText);
-    if (imageUrl) {
-        content = `<img src="${imageUrl}" alt="${keyword}" onerror="this.style.display='none'"> ${content}`;
-    }
-    keywordDescription.innerHTML = content;
+    keywordDescription.innerHTML = parseMarkdown(processedText);
 }
 
 function hideDescription() {
     descriptionPanel.classList.remove('visible');
 }
 
-function displayGrounding(keyword, text, citations, imageUrl) {
+function displayGrounding(keyword, text, citations) {
     hideDescription();
     hideEmptyState();
 
@@ -669,15 +665,6 @@ function displayGrounding(keyword, text, citations, imageUrl) {
     }
 
     groundingText.innerHTML = parseMarkdown(processedText);
-
-    // Display image if available
-    if (imageUrl) {
-        groundingImage.innerHTML = `<img src="${imageUrl}" alt="${keyword}" onerror="this.parentElement.style.display='none'">`;
-        groundingImage.style.display = 'block';
-    } else {
-        groundingImage.innerHTML = '';
-        groundingImage.style.display = 'none';
-    }
 
     // Citation list
     if (citations && citations.length > 0) {
@@ -708,7 +695,7 @@ function hideEmptyState() {
     emptyPanel.classList.remove('visible');
 }
 
-function showLongPressIndicator(progress) {
+function showLongPressIndicator(_progress) {
     // No additional indicator needed - border handled by pinch-active class
 }
 

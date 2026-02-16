@@ -15,10 +15,10 @@ import numpy as np
 import websockets
 from flask import request
 from flask_socketio import emit
-
 from handlers.auto_inference import trigger_auto_inference
 from handlers.context_manager import start_context_manager
 from handlers.search import process_pending_search
+
 from src.core.config import OPENAI_API_KEY
 
 # Enable nested asyncio
@@ -31,6 +31,7 @@ RT_URL = "wss://api.openai.com/v1/realtime?intent=transcription"
 
 EV_DELTA = "conversation.item.input_audio_transcription.delta"
 EV_DONE = "conversation.item.input_audio_transcription.completed"
+EV_SPEECH_STARTED = "input_audio_buffer.speech_started"
 
 # Store OpenAI live sessions
 openai_live_sessions = {}
@@ -119,7 +120,7 @@ def _session_config(
             "turn_detection": {
                 "type": "server_vad",
                 "threshold": vad,
-                "prefix_padding_ms": 200,
+                "prefix_padding_ms": 50,
                 "silence_duration_ms": 50,
             },
             "input_audio_transcription": {
@@ -230,8 +231,17 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
 
                             ev = json.loads(msg)
                             typ = ev.get("type")
+                            item_id = ev.get("item_id")
+                            print(f"[OpenAI] Received event: {typ}, item_id={item_id}")
 
-                            if typ == EV_DELTA:
+                            # Track speech_started events - always update current item_id
+                            if typ == EV_SPEECH_STARTED:
+                                session.current_speech_item_id = item_id
+                                print(
+                                    f"[OpenAI] Speech started, tracking item_id: {item_id}"
+                                )
+
+                            elif typ == EV_DELTA:
                                 delta = ev.get("delta")
                                 if delta:
                                     current.append(delta)
@@ -250,6 +260,13 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                 text = "".join(current).strip()
                                 current.clear()
 
+                                # Mark this item_id as completed
+                                if item_id:
+                                    session.completed_item_ids.add(item_id)
+                                    print(
+                                        f"[OpenAI] Transcription completed for item_id: {item_id}"
+                                    )
+
                                 if text:
                                     YELLOW = "\033[93m"
                                     RESET = "\033[0m"
@@ -266,6 +283,7 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                             "text": text,
                                             "word_count": len(text.split()),
                                             "last_audio_timestamp": session.last_audio_timestamp,
+                                            "item_id": item_id,
                                         },
                                     )
 
@@ -279,26 +297,36 @@ def run_openai_live_loop(session_id, socketio, transcription_sessions):
                                         room=session_id,
                                     )
 
-                                    # Check pending search - wait for 2 EV_DONEs after spacebar
+                                    # Check pending search - wait for target item_id to complete, then one more
                                     if session.pending_search:
-                                        ev_done_count = (
-                                            session.pending_search.get(
-                                                "ev_done_count", 0
-                                            )
-                                            + 1
+                                        target_item_id = session.pending_search.get(
+                                            "target_item_id"
                                         )
-                                        session.pending_search["ev_done_count"] = (
-                                            ev_done_count
+                                        target_completed = session.pending_search.get(
+                                            "target_completed", False
                                         )
-                                        print(
-                                            f"[OpenAI] Pending search: EV_DONE {ev_done_count}/2"
-                                        )
-                                        if ev_done_count >= 2:
+
+                                        if target_completed:
+                                            # Target already completed, this is the extra one we were waiting for
                                             print(
-                                                "[OpenAI] 2 EV_DONEs received, processing search"
+                                                f"[OpenAI] Extra EV_DONE after target, processing search (item_id={item_id})"
                                             )
                                             process_pending_search(
                                                 session, session_id, socketio
+                                            )
+                                        elif (
+                                            target_item_id and item_id == target_item_id
+                                        ):
+                                            # Target item completed, wait for one more
+                                            print(
+                                                f"[OpenAI] Target item_id {target_item_id} completed, waiting for one more EV_DONE"
+                                            )
+                                            session.pending_search[
+                                                "target_completed"
+                                            ] = True
+                                        else:
+                                            print(
+                                                f"[OpenAI] Pending search: waiting for item_id={target_item_id}, current={item_id}"
                                             )
                                     # Auto-inference on sentence end (if mode is "sentence")
                                     elif session.auto_inference_mode == "sentence":

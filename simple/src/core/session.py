@@ -68,6 +68,10 @@ class TranscriptionSession:
         # Pending search state
         self.pending_search: Dict = None
 
+        # Speech item tracking for precise timing control
+        self.current_speech_item_id: str = None  # Latest speech_started item_id
+        self.completed_item_ids: set = set()  # Set of completed transcription item_ids
+
         # Auto-inference state
         self.auto_inference_mode = (
             self.AUTO_INFERENCE_DEFAULT_MODE
@@ -108,7 +112,7 @@ class TranscriptionSession:
             "data": data,
         }
         self.event_log.append(event)
-        print(f"[LOG] {event_type}: {data}")
+        # print(f"[LOG] {event_type}: {data}")
 
         if save_immediately:
             self.save_logs_to_file()
@@ -361,7 +365,7 @@ Given the transcript context, identify words or phrases worth looking up. The se
 Return 0 to 3 keywords. If there are no important keywords in this context, respond with "None".
 If there are keywords, use this format for each:
 Keyword: <word or phrase>
-Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>{exclusion_text}
+Description: <10 words max - acronym expansion, brief definition, or key fact>{exclusion_text}
 
 Context: {context_text}"""
         else:
@@ -375,11 +379,11 @@ Given the transcript context, predict the top three words or phrases the user wo
 
 Respond with EXACTLY 3 keyword-description pairs in this format:
 Keyword: <word or phrase 1 - most important>
-Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>
+Description: <10 words max - acronym expansion, brief definition, or key fact>
 Keyword: <word or phrase 2 - second most important>
-Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>
+Description: <10 words max - acronym expansion, brief definition, or key fact>
 Keyword: <word or phrase 3 - third most important>
-Description: <what user needs to know - e.g. acronym expansion, brief definition, or key fact>{exclusion_text}
+Description: <10 words max - acronym expansion, brief definition, or key fact>{exclusion_text}
 
 Context: {context_text}"""
 

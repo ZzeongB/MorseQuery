@@ -54,9 +54,10 @@ def process_pending_search(session, session_id, socketio):
 
     # Log the delay
     spacebar_time = pending.get("timestamp")
+    target_item_id = pending.get("target_item_id")
     if spacebar_time:
         delay = (datetime.utcnow() - spacebar_time).total_seconds()
-        print(f"[Pending Search] Delay from spacebar: {delay:.2f}s")
+        print(f"[Pending Search] Delay from spacebar: {delay:.2f}s, target_item_id={target_item_id}")
         session._log_event(
             "pending_search_processed",
             {
@@ -65,6 +66,7 @@ def process_pending_search(session, session_id, socketio):
                 "words_after": len(session.words),
                 "new_text_received": len(session.words)
                 - pending.get("words_before", 0),
+                "target_item_id": target_item_id,
             },
         )
 
@@ -72,8 +74,15 @@ def process_pending_search(session, session_id, socketio):
     keywords = session.get_top_keyword_gemini(time_threshold)
 
     if not keywords:
+        print("[Pending Search] No keywords extracted, emitting empty result")
         socketio.emit(
-            "error", {"message": "No keywords available for search"}, room=session_id
+            "keywords_extracted",
+            {
+                "keywords": [],
+                "history": session.keyword_history,
+                "error": "No keywords available for search",
+            },
+            room=session_id,
         )
         return
 
@@ -132,37 +141,63 @@ def register_search_handlers(socketio, transcription_sessions):
             except Exception as e:
                 print(f"[TIMING] Could not parse client timestamp: {e}")
 
-        # If OpenAI Realtime is active, wait for next transcription before calling GPT
+        # If OpenAI Realtime is active, wait for current speech item transcription to complete
         if session.openai_active:
+            # Capture the current speech item_id at spacebar press time
+            target_item_id = session.current_speech_item_id
             print(
-                f"[Gemini Search] OpenAI active, setting pending search (words so far: {len(session.words)})"
+                f"[Spacebar] User pressed spacebar, current_speech_item_id={target_item_id}"
             )
-            session.pending_search = {
-                "timestamp": datetime.utcnow(),
-                "time_threshold": time_threshold,
-                "words_before": len(session.words),
-                "client_timestamp": client_timestamp,
-                "source": "openai",
-            }
-            session._log_event(
-                "pending_search_set",
-                {
-                    "words_at_spacebar": len(session.words),
+
+            # Check if the target item_id is already completed (or no item_id tracked)
+            if (
+                target_item_id is None
+                or target_item_id in session.completed_item_ids
+            ):
+                print(
+                    f"[Gemini Search] target_item_id={target_item_id} already completed or None, processing immediately"
+                )
+                # Process immediately since the speech we're interested in is already transcribed
+            else:
+                print(
+                    f"[Gemini Search] OpenAI active, setting pending search for item_id={target_item_id} (words so far: {len(session.words)})"
+                )
+                session.pending_search = {
+                    "timestamp": datetime.utcnow(),
+                    "time_threshold": time_threshold,
+                    "words_before": len(session.words),
                     "client_timestamp": client_timestamp,
                     "source": "openai",
-                },
-            )
-            emit("status", {"message": "Extracting keywords..."})
-            _start_pending_search_timeout(
-                session, session_id, socketio, timeout_seconds=10.0
-            )
-            return
+                    "target_item_id": target_item_id,
+                }
+                session._log_event(
+                    "pending_search_set",
+                    {
+                        "words_at_spacebar": len(session.words),
+                        "client_timestamp": client_timestamp,
+                        "source": "openai",
+                        "target_item_id": target_item_id,
+                    },
+                )
+                emit("status", {"message": "Extracting keywords..."})
+                _start_pending_search_timeout(
+                    session, session_id, socketio, timeout_seconds=10.0
+                )
+                return
 
         # If not streaming, process immediately
         keywords = session.get_top_keyword_gemini(time_threshold)
 
         if not keywords:
-            emit("error", {"message": "No keywords available for search"})
+            print("[Search] No keywords extracted, emitting empty result")
+            emit(
+                "keywords_extracted",
+                {
+                    "keywords": [],
+                    "history": session.keyword_history,
+                    "error": "No keywords available for search",
+                },
+            )
             return
 
         # Fetch images for keywords
