@@ -31,6 +31,9 @@ HTML = """
         body { margin: 0; background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; height: 100vh; }
         #menu { padding: 40px; }
         #menu button { background: #222; color: #fff; border: 1px solid #444; padding: 15px 30px; margin: 10px; cursor: pointer; font-size: 16px; }
+        #menu button.selected { background: #4ade80; color: #000; border-color: #4ade80; }
+        .source-select { margin-bottom: 30px; }
+        .source-select span { margin-right: 15px; font-size: 14px; color: #888; }
         #box { display: none; width: 50%; padding: 20px; }
         .option { border: 1px solid #333; padding: 12px 16px; margin: 6px 0; font-size: 16px; border-radius: 8px; transition: all 0.2s; }
         .option.active { border-color: #4ade80; background: #1a1a1a; }
@@ -40,17 +43,32 @@ HTML = """
 </head>
 <body>
     <div id="menu">
-        <button onclick="start('manual')">Manual</button>
-        <button onclick="start('auto')">Auto (5s)</button>
+        <div class="source-select">
+            <span>Source:</span>
+            <button id="btn-mic" onclick="setSource('mic')">🎤 Mic</button>
+            <button id="btn-mp3" class="selected" onclick="setSource('mp3')">🎵 MP3</button>
+        </div>
+        <button onclick="start('manual', 'single')">Manual (Single)</button>
+        <button onclick="start('manual', 'all')">Manual (All)</button>
+        <button onclick="start('auto', 'single')">Auto (Single)</button>
+        <button onclick="start('auto', 'all')">Auto (All)</button>
     </div>
     <div id="box"></div>
     <script>
         const socket = io();
         let mode = 'manual';
+        let view = 'single';
+        let source = 'mp3';
         let options = [];
         let currentIdx = 0;
         let buffer = '';
         let lastSpace = 0;
+
+        function setSource(s) {
+            source = s;
+            document.getElementById('btn-mic').classList.toggle('selected', s === 'mic');
+            document.getElementById('btn-mp3').classList.toggle('selected', s === 'mp3');
+        }
 
         socket.on('word', data => { buffer += data; });
         socket.on('done', () => {
@@ -74,18 +92,30 @@ HTML = """
 
         function render() {
             const box = document.getElementById('box');
-            box.innerHTML = options.map((o, i) =>
-                `<div class="option ${i === currentIdx ? 'active' : ''}">
+            if (options.length === 0) {
+                box.innerHTML = '';
+                return;
+            }
+            if (view === 'single') {
+                const o = options[currentIdx];
+                box.innerHTML = `<div class="option active">
                     <span class="word">${o.word}</span><span class="desc">${o.desc}</span>
-                </div>`
-            ).join('');
+                </div>`;
+            } else {
+                box.innerHTML = options.map((o, i) =>
+                    `<div class="option ${i === currentIdx ? 'active' : ''}">
+                        <span class="word">${o.word}</span><span class="desc">${o.desc}</span>
+                    </div>`
+                ).join('');
+            }
         }
 
-        function start(m) {
+        function start(m, v) {
             mode = m;
+            view = v;
             document.getElementById('menu').style.display = 'none';
             document.getElementById('box').style.display = 'block';
-            socket.emit('start', m);
+            socket.emit('start', {mode: m, source: source});
         }
 
         document.addEventListener('keydown', e => {
@@ -118,9 +148,10 @@ HTML = """
 
 
 class RealtimeClient:
-    def __init__(self, socketio, mode="manual"):
+    def __init__(self, socketio, mode="manual", source="mp3"):
         self.sio = socketio
         self.mode = mode
+        self.source = source
         self.ws = None
         self.running = False
         self.chunks_sent = 0
@@ -156,13 +187,48 @@ class RealtimeClient:
         self.running = False
 
     def stream_audio(self):
+        if self.source == "mic":
+            self.stream_from_mic()
+        else:
+            self.stream_from_mp3()
+
+    def stream_from_mic(self):
+        pa = pyaudio.PyAudio()
+        stream = pa.open(
+            format=pyaudio.paInt16,
+            channels=1,
+            rate=RATE,
+            input=True,
+            frames_per_buffer=CHUNK,
+        )
+        self.sio.emit("status", f"🎤 Mic recording... ({self.mode} mode)")
+
+        chunks_per_interval = int(AUTO_INTERVAL / 0.2)
+
+        while self.running:
+            chunk = stream.read(CHUNK, exception_on_overflow=False)
+            self.ws.send(json.dumps({
+                "type": "input_audio_buffer.append",
+                "audio": base64.b64encode(chunk).decode(),
+            }))
+            self.chunks_sent += 1
+
+            if self.mode == "auto" and self.chunks_sent % chunks_per_interval == 0:
+                self.request()
+
+        stream.stop_stream()
+        stream.close()
+        pa.terminate()
+        self.sio.emit("status", "Stopped")
+
+    def stream_from_mp3(self):
         audio = AudioSegment.from_file(AUDIO_FILE)
         audio = audio.set_frame_rate(RATE).set_channels(1).set_sample_width(2)
         raw = audio.raw_data
 
         pa = pyaudio.PyAudio()
         stream = pa.open(format=pyaudio.paInt16, channels=1, rate=RATE, output=True)
-        self.sio.emit("status", f"Playing... ({self.mode} mode)")
+        self.sio.emit("status", f"🎵 Playing MP3... ({self.mode} mode)")
 
         chunk_bytes = CHUNK * 2
         chunks_per_interval = int(AUTO_INTERVAL / 0.2)
@@ -231,11 +297,13 @@ def index():
 
 
 @sio.on("start")
-def handle_start(mode):
+def handle_start(data):
     global client
     if client:
         client.stop()
-    client = RealtimeClient(sio, mode)
+    mode = data.get("mode", "manual")
+    source = data.get("source", "mp3")
+    client = RealtimeClient(sio, mode, source)
     client.start()
 
 
