@@ -105,14 +105,15 @@ def handle_request():
 
 
 @sio.on("request_summary")
-def handle_request_summary():
-    """Handle summary request."""
+def handle_request_summary(data=None):
     global summary_client
     session_id = request.sid
-    log_print("INFO", "Summary request triggered", session_id=session_id)
+    mode = (data or {}).get("mode", "summary")
+
+    log_print("INFO", "Summary request triggered", session_id=session_id, mode=mode)
 
     if summary_client and summary_client.running:
-        summary_client.request_summary(mode="transcript")  # "keywords", "transcript"
+        summary_client.request_summary(mode=mode)
     else:
         log_print(
             "WARN",

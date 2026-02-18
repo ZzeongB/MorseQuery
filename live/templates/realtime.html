@@ -103,6 +103,13 @@
             <button id="btn-desc-single" class="selected" onclick="setDescView('single')">Single</button>
             <button id="btn-desc-all" onclick="setDescView('all')">All</button>
         </div>
+        <div class="source-select">
+            <span>Summary:</span>
+            <button id="btn-sum-summary" class="selected" onclick="setSummaryMode('summary')">Summary</button>
+            <button id="btn-sum-transcript" onclick="setSummaryMode('transcript')">Transcript</button>
+            <button id="btn-sum-keywords" onclick="setSummaryMode('keywords')">Keywords</button>
+        </div>
+
         <button onclick="start('manual', 'single')">Manual (Single)</button>
         <button onclick="start('manual', 'all')">Manual (All)</button>
         <button onclick="start('auto', 'single')">Auto (Single)</button>
@@ -130,6 +137,14 @@
         let spaceDownTime = 0;
         let isLongPress = false;
         let groundingData = null;
+        let summaryMode = 'summary';
+
+        function setSummaryMode(sm) {
+            summaryMode = sm;
+            document.getElementById('btn-sum-summary').classList.toggle('selected', sm === 'summary');
+            document.getElementById('btn-sum-transcript').classList.toggle('selected', sm === 'transcript');
+            document.getElementById('btn-sum-keywords').classList.toggle('selected', sm === 'keywords');
+        }
 
         function setSource(s) {
             source = s;
@@ -308,7 +323,7 @@
                     hideInfo();
                     summaryBuffer = '';
                     document.getElementById('summary').innerText = '';
-                    socket.emit('request_summary');
+                    socket.emit('request_summary', { mode: summaryMode });
                 } else {
                     document.getElementById('summary').style.display = 'none';
                     groundingData = null;

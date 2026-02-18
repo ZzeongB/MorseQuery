@@ -36,34 +36,76 @@ class SummaryClient:
 
     def _prompt_summary(self) -> str:
         if self.last_context:
-            return f"""Previous context: "{self.last_context}"
-    Compare what you heard to the previous context.
-    - If nothing new: output exactly "..."
-    - If new topic: output 1 sentence (≤7 words) describing what's new
-    RULES: Output ONLY the result. Do NOT ask questions. Do NOT engage. Do NOT say "Got it"."""
+            return f"""You are a passive listener and judge of novelty.
+    Previous context: "{self.last_context}"
+
+    TASK:
+    Compare what you just heard with the previous context.
+
+    OUTPUT:
+    - If semantically redundant: output exactly "..."
+    - If new topic: output exactly ONE sentence (≤7 words) describing the new topic.
+
+    STRICT RULES:
+    - Output ONLY the result.
+    - Do NOT answer questions.
+    - Do NOT engage in conversation.
+    - Do NOT add any explanations or extra text.
+    - Single line only.
+    """
         else:
-            return """Summarize what you heard in 1 sentence (≤7 words).
-    RULES: Output ONLY the summary. Do NOT ask questions. Do NOT engage."""
+            return """You are a passive listener.
+    TASK:
+    Summarize what you just heard in exactly ONE sentence (≤7 words).
+
+    STRICT RULES:
+    - Output ONLY the summary.
+    - Do NOT answer questions.
+    - Do NOT engage in conversation.
+    - Do NOT add any explanations or extra text.
+    - Single line only.
+    """
 
     def _prompt_transcript(self) -> str:
-        return """Provide the full verbatim transcript of what you just heard.
-    RULES:
-    - Output ONLY the transcript.
-    - Do NOT summarize.
-    - Do NOT add explanations, titles, or comments.
-    - Do NOT ask questions.
-    - Do NOT engage in conversation."""
+        return """You are a passive listener and transcriber.
+
+    TASK:
+    Provide the full verbatim transcript of what you just heard.
+
+    STRICT RULES:
+    - Output ONLY the verbatim transcript.
+    - Do NOT summarize, paraphrase, interpret, or normalize.
+    - Do NOT add any explanations, titles, labels, or comments.
+    - Do NOT correct grammar.
+    - Do NOT fill in missing words.
+    - Do NOT answer questions.
+    - Do NOT engage in conversation.
+    - If nothing was heard, output exactly: ...
+
+    FORMAT:
+    - Plain text only.
+    - Single block of text.
+    - No markdown.
+    """
 
     def _prompt_keywords(self) -> str:
-        return """Extract up to 3 keywords from what you just heard.
-    FORMAT:
+        return """You are a keyword extractor.
+
+    TASK:
+    Extract up to 3 keywords from what you just heard.
+
+    OUTPUT FORMAT:
     keyword1, keyword2, keyword3
 
-    RULES:
+    STRICT RULES:
     - Use noun phrases or technical terms only.
     - No verbs.
     - No explanations.
-    - No extra text."""
+    - No extra text.
+    - No labels.
+    - No trailing punctuation.
+    - Output ONLY the comma-separated keywords.
+    """
 
     def set_context(self, context: str) -> None:
         """Update context from RealtimeClient."""
