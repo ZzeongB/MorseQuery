@@ -11,7 +11,7 @@ from pydub import AudioSegment
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview"
-AUDIO_FILE = "../mp3/clips/U6fI3brP8V4_clip_885_1240.mp3"
+AUDIO_FILE = "../mp3/clips/bAkuNXtgrLA_clip_680_1010.mp3"
 
 # Audio config
 RATE = 24000

@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 MorseQuery is a real-time audio streaming search prototype. It transcribes audio (from microphone or file) using Whisper, Google Speech-to-Text, or Gemini Live API, then automatically extracts keywords and performs Google searches when the user presses spacebar.
 
+The project has two applications:
+- **Main app** (`app.py`) - Original version with Whisper/Google STT
+- **Live app** (`live/web_realtime.py`) - Newer version using OpenAI Realtime API with missed-segment recovery
+
 ## Development Commands
 
 ### Setup
@@ -15,11 +19,14 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### Running the Application
+### Running the Applications
 ```bash
-python app.py
+# Main app (Whisper/Google STT)
+python app.py                    # http://localhost:5001
+
+# Live app (OpenAI Realtime API)
+python live/web_realtime.py      # http://localhost:5002
 ```
-The app runs on `http://localhost:5001` (note: port 5001, not 5000).
 
 ### Required Environment Variables
 Create a `.env` file with:
@@ -35,8 +42,10 @@ Create a `.env` file with:
 ## Architecture
 
 ### Project Structure
+
+**Main App** (root directory):
 ```
-app.py                  # Flask entry point, SocketIO initialization
+app.py                  # Flask entry point, SocketIO initialization (port 5001)
 handlers/               # SocketIO event handlers (modular)
 ├── connection.py       # Session lifecycle (connect, disconnect, clear)
 ├── whisper.py          # Whisper transcription (chunk + real-time modes)
@@ -51,10 +60,31 @@ src/core/               # Core business logic
 └── gemini_parser.py    # Parse Gemini streaming output
 ```
 
+**Live App** (`live/` directory):
+```
+live/
+├── web_realtime.py     # Flask entry point (port 5002)
+├── config.py           # Configuration (API keys, audio settings)
+├── logger.py           # JSON session logging
+├── clients/
+│   ├── realtime_client.py  # OpenAI Realtime API client (keyword extraction)
+│   ├── summary_client.py   # Missed-segment recovery client
+│   └── prompt.py           # System prompts for both clients
+├── handlers/
+│   └── grounding.py        # Gemini grounding/search (detail levels 1-3)
+└── templates/
+    └── realtime.html       # Single-page frontend
+```
+
 ### WebSocket Communication Pattern
-The app uses Flask-SocketIO for real-time bidirectional communication:
-- **Client → Server events**: `start_whisper`, `start_google_streaming`, `audio_chunk_whisper`, `audio_chunk_google`, `audio_chunk_realtime`, `search_request`, `next_keyword`, `clear_session`
-- **Server → Client events**: `connected`, `status`, `transcription`, `search_keyword`, `search_results`, `all_keywords`, `gemini_connected`, `gemini_captions`, `gemini_summary`, `gemini_terms`, `error`
+
+**Main App** uses Flask-SocketIO for real-time bidirectional communication:
+- **Client → Server**: `start_whisper`, `start_google_streaming`, `audio_chunk_whisper`, `audio_chunk_google`, `audio_chunk_realtime`, `search_request`, `next_keyword`, `clear_session`
+- **Server → Client**: `connected`, `status`, `transcription`, `search_keyword`, `search_results`, `all_keywords`, `gemini_connected`, `gemini_captions`, `gemini_summary`, `gemini_terms`, `error`
+
+**Live App** WebSocket events:
+- **Client → Server**: `start`, `stop`, `request` (manual keyword extraction), `request_summary`, `search_grounding`
+- **Server → Client**: `status`, `keywords`, `context`, `clear`, `grounding_result`, `miss_segment_start`, `miss_segment_end`, `recovery_chunk`, `recovery_done`, `summary_closed`, `error`
 
 ### Session Management
 Each WebSocket connection gets a unique `TranscriptionSession` (stored in `transcription_sessions` dict keyed by `request.sid`):
@@ -86,6 +116,26 @@ Each WebSocket connection gets a unique `TranscriptionSession` (stored in `trans
 - Bidirectional audio streaming with real-time analysis
 - Runs in separate asyncio event loop
 - Produces captions, summaries, and extracted terms
+
+### Live App Architecture
+
+The Live app (`live/`) uses OpenAI's Realtime API with two concurrent WebSocket clients:
+
+**RealtimeClient** (`clients/realtime_client.py`):
+- Streams audio (mic or MP3 file) to OpenAI Realtime API
+- Extracts keywords on-demand (manual mode) or automatically (auto mode at 5s intervals)
+- Returns keyword-description pairs with conversation context
+
+**SummaryClient** (`clients/summary_client.py`):
+- Runs parallel to RealtimeClient
+- Captures "missed segments" (audio the user wasn't paying attention to)
+- Generates recovery packages: summary, keywords, and rejoin text
+- Uses start_miss()/end_miss_and_recover() API for segment boundaries
+
+**Search Grounding** (`handlers/grounding.py`):
+- Uses Gemini 2.5 Flash Lite with Google Search grounding
+- Three detail levels: brief (1), moderate (2), comprehensive (3)
+- Triggered by long-press on keywords in the UI
 
 ### Keyword Extraction Modes
 The `search_request` handler supports multiple modes (`handlers/search.py`):
@@ -154,11 +204,21 @@ Every session captures events to `/logs/` directory:
 
 ## Important Notes
 
-- The Whisper model uses the 'tiny' model for low latency real-time transcription (downloads ~75MB on first use)
-  - Tiny model is faster but less accurate than base/small models
-  - Optimized for quick response time to minimize delay between speech and keyword extraction
-- FP16 warnings are suppressed (CPU doesn't support FP16, falls back to FP32 automatically)
-- Google Cloud APIs require billing to be enabled even for free tier
-- Port 5001 is hardcoded in `app.py` (not the default Flask 5000)
-- HTTPS is required for microphone access in browsers (use self-signed cert for dev)
+### Main App
+- Whisper uses 'tiny' model for low latency (downloads ~75MB on first use)
+- FP16 warnings are suppressed (CPU doesn't support FP16, falls back to FP32)
+- Port 5001 is hardcoded (not default Flask 5000)
 - The `whisper_real_time/` directory contains a separate demo script not integrated into the main app
+
+### Live App
+- Port 5002 (separate from main app)
+- Uses OpenAI Realtime API model `gpt-4o-realtime-preview`
+- Audio settings: 24kHz sample rate, 4800 chunk size, PCM16 format
+- RealtimeClient and SummaryClient share audio stream (RealtimeClient forwards to SummaryClient)
+- Missed-segment capture is explicitly gated: audio only sent to SummaryClient while `capturing=True`
+
+### General
+- Google Cloud APIs require billing to be enabled even for free tier
+- HTTPS is required for microphone access in browsers (use self-signed cert for dev)
+- Both apps use Flask-SocketIO with threading async mode
+- Session logs stored as JSON in `/logs/` (main app) or `live/logs/` (live app)

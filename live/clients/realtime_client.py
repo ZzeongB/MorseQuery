@@ -7,9 +7,6 @@ from typing import TYPE_CHECKING, Optional
 
 import pyaudio
 import websocket
-from flask_socketio import SocketIO
-from pydub import AudioSegment
-
 from config import (
     AUDIO_CHUNK,
     AUDIO_RATE,
@@ -18,21 +15,14 @@ from config import (
     OPENAI_API_KEY,
     OPENAI_REALTIME_URL,
 )
+from flask_socketio import SocketIO
 from logger import get_logger, log_print
+from pydub import AudioSegment
 
 if TYPE_CHECKING:
     from clients.summary_client import SummaryClient
 
-KEYWORD_EXTRACTION_PROMPT = """Pick 1-3 interesting words from the audio. ONLY words you ACTUALLY heard.
-STRICT FORMAT (follow exactly):
-word: description
-word: description
-CONTEXT:: summary sentence
-
-Example:
-entropy: measure of disorder
-quantum: smallest unit
-CONTEXT:: Discussion about physics and thermodynamics"""
+from .prompt import KEYWORD_EXTRACTION_PROMPT, KEYWORD_SESSION_INSTRUCTIONS
 
 
 class RealtimeClient:
@@ -79,7 +69,7 @@ class RealtimeClient:
                         "modalities": ["text", "audio"],
                         "input_audio_format": "pcm16",
                         "turn_detection": None,
-                        "instructions": "Listen to audio. Identify difficult words. Be very concise.",
+                        "instructions": KEYWORD_SESSION_INSTRUCTIONS,
                     },
                 }
             )
@@ -168,9 +158,7 @@ class RealtimeClient:
         self.logger.log("websocket_error", error=str(error))
         self.sio.emit("status", f"Error: {error}")
 
-    def on_close(
-        self, _ws: websocket.WebSocketApp, status: int, msg: str
-    ) -> None:
+    def on_close(self, _ws: websocket.WebSocketApp, status: int, msg: str) -> None:
         """Handle WebSocket connection closed."""
         log_print(
             "INFO",
@@ -245,7 +233,9 @@ class RealtimeClient:
     def _stream_from_mp3(self) -> None:
         """Stream audio from MP3 file."""
         log_print(
-            "INFO", f"Loading MP3 file: {DEFAULT_AUDIO_FILE}", session_id=self.session_id
+            "INFO",
+            f"Loading MP3 file: {DEFAULT_AUDIO_FILE}",
+            session_id=self.session_id,
         )
         audio = AudioSegment.from_file(DEFAULT_AUDIO_FILE)
         audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)

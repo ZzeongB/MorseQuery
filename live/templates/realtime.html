@@ -189,6 +189,37 @@
             document.getElementById('optionsList').innerHTML = '';
         });
 
+        socket.on('recovery_done', data => {
+            const summary = document.getElementById('summary');
+            summaryBuffer = '';
+
+            if (data.is_empty) {
+                summary.innerText = '(No new content detected)';
+            } else if (data.mode === 'keywords') {
+                // Display keywords as comma-separated list
+                const keywords = data.keywords || [];
+                summary.innerHTML = '<strong>Keywords:</strong> ' + keywords.join(', ');
+            } else if (data.mode === 'transcript') {
+                // Display full transcript
+                summary.innerHTML = '<strong>Transcript:</strong><br>' + (data.transcript || '').replace(/\n/g, '<br>');
+            } else {
+                // Summary mode (default)
+                summary.innerText = data.summary || data.raw || '';
+            }
+
+            summary.style.display = 'block';
+            summary.classList.remove('fade-out');
+
+            if (summaryTimer) clearTimeout(summaryTimer);
+            summaryTimer = setTimeout(() => {
+                summary.classList.add('fade-out');
+                setTimeout(() => {
+                    summary.style.display = 'none';
+                    summary.classList.remove('fade-out');
+                }, 300);
+            }, 5000);
+        });
+
         function parseMarkdown(text) {
             return text
                 .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')

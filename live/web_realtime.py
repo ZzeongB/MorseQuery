@@ -65,11 +65,10 @@ def handle_start(data: dict):
     source = data.get("source", "mp3")
 
     client = RealtimeClient(sio, mode, source, session_id)
-    # summary_client = SummaryClient(sio, session_id)
-    # client.summary_client = summary_client
+    summary_client = SummaryClient(sio, session_id)
+    client.summary_client = summary_client
 
-    # summary_client.start()
-    summary_client = None
+    summary_client.start()
     client.start()
 
 
@@ -97,11 +96,12 @@ def handle_request():
         log_print("WARN", "Request ignored - no running client", session_id=session_id)
 
     if summary_client:
-        summary_client.stop()
+        summary_client.start_miss()
+        # summary_client.stop()
 
-    summary_client = SummaryClient(sio, session_id)
-    client.summary_client = summary_client
-    summary_client.start()
+    # summary_client = SummaryClient(sio, session_id)
+    # client.summary_client = summary_client
+    # summary_client.start()
 
 
 @sio.on("request_summary")
@@ -110,10 +110,9 @@ def handle_request_summary(data=None):
     session_id = request.sid
     mode = (data or {}).get("mode", "summary")
 
-    log_print("INFO", "Summary request triggered", session_id=session_id, mode=mode)
-
-    if summary_client and summary_client.running:
-        summary_client.request_summary(mode=mode)
+    if summary_client:
+        summary_client.end_miss_and_recover(mode=mode)
+        log_print("INFO", "Summary request triggered", session_id=session_id, mode=mode)
     else:
         log_print(
             "WARN",
