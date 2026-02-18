@@ -2,27 +2,26 @@
 
 from typing import Any
 
-from flask_socketio import SocketIO
-
 from config import GOOGLE_API_KEY
+from flask_socketio import SocketIO
 from logger import get_logger, log_print
 
 # Prompts for different detail levels
 DETAIL_LEVEL_PROMPTS = {
     1: (
-        "Provide a brief overview in 1 short paragraph about: "
+        "Provide a detailed explanation in  2-3 sentences about: "
         "{keyword}{description_suffix}. "
         "Focus on the most essential definition or meaning. "
         "Use **bold** sparingly for key terms only."
     ),
     2: (
-        "Provide a detailed explanation in 2-3 paragraphs about: "
+        "Provide a detailed explanation in 2-3 sentences about: "
         "{keyword}{description_suffix}. "
         "Include key characteristics, context, and significance. "
         "Use **bold** for important terms and concepts."
     ),
     3: (
-        "Provide comprehensive information in 4 or more paragraphs about: "
+        "Provide comprehensive information in 4 or more sentences about: "
         "{keyword}{description_suffix}. "
         "Include: detailed explanation, historical context or background, "
         "practical examples or applications, and related concepts. "
@@ -72,7 +71,9 @@ def handle_search_grounding(
         config = types.GenerateContentConfig(tools=[grounding_tool])
 
         description_suffix = f" ({description})" if description else ""
-        prompt_template = DETAIL_LEVEL_PROMPTS.get(detail_level, DETAIL_LEVEL_PROMPTS[1])
+        prompt_template = DETAIL_LEVEL_PROMPTS.get(
+            detail_level, DETAIL_LEVEL_PROMPTS[1]
+        )
         prompt = prompt_template.format(
             keyword=keyword, description_suffix=description_suffix
         )
@@ -84,7 +85,10 @@ def handle_search_grounding(
         )
 
         text = response.text
-        citations = _extract_citations(response, text)
+        citations = {
+            "text": text,
+            "citations": [],
+        }  # _extract_citations(response, text)
 
         log_print(
             "INFO",
