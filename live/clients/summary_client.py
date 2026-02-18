@@ -44,7 +44,7 @@ class SummaryClient:
                         "modalities": ["text", "audio"],
                         "input_audio_format": "pcm16",
                         "turn_detection": None,
-                        "instructions": "You are a passive listener. Summarize the conversation in one sentence (≤15 words). Output only the summary.",
+                        "instructions": "You are a silent observer. You MUST NOT engage in conversation, ask questions, or respond to the speaker. Your only job is to output a brief summary when requested. Never ask follow-up questions. Never say 'Got it' or acknowledge the speaker.",
                     },
                 }
             )
@@ -107,12 +107,12 @@ class SummaryClient:
 
         if self.last_context:
             prompt = f"""Previous context: "{self.last_context}"
-Based on what you heard, is there anything NEW or different from the previous context?
+Compare what you heard to the previous context.
 - If nothing new: output exactly "..."
-- If new topic: output 1 sentence (less than 7 words) describing what's new
-Output ONLY the result, no other text."""
+- If new topic: output 1 sentence (≤7 words) describing what's new
+RULES: Output ONLY the result. Do NOT ask questions. Do NOT engage. Do NOT say "Got it"."""
         else:
-            prompt = "Summarize what you heard in 1 sentence (less than 7 words). Output ONLY the summary. No other text."
+            prompt = "Summarize what you heard in 1 sentence (≤7 words). Output ONLY the summary. Do NOT ask questions. Do NOT engage in conversation."
 
         self.ws.send(
             json.dumps(
