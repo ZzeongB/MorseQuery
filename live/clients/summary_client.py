@@ -22,6 +22,9 @@ class SummaryClient:
         self.last_context = ""
         self.logger = get_logger(session_id)
 
+        self.connected = False
+        self._lock = threading.Lock()
+
         log_print("INFO", "SummaryClient created", session_id=session_id)
         self.logger.log("summary_client_created")
 
@@ -32,6 +35,7 @@ class SummaryClient:
 
     def on_open(self, ws: websocket.WebSocketApp) -> None:
         """Handle WebSocket connection opened."""
+        self.connected = True
         log_print(
             "INFO", "SummaryClient WebSocket connected", session_id=self.session_id
         )
@@ -73,6 +77,8 @@ class SummaryClient:
             self.response_buffer = ""
             self.sio.emit("summary_done")
 
+            self.stop()
+
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""
         log_print("ERROR", f"SummaryClient error: {error}", session_id=self.session_id)
@@ -80,16 +86,34 @@ class SummaryClient:
 
     def on_close(self, _ws: websocket.WebSocketApp, status: int, msg: str) -> None:
         """Handle WebSocket connection closed."""
+        self.connected = False
         log_print("INFO", "SummaryClient closed", session_id=self.session_id)
         self.logger.log("summary_ws_closed", status=status, message=msg)
         self.running = False
 
+        with self._lock:
+            self.ws = None
+
     def send_audio(self, audio_b64: str) -> None:
         """Forward audio chunk to this client."""
-        if self.ws and self.running:
-            self.ws.send(
+        if not self.running or not self.connected:
+            return
+
+        with self._lock:
+            ws = self.ws
+
+        if not ws:
+            return
+        try:
+            ws.send(
                 json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
             )
+        except websocket._exceptions.WebSocketConnectionClosedException:
+            # 이미 닫혔으면 조용히 무시(레이스 상황)
+            self.connected = False
+            self.running = False
+            with self._lock:
+                self.ws = None
 
     def request_summary(self) -> None:
         """Request a summary of what was heard."""
@@ -143,6 +167,14 @@ RULES: Output ONLY the result. Do NOT ask questions. Do NOT engage. Do NOT say "
     def stop(self) -> None:
         """Stop the summary client."""
         self.running = False
+        self.connected = False
         self.logger.log("summary_client_stop")
-        if self.ws:
-            self.ws.close()
+        with self._lock:
+            ws = self.ws
+            self.ws = None
+        if ws:
+            try:
+                ws.close()
+            except Exception:
+                pass
+        self.sio.emit("summary_closed")
