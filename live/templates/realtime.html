@@ -4,27 +4,91 @@
     <title>Realtime Words</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
     <style>
-        body { margin: 0; background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; display: flex; align-items: center; height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; display: flex; align-items: flex-end; }
+
+        /* Menu */
         #menu { padding: 40px; }
         #menu button { background: #222; color: #fff; border: 1px solid #444; padding: 15px 30px; margin: 10px; cursor: pointer; font-size: 16px; }
         #menu button.selected { background: #4ade80; color: #000; border-color: #4ade80; }
         .source-select { margin-bottom: 30px; }
         .source-select span { margin-right: 15px; font-size: 14px; color: #888; }
-        #box { display: none; width: 50%; padding: 20px; }
-        .option { border: 1px solid #333; padding: 12px 16px; margin: 6px 0; font-size: 16px; border-radius: 8px; transition: all 0.2s; }
-        .option.active { border-color: #4ade80; background: #1a1a1a; }
-        .option .word { font-weight: 600; color: #4ade80; }
-        .option .desc { color: #aaa; margin-left: 8px; }
-        #context { margin-top: 16px; padding: 12px; background: #111; border: 1px solid #333; border-radius: 8px; font-size: 14px; color: #888; }
-        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; }
-        #grounding { margin-top: 16px; padding: 16px; background: #0a1a0a; border: 1px solid #4ade80; border-radius: 8px; font-size: 14px; color: #ccc; line-height: 1.6; max-width: 600px; }
-        #grounding .title { font-weight: 600; color: #4ade80; font-size: 18px; margin-bottom: 12px; }
-        #grounding .content { white-space: pre-wrap; }
-        #grounding .citations { margin-top: 12px; padding-top: 12px; border-top: 1px solid #333; font-size: 12px; color: #888; }
-        #grounding .citations a { color: #60a5fa; text-decoration: none; }
-        #grounding .citations a:hover { text-decoration: underline; }
-        .long-press-indicator { position: fixed; bottom: 20px; right: 20px; padding: 10px 20px; background: #4ade80; color: #000; border-radius: 8px; font-weight: 600; opacity: 0; transition: opacity 0.2s; }
-        .long-press-indicator.active { opacity: 1; }
+
+        /* Main layout */
+        #main-content { display: none; width: 100%; padding: 20px; }
+
+        /* Row-based layout: each option is a row with keyword + description */
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .option-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        .keyword-box {
+            min-width: 120px;
+            padding: 10px 14px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .keyword-box:hover { background: #252525; }
+        .keyword-box.active {
+            background: #252525;
+            border-color: #4ade80;
+            color: #4ade80;
+        }
+        .desc-box {
+            flex: 1;
+            max-width: 500px;
+            padding: 10px 14px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.5;
+            transition: all 0.2s;
+        }
+        .desc-box.active {
+            background: #252525;
+            border-color: #4ade80;
+        }
+        .desc-box.grounding {
+            background: #0a1a0a;
+            border-color: #4ade80;
+        }
+        .desc-box strong { color: #fff; }
+        .desc-box code { background: #222; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+
+        /* Summary */
+        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; }
+        #summary.fade-out { opacity: 0; }
+
+        /* Loading spinner */
+        .loading-spinner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #333;
+            border-top-color: #4ade80;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.2s;
+            animation: spin 0.8s linear infinite;
+        }
+        .loading-spinner.active { opacity: 1; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -34,30 +98,38 @@
             <button id="btn-mic" onclick="setSource('mic')">🎤 Mic</button>
             <button id="btn-mp3" class="selected" onclick="setSource('mp3')">🎵 MP3</button>
         </div>
+        <div class="source-select">
+            <span>Desc:</span>
+            <button id="btn-desc-single" class="selected" onclick="setDescView('single')">Single</button>
+            <button id="btn-desc-all" onclick="setDescView('all')">All</button>
+        </div>
         <button onclick="start('manual', 'single')">Manual (Single)</button>
         <button onclick="start('manual', 'all')">Manual (All)</button>
         <button onclick="start('auto', 'single')">Auto (Single)</button>
         <button onclick="start('auto', 'all')">Auto (All)</button>
     </div>
-    <div id="box"></div>
-    <div id="context" style="display:none;"></div>
-    <div id="summary" style="display:none;"></div>
-    <div id="grounding" style="display:none;"></div>
-    <div class="long-press-indicator" id="longPressIndicator">Loading...</div>
+    <div id="main-content">
+        <div class="options-list" id="optionsList"></div>
+        <div id="summary" style="display:none;"></div>
+    </div>
+    <div class="loading-spinner" id="loadingSpinner"></div>
     <script>
         const socket = io();
         let mode = 'manual';
         let view = 'single';
+        let descView = 'single';
         let source = 'mp3';
         let options = [];
         let currentIdx = 0;
         let summaryBuffer = '';
+        let summaryTimer = null;
         let lastSpace = 0;
         let infoVisible = false;
         let longPressTimer = null;
-        let longPressThreshold = 500; // ms
+        let longPressThreshold = 500;
         let spaceDownTime = 0;
         let isLongPress = false;
+        let groundingData = null;
 
         function setSource(s) {
             source = s;
@@ -65,69 +137,124 @@
             document.getElementById('btn-mp3').classList.toggle('selected', s === 'mp3');
         }
 
+        function setDescView(dv) {
+            descView = dv;
+            document.getElementById('btn-desc-single').classList.toggle('selected', dv === 'single');
+            document.getElementById('btn-desc-all').classList.toggle('selected', dv === 'all');
+        }
+
         socket.on('keywords', data => {
             options = data;
             currentIdx = 0;
+            groundingData = null;
             render();
             infoVisible = true;
-        });
-        socket.on('context', data => {
-            document.getElementById('context').innerText = data;
-            document.getElementById('context').style.display = 'block';
         });
         socket.on('summary_chunk', data => {
             summaryBuffer += data;
             document.getElementById('summary').innerText = summaryBuffer;
         });
         socket.on('summary_done', () => {
-            document.getElementById('summary').style.display = 'block';
+            const summary = document.getElementById('summary');
+            summary.style.display = 'block';
+            summary.classList.remove('fade-out');
+            if (summaryTimer) clearTimeout(summaryTimer);
+            summaryTimer = setTimeout(() => {
+                summary.classList.add('fade-out');
+                setTimeout(() => {
+                    summary.style.display = 'none';
+                    summary.classList.remove('fade-out');
+                }, 300);
+            }, 4000);
         });
         socket.on('clear', () => {
             options = [];
             currentIdx = 0;
-            document.getElementById('box').innerHTML = '';
-            document.getElementById('context').style.display = 'none';
+            groundingData = null;
+            document.getElementById('optionsList').innerHTML = '';
         });
+
+        function parseMarkdown(text) {
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/`(.+?)`/g, '<code>$1</code>')
+                .replace(/\n/g, '<br>');
+        }
+
         socket.on('grounding_result', data => {
-            const grounding = document.getElementById('grounding');
-            let html = `<div class="title">${data.keyword}</div>`;
-            html += `<div class="content">${data.text}</div>`;
-            if (data.citations && data.citations.length > 0) {
-                html += '<div class="citations">';
-                data.citations.forEach(c => {
-                    html += `[${c.index}] <a href="${c.uri}" target="_blank">${c.title}</a><br>`;
-                });
-                html += '</div>';
-            }
-            grounding.innerHTML = html;
-            grounding.style.display = 'block';
-            document.getElementById('longPressIndicator').classList.remove('active');
+            groundingData = data;
+            document.getElementById('loadingSpinner').classList.remove('active');
+            render();
         });
 
         function render() {
-            const box = document.getElementById('box');
+            const list = document.getElementById('optionsList');
             if (options.length === 0) {
-                box.innerHTML = '';
+                list.innerHTML = '';
                 return;
             }
+
+            const hasGrounding = groundingData !== null;
+
             if (view === 'single') {
+                // Single view: show only selected option
                 const o = options[currentIdx];
-                box.innerHTML = `<div class="option active">
-                    <span class="word">${o.word}</span><span class="desc">${o.desc}</span>
-                </div>`;
+                const isGrounding = hasGrounding && groundingData.keyword === o.word;
+                const descContent = isGrounding ? parseMarkdown(groundingData.text) : o.desc;
+                list.innerHTML = `
+                    <div class="option-row">
+                        <div class="keyword-box active">${o.word}</div>
+                        <div class="desc-box active ${isGrounding ? 'grounding' : ''}">${descContent}</div>
+                    </div>
+                `;
             } else {
-                box.innerHTML = options.map((o, i) =>
-                    `<div class="option ${i === currentIdx ? 'active' : ''}">
-                        <span class="word">${o.word}</span><span class="desc">${o.desc}</span>
-                    </div>`
-                ).join('');
+                // All view
+                if (hasGrounding) {
+                    // When grounding is shown, only show the selected keyword with long description
+                    const o = options[currentIdx];
+                    list.innerHTML = `
+                        <div class="option-row">
+                            <div class="keyword-box active">${o.word}</div>
+                            <div class="desc-box active grounding">${parseMarkdown(groundingData.text)}</div>
+                        </div>
+                    `;
+                } else if (descView === 'all') {
+                    // Show all keywords with their descriptions
+                    list.innerHTML = options.map((o, i) => {
+                        const isActive = i === currentIdx;
+                        return `
+                            <div class="option-row">
+                                <div class="keyword-box ${isActive ? 'active' : ''}" onclick="selectKeyword(${i})">${o.word}</div>
+                                <div class="desc-box ${isActive ? 'active' : ''}">${o.desc}</div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    // Show all keywords but only selected description
+                    list.innerHTML = options.map((o, i) => {
+                        const isActive = i === currentIdx;
+                        return `
+                            <div class="option-row">
+                                <div class="keyword-box ${isActive ? 'active' : ''}" onclick="selectKeyword(${i})">${o.word}</div>
+                                ${isActive ? `<div class="desc-box active">${o.desc}</div>` : ''}
+                            </div>
+                        `;
+                    }).join('');
+                }
             }
         }
 
+        function selectKeyword(idx) {
+            currentIdx = idx;
+            groundingData = null;
+            render();
+        }
+
         function hideInfo() {
-            document.getElementById('box').innerHTML = '';
-            document.getElementById('context').style.display = 'none';
+            document.getElementById('optionsList').innerHTML = '';
             options = [];
+            groundingData = null;
             infoVisible = false;
         }
 
@@ -135,28 +262,26 @@
             mode = m;
             view = v;
             document.getElementById('menu').style.display = 'none';
-            document.getElementById('box').style.display = 'block';
+            document.getElementById('main-content').style.display = 'block';
             socket.emit('start', {mode: m, source: source});
         }
 
         function requestGrounding() {
             if (options.length > 0) {
                 const opt = options[currentIdx];
-                document.getElementById('longPressIndicator').innerText = 'Searching...';
-                document.getElementById('longPressIndicator').classList.add('active');
+                document.getElementById('loadingSpinner').classList.add('active');
                 socket.emit('search_grounding', { keyword: opt.word, description: opt.desc, detail_level: 1 });
             }
         }
 
         document.addEventListener('keydown', e => {
             if (e.code !== 'Space') return;
-            if (e.repeat) return; // Ignore key repeat
+            if (e.repeat) return;
             e.preventDefault();
 
             spaceDownTime = Date.now();
             isLongPress = false;
 
-            // Start long-press timer
             longPressTimer = setTimeout(() => {
                 isLongPress = true;
                 requestGrounding();
@@ -167,13 +292,11 @@
             if (e.code !== 'Space') return;
             e.preventDefault();
 
-            // Clear long-press timer
             if (longPressTimer) {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
             }
 
-            // If it was a long-press, don't handle as short press
             if (isLongPress) {
                 isLongPress = false;
                 return;
@@ -181,27 +304,24 @@
 
             const now = Date.now();
             if (now - lastSpace < 300) {
-                // Double space
                 if (infoVisible) {
-                    // Hide info and request summary
                     hideInfo();
                     summaryBuffer = '';
                     document.getElementById('summary').innerText = '';
                     socket.emit('request_summary');
                 } else {
-                    // New keyword request
                     document.getElementById('summary').style.display = 'none';
-                    document.getElementById('grounding').style.display = 'none';
+                    groundingData = null;
                     socket.emit('request');
                 }
                 lastSpace = 0;
             } else {
-                // Single space - navigate
                 lastSpace = now;
                 setTimeout(() => {
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                         if (options.length > 0) {
                             currentIdx = (currentIdx + 1) % options.length;
+                            groundingData = null;
                             render();
                         }
                         lastSpace = 0;
