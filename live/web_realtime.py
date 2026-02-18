@@ -112,7 +112,7 @@ def handle_request_summary():
     log_print("INFO", "Summary request triggered", session_id=session_id)
 
     if summary_client and summary_client.running:
-        summary_client.request_summary()
+        summary_client.request_summary(mode="transcript")  # "keywords", "transcript"
     else:
         log_print(
             "WARN",

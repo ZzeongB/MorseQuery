@@ -28,6 +28,43 @@ class SummaryClient:
         log_print("INFO", "SummaryClient created", session_id=session_id)
         self.logger.log("summary_client_created")
 
+        self.prompt_templates = {
+            "summary": self._prompt_summary,
+            "transcript": self._prompt_transcript,
+            "keywords": self._prompt_keywords,
+        }
+
+    def _prompt_summary(self) -> str:
+        if self.last_context:
+            return f"""Previous context: "{self.last_context}"
+    Compare what you heard to the previous context.
+    - If nothing new: output exactly "..."
+    - If new topic: output 1 sentence (≤7 words) describing what's new
+    RULES: Output ONLY the result. Do NOT ask questions. Do NOT engage. Do NOT say "Got it"."""
+        else:
+            return """Summarize what you heard in 1 sentence (≤7 words).
+    RULES: Output ONLY the summary. Do NOT ask questions. Do NOT engage."""
+
+    def _prompt_transcript(self) -> str:
+        return """Provide the full verbatim transcript of what you just heard.
+    RULES:
+    - Output ONLY the transcript.
+    - Do NOT summarize.
+    - Do NOT add explanations, titles, or comments.
+    - Do NOT ask questions.
+    - Do NOT engage in conversation."""
+
+    def _prompt_keywords(self) -> str:
+        return """Extract up to 3 keywords from what you just heard.
+    FORMAT:
+    keyword1, keyword2, keyword3
+
+    RULES:
+    - Use noun phrases or technical terms only.
+    - No verbs.
+    - No explanations.
+    - No extra text."""
+
     def set_context(self, context: str) -> None:
         """Update context from RealtimeClient."""
         self.last_context = context
@@ -115,34 +152,41 @@ class SummaryClient:
             with self._lock:
                 self.ws = None
 
-    def request_summary(self) -> None:
-        """Request a summary of what was heard."""
-        if not self.ws or not self.running:
+    def request_summary(self, mode: str = "summary") -> None:
+        """Request output based on mode: summary | transcript | keywords"""
+        if not self.ws or not self.running or not self.connected:
             return
 
         log_print(
             "INFO",
-            "Requesting summary",
+            "Requesting output",
             session_id=self.session_id,
+            mode=mode,
             last_context=self.last_context,
         )
-        self.logger.log("summary_request", last_context=self.last_context)
+        self.logger.log("summary_request", mode=mode, last_context=self.last_context)
+
+        # 오디오 커밋
         self.ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
 
-        if self.last_context:
-            prompt = f"""Previous context: "{self.last_context}"
-Compare what you heard to the previous context.
-- If nothing new: output exactly "..."
-- If new topic: output 1 sentence (≤7 words) describing what's new
-RULES: Output ONLY the result. Do NOT ask questions. Do NOT engage. Do NOT say "Got it"."""
-        else:
-            prompt = "Summarize what you heard in 1 sentence (≤7 words). Output ONLY the summary. Do NOT ask questions. Do NOT engage in conversation."
+        # 프롬프트 선택
+        prompt_fn = self.prompt_templates.get(mode)
+        if not prompt_fn:
+            log_print(
+                "WARN", f"Unknown summary mode: {mode}", session_id=self.session_id
+            )
+            return
+
+        prompt = prompt_fn()
 
         self.ws.send(
             json.dumps(
                 {
                     "type": "response.create",
-                    "response": {"modalities": ["text"], "instructions": prompt},
+                    "response": {
+                        "modalities": ["text"],
+                        "instructions": prompt,
+                    },
                 }
             )
         )
