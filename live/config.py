@@ -13,8 +13,7 @@ OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-pr
 # Audio settings
 AUDIO_RATE = 24000
 AUDIO_CHUNK = 4800
-DEFAULT_AUDIO_FILE = "../mp3/clips/U6fI3brP8V4_clip_885_1240.mp3"
-
+DEFAULT_AUDIO_FILE = "../mp3/clips/ttsmaker-file-2026-2-19-14-23-5.mp3"
 # Auto mode interval (seconds)
 AUTO_INTERVAL = 5
 

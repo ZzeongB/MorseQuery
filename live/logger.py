@@ -27,7 +27,7 @@ class JsonLogger:
         self.start_time = datetime.now()
         self.log_file = (
             LOG_DIR
-            / f"realtime_{self.start_time.strftime('%Y%m%d_%H%M%S')}_{session_id}.json"
+            / f"logs/{self.start_time.strftime('%Y%m%d_%H%M%S')}_{session_id}.json"
         )
         self.events: list[dict] = []
         log_print(

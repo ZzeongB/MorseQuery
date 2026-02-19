@@ -135,10 +135,19 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
+    global client, summary_client
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
     logger.log("client_disconnected")
+
+    # Stop running clients when user disconnects (e.g., page refresh)
+    if client:
+        client.stop()
+        client = None
+    if summary_client:
+        summary_client.stop()
+        summary_client = None
 
 
 @sio.on("start")
