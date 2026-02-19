@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Review</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: #673ab7;
+            color: #fff;
+            padding: 20px 24px;
+        }
+        .header h1 { font-size: 20px; font-weight: 500; }
+        .header .subtitle { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+
+        /* Progress bar */
+        .progress-bar {
+            height: 4px;
+            background: #e0e0e0;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #673ab7;
+            transition: width 0.3s;
+        }
+
+        /* Container */
+        .container {
+            max-width: 640px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Session selector */
+        .session-select-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 12px;
+            border-top: 4px solid #673ab7;
+        }
+        .session-select-card label {
+            font-size: 14px;
+            color: #666;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .session-select-card select {
+            width: 100%;
+            padding: 12px;
+            font-size: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fff;
+        }
+
+        /* Card */
+        .card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 12px;
+        }
+        .card-title {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            line-height: 1.4;
+        }
+        .required::after {
+            content: ' *';
+            color: #d32f2f;
+        }
+
+        /* Audio player */
+        .audio-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 16px 24px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .audio-card audio { flex: 1; height: 32px; }
+        .audio-card .time {
+            font-family: monospace;
+            font-size: 14px;
+            color: #673ab7;
+            font-weight: 500;
+        }
+
+        /* Radio options - keyword only */
+        .option-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+        }
+        .option:last-child { border-bottom: none; }
+        .option:hover { background: #fafafa; margin: 0 -24px; padding: 12px 24px; }
+        .option.selected { background: #ede7f6; margin: 0 -24px; padding: 12px 24px; }
+        .option input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #673ab7;
+            width: 18px;
+            height: 18px;
+        }
+        .option-label {
+            font-size: 14px;
+        }
+
+        /* Transcript section */
+        .transcript-section {
+            margin-top: 16px;
+            padding: 16px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+        .transcript-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .expand-link {
+            font-size: 12px;
+            color: #673ab7;
+            cursor: pointer;
+        }
+        .expand-link:hover { text-decoration: underline; }
+        .transcript-box {
+            line-height: 2;
+            font-size: 14px;
+        }
+        .transcript-box .word {
+            display: inline;
+            padding: 2px 4px;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .transcript-box .word:hover { background: #e0e0e0; }
+        .transcript-box .word.selected { background: #673ab7; color: #fff; }
+        .transcript-box .word.current { outline: 2px solid #673ab7; }
+        .transcript-box .word.dimmed { color: #999; }
+        .selected-display {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #e0e0e0;
+            font-size: 13px;
+            color: #666;
+        }
+        .selected-display .tag {
+            display: inline-block;
+            background: #673ab7;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 4px;
+            font-size: 12px;
+        }
+
+        /* Description display for Q2 */
+        .description-box {
+            background: #f5f5f5;
+            border-left: 3px solid #673ab7;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+        .description-box .keyword {
+            font-weight: 600;
+            font-size: 16px;
+            color: #673ab7;
+            margin-bottom: 8px;
+        }
+        .description-box .desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #444;
+        }
+        .description-box .grounding {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #ddd;
+            font-size: 13px;
+            color: #666;
+        }
+
+        /* Satisfaction scale */
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 12px;
+        }
+        .scale-options {
+            display: flex;
+            justify-content: space-between;
+        }
+        .scale-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #e0e0e0;
+            border-radius: 50%;
+            background: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .scale-btn:hover {
+            border-color: #673ab7;
+            color: #673ab7;
+        }
+        .scale-btn.selected {
+            background: #673ab7;
+            border-color: #673ab7;
+            color: #fff;
+        }
+
+        /* Navigation */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+        }
+        .btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-secondary {
+            background: #fff;
+            color: #673ab7;
+            border: 1px solid #673ab7;
+        }
+        .btn-secondary:hover { background: #ede7f6; }
+        .btn-primary {
+            background: #673ab7;
+            color: #fff;
+        }
+        .btn-primary:hover { background: #5e35b1; }
+        .btn:disabled {
+            background: #e0e0e0;
+            color: #999;
+            cursor: not-allowed;
+            border-color: #e0e0e0;
+        }
+
+        /* Complete message */
+        .complete-card {
+            text-align: center;
+            padding: 48px 24px;
+        }
+        .complete-card .icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #4caf50;
+        }
+        .complete-card h2 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        .complete-card p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: #999;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Session Review</h1>
+        <div class="subtitle" id="headerSubtitle">Select a session to begin</div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+    </div>
+
+    <div class="container">
+        <div class="session-select-card" id="sessionSelectCard">
+            <label>Select a session to review</label>
+            <select id="sessionSelect" onchange="loadSession(this.value)">
+                <option value="">Choose...</option>
+            </select>
+        </div>
+
+        <div id="contentArea"></div>
+    </div>
+
+    <script>
+        let sessions = [];
+        let currentSession = null;
+        let currentActionIdx = 0;
+        let audioElement = null;
+        let words = [];
+        let reviews = {};
+        let expandedTranscript = false;
+
+        async function loadSessions() {
+            try {
+                const response = await fetch('/api/sessions');
+                sessions = await response.json();
+                const select = document.getElementById('sessionSelect');
+                sessions.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = `${s.date} - ${s.session_id}`;
+                    select.appendChild(opt);
+                });
+            } catch (e) {
+                console.error('Failed to load sessions', e);
+            }
+        }
+
+        async function loadSession(id) {
+            if (!id) return;
+
+            if (audioElement) {
+                audioElement.pause();
+            }
+
+            try {
+                const response = await fetch(`/api/session/${id}`);
+                currentSession = await response.json();
+                words = currentSession.words || [];
+                currentActionIdx = 0;
+                reviews = {};
+                expandedTranscript = false;
+
+                try {
+                    const reviewRes = await fetch(`/api/review/${id}`);
+                    if (reviewRes.ok) {
+                        const reviewData = await reviewRes.json();
+                        reviews = reviewData.reviews || {};
+                    }
+                } catch (e) {}
+
+                // Hide session selector
+                document.getElementById('sessionSelectCard').classList.add('hidden');
+
+                updateHeader();
+                renderCurrentAction();
+            } catch (e) {
+                document.getElementById('contentArea').innerHTML = '<div class="empty-state">Failed to load session</div>';
+            }
+        }
+
+        function updateHeader() {
+            const actions = currentSession.user_actions || [];
+            const total = actions.length;
+            const current = currentActionIdx + 1;
+            document.getElementById('headerSubtitle').textContent =
+                total > 0 ? `Action ${current} of ${total}` : 'No actions to review';
+
+            const progress = total > 0 ? (current / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        function renderCurrentAction() {
+            const actions = currentSession.user_actions || [];
+            const content = document.getElementById('contentArea');
+
+            if (actions.length === 0) {
+                content.innerHTML = '<div class="empty-state">No actions in this session</div>';
+                return;
+            }
+
+            if (currentActionIdx >= actions.length) {
+                renderComplete();
+                return;
+            }
+
+            const action = actions[currentActionIdx];
+            const review = reviews[currentActionIdx] || {};
+
+            content.innerHTML = `
+                <div class="audio-card">
+                    <audio id="audioPlayer" controls src="/api/audio/${currentSession.audio_file}"></audio>
+                    <div class="time">${formatTime(action.elapsed_sec)}</div>
+                </div>
+
+                ${renderQuestion1(action, review)}
+                ${review.source === 'system' && review.selectedKeyword ? renderQuestion2(action, review) : ''}
+
+                <div class="nav-buttons">
+                    <button class="btn btn-secondary" onclick="prevAction()" ${currentActionIdx === 0 ? 'disabled' : ''}>
+                        ← Back
+                    </button>
+                    <button class="btn btn-primary" onclick="nextAction()">
+                        ${currentActionIdx === actions.length - 1 ? 'Finish' : 'Next →'}
+                    </button>
+                </div>
+            `;
+
+            // Setup audio
+            audioElement = document.getElementById('audioPlayer');
+            audioElement.addEventListener('timeupdate', onTimeUpdate);
+            const contextStart = Math.max(0, action.elapsed_sec - 5);
+            audioElement.currentTime = contextStart;
+        }
+
+        function renderQuestion1(action, review) {
+            const actionTime = action.elapsed_sec;
+            const shortStart = Math.max(0, actionTime - 5);
+            const fullStart = Math.max(0, actionTime - 15);
+            const contextStart = expandedTranscript ? fullStart : shortStart;
+            const contextWords = words.filter(w => w.end <= actionTime && w.start >= contextStart);
+
+            const isTranscriptSelected = review.source === 'transcript';
+
+            return `
+                <div class="card">
+                    <div class="card-title required">1. What keyword were you looking for?</div>
+
+                    <div class="option-group">
+                        ${action.keywords.map((k, i) => `
+                            <div class="option ${review.selectedKeyword === k.word && review.source === 'system' ? 'selected' : ''}"
+                                 onclick="selectKeyword('system', '${escapeAttr(k.word)}')">
+                                <input type="radio" name="keyword" ${review.selectedKeyword === k.word && review.source === 'system' ? 'checked' : ''}>
+                                <span class="option-label">${escapeHtml(k.word)}</span>
+                            </div>
+                        `).join('')}
+
+                        <div class="option ${isTranscriptSelected ? 'selected' : ''}"
+                             onclick="selectKeyword('transcript', null)">
+                            <input type="radio" name="keyword" ${isTranscriptSelected ? 'checked' : ''}>
+                            <span class="option-label">Not in the list — select from transcript</span>
+                        </div>
+                    </div>
+
+                    ${isTranscriptSelected ? `
+                        <div class="transcript-section">
+                            <div class="transcript-label">
+                                <span>Click the word(s) you were looking for:</span>
+                                <span class="expand-link" onclick="toggleTranscript()">
+                                    ${expandedTranscript ? '▲ Show less' : '▼ Show more context'}
+                                </span>
+                            </div>
+                            <div class="transcript-box" id="transcriptBox">
+                                ${words.filter(w => w.end <= actionTime && w.start >= fullStart).map((w, i) => {
+                                    const globalIdx = words.indexOf(w);
+                                    const isSelected = (review.transcriptWords || []).includes(w.word);
+                                    const isDimmed = !expandedTranscript && w.start < shortStart;
+                                    if (isDimmed && !expandedTranscript) return '';
+                                    return `<span class="word ${isSelected ? 'selected' : ''} ${isDimmed ? 'dimmed' : ''}"
+                                                 data-idx="${globalIdx}"
+                                                 data-word="${escapeAttr(w.word)}"
+                                                 onclick="toggleTranscriptWord(this)">${escapeHtml(w.word)}</span> `;
+                                }).join('')}
+                            </div>
+                            <div class="selected-display">
+                                ${(review.transcriptWords || []).length > 0
+                                    ? 'Selected: ' + (review.transcriptWords || []).map(w => `<span class="tag">${escapeHtml(w)}</span>`).join('')
+                                    : 'No words selected yet'}
+                            </div>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderQuestion2(action, review) {
+            let keyword = '';
+            let description = '';
+
+            if (review.source === 'system' && review.selectedKeyword) {
+                const kw = action.keywords.find(k => k.word === review.selectedKeyword);
+                keyword = kw?.word || '';
+                description = kw?.desc || '';
+            } else if (review.source === 'transcript' && review.transcriptWords?.length > 0) {
+                keyword = review.transcriptWords.join(' ');
+                description = '(Selected from transcript - no system description)';
+            }
+
+            if (!keyword) return '';
+
+            const showSatisfaction = review.source === 'system';
+
+            return `
+                <div class="card">
+                    <div class="card-title ${showSatisfaction ? 'required' : ''}">2. How satisfied are you with the description?</div>
+
+                    <div class="description-box">
+                        <div class="keyword">${escapeHtml(keyword)}</div>
+                        <div class="desc">${escapeHtml(description)}</div>
+                        ${action.grounding_text ? `<div class="grounding"><strong>Extended:</strong> ${escapeHtml(action.grounding_text)}</div>` : ''}
+                    </div>
+
+                    ${showSatisfaction ? `
+                        <div class="scale-labels">
+                            <span>1 — Not satisfied</span>
+                            <span>7 — Very satisfied</span>
+                        </div>
+                        <div class="scale-options">
+                            ${[1,2,3,4,5,6,7].map(n => `
+                                <button class="scale-btn ${review.satisfaction === n ? 'selected' : ''}"
+                                        onclick="setSatisfaction(${n})">${n}</button>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+
+        function renderComplete() {
+            const content = document.getElementById('contentArea');
+            const reviewedCount = Object.keys(reviews).filter(k => {
+                const r = reviews[k];
+                return r.selectedKeyword || (r.transcriptWords && r.transcriptWords.length > 0);
+            }).length;
+
+            content.innerHTML = `
+                <div class="card complete-card">
+                    <div class="icon">✓</div>
+                    <h2>Review Complete</h2>
+                    <p>You reviewed ${reviewedCount} of ${currentSession.user_actions.length} actions.</p>
+
+                    <button class="btn btn-primary" onclick="saveReview()" style="margin-right: 8px;">
+                        Save Review
+                    </button>
+                    <button class="btn btn-secondary" onclick="currentActionIdx = 0; expandedTranscript = false; updateHeader(); renderCurrentAction();">
+                        Review Again
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('progressFill').style.width = '100%';
+        }
+
+        function selectKeyword(source, keyword) {
+            if (!reviews[currentActionIdx]) reviews[currentActionIdx] = {};
+            const review = reviews[currentActionIdx];
+
+            review.source = source;
+            if (source === 'system') {
+                review.selectedKeyword = keyword;
+                review.transcriptWords = [];
+            } else {
+                review.selectedKeyword = null;
+                review.satisfaction = null;
+                if (!review.transcriptWords) review.transcriptWords = [];
+            }
+
+            renderCurrentAction();
+        }
+
+        function toggleTranscript() {
+            expandedTranscript = !expandedTranscript;
+            renderCurrentAction();
+        }
+
+        function toggleTranscriptWord(el) {
+            const word = el.dataset.word;
+            if (!reviews[currentActionIdx]) reviews[currentActionIdx] = {};
+            const review = reviews[currentActionIdx];
+            const selected = review.transcriptWords || [];
+
+            if (selected.includes(word)) {
+                review.transcriptWords = selected.filter(w => w !== word);
+            } else {
+                review.transcriptWords = [...selected, word];
+            }
+
+            renderCurrentAction();
+        }
+
+        function setSatisfaction(n) {
+            if (!reviews[currentActionIdx]) reviews[currentActionIdx] = {};
+            reviews[currentActionIdx].satisfaction = n;
+            renderCurrentAction();
+        }
+
+        function prevAction() {
+            if (currentActionIdx > 0) {
+                currentActionIdx--;
+                expandedTranscript = false;
+                updateHeader();
+                renderCurrentAction();
+            }
+        }
+
+        function nextAction() {
+            currentActionIdx++;
+            expandedTranscript = false;
+            updateHeader();
+            renderCurrentAction();
+        }
+
+        function onTimeUpdate() {
+            if (!audioElement) return;
+            const t = audioElement.currentTime;
+            document.querySelectorAll('.transcript-box .word').forEach(el => {
+                el.classList.remove('current');
+                const idx = parseInt(el.dataset.idx);
+                const w = words[idx];
+                if (w && t >= w.start && t <= w.end) {
+                    el.classList.add('current');
+                }
+            });
+        }
+
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = Math.floor(sec % 60);
+            return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function escapeAttr(text) {
+            if (!text) return '';
+            return text.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        }
+
+        async function saveReview() {
+            if (!currentSession) return;
+
+            const sessionId = document.getElementById('sessionSelect').value;
+            const reviewData = {
+                session_id: currentSession.session_id,
+                duration_sec: currentSession.duration_sec,
+                reviews: {}
+            };
+
+            Object.keys(reviews).forEach(idx => {
+                const action = currentSession.user_actions[idx];
+                const review = reviews[idx];
+
+                reviewData.reviews[idx] = {
+                    elapsed_sec: action.elapsed_sec,
+                    keywords: action.keywords,
+                    grounding_text: action.grounding_text || null,
+                    source: review.source || null,
+                    selectedKeyword: review.selectedKeyword || null,
+                    satisfaction: review.satisfaction || null,
+                    transcriptWords: review.transcriptWords || []
+                };
+            });
+
+            try {
+                const response = await fetch(`/api/review/${sessionId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(reviewData)
+                });
+
+                if (response.ok) {
+                    alert('Review saved successfully!');
+                } else {
+                    alert('Failed to save review');
+                }
+            } catch (e) {
+                alert('Error saving review');
+            }
+        }
+
+        loadSessions();
+    </script>
+</body>
+</html>

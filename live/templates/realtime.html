@@ -70,25 +70,74 @@
         .desc-box code { background: #222; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
 
         /* Summary */
-        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; }
+        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; max-width: 500px; }
         #summary.fade-out { opacity: 0; }
 
-        /* Loading spinner */
-        .loading-spinner {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 24px;
-            height: 24px;
-            border: 3px solid #333;
-            border-top-color: #4ade80;
-            border-radius: 50%;
-            opacity: 0;
-            transition: opacity 0.2s;
-            animation: spin 0.8s linear infinite;
+        /* Progress ring (fills while holding spacebar) */
+        .progress-ring-container {
+            display: none;
+            align-items: center;
+            gap: 10px;
         }
-        .loading-spinner.active { opacity: 1; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .progress-ring-container.active {
+            display: flex;
+        }
+        .progress-ring {
+            width: 28px;
+            height: 28px;
+            transform: rotate(-90deg);
+        }
+        .progress-ring-bg {
+            fill: none;
+            stroke: #333;
+            stroke-width: 3;
+        }
+        .progress-ring-fill {
+            fill: none;
+            stroke: #4ade80;
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-dasharray: 69.115; /* 2 * PI * 11 (radius) */
+            stroke-dashoffset: 69.115;
+            transition: stroke-dashoffset 0.05s linear;
+        }
+        .progress-ring-container .label {
+            font-size: 12px;
+            color: #888;
+        }
+
+        /* Loading indicator (after progress complete) */
+        .loading-indicator {
+            display: none;
+            align-items: center;
+            gap: 6px;
+        }
+        .loading-indicator.active {
+            display: flex;
+        }
+        .loading-dots {
+            display: flex;
+            gap: 3px;
+        }
+        .loading-dots span {
+            width: 5px;
+            height: 5px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite;
+        }
+        .loading-dots span:nth-child(1) { animation-delay: 0s; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        .loading-indicator .label {
+            font-size: 11px;
+            color: #888;
+        }
+
     </style>
 </head>
 <body>
@@ -116,10 +165,24 @@
         <button onclick="start('auto', 'all')">Auto (All)</button>
     </div>
     <div id="main-content">
+         <!-- Progress ring (fills while holding) -->
+        <div class="progress-ring-container" id="progressRing">
+            <svg class="progress-ring" viewBox="0 0 28 28">
+                <circle class="progress-ring-bg" cx="14" cy="14" r="11"/>
+                <circle class="progress-ring-fill" id="progressCircle" cx="14" cy="14" r="11"/>
+            </svg>
+        </div>
+        <!-- Loading indicator (after ring completes) -->
+        <div class="loading-indicator" id="loadingIndicator">
+            <div class="loading-dots">
+                <span></span><span></span><span></span>
+            </div>
+            <span class="label">Searching</span>
+        </div>
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
     </div>
-    <div class="loading-spinner" id="loadingSpinner"></div>
+
     <script>
         const socket = io();
         let mode = 'manual';
@@ -134,10 +197,15 @@
         let infoVisible = false;
         let longPressTimer = null;
         let longPressThreshold = 500;
+        let progressDelayThreshold = 150; // Delay before showing progress ring
+        let progressDelayTimer = null;
         let spaceDownTime = 0;
         let isLongPress = false;
         let groundingData = null;
         let summaryMode = 'summary';
+        let progressAnimationId = null;
+        let lastRightClick = 0;
+        const CIRCUMFERENCE = 2 * Math.PI * 11; // 69.115
 
         function setSummaryMode(sm) {
             summaryMode = sm;
@@ -189,6 +257,17 @@
             document.getElementById('optionsList').innerHTML = '';
         });
 
+        socket.on('session_ended', () => {
+            options = [];
+            currentIdx = 0;
+            groundingData = null;
+            infoVisible = false;
+            document.getElementById('optionsList').innerHTML = '';
+            document.getElementById('summary').style.display = 'none';
+            hideProgressRing();
+            hideLoadingIndicator();
+        });
+
         socket.on('recovery_done', data => {
             const summary = document.getElementById('summary');
             summaryBuffer = '';
@@ -198,10 +277,10 @@
             } else if (data.mode === 'keywords') {
                 // Display keywords as comma-separated list
                 const keywords = data.keywords || [];
-                summary.innerHTML = '<strong>Keywords:</strong> ' + keywords.join(', ');
+                summary.innerHTML = keywords.join(', ');
             } else if (data.mode === 'transcript') {
                 // Display full transcript
-                summary.innerHTML = '<strong>Transcript:</strong><br>' + (data.transcript || '').replace(/\n/g, '<br>');
+                summary.innerHTML = (data.transcript || '').replace(/\n/g, '<br>');
             } else {
                 // Summary mode (default)
                 summary.innerText = data.summary || data.raw || '';
@@ -230,7 +309,7 @@
 
         socket.on('grounding_result', data => {
             groundingData = data;
-            document.getElementById('loadingSpinner').classList.remove('active');
+            hideLoadingIndicator();
             render();
         });
 
@@ -312,44 +391,93 @@
             socket.emit('start', {mode: m, source: source});
         }
 
+        function updateProgress() {
+            const elapsed = Date.now() - spaceDownTime;
+            const progress = Math.min(elapsed / longPressThreshold, 1);
+            const offset = CIRCUMFERENCE * (1 - progress);
+            document.getElementById('progressCircle').style.strokeDashoffset = offset;
+
+            if (progress < 1) {
+                progressAnimationId = requestAnimationFrame(updateProgress);
+            }
+        }
+
+        function showProgressRing() {
+            document.getElementById('progressRing').classList.add('active');
+            document.getElementById('progressCircle').style.strokeDashoffset = CIRCUMFERENCE;
+            progressAnimationId = requestAnimationFrame(updateProgress);
+        }
+
+        function hideProgressRing() {
+            document.getElementById('progressRing').classList.remove('active');
+            document.getElementById('progressCircle').style.strokeDashoffset = CIRCUMFERENCE;
+            if (progressAnimationId) {
+                cancelAnimationFrame(progressAnimationId);
+                progressAnimationId = null;
+            }
+        }
+
+        function showLoadingIndicator() {
+            hideProgressRing();
+            document.getElementById('loadingIndicator').classList.add('active');
+        }
+
+        function hideLoadingIndicator() {
+            document.getElementById('loadingIndicator').classList.remove('active');
+        }
+
         function requestGrounding() {
             if (options.length > 0) {
                 const opt = options[currentIdx];
-                document.getElementById('loadingSpinner').classList.add('active');
+                showLoadingIndicator();
                 socket.emit('search_grounding', { keyword: opt.word, description: opt.desc, detail_level: 1 });
             }
         }
 
-        document.addEventListener('keydown', e => {
-            if (e.code !== 'Space') return;
-            if (e.repeat) return;
-            e.preventDefault();
-
+        function handleInputStart() {
             spaceDownTime = Date.now();
             isLongPress = false;
+
+            // Delay showing progress ring to avoid flashing on quick taps
+            if (options.length > 0) {
+                progressDelayTimer = setTimeout(() => {
+                    showProgressRing();
+                }, progressDelayThreshold);
+            }
 
             longPressTimer = setTimeout(() => {
                 isLongPress = true;
                 requestGrounding();
             }, longPressThreshold);
-        });
+        }
 
-        document.addEventListener('keyup', e => {
-            if (e.code !== 'Space') return;
-            e.preventDefault();
-
+        function handleInputEnd() {
+            // Clear timers
             if (longPressTimer) {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
             }
+            if (progressDelayTimer) {
+                clearTimeout(progressDelayTimer);
+                progressDelayTimer = null;
+            }
+
+            // Hide progress ring if released before threshold
+            if (!isLongPress) {
+                hideProgressRing();
+            }
 
             if (isLongPress) {
                 isLongPress = false;
-                return;
+                return true; // Was long press
             }
+            return false; // Was short press
+        }
 
+        function handleShortPress() {
             const now = Date.now();
             if (now - lastSpace < 300) {
+                // Double tap
                 if (infoVisible) {
                     hideInfo();
                     summaryBuffer = '';
@@ -362,6 +490,7 @@
                 }
                 lastSpace = 0;
             } else {
+                // Single tap - wait to see if double
                 lastSpace = now;
                 setTimeout(() => {
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
@@ -373,6 +502,37 @@
                         lastSpace = 0;
                     }
                 }, 300);
+            }
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.code !== 'Space') return;
+            if (e.repeat) return;
+            e.preventDefault();
+            handleInputStart();
+        });
+
+        document.addEventListener('keyup', e => {
+            if (e.code !== 'Space') return;
+            e.preventDefault();
+
+            const wasLongPress = handleInputEnd();
+            if (!wasLongPress) {
+                handleShortPress();
+            }
+        });
+
+        // Right-click (contextmenu) support
+        document.addEventListener('contextmenu', e => {
+            e.preventDefault();
+            handleInputStart();
+        });
+
+        document.addEventListener('mouseup', e => {
+            if (e.button !== 2) return; // Only right-click
+            const wasLongPress = handleInputEnd();
+            if (!wasLongPress) {
+                handleShortPress();
             }
         });
     </script>

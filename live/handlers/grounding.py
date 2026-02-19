@@ -1,8 +1,9 @@
 """Search grounding handler using Gemini API."""
 
+import json
 from typing import Any
 
-from config import GOOGLE_API_KEY
+from config import GOOGLE_API_KEY, LOG_DIR
 from flask_socketio import SocketIO
 from logger import get_logger, log_print
 
@@ -113,10 +114,44 @@ def handle_search_grounding(
             },
         )
 
+        # Store grounding text in transcript for review
+        _store_grounding_in_transcript(session_id, keyword, citations["text"])
+
     except Exception as e:
         log_print("ERROR", f"Search grounding error: {str(e)}", session_id=session_id)
         logger.log("search_grounding_error", error=str(e))
         sio.emit("error", {"message": f"Search grounding error: {str(e)}"})
+
+
+def _store_grounding_in_transcript(session_id: str, keyword: str, text: str) -> None:
+    """Store grounding result in the transcript file for later review."""
+    transcript_dir = LOG_DIR / "transcript"
+    if not transcript_dir.exists():
+        return
+
+    # Find the transcript file for this session
+    for f in transcript_dir.glob(f"*_{session_id}.json"):
+        try:
+            with open(f, "r", encoding="utf-8") as fp:
+                data = json.load(fp)
+
+            # Find the most recent action with this keyword and add grounding text
+            user_actions = data.get("user_actions", [])
+            for action in reversed(user_actions):
+                keywords = action.get("keywords", [])
+                for kw in keywords:
+                    if kw.get("word", "").lower() == keyword.lower():
+                        action["grounding_text"] = text
+                        break
+                if "grounding_text" in action:
+                    break
+
+            with open(f, "w", encoding="utf-8") as fp:
+                json.dump(data, fp, ensure_ascii=False, indent=2)
+
+            log_print("INFO", f"Stored grounding in transcript for {keyword}")
+        except Exception as e:
+            log_print("ERROR", f"Failed to store grounding: {e}")
 
 
 def _extract_citations(response: Any, text: str) -> dict[str, Any]:

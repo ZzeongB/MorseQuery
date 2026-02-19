@@ -1,8 +1,13 @@
 """OpenAI Realtime API client for keyword extraction."""
 
 import base64
+import io
 import json
 import threading
+import time
+import wave
+from datetime import datetime
+from pathlib import Path
 from typing import TYPE_CHECKING, Optional
 
 import pyaudio
@@ -12,11 +17,13 @@ from config import (
     AUDIO_RATE,
     AUTO_INTERVAL,
     DEFAULT_AUDIO_FILE,
+    LOG_DIR,
     OPENAI_API_KEY,
     OPENAI_REALTIME_URL,
 )
 from flask_socketio import SocketIO
 from logger import get_logger, log_print
+from openai import OpenAI
 from pydub import AudioSegment
 
 if TYPE_CHECKING:
@@ -45,6 +52,13 @@ class RealtimeClient:
         self.response_buffer = ""
         self.logger = get_logger(session_id)
         self.summary_client: Optional["SummaryClient"] = None
+        self.extracted_keywords: list[str] = []  # Track previously extracted keywords
+
+        # Session recording
+        self.recording_buffer: list[bytes] = []
+        self.openai_client = OpenAI(api_key=OPENAI_API_KEY)
+        self.user_actions: list[dict] = []  # Track user keyword requests with timing
+        self.stream_start_time: float = 0.0  # Audio stream start timestamp
 
         log_print(
             "INFO",
@@ -143,12 +157,22 @@ class RealtimeClient:
             context=context_text,
         )
 
+        # Track extracted keywords to avoid repetition
+        for kw in keywords:
+            word = kw["word"].lower()
+            if word not in self.extracted_keywords:
+                self.extracted_keywords.append(word)
+
+        # Update last user action with extracted keywords
+        if self.user_actions:
+            self.user_actions[-1]["keywords"] = keywords
+
         # Emit to frontend
         self.sio.emit("keywords", keywords)
         if context_text:
             self.sio.emit("context", context_text)
             if self.summary_client:
-                self.summary_client.set_context(context_text)
+                self.summary_client.set_global_context(context_text)
 
         self.response_buffer = ""
 
@@ -173,6 +197,7 @@ class RealtimeClient:
 
     def _stream_audio(self) -> None:
         """Stream audio from configured source."""
+        self.stream_start_time = time.time()
         log_print(
             "INFO",
             "Starting audio stream",
@@ -229,6 +254,7 @@ class RealtimeClient:
         )
         self.logger.log("mic_recording_stop", total_chunks=self.chunks_sent)
         self.sio.emit("status", "Stopped")
+        self.sio.emit("session_ended")
 
     def _stream_from_mp3(self) -> None:
         """Stream audio from MP3 file."""
@@ -310,9 +336,13 @@ class RealtimeClient:
         )
         self.logger.log("mp3_playback_complete", total_chunks=self.chunks_sent)
         self.sio.emit("status", "Done")
+        self.sio.emit("session_ended")
 
     def _send_audio_chunk(self, chunk: bytes) -> None:
         """Send audio chunk to OpenAI and forward to summary client."""
+        # Record audio for full session transcription
+        self.recording_buffer.append(chunk)
+
         audio_b64 = base64.b64encode(chunk).decode()
         self.ws.send(
             json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
@@ -323,26 +353,49 @@ class RealtimeClient:
 
     def request(self) -> None:
         """Request keyword extraction from accumulated audio."""
+        elapsed_sec = time.time() - self.stream_start_time if self.stream_start_time else 0.0
+
         log_print(
             "INFO",
             "Requesting keyword extraction",
             session_id=self.session_id,
             chunks_so_far=self.chunks_sent,
+            elapsed_sec=elapsed_sec,
         )
-        self.logger.log("keyword_request", chunks_so_far=self.chunks_sent)
+        self.logger.log("keyword_request", chunks_so_far=self.chunks_sent, elapsed_sec=elapsed_sec)
+
+        # Track user action with timing
+        self.user_actions.append({
+            "elapsed_sec": elapsed_sec,
+            "action": "keyword_request",
+            "keywords": [],  # Will be filled in _handle_response_done
+        })
+
         self.sio.emit("clear")
+
+        # Commit current audio buffer
         self.ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+
+        # Build prompt with previously extracted keywords to avoid repetition
+        prompt = KEYWORD_EXTRACTION_PROMPT
+        if self.extracted_keywords:
+            already_extracted = ", ".join(self.extracted_keywords[-20:])  # Last 20
+            prompt = f"{KEYWORD_EXTRACTION_PROMPT}\n\nALREADY EXTRACTED (do NOT repeat): {already_extracted}"
+
         self.ws.send(
             json.dumps(
                 {
                     "type": "response.create",
                     "response": {
                         "modalities": ["text"],
-                        "instructions": KEYWORD_EXTRACTION_PROMPT,
+                        "instructions": prompt,
                     },
                 }
             )
         )
+
+        # Clear buffer after commit to analyze only new audio next time
+        self.ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
 
     def start(self) -> None:
         """Start the realtime client."""
@@ -350,6 +403,10 @@ class RealtimeClient:
         self.logger.log("client_start")
         self.running = True
         self.chunks_sent = 0
+        self.extracted_keywords = []  # Reset for new session
+        self.recording_buffer = []  # Reset recording buffer
+        self.user_actions = []  # Reset user actions
+        self.stream_start_time = 0.0  # Reset stream start time
         self.ws = websocket.WebSocketApp(
             OPENAI_REALTIME_URL,
             header=[
@@ -367,6 +424,125 @@ class RealtimeClient:
         """Stop the realtime client."""
         log_print("INFO", "Stopping RealtimeClient", session_id=self.session_id)
         self.logger.log("client_stop", total_chunks=self.chunks_sent)
+        was_running = self.running
         self.running = False
         if self.ws:
             self.ws.close()
+
+        # Emit session_ended if we were running (streaming thread will also emit, but this ensures it)
+        if was_running:
+            self.sio.emit("session_ended")
+
+        # Transcribe recorded audio in background
+        if self.recording_buffer:
+            threading.Thread(target=self._transcribe_session, daemon=True).start()
+
+    def _transcribe_session(self) -> None:
+        """Transcribe the full recorded session using Whisper API."""
+        if not self.recording_buffer:
+            return
+
+        log_print(
+            "INFO",
+            "Starting session transcription",
+            session_id=self.session_id,
+            chunks=len(self.recording_buffer),
+        )
+        self.sio.emit("status", "Transcribing session...")
+
+        try:
+            # Combine all audio chunks
+            raw_audio = b"".join(self.recording_buffer)
+            duration_sec = len(raw_audio) / (AUDIO_RATE * 2)  # 16-bit = 2 bytes
+
+            log_print(
+                "INFO",
+                f"Session audio: {duration_sec:.1f}s, {len(raw_audio)} bytes",
+                session_id=self.session_id,
+            )
+
+            # Convert to WAV in memory
+            wav_buffer = io.BytesIO()
+            with wave.open(wav_buffer, "wb") as wav_file:
+                wav_file.setnchannels(1)
+                wav_file.setsampwidth(2)  # 16-bit
+                wav_file.setframerate(AUDIO_RATE)
+                wav_file.writeframes(raw_audio)
+
+            # Save audio file
+            datetime_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+            audio_dir = LOG_DIR / "audio"
+            audio_dir.mkdir(exist_ok=True)
+            audio_file = audio_dir / f"{datetime_str}_{self.session_id}.wav"
+            with open(audio_file, "wb") as f:
+                wav_buffer.seek(0)
+                f.write(wav_buffer.read())
+
+            log_print(
+                "INFO",
+                f"Audio saved: {audio_file}",
+                session_id=self.session_id,
+            )
+
+            wav_buffer.seek(0)
+            wav_buffer.name = "session.wav"  # Required for OpenAI API
+
+            # Call Whisper API with word timestamps
+            transcript_result = self.openai_client.audio.transcriptions.create(
+                model="whisper-1",
+                file=wav_buffer,
+                response_format="verbose_json",
+                timestamp_granularities=["word"],
+            )
+
+            log_print(
+                "INFO",
+                "Transcription complete",
+                session_id=self.session_id,
+                length=len(transcript_result.text),
+            )
+
+            # Prepare transcript data with timestamps
+            transcript_data = {
+                "session_id": self.session_id,
+                "duration_sec": duration_sec,
+                "audio_file": str(audio_file.name),
+                "text": transcript_result.text,
+                "words": [
+                    {"word": w.word, "start": w.start, "end": w.end}
+                    for w in (transcript_result.words or [])
+                ],
+                "user_actions": self.user_actions,
+            }
+
+            self.logger.log(
+                "session_transcription_done",
+                duration_sec=duration_sec,
+                transcript_length=len(transcript_result.text),
+                transcript=transcript_result.text,
+            )
+
+            # Save transcript with timestamps to JSON
+            transcript_dir = LOG_DIR / "transcript"
+            transcript_dir.mkdir(exist_ok=True)
+            transcript_file = transcript_dir / f"{datetime_str}_{self.session_id}.json"
+            with open(transcript_file, "w", encoding="utf-8") as f:
+                json.dump(transcript_data, f, ensure_ascii=False, indent=2)
+
+            # Emit to frontend
+            self.sio.emit(
+                "session_transcript",
+                {
+                    "transcript": transcript_result.text,
+                    "duration_sec": duration_sec,
+                },
+            )
+
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Transcription failed: {e}",
+                session_id=self.session_id,
+            )
+            self.logger.log("session_transcription_error", error=str(e))
+            self.sio.emit("error", {"message": f"Transcription failed: {e}"})

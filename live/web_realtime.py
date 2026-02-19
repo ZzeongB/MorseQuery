@@ -7,11 +7,12 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
+import json
 from typing import Optional
 
 from clients import RealtimeClient, SummaryClient
 from config import LOG_DIR, TEMPLATES_DIR
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify, send_file
 from flask_socketio import SocketIO
 from handlers.grounding import handle_search_grounding
 from logger import get_logger, log_print
@@ -29,6 +30,98 @@ def index():
     """Serve the main page."""
     log_print("INFO", "Index page requested")
     return render_template("realtime.html")
+
+
+@app.route("/review")
+def review():
+    """Serve the review page."""
+    log_print("INFO", "Review page requested")
+    return render_template("review.html")
+
+
+@app.route("/api/sessions")
+def api_sessions():
+    """Return list of available sessions."""
+    transcript_dir = LOG_DIR / "transcript"
+    sessions = []
+
+    if transcript_dir.exists():
+        for f in sorted(transcript_dir.glob("*.json"), reverse=True):
+            # Parse filename: {date}_{session_id}.json
+            parts = f.stem.split("_", 1)
+            if len(parts) == 2:
+                date_str, session_id = parts
+                sessions.append({
+                    "id": f.stem,
+                    "date": f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:]}",
+                    "session_id": session_id[:12] + "..." if len(session_id) > 12 else session_id,
+                })
+
+    return jsonify(sessions)
+
+
+@app.route("/api/session/<session_id>")
+def api_session(session_id):
+    """Return session data (transcript with timestamps)."""
+    transcript_file = LOG_DIR / "transcript" / f"{session_id}.json"
+
+    if not transcript_file.exists():
+        return jsonify({"error": "Session not found"}), 404
+
+    with open(transcript_file, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    return jsonify(data)
+
+
+@app.route("/api/audio/<filename>")
+def api_audio(filename):
+    """Serve audio file."""
+    audio_file = LOG_DIR / "audio" / filename
+
+    if not audio_file.exists():
+        return jsonify({"error": "Audio not found"}), 404
+
+    return send_file(audio_file, mimetype="audio/wav")
+
+
+@app.route("/api/review/<session_id>", methods=["GET"])
+def api_get_review(session_id):
+    """Get review data for a session (returns latest review)."""
+    review_dir = LOG_DIR / "review"
+
+    if not review_dir.exists():
+        return jsonify({"reviews": {}})
+
+    # Find all review files for this session and get the latest
+    review_files = sorted(review_dir.glob(f"*_{session_id}.json"), reverse=True)
+
+    if not review_files:
+        return jsonify({"reviews": {}})
+
+    with open(review_files[0], "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    return jsonify(data)
+
+
+@app.route("/api/review/<session_id>", methods=["POST"])
+def api_save_review(session_id):
+    """Save review data for a session."""
+    from datetime import datetime
+
+    review_dir = LOG_DIR / "review"
+    review_dir.mkdir(exist_ok=True)
+
+    datetime_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    review_file = review_dir / f"{datetime_str}_{session_id}.json"
+    data = request.get_json()
+
+    with open(review_file, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    log_print("INFO", f"Review saved: {review_file.name}")
+    return jsonify({"status": "ok"})
 
 
 @sio.on("connect")
