@@ -13,7 +13,7 @@ KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from the most recently com
 
 Rules:
 - Keywords must be clearly spoken (no guessing).
-- At least 1 keyword required; if audio is unclear/silent, output exactly "...".
+- You MUST output at least 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
 
