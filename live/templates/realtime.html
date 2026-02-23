@@ -140,6 +140,125 @@
             color: #888;
         }
 
+        /* Height position selector */
+        .height-selector {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .height-slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            height: 150px;
+        }
+        .height-slider-track {
+            width: 8px;
+            height: 130px;
+            background: #333;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+        }
+        .height-slider-thumb {
+            width: 20px;
+            height: 20px;
+            background: #4ade80;
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: grab;
+            transition: background 0.2s;
+        }
+        .height-slider-thumb:hover {
+            background: #22c55e;
+        }
+        .height-slider-thumb:active {
+            cursor: grabbing;
+        }
+        .height-label {
+            font-size: 12px;
+            color: #888;
+            min-width: 50px;
+            margin-top: 60px;
+        }
+        /* Overview preview */
+        .overview-preview {
+            width: 80px;
+            height: 130px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+        }
+        .overview-screen-area {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .overview-widget {
+            position: absolute;
+            left: 5px;
+            right: 5px;
+            background: #1a1a1a;
+            border: 1px solid #4ade80;
+            border-radius: 3px;
+            padding: 4px;
+            transition: bottom 0.15s ease-out;
+        }
+        .overview-keyword {
+            width: 25px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 2px;
+            margin-bottom: 3px;
+        }
+        .overview-desc {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            border-radius: 1px;
+            margin-bottom: 2px;
+        }
+        .overview-desc:last-child {
+            width: 60%;
+            margin-bottom: 0;
+        }
+
+        /* Fullscreen overlay when adjusting height */
+        .height-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 90;
+        }
+        .height-overlay.visible {
+            opacity: 1;
+        }
+
+        /* Live preview widget on actual screen */
+        .live-preview {
+            position: fixed;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, bottom 0.05s linear;
+            z-index: 100;
+        }
+        .live-preview.visible {
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
@@ -149,23 +268,39 @@
             <button id="btn-mic" onclick="setSource('mic')">🎤 Mic</button>
             <button id="btn-mp3" class="selected" onclick="setSource('mp3')">🎵 MP3</button>
         </div>
-        <div class="source-select">
-            <span>Desc:</span>
-            <button id="btn-desc-single" class="selected" onclick="setDescView('single')">Single</button>
-            <button id="btn-desc-all" onclick="setDescView('all')">All</button>
-        </div>
-        <div class="source-select">
-            <span>Summary:</span>
-            <button id="btn-sum-summary" class="selected" onclick="setSummaryMode('summary')">Summary</button>
-            <button id="btn-sum-transcript" onclick="setSummaryMode('transcript')">Transcript</button>
-            <button id="btn-sum-keywords" onclick="setSummaryMode('keywords')">Keywords</button>
+        <div class="source-select height-selector">
+            <span>Height:</span>
+            <div class="height-slider-container">
+                <div class="height-slider-track" id="heightTrack">
+                    <div class="height-slider-thumb" id="heightThumb"></div>
+                </div>
+                <div class="overview-preview">
+                    <div class="overview-screen-area">
+                        <div class="overview-widget" id="overviewWidget">
+                            <div class="overview-keyword"></div>
+                            <div class="overview-desc"></div>
+                            <div class="overview-desc"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <span class="height-label" id="heightLabel">Bottom</span>
         </div>
 
-        <button onclick="start('manual', 'single')">Manual (Single)</button>
-        <button onclick="start('manual', 'all')">Manual (All)</button>
-        <button onclick="start('auto', 'single')">Auto (Single)</button>
-        <button onclick="start('auto', 'all')">Auto (All)</button>
+        <button onclick="start('manual', 'all')">Start</button>
     </div>
+
+    <!-- Fullscreen black overlay -->
+    <div id="height-overlay" class="height-overlay"></div>
+
+    <!-- Live preview widget (shown while adjusting height) -->
+    <div id="live-preview" class="live-preview">
+        <div class="option-row">
+            <div class="keyword-box active">keyword</div>
+            <div class="desc-box active">Description text will appear here...</div>
+        </div>
+    </div>
+
     <div id="main-content">
          <!-- Progress ring (fills while holding) -->
         <div class="progress-ring-container" id="progressRing">
@@ -208,6 +343,8 @@
         let progressAnimationId = null;
         let lastRightClick = 0;
         const CIRCUMFERENCE = 2 * Math.PI * 11; // 69.115
+        let widgetHeight = 0; // 0 = bottom, 100 = top
+        let isDragging = false;
 
         function setSummaryMode(sm) {
             summaryMode = sm;
@@ -227,6 +364,116 @@
             document.getElementById('btn-desc-single').classList.toggle('selected', dv === 'single');
             document.getElementById('btn-desc-all').classList.toggle('selected', dv === 'all');
         }
+
+        // Height slider functions
+        function updateHeightSlider(value) {
+            widgetHeight = Math.max(0, Math.min(100, value));
+            const thumb = document.getElementById('heightThumb');
+            const overviewWidget = document.getElementById('overviewWidget');
+            const label = document.getElementById('heightLabel');
+            const livePreview = document.getElementById('live-preview');
+
+            // Thumb position: 0 at bottom (110px from top), 100 at top (0px from top)
+            const thumbPos = 110 - (widgetHeight * 1.1);
+            thumb.style.top = thumbPos + 'px';
+
+            // Overview widget position (max bottom is ~100px to keep widget visible)
+            const maxBottom = 100; // pixels from bottom in overview
+            const overviewPos = (widgetHeight / 100) * maxBottom;
+            overviewWidget.style.bottom = overviewPos + 'px';
+
+            // Live preview position on actual screen
+            const maxScreenBottom = window.innerHeight - 150; // Leave space for widget height
+            const screenPos = 20 + (widgetHeight / 100) * maxScreenBottom;
+            livePreview.style.bottom = screenPos + 'px';
+
+            // Update label
+            if (widgetHeight < 20) {
+                label.textContent = 'Bottom';
+            } else if (widgetHeight < 40) {
+                label.textContent = 'Lower';
+            } else if (widgetHeight < 60) {
+                label.textContent = 'Middle';
+            } else if (widgetHeight < 80) {
+                label.textContent = 'Upper';
+            } else {
+                label.textContent = 'Top';
+            }
+
+            // Apply to main content
+            applyWidgetHeight();
+        }
+
+        function showLivePreview() {
+            document.getElementById('height-overlay').classList.add('visible');
+            document.getElementById('live-preview').classList.add('visible');
+        }
+
+        function hideLivePreview() {
+            document.getElementById('height-overlay').classList.remove('visible');
+            document.getElementById('live-preview').classList.remove('visible');
+        }
+
+        function applyWidgetHeight() {
+            const mainContent = document.getElementById('main-content');
+            // Convert 0-100 to actual padding/margin
+            // 0 = bottom (no margin), 100 = top (max margin from bottom)
+            const maxOffset = window.innerHeight - 200; // Leave some space at top
+            const offset = (widgetHeight / 100) * maxOffset;
+            mainContent.style.marginBottom = offset + 'px';
+        }
+
+        function initHeightSlider() {
+            const track = document.getElementById('heightTrack');
+            const thumb = document.getElementById('heightThumb');
+
+            function handleDrag(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+
+                const rect = track.getBoundingClientRect();
+                const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+                const relativeY = clientY - rect.top;
+                const percentage = 100 - ((relativeY / rect.height) * 100);
+
+                updateHeightSlider(percentage);
+            }
+
+            function startDrag(e) {
+                isDragging = true;
+                thumb.style.cursor = 'grabbing';
+                showLivePreview();
+                handleDrag(e);
+            }
+
+            function endDrag() {
+                if (!isDragging) return;
+                isDragging = false;
+                thumb.style.cursor = 'grab';
+                hideLivePreview();
+            }
+
+            // Mouse events
+            thumb.addEventListener('mousedown', startDrag);
+            track.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', handleDrag);
+            document.addEventListener('mouseup', endDrag);
+
+            // Touch events
+            thumb.addEventListener('touchstart', startDrag, { passive: false });
+            track.addEventListener('touchstart', startDrag, { passive: false });
+            document.addEventListener('touchmove', handleDrag, { passive: false });
+            document.addEventListener('touchend', endDrag);
+
+            // Initialize position
+            updateHeightSlider(0);
+        }
+
+        // Initialize height slider on page load
+        document.addEventListener('DOMContentLoaded', initHeightSlider);
+
+        // Update on window resize
+        window.addEventListener('resize', applyWidgetHeight);
 
         socket.on('keywords', data => {
             options = data;
