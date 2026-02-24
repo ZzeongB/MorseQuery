@@ -364,6 +364,11 @@
             <button id="btn-mic" onclick="setSource('mic')">🎤 Mic</button>
             <button id="btn-mp3" class="selected" onclick="setSource('mp3')">🎵 MP3</button>
         </div>
+        <div class="source-select">
+            <span>Mode:</span>
+            <button id="btn-manual" class="selected" onclick="setMode('manual')">Manual</button>
+            <button id="btn-automatic" onclick="setMode('automatic')">Automatic</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -383,7 +388,7 @@
             <span class="height-label" id="heightLabel">Bottom</span>
         </div>
 
-        <button onclick="start('manual', 'all')">Start</button>
+        <button onclick="start('all')">Start</button>
     </div>
 
     <!-- Fullscreen black overlay -->
@@ -466,6 +471,12 @@
             source = s;
             document.getElementById('btn-mic').classList.toggle('selected', s === 'mic');
             document.getElementById('btn-mp3').classList.toggle('selected', s === 'mp3');
+        }
+
+        function setMode(m) {
+            mode = m;
+            document.getElementById('btn-manual').classList.toggle('selected', m === 'manual');
+            document.getElementById('btn-automatic').classList.toggle('selected', m === 'automatic');
         }
 
         function setDescView(dv) {
@@ -616,6 +627,20 @@
         socket.on('keywords', data => {
             options = data;
             currentIdx = 0;
+            groundingData = null;
+            render();
+            infoVisible = true;
+        });
+        socket.on('keywords_append', data => {
+            // Append new keywords (for automatic mode)
+            options = options.concat(data);
+            // Limit to last 10 keywords to avoid UI clutter
+            const MAX_KEYWORDS = 10;
+            if (options.length > MAX_KEYWORDS) {
+                options = options.slice(-MAX_KEYWORDS);
+            }
+            // Keep focus on newest keyword
+            currentIdx = options.length - 1;
             groundingData = null;
             render();
             infoVisible = true;
@@ -797,12 +822,11 @@
             infoVisible = false;
         }
 
-        function start(m, v) {
-            mode = m;
+        function start(v) {
             view = v;
             document.getElementById('menu').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            socket.emit('start', {mode: m, source: source});
+            socket.emit('start', {mode: mode, source: source});
         }
 
         function showLoadingIndicator() {
