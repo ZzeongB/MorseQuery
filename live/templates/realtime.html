@@ -834,10 +834,14 @@
         function updateProgress() {
             const elapsed = Date.now() - spaceDownTime;
             const progress = Math.min(elapsed / longPressThreshold, 1);
-            const offset = CIRCUMFERENCE * (1 - progress);
-            document.getElementById('progressCircle').style.strokeDashoffset = offset;
 
-            if (progress >= 0.1 && progress < 1 && !isLongPress) {
+            // Only fill green when progress >= 0.1
+            if (progress >= 0.1) {
+                const offset = CIRCUMFERENCE * (1 - progress);
+                document.getElementById('progressCircle').style.strokeDashoffset = offset;
+            }
+
+            if (progress < 1 && !isLongPress) {
                 progressAnimationId = requestAnimationFrame(updateProgress);
             }
         }
