@@ -15,7 +15,7 @@
         .source-select span { margin-right: 15px; font-size: 14px; color: #888; }
 
         /* Main layout */
-        #main-content { display: none; width: 100%; padding: 20px; }
+        #main-content { display: none; width: 100%; padding: 20px; padding-bottom: 50px; }
 
         /* Row-based layout: each option is a row with keyword + description */
         .options-list {
@@ -259,6 +259,35 @@
             opacity: 1;
         }
 
+        /* Transcription bar at bottom */
+        #transcription-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(20, 20, 20, 0.95);
+            border-top: 1px solid #333;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: #888;
+            z-index: 50;
+            display: none;
+            max-height: 60px;
+            overflow: hidden;
+        }
+        #transcription-bar.visible {
+            display: block;
+        }
+        #transcription-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.4;
+        }
+        #transcription-text .recent {
+            color: #ccc;
+        }
+
     </style>
 </head>
 <body>
@@ -318,6 +347,11 @@
         </div>
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
+    </div>
+
+    <!-- Transcription bar (always at bottom) -->
+    <div id="transcription-bar">
+        <div id="transcription-text"></div>
     </div>
 
     <script>
@@ -475,6 +509,35 @@
         // Update on window resize
         window.addEventListener('resize', applyWidgetHeight);
 
+        socket.on('transcription', data => {
+            const bar = document.getElementById('transcription-bar');
+            const textEl = document.getElementById('transcription-text');
+            bar.classList.add('visible');
+
+            // Show last ~200 chars of full transcript with recent highlighted
+            const full = data.full || '';
+            const recent = data.text || '';
+            const maxLen = 200;
+
+            if (full.length > maxLen) {
+                const truncated = '...' + full.slice(-maxLen);
+                // Highlight the recent part
+                if (recent && truncated.endsWith(recent)) {
+                    const prefix = truncated.slice(0, -recent.length);
+                    textEl.innerHTML = prefix + '<span class="recent">' + recent + '</span>';
+                } else {
+                    textEl.innerHTML = truncated;
+                }
+            } else {
+                if (recent && full.endsWith(recent)) {
+                    const prefix = full.slice(0, -recent.length);
+                    textEl.innerHTML = prefix + '<span class="recent">' + recent + '</span>';
+                } else {
+                    textEl.innerHTML = full;
+                }
+            }
+        });
+
         socket.on('keywords', data => {
             options = data;
             currentIdx = 0;
@@ -513,6 +576,8 @@
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
             document.getElementById('summary').style.display = 'none';
+            document.getElementById('transcription-bar').classList.remove('visible');
+            document.getElementById('transcription-text').innerHTML = '';
             hideProgressRing();
             hideLoadingIndicator();
         });

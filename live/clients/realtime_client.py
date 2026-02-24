@@ -60,6 +60,11 @@ class RealtimeClient:
         self.user_actions: list[dict] = []  # Track user keyword requests with timing
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
 
+        # Live transcription
+        self.transcript_buffer: str = ""  # Accumulated transcript text
+        self.last_transcription_commit: float = 0.0  # Last time we committed for transcription
+        self.transcription_interval: float = 3.0  # Seconds between transcription commits
+
         log_print(
             "INFO",
             "RealtimeClient created",
@@ -84,6 +89,7 @@ class RealtimeClient:
                         "input_audio_format": "pcm16",
                         "turn_detection": None,
                         "instructions": KEYWORD_SESSION_INSTRUCTIONS,
+                        "input_audio_transcription": {"model": "whisper-1"},
                     },
                 }
             )
@@ -110,6 +116,11 @@ class RealtimeClient:
             self.logger.log("openai_session_created", session_id=session_info.get("id"))
         elif etype == "session.updated":
             self.logger.log("openai_session_updated")
+        elif etype == "conversation.item.input_audio_transcription.completed":
+            # Real-time transcription from audio input
+            transcript = event.get("transcript", "")
+            if transcript:
+                self._handle_transcription(transcript)
         elif etype == "response.text.delta":
             delta = event.get("delta", "")
             if delta:
@@ -175,6 +186,27 @@ class RealtimeClient:
                 self.summary_client.set_global_context(context_text)
 
         self.response_buffer = ""
+
+    def _handle_transcription(self, transcript: str) -> None:
+        """Handle incoming transcription and emit to frontend."""
+        # Append to buffer
+        if self.transcript_buffer:
+            self.transcript_buffer += " " + transcript.strip()
+        else:
+            self.transcript_buffer = transcript.strip()
+
+        log_print(
+            "DEBUG",
+            "Transcription received",
+            session_id=self.session_id,
+            transcript=transcript[:50] + "..." if len(transcript) > 50 else transcript,
+        )
+
+        # Emit to frontend
+        self.sio.emit("transcription", {
+            "text": transcript.strip(),
+            "full": self.transcript_buffer,
+        })
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""
@@ -351,6 +383,12 @@ class RealtimeClient:
             self.summary_client.send_audio(audio_b64)
         self.chunks_sent += 1
 
+        # Periodic commit for continuous transcription
+        now = time.time()
+        if now - self.last_transcription_commit >= self.transcription_interval:
+            self.last_transcription_commit = now
+            self.ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+
     def request(self) -> None:
         """Request keyword extraction from accumulated audio."""
         elapsed_sec = time.time() - self.stream_start_time if self.stream_start_time else 0.0
@@ -373,7 +411,8 @@ class RealtimeClient:
 
         self.sio.emit("clear")
 
-        # Commit current audio buffer
+        # Commit current audio buffer (also resets transcription timer)
+        self.last_transcription_commit = time.time()
         self.ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
 
         # Build prompt with previously extracted keywords to avoid repetition
@@ -407,6 +446,8 @@ class RealtimeClient:
         self.recording_buffer = []  # Reset recording buffer
         self.user_actions = []  # Reset user actions
         self.stream_start_time = 0.0  # Reset stream start time
+        self.transcript_buffer = ""  # Reset transcript buffer
+        self.last_transcription_commit = 0.0  # Reset transcription timer
         self.ws = websocket.WebSocketApp(
             OPENAI_REALTIME_URL,
             header=[
