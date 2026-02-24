@@ -10,7 +10,7 @@ from logger import get_logger, log_print
 # Prompts for different detail levels
 DETAIL_LEVEL_PROMPTS = {
     1: (
-        "Provide a detailed explanation in  2-3 sentences about: "
+        "Provide a detailed explanation in  1 sentence about: "
         "{keyword}{description_suffix}. "
         "Focus on the most essential definition or meaning. "
         "Use **bold** sparingly for key terms only."

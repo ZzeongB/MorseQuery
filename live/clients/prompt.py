@@ -16,14 +16,18 @@ Rules:
 - You MUST output at least 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
+- Strictly output in the following format, with no extra text:
 
 Order:
 - Most recently mentioned first; prefer more difficult/technical terms.
 
-Format (strict):
+Format:
 <keyword>: <1–6 word description>
-...
-CONTEXT:: <one short sentence>"""
+
+Example:
+AI: Artificial Intelligence
+Machine Learning: Subfield of AI focused on data-driven models
+"""
 
 # Keep session instructions minimal; put strict rules in per-request prompts.
 SUMMARY_SESSION_INSTRUCTIONS = """You are NOT a conversation participant.
@@ -48,7 +52,7 @@ Global conversation context (may be partial):
 Summarize ONLY the most recently committed missed segment, and provide the minimum info needed to catch up.
 
 # OUTPUT (STRICT FORMAT)
-SUMMARY:: <one sentence, <= 12 words>
+SUMMARY:: <phrase, <= 10 words>
 KEYWORDS:: <at least 1, up to 3, comma-separated>
 RECOVERY:: <1-2 short sentences: what changed / what to respond to>
 
@@ -74,11 +78,11 @@ You are a SILENT LISTENER summarizing missed audio.
 Summarize ONLY the most recently committed missed segment.
 
 # OUTPUT (STRICT FORMAT)
-<one sentence summary, <= 15 words>
+<one phrase summary, <= 10 words>
 
 # STRICT RULES (MUST FOLLOW)
 - English only.
-- Output ONLY the summary sentence. No labels or prefixes.
+- Output ONLY the summary phrase. No labels or prefixes.
 - Do NOT mention that audio was missed.
 - Use ONLY information clearly present in the missed segment.
 - Do NOT guess or add details.
