@@ -3,6 +3,7 @@
 import base64
 import io
 import json
+import re
 import threading
 import time
 import wave
@@ -132,40 +133,76 @@ class RealtimeClient:
             log_print("ERROR", f"OpenAI error: {error_msg}", session_id=self.session_id)
             self.logger.log("openai_error", error=error_msg)
 
+    def _parse_json_format(self, text: str) -> list[dict]:
+        """Parse JSON-like format: {"key": value, "key2": value2}"""
+        keywords = []
+        # Remove outer braces
+        inner = text[1:-1].strip()
+        if not inner:
+            return keywords
+
+        # Split by comma, but be careful with commas inside values
+        # Pattern: "key": value (value may or may not be quoted)
+        pattern = r'"([^"]+)":\s*"?([^",}]+)"?'
+        matches = re.findall(pattern, inner)
+
+        for word, desc in matches:
+            word = word.strip()
+            desc = desc.strip().rstrip('"')
+            if word and desc:
+                keywords.append({"word": word, "desc": desc})
+
+        return keywords
+
+    def _parse_line_format(self, text: str) -> list[dict]:
+        """Parse line-by-line format: keyword: description"""
+        keywords = []
+        for line in text.split("\n"):
+            if ":" in line:
+                word, desc = line.split(":", 1)
+                word = word.strip()
+                desc = desc.strip()
+
+                # Skip invalid entries
+                if not word or not desc:
+                    continue
+                # Skip lines with braces (malformed JSON-like output)
+                if "{" in word or "}" in word or "{" in desc or "}" in desc:
+                    continue
+                # Skip meta labels like "keyword:", "keywords:", "term:", etc.
+                word_lower = word.lower()
+                if word_lower in ("keyword", "keywords", "term", "terms", "word", "words"):
+                    continue
+                # Strip leading numbers/bullets (e.g., "1.", "1)", "-", "*")
+                word = re.sub(r"^[\d\.\)\-\*\s]+", "", word).strip()
+                if not word:
+                    continue
+
+                keywords.append({"word": word, "desc": desc})
+
+        return keywords
+
     def _handle_response_done(self) -> None:
         """Parse and emit completed response."""
-        keywords_text = self.response_buffer
-        context_text = ""
-
-        # Try CONTEXT:: first, then \n\n as fallback
-        if "CONTEXT::" in self.response_buffer:
-            parts = self.response_buffer.split("CONTEXT::", 1)
-            keywords_text = parts[0].strip()
-            context_text = parts[1].strip() if len(parts) > 1 else ""
-        elif "\n\n" in self.response_buffer:
-            parts = self.response_buffer.split("\n\n", 1)
-            keywords_text = parts[0].strip()
-            context_text = parts[1].strip() if len(parts) > 1 else ""
+        keywords_text = self.response_buffer.strip()
 
         # Parse keywords into list
-        keywords = []
-        for line in keywords_text.split("\n"):
-            if ":" in line and not line.upper().startswith("CONTEXT"):
-                word, desc = line.split(":", 1)
-                keywords.append({"word": word.strip(), "desc": desc.strip()})
+        # Try JSON-like format first: {"key": value, "key2": value2}
+        if keywords_text.startswith("{") and keywords_text.endswith("}"):
+            keywords = self._parse_json_format(keywords_text)
+        else:
+            keywords = self._parse_line_format(keywords_text)
 
         log_print(
             "INFO",
             "Response complete",
             session_id=self.session_id,
             keywords=keywords,
-            context=context_text,
         )
         self.logger.log(
             "response_done",
             response=self.response_buffer,
             keywords=keywords,
-            context=context_text,
         )
 
         # Track extracted keywords to avoid repetition
@@ -180,10 +217,6 @@ class RealtimeClient:
 
         # Emit to frontend
         self.sio.emit("keywords", keywords)
-        if context_text:
-            self.sio.emit("context", context_text)
-            if self.summary_client:
-                self.summary_client.set_global_context(context_text)
 
         self.response_buffer = ""
 
@@ -207,6 +240,10 @@ class RealtimeClient:
             "text": transcript.strip(),
             "full": self.transcript_buffer,
         })
+
+        # Forward to summary_client for topic change detection
+        if self.summary_client:
+            self.summary_client.receive_transcription(transcript)
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""

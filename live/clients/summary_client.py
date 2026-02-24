@@ -1,7 +1,9 @@
 """OpenAI Realtime API client for missed-segment recovery (summary/keywords/rejoin)."""
 
 import json
+import re
 import threading
+import time
 from typing import Any, Dict, List, Optional
 
 import websocket
@@ -15,7 +17,15 @@ from .prompt import (
     build_summary_prompt,
     build_keywords_prompt,
     build_transcript_prompt,
+    build_context_prompt,
 )
+
+# Words that indicate topic change (case-insensitive, at sentence start)
+TOPIC_CHANGE_WORDS = {
+    "now", "so", "anyway", "anyway,", "actually", "but", "however",
+    "moving on", "next", "alright", "okay", "ok", "well",
+    "let's", "let me", "speaking of", "by the way", "btw",
+}
 
 
 def _parse_recovery(text: str) -> Dict[str, Any]:
@@ -82,7 +92,18 @@ class SummaryClient:
         # Segment capture state
         self.capturing = False
         self.segment_id = 0
-        self._pending_kind: Optional[str] = None  # "recovery" (or future kinds)
+        self._pending_kind: Optional[str] = None  # "recovery", "context", etc.
+
+        # Continuous context mode - always listen and periodically emit context
+        self.continuous_mode = True
+        self.context_interval = 15.0  # seconds between context updates
+        self._context_timer: Optional[threading.Timer] = None
+        self._audio_received = False  # Track if any audio received since last context
+        self._last_context_time: float = 0.0  # Last context update time
+        self._min_context_interval: float = 5.0  # Minimum seconds between context updates
+
+        # Topic change detection
+        self._recent_transcript: str = ""  # Recent transcription text
 
         self._lock = threading.Lock()
 
@@ -98,6 +119,111 @@ class SummaryClient:
         self.global_context = context or ""
         log_print("DEBUG", "Global context updated", session_id=self.session_id)
         self.logger.log("global_context_updated", chars=len(self.global_context))
+
+    def receive_transcription(self, text: str) -> None:
+        """Receive transcription from realtime_client and check for topic changes."""
+        if not text or not self.continuous_mode:
+            return
+
+        # Append to recent transcript buffer
+        self._recent_transcript += " " + text.strip()
+        # Keep buffer manageable (last ~200 chars)
+        if len(self._recent_transcript) > 300:
+            self._recent_transcript = self._recent_transcript[-200:]
+
+        # Check for topic change indicators
+        if self._detect_topic_change(text):
+            self._trigger_context_update()
+
+    def _detect_topic_change(self, text: str) -> bool:
+        """Check if text starts with a topic change indicator."""
+        text_lower = text.strip().lower()
+
+        # Check if starts with any topic change word
+        for word in TOPIC_CHANGE_WORDS:
+            if text_lower.startswith(word + " ") or text_lower.startswith(word + ","):
+                log_print(
+                    "DEBUG",
+                    f"Topic change detected: '{word}'",
+                    session_id=self.session_id,
+                )
+                return True
+        return False
+
+    def _trigger_context_update(self) -> None:
+        """Trigger an immediate context update if enough time has passed."""
+        now = time.time()
+        if now - self._last_context_time < self._min_context_interval:
+            return  # Too soon, skip
+
+        # Cancel scheduled timer and request immediately
+        if self._context_timer:
+            self._context_timer.cancel()
+
+        self._request_context()
+
+    def _schedule_context_update(self) -> None:
+        """Schedule the next context update."""
+        if not self.running or not self.continuous_mode:
+            return
+
+        if self._context_timer:
+            self._context_timer.cancel()
+
+        self._context_timer = threading.Timer(
+            self.context_interval, self._request_context
+        )
+        self._context_timer.daemon = True
+        self._context_timer.start()
+
+    def _request_context(self) -> None:
+        """Request a context update from accumulated audio."""
+        if not self.running or not self.connected:
+            return
+
+        # Only request if we've received audio since last context
+        if not self._audio_received:
+            self._schedule_context_update()
+            return
+
+        with self._lock:
+            ws = self.ws
+
+        if not ws:
+            self._schedule_context_update()
+            return
+
+        self._audio_received = False
+        self._last_context_time = time.time()
+        self._pending_kind = "context"
+
+        # Commit accumulated audio
+        try:
+            ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+        except Exception as e:
+            self.logger.log("context_commit_failed", error=str(e))
+            self._schedule_context_update()
+            return
+
+        # Request context
+        prompt = build_context_prompt(self.global_context)
+        self.logger.log("context_request", context_chars=len(self.global_context))
+
+        try:
+            ws.send(
+                json.dumps(
+                    {
+                        "type": "response.create",
+                        "response": {
+                            "modalities": ["text"],
+                            "instructions": prompt,
+                        },
+                    }
+                )
+            )
+        except Exception as e:
+            self.logger.log("context_request_failed", error=str(e))
+            self._schedule_context_update()
 
     def start_miss(self) -> None:
         """Begin capturing a missed segment (explicit start)."""
@@ -212,6 +338,10 @@ class SummaryClient:
             )
         )
 
+        # Start continuous context updates if enabled
+        if self.continuous_mode:
+            self._schedule_context_update()
+
     def on_message(self, _ws: websocket.WebSocketApp, message: str) -> None:
         event = json.loads(message)
         etype = event.get("type", "")
@@ -246,6 +376,18 @@ class SummaryClient:
 
             # Check if empty response
             is_empty = raw.strip() == "..."
+
+            # Handle context mode separately
+            if mode == "context":
+                if not is_empty:
+                    self.sio.emit("context", {"text": raw.strip()})
+                    # Update global context with new info
+                    self.global_context = (self.global_context + " " + raw.strip()).strip()
+                    # Keep context from growing too large (last 500 chars)
+                    if len(self.global_context) > 500:
+                        self.global_context = self.global_context[-500:]
+                self._schedule_context_update()
+                return
 
             if mode == "keywords":
                 # Parse comma-separated keywords
@@ -336,8 +478,12 @@ class SummaryClient:
     # -------------------------
 
     def send_audio(self, audio_b64: str) -> None:
-        """Forward audio only while capturing a missed segment."""
-        if not self.running or not self.connected or not self.capturing:
+        """Forward audio. In continuous mode, always sends. Otherwise, only during capture."""
+        if not self.running or not self.connected:
+            return
+
+        # In continuous mode, always accept audio. Otherwise, only when capturing.
+        if not self.continuous_mode and not self.capturing:
             return
 
         with self._lock:
@@ -350,6 +496,7 @@ class SummaryClient:
             ws.send(
                 json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
             )
+            self._audio_received = True
         except websocket._exceptions.WebSocketConnectionClosedException:
             self.connected = False
             self.running = False
@@ -384,6 +531,11 @@ class SummaryClient:
         self.connected = False
         self.capturing = False
         self._pending_kind = None
+
+        # Cancel context timer
+        if self._context_timer:
+            self._context_timer.cancel()
+            self._context_timer = None
 
         self.logger.log("summary_client_stop")
 

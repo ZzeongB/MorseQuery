@@ -12,8 +12,8 @@ GLOBAL RULES:
 KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from the most recently committed audio only.
 
 Rules:
+- You MUST output AT LEAST 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
 - Keywords must be clearly spoken (no guessing).
-- You MUST output at least 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
 - Strictly output in the following format, with no extra text:
@@ -135,6 +135,27 @@ Transcribe the most recently committed missed segment verbatim.
 - Plain text only. No markdown.
 - Do NOT summarize.
 - If audio is unclear/noisy/silent: output exactly "...".
+"""
+
+
+def build_context_prompt(global_context: str) -> str:
+    """Build prompt for continuous context updates (what's being discussed now)."""
+    return """# ROLE
+You are a SILENT TOPIC TRACKER.
+
+# TASK
+Output the current topic as a simple noun phrase.
+
+# OUTPUT
+<noun phrase, 1-4 words>
+
+# RULES
+- Output ONLY a noun phrase. No verbs. No "talking about", "discussing", "explaining".
+- 1-4 words maximum. Shorter is better.
+- Use the main subject/topic being discussed.
+- Good: "budget cuts", "new app features", "team schedule", "pricing strategy"
+- Bad: "talking about budget", "discussing the app", "how to save money"
+- If unclear/silent: output "...".
 """
 
 

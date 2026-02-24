@@ -188,7 +188,7 @@ def handle_stop():
 @sio.on("request")
 def handle_request():
     """Handle manual keyword extraction request."""
-    global client, summary_client
+    global client
     session_id = request.sid
     log_print("INFO", "Manual request triggered", session_id=session_id)
 
@@ -196,14 +196,6 @@ def handle_request():
         client.request()
     else:
         log_print("WARN", "Request ignored - no running client", session_id=session_id)
-
-    if summary_client:
-        summary_client.start_miss()
-        # summary_client.stop()
-
-    # summary_client = SummaryClient(sio, session_id)
-    # client.summary_client = summary_client
-    # summary_client.start()
 
 
 @sio.on("request_summary")

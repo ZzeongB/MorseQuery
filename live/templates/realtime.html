@@ -15,7 +15,7 @@
         .source-select span { margin-right: 15px; font-size: 14px; color: #888; }
 
         /* Main layout */
-        #main-content { display: none; width: 100%; padding: 20px; padding-bottom: 50px; }
+        #main-content { display: none; width: 100%; padding: 20px; padding-bottom: 50px; padding-right: 320px; }
 
         /* Row-based layout: each option is a row with keyword + description */
         .options-list {
@@ -70,22 +70,43 @@
         .desc-box code { background: #222; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
 
         /* Summary */
-        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; max-width: 500px; }
+        #summary { margin-top: 16px; margin-left: auto; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; max-width: 500px; text-align: right; }
         #summary.fade-out { opacity: 0; }
 
-        /* Progress ring (fills while holding spacebar) */
+        /* Tap/Progress indicator (top of main-content) */
+        .tap-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            height: 24px;
+        }
+        .tap-dot {
+            width: 12px;
+            height: 12px;
+            background: #4ade80;
+            border-radius: 50%;
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        .tap-dot.pulse {
+            animation: tapPulse 0.4s ease-out;
+        }
+        @keyframes tapPulse {
+            0% { opacity: 1; transform: scale(0.5); }
+            30% { opacity: 1; transform: scale(1.3); }
+            100% { opacity: 0; transform: scale(1); }
+        }
+        /* Progress ring for long-press */
         .progress-ring-container {
             display: none;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
         }
         .progress-ring-container.active {
-            display: flex;
+            display: block;
         }
         .progress-ring {
-            width: 28px;
-            height: 28px;
+            width: 24px;
+            height: 24px;
             transform: rotate(-90deg);
         }
         .progress-ring-bg {
@@ -98,21 +119,18 @@
             stroke: #4ade80;
             stroke-width: 3;
             stroke-linecap: round;
-            stroke-dasharray: 69.115; /* 2 * PI * 11 (radius) */
-            stroke-dashoffset: 69.115;
+            stroke-dasharray: 56.55; /* 2 * PI * 9 */
+            stroke-dashoffset: 56.55;
             transition: stroke-dashoffset 0.05s linear;
         }
-        .progress-ring-container .label {
-            font-size: 12px;
-            color: #888;
-        }
 
-        /* Loading indicator (after progress complete) */
+        /* Loading indicator (left aligned) */
         .loading-indicator {
             display: none;
             align-items: center;
             gap: 6px;
             margin-bottom: 20px;
+            justify-content: flex-start;
         }
         .loading-indicator.active {
             display: flex;
@@ -288,6 +306,55 @@
             color: #ccc;
         }
 
+        /* Right-side context panel */
+        #context-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid #a78bfa;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #c4b5fd;
+            line-height: 1.4;
+            z-index: 80;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #context-panel.visible {
+            display: block;
+            opacity: 1;
+        }
+        #context-panel .context-header {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        #context-panel .context-header::before {
+            content: '';
+            width: 5px;
+            height: 5px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        #context-panel .context-text {
+            color: #e0e0e0;
+            font-weight: 500;
+            text-align: right;
+        }
+
     </style>
 </head>
 <body>
@@ -331,20 +398,24 @@
     </div>
 
     <div id="main-content">
-         <!-- Progress ring (fills while holding) -->
-        <div class="progress-ring-container" id="progressRing">
-            <svg class="progress-ring" viewBox="0 0 28 28">
-                <circle class="progress-ring-bg" cx="14" cy="14" r="11"/>
-                <circle class="progress-ring-fill" id="progressCircle" cx="14" cy="14" r="11"/>
-            </svg>
+        <!-- Tap/Progress indicator -->
+        <div class="tap-indicator" id="tapIndicator">
+            <div class="progress-ring-container" id="progressRing">
+                <svg class="progress-ring" viewBox="0 0 24 24">
+                    <circle class="progress-ring-bg" cx="12" cy="12" r="9"/>
+                    <circle class="progress-ring-fill" id="progressCircle" cx="12" cy="12" r="9"/>
+                </svg>
+            </div>
         </div>
-        <!-- Loading indicator (after ring completes) -->
+
+        <!-- Loading indicator -->
         <div class="loading-indicator" id="loadingIndicator">
             <div class="loading-dots">
                 <span></span><span></span><span></span>
             </div>
             <span class="label">Searching</span>
         </div>
+
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
     </div>
@@ -352,6 +423,11 @@
     <!-- Transcription bar (always at bottom) -->
     <div id="transcription-bar">
         <div id="transcription-text"></div>
+    </div>
+
+    <!-- Context panel -->
+    <div id="context-panel">
+        <div class="context-text" id="context-text"></div>
     </div>
 
     <script>
@@ -368,17 +444,22 @@
         let infoVisible = false;
         let longPressTimer = null;
         let longPressThreshold = 500;
-        let progressDelayThreshold = 150; // Delay before showing progress ring
-        let progressDelayTimer = null;
         let spaceDownTime = 0;
         let isLongPress = false;
         let groundingData = null;
         let summaryMode = 'summary';
         let progressAnimationId = null;
-        let lastRightClick = 0;
-        const CIRCUMFERENCE = 2 * Math.PI * 11; // 69.115
+        const CIRCUMFERENCE = 2 * Math.PI * 9; // 56.55
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
+
+        // Context auto-update state
+        let contextAutoEnabled = false;
+        let contextLastContent = '';
+        let contextLastShowTime = 0;
+        let contextInitialTimer = null;  // 5s timer after double-tap
+        let contextIntervalTimer = null; // 10s interval timer
+        let contextContentChanged = false;
 
         function setSummaryMode(sm) {
             summaryMode = sm;
@@ -569,6 +650,25 @@
             document.getElementById('optionsList').innerHTML = '';
         });
 
+        socket.on('context', data => {
+            const textEl = document.getElementById('context-text');
+            // Handle both string and object formats
+            const text = typeof data === 'string' ? data : (data.text || '');
+            if (text && text !== '...') {
+                // Check if content changed
+                if (text !== contextLastContent) {
+                    contextLastContent = text;
+                    contextContentChanged = true;
+                    textEl.innerHTML = text;
+
+                    // If auto-update enabled, show on content change
+                    if (contextAutoEnabled) {
+                        showContextPanel();
+                    }
+                }
+            }
+        });
+
         socket.on('session_ended', () => {
             options = [];
             currentIdx = 0;
@@ -578,8 +678,14 @@
             document.getElementById('summary').style.display = 'none';
             document.getElementById('transcription-bar').classList.remove('visible');
             document.getElementById('transcription-text').innerHTML = '';
+            document.getElementById('context-panel').classList.remove('visible');
+            document.getElementById('context-text').innerHTML = '';
             hideProgressRing();
             hideLoadingIndicator();
+            // Clear context auto-update state
+            clearContextTimers();
+            contextAutoEnabled = false;
+            contextLastContent = '';
         });
 
         socket.on('recovery_done', data => {
@@ -705,13 +811,33 @@
             socket.emit('start', {mode: m, source: source});
         }
 
+        function showLoadingIndicator() {
+            document.getElementById('loadingIndicator').classList.add('active');
+        }
+
+        function hideLoadingIndicator() {
+            document.getElementById('loadingIndicator').classList.remove('active');
+        }
+
+        function showTapIndicator() {
+            const dot = document.getElementById('tapDot');
+            if (!dot) return;
+            dot.classList.remove('pulse');
+            void dot.offsetWidth;
+            dot.classList.add('pulse');
+        }
+
+        function showDoubletapIndicator() {
+            showTapIndicator();
+        }
+
         function updateProgress() {
             const elapsed = Date.now() - spaceDownTime;
             const progress = Math.min(elapsed / longPressThreshold, 1);
             const offset = CIRCUMFERENCE * (1 - progress);
             document.getElementById('progressCircle').style.strokeDashoffset = offset;
 
-            if (progress < 1) {
+            if (progress >= 0.1 && progress < 1 && !isLongPress) {
                 progressAnimationId = requestAnimationFrame(updateProgress);
             }
         }
@@ -731,13 +857,56 @@
             }
         }
 
-        function showLoadingIndicator() {
-            hideProgressRing();
-            document.getElementById('loadingIndicator').classList.add('active');
+        function showContextPanel() {
+            const panel = document.getElementById('context-panel');
+            panel.classList.add('visible');
+            contextLastShowTime = Date.now();
+            contextContentChanged = false;
         }
 
-        function hideLoadingIndicator() {
-            document.getElementById('loadingIndicator').classList.remove('active');
+        function hideContextPanel() {
+            const panel = document.getElementById('context-panel');
+            panel.classList.remove('visible');
+        }
+
+        function clearContextTimers() {
+            if (contextInitialTimer) {
+                clearTimeout(contextInitialTimer);
+                contextInitialTimer = null;
+            }
+            if (contextIntervalTimer) {
+                clearInterval(contextIntervalTimer);
+                contextIntervalTimer = null;
+            }
+        }
+
+        function startContextAutoUpdate() {
+            clearContextTimers();
+            contextAutoEnabled = true;
+            contextContentChanged = false;
+
+            // Show context immediately
+            showContextPanel();
+
+            // After 5 seconds, check if we should show again
+            contextInitialTimer = setTimeout(() => {
+                // Show once at 5s mark (or earlier if content changed)
+                showContextPanel();
+
+                // After 10s from double-tap, start 10s interval
+                contextInitialTimer = setTimeout(() => {
+                    // Start 10s interval updates
+                    contextIntervalTimer = setInterval(() => {
+                        showContextPanel();
+                    }, 10000);
+                }, 5000); // 5s more to reach 10s total
+            }, 5000);
+        }
+
+        function stopContextAutoUpdate() {
+            clearContextTimers();
+            contextAutoEnabled = false;
+            hideContextPanel();
         }
 
         function requestGrounding() {
@@ -749,37 +918,33 @@
         }
 
         function handleInputStart() {
+            console.log('[INPUT] handleInputStart called');
             spaceDownTime = Date.now();
             isLongPress = false;
 
-            // Delay showing progress ring to avoid flashing on quick taps
-            if (options.length > 0) {
-                progressDelayTimer = setTimeout(() => {
-                    showProgressRing();
-                }, progressDelayThreshold);
-            }
+            // Show tap indicator (dot pulse)
+            showTapIndicator();
+            // Show progress ring filling up
+            showProgressRing();
 
             longPressTimer = setTimeout(() => {
+                console.log('[INPUT] longPressTimer fired, options:', options.length);
                 isLongPress = true;
+                hideProgressRing();
                 requestGrounding();
             }, longPressThreshold);
         }
 
         function handleInputEnd() {
-            // Clear timers
+            console.log('[INPUT] handleInputEnd called, isLongPress:', isLongPress);
+            // Clear timer
             if (longPressTimer) {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
             }
-            if (progressDelayTimer) {
-                clearTimeout(progressDelayTimer);
-                progressDelayTimer = null;
-            }
 
-            // Hide progress ring if released before threshold
-            if (!isLongPress) {
-                hideProgressRing();
-            }
+            // Hide progress ring
+            hideProgressRing();
 
             if (isLongPress) {
                 isLongPress = false;
@@ -791,17 +956,11 @@
         function handleShortPress() {
             const now = Date.now();
             if (now - lastSpace < 300) {
-                // Double tap
-                if (infoVisible) {
-                    hideInfo();
-                    summaryBuffer = '';
-                    document.getElementById('summary').innerText = '';
-                    socket.emit('request_summary', { mode: summaryMode });
-                } else {
-                    document.getElementById('summary').style.display = 'none';
-                    groundingData = null;
-                    socket.emit('request');
-                }
+                // Double tap - show context with auto-update + request keywords
+                showDoubletapIndicator();
+                groundingData = null;
+                socket.emit('request');  // Request new keywords
+                startContextAutoUpdate(); // Show context with auto-update
                 lastSpace = 0;
             } else {
                 // Single tap - wait to see if double
@@ -836,13 +995,19 @@
             }
         });
 
-        // Right-click (contextmenu) support
+        // Right-click support
         document.addEventListener('contextmenu', e => {
-            e.preventDefault();
+            e.preventDefault(); // Prevent context menu
+        });
+
+        document.addEventListener('mousedown', e => {
+            console.log('[EVENT] mousedown, button:', e.button);
+            if (e.button !== 2) return; // Only right-click
             handleInputStart();
         });
 
         document.addEventListener('mouseup', e => {
+            console.log('[EVENT] mouseup, button:', e.button);
             if (e.button !== 2) return; // Only right-click
             const wasLongPress = handleInputEnd();
             if (!wasLongPress) {
