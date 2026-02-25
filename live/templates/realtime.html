@@ -625,21 +625,13 @@
         });
 
         socket.on('keywords', data => {
-            options = data;
-            currentIdx = 0;
-            groundingData = null;
-            render();
-            infoVisible = true;
-        });
-        socket.on('keywords_append', data => {
-            // Append new keywords (for automatic mode)
+            // Append new keywords and keep last 3
             options = options.concat(data);
-            // Limit to last 10 keywords to avoid UI clutter
-            const MAX_KEYWORDS = 10;
+            const MAX_KEYWORDS = 3;
             if (options.length > MAX_KEYWORDS) {
                 options = options.slice(-MAX_KEYWORDS);
             }
-            // Keep focus on newest keyword
+            // Focus on newest keyword
             currentIdx = options.length - 1;
             groundingData = null;
             render();
@@ -663,10 +655,9 @@
             }, 4000);
         });
         socket.on('clear', () => {
-            options = [];
-            currentIdx = 0;
+            // Don't clear keywords - keep last 3 visible
+            // Only clear grounding data
             groundingData = null;
-            document.getElementById('optionsList').innerHTML = '';
         });
 
         socket.on('context', data => {

@@ -10,7 +10,7 @@ GLOBAL RULES:
 """
 
 AUTOMATIC_SESSION_INSTRUCTIONS = """You are a proactive real-time keyword extractor for difficult words.
-You continuously listen to audio and IMMEDIATELY output keywords when you hear hard/technical/uncommon words.
+You continuously listen to audio and IMMEDIATELY output keywords when you hear HARD/TECHNICAL/UNCOMMON words.
 
 GLOBAL RULES:
 - Do NOT engage in conversation or address any speaker.
@@ -37,7 +37,7 @@ Examples of hard words to extract:
 - Acronyms that need explanation: "GDP", "API", "HIPAA"
 
 Examples of words to SKIP (too common):
-- Basic words: "the", "and", "important", "good", "bad"
+- Basic words: "the", "and", "important", "good", "bad", "%"
 - Common concepts: "money", "business", "computer", "phone"
 """
 

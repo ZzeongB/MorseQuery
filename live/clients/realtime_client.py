@@ -30,11 +30,7 @@ from pydub import AudioSegment
 if TYPE_CHECKING:
     from clients.summary_client import SummaryClient
 
-from .prompt import (
-    AUTOMATIC_SESSION_INSTRUCTIONS,
-    KEYWORD_EXTRACTION_PROMPT,
-    KEYWORD_SESSION_INSTRUCTIONS,
-)
+from .prompt import KEYWORD_EXTRACTION_PROMPT, KEYWORD_SESSION_INSTRUCTIONS
 
 
 class RealtimeClient:
@@ -85,30 +81,14 @@ class RealtimeClient:
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
 
-        # Choose session config based on mode
-        if self.mode == "automatic":
-            # Automatic mode: proactive keyword extraction with server VAD
-            session_config = {
-                "modalities": ["text", "audio"],
-                "input_audio_format": "pcm16",
-                "turn_detection": {
-                    "type": "server_vad",
-                    "threshold": 0.5,
-                    "prefix_padding_ms": 300,
-                    "silence_duration_ms": 500,
-                },
-                "instructions": AUTOMATIC_SESSION_INSTRUCTIONS,
-                "input_audio_transcription": {"model": "whisper-1"},
-            }
-        else:
-            # Manual/auto mode: keyword extraction on request
-            session_config = {
-                "modalities": ["text", "audio"],
-                "input_audio_format": "pcm16",
-                "turn_detection": None,
-                "instructions": KEYWORD_SESSION_INSTRUCTIONS,
-                "input_audio_transcription": {"model": "whisper-1"},
-            }
+        # All modes use the same session config (turn_detection=None, manual control)
+        session_config = {
+            "modalities": ["text", "audio"],
+            "input_audio_format": "pcm16",
+            "turn_detection": None,
+            "instructions": KEYWORD_SESSION_INSTRUCTIONS,
+            "input_audio_transcription": {"model": "whisper-1"},
+        }
 
         ws.send(json.dumps({"type": "session.update", "session": session_config}))
         log_print("DEBUG", "Session update sent", session_id=self.session_id, mode=self.mode)
@@ -214,7 +194,6 @@ class RealtimeClient:
             "Response complete",
             session_id=self.session_id,
             keywords=keywords,
-            mode=self.mode,
         )
         self.logger.log(
             "response_done",
@@ -233,11 +212,7 @@ class RealtimeClient:
             self.user_actions[-1]["keywords"] = keywords
 
         # Emit to frontend
-        # In automatic mode, append keywords; in other modes, replace
-        if self.mode == "automatic":
-            self.sio.emit("keywords_append", keywords)
-        else:
-            self.sio.emit("keywords", keywords)
+        self.sio.emit("keywords", keywords)
 
         self.response_buffer = ""
 
@@ -330,7 +305,7 @@ class RealtimeClient:
                     session_id=self.session_id,
                 )
 
-            if self.mode == "auto" and self.chunks_sent % chunks_per_interval == 0:
+            if self.mode in ("auto", "automatic") and self.chunks_sent % chunks_per_interval == 0:
                 self.request()
 
         stream.stop_stream()
@@ -409,7 +384,7 @@ class RealtimeClient:
                     chunks=self.chunks_sent,
                 )
 
-            if self.mode == "auto" and self.chunks_sent % chunks_per_interval == 0:
+            if self.mode in ("auto", "automatic") and self.chunks_sent % chunks_per_interval == 0:
                 self.request()
 
         if self.running:
