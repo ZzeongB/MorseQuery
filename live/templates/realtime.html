@@ -355,6 +355,49 @@
             text-align: right;
         }
 
+        /* Speech bubbles container */
+        #phrases-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 80px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            z-index: 80;
+            max-width: 350px;
+            pointer-events: none;
+        }
+
+        /* Individual speech bubble */
+        .speech-bubble {
+            background: rgba(26, 26, 46, 0.95);
+            border: 1px solid #a78bfa;
+            border-radius: 16px;
+            border-bottom-right-radius: 4px;
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #e0e0e0;
+            line-height: 1.4;
+            max-width: 100%;
+            animation: bubbleIn 0.3s ease-out;
+            opacity: 1;
+            transition: opacity 0.5s ease-out;
+        }
+        .speech-bubble.fade-out {
+            opacity: 0;
+        }
+        @keyframes bubbleIn {
+            0% {
+                opacity: 0;
+                transform: translateX(20px) scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -368,6 +411,11 @@
             <span>Mode:</span>
             <button id="btn-manual" class="selected" onclick="setMode('manual')">Manual</button>
             <button id="btn-automatic" onclick="setMode('automatic')">Automatic</button>
+        </div>
+        <div class="source-select">
+            <span>Context:</span>
+            <button id="btn-ctx-topic" class="selected" onclick="setContextMode('context')">Topic</button>
+            <button id="btn-ctx-phrases" onclick="setContextMode('phrases')">Phrases</button>
         </div>
         <div class="source-select height-selector">
             <span>Height:</span>
@@ -424,10 +472,13 @@
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
     </div>
-    <!-- Context panel -->
+    <!-- Context panel (noun phrase mode) -->
     <div id="context-panel">
         <div class="context-text" id="context-text"></div>
     </div>
+
+    <!-- Phrases panel (speech bubbles mode) -->
+    <div id="phrases-panel"></div>
 
     <script>
         const socket = io();
@@ -435,6 +486,7 @@
         let view = 'single';
         let descView = 'single';
         let source = 'mp3';
+        let contextMode = 'context'; // 'context' (topic) or 'phrases' (speech bubbles)
         let options = [];
         let currentIdx = 0;
         let summaryBuffer = '';
@@ -477,6 +529,14 @@
             mode = m;
             document.getElementById('btn-manual').classList.toggle('selected', m === 'manual');
             document.getElementById('btn-automatic').classList.toggle('selected', m === 'automatic');
+        }
+
+        function setContextMode(cm) {
+            contextMode = cm;
+            document.getElementById('btn-ctx-topic').classList.toggle('selected', cm === 'context');
+            document.getElementById('btn-ctx-phrases').classList.toggle('selected', cm === 'phrases');
+            // Notify server
+            socket.emit('set_context_mode', { mode: cm });
         }
 
         function setDescView(dv) {
@@ -679,6 +739,31 @@
             }
         });
 
+        socket.on('phrases', data => {
+            if (contextMode !== 'phrases') return;
+            const phrases = data.phrases || [];
+            if (phrases.length === 0) return;
+
+            const panel = document.getElementById('phrases-panel');
+
+            // Fade out existing bubbles before adding new ones
+            Array.from(panel.children).forEach(bubble => {
+                bubble.classList.add('fade-out');
+                setTimeout(() => bubble.remove(), 500);
+            });
+
+            // Add new bubbles after a small delay (in reverse order so newest is at bottom)
+            setTimeout(() => {
+                phrases.reverse().forEach((phrase, idx) => {
+                    const bubble = document.createElement('div');
+                    bubble.className = 'speech-bubble';
+                    bubble.textContent = phrase;
+                    bubble.style.animationDelay = (idx * 0.1) + 's';
+                    panel.appendChild(bubble);
+                });
+            }, 100);
+        });
+
         socket.on('session_ended', () => {
             options = [];
             currentIdx = 0;
@@ -690,6 +775,7 @@
             document.getElementById('transcription-text').innerHTML = '';
             document.getElementById('context-panel').classList.remove('visible');
             document.getElementById('context-text').innerHTML = '';
+            document.getElementById('phrases-panel').innerHTML = '';
             hideProgressRing();
             hideLoadingIndicator();
             // Clear context auto-update state
@@ -817,7 +903,7 @@
             view = v;
             document.getElementById('menu').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            socket.emit('start', {mode: mode, source: source});
+            socket.emit('start', {mode: mode, source: source, contextMode: contextMode});
         }
 
         function showLoadingIndicator() {

@@ -191,6 +191,35 @@ Output the current topic as a simple noun phrase.
 """
 
 
+def build_phrases_prompt(global_context: str) -> str:
+    """Build prompt for phrase-based summaries (speech bubble style)."""
+    return f"""# ROLE
+You are a SILENT PHRASE SUMMARIZER for live speech.
+
+# GLOBAL CONTEXT (partial)
+{global_context}
+
+# TASK
+Summarize EACH distinct point/sentence from the recent audio as a SHORT phrase.
+Output 1-3 phrases, one per line, most recent first.
+
+# OUTPUT FORMAT
+<short phrase 1>
+<short phrase 2>
+<short phrase 3>
+
+# RULES
+- Each phrase: 3-8 words. Capture the essence.
+- Use active voice, present tense when possible.
+- Good: "deadline moved to Friday", "budget increased by 20%", "hiring two engineers"
+- Bad: "The speaker mentioned that the deadline...", "It was discussed that..."
+- No bullet points, numbers, or labels. Just the phrases.
+- If multiple topics: separate phrase per topic.
+- Most recent/important first.
+- If unclear/silent: output "...".
+"""
+
+
 def build_recovery_prompt(global_context: str) -> str:
     # NOTE: If you want to hard-limit length, do it before passing global_context.
     return f"""# ROLE

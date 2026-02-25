@@ -18,6 +18,7 @@ from .prompt import (
     build_keywords_prompt,
     build_transcript_prompt,
     build_context_prompt,
+    build_phrases_prompt,
 )
 
 # Words that indicate topic change (case-insensitive, at sentence start)
@@ -96,6 +97,7 @@ class SummaryClient:
 
         # Continuous context mode - always listen and periodically emit context
         self.continuous_mode = True
+        self.context_mode = "context"  # "context" (noun phrase) or "phrases" (speech bubbles)
         self.context_interval = 15.0  # seconds between context updates
         self._context_timer: Optional[threading.Timer] = None
         self._audio_received = False  # Track if any audio received since last context
@@ -119,6 +121,13 @@ class SummaryClient:
         self.global_context = context or ""
         log_print("DEBUG", "Global context updated", session_id=self.session_id)
         self.logger.log("global_context_updated", chars=len(self.global_context))
+
+    def set_context_mode(self, mode: str) -> None:
+        """Set context mode: 'context' (noun phrase) or 'phrases' (speech bubbles)."""
+        if mode in ("context", "phrases"):
+            self.context_mode = mode
+            log_print("INFO", f"Context mode set to: {mode}", session_id=self.session_id)
+            self.logger.log("context_mode_changed", mode=mode)
 
     def receive_transcription(self, text: str) -> None:
         """Receive transcription from realtime_client and check for topic changes."""
@@ -195,7 +204,7 @@ class SummaryClient:
 
         self._audio_received = False
         self._last_context_time = time.time()
-        self._pending_kind = "context"
+        self._pending_kind = self.context_mode  # "context" or "phrases"
 
         # Commit accumulated audio
         try:
@@ -205,9 +214,12 @@ class SummaryClient:
             self._schedule_context_update()
             return
 
-        # Request context
-        prompt = build_context_prompt(self.global_context)
-        self.logger.log("context_request", context_chars=len(self.global_context))
+        # Request context based on mode
+        if self.context_mode == "phrases":
+            prompt = build_phrases_prompt(self.global_context)
+        else:
+            prompt = build_context_prompt(self.global_context)
+        self.logger.log("context_request", mode=self.context_mode, context_chars=len(self.global_context))
 
         try:
             ws.send(
@@ -377,7 +389,7 @@ class SummaryClient:
             # Check if empty response
             is_empty = raw.strip() == "..."
 
-            # Handle context mode separately
+            # Handle context/phrases mode separately
             if mode == "context":
                 if not is_empty:
                     self.sio.emit("context", {"text": raw.strip()})
@@ -386,6 +398,19 @@ class SummaryClient:
                     # Keep context from growing too large (last 500 chars)
                     if len(self.global_context) > 500:
                         self.global_context = self.global_context[-500:]
+                self._schedule_context_update()
+                return
+
+            if mode == "phrases":
+                if not is_empty:
+                    # Parse phrases (one per line)
+                    phrases = [p.strip() for p in raw.strip().split("\n") if p.strip() and p.strip() != "..."]
+                    if phrases:
+                        self.sio.emit("phrases", {"phrases": phrases})
+                        # Update global context with first (most recent) phrase
+                        self.global_context = (self.global_context + " " + phrases[0]).strip()
+                        if len(self.global_context) > 500:
+                            self.global_context = self.global_context[-500:]
                 self._schedule_context_update()
                 return
 
