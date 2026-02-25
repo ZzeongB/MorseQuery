@@ -56,9 +56,15 @@ Order:
 Format:
 <keyword>: <1–6 word description>
 
-Example:
+VALID Example:
 AI: Artificial Intelligence
 Machine Learning: Subfield of AI focused on data-driven models
+
+INVALID EXAMPLES (DO NOT DO THIS):
+- “It sounds like they are talking about economics”  ❌ (inference)
+- “trade policy” without it being spoken ❌ (guessing)
+- “interesting point” ❌ (vague)
+- Keyword - description ❌ (wrong format)
 """
 
 # Keep session instructions minimal; put strict rules in per-request prompts.
