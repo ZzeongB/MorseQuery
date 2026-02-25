@@ -77,24 +77,23 @@
         .tap-indicator {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 16px;
             height: 24px;
         }
         .tap-dot {
-            width: 12px;
-            height: 12px;
-            background: #4ade80;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
+            background: #4ade80;
             opacity: 0;
-            transform: scale(0.5);
         }
-        .tap-dot.pulse {
-            animation: tapPulse 0.4s ease-out;
+        .tap-dot.show {
+            animation: dotPulse 0.5s ease-out;
         }
-        @keyframes tapPulse {
-            0% { opacity: 1; transform: scale(0.5); }
-            30% { opacity: 1; transform: scale(1.3); }
+        @keyframes dotPulse {
+            0% { opacity: 1; transform: scale(0.6); }
+            30% { opacity: 1; transform: scale(1.1); }
             100% { opacity: 0; transform: scale(1); }
         }
         /* Progress ring for long-press */
@@ -453,6 +452,8 @@
     <div id="main-content">
         <!-- Tap/Progress indicator -->
         <div class="tap-indicator" id="tapIndicator">
+            <span class="tap-dot" id="tapDot1"></span>
+            <span class="tap-dot" id="tapDot2"></span>
             <div class="progress-ring-container" id="progressRing">
                 <svg class="progress-ring" viewBox="0 0 24 24">
                     <circle class="progress-ring-bg" cx="12" cy="12" r="9"/>
@@ -500,7 +501,9 @@
         let groundingData = null;
         let summaryMode = 'summary';
         let progressAnimationId = null;
+        let progressRingTimer = null;
         const CIRCUMFERENCE = 2 * Math.PI * 9; // 56.55
+        const PROGRESS_RING_DELAY = 300; // ms before showing progress ring
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
 
@@ -685,6 +688,7 @@
         });
 
         socket.on('keywords', data => {
+            hideLoadingIndicator();
             // Append new keywords and keep last 3
             options = options.concat(data);
             const MAX_KEYWORDS = 3;
@@ -906,7 +910,10 @@
             socket.emit('start', {mode: mode, source: source, contextMode: contextMode});
         }
 
-        function showLoadingIndicator() {
+        function showLoadingIndicator(label = 'Searching') {
+            document.getElementById('tapDot1').style.display = 'none';
+            document.getElementById('tapDot2').style.display = 'none';
+            document.querySelector('#loadingIndicator .label').textContent = label;
             document.getElementById('loadingIndicator').classList.add('active');
         }
 
@@ -915,15 +922,30 @@
         }
 
         function showTapIndicator() {
-            const dot = document.getElementById('tapDot');
-            if (!dot) return;
-            dot.classList.remove('pulse');
-            void dot.offsetWidth;
-            dot.classList.add('pulse');
+            const dot1 = document.getElementById('tapDot1');
+            const dot2 = document.getElementById('tapDot2');
+            if (!dot1) return;
+            // Restore display first
+            dot1.style.display = '';
+            dot2.style.display = '';
+            dot1.classList.remove('show');
+            dot2.classList.remove('show');
+            void dot1.offsetWidth;
+            dot1.classList.add('show');
         }
 
         function showDoubletapIndicator() {
-            showTapIndicator();
+            const dot1 = document.getElementById('tapDot1');
+            const dot2 = document.getElementById('tapDot2');
+            if (!dot1 || !dot2) return;
+            // Restore display first
+            dot1.style.display = '';
+            dot2.style.display = '';
+            dot1.classList.remove('show');
+            dot2.classList.remove('show');
+            void dot1.offsetWidth;
+            dot1.classList.add('show');
+            dot2.classList.add('show');
         }
 
         function updateProgress() {
@@ -942,6 +964,9 @@
         }
 
         function showProgressRing() {
+            // Hide dots, show ring
+            document.getElementById('tapDot1').style.display = 'none';
+            document.getElementById('tapDot2').style.display = 'none';
             document.getElementById('progressRing').classList.add('active');
             document.getElementById('progressCircle').style.strokeDashoffset = CIRCUMFERENCE;
             progressAnimationId = requestAnimationFrame(updateProgress);
@@ -1023,8 +1048,10 @@
 
             // Show tap indicator (dot pulse)
             showTapIndicator();
-            // Show progress ring filling up
-            showProgressRing();
+            // Show progress ring after delay
+            progressRingTimer = setTimeout(() => {
+                showProgressRing();
+            }, PROGRESS_RING_DELAY);
 
             longPressTimer = setTimeout(() => {
                 console.log('[INPUT] longPressTimer fired, options:', options.length);
@@ -1036,10 +1063,14 @@
 
         function handleInputEnd() {
             console.log('[INPUT] handleInputEnd called, isLongPress:', isLongPress);
-            // Clear timer
+            // Clear timers
             if (longPressTimer) {
                 clearTimeout(longPressTimer);
                 longPressTimer = null;
+            }
+            if (progressRingTimer) {
+                clearTimeout(progressRingTimer);
+                progressRingTimer = null;
             }
 
             // Hide progress ring
@@ -1059,6 +1090,7 @@
                 showDoubletapIndicator();
                 groundingData = null;
                 socket.emit('request');  // Request new keywords
+                showLoadingIndicator('Inferring');
                 startContextAutoUpdate(); // Show context with auto-update
                 lastSpace = 0;
             } else {
