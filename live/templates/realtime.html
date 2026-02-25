@@ -62,10 +62,6 @@
             background: #252525;
             border-color: #4ade80;
         }
-        .desc-box.grounding {
-            background: #0a1a0a;
-            border-color: #4ade80;
-        }
         .desc-box strong { color: #fff; }
         .desc-box code { background: #222; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
 
@@ -96,33 +92,6 @@
             30% { opacity: 1; transform: scale(1.1); }
             100% { opacity: 0; transform: scale(1); }
         }
-        /* Progress ring for long-press */
-        .progress-ring-container {
-            display: none;
-        }
-        .progress-ring-container.active {
-            display: block;
-        }
-        .progress-ring {
-            width: 24px;
-            height: 24px;
-            transform: rotate(-90deg);
-        }
-        .progress-ring-bg {
-            fill: none;
-            stroke: #333;
-            stroke-width: 3;
-        }
-        .progress-ring-fill {
-            fill: none;
-            stroke: #4ade80;
-            stroke-width: 3;
-            stroke-linecap: round;
-            stroke-dasharray: 56.55; /* 2 * PI * 9 */
-            stroke-dashoffset: 56.55;
-            transition: stroke-dashoffset 0.05s linear;
-        }
-
         /* Loading indicator (left aligned) */
         .loading-indicator {
             display: none;
@@ -416,6 +385,11 @@
             <button id="btn-ctx-topic" class="selected" onclick="setContextMode('context')">Topic</button>
             <button id="btn-ctx-phrases" onclick="setContextMode('phrases')">Phrases</button>
         </div>
+        <div class="source-select">
+            <span>Dismiss:</span>
+            <button id="btn-dismiss-summary" class="selected" onclick="setDismissMode('summary')">With Summary</button>
+            <button id="btn-dismiss-none" onclick="setDismissMode('none')">No Summary</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -450,16 +424,10 @@
     </div>
 
     <div id="main-content">
-        <!-- Tap/Progress indicator -->
+        <!-- Tap indicator -->
         <div class="tap-indicator" id="tapIndicator">
             <span class="tap-dot" id="tapDot1"></span>
             <span class="tap-dot" id="tapDot2"></span>
-            <div class="progress-ring-container" id="progressRing">
-                <svg class="progress-ring" viewBox="0 0 24 24">
-                    <circle class="progress-ring-bg" cx="12" cy="12" r="9"/>
-                    <circle class="progress-ring-fill" id="progressCircle" cx="12" cy="12" r="9"/>
-                </svg>
-            </div>
         </div>
 
         <!-- Loading indicator -->
@@ -494,16 +462,8 @@
         let summaryTimer = null;
         let lastSpace = 0;
         let infoVisible = false;
-        let longPressTimer = null;
-        let longPressThreshold = 500;
-        let spaceDownTime = 0;
-        let isLongPress = false;
-        let groundingData = null;
         let summaryMode = 'summary';
-        let progressAnimationId = null;
-        let progressRingTimer = null;
-        const CIRCUMFERENCE = 2 * Math.PI * 9; // 56.55
-        const PROGRESS_RING_DELAY = 300; // ms before showing progress ring
+        let dismissMode = 'summary'; // 'summary' or 'none'
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
 
@@ -540,6 +500,12 @@
             document.getElementById('btn-ctx-phrases').classList.toggle('selected', cm === 'phrases');
             // Notify server
             socket.emit('set_context_mode', { mode: cm });
+        }
+
+        function setDismissMode(dm) {
+            dismissMode = dm;
+            document.getElementById('btn-dismiss-summary').classList.toggle('selected', dm === 'summary');
+            document.getElementById('btn-dismiss-none').classList.toggle('selected', dm === 'none');
         }
 
         function setDescView(dv) {
@@ -697,7 +663,6 @@
             }
             // Focus on newest keyword
             currentIdx = options.length - 1;
-            groundingData = null;
             render();
             infoVisible = true;
         });
@@ -720,8 +685,6 @@
         });
         socket.on('clear', () => {
             // Don't clear keywords - keep last 3 visible
-            // Only clear grounding data
-            groundingData = null;
         });
 
         socket.on('context', data => {
@@ -771,7 +734,6 @@
         socket.on('session_ended', () => {
             options = [];
             currentIdx = 0;
-            groundingData = null;
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
             document.getElementById('summary').style.display = 'none';
@@ -780,7 +742,6 @@
             document.getElementById('context-panel').classList.remove('visible');
             document.getElementById('context-text').innerHTML = '';
             document.getElementById('phrases-panel').innerHTML = '';
-            hideProgressRing();
             hideLoadingIndicator();
             // Clear context auto-update state
             clearContextTimers();
@@ -819,20 +780,6 @@
             }, 5000);
         });
 
-        function parseMarkdown(text) {
-            return text
-                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\*(.+?)\*/g, '<em>$1</em>')
-                .replace(/`(.+?)`/g, '<code>$1</code>')
-                .replace(/\n/g, '<br>');
-        }
-
-        socket.on('grounding_result', data => {
-            groundingData = data;
-            hideLoadingIndicator();
-            render();
-        });
-
         function render() {
             const list = document.getElementById('optionsList');
             if (options.length === 0) {
@@ -840,31 +787,18 @@
                 return;
             }
 
-            const hasGrounding = groundingData !== null;
-
             if (view === 'single') {
                 // Single view: show only selected option
                 const o = options[currentIdx];
-                const isGrounding = hasGrounding && groundingData.keyword === o.word;
-                const descContent = isGrounding ? parseMarkdown(groundingData.text) : o.desc;
                 list.innerHTML = `
                     <div class="option-row">
                         <div class="keyword-box active">${o.word}</div>
-                        <div class="desc-box active ${isGrounding ? 'grounding' : ''}">${descContent}</div>
+                        <div class="desc-box active">${o.desc}</div>
                     </div>
                 `;
             } else {
                 // All view
-                if (hasGrounding) {
-                    // When grounding is shown, only show the selected keyword with long description
-                    const o = options[currentIdx];
-                    list.innerHTML = `
-                        <div class="option-row">
-                            <div class="keyword-box active">${o.word}</div>
-                            <div class="desc-box active grounding">${parseMarkdown(groundingData.text)}</div>
-                        </div>
-                    `;
-                } else if (descView === 'all') {
+                if (descView === 'all') {
                     // Show all keywords with their descriptions
                     list.innerHTML = options.map((o, i) => {
                         const isActive = i === currentIdx;
@@ -892,14 +826,12 @@
 
         function selectKeyword(idx) {
             currentIdx = idx;
-            groundingData = null;
             render();
         }
 
         function hideInfo() {
             document.getElementById('optionsList').innerHTML = '';
             options = [];
-            groundingData = null;
             infoVisible = false;
         }
 
@@ -946,39 +878,6 @@
             void dot1.offsetWidth;
             dot1.classList.add('show');
             dot2.classList.add('show');
-        }
-
-        function updateProgress() {
-            const elapsed = Date.now() - spaceDownTime;
-            const progress = Math.min(elapsed / longPressThreshold, 1);
-
-            // Only fill green when progress >= 0.1
-            if (progress >= 0.1) {
-                const offset = CIRCUMFERENCE * (1 - progress);
-                document.getElementById('progressCircle').style.strokeDashoffset = offset;
-            }
-
-            if (progress < 1 && !isLongPress) {
-                progressAnimationId = requestAnimationFrame(updateProgress);
-            }
-        }
-
-        function showProgressRing() {
-            // Hide dots, show ring
-            document.getElementById('tapDot1').style.display = 'none';
-            document.getElementById('tapDot2').style.display = 'none';
-            document.getElementById('progressRing').classList.add('active');
-            document.getElementById('progressCircle').style.strokeDashoffset = CIRCUMFERENCE;
-            progressAnimationId = requestAnimationFrame(updateProgress);
-        }
-
-        function hideProgressRing() {
-            document.getElementById('progressRing').classList.remove('active');
-            document.getElementById('progressCircle').style.strokeDashoffset = CIRCUMFERENCE;
-            if (progressAnimationId) {
-                cancelAnimationFrame(progressAnimationId);
-                progressAnimationId = null;
-            }
         }
 
         function showContextPanel() {
@@ -1033,74 +932,30 @@
             hideContextPanel();
         }
 
-        function requestGrounding() {
-            if (options.length > 0) {
-                const opt = options[currentIdx];
-                showLoadingIndicator();
-                socket.emit('search_grounding', { keyword: opt.word, description: opt.desc, detail_level: 1 });
-            }
-        }
-
-        function handleInputStart() {
-            console.log('[INPUT] handleInputStart called');
-            spaceDownTime = Date.now();
-            isLongPress = false;
-
-            // Show tap indicator (dot pulse)
-            showTapIndicator();
-            // Show progress ring after delay
-            progressRingTimer = setTimeout(() => {
-                showProgressRing();
-            }, PROGRESS_RING_DELAY);
-
-            longPressTimer = setTimeout(() => {
-                console.log('[INPUT] longPressTimer fired, options:', options.length);
-                isLongPress = true;
-                hideProgressRing();
-                requestGrounding();
-            }, longPressThreshold);
-        }
-
-        function handleInputEnd() {
-            console.log('[INPUT] handleInputEnd called, isLongPress:', isLongPress);
-            // Clear timers
-            if (longPressTimer) {
-                clearTimeout(longPressTimer);
-                longPressTimer = null;
-            }
-            if (progressRingTimer) {
-                clearTimeout(progressRingTimer);
-                progressRingTimer = null;
-            }
-
-            // Hide progress ring
-            hideProgressRing();
-
-            if (isLongPress) {
-                isLongPress = false;
-                return true; // Was long press
-            }
-            return false; // Was short press
-        }
-
-        function handleShortPress() {
+        function handleTap() {
             const now = Date.now();
             if (now - lastSpace < 300) {
-                // Double tap - show context with auto-update + request keywords
+                // Double tap
                 showDoubletapIndicator();
-                groundingData = null;
-                socket.emit('request');  // Request new keywords
-                showLoadingIndicator('Inferring');
-                startContextAutoUpdate(); // Show context with auto-update
+
+                if (infoVisible && options.length > 0) {
+                    // Second double tap - dismiss keywords and optionally show summary
+                    dismissKeywords();
+                } else {
+                    // First double tap - request keywords
+                    socket.emit('request');
+                    showLoadingIndicator('Inferring');
+                    startContextAutoUpdate();
+                }
                 lastSpace = 0;
             } else {
                 // Single tap - wait to see if double
+                showTapIndicator();
                 lastSpace = now;
                 setTimeout(() => {
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                         if (options.length > 0) {
                             currentIdx = (currentIdx + 1) % options.length;
-                            groundingData = null;
                             render();
                         }
                         lastSpace = 0;
@@ -1109,21 +964,30 @@
             }
         }
 
+        function dismissKeywords() {
+            // Clear keywords
+            options = [];
+            currentIdx = 0;
+            infoVisible = false;
+            document.getElementById('optionsList').innerHTML = '';
+            stopContextAutoUpdate();
+
+            // Request summary if enabled
+            if (dismissMode === 'summary') {
+                socket.emit('request_summary', { mode: 'summary' });
+            }
+        }
+
         document.addEventListener('keydown', e => {
             if (e.code !== 'Space') return;
             if (e.repeat) return;
             e.preventDefault();
-            handleInputStart();
         });
 
         document.addEventListener('keyup', e => {
             if (e.code !== 'Space') return;
             e.preventDefault();
-
-            const wasLongPress = handleInputEnd();
-            if (!wasLongPress) {
-                handleShortPress();
-            }
+            handleTap();
         });
 
         // Right-click support
@@ -1131,19 +995,9 @@
             e.preventDefault(); // Prevent context menu
         });
 
-        document.addEventListener('mousedown', e => {
-            console.log('[EVENT] mousedown, button:', e.button);
-            if (e.button !== 2) return; // Only right-click
-            handleInputStart();
-        });
-
         document.addEventListener('mouseup', e => {
-            console.log('[EVENT] mouseup, button:', e.button);
             if (e.button !== 2) return; // Only right-click
-            const wasLongPress = handleInputEnd();
-            if (!wasLongPress) {
-                handleShortPress();
-            }
+            handleTap();
         });
     </script>
 </body>
