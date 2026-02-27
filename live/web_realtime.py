@@ -165,27 +165,13 @@ def handle_start(data: dict):
 
     mode = data.get("mode", "manual")
     source = data.get("source", "mp3")
-    context_mode = data.get("contextMode", "context")
 
     client = RealtimeClient(sio, mode, source, session_id)
     summary_client = SummaryClient(sio, session_id)
-    summary_client.set_context_mode(context_mode)
     client.summary_client = summary_client
 
     summary_client.start()
     client.start()
-
-
-@sio.on("set_context_mode")
-def handle_set_context_mode(data: dict):
-    """Set context mode (context/phrases) for summary client."""
-    global summary_client
-    session_id = request.sid
-    mode = data.get("mode", "context")
-    log_print("INFO", f"Context mode change: {mode}", session_id=session_id)
-
-    if summary_client:
-        summary_client.set_context_mode(mode)
 
 
 @sio.on("stop")
@@ -213,14 +199,13 @@ def handle_request():
 
 
 @sio.on("request_summary")
-def handle_request_summary(data=None):
+def handle_request_summary():
     global summary_client
     session_id = request.sid
-    mode = (data or {}).get("mode", "summary")
 
     if summary_client:
-        summary_client.end_miss_and_recover(mode=mode)
-        log_print("INFO", "Summary request triggered", session_id=session_id, mode=mode)
+        summary_client.end_miss_and_recover()
+        log_print("INFO", "Summary request triggered", session_id=session_id)
     else:
         log_print(
             "WARN",

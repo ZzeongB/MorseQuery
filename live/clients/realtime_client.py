@@ -237,10 +237,6 @@ class RealtimeClient:
             "full": self.transcript_buffer,
         })
 
-        # Forward to summary_client for topic change detection
-        if self.summary_client:
-            self.summary_client.receive_transcription(transcript)
-
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""
         log_print("ERROR", f"WebSocket error: {error}", session_id=self.session_id)

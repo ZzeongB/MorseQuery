@@ -274,98 +274,6 @@
             color: #ccc;
         }
 
-        /* Right-side context panel */
-        #context-panel {
-            position: fixed;
-            right: 20px;
-            bottom: 80px;
-            background: rgba(26, 26, 46, 0.95);
-            border: 1px solid #a78bfa;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #c4b5fd;
-            line-height: 1.4;
-            z-index: 80;
-            display: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        #context-panel.visible {
-            display: block;
-            opacity: 1;
-        }
-        #context-panel .context-header {
-            font-size: 10px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        #context-panel .context-header::before {
-            content: '';
-            width: 5px;
-            height: 5px;
-            background: #4ade80;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
-        #context-panel .context-text {
-            color: #e0e0e0;
-            font-weight: 500;
-            text-align: right;
-        }
-
-        /* Speech bubbles container */
-        #phrases-panel {
-            position: fixed;
-            right: 20px;
-            bottom: 80px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-            z-index: 80;
-            max-width: 350px;
-            pointer-events: none;
-        }
-
-        /* Individual speech bubble */
-        .speech-bubble {
-            background: rgba(26, 26, 46, 0.95);
-            border: 1px solid #a78bfa;
-            border-radius: 16px;
-            border-bottom-right-radius: 4px;
-            padding: 10px 14px;
-            font-size: 13px;
-            color: #e0e0e0;
-            line-height: 1.4;
-            max-width: 100%;
-            animation: bubbleIn 0.3s ease-out;
-            opacity: 1;
-            transition: opacity 0.5s ease-out;
-        }
-        .speech-bubble.fade-out {
-            opacity: 0;
-        }
-        @keyframes bubbleIn {
-            0% {
-                opacity: 0;
-                transform: translateX(20px) scale(0.9);
-            }
-            100% {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
-        }
-
     </style>
 </head>
 <body>
@@ -379,11 +287,6 @@
             <span>Mode:</span>
             <button id="btn-manual" class="selected" onclick="setMode('manual')">Manual</button>
             <button id="btn-automatic" onclick="setMode('automatic')">Automatic</button>
-        </div>
-        <div class="source-select">
-            <span>Context:</span>
-            <button id="btn-ctx-topic" class="selected" onclick="setContextMode('context')">Topic</button>
-            <button id="btn-ctx-phrases" onclick="setContextMode('phrases')">Phrases</button>
         </div>
         <div class="source-select">
             <span>Dismiss:</span>
@@ -441,13 +344,6 @@
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
     </div>
-    <!-- Context panel (noun phrase mode) -->
-    <div id="context-panel">
-        <div class="context-text" id="context-text"></div>
-    </div>
-
-    <!-- Phrases panel (speech bubbles mode) -->
-    <div id="phrases-panel"></div>
 
     <script>
         const socket = io();
@@ -455,32 +351,16 @@
         let view = 'single';
         let descView = 'single';
         let source = 'mp3';
-        let contextMode = 'context'; // 'context' (topic) or 'phrases' (speech bubbles)
         let options = [];
         let currentIdx = 0;
         let summaryBuffer = '';
         let summaryTimer = null;
         let lastSpace = 0;
         let infoVisible = false;
-        let summaryMode = 'summary';
         let dismissMode = 'summary'; // 'summary' or 'none'
+        let summaryRequested = false; // Track if we actually requested a summary
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
-
-        // Context auto-update state
-        let contextAutoEnabled = false;
-        let contextLastContent = '';
-        let contextLastShowTime = 0;
-        let contextInitialTimer = null;  // 5s timer after double-tap
-        let contextIntervalTimer = null; // 10s interval timer
-        let contextContentChanged = false;
-
-        function setSummaryMode(sm) {
-            summaryMode = sm;
-            document.getElementById('btn-sum-summary').classList.toggle('selected', sm === 'summary');
-            document.getElementById('btn-sum-transcript').classList.toggle('selected', sm === 'transcript');
-            document.getElementById('btn-sum-keywords').classList.toggle('selected', sm === 'keywords');
-        }
 
         function setSource(s) {
             source = s;
@@ -492,14 +372,6 @@
             mode = m;
             document.getElementById('btn-manual').classList.toggle('selected', m === 'manual');
             document.getElementById('btn-automatic').classList.toggle('selected', m === 'automatic');
-        }
-
-        function setContextMode(cm) {
-            contextMode = cm;
-            document.getElementById('btn-ctx-topic').classList.toggle('selected', cm === 'context');
-            document.getElementById('btn-ctx-phrases').classList.toggle('selected', cm === 'phrases');
-            // Notify server
-            socket.emit('set_context_mode', { mode: cm });
         }
 
         function setDismissMode(dm) {
@@ -655,6 +527,7 @@
 
         socket.on('keywords', data => {
             hideLoadingIndicator();
+            hideSummary();
             // Append new keywords and keep last 3
             options = options.concat(data);
             const MAX_KEYWORDS = 3;
@@ -687,69 +560,23 @@
             // Don't clear keywords - keep last 3 visible
         });
 
-        socket.on('context', data => {
-            const textEl = document.getElementById('context-text');
-            // Handle both string and object formats
-            const text = typeof data === 'string' ? data : (data.text || '');
-            if (text && text !== '...') {
-                // Check if content changed
-                if (text !== contextLastContent) {
-                    contextLastContent = text;
-                    contextContentChanged = true;
-                    textEl.innerHTML = text;
-
-                    // If auto-update enabled, show on content change
-                    if (contextAutoEnabled) {
-                        showContextPanel();
-                    }
-                }
-            }
-        });
-
-        socket.on('phrases', data => {
-            if (contextMode !== 'phrases') return;
-            const phrases = data.phrases || [];
-            if (phrases.length === 0) return;
-
-            const panel = document.getElementById('phrases-panel');
-
-            // Fade out existing bubbles before adding new ones
-            Array.from(panel.children).forEach(bubble => {
-                bubble.classList.add('fade-out');
-                setTimeout(() => bubble.remove(), 500);
-            });
-
-            // Add new bubbles after a small delay (in reverse order so newest is at bottom)
-            setTimeout(() => {
-                phrases.reverse().forEach((phrase, idx) => {
-                    const bubble = document.createElement('div');
-                    bubble.className = 'speech-bubble';
-                    bubble.textContent = phrase;
-                    bubble.style.animationDelay = (idx * 0.1) + 's';
-                    panel.appendChild(bubble);
-                });
-            }, 100);
-        });
-
         socket.on('session_ended', () => {
             options = [];
             currentIdx = 0;
             infoVisible = false;
+            summaryRequested = false;
             document.getElementById('optionsList').innerHTML = '';
             document.getElementById('summary').style.display = 'none';
             document.getElementById('transcription-bar').classList.remove('visible');
             document.getElementById('transcription-text').innerHTML = '';
-            document.getElementById('context-panel').classList.remove('visible');
-            document.getElementById('context-text').innerHTML = '';
-            document.getElementById('phrases-panel').innerHTML = '';
             hideLoadingIndicator();
-            // Clear context auto-update state
-            clearContextTimers();
-            contextAutoEnabled = false;
-            contextLastContent = '';
         });
 
         socket.on('recovery_done', data => {
+            // Only show summary if we actually requested it
+            if (!summaryRequested) return;
+            summaryRequested = false;
+
             const summary = document.getElementById('summary');
             summaryBuffer = '';
 
@@ -839,7 +666,7 @@
             view = v;
             document.getElementById('menu').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            socket.emit('start', {mode: mode, source: source, contextMode: contextMode});
+            socket.emit('start', {mode: mode, source: source});
         }
 
         function showLoadingIndicator(label = 'Searching') {
@@ -880,56 +707,14 @@
             dot2.classList.add('show');
         }
 
-        function showContextPanel() {
-            const panel = document.getElementById('context-panel');
-            panel.classList.add('visible');
-            contextLastShowTime = Date.now();
-            contextContentChanged = false;
-        }
-
-        function hideContextPanel() {
-            const panel = document.getElementById('context-panel');
-            panel.classList.remove('visible');
-        }
-
-        function clearContextTimers() {
-            if (contextInitialTimer) {
-                clearTimeout(contextInitialTimer);
-                contextInitialTimer = null;
+        function hideSummary() {
+            const summary = document.getElementById('summary');
+            summary.style.display = 'none';
+            summary.classList.remove('fade-out');
+            if (summaryTimer) {
+                clearTimeout(summaryTimer);
+                summaryTimer = null;
             }
-            if (contextIntervalTimer) {
-                clearInterval(contextIntervalTimer);
-                contextIntervalTimer = null;
-            }
-        }
-
-        function startContextAutoUpdate() {
-            clearContextTimers();
-            contextAutoEnabled = true;
-            contextContentChanged = false;
-
-            // Show context immediately
-            showContextPanel();
-
-            // After 5 seconds, check if we should show again
-            contextInitialTimer = setTimeout(() => {
-                // Show once at 5s mark (or earlier if content changed)
-                showContextPanel();
-
-                // After 10s from double-tap, start 10s interval
-                contextInitialTimer = setTimeout(() => {
-                    // Start 10s interval updates
-                    contextIntervalTimer = setInterval(() => {
-                        showContextPanel();
-                    }, 10000);
-                }, 5000); // 5s more to reach 10s total
-            }, 5000);
-        }
-
-        function stopContextAutoUpdate() {
-            clearContextTimers();
-            contextAutoEnabled = false;
-            hideContextPanel();
         }
 
         function handleTap() {
@@ -943,9 +728,9 @@
                     dismissKeywords();
                 } else {
                     // First double tap - request keywords
+                    hideSummary();
                     socket.emit('request');
                     showLoadingIndicator('Inferring');
-                    startContextAutoUpdate();
                 }
                 lastSpace = 0;
             } else {
@@ -970,23 +755,22 @@
             currentIdx = 0;
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
-            stopContextAutoUpdate();
 
             // Request summary if enabled
             if (dismissMode === 'summary') {
-                socket.emit('request_summary', { mode: 'summary' });
+                summaryRequested = true;
+                socket.emit('request_summary');
             }
         }
 
         document.addEventListener('keydown', e => {
-            if (e.code !== 'Space') return;
             if (e.repeat) return;
+            // Prevent default for all keys to avoid browser actions
             e.preventDefault();
         });
 
         document.addEventListener('keyup', e => {
-            if (e.code !== 'Space') return;
-            e.preventDefault();
+            // Accept any key input
             handleTap();
         });
 
