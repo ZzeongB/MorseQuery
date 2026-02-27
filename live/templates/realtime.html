@@ -128,6 +128,22 @@
             font-size: 11px;
             color: #888;
         }
+        /* Dismiss indicator */
+        .dismiss-indicator {
+            display: none;
+            font-size: 11px;
+            color: #888;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .dismiss-indicator.show {
+            display: block;
+            opacity: 1;
+        }
+        .dismiss-indicator.fade-out {
+            opacity: 0;
+        }
 
         /* Height position selector */
         .height-selector {
@@ -343,6 +359,9 @@
             </div>
             <span class="label">Searching</span>
         </div>
+
+        <!-- Dismiss indicator -->
+        <div class="dismiss-indicator" id="dismissIndicator">Dismissed</div>
 
         <div class="options-list" id="optionsList"></div>
         <div id="summary" style="display:none;"></div>
@@ -695,14 +714,28 @@
             }
         }
 
+        let dismissTimer = null;
+        function showDismissIndicator() {
+            const el = document.getElementById('dismissIndicator');
+            if (!el) return;
+            if (dismissTimer) clearTimeout(dismissTimer);
+            el.classList.remove('fade-out');
+            el.classList.add('show');
+            dismissTimer = setTimeout(() => {
+                el.classList.add('fade-out');
+                setTimeout(() => {
+                    el.classList.remove('show', 'fade-out');
+                }, 200);
+            }, 1500);
+        }
+
         function handleTap() {
             const now = Date.now();
             if (now - lastSpace < 300) {
                 // Double tap
-                showDoubletapIndicator();
-
                 if (infoVisible && options.length > 0) {
                     // Second double tap - dismiss keywords and request summary
+                    showDismissIndicator();
                     dismissKeywords();
                 } else {
                     // First double tap - start listening segment and request keywords
