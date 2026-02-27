@@ -82,25 +82,38 @@ Global rules:
 """
 
 
-def build_summary_prompt(global_context: str) -> str:
-    """Build prompt for summary-only mode."""
-    return f"""# ROLE
-You are a SILENT LISTENER summarizing missed audio.
+def build_summary_prompt(pre_context: str) -> str:
+    """Build prompt for segment summary.
 
-# GLOBAL CONTEXT (may be partial)
-{global_context}
+    Args:
+        pre_context: What was discussed before this segment started
+    """
+    return f"""# ROLE
+You are a SILENT OBSERVER summarizing a conversation segment.
+
+# CONTEXT BEFORE THIS SEGMENT
+{pre_context if pre_context else "(none)"}
 
 # TASK
-Summarize ONLY the most recently committed missed segment.
+Summarize the most recently committed audio segment. Provide:
+1. DELTA: What changed or new information compared to before
+2. TOPIC: The current question or topic being discussed
+3. EXCHANGE: Key points or answers exchanged
 
-# OUTPUT (STRICT FORMAT)
-<one phrase summary, <= 10 words>
+# OUTPUT FORMAT (strictly follow)
+DELTA:: <what's new or changed, 1 short sentence>
+TOPIC:: <current topic/question, noun phrase or short sentence>
+EXCHANGE:: <key points discussed, 1-2 short sentences>
 
-# STRICT RULES (MUST FOLLOW)
+# EXAMPLE OUTPUT
+DELTA:: Budget was increased by 20%
+TOPIC:: Q2 marketing budget allocation
+EXCHANGE:: Team lead asked about the increase. Finance explained due to revenue growth.
+
+# STRICT RULES
 - English only.
-- Output ONLY the summary phrase. No labels or prefixes.
-- Do NOT mention that audio was missed.
-- Use ONLY information clearly present in the missed segment.
+- Output ONLY the 3 lines above. No extra text.
+- Use ONLY information clearly present in the audio.
 - Do NOT guess or add details.
-- If the missed segment is unclear/noisy/silent: output exactly "..." and nothing else.
+- If audio is unclear/noisy/silent: output exactly "..." and nothing else.
 """

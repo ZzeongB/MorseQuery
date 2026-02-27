@@ -1,4 +1,8 @@
-"""OpenAI Realtime API client for missed-segment recovery."""
+"""OpenAI Realtime API client for missed-segment recovery.
+
+Audio is continuously streamed to the Realtime API.
+start_listening() / end_listening() mark segment boundaries for summarization.
+"""
 
 import json
 import threading
@@ -14,9 +18,12 @@ from .prompt import (
     build_summary_prompt,
 )
 
+
 class SummaryClient:
-    """Realtime client that captures ONLY a user-marked missed segment (start/end),
-    then immediately returns a recovery package at end().
+    """Realtime client that continuously listens to audio.
+
+    start_listening() / end_listening() mark segment boundaries.
+    On end_listening(), summarizes what was said in that segment.
     """
 
     def __init__(self, socketio: SocketIO, session_id: str = "default"):
@@ -30,11 +37,11 @@ class SummaryClient:
         self.response_buffer = ""
         self.logger = get_logger(session_id)
 
-        # Global conversation context (updated externally; used to anchor recovery)
-        self.global_context = ""
+        # Context from before the current listening segment
+        self.pre_context = ""
 
-        # Segment capture state
-        self.capturing = False
+        # Segment state
+        self.listening = False
         self.segment_id = 0
 
         self._lock = threading.Lock()
@@ -46,17 +53,14 @@ class SummaryClient:
     # Public APIs
     # -------------------------
 
-    def set_global_context(self, context: str) -> None:
-        """Update rolling global context (from your main pipeline)."""
-        self.global_context = context or ""
-        log_print("DEBUG", "Global context updated", session_id=self.session_id)
-        self.logger.log("global_context_updated", chars=len(self.global_context))
+    def start_listening(self) -> None:
+        """Mark the start of a segment to summarize later.
 
-    def start_miss(self) -> None:
-        """Begin capturing a missed segment (explicit start)."""
+        Audio continues streaming. This just marks a boundary.
+        """
         if not self.running or not self.connected:
             log_print(
-                "WARN", "start_miss ignored (not connected)", session_id=self.session_id
+                "WARN", "start_listening ignored (not connected)", session_id=self.session_id
             )
             return
 
@@ -64,24 +68,31 @@ class SummaryClient:
             ws = self.ws
 
         self.segment_id += 1
-        self.capturing = True
+        self.listening = True
         self.response_buffer = ""
 
-        # Best-effort clear server buffer so segment is isolated.
+        # Commit current audio as "pre-context", then clear for new segment
         if ws:
             try:
+                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
                 ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
             except Exception:
                 pass
 
-        self.logger.log("miss_segment_start", segment_id=self.segment_id)
-        self.sio.emit("miss_segment_start", {"segment_id": self.segment_id})
+        self.logger.log("start_listening", segment_id=self.segment_id)
+        self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
-    def end_miss_and_recover(self) -> None:
-        """End capturing and immediately request summary for the captured segment."""
+    def end_listening(self) -> None:
+        """End the segment and request a summary of what was said."""
         if not self.running or not self.connected:
             log_print(
-                "WARN", "end_miss ignored (not connected)", session_id=self.session_id
+                "WARN", "end_listening ignored (not connected)", session_id=self.session_id
+            )
+            return
+
+        if not self.listening:
+            log_print(
+                "WARN", "end_listening ignored (not listening)", session_id=self.session_id
             )
             return
 
@@ -90,29 +101,29 @@ class SummaryClient:
 
         if not ws:
             log_print(
-                "WARN", "end_miss ignored (no websocket)", session_id=self.session_id
+                "WARN", "end_listening ignored (no websocket)", session_id=self.session_id
             )
             return
 
-        self.capturing = False
+        self.listening = False
         self.response_buffer = ""
 
-        self.logger.log("miss_segment_end", segment_id=self.segment_id)
-        self.sio.emit("miss_segment_end", {"segment_id": self.segment_id})
+        self.logger.log("end_listening", segment_id=self.segment_id)
+        self.sio.emit("listening_end", {"segment_id": self.segment_id})
 
-        # Commit the segment audio and request recovery immediately.
+        # Commit the segment audio and request summary
         try:
             ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
         except Exception as e:
             self.logger.log("commit_failed", error=str(e))
             return
 
-        prompt = build_summary_prompt(self.global_context)
+        prompt = build_summary_prompt(self.pre_context)
 
         self.logger.log(
-            "recovery_request",
+            "summary_request",
             segment_id=self.segment_id,
-            context_chars=len(self.global_context),
+            pre_context_chars=len(self.pre_context),
         )
 
         ws.send(
@@ -171,7 +182,7 @@ class SummaryClient:
             delta = event.get("delta", "")
             if delta:
                 self.response_buffer += delta
-                self.sio.emit("recovery_chunk", delta)
+                self.sio.emit("summary_chunk", delta)
             return
 
         if etype == "response.done":
@@ -181,34 +192,47 @@ class SummaryClient:
             self.logger.log("summary_response_done", raw=raw)
 
             is_empty = raw.strip() == "..."
-            summary = raw.strip() if not is_empty else ""
 
-            payload = {
-                "segment_id": self.segment_id,
-                "is_empty": is_empty,
-                "summary": summary,
-            }
+            if is_empty:
+                payload = {
+                    "segment_id": self.segment_id,
+                    "is_empty": True,
+                    "delta": "",
+                    "topic": "",
+                    "exchange": "",
+                }
+            else:
+                # Parse structured output
+                delta = ""
+                topic = ""
+                exchange = ""
+                for line in raw.strip().splitlines():
+                    line = line.strip()
+                    if line.startswith("DELTA::"):
+                        delta = line[7:].strip()
+                    elif line.startswith("TOPIC::"):
+                        topic = line[7:].strip()
+                    elif line.startswith("EXCHANGE::"):
+                        exchange = line[10:].strip()
 
-            self.sio.emit("recovery_done", payload)
+                payload = {
+                    "segment_id": self.segment_id,
+                    "is_empty": False,
+                    "delta": delta,
+                    "topic": topic,
+                    "exchange": exchange,
+                }
 
-            # Update global context
-            if not is_empty and summary:
-                self.global_context = (self.global_context + " " + summary).strip()
-                if len(self.global_context) > 500:
-                    self.global_context = self.global_context[-500:]
-                self.logger.log(
-                    "global_context_appended", segment_id=self.segment_id
-                )
+                # Update pre_context with topic for next segment
+                if topic:
+                    self.pre_context = (self.pre_context + " " + topic).strip()
+                    if len(self.pre_context) > 500:
+                        self.pre_context = self.pre_context[-500:]
+                    self.logger.log(
+                        "pre_context_updated", segment_id=self.segment_id
+                    )
 
-            # Prepare for next segment: best-effort clear buffer.
-            with self._lock:
-                ws = self.ws
-            if ws:
-                try:
-                    ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
-                except Exception:
-                    pass
-
+            self.sio.emit("summary_done", payload)
             return
 
         if etype == "error":
@@ -247,8 +271,8 @@ class SummaryClient:
     # -------------------------
 
     def send_audio(self, audio_b64: str) -> None:
-        """Forward audio only during capture."""
-        if not self.running or not self.connected or not self.capturing:
+        """Forward audio continuously (always streaming)."""
+        if not self.running or not self.connected:
             return
 
         with self._lock:
@@ -272,7 +296,7 @@ class SummaryClient:
     # -------------------------
 
     def start(self) -> None:
-        """Start and keep the session alive; use start_miss/end_miss_and_recover for segments."""
+        """Start the client; use start_listening/end_listening for segment summaries."""
         self.running = True
         self.logger.log("summary_client_start")
 
@@ -293,7 +317,7 @@ class SummaryClient:
         """Stop the client and close the websocket."""
         self.running = False
         self.connected = False
-        self.capturing = False
+        self.listening = False
 
         self.logger.log("summary_client_stop")
 

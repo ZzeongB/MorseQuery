@@ -68,6 +68,9 @@
         /* Summary */
         #summary { margin-top: 16px; margin-left: auto; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; max-width: 500px; text-align: right; }
         #summary.fade-out { opacity: 0; }
+        .summary-delta { color: #fbbf24; font-size: 12px; margin-bottom: 4px; }
+        .summary-topic { color: #fff; font-weight: 500; margin-bottom: 4px; }
+        .summary-exchange { color: #a0a0a0; font-size: 13px; }
 
         /* Tap/Progress indicator (top of main-content) */
         .tap-indicator {
@@ -572,26 +575,22 @@
             hideLoadingIndicator();
         });
 
-        socket.on('recovery_done', data => {
+        socket.on('summary_done', data => {
             // Only show summary if we actually requested it
             if (!summaryRequested) return;
             summaryRequested = false;
 
             const summary = document.getElementById('summary');
-            summaryBuffer = '';
 
             if (data.is_empty) {
                 summary.innerText = '(No new content detected)';
-            } else if (data.mode === 'keywords') {
-                // Display keywords as comma-separated list
-                const keywords = data.keywords || [];
-                summary.innerHTML = keywords.join(', ');
-            } else if (data.mode === 'transcript') {
-                // Display full transcript
-                summary.innerHTML = (data.transcript || '').replace(/\n/g, '<br>');
             } else {
-                // Summary mode (default)
-                summary.innerText = data.summary || data.raw || '';
+                // Show structured summary: delta, topic, exchange
+                let html = '';
+                if (data.delta) html += `<div class="summary-delta">Δ ${data.delta}</div>`;
+                if (data.topic) html += `<div class="summary-topic">${data.topic}</div>`;
+                if (data.exchange) html += `<div class="summary-exchange">${data.exchange}</div>`;
+                summary.innerHTML = html || data.summary || '';
             }
 
             summary.style.display = 'block';
@@ -724,11 +723,12 @@
                 showDoubletapIndicator();
 
                 if (infoVisible && options.length > 0) {
-                    // Second double tap - dismiss keywords and optionally show summary
+                    // Second double tap - dismiss keywords and request summary
                     dismissKeywords();
                 } else {
-                    // First double tap - request keywords
+                    // First double tap - start listening segment and request keywords
                     hideSummary();
+                    socket.emit('start_listening');
                     socket.emit('request');
                     showLoadingIndicator('Inferring');
                 }
@@ -756,10 +756,10 @@
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
 
-            // Request summary if enabled
+            // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
                 summaryRequested = true;
-                socket.emit('request_summary');
+                socket.emit('end_listening');
             }
         }
 

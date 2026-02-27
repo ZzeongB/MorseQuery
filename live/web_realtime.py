@@ -198,18 +198,36 @@ def handle_request():
         log_print("WARN", "Request ignored - no running client", session_id=session_id)
 
 
-@sio.on("request_summary")
-def handle_request_summary():
+@sio.on("start_listening")
+def handle_start_listening():
+    """Start a listening segment for later summarization."""
     global summary_client
     session_id = request.sid
 
     if summary_client:
-        summary_client.end_miss_and_recover()
-        log_print("INFO", "Summary request triggered", session_id=session_id)
+        summary_client.start_listening()
+        log_print("INFO", "Start listening", session_id=session_id)
     else:
         log_print(
             "WARN",
-            "Summary request ignored - no running summary client",
+            "start_listening ignored - no summary client",
+            session_id=session_id,
+        )
+
+
+@sio.on("end_listening")
+def handle_end_listening():
+    """End listening segment and request summary."""
+    global summary_client
+    session_id = request.sid
+
+    if summary_client:
+        summary_client.end_listening()
+        log_print("INFO", "End listening, requesting summary", session_id=session_id)
+    else:
+        log_print(
+            "WARN",
+            "end_listening ignored - no summary client",
             session_id=session_id,
         )
 
