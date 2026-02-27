@@ -71,6 +71,7 @@
         .summary-delta { color: #fbbf24; font-size: 12px; margin-bottom: 4px; }
         .summary-topic { color: #fff; font-weight: 500; margin-bottom: 4px; }
         .summary-exchange { color: #a0a0a0; font-size: 13px; }
+        .summary-script { color: #ef4444; font-weight: 700; font-size: 15px; margin-top: 8px; padding-top: 8px; border-top: 1px solid #4a4a6a; }
 
         /* Tap/Progress indicator (top of main-content) */
         .tap-indicator {
@@ -585,11 +586,12 @@
             if (data.is_empty) {
                 summary.innerText = '(No new content detected)';
             } else {
-                // Show structured summary: delta, topic, exchange
+                // Show structured summary: delta, topic, exchange, script
                 let html = '';
                 if (data.delta) html += `<div class="summary-delta">Δ ${data.delta}</div>`;
                 if (data.topic) html += `<div class="summary-topic">${data.topic}</div>`;
                 if (data.exchange) html += `<div class="summary-exchange">${data.exchange}</div>`;
+                if (data.script) html += `<div class="summary-script">💬 ${data.script}</div>`;
                 summary.innerHTML = html || data.summary || '';
             }
 

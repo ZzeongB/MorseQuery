@@ -99,20 +99,39 @@ Summarize the most recently committed audio segment. Provide:
 1. DELTA: What changed or new information compared to before
 2. TOPIC: The current question or topic being discussed
 3. EXCHANGE: Key points or answers exchanged
+4. SCRIPT: (ONLY if user needs to respond NOW) A starter phrase user can read aloud
 
 # OUTPUT FORMAT (strictly follow)
 DELTA:: <what's new or changed, 1 short sentence>
 TOPIC:: <current topic/question, noun phrase or short sentence>
 EXCHANGE:: <key points discussed, 1-2 short sentences>
+SCRIPT:: <optional: starter phrase if user was asked a question or needs to respond>
 
-# EXAMPLE OUTPUT
+# EXAMPLE OUTPUT 1 (no immediate response needed)
 DELTA:: Budget was increased by 20%
 TOPIC:: Q2 marketing budget allocation
 EXCHANGE:: Team lead asked about the increase. Finance explained due to revenue growth.
 
+# EXAMPLE OUTPUT 2 (user needs to respond - question directed at user)
+DELTA:: Discussion shifted to asking for user's opinion
+TOPIC:: Regulation of AI in healthcare
+EXCHANGE:: Panel discussed pros and cons. Moderator asked user for their view.
+SCRIPT:: I believe that AI regulation should focus on... / In my view, the key consideration is...
+
+# SCRIPT RULES
+- Include SCRIPT:: ONLY when the audio ends with a question or prompt directed at the user
+- Provide 1-2 alternative starter phrases separated by " / "
+- Keep it short (under 15 words per phrase)
+- Use "..." to indicate where user should continue with their own thoughts
+- Examples of when to include SCRIPT:
+  - "What do you think about X?" → SCRIPT:: I think X is important because... / My perspective on X is...
+  - "Do you agree?" → SCRIPT:: I agree with the point about... / I have a different view on...
+  - "Can you explain your approach?" → SCRIPT:: Our approach focuses on... / The key aspect of our method is...
+- Do NOT include SCRIPT if no question/prompt is directed at the user
+
 # STRICT RULES
 - English only.
-- Output ONLY the 3 lines above. No extra text.
+- Output ONLY the format above. No extra text.
 - Use ONLY information clearly present in the audio.
 - Do NOT guess or add details.
 - If audio is unclear/noisy/silent: output exactly "..." and nothing else.

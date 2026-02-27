@@ -200,12 +200,14 @@ class SummaryClient:
                     "delta": "",
                     "topic": "",
                     "exchange": "",
+                    "script": "",
                 }
             else:
                 # Parse structured output
                 delta = ""
                 topic = ""
                 exchange = ""
+                script = ""
                 for line in raw.strip().splitlines():
                     line = line.strip()
                     if line.startswith("DELTA::"):
@@ -214,6 +216,8 @@ class SummaryClient:
                         topic = line[7:].strip()
                     elif line.startswith("EXCHANGE::"):
                         exchange = line[10:].strip()
+                    elif line.startswith("SCRIPT::"):
+                        script = line[8:].strip()
 
                 payload = {
                     "segment_id": self.segment_id,
@@ -221,6 +225,7 @@ class SummaryClient:
                     "delta": delta,
                     "topic": topic,
                     "exchange": exchange,
+                    "script": script,
                 }
 
                 # Update pre_context with topic for next segment
