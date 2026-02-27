@@ -231,12 +231,6 @@ class RealtimeClient:
             transcript=transcript[:50] + "..." if len(transcript) > 50 else transcript,
         )
 
-        # Emit to frontend
-        self.sio.emit("transcription", {
-            "text": transcript.strip(),
-            "full": self.transcript_buffer,
-        })
-
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""
         log_print("ERROR", f"WebSocket error: {error}", session_id=self.session_id)

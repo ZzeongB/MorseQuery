@@ -13,7 +13,7 @@ OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-pr
 # Audio settings
 AUDIO_RATE = 24000
 AUDIO_CHUNK = 4800
-DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_001.mp3"
+DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_002.mp3"
 # Auto mode interval (seconds)
 AUTO_INTERVAL = 3
 
