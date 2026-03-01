@@ -191,7 +191,9 @@ class SummaryClient:
 
             self.logger.log("summary_response_done", raw=raw)
 
-            is_empty = raw.strip() == "..."
+            # Treat empty, "...", or very short responses as empty
+            raw_stripped = raw.strip()
+            is_empty = not raw_stripped or raw_stripped == "..."
 
             if is_empty:
                 payload = {
@@ -219,14 +221,31 @@ class SummaryClient:
                     elif line.startswith("SCRIPT::"):
                         script = line[8:].strip()
 
-                payload = {
-                    "segment_id": self.segment_id,
-                    "is_empty": False,
-                    "delta": delta,
-                    "topic": topic,
-                    "exchange": exchange,
-                    "script": script,
-                }
+                # If parsing failed (no fields extracted), treat as malformed
+                if not delta and not topic and not exchange and not script:
+                    self.logger.log(
+                        "summary_parse_failed",
+                        segment_id=self.segment_id,
+                        raw=raw,
+                    )
+                    payload = {
+                        "segment_id": self.segment_id,
+                        "is_empty": True,
+                        "delta": "",
+                        "topic": "",
+                        "exchange": "",
+                        "script": "",
+                        "raw_fallback": raw_stripped,  # Send raw for debugging
+                    }
+                else:
+                    payload = {
+                        "segment_id": self.segment_id,
+                        "is_empty": False,
+                        "delta": delta,
+                        "topic": topic,
+                        "exchange": exchange,
+                        "script": script,
+                    }
 
                 # Update pre_context with topic for next segment
                 if topic:

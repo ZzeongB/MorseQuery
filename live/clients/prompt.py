@@ -71,6 +71,18 @@ INVALID EXAMPLES (DO NOT DO THIS):
 - keywords: [AI, machine learning] ❌ (wrong format, no explanations)
 """
 
+KEYWORD_FALLBACK_PROMPT = """You MUST output exactly ONE keyword from the audio.
+
+MANDATORY OUTPUT FORMAT:
+<word>: <explanation sentence>
+
+Pick the single most important noun or technical term you heard.
+If you heard ANY word at all, output it. Do not say you cannot, just pick one word.
+
+Example:
+economy: Economy refers to the system of production, distribution, and consumption of goods and services.
+"""
+
 # Keep session instructions minimal; put strict rules in per-request prompts.
 SUMMARY_SESSION_INSTRUCTIONS = """You are NOT a conversation participant.
 You are a silent observer that outputs ONLY what is requested.
@@ -97,28 +109,23 @@ You are a SILENT OBSERVER summarizing a conversation segment.
 
 # TASK
 Summarize the most recently committed audio segment. Provide:
-1. DELTA: What changed or new information compared to before
-2. TOPIC: (REQUIRED - always include) The current question or topic being discussed
-3. EXCHANGE: (optional) Key points or answers exchanged - skip if nothing significant beyond TOPIC
-4. SCRIPT: (ONLY if user needs to respond NOW) A starter phrase user can read aloud
+1. TOPIC: (REQUIRED - always include) The current question or topic being discussed
+2. EXCHANGE: (optional) Key points or answers exchanged - skip if nothing significant beyond TOPIC
+3. SCRIPT: (ONLY if user needs to respond NOW) A starter phrase user can read aloud
 
 # OUTPUT FORMAT (strictly follow)
-DELTA:: <what's new or changed, 1 short sentence>
 TOPIC:: <REQUIRED - current topic/question, noun phrase or short sentence>
 EXCHANGE:: <optional: key points discussed, 1-2 short sentences - omit if TOPIC is sufficient>
 SCRIPT:: <optional: starter phrase if user was asked a question or needs to respond>
 
-# EXAMPLE OUTPUT 1 (no immediate response needed, EXCHANGE adds value)
-DELTA:: Budget was increased by 20%
+# EXAMPLE OUTPUT 1 (EXCHANGE adds value)
 TOPIC:: Q2 marketing budget allocation
-EXCHANGE:: Finance explained the increase is due to revenue growth.
+EXCHANGE:: Finance explained the 20% increase is due to revenue growth.
 
 # EXAMPLE OUTPUT 2 (EXCHANGE omitted - TOPIC is sufficient)
-DELTA:: Topic changed to team updates
 TOPIC:: Weekly project status updates
 
 # EXAMPLE OUTPUT 3 (user needs to respond - question directed at user)
-DELTA:: Discussion shifted to asking for user's opinion
 TOPIC:: Regulation of AI in healthcare
 SCRIPT:: I believe that AI regulation should focus on... / In my view, the key consideration is...
 
@@ -138,5 +145,6 @@ SCRIPT:: I believe that AI regulation should focus on... / In my view, the key c
 - Output ONLY the format above. No extra text.
 - Use ONLY information clearly present in the audio.
 - Do NOT guess or add details.
-- If audio is unclear/noisy/silent: output exactly "..." and nothing else.
+- NEVER output empty or "..." - always provide TOPIC at minimum.
+- If audio is unclear/noisy/silent but context exists: use the previous topic.
 """
