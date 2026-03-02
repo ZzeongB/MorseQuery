@@ -45,6 +45,10 @@ class RealtimeClient:
         self.logger = get_logger(session_id)
         self.extracted_keywords: list[str] = []  # Track previously extracted keywords
 
+        # Thread synchronization
+        self._ws_lock = threading.Lock()
+        self._shutdown_event = threading.Event()
+
         # Session recording
         self.user_actions: list[dict] = []  # Track user keyword requests with timing
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
@@ -231,142 +235,197 @@ class RealtimeClient:
 
     def _stream_from_mic(self) -> None:
         """Stream audio from microphone."""
-        pa = pyaudio.PyAudio()
+        pa = None
+        stream = None
+        try:
+            pa = pyaudio.PyAudio()
 
-        # Get device info for logging
-        device_name = "Default"
-        if self.device_index is not None:
-            try:
-                info = pa.get_device_info_by_index(self.device_index)
-                device_name = info["name"]
-            except Exception:
-                pass
+            # Get device info for logging
+            device_name = "Default"
+            if self.device_index is not None:
+                try:
+                    info = pa.get_device_info_by_index(self.device_index)
+                    device_name = info["name"]
+                except Exception:
+                    pass
 
-        stream = pa.open(
-            format=pyaudio.paInt16,
-            channels=1,
-            rate=AUDIO_RATE,
-            input=True,
-            input_device_index=self.device_index,  # None = default device
-            frames_per_buffer=AUDIO_CHUNK,
-        )
-        log_print(
-            "INFO",
-            "Mic recording started",
-            session_id=self.session_id,
-            device=device_name,
-        )
-        self.logger.log("mic_recording_start", device=device_name)
-        self.sio.emit("status", f"🎤 {device_name}")
+            stream = pa.open(
+                format=pyaudio.paInt16,
+                channels=1,
+                rate=AUDIO_RATE,
+                input=True,
+                input_device_index=self.device_index,  # None = default device
+                frames_per_buffer=AUDIO_CHUNK,
+            )
+            log_print(
+                "INFO",
+                "Mic recording started",
+                session_id=self.session_id,
+                device=device_name,
+            )
+            self.logger.log("mic_recording_start", device=device_name)
+            self.sio.emit("status", f"🎤 {device_name}")
 
-        while self.running:
-            chunk = stream.read(AUDIO_CHUNK, exception_on_overflow=False)
-            self._send_audio_chunk(chunk)
+            while self.running and not self._shutdown_event.is_set():
+                try:
+                    chunk = stream.read(AUDIO_CHUNK, exception_on_overflow=False)
+                except Exception as e:
+                    if self._shutdown_event.is_set():
+                        break
+                    log_print("WARN", f"Mic read error: {e}", session_id=self.session_id)
+                    continue
 
-            if self.chunks_sent % 100 == 0:
-                log_print(
-                    "DEBUG",
-                    f"Audio chunks sent: {self.chunks_sent}",
-                    session_id=self.session_id,
-                )
+                if not self._send_audio_chunk(chunk):
+                    if self._shutdown_event.is_set():
+                        break
 
-        stream.stop_stream()
-        stream.close()
-        pa.terminate()
-        log_print(
-            "INFO",
-            "Mic recording stopped",
-            session_id=self.session_id,
-            total_chunks=self.chunks_sent,
-        )
-        self.logger.log("mic_recording_stop", total_chunks=self.chunks_sent)
-        self.sio.emit("status", "Stopped")
-        self.sio.emit("session_ended")
+                if self.chunks_sent % 100 == 0:
+                    log_print(
+                        "DEBUG",
+                        f"Audio chunks sent: {self.chunks_sent}",
+                        session_id=self.session_id,
+                    )
+
+        except Exception as e:
+            log_print("ERROR", f"Mic stream error: {e}", session_id=self.session_id)
+        finally:
+            # Clean up PyAudio resources safely
+            if stream:
+                try:
+                    stream.stop_stream()
+                    stream.close()
+                except Exception:
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
+
+            log_print(
+                "INFO",
+                "Mic recording stopped",
+                session_id=self.session_id,
+                total_chunks=self.chunks_sent,
+            )
+            self.logger.log("mic_recording_stop", total_chunks=self.chunks_sent)
+            if not self._shutdown_event.is_set():
+                self.sio.emit("status", "Stopped")
+                self.sio.emit("session_ended")
 
     def _stream_from_mp3(self) -> None:
         """Stream audio from MP3 file."""
-        log_print(
-            "INFO",
-            f"Loading MP3 file: {DEFAULT_AUDIO_FILE}",
-            session_id=self.session_id,
-        )
-        audio = AudioSegment.from_file(DEFAULT_AUDIO_FILE)
-        audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)
-        raw = audio.raw_data
-        duration_sec = len(audio) / 1000.0
+        pa = None
+        stream = None
+        try:
+            log_print(
+                "INFO",
+                f"Loading MP3 file: {DEFAULT_AUDIO_FILE}",
+                session_id=self.session_id,
+            )
+            audio = AudioSegment.from_file(DEFAULT_AUDIO_FILE)
+            audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)
+            raw = audio.raw_data
+            duration_sec = len(audio) / 1000.0
 
-        log_print(
-            "INFO",
-            "MP3 loaded",
-            session_id=self.session_id,
-            duration_sec=duration_sec,
-            bytes=len(raw),
-        )
-        self.logger.log(
-            "mp3_loaded",
-            file=DEFAULT_AUDIO_FILE,
-            duration_sec=duration_sec,
-            bytes=len(raw),
-        )
+            log_print(
+                "INFO",
+                "MP3 loaded",
+                session_id=self.session_id,
+                duration_sec=duration_sec,
+                bytes=len(raw),
+            )
+            self.logger.log(
+                "mp3_loaded",
+                file=DEFAULT_AUDIO_FILE,
+                duration_sec=duration_sec,
+                bytes=len(raw),
+            )
 
-        pa = pyaudio.PyAudio()
-        stream = pa.open(
-            format=pyaudio.paInt16, channels=1, rate=AUDIO_RATE, output=True
-        )
-        self.sio.emit("status", "🎵 Playing MP3...")
+            pa = pyaudio.PyAudio()
+            stream = pa.open(
+                format=pyaudio.paInt16, channels=1, rate=AUDIO_RATE, output=True
+            )
+            self.sio.emit("status", "🎵 Playing MP3...")
 
-        chunk_bytes = AUDIO_CHUNK * 2
-        total_chunks = len(raw) // chunk_bytes
+            chunk_bytes = AUDIO_CHUNK * 2
+            total_chunks = len(raw) // chunk_bytes
 
-        log_print(
-            "INFO",
-            "MP3 playback started",
-            session_id=self.session_id,
-            total_chunks=total_chunks,
-        )
-        self.logger.log("mp3_playback_start", total_chunks=total_chunks)
+            log_print(
+                "INFO",
+                "MP3 playback started",
+                session_id=self.session_id,
+                total_chunks=total_chunks,
+            )
+            self.logger.log("mp3_playback_start", total_chunks=total_chunks)
 
-        for i in range(0, len(raw), chunk_bytes):
-            if not self.running:
-                break
-            chunk = raw[i : i + chunk_bytes]
-            stream.write(chunk)
-            self._send_audio_chunk(chunk)
+            for i in range(0, len(raw), chunk_bytes):
+                if not self.running or self._shutdown_event.is_set():
+                    break
+                chunk = raw[i : i + chunk_bytes]
+                try:
+                    stream.write(chunk)
+                except Exception:
+                    if self._shutdown_event.is_set():
+                        break
+                self._send_audio_chunk(chunk)
 
-            if self.chunks_sent % 100 == 0:
-                progress = (
-                    (self.chunks_sent / total_chunks) * 100 if total_chunks > 0 else 0
-                )
-                log_print(
-                    "DEBUG",
-                    f"Playback progress: {progress:.1f}%",
-                    session_id=self.session_id,
-                    chunks=self.chunks_sent,
-                )
+                if self.chunks_sent % 100 == 0:
+                    progress = (
+                        (self.chunks_sent / total_chunks) * 100 if total_chunks > 0 else 0
+                    )
+                    log_print(
+                        "DEBUG",
+                        f"Playback progress: {progress:.1f}%",
+                        session_id=self.session_id,
+                        chunks=self.chunks_sent,
+                    )
 
-        stream.stop_stream()
-        stream.close()
-        pa.terminate()
-        log_print(
-            "INFO",
-            "MP3 playback complete",
-            session_id=self.session_id,
-            total_chunks=self.chunks_sent,
-        )
-        self.logger.log("mp3_playback_complete", total_chunks=self.chunks_sent)
-        self.sio.emit("status", "Done")
-        self.sio.emit("session_ended")
+        except Exception as e:
+            log_print("ERROR", f"MP3 stream error: {e}", session_id=self.session_id)
+        finally:
+            # Clean up PyAudio resources safely
+            if stream:
+                try:
+                    stream.stop_stream()
+                    stream.close()
+                except Exception:
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
 
-    def _send_audio_chunk(self, chunk: bytes) -> None:
-        """Send audio chunk to OpenAI."""
+            log_print(
+                "INFO",
+                "MP3 playback complete",
+                session_id=self.session_id,
+                total_chunks=self.chunks_sent,
+            )
+            self.logger.log("mp3_playback_complete", total_chunks=self.chunks_sent)
+            if not self._shutdown_event.is_set():
+                self.sio.emit("status", "Done")
+                self.sio.emit("session_ended")
+
+    def _send_audio_chunk(self, chunk: bytes) -> bool:
+        """Send audio chunk to OpenAI. Returns False if send failed."""
         # Record audio
         self.recording_buffer.append(chunk)
 
         audio_b64 = base64.b64encode(chunk).decode()
-        self.ws.send(
-            json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
-        )
-        self.chunks_sent += 1
+        with self._ws_lock:
+            ws = self.ws
+        if ws:
+            try:
+                ws.send(
+                    json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
+                )
+                self.chunks_sent += 1
+                return True
+            except Exception:
+                return False
+        return False
 
     def request(self) -> None:
         """Request keyword extraction from accumulated audio."""
@@ -390,52 +449,66 @@ class RealtimeClient:
 
         self.sio.emit("clear")
 
-        # Commit current audio buffer
-        self.ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+        with self._ws_lock:
+            ws = self.ws
 
-        # Build prompt with previously extracted keywords to avoid repetition
-        prompt = KEYWORD_EXTRACTION_PROMPT
-        if self.extracted_keywords:
-            already_extracted = ", ".join(self.extracted_keywords[-20:])  # Last 20
-            prompt = f"{KEYWORD_EXTRACTION_PROMPT}\n\nALREADY EXTRACTED (do NOT repeat): {already_extracted}"
+        if not ws:
+            log_print("WARN", "request() called but no websocket", session_id=self.session_id)
+            return
 
-        self.ws.send(
-            json.dumps(
-                {
-                    "type": "response.create",
-                    "response": {
-                        "modalities": ["text"],
-                        "instructions": prompt,
-                    },
-                }
+        try:
+            # Commit current audio buffer
+            ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+
+            # Build prompt with previously extracted keywords to avoid repetition
+            prompt = KEYWORD_EXTRACTION_PROMPT
+            if self.extracted_keywords:
+                already_extracted = ", ".join(self.extracted_keywords[-20:])  # Last 20
+                prompt = f"{KEYWORD_EXTRACTION_PROMPT}\n\nALREADY EXTRACTED (do NOT repeat): {already_extracted}"
+
+            ws.send(
+                json.dumps(
+                    {
+                        "type": "response.create",
+                        "response": {
+                            "modalities": ["text"],
+                            "instructions": prompt,
+                        },
+                    }
+                )
             )
-        )
 
-        # Clear buffer after commit to analyze only new audio next time
-        self.ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
+            # Clear buffer after commit to analyze only new audio next time
+            ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
+        except Exception as e:
+            log_print("ERROR", f"request() send failed: {e}", session_id=self.session_id)
 
     def start(self) -> None:
         """Start the realtime client."""
         log_print("INFO", "Starting RealtimeClient", session_id=self.session_id)
         self.logger.log("client_start")
+        self._shutdown_event.clear()
         self.running = True
         self.chunks_sent = 0
         self.extracted_keywords = []  # Reset for new session
         self.user_actions = []  # Reset user actions
         self.stream_start_time = 0.0  # Reset stream start time
         self.recording_buffer = []  # Reset recording
-        self.ws = websocket.WebSocketApp(
-            OPENAI_REALTIME_URL,
-            header=[
-                f"Authorization: Bearer {OPENAI_API_KEY}",
-                "OpenAI-Beta: realtime=v1",
-            ],
-            on_open=self.on_open,
-            on_message=self.on_message,
-            on_error=self.on_error,
-            on_close=self.on_close,
-        )
-        threading.Thread(target=self.ws.run_forever, daemon=True).start()
+
+        with self._ws_lock:
+            self.ws = websocket.WebSocketApp(
+                OPENAI_REALTIME_URL,
+                header=[
+                    f"Authorization: Bearer {OPENAI_API_KEY}",
+                    "OpenAI-Beta: realtime=v1",
+                ],
+                on_open=self.on_open,
+                on_message=self.on_message,
+                on_error=self.on_error,
+                on_close=self.on_close,
+            )
+            ws = self.ws
+        threading.Thread(target=ws.run_forever, daemon=True).start()
 
     def stop(self) -> None:
         """Stop the realtime client."""
@@ -443,8 +516,20 @@ class RealtimeClient:
         self.logger.log("client_stop", total_chunks=self.chunks_sent)
         was_running = self.running
         self.running = False
-        if self.ws:
-            self.ws.close()
+        self._shutdown_event.set()
+
+        with self._ws_lock:
+            ws = self.ws
+            self.ws = None
+
+        if ws:
+            try:
+                ws.close()
+            except Exception:
+                pass
+
+        # Wait briefly for audio thread to exit cleanly
+        time.sleep(0.15)
 
         # Save recorded audio
         self._save_audio()

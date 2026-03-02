@@ -7,6 +7,7 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
+import threading
 from typing import Optional
 
 import pyaudio
@@ -22,6 +23,7 @@ app = Flask(__name__, template_folder=str(TEMPLATES_DIR))
 sio = SocketIO(app, cors_allowed_origins="*")
 
 # Active clients (per session in production, global for simplicity here)
+_clients_lock = threading.Lock()
 client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 
@@ -71,12 +73,13 @@ def handle_disconnect():
     logger.log("client_disconnected")
 
     # Stop running clients when user disconnects (e.g., page refresh)
-    if client:
-        client.stop()
-        client = None
-    for sc in summary_clients:
-        sc.stop()
-    summary_clients = []
+    with _clients_lock:
+        if client:
+            client.stop()
+            client = None
+        for sc in summary_clients:
+            sc.stop()
+        summary_clients = []
 
 
 @sio.on("start")
@@ -86,37 +89,38 @@ def handle_start(data: dict):
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
-    if client:
-        log_print("INFO", "Stopping previous client", session_id=session_id)
-        client.stop()
-    for sc in summary_clients:
-        sc.stop()
-    summary_clients = []
+    with _clients_lock:
+        if client:
+            log_print("INFO", "Stopping previous client", session_id=session_id)
+            client.stop()
+        for sc in summary_clients:
+            sc.stop()
+        summary_clients = []
 
-    source = data.get("source", "mic")
+        source = data.get("source", "mic")
 
-    # Get mic selections: keyword_mic (single) and summary_mics (list of up to 2)
-    keyword_mic = data.get("keyword_mic")  # int or None
-    summary_mics = data.get("summary_mics", [])  # list of ints
-    voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
+        # Get mic selections: keyword_mic (single) and summary_mics (list of up to 2)
+        keyword_mic = data.get("keyword_mic")  # int or None
+        summary_mics = data.get("summary_mics", [])  # list of ints
+        voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
 
-    client = RealtimeClient(sio, source, session_id, device_index=keyword_mic)
+        client = RealtimeClient(sio, source, session_id, device_index=keyword_mic)
 
-    # Create one SummaryClient per summary mic
-    for i, mic_idx in enumerate(summary_mics):
-        voice_id = voice_ids[i] if i < len(voice_ids) else None
-        sc = SummaryClient(
-            sio,
-            session_id=f"{session_id}_sum{i}",
-            device_indices=[mic_idx],
-            enable_tts=bool(voice_id),
-            mic_id=f"summary_{i}",
-            voice_id=voice_id,
-        )
-        summary_clients.append(sc)
-        sc.start()
+        # Create one SummaryClient per summary mic
+        for i, mic_idx in enumerate(summary_mics):
+            voice_id = voice_ids[i] if i < len(voice_ids) else None
+            sc = SummaryClient(
+                sio,
+                session_id=f"{session_id}_sum{i}",
+                device_indices=[mic_idx],
+                enable_tts=bool(voice_id),
+                mic_id=f"summary_{i}",
+                voice_id=voice_id,
+            )
+            summary_clients.append(sc)
+            sc.start()
 
-    client.start()
+        client.start()
 
 
 @sio.on("stop")
@@ -126,57 +130,58 @@ def handle_stop():
     session_id = request.sid
     log_print("INFO", "Stop requested", session_id=session_id)
 
-    if client:
-        client.stop()
+    with _clients_lock:
+        if client:
+            client.stop()
 
 
 @sio.on("request")
 def handle_request():
     """Handle manual keyword extraction request."""
-    global client
     session_id = request.sid
     log_print("INFO", "Manual request triggered", session_id=session_id)
 
-    if client and client.running:
-        client.request()
-    else:
-        log_print("WARN", "Request ignored - no running client", session_id=session_id)
+    with _clients_lock:
+        if client and client.running:
+            client.request()
+        else:
+            log_print("WARN", "Request ignored - no running client", session_id=session_id)
 
 
 @sio.on("start_listening")
 def handle_start_listening():
     """Start a listening segment for later summarization."""
-    global summary_clients
     session_id = request.sid
 
-    if summary_clients:
-        for sc in summary_clients:
-            sc.start_listening()
-        log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
-    else:
-        log_print(
-            "WARN",
-            "start_listening ignored - no summary clients",
-            session_id=session_id,
-        )
+    with _clients_lock:
+        if summary_clients:
+            for sc in summary_clients:
+                sc.start_listening()
+            log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
+        else:
+            log_print(
+                "WARN",
+                "start_listening ignored - no summary clients",
+                session_id=session_id,
+            )
 
 
 @sio.on("end_listening")
 def handle_end_listening():
     """End listening segment and request summary."""
-    global summary_clients
     session_id = request.sid
 
-    if summary_clients:
-        for sc in summary_clients:
-            sc.end_listening()
-        log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
-    else:
-        log_print(
-            "WARN",
-            "end_listening ignored - no summary clients",
-            session_id=session_id,
-        )
+    with _clients_lock:
+        if summary_clients:
+            for sc in summary_clients:
+                sc.end_listening()
+            log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
+        else:
+            log_print(
+                "WARN",
+                "end_listening ignored - no summary clients",
+                session_id=session_id,
+            )
 
 
 @sio.on("search_grounding")

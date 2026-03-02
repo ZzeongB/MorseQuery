@@ -72,7 +72,9 @@ class SummaryClient:
         self.listening = False
         self.segment_id = 0
 
+        # Thread synchronization
         self._lock = threading.Lock()
+        self._shutdown_event = threading.Event()
 
         # White noise playback
         self.noise_stream = None
@@ -136,27 +138,26 @@ class SummaryClient:
             )
             return
 
-        with self._lock:
-            ws = self.ws
-
         self.segment_id += 1
         self.listening = True
         self.response_buffer = ""
 
         # Clear buffer and re-append last 3 seconds as the start of the new segment
-        if ws:
-            try:
-                ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
-                # Re-append last 3 seconds of audio
-                for chunk in self.recent_audio_buffer:
-                    audio_b64 = base64.b64encode(chunk).decode()
-                    ws.send(
-                        json.dumps(
-                            {"type": "input_audio_buffer.append", "audio": audio_b64}
+        with self._lock:
+            ws = self.ws
+            if ws:
+                try:
+                    ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
+                    # Re-append last 3 seconds of audio
+                    for chunk in self.recent_audio_buffer:
+                        audio_b64 = base64.b64encode(chunk).decode()
+                        ws.send(
+                            json.dumps(
+                                {"type": "input_audio_buffer.append", "audio": audio_b64}
+                            )
                         )
-                    )
-            except Exception:
-                pass
+                except Exception:
+                    pass
 
         self.logger.log("start_listening", segment_id=self.segment_id)
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
@@ -182,17 +183,6 @@ class SummaryClient:
             )
             return
 
-        with self._lock:
-            ws = self.ws
-
-        if not ws:
-            log_print(
-                "WARN",
-                "end_listening ignored (no websocket)",
-                session_id=self.session_id,
-            )
-            return
-
         self.listening = False
         self.response_buffer = ""
 
@@ -202,13 +192,6 @@ class SummaryClient:
         self.logger.log("end_listening", segment_id=self.segment_id)
         self.sio.emit("listening_end", {"segment_id": self.segment_id})
 
-        # Commit the segment audio and request summary
-        try:
-            ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
-        except Exception as e:
-            self.logger.log("commit_failed", error=str(e))
-            return
-
         prompt = build_summary_prompt(self.pre_context)
 
         self.logger.log(
@@ -217,17 +200,32 @@ class SummaryClient:
             pre_context_chars=len(self.pre_context),
         )
 
-        ws.send(
-            json.dumps(
-                {
-                    "type": "response.create",
-                    "response": {
-                        "modalities": ["text"],
-                        "instructions": prompt,
-                    },
-                }
-            )
-        )
+        # Commit the segment audio and request summary (all under lock)
+        with self._lock:
+            ws = self.ws
+            if not ws:
+                log_print(
+                    "WARN",
+                    "end_listening ignored (no websocket)",
+                    session_id=self.session_id,
+                )
+                return
+
+            try:
+                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                ws.send(
+                    json.dumps(
+                        {
+                            "type": "response.create",
+                            "response": {
+                                "modalities": ["text"],
+                                "instructions": prompt,
+                            },
+                        }
+                    )
+                )
+            except Exception as e:
+                self.logger.log("end_listening_send_failed", error=str(e))
 
     # -------------------------
     # Websocket handlers
@@ -374,8 +372,10 @@ class SummaryClient:
 
     def _play_white_noise_loop(self) -> None:
         """Loop that plays white noise until stopped."""
-        pa = pyaudio.PyAudio()
+        pa = None
+        stream = None
         try:
+            pa = pyaudio.PyAudio()
             stream = pa.open(
                 format=pyaudio.paInt16,
                 channels=1,
@@ -384,16 +384,27 @@ class SummaryClient:
                 frames_per_buffer=AUDIO_CHUNK,
             )
 
-            while self.noise_playing and self.running:
+            while self.noise_playing and self.running and not self._shutdown_event.is_set():
                 noise = self._generate_white_noise(AUDIO_CHUNK, volume=0.05)
-                stream.write(noise)
-
-            stream.stop_stream()
-            stream.close()
+                try:
+                    stream.write(noise)
+                except Exception:
+                    if self._shutdown_event.is_set():
+                        break
         except Exception as e:
             log_print("ERROR", f"White noise error: {e}", session_id=self.session_id)
         finally:
-            pa.terminate()
+            if stream:
+                try:
+                    stream.stop_stream()
+                    stream.close()
+                except Exception:
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
 
     def _stream_audio(self) -> None:
         """Stream audio from configured microphone."""
@@ -414,11 +425,13 @@ class SummaryClient:
             return
 
         device_idx = self.device_indices[0]
-        self.pa = pyaudio.PyAudio()
+        pa = None
+        stream = None
 
         try:
-            info = self.pa.get_device_info_by_index(device_idx)
-            self.stream = self.pa.open(
+            pa = pyaudio.PyAudio()
+            info = pa.get_device_info_by_index(device_idx)
+            stream = pa.open(
                 format=pyaudio.paInt16,
                 channels=1,
                 rate=AUDIO_RATE,
@@ -433,62 +446,80 @@ class SummaryClient:
                 session_id=self.session_id,
             )
             self.logger.log("summary_audio_start", device=device_name)
+
+            # Store references for cleanup
+            self.pa = pa
+            self.stream = stream
+
+            commit_interval = 3.0
+            last_commit = 0.0
+
+            while self.running and self.connected and not self._shutdown_event.is_set():
+                try:
+                    data = stream.read(AUDIO_CHUNK, exception_on_overflow=False)
+                except Exception as e:
+                    if self._shutdown_event.is_set():
+                        break
+                    log_print(
+                        "WARN",
+                        f"SummaryClient error reading device {device_idx}: {e}",
+                        session_id=self.session_id,
+                    )
+                    continue
+
+                # Record audio
+                self.recording_buffer.append(data)
+
+                # Maintain rolling buffer for last 3 seconds
+                self.recent_audio_buffer.append(data)
+                if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
+                    self.recent_audio_buffer.pop(0)
+
+                audio_b64 = base64.b64encode(data).decode()
+
+                with self._lock:
+                    ws = self.ws
+                    if ws and not self._shutdown_event.is_set():
+                        try:
+                            ws.send(
+                                json.dumps(
+                                    {"type": "input_audio_buffer.append", "audio": audio_b64}
+                                )
+                            )
+
+                            # Periodic commit (skip during listening to keep segment intact)
+                            now = time.time()
+                            if now - last_commit >= commit_interval and not self.listening:
+                                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                                last_commit = now
+                        except Exception:
+                            break
+
         except Exception as e:
             log_print(
                 "ERROR",
                 f"SummaryClient failed to open device {device_idx}: {e}",
                 session_id=self.session_id,
             )
-            return
-
-        commit_interval = 3.0
-        last_commit = 0.0
-
-        while self.running and self.connected:
-            try:
-                data = self.stream.read(AUDIO_CHUNK, exception_on_overflow=False)
-            except Exception as e:
-                log_print(
-                    "WARN",
-                    f"SummaryClient error reading device {device_idx}: {e}",
-                    session_id=self.session_id,
-                )
-                continue
-
-            # Record audio
-            self.recording_buffer.append(data)
-
-            # Maintain rolling buffer for last 3 seconds
-            self.recent_audio_buffer.append(data)
-            if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
-                self.recent_audio_buffer.pop(0)
-
-            audio_b64 = base64.b64encode(data).decode()
-
-            with self._lock:
-                ws = self.ws
-
-            if ws:
+        finally:
+            # Clean up PyAudio resources safely
+            if stream:
                 try:
-                    ws.send(
-                        json.dumps(
-                            {"type": "input_audio_buffer.append", "audio": audio_b64}
-                        )
-                    )
-
-                    # Periodic commit (skip during listening to keep segment intact)
-                    now = time.time()
-                    if now - last_commit >= commit_interval and not self.listening:
-                        ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
-                        last_commit = now
+                    stream.stop_stream()
+                    stream.close()
                 except Exception:
-                    break
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
+            self.stream = None
+            self.pa = None
 
-        # Cleanup
-        self._close_stream()
-        log_print(
-            "INFO", "SummaryClient audio streaming stopped", session_id=self.session_id
-        )
+            log_print(
+                "INFO", "SummaryClient audio streaming stopped", session_id=self.session_id
+            )
 
     def _close_stream(self) -> None:
         """Close audio stream."""
@@ -512,36 +543,39 @@ class SummaryClient:
 
     def start(self) -> None:
         """Start the client; use start_listening/end_listening for segment summaries."""
+        self._shutdown_event.clear()
         self.running = True
         self.logger.log("summary_client_start")
 
-        self.ws = websocket.WebSocketApp(
-            OPENAI_REALTIME_URL,
-            header=[
-                f"Authorization: Bearer {OPENAI_API_KEY}",
-                "OpenAI-Beta: realtime=v1",
-            ],
-            on_open=self.on_open,
-            on_message=self.on_message,
-            on_error=self.on_error,
-            on_close=self.on_close,
-        )
-        threading.Thread(target=self.ws.run_forever, daemon=True).start()
+        with self._lock:
+            self.ws = websocket.WebSocketApp(
+                OPENAI_REALTIME_URL,
+                header=[
+                    f"Authorization: Bearer {OPENAI_API_KEY}",
+                    "OpenAI-Beta: realtime=v1",
+                ],
+                on_open=self.on_open,
+                on_message=self.on_message,
+                on_error=self.on_error,
+                on_close=self.on_close,
+            )
+            ws = self.ws
+        threading.Thread(target=ws.run_forever, daemon=True).start()
 
     def stop(self) -> None:
         """Stop the client and close the websocket."""
         self.running = False
         self.connected = False
         self.listening = False
+        self._shutdown_event.set()
 
         # Stop white noise if playing
         self._stop_white_noise()
 
         self.logger.log("summary_client_stop")
 
-        # Close audio stream and wait for thread to exit
-        self._close_stream()
-        time.sleep(0.1)  # Allow audio thread to exit cleanly
+        # Wait briefly for audio thread to exit cleanly
+        time.sleep(0.15)
 
         # Save recorded audio
         self._save_audio()
@@ -595,13 +629,6 @@ class SummaryClient:
                 session_id=self.session_id,
                 duration_sec=len(audio) / 1000,
             )
-        except Exception as e:
-            log_print(
-                "ERROR",
-                f"Failed to save audio: {e}",
-                session_id=self.session_id,
-            )
-
         except Exception as e:
             log_print(
                 "ERROR",
