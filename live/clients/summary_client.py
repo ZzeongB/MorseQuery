@@ -72,6 +72,10 @@ class SummaryClient:
 
         self._lock = threading.Lock()
 
+        # White noise playback
+        self.noise_stream = None
+        self.noise_playing = False
+
         # TTS client
         self.enable_tts = enable_tts
         if enable_tts and voice_id:
@@ -142,6 +146,9 @@ class SummaryClient:
         self.logger.log("start_listening", segment_id=self.segment_id)
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
+        # Start white noise playback
+        self._start_white_noise()
+
     def end_listening(self) -> None:
         """End the segment and request a summary of what was said."""
         if not self.running or not self.connected:
@@ -167,6 +174,9 @@ class SummaryClient:
 
         self.listening = False
         self.response_buffer = ""
+
+        # Stop white noise playback
+        self._stop_white_noise()
 
         self.logger.log("end_listening", segment_id=self.segment_id)
         self.sio.emit("listening_end", {"segment_id": self.segment_id})
@@ -330,6 +340,53 @@ class SummaryClient:
         rms = (sum_squares / count) ** 0.5 if count > 0 else 0
         return rms
 
+    def _generate_white_noise(self, num_samples: int, volume: float = 0.1) -> bytes:
+        """Generate white noise audio chunk."""
+        import random
+        import struct
+
+        # Generate random samples scaled by volume
+        max_val = int(32767 * volume)
+        samples = [random.randint(-max_val, max_val) for _ in range(num_samples)]
+        return struct.pack(f"{num_samples}h", *samples)
+
+    def _start_white_noise(self) -> None:
+        """Start playing white noise through speakers."""
+        if self.noise_playing:
+            return
+
+        self.noise_playing = True
+        threading.Thread(target=self._play_white_noise_loop, daemon=True).start()
+        log_print("INFO", "White noise started", session_id=self.session_id)
+
+    def _stop_white_noise(self) -> None:
+        """Stop playing white noise."""
+        self.noise_playing = False
+        log_print("INFO", "White noise stopped", session_id=self.session_id)
+
+    def _play_white_noise_loop(self) -> None:
+        """Loop that plays white noise until stopped."""
+        pa = pyaudio.PyAudio()
+        try:
+            stream = pa.open(
+                format=pyaudio.paInt16,
+                channels=1,
+                rate=AUDIO_RATE,
+                output=True,
+                frames_per_buffer=AUDIO_CHUNK,
+            )
+
+            while self.noise_playing and self.running:
+                noise = self._generate_white_noise(AUDIO_CHUNK, volume=0.05)
+                stream.write(noise)
+
+            stream.stop_stream()
+            stream.close()
+        except Exception as e:
+            log_print("ERROR", f"White noise error: {e}", session_id=self.session_id)
+        finally:
+            pa.terminate()
+
     def _stream_audio(self) -> None:
         """Stream audio from configured microphone."""
         if not self.device_indices:
@@ -462,6 +519,9 @@ class SummaryClient:
         self.running = False
         self.connected = False
         self.listening = False
+
+        # Stop white noise if playing
+        self._stop_white_noise()
 
         self.logger.log("summary_client_stop")
 
