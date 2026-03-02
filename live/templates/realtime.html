@@ -408,8 +408,15 @@
                 availableDevices.forEach(d => {
                     sel.innerHTML += `<option value="${d.index}">[${d.index}] ${d.name}</option>`;
                 });
-                // Auto-select different devices if available
-                if (availableDevices.length > idx) {
+                // Auto-select: keywordMic always uses Macbook mic
+                if (id === 'keywordMic') {
+                    const macbookMic = availableDevices.find(d => d.name.toLowerCase().includes('macbook'));
+                    if (macbookMic) {
+                        sel.value = macbookMic.index;
+                    } else if (availableDevices.length > 0) {
+                        sel.value = availableDevices[0].index;
+                    }
+                } else if (availableDevices.length > idx) {
                     sel.value = availableDevices[idx].index;
                 }
                 // Add change listener for mic level monitoring
