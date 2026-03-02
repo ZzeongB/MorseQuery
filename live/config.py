@@ -6,6 +6,7 @@ from pathlib import Path
 # API Keys
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
+CARTESIA_API_KEY = os.environ.get("CARTESIA_API_KEY")
 
 # OpenAI Realtime API
 OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview"
@@ -14,8 +15,6 @@ OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-pr
 AUDIO_RATE = 24000
 AUDIO_CHUNK = 4800
 DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_002.mp3"
-# Auto mode interval (seconds)
-AUTO_INTERVAL = 3
 
 # Paths
 BASE_DIR = Path(__file__).parent

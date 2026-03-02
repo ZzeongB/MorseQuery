@@ -7,12 +7,13 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
-import json
 from typing import Optional
 
+import pyaudio
+
 from clients import RealtimeClient, SummaryClient
-from config import LOG_DIR, TEMPLATES_DIR
-from flask import Flask, render_template, request, jsonify, send_file
+from config import TEMPLATES_DIR
+from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 from handlers.grounding import handle_search_grounding
 from logger import get_logger, log_print
@@ -22,7 +23,7 @@ sio = SocketIO(app, cors_allowed_origins="*")
 
 # Active clients (per session in production, global for simplicity here)
 client: Optional[RealtimeClient] = None
-summary_client: Optional[SummaryClient] = None
+summary_clients: list[SummaryClient] = []  # One per summary mic
 
 
 @app.route("/")
@@ -32,96 +33,24 @@ def index():
     return render_template("realtime.html")
 
 
-@app.route("/review")
-def review():
-    """Serve the review page."""
-    log_print("INFO", "Review page requested")
-    return render_template("review.html")
+@app.route("/api/devices")
+def api_devices():
+    """Return list of available audio input devices."""
+    pa = pyaudio.PyAudio()
+    devices = []
 
+    for i in range(pa.get_device_count()):
+        info = pa.get_device_info_by_index(i)
+        if info["maxInputChannels"] > 0:
+            devices.append({
+                "index": i,
+                "name": info["name"],
+                "channels": info["maxInputChannels"],
+            })
 
-@app.route("/api/sessions")
-def api_sessions():
-    """Return list of available sessions."""
-    transcript_dir = LOG_DIR / "transcript"
-    sessions = []
-
-    if transcript_dir.exists():
-        for f in sorted(transcript_dir.glob("*.json"), reverse=True):
-            # Parse filename: {date}_{session_id}.json
-            parts = f.stem.split("_", 1)
-            if len(parts) == 2:
-                date_str, session_id = parts
-                sessions.append({
-                    "id": f.stem,
-                    "date": f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:]}",
-                    "session_id": session_id[:12] + "..." if len(session_id) > 12 else session_id,
-                })
-
-    return jsonify(sessions)
-
-
-@app.route("/api/session/<session_id>")
-def api_session(session_id):
-    """Return session data (transcript with timestamps)."""
-    transcript_file = LOG_DIR / "transcript" / f"{session_id}.json"
-
-    if not transcript_file.exists():
-        return jsonify({"error": "Session not found"}), 404
-
-    with open(transcript_file, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    return jsonify(data)
-
-
-@app.route("/api/audio/<filename>")
-def api_audio(filename):
-    """Serve audio file."""
-    audio_file = LOG_DIR / "audio" / filename
-
-    if not audio_file.exists():
-        return jsonify({"error": "Audio not found"}), 404
-
-    return send_file(audio_file, mimetype="audio/wav")
-
-
-@app.route("/api/review/<session_id>", methods=["GET"])
-def api_get_review(session_id):
-    """Get review data for a session (returns latest review)."""
-    review_dir = LOG_DIR / "review"
-
-    if not review_dir.exists():
-        return jsonify({"reviews": {}})
-
-    # Find all review files for this session and get the latest
-    review_files = sorted(review_dir.glob(f"*_{session_id}.json"), reverse=True)
-
-    if not review_files:
-        return jsonify({"reviews": {}})
-
-    with open(review_files[0], "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    return jsonify(data)
-
-
-@app.route("/api/review/<session_id>", methods=["POST"])
-def api_save_review(session_id):
-    """Save review data for a session."""
-    from datetime import datetime
-
-    review_dir = LOG_DIR / "review"
-    review_dir.mkdir(exist_ok=True)
-
-    datetime_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-    review_file = review_dir / f"{datetime_str}_{session_id}.json"
-    data = request.get_json()
-
-    with open(review_file, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-
-    log_print("INFO", f"Review saved: {review_file.name}")
-    return jsonify({"status": "ok"})
+    pa.terminate()
+    log_print("INFO", f"Found {len(devices)} input devices")
+    return jsonify(devices)
 
 
 @sio.on("connect")
@@ -135,7 +64,7 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_client
+    global client, summary_clients
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -145,32 +74,48 @@ def handle_disconnect():
     if client:
         client.stop()
         client = None
-    if summary_client:
-        summary_client.stop()
-        summary_client = None
+    for sc in summary_clients:
+        sc.stop()
+    summary_clients = []
 
 
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_client
+    global client, summary_clients
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
     if client:
         log_print("INFO", "Stopping previous client", session_id=session_id)
         client.stop()
-    if summary_client:
-        summary_client.stop()
+    for sc in summary_clients:
+        sc.stop()
+    summary_clients = []
 
-    mode = data.get("mode", "manual")
-    source = data.get("source", "mp3")
+    source = data.get("source", "mic")
 
-    client = RealtimeClient(sio, mode, source, session_id)
-    summary_client = SummaryClient(sio, session_id)
-    client.summary_client = summary_client
+    # Get mic selections: keyword_mic (single) and summary_mics (list of up to 2)
+    keyword_mic = data.get("keyword_mic")  # int or None
+    summary_mics = data.get("summary_mics", [])  # list of ints
+    voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
 
-    summary_client.start()
+    client = RealtimeClient(sio, source, session_id, device_index=keyword_mic)
+
+    # Create one SummaryClient per summary mic
+    for i, mic_idx in enumerate(summary_mics):
+        voice_id = voice_ids[i] if i < len(voice_ids) else None
+        sc = SummaryClient(
+            sio,
+            session_id=f"{session_id}_sum{i}",
+            device_indices=[mic_idx],
+            enable_tts=bool(voice_id),
+            mic_id=f"summary_{i}",
+            voice_id=voice_id,
+        )
+        summary_clients.append(sc)
+        sc.start()
+
     client.start()
 
 
@@ -201,16 +146,17 @@ def handle_request():
 @sio.on("start_listening")
 def handle_start_listening():
     """Start a listening segment for later summarization."""
-    global summary_client
+    global summary_clients
     session_id = request.sid
 
-    if summary_client:
-        summary_client.start_listening()
-        log_print("INFO", "Start listening", session_id=session_id)
+    if summary_clients:
+        for sc in summary_clients:
+            sc.start_listening()
+        log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
     else:
         log_print(
             "WARN",
-            "start_listening ignored - no summary client",
+            "start_listening ignored - no summary clients",
             session_id=session_id,
         )
 
@@ -218,16 +164,17 @@ def handle_start_listening():
 @sio.on("end_listening")
 def handle_end_listening():
     """End listening segment and request summary."""
-    global summary_client
+    global summary_clients
     session_id = request.sid
 
-    if summary_client:
-        summary_client.end_listening()
-        log_print("INFO", "End listening, requesting summary", session_id=session_id)
+    if summary_clients:
+        for sc in summary_clients:
+            sc.end_listening()
+        log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
     else:
         log_print(
             "WARN",
-            "end_listening ignored - no summary client",
+            "end_listening ignored - no summary clients",
             session_id=session_id,
         )
 
@@ -242,17 +189,5 @@ def handle_grounding(data: dict):
 if __name__ == "__main__":
     log_print("INFO", "=" * 50)
     log_print("INFO", "Starting web_realtime server")
-    log_print("INFO", f"Log directory: {LOG_DIR}")
     log_print("INFO", "=" * 50)
     sio.run(app, host="0.0.0.0", port=5002, debug=False)
-
-
-@sio.on("summary_closed")
-def handle_summary_closed():
-    global client, summary_client
-    session_id = request.sid
-    log_print("INFO", "SummaryClient closed", session_id=session_id)
-
-    if client:
-        client.summary_client = None
-    summary_client = None

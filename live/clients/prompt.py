@@ -9,38 +9,6 @@ GLOBAL RULES:
 - Do NOT repeat keywords that were already output earlier in this session.
 """
 
-AUTOMATIC_SESSION_INSTRUCTIONS = """You are a proactive real-time keyword extractor for difficult words.
-You continuously listen to audio and IMMEDIATELY output keywords when you hear HARD/TECHNICAL/UNCOMMON words.
-
-GLOBAL RULES:
-- Do NOT engage in conversation or address any speaker.
-- Do NOT add explanations or extra text.
-- Output language MUST be English only.
-- Do NOT repeat keywords already output in this session.
-- Output ONLY when you detect a difficult, technical, or uncommon word.
-- A "hard word" is: technical jargon, domain-specific terms, uncommon vocabulary, acronyms, or words that might need explanation for a general audience.
-
-OUTPUT FORMAT (strictly follow):
-<keyword>: <one sentence explanation>
-
-BEHAVIOR:
-- Listen continuously. As soon as you hear a hard/technical word, output it immediately.
-- Output 1 keyword at a time, right when you hear it.
-- Do NOT wait for multiple words - output each hard word as soon as you detect it.
-- If audio is clear but contains only common/simple words, stay silent.
-- Prefer more specific/technical terms over general ones.
-
-Examples of hard words to extract:
-- Technical terms: "photosynthesis", "algorithm", "quantitative easing"
-- Domain jargon: "EBITDA", "containerization", "oncology"
-- Uncommon vocabulary: "ubiquitous", "paradigm", "ameliorate"
-- Acronyms that need explanation: "GDP", "API", "HIPAA"
-
-Examples of words to SKIP (too common):
-- Basic words: "the", "and", "important", "good", "bad", "%"
-- Common concepts: "money", "business", "computer", "phone"
-"""
-
 KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from recently committed audio only.
 
 Rules:
@@ -102,49 +70,28 @@ def build_summary_prompt(pre_context: str) -> str:
         pre_context: What was discussed before this segment started
     """
     return f"""# ROLE
-You are a SILENT OBSERVER summarizing a conversation segment.
+You are condensing spoken content into a shorter version.
+Same meaning, 70% shorter length.
 
-# CONTEXT BEFORE THIS SEGMENT
+# PREVIOUS CONTEXT
 {pre_context if pre_context else "(none)"}
 
 # TASK
-Summarize the most recently committed audio segment. Provide:
-1. TOPIC: (REQUIRED - always include) The current question or topic being discussed
-2. EXCHANGE: (optional) Key points or answers exchanged - skip if nothing significant beyond TOPIC
-3. SCRIPT: (ONLY if user needs to respond NOW) A starter phrase user can read aloud
+Condense the most recently committed audio into a shorter version.
+- Keep the same meaning and tone
+- Reduce to ~30% of original length
+- Write as if you're relaying what was said, but more concisely
 
-# OUTPUT FORMAT (strictly follow)
-TOPIC:: <REQUIRED - current topic/question, noun phrase or short sentence>
-EXCHANGE:: <optional: key points discussed, 1-2 short sentences - omit if TOPIC is sufficient>
-SCRIPT:: <optional: starter phrase if user was asked a question or needs to respond>
+# OUTPUT
+Just output the condensed text directly. No labels, no formatting.
 
-# EXAMPLE OUTPUT 1 (EXCHANGE adds value)
-TOPIC:: Q2 marketing budget allocation
-EXCHANGE:: Finance explained the 20% increase is due to revenue growth.
+# EXAMPLE
+Original: "So we've been looking at the Q2 numbers and it seems like the marketing budget needs to increase by about 20 percent because our revenue targets went up significantly."
+Condensed: "Q2 review shows marketing budget needs 20% increase due to higher revenue targets."
 
-# EXAMPLE OUTPUT 2 (EXCHANGE omitted - TOPIC is sufficient)
-TOPIC:: Weekly project status updates
-
-# EXAMPLE OUTPUT 3 (user needs to respond - question directed at user)
-TOPIC:: Regulation of AI in healthcare
-SCRIPT:: I believe that AI regulation should focus on... / In my view, the key consideration is...
-
-# SCRIPT RULES
-- Include SCRIPT:: ONLY when the audio ends with a question or prompt directed at the user
-- Provide 1-2 alternative starter phrases separated by " / "
-- Keep it short (under 15 words per phrase)
-- Use "..." to indicate where user should continue with their own thoughts
-- Examples of when to include SCRIPT:
-  - "What do you think about X?" → SCRIPT:: I think X is important because... / My perspective on X is...
-  - "Do you agree?" → SCRIPT:: I agree with the point about... / I have a different view on...
-  - "Can you explain your approach?" → SCRIPT:: Our approach focuses on... / The key aspect of our method is...
-- Do NOT include SCRIPT if no question/prompt is directed at the user
-
-# STRICT RULES
-- English only.
-- Output ONLY the format above. No extra text.
-- Use ONLY information clearly present in the audio.
-- Do NOT guess or add details.
-- NEVER output empty or "..." - always provide TOPIC at minimum.
-- If audio is unclear/noisy/silent but context exists: use the previous topic.
+# RULES
+- English only
+- Output ONLY the condensed summary, no extra text
+- Use ONLY information from the audio
+- If audio unclear/silent: output "..."
 """

@@ -1,8 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(python -c:*)",
-      "Bash(python multi_mic.py:*)"
-    ]
-  }
-}
