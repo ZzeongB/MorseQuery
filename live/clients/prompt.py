@@ -93,6 +93,7 @@ def build_summary_prompt(pre_context: str) -> str:
     return """# Task
 Summarize ONLY the speaker’s utterance between the provided start and end signals.
 If you hear no content, output an empty string ("").
+Do NOT summarize anything outside those signals.
 
 # Requirements (ALL must be satisfied)
 - Length: Maximum 12 words and exactly one sentence.

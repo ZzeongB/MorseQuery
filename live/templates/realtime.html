@@ -78,9 +78,6 @@
         .desc-box strong { color: #fff; }
         .desc-box code { background: #222; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
 
-        /* Summary */
-        #summary { margin-top: 16px; padding: 12px 16px; background: #1a1a2e; border: 1px solid #a78bfa; border-radius: 8px; font-size: 14px; color: #c4b5fd; transition: opacity 0.3s; max-width: 500px; width: fit-content; }
-        #summary.fade-out { opacity: 0; }
 
         /* Tap/Progress indicator (top of main-content) */
         .tap-indicator {
@@ -368,7 +365,6 @@
         <div class="dismiss-indicator" id="dismissIndicator">Dismissed</div>
 
         <div class="options-list" id="optionsList"></div>
-        <div id="summary" style="display:none;"></div>
     </div>
 
     <script>
@@ -653,8 +649,7 @@
             infoVisible = true;
         });
         socket.on('summary_chunk', data => {
-            summaryBuffer += data;
-            document.getElementById('summary').innerText = summaryBuffer;
+            // Summary display removed
         });
         socket.on('clear', () => {
             // Don't clear keywords - keep last 3 visible
@@ -666,25 +661,12 @@
             infoVisible = false;
             summaryRequested = false;
             document.getElementById('optionsList').innerHTML = '';
-            document.getElementById('summary').style.display = 'none';
             hideLoadingIndicator();
         });
 
         socket.on('summary_done', data => {
-            // Only show summary if we actually requested it
-            if (!summaryRequested) return;
+            // Summary display removed
             summaryRequested = false;
-
-            const summary = document.getElementById('summary');
-
-            if (data.is_empty) {
-                summary.innerText = '(No new content detected)';
-            } else {
-                summary.innerText = data.summary || '';
-            }
-
-            summary.style.display = 'block';
-            summary.classList.remove('fade-out');
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
@@ -856,9 +838,7 @@
         }
 
         function hideSummary() {
-            const summary = document.getElementById('summary');
-            summary.style.display = 'none';
-            summary.classList.remove('fade-out');
+            // Summary display removed
             if (summaryTimer) {
                 clearTimeout(summaryTimer);
                 summaryTimer = null;
