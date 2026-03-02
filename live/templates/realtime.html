@@ -300,7 +300,7 @@
                         <select id="summaryMic2"></select>
                         <div class="mic-level"><div class="mic-level-bar" id="summaryMic2Level"></div></div>
                     </div>
-                    <input type="text" id="voice2" class="voice-input" placeholder="Voice ID (empty = no TTS)" value="67192626-0be9-4f45-b660-580d318c994d">
+                    <input type="text" id="voice2" class="voice-input" placeholder="Voice ID (empty = no TTS)" value="a167e0f3-df7e-4d52-a9c3-f949145efdab">
                 </div>
                 <div class="mic-select-item">
                     <label>Keyword</label>
@@ -680,18 +680,36 @@
             summary.classList.remove('fade-out');
         });
 
-        // TTS audio playback
-        let ttsAudio = null;
+        // TTS audio playback with queue (play sequentially, no overlap)
+        let ttsQueue = [];
+        let ttsPlaying = false;
+
+        function playNextTts() {
+            if (ttsQueue.length === 0) {
+                ttsPlaying = false;
+                return;
+            }
+
+            ttsPlaying = true;
+            const { audioData, url } = ttsQueue.shift();
+
+            const audio = new Audio(url);
+            audio.play().catch(e => {
+                console.error('TTS playback failed:', e);
+                URL.revokeObjectURL(url);
+                playNextTts();
+            });
+
+            audio.onended = () => {
+                URL.revokeObjectURL(url);
+                playNextTts();
+            };
+        }
+
         socket.on('summary_tts', data => {
             if (!data.audio) return;
 
-            // Stop any currently playing TTS
-            if (ttsAudio) {
-                ttsAudio.pause();
-                ttsAudio = null;
-            }
-
-            // Decode base64 audio and play
+            // Decode base64 audio
             const audioData = atob(data.audio);
             const audioArray = new Uint8Array(audioData.length);
             for (let i = 0; i < audioData.length; i++) {
@@ -700,16 +718,14 @@
 
             const blob = new Blob([audioArray], { type: 'audio/wav' });
             const url = URL.createObjectURL(blob);
-            ttsAudio = new Audio(url);
-            ttsAudio.play().catch(e => {
-                console.error('TTS playback failed:', e);
-            });
 
-            // Cleanup URL after playback
-            ttsAudio.onended = () => {
-                URL.revokeObjectURL(url);
-                ttsAudio = null;
-            };
+            // Add to queue
+            ttsQueue.push({ audioData, url });
+
+            // Start playing if not already
+            if (!ttsPlaying) {
+                playNextTts();
+            }
         });
 
         socket.on('summary_tts_error', data => {
