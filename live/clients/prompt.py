@@ -84,14 +84,15 @@ When triggered, summarize.
 Return to silence.
 
 # Safety & Escalation
-Never invent missing content.
+If the segment is unclear or empty, output exactly "" (an empty string).
+Never make up content or guess at what was said.
 """
 
 
 def build_summary_prompt(pre_context: str) -> str:
     return """# Task
 Summarize ONLY the speaker’s utterance between the provided start and end signals.
-If you hear no clear content, output an empty string ("").
+If you hear no content, output an empty string ("").
 
 # Requirements (ALL must be satisfied)
 - Length: Maximum 12 words and exactly one sentence.

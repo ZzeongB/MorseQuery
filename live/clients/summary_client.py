@@ -5,7 +5,6 @@ start_listening() / end_listening() mark segment boundaries for summarization.
 """
 
 import base64
-import io
 import json
 import threading
 import time
@@ -13,15 +12,18 @@ from typing import Optional
 
 import pyaudio
 import websocket
-from config import AUDIO_CHUNK, AUDIO_RATE, AUDIO_RMS_THRESHOLD, LOG_DIR, OPENAI_API_KEY, OPENAI_REALTIME_URL
+from config import (
+    AUDIO_CHUNK,
+    AUDIO_RATE,
+    LOG_DIR,
+    OPENAI_API_KEY,
+    OPENAI_REALTIME_URL,
+)
 from flask_socketio import SocketIO
 from logger import get_logger, log_print
 from pydub import AudioSegment
 
-from .prompt import (
-    SUMMARY_SESSION_INSTRUCTIONS,
-    build_summary_prompt,
-)
+from .prompt import SUMMARY_SESSION_INSTRUCTIONS, build_summary_prompt
 from .tts_client import TTSClient
 
 
@@ -91,7 +93,12 @@ class SummaryClient:
             tts_enabled=enable_tts,
             voice_id=voice_id,
         )
-        self.logger.log("summary_client_created", devices=device_indices, tts_enabled=enable_tts, voice_id=voice_id)
+        self.logger.log(
+            "summary_client_created",
+            devices=device_indices,
+            tts_enabled=enable_tts,
+            voice_id=voice_id,
+        )
 
     # -------------------------
     # Public APIs
@@ -112,7 +119,9 @@ class SummaryClient:
             )
             return
 
-        self.tts_client.synthesize_async(text, event_name="summary_tts", language=language)
+        self.tts_client.synthesize_async(
+            text, event_name="summary_tts", language=language
+        )
 
     def start_listening(self) -> None:
         """Mark the start of a segment to summarize later.
@@ -121,7 +130,9 @@ class SummaryClient:
         """
         if not self.running or not self.connected:
             log_print(
-                "WARN", "start_listening ignored (not connected)", session_id=self.session_id
+                "WARN",
+                "start_listening ignored (not connected)",
+                session_id=self.session_id,
             )
             return
 
@@ -139,7 +150,11 @@ class SummaryClient:
                 # Re-append last 3 seconds of audio
                 for chunk in self.recent_audio_buffer:
                     audio_b64 = base64.b64encode(chunk).decode()
-                    ws.send(json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64}))
+                    ws.send(
+                        json.dumps(
+                            {"type": "input_audio_buffer.append", "audio": audio_b64}
+                        )
+                    )
             except Exception:
                 pass
 
@@ -147,19 +162,23 @@ class SummaryClient:
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
         # Start white noise playback
-        self._start_white_noise()
+        # self._start_white_noise()
 
     def end_listening(self) -> None:
         """End the segment and request a summary of what was said."""
         if not self.running or not self.connected:
             log_print(
-                "WARN", "end_listening ignored (not connected)", session_id=self.session_id
+                "WARN",
+                "end_listening ignored (not connected)",
+                session_id=self.session_id,
             )
             return
 
         if not self.listening:
             log_print(
-                "WARN", "end_listening ignored (not listening)", session_id=self.session_id
+                "WARN",
+                "end_listening ignored (not listening)",
+                session_id=self.session_id,
             )
             return
 
@@ -168,7 +187,9 @@ class SummaryClient:
 
         if not ws:
             log_print(
-                "WARN", "end_listening ignored (no websocket)", session_id=self.session_id
+                "WARN",
+                "end_listening ignored (no websocket)",
+                session_id=self.session_id,
             )
             return
 
@@ -327,19 +348,6 @@ class SummaryClient:
     # Audio streaming
     # -------------------------
 
-    def _calculate_rms(self, chunk: bytes) -> float:
-        """Calculate RMS (root mean square) volume of audio chunk."""
-        import struct
-
-        # Convert bytes to 16-bit signed integers
-        count = len(chunk) // 2
-        shorts = struct.unpack(f"{count}h", chunk)
-
-        # Calculate RMS
-        sum_squares = sum(s * s for s in shorts)
-        rms = (sum_squares / count) ** 0.5 if count > 0 else 0
-        return rms
-
     def _generate_white_noise(self, num_samples: int, volume: float = 0.1) -> bytes:
         """Generate white noise audio chunk."""
         import random
@@ -390,11 +398,19 @@ class SummaryClient:
     def _stream_audio(self) -> None:
         """Stream audio from configured microphone."""
         if not self.device_indices:
-            log_print("WARN", "SummaryClient: no device configured", session_id=self.session_id)
+            log_print(
+                "WARN",
+                "SummaryClient: no device configured",
+                session_id=self.session_id,
+            )
             return
 
         if not self.running:
-            log_print("WARN", "SummaryClient: not running, skipping audio stream", session_id=self.session_id)
+            log_print(
+                "WARN",
+                "SummaryClient: not running, skipping audio stream",
+                session_id=self.session_id,
+            )
             return
 
         device_idx = self.device_indices[0]
@@ -439,13 +455,7 @@ class SummaryClient:
                 )
                 continue
 
-            # Check RMS threshold
-            if AUDIO_RMS_THRESHOLD > 0:
-                rms = self._calculate_rms(data)
-                if rms < AUDIO_RMS_THRESHOLD:
-                    continue  # Skip quiet audio
-
-            # Record audio (only if above threshold)
+            # Record audio
             self.recording_buffer.append(data)
 
             # Maintain rolling buffer for last 3 seconds
@@ -461,7 +471,9 @@ class SummaryClient:
             if ws:
                 try:
                     ws.send(
-                        json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
+                        json.dumps(
+                            {"type": "input_audio_buffer.append", "audio": audio_b64}
+                        )
                     )
 
                     # Periodic commit (skip during listening to keep segment intact)
@@ -474,7 +486,9 @@ class SummaryClient:
 
         # Cleanup
         self._close_stream()
-        log_print("INFO", "SummaryClient audio streaming stopped", session_id=self.session_id)
+        log_print(
+            "INFO", "SummaryClient audio streaming stopped", session_id=self.session_id
+        )
 
     def _close_stream(self) -> None:
         """Close audio stream."""
@@ -545,28 +559,30 @@ class SummaryClient:
         self.sio.emit("summary_closed")
 
     def _save_audio(self) -> None:
-        """Save recorded audio as WAV."""
-        if not self.recording_buffer:
-            return
-
+        """Save recorded audio as WAV (empty file if no audio above threshold)."""
         try:
             from datetime import datetime
 
-            # Combine all chunks
-            raw_audio = b"".join(self.recording_buffer)
+            # Combine all chunks (may be empty)
+            raw_audio = (
+                b"".join(self.recording_buffer) if self.recording_buffer else b""
+            )
             self.recording_buffer = []
 
             # Create audio directory
             audio_dir = LOG_DIR / "audio"
             audio_dir.mkdir(parents=True, exist_ok=True)
 
-            # Convert raw PCM to AudioSegment
-            audio = AudioSegment(
-                data=raw_audio,
-                sample_width=2,  # 16-bit
-                frame_rate=AUDIO_RATE,
-                channels=1,
-            )
+            # Convert raw PCM to AudioSegment (or create empty)
+            if raw_audio:
+                audio = AudioSegment(
+                    data=raw_audio,
+                    sample_width=2,  # 16-bit
+                    frame_rate=AUDIO_RATE,
+                    channels=1,
+                )
+            else:
+                audio = AudioSegment.silent(duration=0, frame_rate=AUDIO_RATE)
 
             # Save as WAV with date_time_sessionid format
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -579,6 +595,13 @@ class SummaryClient:
                 session_id=self.session_id,
                 duration_sec=len(audio) / 1000,
             )
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Failed to save audio: {e}",
+                session_id=self.session_id,
+            )
+
         except Exception as e:
             log_print(
                 "ERROR",

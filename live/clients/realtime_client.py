@@ -12,7 +12,6 @@ import websocket
 from config import (
     AUDIO_CHUNK,
     AUDIO_RATE,
-    AUDIO_RMS_THRESHOLD,
     DEFAULT_AUDIO_FILE,
     LOG_DIR,
     OPENAI_API_KEY,
@@ -358,28 +357,10 @@ class RealtimeClient:
         self.sio.emit("status", "Done")
         self.sio.emit("session_ended")
 
-    def _calculate_rms(self, chunk: bytes) -> float:
-        """Calculate RMS (root mean square) volume of audio chunk."""
-        import struct
-
-        # Convert bytes to 16-bit signed integers
-        count = len(chunk) // 2
-        shorts = struct.unpack(f"{count}h", chunk)
-
-        # Calculate RMS
-        sum_squares = sum(s * s for s in shorts)
-        rms = (sum_squares / count) ** 0.5 if count > 0 else 0
-        return rms
-
     def _send_audio_chunk(self, chunk: bytes) -> None:
         """Send audio chunk to OpenAI."""
-        # Record audio only if above threshold
-        if AUDIO_RMS_THRESHOLD > 0:
-            rms = self._calculate_rms(chunk)
-            if rms >= AUDIO_RMS_THRESHOLD:
-                self.recording_buffer.append(chunk)
-        else:
-            self.recording_buffer.append(chunk)
+        # Record audio
+        self.recording_buffer.append(chunk)
 
         audio_b64 = base64.b64encode(chunk).decode()
         self.ws.send(

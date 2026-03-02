@@ -15,7 +15,6 @@ OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-pr
 AUDIO_RATE = 24000
 AUDIO_CHUNK = 4800
 DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_002.mp3"
-AUDIO_RMS_THRESHOLD = 500  # RMS threshold for recording (0 = record all, higher = skip quieter audio)
 
 # Paths
 BASE_DIR = Path(__file__).parent
