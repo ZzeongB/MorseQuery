@@ -185,6 +185,59 @@ class RealtimeClient:
 
         return keywords
 
+    def _sanitize_keywords(self, keywords: list[dict]) -> list[dict]:
+        """Remove malformed/meta keyword entries and deduplicate."""
+        blocked_words = {
+            "keyword",
+            "keywords",
+            "term",
+            "terms",
+            "word",
+            "words",
+            "definition",
+            "definitions",
+            "desc",
+            "description",
+            "explanation",
+            "keypoint",
+            "topic",
+        }
+
+        cleaned: list[dict] = []
+        seen: set[str] = set()
+
+        for kw in keywords:
+            word = str(kw.get("word", "")).strip()
+            desc = str(kw.get("desc", "")).strip()
+            if not word or not desc:
+                continue
+
+            # Strip bullet/number prefixes
+            word = re.sub(r"^[\d\.\)\-\*\s]+", "", word).strip()
+            if not word:
+                continue
+
+            word_lower = word.lower()
+            if word_lower in blocked_words:
+                continue
+            # Skip generic "x argument/definition" style placeholders
+            if word_lower in ("argument", "concept", "idea"):
+                continue
+            # Avoid obvious malformed structured fragments
+            if any(ch in word for ch in "{}[]"):
+                continue
+            if len(word.split()) > 6:
+                continue
+            if len(desc.split()) < 3:
+                continue
+
+            if word_lower in seen:
+                continue
+            seen.add(word_lower)
+            cleaned.append({"word": word, "desc": desc})
+
+        return cleaned
+
     def _parse_line_format(self, text: str) -> list[dict]:
         """Parse line-by-line format: keyword: description"""
         keywords = []
@@ -230,6 +283,7 @@ class RealtimeClient:
             keywords = self._parse_json_format(keywords_text)
         else:
             keywords = self._parse_line_format(keywords_text)
+        keywords = self._sanitize_keywords(keywords)
 
         log_print(
             "INFO",
@@ -253,8 +307,11 @@ class RealtimeClient:
         if self.user_actions:
             self.user_actions[-1]["keywords"] = keywords
 
-        # Emit to frontend
-        self.sio.emit("keywords", keywords)
+        # Emit only when we have valid keywords. Empty output should not change UI state.
+        if keywords:
+            self.sio.emit("keywords", keywords)
+        else:
+            self.logger.log("keywords_empty_ignored")
 
         self.response_buffer = ""
 

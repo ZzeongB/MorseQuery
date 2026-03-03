@@ -181,6 +181,23 @@
             opacity: 0;
         }
 
+        /* Optional summary text display during TTS playback */
+        .summary-text {
+            display: none;
+            margin-bottom: 14px;
+            max-width: 700px;
+            padding: 10px 14px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: rgba(148, 163, 184, 0.12);
+            color: #e2e8f0;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+        .summary-text.active {
+            display: block;
+        }
+
         /* Height position selector */
         .height-selector {
             display: flex;
@@ -342,6 +359,11 @@
             <button id="btn-dismiss-summary" class="selected" onclick="setDismissMode('summary')">With Summary</button>
             <button id="btn-dismiss-none" onclick="setDismissMode('none')">No Summary</button>
         </div>
+        <div class="source-select">
+            <span>Summary Text:</span>
+            <button id="btn-summary-text-on" class="selected" onclick="setSummaryTextMode(true)">Show</button>
+            <button id="btn-summary-text-off" onclick="setSummaryTextMode(false)">Hide</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -392,6 +414,7 @@
 
         <!-- Dismiss indicator -->
         <div class="dismiss-indicator" id="dismissIndicator">Dismissed</div>
+        <div class="summary-text" id="summaryText"></div>
 
         <div class="options-list" id="optionsList"></div>
     </div>
@@ -410,6 +433,10 @@
         let dismissMode = 'summary'; // 'summary' or 'none'
         let summaryRequested = false; // Track if we actually requested a summary
         let summaryInProgress = false; // summarizing or tts playback in progress
+        let showSummaryTextEnabled = true;
+        let pendingSummaryText = '';
+        let summaryFinalizeTimer = null;
+        let awaitingJudgeDecision = false;
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
@@ -506,6 +533,17 @@
             dismissMode = dm;
             document.getElementById('btn-dismiss-summary').classList.toggle('selected', dm === 'summary');
             document.getElementById('btn-dismiss-none').classList.toggle('selected', dm === 'none');
+        }
+
+        function setSummaryTextMode(enabled) {
+            showSummaryTextEnabled = enabled;
+            document.getElementById('btn-summary-text-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-summary-text-off').classList.toggle('selected', !enabled);
+            if (!enabled) {
+                hideSummaryText();
+            } else if (summaryInProgress && pendingSummaryText) {
+                showSummaryText(pendingSummaryText);
+            }
         }
 
         function setDescView(dv) {
@@ -629,6 +667,9 @@
         window.addEventListener('resize', applyWidgetHeight);
 
         socket.on('keywords', data => {
+            if (!Array.isArray(data) || data.length === 0) {
+                return;
+            }
             hideLoadingIndicator();
             hideSummary();
             // Append new keywords and keep last 3
@@ -655,32 +696,85 @@
             infoVisible = false;
             summaryRequested = false;
             summaryInProgress = false;
+            pendingSummaryText = '';
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
             document.getElementById('optionsList').innerHTML = '';
             hideLoadingIndicator();
+            hideSummaryText();
         });
 
         socket.on('summary_done', data => {
-            summaryRequested = false;
-            // If no summary (empty or not enough context), show skipped message.
-            // Backend currently sends { is_empty: true } for no-summary cases.
-            if (data.is_empty || data.no_summary) {
-                summaryInProgress = false;
-                showSkippedIndicator('Summary not needed');
+            // Multi-summary clients may emit mixed results (empty/non-empty).
+            // Don't finalize UI here; wait briefly for all results/judge outcome.
+            if (!data.is_empty && !data.no_summary) {
+                pendingSummaryText = (data.summary || '').trim();
             }
-            // Note: if summary exists, TTS will play and tts_playing event will hide the indicator
+
+            awaitingJudgeDecision = true;
+            showLoadingIndicator('Judging...', 'summarizing');
+
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+            }
+            summaryFinalizeTimer = setTimeout(() => {
+                // After waiting up to 5s for judge/playback, finalize fallback.
+                if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
+                    summaryRequested = false;
+                    awaitingJudgeDecision = false;
+                    showSkippedIndicator('Summary not needed');
+                    hideSummaryText();
+                    pendingSummaryText = '';
+                }
+            }, 5000);
         });
 
         // TTS playback status from server
         socket.on('tts_playing', data => {
             summaryInProgress = true;
+            summaryRequested = false;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
             // TTS is playing - hide summarizing indicator
             hideLoadingIndicator();
+            if (pendingSummaryText) {
+                showSummaryText(pendingSummaryText);
+            }
         });
 
         socket.on('tts_done', () => {
             // TTS finished playing
             summaryInProgress = false;
+            summaryRequested = false;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
             hideLoadingIndicator();
+            hideSummaryText();
+            pendingSummaryText = '';
+        });
+
+        socket.on('judge_rejected', data => {
+            // Judge rejected playback: stop summarizing state immediately.
+            summaryRequested = false;
+            summaryInProgress = false;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
+            hideLoadingIndicator();
+            hideSummaryText();
+            pendingSummaryText = '';
+            showSkippedIndicator('Summary not needed');
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
@@ -750,7 +844,15 @@
         socket.on('summary_tts_error', data => {
             console.error('TTS error:', data.error);
             summaryInProgress = false;
+            summaryRequested = false;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
             hideLoadingIndicator();
+            hideSummaryText();
+            pendingSummaryText = '';
         });
 
         function cancelSummaryPlayback() {
@@ -778,7 +880,14 @@
             ttsPlaying = false;
             summaryRequested = false;
             summaryInProgress = false;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
             hideLoadingIndicator();
+            hideSummaryText();
+            pendingSummaryText = '';
             showSkippedIndicator('Summary canceled');
         }
 
@@ -923,6 +1032,21 @@
             }
         }
 
+        function showSummaryText(text) {
+            if (!showSummaryTextEnabled || !text) return;
+            const el = document.getElementById('summaryText');
+            if (!el) return;
+            el.textContent = `Summary: ${text}`;
+            el.classList.add('active');
+        }
+
+        function hideSummaryText() {
+            const el = document.getElementById('summaryText');
+            if (!el) return;
+            el.textContent = '';
+            el.classList.remove('active');
+        }
+
         let dismissTimer = null;
         function showDismissIndicator() {
             const el = document.getElementById('dismissIndicator');
@@ -987,6 +1111,7 @@
             if (dismissMode === 'summary') {
                 summaryRequested = true;
                 summaryInProgress = true;
+                awaitingJudgeDecision = false;
                 showLoadingIndicator('Summarizing...', 'summarizing');
                 socket.emit('end_listening');
             }

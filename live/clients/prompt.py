@@ -63,6 +63,7 @@ INVALID EXAMPLES (DO NOT DO THIS):
 - "trade policy" without it being spoken ❌ (guessing)
 - "interesting point" ❌ (vague)
 - Keyword - description ❌ (wrong format)
+- {"event": "keyword", "definition": "..."} ❌ (wrong format)
 - AI: Artificial Intelligence ❌ (too short, needs full sentence)
 - keywords: [AI, machine learning] ❌ (wrong format, no explanations)
 """

@@ -198,6 +198,25 @@ class ContextJudgeClient:
             )
             return
 
+        # Guard against duplicate judge requests for the same in-flight segment.
+        with self._state_lock:
+            if (
+                self.pending_summary is not None
+                and not self.judge_decided
+                and self.pending_segment_id == segment_id
+            ):
+                log_print(
+                    "WARN",
+                    "Duplicate judge_summary ignored (in-flight)",
+                    session_id=self.session_id,
+                    segment_id=segment_id,
+                )
+                self.logger.log(
+                    "judge_request_ignored_duplicate",
+                    segment_id=segment_id,
+                )
+                return
+
         # Reset state for new judgment
         with self._state_lock:
             self.tts_ready = False
@@ -695,7 +714,7 @@ class ContextJudgeClient:
     def _clear_tts(self) -> None:
         """Clear queued TTS audio."""
         for client in self.tts_clients:
-            client.clear_queue()
+            client.stop_playback()
 
     def cancel_tts(self, reason: str = "user_cancel") -> None:
         """Cancel ongoing/pending TTS playback and queued audio."""
