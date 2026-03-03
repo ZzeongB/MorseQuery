@@ -120,6 +120,9 @@ def handle_start(data: dict):
             summary_clients.append(sc)
             sc.start()
 
+        # Connect RealtimeClient to SummaryClients for transcript forwarding
+        client.set_summary_clients(summary_clients)
+
         client.start()
 
 

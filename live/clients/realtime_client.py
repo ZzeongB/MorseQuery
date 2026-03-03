@@ -54,6 +54,9 @@ class RealtimeClient:
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
         self.recording_buffer: list[bytes] = []  # Audio recording
 
+        # Reference to summary clients for forwarding transcripts
+        self.summary_clients: list = []
+
         log_print(
             "INFO",
             "RealtimeClient created",
@@ -63,22 +66,43 @@ class RealtimeClient:
         )
         self.logger.log("client_created", source=source, device=device_index)
 
+    def set_summary_clients(self, clients: list) -> None:
+        """Set reference to SummaryClients for transcript forwarding.
+
+        Args:
+            clients: List of SummaryClient instances
+        """
+        self.summary_clients = clients
+        log_print(
+            "INFO",
+            f"Set {len(clients)} summary clients for transcript forwarding",
+            session_id=self.session_id,
+        )
+
     def on_open(self, ws: websocket.WebSocketApp) -> None:
         """Handle WebSocket connection opened."""
         log_print("INFO", "WebSocket connected to OpenAI", session_id=self.session_id)
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
 
-        # All modes use the same session config (turn_detection=None, manual control)
+        # Configure with VAD for continuous transcription + manual keyword extraction
         session_config = {
             "modalities": ["text", "audio"],
             "input_audio_format": "pcm16",
-            "turn_detection": None,
+            "turn_detection": {
+                "type": "server_vad",
+                "threshold": 0.5,
+                "prefix_padding_ms": 300,
+                "silence_duration_ms": 500,
+            },
+            "input_audio_transcription": {
+                "model": "whisper-1",
+            },
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }
 
         ws.send(json.dumps({"type": "session.update", "session": session_config}))
-        log_print("DEBUG", "Session update sent", session_id=self.session_id)
+        log_print("DEBUG", "Session update sent (VAD enabled)", session_id=self.session_id)
         self.logger.log("session_update_sent")
         threading.Thread(target=self._stream_audio, daemon=True).start()
 
@@ -92,6 +116,7 @@ class RealtimeClient:
             "response.text.delta",
             "input_audio_buffer.speech_started",
             "input_audio_buffer.speech_stopped",
+            "conversation.item.input_audio_transcription.completed",
         ]:
             log_print("DEBUG", f"OpenAI event: {etype}", session_id=self.session_id)
 
@@ -100,6 +125,11 @@ class RealtimeClient:
             self.logger.log("openai_session_created", session_id=session_info.get("id"))
         elif etype == "session.updated":
             self.logger.log("openai_session_updated")
+        elif etype == "conversation.item.input_audio_transcription.completed":
+            # Handle VAD transcription - forward to summary clients
+            transcript = event.get("transcript", "")
+            if transcript and transcript.strip():
+                self._handle_vad_transcript(transcript.strip())
         elif etype == "response.text.delta":
             delta = event.get("delta", "")
             if delta:
@@ -110,6 +140,33 @@ class RealtimeClient:
             error_msg = event.get("error", {}).get("message", "Unknown error")
             log_print("ERROR", f"OpenAI error: {error_msg}", session_id=self.session_id)
             self.logger.log("openai_error", error=error_msg)
+
+    def _handle_vad_transcript(self, transcript: str) -> None:
+        """Handle VAD transcription and forward to summary clients.
+
+        Args:
+            transcript: The transcribed text from VAD
+        """
+        log_print(
+            "INFO",
+            f"VAD transcript: {transcript[:60]}...",
+            session_id=self.session_id,
+        )
+        self.logger.log("vad_transcript", transcript=transcript)
+
+        # Emit to frontend
+        self.sio.emit("transcript_received", {"transcript": transcript})
+
+        # Forward to all summary clients for context detection
+        for sc in self.summary_clients:
+            try:
+                sc.handle_transcript(transcript)
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"Error forwarding transcript to summary client: {e}",
+                    session_id=self.session_id,
+                )
 
     def _parse_json_format(self, text: str) -> list[dict]:
         """Parse JSON-like format: {"key": value, "key2": value2}"""

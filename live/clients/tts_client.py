@@ -1,9 +1,12 @@
 """Cartesia TTS client for converting text to speech."""
 
 import base64
+import io
 import threading
+import wave
 from typing import Optional
 
+import pyaudio
 import requests
 from config import CARTESIA_API_KEY
 from flask_socketio import SocketIO
@@ -17,9 +20,14 @@ CARTESIA_VERSION = "2025-04-16"
 DEFAULT_MODEL_ID = "sonic-3"
 DEFAULT_VOICE_ID = "67192626-0be9-4f45-b660-580d318c994d"  # Barbershop Man
 
+# Audio playback settings
+TTS_SAMPLE_RATE = 24000
+TTS_CHANNELS = 1
+TTS_SAMPLE_WIDTH = 2  # 16-bit
+
 
 class TTSClient:
-    """Client for Cartesia TTS API."""
+    """Client for Cartesia TTS API with queue support for deferred playback."""
 
     def __init__(
         self,
@@ -32,6 +40,11 @@ class TTSClient:
         self.session_id = session_id
         self.voice_id = voice_id
         self.model_id = model_id
+
+        # Audio queue for deferred playback
+        self.audio_queue: list[tuple[bytes, str]] = []  # (audio_bytes, text)
+        self._queue_lock = threading.Lock()
+        self.is_playing = False
 
         log_print(
             "INFO",
@@ -71,7 +84,7 @@ class TTSClient:
                 "sample_rate": 24000,
             },
             "language": language,
-            "generation_config": {"volume": 1, "speed": 1.4, "emotion": "neutral"},
+            "generation_config": {"volume": 1, "speed": 1.15, "emotion": "neutral"},
         }
 
         headers = {
@@ -168,3 +181,201 @@ class TTSClient:
             daemon=True,
         )
         thread.start()
+
+    # -------------------------
+    # Queue-based TTS methods
+    # -------------------------
+
+    def queue_audio(self, text: str, language: str = "en") -> bool:
+        """Synthesize TTS and add to queue (don't play immediately).
+
+        Args:
+            text: Text to convert to speech
+            language: Language code
+
+        Returns:
+            True if audio was queued successfully, False otherwise
+        """
+        audio_bytes = self.synthesize(text, language)
+        if audio_bytes:
+            with self._queue_lock:
+                self.audio_queue.append((audio_bytes, text))
+            log_print(
+                "INFO",
+                f"TTS queued: {text[:50]}...",
+                session_id=self.session_id,
+                queue_size=len(self.audio_queue),
+            )
+            return True
+        return False
+
+    def queue_audio_async(self, text: str, language: str = "en") -> None:
+        """Synthesize TTS asynchronously and add to queue.
+
+        Args:
+            text: Text to convert to speech
+            language: Language code
+        """
+        thread = threading.Thread(
+            target=self.queue_audio,
+            args=(text, language),
+            daemon=True,
+        )
+        thread.start()
+
+    def play_queued(self, reason: str = "") -> bool:
+        """Play all queued audio using PyAudio (server-side playback).
+
+        Args:
+            reason: Optional reason for playing (for logging)
+
+        Returns:
+            True if audio was played, False if queue was empty or already playing
+        """
+        with self._queue_lock:
+            if self.is_playing:
+                log_print(
+                    "WARN",
+                    "Already playing TTS",
+                    session_id=self.session_id,
+                )
+                return False
+
+            if not self.audio_queue:
+                log_print(
+                    "DEBUG",
+                    "No audio in queue to play",
+                    session_id=self.session_id,
+                )
+                return False
+
+            # Take all queued audio
+            to_play = self.audio_queue.copy()
+            self.audio_queue.clear()
+            self.is_playing = True
+
+        log_print(
+            "INFO",
+            f"Playing {len(to_play)} queued TTS items",
+            session_id=self.session_id,
+            reason=reason,
+        )
+
+        # Emit event to notify client
+        self.sio.emit("tts_playing", {"reason": reason, "count": len(to_play)})
+
+        # Play in background thread
+        thread = threading.Thread(
+            target=self._play_audio_list,
+            args=(to_play,),
+            daemon=True,
+        )
+        thread.start()
+        return True
+
+    def _play_audio_list(self, audio_list: list[tuple[bytes, str]]) -> None:
+        """Play a list of audio bytes using PyAudio.
+
+        Args:
+            audio_list: List of (audio_bytes, text) tuples
+        """
+        pa = None
+        stream = None
+
+        try:
+            pa = pyaudio.PyAudio()
+            stream = pa.open(
+                format=pyaudio.paInt16,
+                channels=TTS_CHANNELS,
+                rate=TTS_SAMPLE_RATE,
+                output=True,
+            )
+
+            for audio_bytes, text in audio_list:
+                try:
+                    # Parse WAV and extract PCM data
+                    pcm_data = self._extract_pcm_from_wav(audio_bytes)
+                    if pcm_data:
+                        stream.write(pcm_data)
+                        log_print(
+                            "DEBUG",
+                            f"Played TTS: {text[:30]}...",
+                            session_id=self.session_id,
+                        )
+                except Exception as e:
+                    log_print(
+                        "ERROR",
+                        f"Error playing audio: {e}",
+                        session_id=self.session_id,
+                    )
+
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"PyAudio playback error: {e}",
+                session_id=self.session_id,
+            )
+        finally:
+            if stream:
+                try:
+                    stream.stop_stream()
+                    stream.close()
+                except Exception:
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
+
+            self.is_playing = False
+            self.sio.emit("tts_done")
+
+    def _extract_pcm_from_wav(self, wav_bytes: bytes) -> Optional[bytes]:
+        """Extract raw PCM data from WAV bytes.
+
+        Args:
+            wav_bytes: WAV format audio bytes
+
+        Returns:
+            Raw PCM bytes, or None if parsing failed
+        """
+        try:
+            with io.BytesIO(wav_bytes) as wav_io:
+                with wave.open(wav_io, "rb") as wav_file:
+                    return wav_file.readframes(wav_file.getnframes())
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Failed to extract PCM from WAV: {e}",
+                session_id=self.session_id,
+            )
+            return None
+
+    def clear_queue(self) -> int:
+        """Clear all queued audio.
+
+        Returns:
+            Number of items cleared
+        """
+        with self._queue_lock:
+            count = len(self.audio_queue)
+            self.audio_queue.clear()
+
+        if count > 0:
+            log_print(
+                "INFO",
+                f"Cleared {count} TTS items from queue",
+                session_id=self.session_id,
+            )
+        return count
+
+    def get_queue_size(self) -> int:
+        """Get the number of items in the queue."""
+        with self._queue_lock:
+            return len(self.audio_queue)
+
+    def has_queued_audio(self) -> bool:
+        """Check if there is audio in the queue."""
+        with self._queue_lock:
+            return len(self.audio_queue) > 0

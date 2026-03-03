@@ -86,49 +86,59 @@ Return to silence.
 # Safety & Escalation
 If the segment is unclear or empty, output exactly "" (an empty string).
 Never make up content or guess at what was said.
+
+# CRITICAL RULES:
+- Output ONLY plain English sentences.
+- NEVER output JSON, timestamps, code, or structured data.
+- NEVER output {"start_time", "end_time"} or any JSON format.
+- Maximum 12 words per summary.
+- If audio is empty or unclear, output exactly: ...
+
+You will receive audio segments. Summarize what was SPOKEN, not metadata.
 """
 
 
 def build_summary_prompt(pre_context: str) -> str:
     return """# Task
-Summarize ONLY the speaker’s utterance between the provided start and end signals.
-If you hear no content, output an empty string ("").
+Summarize ONLY the speaker's utterance between the provided start and end signals.
+If the captured content is too short or insignificant to summarize, output an empty string ("").
 Do NOT summarize anything outside those signals.
 
 # Requirements (ALL must be satisfied)
 - Length: Maximum 12 words and exactly one sentence.
-- Meaning: Preserve the speaker’s core claim, stance, or feeling without dropping the main point.
+- Meaning: Preserve the speaker's core claim, stance, or feeling without dropping the main point.
 - Compression strategy: Prefer deleting words over rephrasing; keep original wording whenever possible.
 - No abstraction: Do NOT introduce new ideas, unnecessary synonyms, generalizations, reinterpretations, or explanations.
-- Style: Must sound like a natural spoken sentence matching the speaker’s tone.
+- Style: Must sound like a natural spoken sentence matching the speaker's tone.
 
 # Output
 Return ONLY the rewritten spoken sentence.
 No labels. No quotes. No formatting.
 
-If the segment is unclear or empty, output exactly:
-""
-    
+# CRITICAL - JSON Prevention
+- NEVER output JSON like {"start_time":0,"end_time":10} - this is WRONG.
+- NEVER output timestamps, metadata, or structured data.
+- NEVER output code or programming syntax.
+
+If the segment is unclear or empty, output exactly: ""
+
 # Good Examples
 Original:
-"If we keep raising prices, customers are eventually going to leave, even if we think the product is worth it."
+"Over the past decade, we've seen how rapidly social media platforms can shape public opinion, sometimes amplifying extreme views, and I worry that without stronger oversight, these platforms might unintentionally undermine democratic processes."
 Output:
-If we keep raising prices, customers will leave.
+"Social media can amplify extremes and undermine democracy."
 
+# Empty String Example
 Original:
-"If companies start relying heavily on AI systems to screen job applicants, should we trust those systems to be fair, and who should be held responsible if they make biased decisions?"
+"Today's lecture is on trade policy."
 Output:
-"Should we trust AI hiring systems, and who’s accountable?"
-
-Original:
-"I don’t think we should blindly trust AI hiring systems, because if they’re biased, companies still need to take responsibility."
-Output:
-We shouldn’t blindly trust AI hiring systems.
+""
 
 # Bad Examples (Do NOT do this)
-
-The speaker argues that remote work will continue.
-- Customers may leave
-People dislike price increases.
-Summary: Remote work is permanent.
+- {"start_time":0,"end_time":10} ❌ WRONG - no JSON
+- [0:00-0:10] Speaker talks about... ❌ WRONG - no timestamps
+- The speaker argues that remote work will continue. ❌
+- Customers may leave ❌
+- People dislike price increases. ❌
+- Summary: Remote work is permanent. ❌
 """

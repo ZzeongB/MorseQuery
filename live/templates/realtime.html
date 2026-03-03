@@ -102,24 +102,51 @@
             30% { opacity: 1; transform: scale(1.1); }
             100% { opacity: 0; transform: scale(1); }
         }
-        /* Loading indicator (left aligned) */
+        /* Loading indicator (left aligned) - LARGE and visible */
         .loading-indicator {
             display: none;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 20px;
+            gap: 12px;
+            margin-bottom: 24px;
             justify-content: flex-start;
+            padding: 16px 20px;
+            background: rgba(74, 222, 128, 0.1);
+            border: 2px solid #4ade80;
+            border-radius: 12px;
+            max-width: fit-content;
         }
         .loading-indicator.active {
             display: flex;
         }
+        /* Summarizing state - different color */
+        .loading-indicator.summarizing {
+            background: rgba(251, 191, 36, 0.1);
+            border-color: #fbbf24;
+        }
+        .loading-indicator.summarizing .loading-dots span {
+            background: #fbbf24;
+        }
+        .loading-indicator.summarizing .label {
+            color: #fbbf24;
+        }
+        /* Skipped state */
+        .loading-indicator.skipped {
+            background: rgba(156, 163, 175, 0.1);
+            border-color: #6b7280;
+        }
+        .loading-indicator.skipped .loading-dots {
+            display: none;
+        }
+        .loading-indicator.skipped .label {
+            color: #9ca3af;
+        }
         .loading-dots {
             display: flex;
-            gap: 3px;
+            gap: 6px;
         }
         .loading-dots span {
-            width: 5px;
-            height: 5px;
+            width: 12px;
+            height: 12px;
             background: #4ade80;
             border-radius: 50%;
             animation: bounce 1.4s ease-in-out infinite;
@@ -132,8 +159,10 @@
             40% { transform: scale(1); opacity: 1; }
         }
         .loading-indicator .label {
-            font-size: 11px;
-            color: #888;
+            font-size: 18px;
+            font-weight: 600;
+            color: #4ade80;
+            letter-spacing: 0.5px;
         }
         /* Dismiss indicator */
         .dismiss-indicator {
@@ -665,8 +694,26 @@
         });
 
         socket.on('summary_done', data => {
-            // Summary display removed
             summaryRequested = false;
+            // If no summary (empty or not enough context), show skipped message
+            if (data.no_summary) {
+                const reason = data.no_summary_reason === 'not_enough_context'
+                    ? 'No summary (not enough context)'
+                    : 'No summary';
+                showSkippedIndicator(reason);
+            }
+            // Note: if summary exists, TTS will play and tts_playing event will hide the indicator
+        });
+
+        // TTS playback status from server
+        socket.on('tts_playing', data => {
+            // TTS is playing - hide summarizing indicator
+            hideLoadingIndicator();
+        });
+
+        socket.on('tts_done', () => {
+            // TTS finished playing
+            hideLoadingIndicator();
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
@@ -698,6 +745,9 @@
         socket.on('summary_tts', data => {
             if (!data.audio) return;
 
+            // Hide summarizing indicator when TTS audio arrives
+            hideLoadingIndicator();
+
             // Decode base64 audio
             const audioData = atob(data.audio);
             const audioArray = new Uint8Array(audioData.length);
@@ -719,6 +769,7 @@
 
         socket.on('summary_tts_error', data => {
             console.error('TTS error:', data.error);
+            hideLoadingIndicator();
         });
 
         function render() {
@@ -799,15 +850,32 @@
             socket.emit('start', params);
         }
 
-        function showLoadingIndicator(label = 'Searching') {
+        function showLoadingIndicator(label = 'Searching', mode = 'inferring') {
             document.getElementById('tapDot1').style.display = 'none';
             document.getElementById('tapDot2').style.display = 'none';
+            const indicator = document.getElementById('loadingIndicator');
+            indicator.classList.remove('summarizing', 'skipped');
+            if (mode === 'summarizing') {
+                indicator.classList.add('summarizing');
+            }
             document.querySelector('#loadingIndicator .label').textContent = label;
-            document.getElementById('loadingIndicator').classList.add('active');
+            indicator.classList.add('active');
         }
 
         function hideLoadingIndicator() {
-            document.getElementById('loadingIndicator').classList.remove('active');
+            const indicator = document.getElementById('loadingIndicator');
+            indicator.classList.remove('active', 'summarizing', 'skipped');
+        }
+
+        function showSkippedIndicator(message = 'Summary not needed') {
+            const indicator = document.getElementById('loadingIndicator');
+            indicator.classList.remove('summarizing');
+            indicator.classList.add('active', 'skipped');
+            document.querySelector('#loadingIndicator .label').textContent = message;
+            // Auto-hide after 2 seconds
+            setTimeout(() => {
+                hideLoadingIndicator();
+            }, 2000);
         }
 
         function showTapIndicator() {
@@ -902,6 +970,7 @@
             // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
                 summaryRequested = true;
+                showLoadingIndicator('Summarizing...', 'summarizing');
                 socket.emit('end_listening');
             }
         }
