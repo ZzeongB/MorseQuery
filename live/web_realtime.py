@@ -7,12 +7,20 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
+import struct
 import threading
+import time
 from typing import Optional
 
 import pyaudio
 
 from clients import RealtimeClient, SummaryClient
+
+# Mic level monitoring
+_mic_monitor_streams: dict[int, tuple[pyaudio.Stream, pyaudio.PyAudio]] = {}
+_mic_monitor_lock = threading.Lock()
+_mic_monitor_running = False
+_mic_monitor_thread: Optional[threading.Thread] = None
 from config import TEMPLATES_DIR
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
@@ -55,6 +63,118 @@ def api_devices():
     return jsonify(devices)
 
 
+def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]):
+    """Background thread to monitor mic levels using PyAudio."""
+    global _mic_monitor_running, _mic_monitor_streams
+
+    CHUNK = 1024
+    RATE = 16000
+    FORMAT = pyaudio.paInt16
+
+    # Build mapping: device_idx -> list of select_ids
+    device_to_selects: dict[int, list[str]] = {}
+    for device_idx, select_id in zip(device_indices, select_ids):
+        if device_idx not in device_to_selects:
+            device_to_selects[device_idx] = []
+        device_to_selects[device_idx].append(select_id)
+
+    # Open streams for unique devices only
+    streams = []
+    for device_idx in device_to_selects.keys():
+        try:
+            pa = pyaudio.PyAudio()
+            stream = pa.open(
+                format=FORMAT,
+                channels=1,
+                rate=RATE,
+                input=True,
+                input_device_index=device_idx,
+                frames_per_buffer=CHUNK,
+            )
+            streams.append((device_idx, stream, pa))
+            log_print("INFO", f"Mic monitor opened for device {device_idx}")
+        except Exception as e:
+            log_print("ERROR", f"Failed to open mic monitor for device {device_idx}: {e}")
+
+    while _mic_monitor_running and streams:
+        levels = {}
+        for device_idx, stream, pa in streams:
+            try:
+                data = stream.read(CHUNK, exception_on_overflow=False)
+                # Calculate RMS level
+                samples = struct.unpack(f"<{CHUNK}h", data)
+                rms = (sum(s * s for s in samples) / CHUNK) ** 0.5
+                # Normalize to 0-100 (max 32768 for 16-bit audio)
+                level = min(100, int((rms / 8000) * 100))
+                # Apply level to all select_ids that use this device
+                for select_id in device_to_selects.get(device_idx, []):
+                    levels[select_id] = level
+            except Exception as e:
+                log_print("ERROR", f"Mic monitor read error: {e}")
+
+        if levels:
+            sio.emit("mic_levels", levels)
+
+        sio.sleep(0.05)  # 50ms interval
+
+    # Cleanup
+    for device_idx, stream, pa in streams:
+        try:
+            stream.stop_stream()
+            stream.close()
+            pa.terminate()
+        except:
+            pass
+
+    log_print("INFO", "Mic monitor stopped")
+
+
+def start_mic_monitor(device_indices: list[int], select_ids: list[str]):
+    """Start monitoring mic levels for given device indices."""
+    global _mic_monitor_running, _mic_monitor_thread
+
+    stop_mic_monitor()
+
+    if not device_indices:
+        return
+
+    # Small delay to ensure old thread has stopped
+    time.sleep(0.1)
+
+    _mic_monitor_running = True
+    _mic_monitor_thread = sio.start_background_task(
+        _mic_monitor_loop, device_indices, select_ids
+    )
+    log_print("INFO", f"Starting mic monitor for devices: {device_indices}")
+
+
+def stop_mic_monitor():
+    """Stop mic level monitoring."""
+    global _mic_monitor_running, _mic_monitor_thread
+
+    _mic_monitor_running = False
+    if _mic_monitor_thread:
+        _mic_monitor_thread = None
+
+
+@sio.on("start_mic_monitor")
+def handle_start_mic_monitor(data: dict):
+    """Start mic level monitoring for selected devices."""
+    session_id = request.sid
+    device_indices = data.get("device_indices", [])
+    select_ids = data.get("select_ids", [])
+    log_print("INFO", f"Start mic monitor: devices={device_indices}, ids={select_ids}", session_id=session_id)
+    start_mic_monitor(device_indices, select_ids)
+
+
+@sio.on("stop_mic_monitor")
+def handle_stop_mic_monitor():
+    """Stop mic level monitoring."""
+    session_id = request.sid
+    log_print("INFO", "Stop mic monitor", session_id=session_id)
+    stop_mic_monitor()
+
+
 @sio.on("connect")
 def handle_connect():
     """Handle client connection."""
@@ -72,6 +192,9 @@ def handle_disconnect():
     logger = get_logger(session_id)
     logger.log("client_disconnected")
 
+    # Stop mic monitor
+    stop_mic_monitor()
+
     # Stop running clients when user disconnects (e.g., page refresh)
     with _clients_lock:
         if client:
@@ -88,6 +211,9 @@ def handle_start(data: dict):
     global client, summary_clients
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
+
+    # Stop mic monitor when session starts
+    stop_mic_monitor()
 
     with _clients_lock:
         if client:

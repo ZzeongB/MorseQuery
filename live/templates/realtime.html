@@ -412,7 +412,7 @@
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
-        let micMonitors = {}; // deviceIndex -> { stream, analyser, animId }
+        const micSelectIds = ['summaryMic1', 'summaryMic2', 'keywordMic'];
 
         // Fetch and populate mic devices
         async function fetchDevices() {
@@ -426,8 +426,7 @@
         }
 
         function populateMicSelects() {
-            const selects = ['summaryMic1', 'summaryMic2', 'keywordMic'];
-            selects.forEach((id, idx) => {
+            micSelectIds.forEach((id, idx) => {
                 const sel = document.getElementById(id);
                 sel.innerHTML = '<option value="">Default</option>';
                 availableDevices.forEach(d => {
@@ -445,84 +444,49 @@
                     sel.value = availableDevices[idx].index;
                 }
                 // Add change listener for mic level monitoring
-                sel.addEventListener('change', () => startMicMonitor(id));
-                // Start monitoring for auto-selected devices
-                if (sel.value) startMicMonitor(id);
+                sel.addEventListener('change', updateMicMonitor);
             });
+            // Start monitoring after all selects are populated
+            updateMicMonitor();
         }
 
-        async function startMicMonitor(selectId) {
-            const sel = document.getElementById(selectId);
-            const levelBar = document.getElementById(selectId + 'Level');
-            const deviceIndex = sel.value;
-
-            // Stop existing monitor for this select
-            stopMicMonitor(selectId);
-
-            if (!deviceIndex) {
-                levelBar.style.width = '0%';
-                return;
-            }
-
-            try {
-                // Get device label to find matching browser device
-                const device = availableDevices.find(d => d.index === parseInt(deviceIndex));
-                if (!device) return;
-
-                // Request mic access with specific device
-                const devices = await navigator.mediaDevices.enumerateDevices();
-                const audioDevices = devices.filter(d => d.kind === 'audioinput');
-
-                // Try to match by name (partial match since pyaudio/browser names differ)
-                let matchedDevice = audioDevices.find(d =>
-                    d.label && device.name &&
-                    (d.label.includes(device.name.slice(0, 20)) || device.name.includes(d.label.slice(0, 20)))
-                );
-
-                const constraints = {
-                    audio: matchedDevice
-                        ? { deviceId: { exact: matchedDevice.deviceId } }
-                        : true
-                };
-
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const source = audioContext.createMediaStreamSource(stream);
-                const analyser = audioContext.createAnalyser();
-                analyser.fftSize = 256;
-                source.connect(analyser);
-
-                const dataArray = new Uint8Array(analyser.frequencyBinCount);
-
-                function updateLevel() {
-                    analyser.getByteFrequencyData(dataArray);
-                    const avg = dataArray.reduce((a, b) => a + b, 0) / dataArray.length;
-                    const level = Math.min(100, (avg / 128) * 100);
-                    levelBar.style.width = level + '%';
-                    micMonitors[selectId].animId = requestAnimationFrame(updateLevel);
+        function updateMicMonitor() {
+            // Collect selected device indices and their select IDs
+            const deviceIndices = [];
+            const selectIds = [];
+            micSelectIds.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel.value) {
+                    deviceIndices.push(parseInt(sel.value));
+                    selectIds.push(id);
                 }
-
-                micMonitors[selectId] = { stream, audioContext, analyser, animId: null };
-                updateLevel();
-            } catch (e) {
-                console.error('Mic monitor error:', e);
-                levelBar.style.width = '0%';
-            }
-        }
-
-        function stopMicMonitor(selectId) {
-            const monitor = micMonitors[selectId];
-            if (monitor) {
-                if (monitor.animId) cancelAnimationFrame(monitor.animId);
-                if (monitor.stream) monitor.stream.getTracks().forEach(t => t.stop());
-                if (monitor.audioContext) monitor.audioContext.close();
-                delete micMonitors[selectId];
+            });
+            // Send to server to start PyAudio-based monitoring
+            if (deviceIndices.length > 0) {
+                socket.emit('start_mic_monitor', { device_indices: deviceIndices, select_ids: selectIds });
+            } else {
+                socket.emit('stop_mic_monitor');
             }
         }
 
         function stopAllMicMonitors() {
-            Object.keys(micMonitors).forEach(stopMicMonitor);
+            socket.emit('stop_mic_monitor');
+            // Reset all level bars
+            micSelectIds.forEach(id => {
+                const levelBar = document.getElementById(id + 'Level');
+                if (levelBar) levelBar.style.width = '0%';
+            });
         }
+
+        // Receive mic levels from server (PyAudio-based)
+        socket.on('mic_levels', data => {
+            for (const [selectId, level] of Object.entries(data)) {
+                const levelBar = document.getElementById(selectId + 'Level');
+                if (levelBar) {
+                    levelBar.style.width = level + '%';
+                }
+            }
+        });
 
         function setSource(s) {
             source = s;
