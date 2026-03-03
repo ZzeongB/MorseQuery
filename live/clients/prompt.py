@@ -18,8 +18,8 @@ Rules:
 - Keywords must be clearly spoken (no guessing).
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
-- Each explanation MUST be 8–12 words.
-- Do NOT exceed 12 words under any circumstance.
+- Each explanation MUST be 20–30 words.
+- Do NOT exceed 20 words under any circumstance.
 - Keep definitions minimal and direct.
 - Strictly output in the following format, with no extra text:
 
@@ -27,7 +27,7 @@ Order:
 - Most recently mentioned first; prefer more difficult/technical terms.
 
 Format:
-<keyword>: <one concise sentence (max 12 words)>
+<keyword>: <one concise sentence (max 30 words)>
 
 VALID Example:
 AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence.

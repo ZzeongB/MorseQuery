@@ -12,13 +12,7 @@ from typing import Optional
 
 import pyaudio
 import websocket
-from config import (
-    AUDIO_CHUNK,
-    AUDIO_RATE,
-    LOG_DIR,
-    OPENAI_API_KEY,
-    OPENAI_REALTIME_URL,
-)
+from config import AUDIO_CHUNK, AUDIO_RATE, LOG_DIR, OPENAI_API_KEY, OPENAI_REALTIME_URL
 from flask_socketio import SocketIO
 from logger import get_logger, log_print
 from pydub import AudioSegment
@@ -153,7 +147,10 @@ class SummaryClient:
                         audio_b64 = base64.b64encode(chunk).decode()
                         ws.send(
                             json.dumps(
-                                {"type": "input_audio_buffer.append", "audio": audio_b64}
+                                {
+                                    "type": "input_audio_buffer.append",
+                                    "audio": audio_b64,
+                                }
                             )
                         )
                 except Exception:
@@ -163,7 +160,7 @@ class SummaryClient:
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
         # Start white noise playback
-        # self._start_white_noise()
+        self._start_white_noise()
 
     def end_listening(self) -> None:
         """End the segment and request a summary of what was said."""
@@ -384,7 +381,11 @@ class SummaryClient:
                 frames_per_buffer=AUDIO_CHUNK,
             )
 
-            while self.noise_playing and self.running and not self._shutdown_event.is_set():
+            while (
+                self.noise_playing
+                and self.running
+                and not self._shutdown_event.is_set()
+            ):
                 noise = self._generate_white_noise(AUDIO_CHUNK, volume=0.05)
                 try:
                     stream.write(noise)
@@ -483,14 +484,22 @@ class SummaryClient:
                         try:
                             ws.send(
                                 json.dumps(
-                                    {"type": "input_audio_buffer.append", "audio": audio_b64}
+                                    {
+                                        "type": "input_audio_buffer.append",
+                                        "audio": audio_b64,
+                                    }
                                 )
                             )
 
                             # Periodic commit (skip during listening to keep segment intact)
                             now = time.time()
-                            if now - last_commit >= commit_interval and not self.listening:
-                                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                            if (
+                                now - last_commit >= commit_interval
+                                and not self.listening
+                            ):
+                                ws.send(
+                                    json.dumps({"type": "input_audio_buffer.commit"})
+                                )
                                 last_commit = now
                         except Exception:
                             break
@@ -518,7 +527,9 @@ class SummaryClient:
             self.pa = None
 
             log_print(
-                "INFO", "SummaryClient audio streaming stopped", session_id=self.session_id
+                "INFO",
+                "SummaryClient audio streaming stopped",
+                session_id=self.session_id,
             )
 
     def _close_stream(self) -> None:
