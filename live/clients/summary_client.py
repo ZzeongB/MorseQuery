@@ -476,11 +476,6 @@ class SummaryClient:
         except Exception:
             pass
 
-        # Enforce concise sentence-like output (prompt target: <= 12 words).
-        words = summary.split()
-        if len(words) > 16:
-            return ""
-
         return summary
 
     # -------------------------

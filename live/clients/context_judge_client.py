@@ -27,7 +27,7 @@ from logger import get_logger, log_print
 from .prompt import JUDGE_SESSION_INSTRUCTIONS, build_judgment_prompt
 from .tts_client import TTSClient
 
-MIN_SEGMENT_DURATION_FOR_JUDGE_SEC = 1.2
+MIN_SEGMENT_DURATION_FOR_JUDGE_SEC = 2
 
 
 class ContextJudgeClient:
@@ -89,6 +89,8 @@ class ContextJudgeClient:
         # Thread synchronization
         self._lock = threading.Lock()
         self._shutdown_event = threading.Event()
+        self._tts_play_lock = threading.Lock()
+        self._tts_play_thread: Optional[threading.Thread] = None
 
         log_print(
             "INFO",
@@ -216,10 +218,16 @@ class ContextJudgeClient:
                 f"Segment too short ({segment_duration_sec:.2f}s < "
                 f"{MIN_SEGMENT_DURATION_FOR_JUDGE_SEC:.2f}s)."
             )
+            should_clear_tts = False
             with self._state_lock:
                 self.judge_decided = True
                 self.judge_approved = False
                 self.judge_reason = reason
+                should_clear_tts = self.tts_ready
+
+            # If TTS already queued/ready, clear immediately to prevent stale playback.
+            if should_clear_tts:
+                self._clear_tts()
 
             self.logger.log(
                 "judge_auto_reject_short_segment",
@@ -618,7 +626,9 @@ class ContextJudgeClient:
         final_match = re.search(r"\bFINAL\b[^A-Z]*(YES|NO)\b", upper_response)
 
         reason = ""
-        reason_match = re.search(r"\bREASON\b\s*[:=]\s*\"?(.+?)\"?\s*\}?$", response, re.IGNORECASE)
+        reason_match = re.search(
+            r"\bREASON\b\s*[:=]\s*\"?(.+?)\"?\s*\}?$", response, re.IGNORECASE
+        )
         if reason_match:
             reason = reason_match.group(1).strip()
 
@@ -659,14 +669,52 @@ class ContextJudgeClient:
         Args:
             reason: Reason for playing (for logging)
         """
-        for client in self.tts_clients:
-            if client.has_queued_audio():
-                client.play_queued(reason=f"judge_approved: {reason}")
+        with self._tts_play_lock:
+            if self._tts_play_thread and self._tts_play_thread.is_alive():
+                return
+            self._tts_play_thread = threading.Thread(
+                target=self._play_tts_sequential,
+                args=(reason,),
+                daemon=True,
+            )
+            self._tts_play_thread.start()
+
+    def _play_tts_sequential(self, reason: str) -> None:
+        """Play queued TTS from multiple clients sequentially (no overlap)."""
+        for idx, client in enumerate(self.tts_clients):
+            if self._shutdown_event.is_set():
+                break
+            if not client.has_queued_audio():
+                continue
+            started = client.play_queued(reason=f"judge_approved[{idx}]: {reason}")
+            if not started:
+                continue
+            while client.is_playing and not self._shutdown_event.is_set():
+                time.sleep(0.05)
 
     def _clear_tts(self) -> None:
         """Clear queued TTS audio."""
         for client in self.tts_clients:
             client.clear_queue()
+
+    def cancel_tts(self, reason: str = "user_cancel") -> None:
+        """Cancel ongoing/pending TTS playback and queued audio."""
+        with self._state_lock:
+            self.judge_decided = True
+            self.judge_approved = False
+            self.judge_reason = reason
+
+        for client in self.tts_clients:
+            client.stop_playback()
+
+        self.logger.log("judge_tts_canceled", reason=reason)
+        log_print(
+            "INFO",
+            "Judge TTS canceled",
+            session_id=self.session_id,
+            reason=reason,
+            tts_clients=len(self.tts_clients),
+        )
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""

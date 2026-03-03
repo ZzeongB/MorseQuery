@@ -409,6 +409,7 @@
         let infoVisible = false;
         let dismissMode = 'summary'; // 'summary' or 'none'
         let summaryRequested = false; // Track if we actually requested a summary
+        let summaryInProgress = false; // summarizing or tts playback in progress
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
@@ -653,6 +654,7 @@
             currentIdx = 0;
             infoVisible = false;
             summaryRequested = false;
+            summaryInProgress = false;
             document.getElementById('optionsList').innerHTML = '';
             hideLoadingIndicator();
         });
@@ -662,44 +664,59 @@
             // If no summary (empty or not enough context), show skipped message.
             // Backend currently sends { is_empty: true } for no-summary cases.
             if (data.is_empty || data.no_summary) {
-                showSkippedIndicator('Summary 필요없음');
+                summaryInProgress = false;
+                showSkippedIndicator('Summary not needed');
             }
             // Note: if summary exists, TTS will play and tts_playing event will hide the indicator
         });
 
         // TTS playback status from server
         socket.on('tts_playing', data => {
+            summaryInProgress = true;
             // TTS is playing - hide summarizing indicator
             hideLoadingIndicator();
         });
 
         socket.on('tts_done', () => {
             // TTS finished playing
+            summaryInProgress = false;
             hideLoadingIndicator();
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
         let ttsQueue = [];
         let ttsPlaying = false;
+        let currentTtsAudio = null;
+        let currentTtsUrl = null;
 
         function playNextTts() {
             if (ttsQueue.length === 0) {
                 ttsPlaying = false;
+                currentTtsAudio = null;
+                currentTtsUrl = null;
+                summaryInProgress = false;
                 return;
             }
 
             ttsPlaying = true;
+            summaryInProgress = true;
             const { audioData, url } = ttsQueue.shift();
+            currentTtsUrl = url;
 
             const audio = new Audio(url);
+            currentTtsAudio = audio;
             audio.play().catch(e => {
                 console.error('TTS playback failed:', e);
                 URL.revokeObjectURL(url);
+                currentTtsAudio = null;
+                currentTtsUrl = null;
                 playNextTts();
             });
 
             audio.onended = () => {
                 URL.revokeObjectURL(url);
+                currentTtsAudio = null;
+                currentTtsUrl = null;
                 playNextTts();
             };
         }
@@ -709,6 +726,7 @@
 
             // Hide summarizing indicator when TTS audio arrives
             hideLoadingIndicator();
+            summaryInProgress = true;
 
             // Decode base64 audio
             const audioData = atob(data.audio);
@@ -731,8 +749,38 @@
 
         socket.on('summary_tts_error', data => {
             console.error('TTS error:', data.error);
+            summaryInProgress = false;
             hideLoadingIndicator();
         });
+
+        function cancelSummaryPlayback() {
+            // Cancel server-side queued/playing TTS
+            socket.emit('cancel_tts');
+
+            // Cancel browser-side queued/playing TTS
+            if (currentTtsAudio) {
+                try {
+                    currentTtsAudio.pause();
+                    currentTtsAudio.currentTime = 0;
+                } catch (e) {}
+                currentTtsAudio = null;
+            }
+            if (currentTtsUrl) {
+                try { URL.revokeObjectURL(currentTtsUrl); } catch (e) {}
+                currentTtsUrl = null;
+            }
+            while (ttsQueue.length > 0) {
+                const item = ttsQueue.shift();
+                if (item && item.url) {
+                    try { URL.revokeObjectURL(item.url); } catch (e) {}
+                }
+            }
+            ttsPlaying = false;
+            summaryRequested = false;
+            summaryInProgress = false;
+            hideLoadingIndicator();
+            showSkippedIndicator('Summary canceled');
+        }
 
         function render() {
             const list = document.getElementById('optionsList');
@@ -894,6 +942,12 @@
             const now = Date.now();
             if (now - lastSpace < 300) {
                 // Double tap
+                if (summaryRequested || summaryInProgress) {
+                    // During summary flow: double tap cancels playback/queue
+                    cancelSummaryPlayback();
+                    lastSpace = 0;
+                    return;
+                }
                 if (infoVisible && options.length > 0) {
                     // Second double tap - dismiss keywords and request summary
                     showDismissIndicator();
@@ -932,6 +986,7 @@
             // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
                 summaryRequested = true;
+                summaryInProgress = true;
                 showLoadingIndicator('Summarizing...', 'summarizing');
                 socket.emit('end_listening');
             }

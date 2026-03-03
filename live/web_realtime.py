@@ -40,6 +40,7 @@ context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 # Aggregate multiple summary-agent outputs into one judge request per segment
 _judge_batch_lock = threading.Lock()
 _judge_batch: dict[int, dict] = {}
+_judge_completed_segments: set[int] = set()
 _JUDGE_BATCH_TIMEOUT_SEC = 0.7
 
 
@@ -48,7 +49,12 @@ def _flush_judge_batch(segment_id: int, session_id: str) -> None:
     with _judge_batch_lock:
         batch = _judge_batch.get(segment_id)
         judge = context_judge
-        if not batch or batch.get("sent") or not judge:
+        if (
+            not batch
+            or batch.get("sent")
+            or not judge
+            or segment_id in _judge_completed_segments
+        ):
             return
 
         summaries_by_source: dict[str, str] = batch.get("summaries", {})
@@ -57,6 +63,7 @@ def _flush_judge_batch(segment_id: int, session_id: str) -> None:
 
         batch["sent"] = True
         _judge_batch.pop(segment_id, None)
+        _judge_completed_segments.add(segment_id)
 
     ordered_sources = sorted(summaries_by_source.keys())
     merged_parts = [
@@ -85,6 +92,8 @@ def _make_summary_batch_callback(source_id: str, session_id: str):
 
         flush_now = False
         with _judge_batch_lock:
+            if segment_id in _judge_completed_segments:
+                return
             expected = max(1, len(summary_clients))
             batch = _judge_batch.setdefault(
                 segment_id,
@@ -290,6 +299,7 @@ def handle_disconnect():
             context_judge = None
     with _judge_batch_lock:
         _judge_batch.clear()
+        _judge_completed_segments.clear()
 
 
 @sio.on("start")
@@ -314,6 +324,7 @@ def handle_start(data: dict):
             context_judge = None
         with _judge_batch_lock:
             _judge_batch.clear()
+            _judge_completed_segments.clear()
 
         source = data.get("source", "mic")
 
@@ -443,6 +454,21 @@ def handle_grounding(data: dict):
     """Handle search grounding request (long-press)."""
     session_id = request.sid
     handle_search_grounding(sio, session_id, data)
+
+
+@sio.on("cancel_tts")
+def handle_cancel_tts():
+    """Cancel pending/playing summary TTS."""
+    session_id = request.sid
+    with _clients_lock:
+        if context_judge:
+            context_judge.cancel_tts(reason="doubleclick_cancel")
+        else:
+            # Fallback: clear any summary client queues directly
+            for sc in summary_clients:
+                if sc.tts_client:
+                    sc.tts_client.stop_playback()
+    log_print("INFO", "cancel_tts handled", session_id=session_id)
 
 
 if __name__ == "__main__":

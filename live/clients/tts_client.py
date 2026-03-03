@@ -45,6 +45,7 @@ class TTSClient:
         self.audio_queue: list[tuple[bytes, str]] = []  # (audio_bytes, text)
         self._queue_lock = threading.Lock()
         self.is_playing = False
+        self._stop_playback_event = threading.Event()
 
         log_print(
             "INFO",
@@ -286,6 +287,7 @@ class TTSClient:
             to_play = self.audio_queue.copy()
             self.audio_queue.clear()
             self.is_playing = True
+            self._stop_playback_event.clear()
 
         log_print(
             "INFO",
@@ -325,11 +327,18 @@ class TTSClient:
             )
 
             for audio_bytes, text in audio_list:
+                if self._stop_playback_event.is_set():
+                    break
                 try:
                     # Parse WAV and extract PCM data
                     pcm_data = self._extract_pcm_from_wav(audio_bytes)
                     if pcm_data:
-                        stream.write(pcm_data)
+                        # Write in chunks so stop requests can interrupt promptly
+                        chunk_size = 4096
+                        for i in range(0, len(pcm_data), chunk_size):
+                            if self._stop_playback_event.is_set():
+                                break
+                            stream.write(pcm_data[i : i + chunk_size])
                         log_print(
                             "DEBUG",
                             f"Played TTS: {text[:30]}...",
@@ -402,6 +411,18 @@ class TTSClient:
                 session_id=self.session_id,
             )
         return count
+
+    def stop_playback(self) -> None:
+        """Stop current playback and clear queued audio."""
+        self._stop_playback_event.set()
+        cleared = self.clear_queue()
+        log_print(
+            "INFO",
+            "TTS stop requested",
+            session_id=self.session_id,
+            cleared=cleared,
+            is_playing=self.is_playing,
+        )
 
     def get_queue_size(self) -> int:
         """Get the number of items in the queue."""
