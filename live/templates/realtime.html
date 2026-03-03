@@ -360,6 +360,11 @@
             <button id="btn-dismiss-none" onclick="setDismissMode('none')">No Summary</button>
         </div>
         <div class="source-select">
+            <span>Keyword Output:</span>
+            <button id="btn-keyword-text" class="selected" onclick="setKeywordOutputMode('text')">Text</button>
+            <button id="btn-keyword-audio" onclick="setKeywordOutputMode('audio')">Text+Audio</button>
+        </div>
+        <div class="source-select">
             <span>Summary Text:</span>
             <button id="btn-summary-text-on" class="selected" onclick="setSummaryTextMode(true)">Show</button>
             <button id="btn-summary-text-off" onclick="setSummaryTextMode(false)">Hide</button>
@@ -437,6 +442,7 @@
         let pendingSummaryText = '';
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
+        let keywordOutputMode = 'text'; // 'text' | 'audio'
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
@@ -533,6 +539,12 @@
             dismissMode = dm;
             document.getElementById('btn-dismiss-summary').classList.toggle('selected', dm === 'summary');
             document.getElementById('btn-dismiss-none').classList.toggle('selected', dm === 'none');
+        }
+
+        function setKeywordOutputMode(mode) {
+            keywordOutputMode = mode;
+            document.getElementById('btn-keyword-text').classList.toggle('selected', mode === 'text');
+            document.getElementById('btn-keyword-audio').classList.toggle('selected', mode === 'audio');
         }
 
         function setSummaryTextMode(enabled) {
@@ -682,6 +694,10 @@
             currentIdx = options.length - 1;
             render();
             infoVisible = true;
+
+            if (keywordOutputMode === 'audio') {
+                requestKeywordTts(data);
+            }
         });
         socket.on('summary_chunk', data => {
             // Summary display removed
@@ -823,22 +839,7 @@
             summaryInProgress = true;
 
             // Decode base64 audio
-            const audioData = atob(data.audio);
-            const audioArray = new Uint8Array(audioData.length);
-            for (let i = 0; i < audioData.length; i++) {
-                audioArray[i] = audioData.charCodeAt(i);
-            }
-
-            const blob = new Blob([audioArray], { type: 'audio/wav' });
-            const url = URL.createObjectURL(blob);
-
-            // Add to queue
-            ttsQueue.push({ audioData, url });
-
-            // Start playing if not already
-            if (!ttsPlaying) {
-                playNextTts();
-            }
+            enqueueTtsAudio(data.audio);
         });
 
         socket.on('summary_tts_error', data => {
@@ -853,6 +854,15 @@
             hideLoadingIndicator();
             hideSummaryText();
             pendingSummaryText = '';
+        });
+
+        socket.on('keyword_tts', data => {
+            if (!data.audio) return;
+            enqueueTtsAudio(data.audio);
+        });
+
+        socket.on('keyword_tts_error', data => {
+            console.error('Keyword TTS error:', data.error);
         });
 
         function cancelSummaryPlayback() {
@@ -889,6 +899,22 @@
             hideSummaryText();
             pendingSummaryText = '';
             showSkippedIndicator('Summary canceled');
+        }
+
+        function enqueueTtsAudio(audioBase64) {
+            const audioData = atob(audioBase64);
+            const audioArray = new Uint8Array(audioData.length);
+            for (let i = 0; i < audioData.length; i++) {
+                audioArray[i] = audioData.charCodeAt(i);
+            }
+
+            const blob = new Blob([audioArray], { type: 'audio/wav' });
+            const url = URL.createObjectURL(blob);
+            ttsQueue.push({ audioData, url });
+
+            if (!ttsPlaying) {
+                playNextTts();
+            }
         }
 
         function render() {
@@ -1045,6 +1071,16 @@
             if (!el) return;
             el.textContent = '';
             el.classList.remove('active');
+        }
+
+        function requestKeywordTts(items) {
+            if (!Array.isArray(items) || items.length === 0) return;
+            for (const item of items) {
+                const word = (item.word || '').trim();
+                const desc = (item.desc || '').trim();
+                if (!word || !desc) continue;
+                socket.emit('keyword_tts', { text: `${word}. ${desc}` });
+            }
         }
 
         let dismissTimer = null;

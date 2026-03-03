@@ -16,6 +16,7 @@ import pyaudio
 
 from clients import RealtimeClient, SummaryClient
 from clients.context_judge_client import ContextJudgeClient
+from clients.tts_client import TTSClient
 
 # Mic level monitoring
 _mic_monitor_streams: dict[int, tuple[pyaudio.Stream, pyaudio.PyAudio]] = {}
@@ -36,6 +37,7 @@ _clients_lock = threading.Lock()
 client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
+keyword_tts_client: Optional[TTSClient] = None
 
 # Aggregate multiple summary-agent outputs into one judge request per segment
 _judge_batch_lock = threading.Lock()
@@ -277,7 +279,7 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_clients, context_judge
+    global client, summary_clients, context_judge, keyword_tts_client
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -297,6 +299,7 @@ def handle_disconnect():
         if context_judge:
             context_judge.stop()
             context_judge = None
+        keyword_tts_client = None
     with _judge_batch_lock:
         _judge_batch.clear()
         _judge_completed_segments.clear()
@@ -305,7 +308,7 @@ def handle_disconnect():
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients, context_judge
+    global client, summary_clients, context_judge, keyword_tts_client
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -322,6 +325,7 @@ def handle_start(data: dict):
         if context_judge:
             context_judge.stop()
             context_judge = None
+        keyword_tts_client = TTSClient(sio, session_id=f"{session_id}_keyword_tts")
         with _judge_batch_lock:
             _judge_batch.clear()
             _judge_completed_segments.clear()
@@ -454,6 +458,23 @@ def handle_grounding(data: dict):
     """Handle search grounding request (long-press)."""
     session_id = request.sid
     handle_search_grounding(sio, session_id, data)
+
+
+@sio.on("keyword_tts")
+def handle_keyword_tts(data: dict):
+    """Synthesize keyword definition audio and emit to frontend."""
+    session_id = request.sid
+    text = str((data or {}).get("text", "")).strip()
+    if not text:
+        return
+
+    with _clients_lock:
+        tts = keyword_tts_client
+    if not tts:
+        return
+
+    tts.synthesize_async(text, event_name="keyword_tts", language="en")
+    log_print("INFO", "keyword_tts requested", session_id=session_id, chars=len(text))
 
 
 @sio.on("cancel_tts")
