@@ -659,12 +659,10 @@
 
         socket.on('summary_done', data => {
             summaryRequested = false;
-            // If no summary (empty or not enough context), show skipped message
-            if (data.no_summary) {
-                const reason = data.no_summary_reason === 'not_enough_context'
-                    ? 'No summary (not enough context)'
-                    : 'No summary';
-                showSkippedIndicator(reason);
+            // If no summary (empty or not enough context), show skipped message.
+            // Backend currently sends { is_empty: true } for no-summary cases.
+            if (data.is_empty || data.no_summary) {
+                showSkippedIndicator('Summary 필요없음');
             }
             // Note: if summary exists, TTS will play and tts_playing event will hide the indicator
         });
