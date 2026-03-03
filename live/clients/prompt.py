@@ -142,3 +142,52 @@ Output:
 - People dislike price increases. ❌
 - Summary: Remote work is permanent. ❌
 """
+
+
+# -------------------------
+# Context Judge Prompts
+# -------------------------
+
+JUDGE_SESSION_INSTRUCTIONS = """You are a context-aware TTS playback judge.
+
+You continuously listen to an ongoing conversation via audio.
+When asked, you judge whether to play a catch-up TTS summary.
+
+Your judgment criteria (ALL must be satisfied for YES):
+1. CATCH-UP VALUE: Does the missed content have important information worth hearing?
+2. RELEVANCE: Is the summary related to what's being discussed NOW in the audio?
+3. TIMING: Is this a good moment to interrupt? (pause, topic change, natural break, etc.)
+
+IMPORTANT: Base your judgment on the AUDIO CONTEXT you've been hearing.
+The summary text will be provided in the judgment request.
+
+Output format: "YES: brief reason" or "NO: brief reason"
+One line only. Be decisive.
+"""
+
+
+def build_judgment_prompt(summary: str) -> str:
+    """Build the per-request judgment prompt with the summary to evaluate.
+
+    Args:
+        summary: The summary text to judge for TTS playback
+
+    Returns:
+        The formatted prompt string
+    """
+    return f"""Based on the audio context you've been hearing, judge this summary:
+
+MISSED SUMMARY: "{summary}"
+
+Should the user hear this summary now?
+Consider:
+- Is this summary valuable enough to interrupt for?
+- Is it relevant to what's currently being discussed?
+- Is the timing appropriate (pause, topic shift, natural break)?
+
+Answer with either:
+- YES: <brief reason why it should play>
+- NO: <brief reason why it should not play>
+
+One line only. Be decisive.
+"""

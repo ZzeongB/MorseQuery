@@ -15,6 +15,7 @@ from typing import Optional
 import pyaudio
 
 from clients import RealtimeClient, SummaryClient
+from clients.context_judge_client import ContextJudgeClient
 
 # Mic level monitoring
 _mic_monitor_streams: dict[int, tuple[pyaudio.Stream, pyaudio.PyAudio]] = {}
@@ -34,6 +35,7 @@ sio = SocketIO(app, cors_allowed_origins="*")
 _clients_lock = threading.Lock()
 client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
+context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 
 
 @app.route("/")
@@ -186,7 +188,7 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_clients
+    global client, summary_clients, context_judge
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -203,12 +205,15 @@ def handle_disconnect():
         for sc in summary_clients:
             sc.stop()
         summary_clients = []
+        if context_judge:
+            context_judge.stop()
+            context_judge = None
 
 
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients
+    global client, summary_clients, context_judge
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -222,6 +227,9 @@ def handle_start(data: dict):
         for sc in summary_clients:
             sc.stop()
         summary_clients = []
+        if context_judge:
+            context_judge.stop()
+            context_judge = None
 
         source = data.get("source", "mic")
 
@@ -245,6 +253,28 @@ def handle_start(data: dict):
             )
             summary_clients.append(sc)
             sc.start()
+
+        # Create ContextJudgeClient if we have summary clients with TTS
+        # Uses the first summary mic for audio context
+        if summary_mics and summary_clients:
+            first_tts_client = summary_clients[0].tts_client if summary_clients[0].tts_client else None
+            context_judge = ContextJudgeClient(
+                sio,
+                session_id=f"{session_id}_judge",
+                device_indices=[summary_mics[0]],
+                tts_client=first_tts_client,
+            )
+            context_judge.start()
+
+            # Connect summary callbacks to judge
+            for sc in summary_clients:
+                sc.set_summary_callback(context_judge.judge_summary)
+
+            log_print(
+                "INFO",
+                "ContextJudgeClient created and connected",
+                session_id=session_id,
+            )
 
         # Connect RealtimeClient to SummaryClients for transcript forwarding
         client.set_summary_clients(summary_clients)
@@ -286,6 +316,9 @@ def handle_start_listening():
         if summary_clients:
             for sc in summary_clients:
                 sc.start_listening()
+            # Also notify context judge
+            if context_judge:
+                context_judge.start_listening()
             log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
         else:
             log_print(
@@ -304,6 +337,9 @@ def handle_end_listening():
         if summary_clients:
             for sc in summary_clients:
                 sc.end_listening()
+            # Also notify context judge
+            if context_judge:
+                context_judge.end_listening()
             log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
         else:
             log_print(

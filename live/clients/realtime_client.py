@@ -102,7 +102,9 @@ class RealtimeClient:
         }
 
         ws.send(json.dumps({"type": "session.update", "session": session_config}))
-        log_print("DEBUG", "Session update sent (VAD enabled)", session_id=self.session_id)
+        log_print(
+            "DEBUG", "Session update sent (VAD enabled)", session_id=self.session_id
+        )
         self.logger.log("session_update_sent")
         threading.Thread(target=self._stream_audio, daemon=True).start()
 
@@ -142,7 +144,7 @@ class RealtimeClient:
             self.logger.log("openai_error", error=error_msg)
 
     def _handle_vad_transcript(self, transcript: str) -> None:
-        """Handle VAD transcription and forward to summary clients.
+        """Handle VAD transcription.
 
         Args:
             transcript: The transcribed text from VAD
@@ -156,17 +158,6 @@ class RealtimeClient:
 
         # Emit to frontend
         self.sio.emit("transcript_received", {"transcript": transcript})
-
-        # Forward to all summary clients for context detection
-        for sc in self.summary_clients:
-            try:
-                sc.handle_transcript(transcript)
-            except Exception as e:
-                log_print(
-                    "ERROR",
-                    f"Error forwarding transcript to summary client: {e}",
-                    session_id=self.session_id,
-                )
 
     def _parse_json_format(self, text: str) -> list[dict]:
         """Parse JSON-like format: {"key": value, "key2": value2}"""
@@ -206,7 +197,14 @@ class RealtimeClient:
                     continue
                 # Skip meta labels like "keyword:", "keywords:", "term:", etc.
                 word_lower = word.lower()
-                if word_lower in ("keyword", "keywords", "term", "terms", "word", "words"):
+                if word_lower in (
+                    "keyword",
+                    "keywords",
+                    "term",
+                    "terms",
+                    "word",
+                    "words",
+                ):
                     continue
                 # Strip leading numbers/bullets (e.g., "1.", "1)", "-", "*")
                 word = re.sub(r"^[\d\.\)\-\*\s]+", "", word).strip()
@@ -329,7 +327,9 @@ class RealtimeClient:
                 except Exception as e:
                     if self._shutdown_event.is_set():
                         break
-                    log_print("WARN", f"Mic read error: {e}", session_id=self.session_id)
+                    log_print(
+                        "WARN", f"Mic read error: {e}", session_id=self.session_id
+                    )
                     continue
 
                 if not self._send_audio_chunk(chunk):
@@ -429,7 +429,9 @@ class RealtimeClient:
 
                 if self.chunks_sent % 100 == 0:
                     progress = (
-                        (self.chunks_sent / total_chunks) * 100 if total_chunks > 0 else 0
+                        (self.chunks_sent / total_chunks) * 100
+                        if total_chunks > 0
+                        else 0
                     )
                     log_print(
                         "DEBUG",
@@ -476,7 +478,9 @@ class RealtimeClient:
         if ws:
             try:
                 ws.send(
-                    json.dumps({"type": "input_audio_buffer.append", "audio": audio_b64})
+                    json.dumps(
+                        {"type": "input_audio_buffer.append", "audio": audio_b64}
+                    )
                 )
                 self.chunks_sent += 1
                 return True
@@ -486,7 +490,9 @@ class RealtimeClient:
 
     def request(self) -> None:
         """Request keyword extraction from accumulated audio."""
-        elapsed_sec = time.time() - self.stream_start_time if self.stream_start_time else 0.0
+        elapsed_sec = (
+            time.time() - self.stream_start_time if self.stream_start_time else 0.0
+        )
 
         log_print(
             "INFO",
@@ -495,14 +501,18 @@ class RealtimeClient:
             chunks_so_far=self.chunks_sent,
             elapsed_sec=elapsed_sec,
         )
-        self.logger.log("keyword_request", chunks_so_far=self.chunks_sent, elapsed_sec=elapsed_sec)
+        self.logger.log(
+            "keyword_request", chunks_so_far=self.chunks_sent, elapsed_sec=elapsed_sec
+        )
 
         # Track user action with timing
-        self.user_actions.append({
-            "elapsed_sec": elapsed_sec,
-            "action": "keyword_request",
-            "keywords": [],  # Will be filled in _handle_response_done
-        })
+        self.user_actions.append(
+            {
+                "elapsed_sec": elapsed_sec,
+                "action": "keyword_request",
+                "keywords": [],  # Will be filled in _handle_response_done
+            }
+        )
 
         self.sio.emit("clear")
 
@@ -510,7 +520,9 @@ class RealtimeClient:
             ws = self.ws
 
         if not ws:
-            log_print("WARN", "request() called but no websocket", session_id=self.session_id)
+            log_print(
+                "WARN", "request() called but no websocket", session_id=self.session_id
+            )
             return
 
         try:
@@ -538,7 +550,9 @@ class RealtimeClient:
             # Clear buffer after commit to analyze only new audio next time
             ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
         except Exception as e:
-            log_print("ERROR", f"request() send failed: {e}", session_id=self.session_id)
+            log_print(
+                "ERROR", f"request() send failed: {e}", session_id=self.session_id
+            )
 
     def start(self) -> None:
         """Start the realtime client."""

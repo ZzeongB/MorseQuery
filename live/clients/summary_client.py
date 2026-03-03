@@ -8,7 +8,7 @@ import base64
 import json
 import threading
 import time
-from typing import Optional
+from typing import Callable, Optional
 
 import pyaudio
 import websocket
@@ -17,7 +17,6 @@ from flask_socketio import SocketIO
 from logger import get_logger, log_print
 from pydub import AudioSegment
 
-from .context_detector import RealtimeContextDetector
 from .prompt import SUMMARY_SESSION_INSTRUCTIONS, build_summary_prompt
 from .tts_client import TTSClient
 
@@ -82,9 +81,8 @@ class SummaryClient:
         else:
             self.tts_client = None
 
-        # Context change detector for similarity-based TTS playback
-        self.context_detector = RealtimeContextDetector(session_id=session_id)
-        self.listening_transcripts: list[str] = []
+        # Callback for summary judgment (called when summary is generated)
+        self.on_summary_callback: Optional[Callable[[str, int], None]] = None
 
         log_print(
             "INFO",
@@ -104,6 +102,22 @@ class SummaryClient:
     # -------------------------
     # Public APIs
     # -------------------------
+
+    def set_summary_callback(self, callback: Callable[[str, int], None]) -> None:
+        """Set callback to be called when a summary is generated.
+
+        The callback receives (summary_text, segment_id) and is used by
+        ContextJudgeClient to determine whether to play the TTS.
+
+        Args:
+            callback: Function taking (summary: str, segment_id: int)
+        """
+        self.on_summary_callback = callback
+        log_print(
+            "INFO",
+            "Summary callback set",
+            session_id=self.session_id,
+        )
 
     def speak_summary(self, text: str, language: str = "en") -> None:
         """Convert text to speech and emit via Socket.IO.
@@ -140,10 +154,6 @@ class SummaryClient:
         self.segment_id += 1
         self.listening = True
         self.response_buffer = ""
-        self.listening_transcripts = []
-
-        # NOTE: Do NOT reset context_detector here - we want to keep accumulated context
-        # so new transcripts can be compared against previous ones
 
         # Clear buffer and re-append last 3 seconds as the start of the new segment
         with self._lock:
@@ -192,9 +202,6 @@ class SummaryClient:
         self.listening = False
         self.response_buffer = ""
 
-        # Clear listening transcripts
-        self.listening_transcripts = []
-
         # Stop white noise playback
         # self._stop_white_noise()
 
@@ -235,111 +242,6 @@ class SummaryClient:
                 )
             except Exception as e:
                 self.logger.log("end_listening_send_failed", error=str(e))
-
-    # -------------------------
-    # Transcript & Context Detection
-    # -------------------------
-
-    def handle_transcript(self, transcript: str) -> None:
-        """Handle incoming transcript and calculate similarity.
-
-        This is called by RealtimeClient when it receives transcripts from VAD.
-        Transcripts are ALWAYS accumulated for context comparison, regardless of listening state.
-        TTS playback decisions only happen during listening periods.
-
-        Args:
-            transcript: The transcribed text from VAD
-        """
-        # Log transcript received
-        self.logger.log("transcript_received", transcript=transcript, listening=self.listening)
-        self.sio.emit("transcript_received", {"transcript": transcript})
-
-        log_print(
-            "INFO",
-            f"Transcript (listening={self.listening}): {transcript[:50]}...",
-            session_id=self.session_id,
-        )
-
-        # ALWAYS add to context detector for continuous context tracking
-        result = self.context_detector.add_sentence(transcript)
-
-        # Log similarity result
-        self.logger.log(
-            "similarity_calculated",
-            transcript=transcript[:100],  # Truncate for log
-            similarity=result["similarity"],
-            is_context_change=result["is_context_change"],
-            is_high_similarity=result["is_high_similarity"],
-            sentence_count=result["sentence_count"],
-            listening=self.listening,
-        )
-
-        # Emit similarity update (always, for debugging)
-        self.sio.emit(
-            "similarity_update",
-            {
-                "similarity": result["similarity"],
-                "is_context_change": result["is_context_change"],
-                "is_high_similarity": result["is_high_similarity"],
-                "sentence_count": result["sentence_count"],
-            },
-        )
-
-        # TTS playback decisions only during listening period
-        if not self.listening:
-            return
-
-        # Store transcript for listening period
-        self.listening_transcripts.append(transcript)
-
-        # Play TTS when:
-        # 1. context_change (similarity < 0.6) - topic changed, user needs info
-        # 2. high_similarity (similarity > 0.85) - same topic, ok to interrupt
-        if result["is_context_change"]:
-            self.logger.log(
-                "tts_trigger",
-                reason="context_change",
-                similarity=result["similarity"],
-            )
-            self.sio.emit("context_change", {"similarity": result["similarity"]})
-            self._play_tts_if_queued("context_change")
-
-        elif result["is_high_similarity"]:
-            self.logger.log(
-                "tts_trigger",
-                reason="high_similarity",
-                similarity=result["similarity"],
-            )
-            self._play_tts_if_queued("high_similarity")
-
-    def _play_tts_if_queued(self, reason: str = "") -> None:
-        """Play queued TTS if available.
-
-        Args:
-            reason: Reason for playing (for logging)
-        """
-        if self.tts_client and self.tts_client.has_queued_audio():
-            log_print(
-                "INFO",
-                f"Playing TTS due to: {reason}",
-                session_id=self.session_id,
-            )
-            self.tts_client.play_queued(reason=reason)
-
-    def queue_tts(self, text: str, language: str = "en") -> None:
-        """Queue TTS for later playback based on context similarity.
-
-        Args:
-            text: Text to convert to speech
-            language: Language code
-        """
-        if self.tts_client:
-            self.tts_client.queue_audio_async(text, language)
-            log_print(
-                "INFO",
-                f"TTS queued for conditional playback: {text[:50]}...",
-                session_id=self.session_id,
-            )
 
     # -------------------------
     # Websocket handlers
@@ -402,23 +304,10 @@ class SummaryClient:
             summary = raw.strip()
             is_empty = not summary or summary == "..."
 
-            # Check context requirements for TTS
-            min_sentences = self.context_detector.prev_window + self.context_detector.curr_window
-            has_enough_context = len(self.context_detector.sentences) >= min_sentences
-
-            # Determine no_summary reason
-            no_summary_reason = None
-            if is_empty:
-                no_summary_reason = "empty"
-            elif not has_enough_context:
-                no_summary_reason = "not_enough_context"
-
             payload = {
                 "segment_id": self.segment_id,
                 "is_empty": is_empty,
                 "summary": "" if is_empty else summary,
-                "no_summary": no_summary_reason is not None,
-                "no_summary_reason": no_summary_reason,
             }
 
             # Update pre_context for next segment
@@ -429,17 +318,31 @@ class SummaryClient:
 
             self.sio.emit("summary_done", payload)
 
-            # TTS for non-empty summaries - only if we have enough context
-            if self.enable_tts and self.tts_client and not is_empty and has_enough_context:
+            # If we have a valid summary and callback is set, queue TTS and call callback
+            if not is_empty and self.on_summary_callback:
+                # Queue TTS for potential playback (ContextJudgeClient decides)
+                if self.enable_tts and self.tts_client:
+                    self.tts_client.queue_audio_async(summary, "en")
+                    log_print(
+                        "INFO",
+                        f"TTS queued for judgment: {summary[:50]}...",
+                        session_id=self.session_id,
+                    )
+
+                # Call callback to trigger judgment
+                self.on_summary_callback(summary, self.segment_id)
+
+            elif not is_empty and self.enable_tts and self.tts_client:
+                # No callback set - play TTS directly (fallback behavior)
                 self.tts_client.synthesize_async(
                     summary,
                     event_name="summary_tts",
                     language="en",
                 )
-            elif no_summary_reason:
+            elif is_empty:
                 log_print(
                     "INFO",
-                    f"Skipping summary TTS: {no_summary_reason} ({len(self.context_detector.sentences)}/{min_sentences} sentences)",
+                    "Skipping summary TTS: empty summary",
                     session_id=self.session_id,
                 )
             return
