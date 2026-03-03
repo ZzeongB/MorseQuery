@@ -4,7 +4,7 @@ import base64
 import io
 import threading
 import wave
-from typing import Optional
+from typing import Callable, Optional
 
 import pyaudio
 import requests
@@ -219,6 +219,39 @@ class TTSClient:
         thread = threading.Thread(
             target=self.queue_audio,
             args=(text, language),
+            daemon=True,
+        )
+        thread.start()
+
+    def queue_audio_with_callback(
+        self,
+        text: str,
+        callback: Callable[[bool], None],
+        language: str = "en",
+    ) -> None:
+        """Synthesize TTS asynchronously, add to queue, then call callback.
+
+        This is used for parallel TTS/judgment execution. The callback is called
+        when TTS synthesis completes (success or failure).
+
+        Args:
+            text: Text to convert to speech
+            callback: Function called with True if queued successfully, False otherwise
+            language: Language code
+        """
+        def _synthesize_and_callback():
+            success = self.queue_audio(text, language)
+            try:
+                callback(success)
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"TTS callback error: {e}",
+                    session_id=self.session_id,
+                )
+
+        thread = threading.Thread(
+            target=_synthesize_and_callback,
             daemon=True,
         )
         thread.start()

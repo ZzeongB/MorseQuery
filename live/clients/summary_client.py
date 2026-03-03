@@ -6,6 +6,7 @@ start_listening() / end_listening() mark segment boundaries for summarization.
 
 import base64
 import json
+import re
 import threading
 import time
 from typing import Callable, Optional
@@ -83,6 +84,7 @@ class SummaryClient:
 
         # Callback for summary judgment (called when summary is generated)
         self.on_summary_callback: Optional[Callable[[str, int], None]] = None
+        self.on_tts_ready_callback: Optional[Callable[[bool], None]] = None
 
         log_print(
             "INFO",
@@ -118,6 +120,51 @@ class SummaryClient:
             "Summary callback set",
             session_id=self.session_id,
         )
+
+    def set_tts_ready_callback(self, callback: Callable[[bool], None]) -> None:
+        """Set callback called when async TTS queueing completes."""
+        self.on_tts_ready_callback = callback
+        log_print(
+            "INFO",
+            "Summary TTS ready callback set",
+            session_id=self.session_id,
+        )
+
+    def _run_summary_callback(
+        self, callback: Callable[[str, int], None], summary: str, segment_id: int
+    ) -> None:
+        """Run summary callback safely in background."""
+        try:
+            callback(summary, segment_id)
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Summary callback failed: {e}",
+                session_id=self.session_id,
+            )
+            self.logger.log("summary_callback_failed", error=str(e))
+
+    def _resolve_tts_ready_callback(self) -> Optional[Callable[[bool], None]]:
+        """Resolve TTS completion callback from the summary callback target.
+
+        When summary callback is a bound method on ContextJudgeClient, we can
+        use its on_tts_ready(success) method to synchronize playback.
+        """
+        if self.on_tts_ready_callback:
+            return self.on_tts_ready_callback
+
+        callback = self.on_summary_callback
+        if not callback:
+            return None
+
+        callback_owner = getattr(callback, "__self__", None)
+        if callback_owner is None:
+            return None
+
+        tts_ready_callback = getattr(callback_owner, "on_tts_ready", None)
+        if callable(tts_ready_callback):
+            return tts_ready_callback
+        return None
 
     def speak_summary(self, text: str, language: str = "en") -> None:
         """Convert text to speech and emit via Socket.IO.
@@ -236,6 +283,8 @@ class SummaryClient:
                             "response": {
                                 "modalities": ["text"],
                                 "instructions": prompt,
+                                "temperature": 0.6,
+                                "max_output_tokens": 120,
                             },
                         }
                     )
@@ -300,9 +349,8 @@ class SummaryClient:
 
             self.logger.log("summary_response_done", raw=raw)
 
-            # Treat empty, "...", or very short responses as empty
-            summary = raw.strip()
-            is_empty = not summary or summary == "..."
+            summary = self._sanitize_summary_output(raw)
+            is_empty = not summary
 
             payload = {
                 "segment_id": self.segment_id,
@@ -318,19 +366,34 @@ class SummaryClient:
 
             self.sio.emit("summary_done", payload)
 
-            # If we have a valid summary and callback is set, queue TTS and call callback
+            # If we have a valid summary and callback is set, run TTS + judge in parallel
             if not is_empty and self.on_summary_callback:
+                segment_id = self.segment_id
+                callback = self.on_summary_callback
+
                 # Queue TTS for potential playback (ContextJudgeClient decides)
                 if self.enable_tts and self.tts_client:
-                    self.tts_client.queue_audio_async(summary, "en")
+                    tts_ready_callback = self._resolve_tts_ready_callback()
+                    if tts_ready_callback:
+                        self.tts_client.queue_audio_with_callback(
+                            summary,
+                            callback=tts_ready_callback,
+                            language="en",
+                        )
+                    else:
+                        self.tts_client.queue_audio_async(summary, "en")
                     log_print(
                         "INFO",
-                        f"TTS queued for judgment: {summary[:50]}...",
+                        f"TTS queued for parallel judgment: {summary[:50]}...",
                         session_id=self.session_id,
                     )
 
-                # Call callback to trigger judgment
-                self.on_summary_callback(summary, self.segment_id)
+                # Trigger judgment in background so TTS and judge start in parallel
+                threading.Thread(
+                    target=self._run_summary_callback,
+                    args=(callback, summary, segment_id),
+                    daemon=True,
+                ).start()
 
             elif not is_empty and self.enable_tts and self.tts_client:
                 # No callback set - play TTS directly (fallback behavior)
@@ -377,6 +440,48 @@ class SummaryClient:
             self.ws = None
 
         self.sio.emit("summary_closed")
+
+    def _sanitize_summary_output(self, raw: str) -> str:
+        """Normalize and validate summary output.
+
+        Reject structured/metadata-like outputs to prevent JSON/timestamp leakage.
+        Returns empty string when output is not a valid plain summary sentence.
+        """
+        summary = (raw or "").strip()
+        if not summary or summary == "...":
+            return ""
+
+        # Remove a single pair of wrapping quotes if model returns quoted sentence.
+        if len(summary) >= 2 and summary[0] == '"' and summary[-1] == '"':
+            summary = summary[1:-1].strip()
+
+        lower = summary.lower()
+
+        # Reject obvious structured/meta outputs.
+        if lower.startswith("{") or lower.startswith("["):
+            return ""
+        if any(key in lower for key in ("start_time", "end_time", "timestamp")):
+            return ""
+        if re.search(r"\b\d{1,2}:\d{2}\b", summary):
+            return ""
+        if re.search(r"^\s*\w+\s*:\s*\w+", summary):
+            # e.g. "summary: ...", "speaker: ..."
+            return ""
+
+        # Try JSON parse guard for object/array shaped strings.
+        try:
+            parsed = json.loads(summary)
+            if isinstance(parsed, (dict, list)):
+                return ""
+        except Exception:
+            pass
+
+        # Enforce concise sentence-like output (prompt target: <= 12 words).
+        words = summary.split()
+        if len(words) > 16:
+            return ""
+
+        return summary
 
     # -------------------------
     # Audio streaming

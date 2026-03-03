@@ -37,6 +37,86 @@ client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 
+# Aggregate multiple summary-agent outputs into one judge request per segment
+_judge_batch_lock = threading.Lock()
+_judge_batch: dict[int, dict] = {}
+_JUDGE_BATCH_TIMEOUT_SEC = 0.7
+
+
+def _flush_judge_batch(segment_id: int, session_id: str) -> None:
+    """Flush aggregated summaries for a segment into one judge request."""
+    with _judge_batch_lock:
+        batch = _judge_batch.get(segment_id)
+        judge = context_judge
+        if not batch or batch.get("sent") or not judge:
+            return
+
+        summaries_by_source: dict[str, str] = batch.get("summaries", {})
+        if not summaries_by_source:
+            return
+
+        batch["sent"] = True
+        _judge_batch.pop(segment_id, None)
+
+    ordered_sources = sorted(summaries_by_source.keys())
+    merged_parts = [
+        summaries_by_source[source].strip()
+        for source in ordered_sources
+        if summaries_by_source[source].strip()
+    ]
+    merged_summary = " ".join(merged_parts)
+
+    log_print(
+        "INFO",
+        "Flushing batched summaries to judge",
+        session_id=session_id,
+        segment_id=segment_id,
+        count=len(summaries_by_source),
+    )
+    judge.judge_summary(merged_summary, segment_id)
+
+
+def _make_summary_batch_callback(source_id: str, session_id: str):
+    """Create callback that batches summary outputs before judge request."""
+
+    def _callback(summary: str, segment_id: int) -> None:
+        if not summary or not summary.strip():
+            return
+
+        flush_now = False
+        with _judge_batch_lock:
+            expected = max(1, len(summary_clients))
+            batch = _judge_batch.setdefault(
+                segment_id,
+                {
+                    "summaries": {},
+                    "expected": expected,
+                    "sent": False,
+                    "timer": None,
+                },
+            )
+            batch["expected"] = expected
+            batch["summaries"][source_id] = summary.strip()
+
+            # First arrival: start timeout to avoid waiting forever.
+            if batch.get("timer") is None:
+                timer = threading.Timer(
+                    _JUDGE_BATCH_TIMEOUT_SEC,
+                    _flush_judge_batch,
+                    args=(segment_id, session_id),
+                )
+                timer.daemon = True
+                batch["timer"] = timer
+                timer.start()
+
+            if len(batch["summaries"]) >= batch["expected"]:
+                flush_now = True
+
+        if flush_now:
+            _flush_judge_batch(segment_id, session_id)
+
+    return _callback
+
 
 @app.route("/")
 def index():
@@ -208,6 +288,8 @@ def handle_disconnect():
         if context_judge:
             context_judge.stop()
             context_judge = None
+    with _judge_batch_lock:
+        _judge_batch.clear()
 
 
 @sio.on("start")
@@ -230,6 +312,8 @@ def handle_start(data: dict):
         if context_judge:
             context_judge.stop()
             context_judge = None
+        with _judge_batch_lock:
+            _judge_batch.clear()
 
         source = data.get("source", "mic")
 
@@ -257,18 +341,23 @@ def handle_start(data: dict):
         # Create ContextJudgeClient if we have summary clients with TTS
         # Uses the first summary mic for audio context
         if summary_mics and summary_clients:
-            first_tts_client = summary_clients[0].tts_client if summary_clients[0].tts_client else None
+            judge_tts_clients = [
+                sc.tts_client for sc in summary_clients if sc.tts_client is not None
+            ]
             context_judge = ContextJudgeClient(
                 sio,
                 session_id=f"{session_id}_judge",
                 device_indices=[summary_mics[0]],
-                tts_client=first_tts_client,
+                tts_clients=judge_tts_clients,
             )
             context_judge.start()
 
             # Connect summary callbacks to judge
-            for sc in summary_clients:
-                sc.set_summary_callback(context_judge.judge_summary)
+            for i, sc in enumerate(summary_clients):
+                sc.set_summary_callback(
+                    _make_summary_batch_callback(source_id=f"sum{i}", session_id=session_id)
+                )
+                sc.set_tts_ready_callback(context_judge.on_tts_ready)
 
             log_print(
                 "INFO",

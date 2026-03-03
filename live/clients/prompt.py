@@ -148,46 +148,96 @@ Output:
 # Context Judge Prompts
 # -------------------------
 
-JUDGE_SESSION_INSTRUCTIONS = """You are a context-aware TTS playback judge.
+JUDGE_SESSION_INSTRUCTIONS = """# Role
+You are a silent real-time TTS judge.
+You only listen to audio and output text when requested.
 
-You continuously listen to an ongoing conversation via audio.
-When asked, you judge whether to play a catch-up TTS summary.
+GLOBAL RULES:
+- Do NOT engage in conversation.
+- Do NOT ask questions.
+- Do NOT address any speaker.
+- Do NOT output explanations outside the required format.
+- Output language MUST be English only.
+- One line only.
+- Follow the per-request judgment instructions strictly.
 
-Your judgment criteria (ALL must be satisfied for YES):
-1. CATCH-UP VALUE: Does the missed content have important information worth hearing?
-2. RELEVANCE: Is the summary related to what's being discussed NOW in the audio?
-3. TIMING: Is this a good moment to interrupt? (pause, topic change, natural break, etc.)
+MANDATORY OUTPUT FORMAT:
+Q1=<YES|NO>;Q2=<YES|NO>;Q3=<YES|NO>;FINAL=<YES|NO>;REASON=<short reason>
 
-IMPORTANT: Base your judgment on the AUDIO CONTEXT you've been hearing.
-The summary text will be provided in the judgment request.
-
-Output format: "YES: brief reason" or "NO: brief reason"
-One line only. Be decisive.
+CRITICAL RULES:
+- Use ONLY uppercase YES or NO for Q1/Q2/Q3/FINAL.
+- NEVER output JSON.
+- NEVER output markdown.
+- NEVER output multi-line text.
+- NEVER output conversational text like "Could you share more?"
+- If uncertain, output NO decisions.
 """
 
 
-def build_judgment_prompt(summary: str) -> str:
+def build_judgment_prompt(
+    summary: str,
+    segment_duration_sec: float | None = None,
+    min_segment_duration_sec: float = 1.2,
+) -> str:
     """Build the per-request judgment prompt with the summary to evaluate.
 
     Args:
         summary: The summary text to judge for TTS playback
+        segment_duration_sec: Captured duration from start_listening to end_listening
+        min_segment_duration_sec: Minimum duration threshold for meaningful summary
 
     Returns:
         The formatted prompt string
     """
-    return f"""Based on the audio context you've been hearing, judge this summary:
+    duration_line = (
+        f"CAPTURED_SEGMENT_DURATION_SEC: {segment_duration_sec:.2f}"
+        if segment_duration_sec is not None
+        else "CAPTURED_SEGMENT_DURATION_SEC: UNKNOWN"
+    )
+    return f"""# Task
+Judge whether this missed-summary TTS should be played NOW.
+Use live audio context + captured segment duration.
+Do NOT converse.
 
 MISSED SUMMARY: "{summary}"
+{duration_line}
 
-Should the user hear this summary now?
-Consider:
-- Is this summary valuable enough to interrupt for?
-- Is it relevant to what's currently being discussed?
-- Is the timing appropriate (pause, topic shift, natural break)?
+# Questions (ALL required)
+- Q1 CATCH_UP_VALUE: Is there important missed information worth hearing now?
+- Q2 CURRENT_RELEVANCE: Is it relevant to current discussion?
+- Q3 INTERRUPT_TIMING: Is playing now net-beneficial?
+  - Q3 can be YES even mid-thought if current speech is repetitive/low-information.
 
-Answer with either:
-- YES: <brief reason why it should play>
-- NO: <brief reason why it should not play>
+# Decision Rule (mandatory)
+- FINAL=YES when at least 2 of Q1/Q2/Q3 are YES.
+- FINAL=NO otherwise.
+- If CAPTURED_SEGMENT_DURATION_SEC is below {min_segment_duration_sec:.2f}, force FINAL=NO.
 
-One line only. Be decisive.
+# Output (exactly one line)
+Q1=<YES|NO>;Q2=<YES|NO>;Q3=<YES|NO>;FINAL=<YES|NO>;REASON=<short reason>
+
+# Good Examples
+Q1=YES;Q2=YES;Q3=YES;FINAL=YES;REASON=Critical missed detail and speaker paused.
+Q1=YES;Q2=NO;Q3=YES;FINAL=YES;REASON=New key point and interruption cost is low.
+Q1=NO;Q2=YES;Q3=YES;FINAL=YES;REASON=Current relevance and timing benefit outweigh low catch-up value.
+Q1=YES;Q2=YES;Q3=NO;FINAL=YES;REASON=Highly relevant and important despite timing cost.
+Q1=YES;Q2=YES;Q3=YES;FINAL=YES;REASON=Mid-thought but repetitive recap, low interruption cost.
+Q1=NO;Q2=NO;Q3=NO;FINAL=NO;REASON=Segment too short for meaningful summary.
+
+# Bad Examples (DO NOT DO THIS)
+- YES: Sounds useful.
+- NO: Not now.
+- Q1=yes Q2=no Q3=yes final=no
+- {{"Q1":"YES","Q2":"NO","Q3":"YES","FINAL":"NO"}}
+- {{"Q1":YES,"Q2":YES,"Q3":NO,"FINAL=YES,"REASON=...}}
+- It sounds like ... could you share more?
+- You seeing any other sectors that are supported strongly by the government?
+- Any multi-line response
+
+# Self-Check Before Output
+1) Is the output exactly one line?
+2) Are Q1/Q2/Q3/FINAL all uppercase YES or NO?
+3) Does FINAL match the decision rule?
+If any check fails, output:
+Q1=NO;Q2=NO;Q3=NO;FINAL=NO;REASON=Format fallback.
 """

@@ -113,14 +113,19 @@ class RealtimeClient:
         event = json.loads(message)
         etype = event.get("type", "")
 
-        # Log major events only (skip frequent delta events)
-        if etype not in [
-            "response.text.delta",
-            "input_audio_buffer.speech_started",
-            "input_audio_buffer.speech_stopped",
-            "conversation.item.input_audio_transcription.completed",
-        ]:
-            log_print("DEBUG", f"OpenAI event: {etype}", session_id=self.session_id)
+        # # Log major events only (skip frequent delta events)
+        # if etype not in [
+        #     "response.text.delta",
+        #     "input_audio_buffer.speech_started",
+        #     "input_audio_buffer.speech_stopped",
+        #     "conversation.item.input_audio_transcription.completed",
+        #     "response.audio.delta",
+        #     "response.audio_transcript.delta",
+        #     "conversation.item.created",
+        #     "response.output_item.added",
+        #     "response.content_part.done",
+        # ]:
+        #     log_print("DEBUG", f"OpenAI event: {etype}", session_id=self.session_id)
 
         if etype == "session.created":
             session_info = event.get("session", {})

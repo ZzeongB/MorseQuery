@@ -5,13 +5,18 @@ whether a summary TTS should be played based on:
 1. Catch-up Value: Does the missed content have important information?
 2. Context Relevance: Is the summary related to current discussion?
 3. Interrupt Timing: Is this a good moment to interrupt?
+
+TTS and judgment run in parallel for reduced latency:
+- If TTS ready first: wait for judge, play if approved
+- If judge approves first: play as soon as TTS ready
 """
 
 import base64
 import json
+import re
 import threading
 import time
-from typing import Callable, Optional
+from typing import Optional
 
 import pyaudio
 import websocket
@@ -22,12 +27,18 @@ from logger import get_logger, log_print
 from .prompt import JUDGE_SESSION_INSTRUCTIONS, build_judgment_prompt
 from .tts_client import TTSClient
 
+MIN_SEGMENT_DURATION_FOR_JUDGE_SEC = 1.2
+
 
 class ContextJudgeClient:
     """Realtime client that judges whether to play TTS based on audio context.
 
     Continuously streams audio to OpenAI Realtime API. When judge_summary() is called,
     commits current audio buffer and requests LLM judgment on whether to play TTS.
+
+    TTS synthesis and judgment run in parallel. Playback occurs when both:
+    1. TTS synthesis is complete (audio queued)
+    2. Judge approves playback
     """
 
     def __init__(
@@ -36,11 +47,12 @@ class ContextJudgeClient:
         session_id: str = "default",
         device_indices: list[int] | None = None,
         tts_client: Optional[TTSClient] = None,
+        tts_clients: list[TTSClient] | None = None,
     ):
         self.sio = socketio
         self.session_id = session_id
         self.device_indices = device_indices or []
-        self.tts_client = tts_client
+        self.tts_clients = tts_clients or ([tts_client] if tts_client else [])
 
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
@@ -60,10 +72,19 @@ class ContextJudgeClient:
         # Listening state (synchronized with SummaryClient)
         self.listening = False
         self.segment_id = 0
+        self._segment_start_times: dict[int, float] = {}
+        self._segment_end_times: dict[int, float] = {}
 
         # Pending summary for judgment
         self.pending_summary: Optional[str] = None
         self.pending_segment_id: int = 0
+
+        # Parallel TTS/judgment state
+        self._state_lock = threading.Lock()
+        self.tts_ready: bool = False  # TTS synthesis completed
+        self.judge_decided: bool = False  # Judge has made a decision
+        self.judge_approved: bool = False  # Judge decision (True=play, False=skip)
+        self.judge_reason: str = ""  # Judge reason
 
         # Thread synchronization
         self._lock = threading.Lock()
@@ -74,12 +95,12 @@ class ContextJudgeClient:
             "ContextJudgeClient created",
             session_id=session_id,
             devices=device_indices,
-            has_tts=tts_client is not None,
+            tts_clients=len(self.tts_clients),
         )
         self.logger.log(
             "context_judge_created",
             devices=device_indices,
-            has_tts=tts_client is not None,
+            tts_clients=len(self.tts_clients),
         )
 
     # -------------------------
@@ -99,6 +120,14 @@ class ContextJudgeClient:
         self.segment_id += 1
         self.listening = True
         self.response_buffer = ""
+        self._segment_start_times[self.segment_id] = time.time()
+
+        # Reset parallel state for new segment
+        with self._state_lock:
+            self.tts_ready = False
+            self.judge_decided = False
+            self.judge_approved = False
+            self.judge_reason = ""
 
         # Clear buffer and re-append last 3 seconds
         with self._lock:
@@ -133,6 +162,7 @@ class ContextJudgeClient:
             return
 
         self.listening = False
+        self._segment_end_times[self.segment_id] = time.time()
         self.logger.log("judge_end_listening", segment_id=self.segment_id)
         log_print(
             "INFO",
@@ -141,7 +171,7 @@ class ContextJudgeClient:
         )
 
     def judge_summary(self, summary: str, segment_id: int) -> None:
-        """Judge whether to play the given summary TTS.
+        """Start judgment for the given summary (runs in parallel with TTS).
 
         Called by SummaryClient after generating a summary.
         Commits current audio buffer and requests LLM judgment.
@@ -166,24 +196,75 @@ class ContextJudgeClient:
             )
             return
 
+        # Reset state for new judgment
+        with self._state_lock:
+            self.tts_ready = False
+            self.judge_decided = False
+            self.judge_approved = False
+            self.judge_reason = ""
+
         self.pending_summary = summary
         self.pending_segment_id = segment_id
         self.response_buffer = ""
+        segment_duration_sec = self._get_segment_duration_sec(segment_id)
+
+        if (
+            segment_duration_sec is not None
+            and segment_duration_sec < MIN_SEGMENT_DURATION_FOR_JUDGE_SEC
+        ):
+            reason = (
+                f"Segment too short ({segment_duration_sec:.2f}s < "
+                f"{MIN_SEGMENT_DURATION_FOR_JUDGE_SEC:.2f}s)."
+            )
+            with self._state_lock:
+                self.judge_decided = True
+                self.judge_approved = False
+                self.judge_reason = reason
+
+            self.logger.log(
+                "judge_auto_reject_short_segment",
+                segment_id=segment_id,
+                duration_sec=segment_duration_sec,
+                min_duration_sec=MIN_SEGMENT_DURATION_FOR_JUDGE_SEC,
+            )
+            log_print(
+                "INFO",
+                "Auto-reject short segment before LLM judgment",
+                session_id=self.session_id,
+                segment_id=segment_id,
+                duration_sec=segment_duration_sec,
+                min_duration_sec=MIN_SEGMENT_DURATION_FOR_JUDGE_SEC,
+            )
+            self.sio.emit(
+                "judge_rejected",
+                {
+                    "reason": reason,
+                    "summary": summary,
+                    "segment_id": segment_id,
+                },
+            )
+            return
 
         log_print(
             "INFO",
             f"Judgment request: {summary[:60]}...",
             session_id=self.session_id,
             segment_id=segment_id,
+            segment_duration_sec=segment_duration_sec,
         )
         self.logger.log(
             "judge_request",
             summary=summary,
             segment_id=segment_id,
+            segment_duration_sec=segment_duration_sec,
         )
 
         # Build judgment prompt with summary text
-        prompt = build_judgment_prompt(summary)
+        prompt = build_judgment_prompt(
+            summary,
+            segment_duration_sec=segment_duration_sec,
+            min_segment_duration_sec=MIN_SEGMENT_DURATION_FOR_JUDGE_SEC,
+        )
 
         with self._lock:
             ws = self.ws
@@ -207,6 +288,8 @@ class ContextJudgeClient:
                             "response": {
                                 "modalities": ["text"],
                                 "instructions": prompt,
+                                "temperature": 0.6,
+                                "max_output_tokens": 120,
                             },
                         }
                     )
@@ -216,6 +299,66 @@ class ContextJudgeClient:
                 log_print(
                     "ERROR",
                     f"judge_summary send failed: {e}",
+                    session_id=self.session_id,
+                )
+
+    def _get_segment_duration_sec(self, segment_id: int) -> Optional[float]:
+        """Return start~end duration for a segment if available."""
+        start = self._segment_start_times.get(segment_id)
+        if start is None:
+            return None
+        end = self._segment_end_times.get(segment_id, time.time())
+        return max(0.0, end - start)
+
+    def on_tts_ready(self, success: bool) -> None:
+        """Called when TTS synthesis completes (callback from TTSClient).
+
+        If judge already approved, plays immediately.
+        If judge already rejected, clears queue.
+        If judge pending, waits for judge decision.
+
+        Args:
+            success: True if TTS was successfully queued
+        """
+        log_print(
+            "INFO",
+            f"TTS ready callback: success={success}",
+            session_id=self.session_id,
+        )
+        self.logger.log("tts_ready", success=success)
+
+        if not success:
+            log_print(
+                "WARN",
+                "TTS synthesis failed, skipping playback",
+                session_id=self.session_id,
+            )
+            return
+
+        with self._state_lock:
+            self.tts_ready = True
+
+            if self.judge_decided:
+                # Judge already made a decision
+                if self.judge_approved:
+                    log_print(
+                        "INFO",
+                        "TTS ready + judge approved -> playing",
+                        session_id=self.session_id,
+                    )
+                    self._play_tts(self.judge_reason)
+                else:
+                    log_print(
+                        "INFO",
+                        "TTS ready + judge rejected -> clearing queue",
+                        session_id=self.session_id,
+                    )
+                    self._clear_tts()
+            else:
+                # Judge still pending, TTS will wait
+                log_print(
+                    "INFO",
+                    "TTS ready, waiting for judge decision",
                     session_id=self.session_id,
                 )
 
@@ -305,67 +448,225 @@ class ContextJudgeClient:
             segment_id=self.pending_segment_id,
         )
 
-        # Parse response: "YES: reason" or "NO: reason"
-        response_upper = response.upper()
-        approved = response_upper.startswith("YES")
-
-        # Extract reason (after colon)
-        reason = ""
-        if ":" in response:
-            reason = response.split(":", 1)[1].strip()
-
-        if approved:
+        approved, reason, valid_format = self._parse_judgment_response(response)
+        if not valid_format:
             log_print(
-                "INFO",
-                f"Judgment APPROVED: {reason}",
+                "WARN",
+                "Invalid judge output format, forcing NO",
                 session_id=self.session_id,
+                raw=response,
             )
-            self.logger.log(
-                "judge_approved",
-                reason=reason,
-                segment_id=self.pending_segment_id,
-            )
+            self.logger.log("judge_invalid_format", raw=response)
 
-            # Play queued TTS
-            if self.tts_client and self.tts_client.has_queued_audio():
-                self.tts_client.play_queued(reason=f"judge_approved: {reason}")
+        with self._state_lock:
+            self.judge_decided = True
+            self.judge_approved = approved
+            self.judge_reason = reason
 
-            self.sio.emit(
-                "judge_approved",
-                {
-                    "reason": reason,
-                    "summary": self.pending_summary,
-                    "segment_id": self.pending_segment_id,
-                },
-            )
-        else:
-            log_print(
-                "INFO",
-                f"Judgment REJECTED: {reason}",
-                session_id=self.session_id,
-            )
-            self.logger.log(
-                "judge_rejected",
-                reason=reason,
-                segment_id=self.pending_segment_id,
-            )
+            if approved:
+                log_print(
+                    "INFO",
+                    f"Judgment APPROVED: {reason}",
+                    session_id=self.session_id,
+                )
+                self.logger.log(
+                    "judge_approved",
+                    reason=reason,
+                    segment_id=self.pending_segment_id,
+                    tts_ready=self.tts_ready,
+                )
 
-            # Clear queued TTS since we're not playing it
-            if self.tts_client:
-                self.tts_client.clear_queue()
+                if self.tts_ready:
+                    # TTS already ready, play immediately
+                    log_print(
+                        "INFO",
+                        "Judge approved + TTS ready -> playing",
+                        session_id=self.session_id,
+                    )
+                    self._play_tts(reason)
+                else:
+                    # TTS not ready, will play when on_tts_ready is called
+                    log_print(
+                        "INFO",
+                        "Judge approved, waiting for TTS",
+                        session_id=self.session_id,
+                    )
 
-            self.sio.emit(
-                "judge_rejected",
-                {
-                    "reason": reason,
-                    "summary": self.pending_summary,
-                    "segment_id": self.pending_segment_id,
-                },
-            )
+                self.sio.emit(
+                    "judge_approved",
+                    {
+                        "reason": reason,
+                        "summary": self.pending_summary,
+                        "segment_id": self.pending_segment_id,
+                    },
+                )
+            else:
+                log_print(
+                    "INFO",
+                    f"Judgment REJECTED: {reason}",
+                    session_id=self.session_id,
+                )
+                self.logger.log(
+                    "judge_rejected",
+                    reason=reason,
+                    segment_id=self.pending_segment_id,
+                    tts_ready=self.tts_ready,
+                )
+
+                if self.tts_ready:
+                    # TTS already ready, clear queue
+                    log_print(
+                        "INFO",
+                        "Judge rejected + TTS ready -> clearing queue",
+                        session_id=self.session_id,
+                    )
+                    self._clear_tts()
+                # If TTS not ready, it will be cleared when on_tts_ready is called
+
+                self.sio.emit(
+                    "judge_rejected",
+                    {
+                        "reason": reason,
+                        "summary": self.pending_summary,
+                        "segment_id": self.pending_segment_id,
+                    },
+                )
 
         # Clear pending state
         self.pending_summary = None
         self.pending_segment_id = 0
+
+    def _parse_judgment_response(self, response: str) -> tuple[bool, str, bool]:
+        """Parse judge response.
+
+        Returns:
+            (approved, reason, valid_format)
+            valid_format=False means the output did not follow supported formats.
+        """
+        # JSON format fallback:
+        # {"Q1":"YES","Q2":"NO","Q3":"YES","FINAL":"YES","REASON":"..."}
+        try:
+            parsed = json.loads(response)
+            if isinstance(parsed, dict):
+                q1_raw = str(parsed.get("Q1", "")).upper()
+                q2_raw = str(parsed.get("Q2", "")).upper()
+                q3_raw = str(parsed.get("Q3", "")).upper()
+                final_raw = str(parsed.get("FINAL", "")).upper()
+                reason = str(parsed.get("REASON", "")).strip()
+
+                if (
+                    q1_raw in ("YES", "NO")
+                    and q2_raw in ("YES", "NO")
+                    and q3_raw in ("YES", "NO")
+                    and final_raw in ("YES", "NO")
+                ):
+                    q1 = q1_raw == "YES"
+                    q2 = q2_raw == "YES"
+                    q3 = q3_raw == "YES"
+                    final = final_raw == "YES"
+
+                    yes_count = sum([q1, q2, q3])
+                    expected_final = yes_count >= 2
+                    approved = expected_final
+                    if final != expected_final:
+                        reason = (
+                            f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                            if reason
+                            else "Inconsistent FINAL with 2-of-3 rule."
+                        )
+                    return approved, reason, True
+        except Exception:
+            pass
+
+        # Strict format:
+        # Q1=YES;Q2=NO;Q3=YES;FINAL=NO;REASON=...
+        strict_pattern = (
+            r"Q1\s*=\s*(YES|NO)\s*;\s*"
+            r"Q2\s*=\s*(YES|NO)\s*;\s*"
+            r"Q3\s*=\s*(YES|NO)\s*;\s*"
+            r"FINAL\s*=\s*(YES|NO)\s*;\s*"
+            r"REASON\s*=\s*(.+)$"
+        )
+        strict_match = re.match(strict_pattern, response, re.IGNORECASE)
+        if strict_match:
+            q1 = strict_match.group(1).upper() == "YES"
+            q2 = strict_match.group(2).upper() == "YES"
+            q3 = strict_match.group(3).upper() == "YES"
+            final = strict_match.group(4).upper() == "YES"
+            reason = strict_match.group(5).strip()
+
+            # Enforce consistency with rule: FINAL=YES when at least 2 are YES
+            yes_count = sum([q1, q2, q3])
+            expected_final = yes_count >= 2
+            approved = expected_final
+            if final != expected_final:
+                reason = (
+                    f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                    if reason
+                    else "Inconsistent FINAL with 2-of-3 rule."
+                )
+            return approved, reason, True
+
+        # Tolerant key-value fallback for malformed JSON/kv responses.
+        # Examples handled:
+        # {"Q1":YES,"Q2":YES,"Q3":NO,"FINAL=YES,"REASON=..."}
+        # Q1:YES, Q2:YES, Q3:NO, FINAL:YES, REASON:...
+        upper_response = response.upper()
+        q1_match = re.search(r"\bQ1\b[^A-Z]*(YES|NO)\b", upper_response)
+        q2_match = re.search(r"\bQ2\b[^A-Z]*(YES|NO)\b", upper_response)
+        q3_match = re.search(r"\bQ3\b[^A-Z]*(YES|NO)\b", upper_response)
+        final_match = re.search(r"\bFINAL\b[^A-Z]*(YES|NO)\b", upper_response)
+
+        reason = ""
+        reason_match = re.search(r"\bREASON\b\s*[:=]\s*\"?(.+?)\"?\s*\}?$", response, re.IGNORECASE)
+        if reason_match:
+            reason = reason_match.group(1).strip()
+
+        if q1_match and q2_match and q3_match:
+            q1 = q1_match.group(1) == "YES"
+            q2 = q2_match.group(1) == "YES"
+            q3 = q3_match.group(1) == "YES"
+            yes_count = sum([q1, q2, q3])
+            expected_final = yes_count >= 2
+            approved = expected_final
+
+            if final_match:
+                final = final_match.group(1) == "YES"
+                if final != expected_final:
+                    reason = (
+                        f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                        if reason
+                        else "Inconsistent FINAL with 2-of-3 rule."
+                    )
+
+            return approved, reason, True
+
+        # Legacy fallback: "YES: reason" / "NO: reason"
+        upper = response.upper()
+        if upper.startswith("YES"):
+            reason = response.split(":", 1)[1].strip() if ":" in response else ""
+            return True, reason, True
+        if upper.startswith("NO"):
+            reason = response.split(":", 1)[1].strip() if ":" in response else ""
+            return False, reason, True
+
+        # Invalid output: fail closed (NO)
+        return False, "Invalid judge output format", False
+
+    def _play_tts(self, reason: str) -> None:
+        """Play queued TTS audio.
+
+        Args:
+            reason: Reason for playing (for logging)
+        """
+        for client in self.tts_clients:
+            if client.has_queued_audio():
+                client.play_queued(reason=f"judge_approved: {reason}")
+
+    def _clear_tts(self) -> None:
+        """Clear queued TTS audio."""
+        for client in self.tts_clients:
+            client.clear_queue()
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         """Handle WebSocket error."""
