@@ -439,7 +439,7 @@
         let summaryRequested = false; // Track if we actually requested a summary
         let summaryInProgress = false; // summarizing or tts playback in progress
         let showSummaryTextEnabled = true;
-        let pendingSummaryText = '';
+        let pendingSummaryTexts = [];
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
@@ -553,8 +553,8 @@
             document.getElementById('btn-summary-text-off').classList.toggle('selected', !enabled);
             if (!enabled) {
                 hideSummaryText();
-            } else if (summaryInProgress && pendingSummaryText) {
-                showSummaryText(pendingSummaryText);
+            } else if (summaryInProgress && pendingSummaryTexts.length > 0) {
+                showSummaryText(pendingSummaryTexts.join(' / '));
             }
         }
 
@@ -712,7 +712,7 @@
             infoVisible = false;
             summaryRequested = false;
             summaryInProgress = false;
-            pendingSummaryText = '';
+            pendingSummaryTexts = [];
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
@@ -727,7 +727,10 @@
             // Multi-summary clients may emit mixed results (empty/non-empty).
             // Don't finalize UI here; wait briefly for all results/judge outcome.
             if (!data.is_empty && !data.no_summary) {
-                pendingSummaryText = (data.summary || '').trim();
+                const text = (data.summary || '').trim();
+                if (text) {
+                    pendingSummaryTexts.push(text);
+                }
             }
 
             awaitingJudgeDecision = true;
@@ -743,7 +746,7 @@
                     awaitingJudgeDecision = false;
                     showSkippedIndicator('Summary not needed');
                     hideSummaryText();
-                    pendingSummaryText = '';
+                    pendingSummaryTexts = [];
                 }
             }, 5000);
         });
@@ -759,8 +762,8 @@
             }
             // TTS is playing - hide summarizing indicator
             hideLoadingIndicator();
-            if (pendingSummaryText) {
-                showSummaryText(pendingSummaryText);
+            if (pendingSummaryTexts.length > 0) {
+                showSummaryText(pendingSummaryTexts.join(' / '));
             }
         });
 
@@ -775,7 +778,7 @@
             }
             hideLoadingIndicator();
             hideSummaryText();
-            pendingSummaryText = '';
+            pendingSummaryTexts = [];
         });
 
         socket.on('judge_rejected', data => {
@@ -789,7 +792,7 @@
             }
             hideLoadingIndicator();
             hideSummaryText();
-            pendingSummaryText = '';
+            pendingSummaryTexts = [];
             showSkippedIndicator('Summary not needed');
         });
 
@@ -853,7 +856,7 @@
             }
             hideLoadingIndicator();
             hideSummaryText();
-            pendingSummaryText = '';
+            pendingSummaryTexts = [];
         });
 
         socket.on('keyword_tts', data => {
@@ -897,7 +900,7 @@
             }
             hideLoadingIndicator();
             hideSummaryText();
-            pendingSummaryText = '';
+            pendingSummaryTexts = [];
             showSkippedIndicator('Summary canceled');
         }
 
