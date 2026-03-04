@@ -965,7 +965,8 @@
             infoVisible = true;
 
             if (keywordOutputMode === 'audio') {
-                requestKeywordTts(data);
+                // Keep UI selection and first auto-play target consistent.
+                playCurrentKeywordTts();
             }
         });
         socket.on('summary_chunk', data => {
@@ -995,30 +996,44 @@
 
         socket.on('summary_done', data => {
             // Multi-summary clients may emit mixed results (empty/non-empty).
-            // Don't finalize UI here; wait briefly for all results/judge outcome.
-            if (!data.is_empty && !data.no_summary) {
-                const text = (data.summary || '').trim();
-                if (text) {
-                    pendingSummaryTexts.push(text);
+            // Don't finalize immediately because multiple summary clients may return
+            // mixed empty/non-empty results with slight delays.
+            const text = (!data.is_empty && !data.no_summary) ? (data.summary || '').trim() : '';
+            if (text) {
+                pendingSummaryTexts.push(text);
+                awaitingJudgeDecision = true;
+                showLoadingIndicator('Judging...', 'summarizing');
+
+                if (summaryFinalizeTimer) {
+                    clearTimeout(summaryFinalizeTimer);
                 }
+                summaryFinalizeTimer = setTimeout(() => {
+                    // After waiting up to 5s for judge/playback, finalize fallback.
+                    if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
+                        summaryRequested = false;
+                        awaitingJudgeDecision = false;
+                        showSkippedIndicator('No important information missed.');
+                        hideSummaryText();
+                        pendingSummaryTexts = [];
+                    }
+                }, 5000);
+                return;
             }
 
-            awaitingJudgeDecision = true;
-            showLoadingIndicator('Judging...', 'summarizing');
-
+            // Empty summary text: wait briefly for possible non-empty sibling result.
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
             }
             summaryFinalizeTimer = setTimeout(() => {
-                // After waiting up to 5s for judge/playback, finalize fallback.
-                if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
-                    summaryRequested = false;
-                    awaitingJudgeDecision = false;
-                    showSkippedIndicator('Summary not needed');
-                    hideSummaryText();
-                    pendingSummaryTexts = [];
-                }
-            }, 5000);
+                if (pendingSummaryTexts.length > 0 || !summaryRequested) return;
+                summaryRequested = false;
+                summaryInProgress = false;
+                awaitingJudgeDecision = false;
+                hideLoadingIndicator();
+                hideSummaryText();
+                pendingSummaryTexts = [];
+                showSkippedIndicator('No important information missed.');
+            }, 1500);
         });
 
         // TTS playback status from server
@@ -1247,8 +1262,14 @@
         }
 
         function selectKeyword(idx) {
+            if (idx < 0 || idx >= options.length) return;
             currentIdx = idx;
             render();
+            if (keywordOutputMode === 'audio') {
+                // Ensure selected keyword is the one that plays immediately.
+                cancelKeywordTts();
+                playCurrentKeywordTts();
+            }
         }
 
         function hideInfo() {
@@ -1420,7 +1441,7 @@
         }
 
         function cancelKeywordTts() {
-            socket.emit('cancel_tts');
+            socket.emit('cancel_keyword_tts');
             keywordTtsPlaying = false;
         }
 

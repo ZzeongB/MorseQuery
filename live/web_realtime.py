@@ -46,6 +46,7 @@ client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 keyword_tts_client: Optional[TTSClient] = None
+_keyword_tts_request_token = 0
 
 # Aggregate multiple summary-agent outputs into one judge request per segment
 _judge_batch_lock = threading.Lock()
@@ -90,10 +91,15 @@ def _flush_judge_batch(segment_id: int, session_id: str) -> None:
         segment_id=segment_id,
         count=len(summaries_by_source),
     )
-    judge.judge_summary(merged_summary, segment_id)
+    expected_tts_count = int(batch.get("tts_expected_count", len(merged_parts)))
+    judge.judge_summary(
+        merged_summary,
+        segment_id,
+        expected_tts_count=max(0, expected_tts_count),
+    )
 
 
-def _make_summary_batch_callback(source_id: str, session_id: str):
+def _make_summary_batch_callback(source_id: str, session_id: str, tts_enabled: bool):
     """Create callback that batches summary outputs before judge request."""
 
     def _callback(summary: str, segment_id: int) -> None:
@@ -110,12 +116,17 @@ def _make_summary_batch_callback(source_id: str, session_id: str):
                 {
                     "summaries": {},
                     "expected": expected,
+                    "tts_sources": set(),
+                    "tts_expected_count": 0,
                     "sent": False,
                     "timer": None,
                 },
             )
             batch["expected"] = expected
             batch["summaries"][source_id] = summary.strip()
+            if tts_enabled:
+                batch["tts_sources"].add(source_id)
+                batch["tts_expected_count"] = len(batch["tts_sources"])
 
             # First arrival: start timeout to avoid waiting forever.
             if batch.get("timer") is None:
@@ -553,7 +564,11 @@ def handle_start(data: dict):
             # Connect summary callbacks to judge
             for i, sc in enumerate(summary_clients):
                 sc.set_summary_callback(
-                    _make_summary_batch_callback(source_id=f"sum{i}", session_id=session_id)
+                    _make_summary_batch_callback(
+                        source_id=f"sum{i}",
+                        session_id=session_id,
+                        tts_enabled=sc.tts_client is not None,
+                    )
                 )
                 sc.set_tts_ready_callback(context_judge.on_tts_ready)
 
@@ -646,6 +661,7 @@ def handle_grounding(data: dict):
 @sio.on("keyword_tts")
 def handle_keyword_tts(data: dict):
     """Synthesize keyword definition audio and play on server."""
+    global _keyword_tts_request_token
     session_id = request.sid
     text = str((data or {}).get("text", "")).strip()
     if not text:
@@ -653,26 +669,62 @@ def handle_keyword_tts(data: dict):
 
     with _clients_lock:
         tts = keyword_tts_client
+        _keyword_tts_request_token += 1
+        request_token = _keyword_tts_request_token
     if not tts:
         return
 
-    # Queue and play immediately on server side (uses output_device_index)
+    # Latest-only behavior: if a newer navigation request arrives while synthesis
+    # is in-flight, this request is dropped before playback.
     def _synthesize_and_play():
-        if tts.queue_audio(text, language="en"):
-            tts.play_queued(reason="keyword", emit_done=False)
+        audio_bytes = tts.synthesize(text, language="en")
+        if not audio_bytes:
+            return
+
+        with _clients_lock:
+            if request_token != _keyword_tts_request_token:
+                return
+
+        tts.stop_playback(wait=True, timeout_sec=1.2)
+        tts.queue_audio_bytes(audio_bytes, text)
+        # If previous playback is still tearing down after cancel, first call can miss.
+        # Retry briefly so the latest navigation click starts audio without a second tap.
+        if tts.play_queued(reason="keyword", emit_done=False):
+            return
+        for _ in range(30):  # up to ~300ms
+            time.sleep(0.01)
+            with _clients_lock:
+                if request_token != _keyword_tts_request_token:
+                    return
+            if tts.play_queued(reason="keyword", emit_done=False):
+                return
 
     threading.Thread(target=_synthesize_and_play, daemon=True).start()
     log_print("INFO", "keyword_tts requested", session_id=session_id, chars=len(text))
 
 
+@sio.on("cancel_keyword_tts")
+def handle_cancel_keyword_tts():
+    """Cancel keyword TTS only (do not affect summary flow)."""
+    global _keyword_tts_request_token
+    session_id = request.sid
+    with _clients_lock:
+        _keyword_tts_request_token += 1
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
+    log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
+
+
 @sio.on("cancel_tts")
 def handle_cancel_tts():
     """Cancel pending/playing TTS (both keyword and summary)."""
+    global _keyword_tts_request_token
     session_id = request.sid
     with _clients_lock:
+        _keyword_tts_request_token += 1
         # Cancel keyword TTS
         if keyword_tts_client:
-            keyword_tts_client.stop_playback()
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
 
         # Cancel summary TTS
         if context_judge:

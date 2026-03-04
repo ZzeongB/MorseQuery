@@ -91,6 +91,7 @@ class ContextJudgeClient:
         # Thread synchronization
         self._lock = threading.Lock()
         self._shutdown_event = threading.Event()
+        self._tts_stop_event = threading.Event()
         self._tts_play_lock = threading.Lock()
         self._tts_play_thread: Optional[threading.Thread] = None
 
@@ -175,7 +176,9 @@ class ContextJudgeClient:
             session_id=self.session_id,
         )
 
-    def judge_summary(self, summary: str, segment_id: int) -> None:
+    def judge_summary(
+        self, summary: str, segment_id: int, expected_tts_count: Optional[int] = None
+    ) -> None:
         """Start judgment for the given summary (runs in parallel with TTS).
 
         Called by SummaryClient after generating a summary.
@@ -184,6 +187,8 @@ class ContextJudgeClient:
         Args:
             summary: The summary text to judge
             segment_id: The segment ID this summary belongs to
+            expected_tts_count: Number of TTS-ready callbacks expected for this segment.
+                If None, falls back to the number of configured TTS clients.
         """
         if not self.running or not self.connected:
             log_print(
@@ -223,7 +228,10 @@ class ContextJudgeClient:
         # Reset state for new judgment
         with self._state_lock:
             self.tts_ready_count = 0
-            self.tts_expected_count = len(self.tts_clients)
+            if expected_tts_count is None:
+                self.tts_expected_count = len(self.tts_clients)
+            else:
+                self.tts_expected_count = max(0, expected_tts_count)
             self.judge_decided = False
             self.judge_approved = False
             self.judge_reason = ""
@@ -706,6 +714,7 @@ class ContextJudgeClient:
         with self._tts_play_lock:
             if self._tts_play_thread and self._tts_play_thread.is_alive():
                 return
+            self._tts_stop_event.clear()
             self._tts_play_thread = threading.Thread(
                 target=self._play_tts_sequential,
                 args=(reason,),
@@ -764,14 +773,14 @@ class ContextJudgeClient:
             stream = pa.open(**open_kwargs)
 
             for audio_bytes, text in all_audio:
-                if self._shutdown_event.is_set():
+                if self._shutdown_event.is_set() or self._tts_stop_event.is_set():
                     break
                 pcm_data = self._extract_pcm_from_wav(audio_bytes)
                 if pcm_data:
                     # Write in chunks so stop requests can interrupt
                     chunk_size = 4096
                     for i in range(0, len(pcm_data), chunk_size):
-                        if self._shutdown_event.is_set():
+                        if self._shutdown_event.is_set() or self._tts_stop_event.is_set():
                             break
                         stream.write(pcm_data[i : i + chunk_size])
                     log_print(
@@ -800,7 +809,7 @@ class ContextJudgeClient:
                     pass
 
         # Emit tts_done once after ALL audio is done
-        if not self._shutdown_event.is_set():
+        if not self._shutdown_event.is_set() and not self._tts_stop_event.is_set():
             self.sio.emit("tts_done")
 
     def _extract_pcm_from_wav(self, wav_bytes: bytes) -> Optional[bytes]:
@@ -829,6 +838,8 @@ class ContextJudgeClient:
             self.judge_approved = False
             self.judge_reason = reason
 
+        # Stop current summary playback thread promptly (without shutting down judge client).
+        self._tts_stop_event.set()
         for client in self.tts_clients:
             client.stop_playback()
 

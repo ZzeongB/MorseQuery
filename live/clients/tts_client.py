@@ -4,6 +4,7 @@ import base64
 import io
 import threading
 import wave
+from collections import OrderedDict
 from datetime import datetime
 from typing import Callable, Optional
 
@@ -25,6 +26,7 @@ DEFAULT_VOICE_ID = "67192626-0be9-4f45-b660-580d318c994d"  # Barbershop Man
 TTS_SAMPLE_RATE = 24000
 TTS_CHANNELS = 1
 TTS_SAMPLE_WIDTH = 2  # 16-bit
+TTS_CACHE_MAX_ITEMS = 128
 
 
 class TTSClient:
@@ -49,10 +51,13 @@ class TTSClient:
         self._queue_lock = threading.Lock()
         self.is_playing = False
         self._stop_playback_event = threading.Event()
+        self._play_thread: Optional[threading.Thread] = None
 
         # TTS logging
         self._tts_counter = 0
         self._tts_counter_lock = threading.Lock()
+        self._cache_lock = threading.Lock()
+        self._synth_cache: OrderedDict[tuple[str, str, str, str], bytes] = OrderedDict()
 
         log_print(
             "INFO",
@@ -72,7 +77,8 @@ class TTSClient:
         Returns:
             Audio bytes in WAV format, or None if failed
         """
-        if not text or not text.strip():
+        normalized_text = (text or "").strip()
+        if not normalized_text:
             log_print("WARN", "Empty text for TTS", session_id=self.session_id)
             return None
 
@@ -84,9 +90,27 @@ class TTSClient:
             log_print("ERROR", "Voice ID not set", session_id=self.session_id)
             return None
 
+        cache_key = (
+            self.voice_id,
+            self.model_id,
+            language or "en",
+            normalized_text,
+        )
+        with self._cache_lock:
+            cached = self._synth_cache.get(cache_key)
+            if cached is not None:
+                self._synth_cache.move_to_end(cache_key)
+                log_print(
+                    "DEBUG",
+                    "TTS cache hit",
+                    session_id=self.session_id,
+                    chars=len(normalized_text),
+                )
+                return cached
+
         payload = {
             "model_id": self.model_id,
-            "transcript": text,
+            "transcript": normalized_text,
             "voice": {
                 "mode": "id",
                 "id": self.voice_id,
@@ -117,7 +141,12 @@ class TTSClient:
             if response.status_code == 200:
                 audio_bytes = response.content
                 # Save TTS result to file
-                self._save_tts_audio(audio_bytes, text)
+                self._save_tts_audio(audio_bytes, normalized_text)
+                with self._cache_lock:
+                    self._synth_cache[cache_key] = audio_bytes
+                    self._synth_cache.move_to_end(cache_key)
+                    while len(self._synth_cache) > TTS_CACHE_MAX_ITEMS:
+                        self._synth_cache.popitem(last=False)
                 log_print(
                     "INFO",
                     f"TTS synthesis successful, {len(audio_bytes)} bytes",
@@ -277,6 +306,21 @@ class TTSClient:
             return True
         return False
 
+    def queue_audio_bytes(self, audio_bytes: bytes, text: str = "") -> bool:
+        """Queue already synthesized audio bytes."""
+        if not audio_bytes:
+            return False
+        with self._queue_lock:
+            self.audio_queue.append((audio_bytes, text))
+            queue_size = len(self.audio_queue)
+        log_print(
+            "INFO",
+            f"Prebuilt TTS queued: {text[:50]}...",
+            session_id=self.session_id,
+            queue_size=queue_size,
+        )
+        return True
+
     def queue_audio_async(self, text: str, language: str = "en") -> None:
         """Synthesize TTS asynchronously and add to queue.
 
@@ -374,6 +418,7 @@ class TTSClient:
             args=(to_play, emit_done),
             daemon=True,
         )
+        self._play_thread = thread
         thread.start()
         return True
 
@@ -446,6 +491,7 @@ class TTSClient:
                     pass
 
             self.is_playing = False
+            self._play_thread = None
             if emit_done:
                 self.sio.emit("tts_done")
 
@@ -488,16 +534,33 @@ class TTSClient:
             )
         return count
 
-    def stop_playback(self) -> None:
-        """Stop current playback and clear queued audio."""
+    def stop_playback(self, wait: bool = False, timeout_sec: float = 0.8) -> None:
+        """Stop current playback and clear queued audio.
+
+        Args:
+            wait: If True, wait briefly for active playback thread to exit
+            timeout_sec: Max wait time when wait=True
+        """
         self._stop_playback_event.set()
         cleared = self.clear_queue()
+        stopped = None
+        thread = self._play_thread
+        if (
+            wait
+            and thread is not None
+            and thread.is_alive()
+            and threading.current_thread() is not thread
+        ):
+            thread.join(timeout=max(0.0, timeout_sec))
+            stopped = not thread.is_alive()
         log_print(
             "INFO",
             "TTS stop requested",
             session_id=self.session_id,
             cleared=cleared,
             is_playing=self.is_playing,
+            wait=wait,
+            stopped=stopped,
         )
 
     def get_queue_size(self) -> int:
