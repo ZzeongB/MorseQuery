@@ -288,7 +288,7 @@ MISSED SUMMARY: "{summary}"
 
 # REASON Guidelines
 - REASON must be ONE short phrase (2-4 words max).
-- Examples: "key detail", "bad timing", "no context", "speaker paused"
+- Examples: "key detail", "bad timing. Focus on current speech.", "No important information missed.", "speaker paused"
 
 # Output (exactly one line)
 Q1=<YES|NO>;Q2=<YES|NO>;FINAL=<YES|NO>;REASON=<2-4 word phrase>

@@ -165,6 +165,27 @@ def api_devices():
     return jsonify(devices)
 
 
+@app.route("/api/output_devices")
+def api_output_devices():
+    """Return list of available audio output devices."""
+    with _pyaudio_lock:
+        pa = pyaudio.PyAudio()
+        devices = []
+
+        for i in range(pa.get_device_count()):
+            info = pa.get_device_info_by_index(i)
+            if info["maxOutputChannels"] > 0:
+                devices.append({
+                    "index": i,
+                    "name": info["name"],
+                    "channels": info["maxOutputChannels"],
+                })
+
+        pa.terminate()
+    log_print("INFO", f"Found {len(devices)} output devices")
+    return jsonify(devices)
+
+
 def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]):
     """Background thread to monitor mic levels using PyAudio."""
     global _mic_monitor_running, _mic_monitor_streams
@@ -445,7 +466,6 @@ def handle_start(data: dict):
         if context_judge:
             context_judge.stop()
             context_judge = None
-        keyword_tts_client = TTSClient(sio, session_id=f"{session_id}_keyword_tts")
         with _judge_batch_lock:
             _judge_batch.clear()
             _judge_completed_segments.clear()
@@ -456,6 +476,18 @@ def handle_start(data: dict):
         keyword_mic = data.get("keyword_mic")  # int or None
         summary_mics = data.get("summary_mics", [])  # list of ints
         voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
+        keyword_voice_id = data.get("keyword_voice_id")  # voice ID for keyword TTS
+        tts_output_device = data.get("tts_output_device")  # output device index for TTS
+
+        # Create keyword TTS client (uses default voice if not specified)
+        keyword_tts_kwargs = {
+            "socketio": sio,
+            "session_id": f"{session_id}_keyword_tts",
+            "output_device_index": tts_output_device,
+        }
+        if keyword_voice_id:
+            keyword_tts_kwargs["voice_id"] = keyword_voice_id
+        keyword_tts_client = TTSClient(**keyword_tts_kwargs)
 
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})
@@ -499,6 +531,7 @@ def handle_start(data: dict):
                 enable_tts=bool(voice_id),
                 mic_id=f"summary_{i}",
                 voice_id=voice_id,
+                output_device_index=tts_output_device,
             )
             summary_clients.append(sc)
             sc.start()
@@ -612,7 +645,7 @@ def handle_grounding(data: dict):
 
 @sio.on("keyword_tts")
 def handle_keyword_tts(data: dict):
-    """Synthesize keyword definition audio and emit to frontend."""
+    """Synthesize keyword definition audio and play on server."""
     session_id = request.sid
     text = str((data or {}).get("text", "")).strip()
     if not text:
@@ -623,7 +656,12 @@ def handle_keyword_tts(data: dict):
     if not tts:
         return
 
-    tts.synthesize_async(text, event_name="keyword_tts", language="en")
+    # Queue and play immediately on server side (uses output_device_index)
+    def _synthesize_and_play():
+        if tts.queue_audio(text, language="en"):
+            tts.play_queued(reason="keyword", emit_done=False)
+
+    threading.Thread(target=_synthesize_and_play, daemon=True).start()
     log_print("INFO", "keyword_tts requested", session_id=session_id, chars=len(text))
 
 

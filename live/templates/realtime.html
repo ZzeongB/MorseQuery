@@ -419,6 +419,11 @@
                         <select id="keywordMic"></select>
                         <div class="mic-level"><div class="mic-level-bar" id="keywordMicLevel"></div></div>
                     </div>
+                    <input type="text" id="keywordVoice" class="voice-input" placeholder="Voice ID (empty = no TTS)" value="67192626-0be9-4f45-b660-580d318c994d">
+                </div>
+                <div class="mic-select-item">
+                    <label>TTS Output</label>
+                    <select id="ttsOutput"></select>
                 </div>
             </div>
         </div>
@@ -564,6 +569,7 @@
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
+        let availableOutputDevices = [];
         const micSelectIds = ['summaryMic1', 'summaryMic2', 'keywordMic'];
 
         // Noise gate calibration
@@ -693,6 +699,25 @@
             } catch (e) {
                 console.error('Failed to fetch devices:', e);
             }
+        }
+
+        // Fetch and populate output devices
+        async function fetchOutputDevices() {
+            try {
+                const resp = await fetch('/api/output_devices');
+                availableOutputDevices = await resp.json();
+                populateOutputSelect();
+            } catch (e) {
+                console.error('Failed to fetch output devices:', e);
+            }
+        }
+
+        function populateOutputSelect() {
+            const sel = document.getElementById('ttsOutput');
+            sel.innerHTML = '<option value="">Default</option>';
+            availableOutputDevices.forEach(d => {
+                sel.innerHTML += `<option value="${d.index}">[${d.index}] ${d.name}</option>`;
+            });
         }
 
         function populateMicSelects() {
@@ -909,6 +934,7 @@
             initHeightSlider();
             // Fetch devices since default source is mic
             fetchDevices();
+            fetchOutputDevices();
         });
 
         // Update on window resize
@@ -1246,9 +1272,13 @@
                 const s2 = document.getElementById('summaryMic2').value;
                 const v1 = document.getElementById('voice1').value;
                 const v2 = document.getElementById('voice2').value;
+                const kwVoice = document.getElementById('keywordVoice').value;
+                const ttsOut = document.getElementById('ttsOutput').value;
                 params.keyword_mic = kw ? parseInt(kw) : null;
                 params.summary_mics = [s1, s2].filter(x => x).map(x => parseInt(x));
                 params.voice_ids = [v1, v2];
+                params.keyword_voice_id = kwVoice || null;
+                params.tts_output_device = ttsOut ? parseInt(ttsOut) : null;
 
                 // Noise gate settings
                 if (noiseGateEnabled) {
@@ -1458,11 +1488,19 @@
 
         document.addEventListener('keydown', e => {
             if (e.repeat) return;
+            // Allow normal input behavior in text fields
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
             // Prevent default for all keys to avoid browser actions
             e.preventDefault();
         });
 
         document.addEventListener('keyup', e => {
+            // Allow normal input behavior in text fields
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
             // Accept any key input
             handleTap();
         });

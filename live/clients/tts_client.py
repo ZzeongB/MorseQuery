@@ -36,11 +36,13 @@ class TTSClient:
         session_id: str = "default",
         voice_id: str = DEFAULT_VOICE_ID,
         model_id: str = DEFAULT_MODEL_ID,
+        output_device_index: Optional[int] = None,
     ):
         self.sio = socketio
         self.session_id = session_id
         self.voice_id = voice_id
         self.model_id = model_id
+        self.output_device_index = output_device_index
 
         # Audio queue for deferred playback
         self.audio_queue: list[tuple[bytes, str]] = []  # (audio_bytes, text)
@@ -57,6 +59,7 @@ class TTSClient:
             "TTSClient created",
             session_id=session_id,
             voice_id=voice_id,
+            output_device_index=output_device_index,
         )
 
     def synthesize(self, text: str, language: str = "en") -> Optional[bytes]:
@@ -75,6 +78,10 @@ class TTSClient:
 
         if not CARTESIA_API_KEY:
             log_print("ERROR", "CARTESIA_API_KEY not set", session_id=self.session_id)
+            return None
+
+        if not self.voice_id:
+            log_print("ERROR", "Voice ID not set", session_id=self.session_id)
             return None
 
         payload = {
@@ -384,12 +391,15 @@ class TTSClient:
 
         try:
             pa = pyaudio.PyAudio()
-            stream = pa.open(
-                format=pyaudio.paInt16,
-                channels=TTS_CHANNELS,
-                rate=TTS_SAMPLE_RATE,
-                output=True,
-            )
+            open_kwargs = {
+                "format": pyaudio.paInt16,
+                "channels": TTS_CHANNELS,
+                "rate": TTS_SAMPLE_RATE,
+                "output": True,
+            }
+            if self.output_device_index is not None:
+                open_kwargs["output_device_index"] = self.output_device_index
+            stream = pa.open(**open_kwargs)
 
             for audio_bytes, text in audio_list:
                 if self._stop_playback_event.is_set():

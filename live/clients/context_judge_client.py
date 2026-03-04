@@ -82,7 +82,8 @@ class ContextJudgeClient:
 
         # Parallel TTS/judgment state
         self._state_lock = threading.Lock()
-        self.tts_ready: bool = False  # TTS synthesis completed
+        self.tts_ready_count: int = 0  # Number of TTS clients that have finished
+        self.tts_expected_count: int = len(self.tts_clients)  # Expected TTS ready callbacks
         self.judge_decided: bool = False  # Judge has made a decision
         self.judge_approved: bool = False  # Judge decision (True=play, False=skip)
         self.judge_reason: str = ""  # Judge reason
@@ -127,7 +128,8 @@ class ContextJudgeClient:
 
         # Reset parallel state for new segment
         with self._state_lock:
-            self.tts_ready = False
+            self.tts_ready_count = 0
+            self.tts_expected_count = len(self.tts_clients)
             self.judge_decided = False
             self.judge_approved = False
             self.judge_reason = ""
@@ -220,7 +222,8 @@ class ContextJudgeClient:
 
         # Reset state for new judgment
         with self._state_lock:
-            self.tts_ready = False
+            self.tts_ready_count = 0
+            self.tts_expected_count = len(self.tts_clients)
             self.judge_decided = False
             self.judge_approved = False
             self.judge_reason = ""
@@ -243,7 +246,8 @@ class ContextJudgeClient:
                 self.judge_decided = True
                 self.judge_approved = False
                 self.judge_reason = reason
-                should_clear_tts = self.tts_ready
+                # If any TTS already queued/ready, clear immediately
+                should_clear_tts = self.tts_ready_count > 0
 
             # If TTS already queued/ready, clear immediately to prevent stale playback.
             if should_clear_tts:
@@ -341,7 +345,8 @@ class ContextJudgeClient:
     def on_tts_ready(self, success: bool) -> None:
         """Called when TTS synthesis completes (callback from TTSClient).
 
-        If judge already approved, plays immediately.
+        Waits for ALL TTS clients to be ready before playing.
+        If judge already approved and all TTS ready, plays immediately.
         If judge already rejected, clears queue.
         If judge pending, waits for judge decision.
 
@@ -364,17 +369,31 @@ class ContextJudgeClient:
             return
 
         with self._state_lock:
-            self.tts_ready = True
+            self.tts_ready_count += 1
+            all_tts_ready = self.tts_ready_count >= self.tts_expected_count
+
+            log_print(
+                "INFO",
+                f"TTS ready count: {self.tts_ready_count}/{self.tts_expected_count}",
+                session_id=self.session_id,
+            )
 
             if self.judge_decided:
                 # Judge already made a decision
                 if self.judge_approved:
-                    log_print(
-                        "INFO",
-                        "TTS ready + judge approved -> playing",
-                        session_id=self.session_id,
-                    )
-                    self._play_tts(self.judge_reason)
+                    if all_tts_ready:
+                        log_print(
+                            "INFO",
+                            "All TTS ready + judge approved -> playing",
+                            session_id=self.session_id,
+                        )
+                        self._play_tts(self.judge_reason)
+                    else:
+                        log_print(
+                            "INFO",
+                            f"TTS ready ({self.tts_ready_count}/{self.tts_expected_count}), waiting for remaining TTS",
+                            session_id=self.session_id,
+                        )
                 else:
                     log_print(
                         "INFO",
@@ -386,7 +405,7 @@ class ContextJudgeClient:
                 # Judge still pending, TTS will wait
                 log_print(
                     "INFO",
-                    "TTS ready, waiting for judge decision",
+                    f"TTS ready ({self.tts_ready_count}/{self.tts_expected_count}), waiting for judge decision",
                     session_id=self.session_id,
                 )
 
@@ -490,6 +509,7 @@ class ContextJudgeClient:
             self.judge_decided = True
             self.judge_approved = approved
             self.judge_reason = reason
+            all_tts_ready = self.tts_ready_count >= self.tts_expected_count
 
             if approved:
                 log_print(
@@ -501,22 +521,23 @@ class ContextJudgeClient:
                     "judge_approved",
                     reason=reason,
                     segment_id=self.pending_segment_id,
-                    tts_ready=self.tts_ready,
+                    tts_ready_count=self.tts_ready_count,
+                    tts_expected_count=self.tts_expected_count,
                 )
 
-                if self.tts_ready:
-                    # TTS already ready, play immediately
+                if all_tts_ready:
+                    # All TTS already ready, play immediately
                     log_print(
                         "INFO",
-                        "Judge approved + TTS ready -> playing",
+                        "Judge approved + all TTS ready -> playing",
                         session_id=self.session_id,
                     )
                     self._play_tts(reason)
                 else:
-                    # TTS not ready, will play when on_tts_ready is called
+                    # TTS not ready, will play when all on_tts_ready callbacks complete
                     log_print(
                         "INFO",
-                        "Judge approved, waiting for TTS",
+                        f"Judge approved, waiting for TTS ({self.tts_ready_count}/{self.tts_expected_count})",
                         session_id=self.session_id,
                     )
 
@@ -538,11 +559,12 @@ class ContextJudgeClient:
                     "judge_rejected",
                     reason=reason,
                     segment_id=self.pending_segment_id,
-                    tts_ready=self.tts_ready,
+                    tts_ready_count=self.tts_ready_count,
+                    tts_expected_count=self.tts_expected_count,
                 )
 
-                if self.tts_ready:
-                    # TTS already ready, clear queue
+                if self.tts_ready_count > 0:
+                    # Some TTS already ready, clear queue
                     log_print(
                         "INFO",
                         "Judge rejected + TTS ready -> clearing queue",

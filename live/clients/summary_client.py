@@ -37,12 +37,14 @@ class SummaryClient:
         enable_tts: bool = True,
         mic_id: str = "summary",
         voice_id: str | None = None,
+        output_device_index: int | None = None,
     ):
         self.sio = socketio
         self.session_id = session_id
         self.device_indices = device_indices or []
         self.mic_id = mic_id
         self.voice_id = voice_id
+        self.output_device_index = output_device_index
 
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
@@ -78,7 +80,12 @@ class SummaryClient:
         # TTS client
         self.enable_tts = enable_tts
         if enable_tts and voice_id:
-            self.tts_client = TTSClient(socketio, session_id, voice_id=voice_id)
+            self.tts_client = TTSClient(
+                socketio,
+                session_id,
+                voice_id=voice_id,
+                output_device_index=output_device_index,
+            )
         else:
             self.tts_client = None
 
@@ -93,12 +100,14 @@ class SummaryClient:
             devices=device_indices,
             tts_enabled=enable_tts,
             voice_id=voice_id,
+            output_device_index=output_device_index,
         )
         self.logger.log(
             "summary_client_created",
             devices=device_indices,
             tts_enabled=enable_tts,
             voice_id=voice_id,
+            output_device_index=output_device_index,
         )
 
     # -------------------------
