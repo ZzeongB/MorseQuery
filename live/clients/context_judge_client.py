@@ -2,9 +2,8 @@
 
 This client continuously streams audio to OpenAI Realtime API and judges
 whether a summary TTS should be played based on:
-1. Catch-up Value: Does the missed content have important information?
-2. Context Relevance: Is the summary related to current discussion?
-3. Interrupt Timing: Is this a good moment to interrupt?
+1. Catch-up Value (Q1): Does the missed content have important information?
+2. Interrupt Timing (Q3): Is this a good moment to interrupt?
 
 TTS and judgment run in parallel for reduced latency:
 - If TTS ready first: wait for judge, play if approved
@@ -12,10 +11,12 @@ TTS and judgment run in parallel for reduced latency:
 """
 
 import base64
+import io
 import json
 import re
 import threading
 import time
+import wave
 from typing import Optional
 
 import pyaudio
@@ -571,45 +572,41 @@ class ContextJudgeClient:
             valid_format=False means the output did not follow supported formats.
         """
         # JSON format fallback:
-        # {"Q1":"YES","Q2":"NO","Q3":"YES","FINAL":"YES","REASON":"..."}
+        # {"Q1":"YES","Q3":"YES","FINAL":"YES","REASON":"..."}
         try:
             parsed = json.loads(response)
             if isinstance(parsed, dict):
                 q1_raw = str(parsed.get("Q1", "")).upper()
-                q2_raw = str(parsed.get("Q2", "")).upper()
                 q3_raw = str(parsed.get("Q3", "")).upper()
                 final_raw = str(parsed.get("FINAL", "")).upper()
                 reason = str(parsed.get("REASON", "")).strip()
 
                 if (
                     q1_raw in ("YES", "NO")
-                    and q2_raw in ("YES", "NO")
                     and q3_raw in ("YES", "NO")
                     and final_raw in ("YES", "NO")
                 ):
                     q1 = q1_raw == "YES"
-                    q2 = q2_raw == "YES"
                     q3 = q3_raw == "YES"
                     final = final_raw == "YES"
 
-                    yes_count = sum([q1, q2, q3])
-                    expected_final = yes_count >= 2
+                    # FINAL=YES when BOTH Q1 AND Q3 are YES
+                    expected_final = q1 and q3
                     approved = expected_final
                     if final != expected_final:
                         reason = (
-                            f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                            f"Inconsistent FINAL. Parsed reason: {reason}"
                             if reason
-                            else "Inconsistent FINAL with 2-of-3 rule."
+                            else "Inconsistent FINAL."
                         )
                     return approved, reason, True
         except Exception:
             pass
 
         # Strict format:
-        # Q1=YES;Q2=NO;Q3=YES;FINAL=NO;REASON=...
+        # Q1=YES;Q3=YES;FINAL=NO;REASON=...
         strict_pattern = (
             r"Q1\s*=\s*(YES|NO)\s*;\s*"
-            r"Q2\s*=\s*(YES|NO)\s*;\s*"
             r"Q3\s*=\s*(YES|NO)\s*;\s*"
             r"FINAL\s*=\s*(YES|NO)\s*;\s*"
             r"REASON\s*=\s*(.+)$"
@@ -617,30 +614,27 @@ class ContextJudgeClient:
         strict_match = re.match(strict_pattern, response, re.IGNORECASE)
         if strict_match:
             q1 = strict_match.group(1).upper() == "YES"
-            q2 = strict_match.group(2).upper() == "YES"
-            q3 = strict_match.group(3).upper() == "YES"
-            final = strict_match.group(4).upper() == "YES"
-            reason = strict_match.group(5).strip()
+            q3 = strict_match.group(2).upper() == "YES"
+            final = strict_match.group(3).upper() == "YES"
+            reason = strict_match.group(4).strip()
 
-            # Enforce consistency with rule: FINAL=YES when at least 2 are YES
-            yes_count = sum([q1, q2, q3])
-            expected_final = yes_count >= 2
+            # FINAL=YES when BOTH Q1 AND Q3 are YES
+            expected_final = q1 and q3
             approved = expected_final
             if final != expected_final:
                 reason = (
-                    f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                    f"Inconsistent FINAL. Parsed reason: {reason}"
                     if reason
-                    else "Inconsistent FINAL with 2-of-3 rule."
+                    else "Inconsistent FINAL."
                 )
             return approved, reason, True
 
         # Tolerant key-value fallback for malformed JSON/kv responses.
         # Examples handled:
-        # {"Q1":YES,"Q2":YES,"Q3":NO,"FINAL=YES,"REASON=..."}
-        # Q1:YES, Q2:YES, Q3:NO, FINAL:YES, REASON:...
+        # {"Q1":YES,"Q3":NO,"FINAL=YES,"REASON=..."}
+        # Q1:YES, Q3:NO, FINAL:YES, REASON:...
         upper_response = response.upper()
         q1_match = re.search(r"\bQ1\b[^A-Z]*(YES|NO)\b", upper_response)
-        q2_match = re.search(r"\bQ2\b[^A-Z]*(YES|NO)\b", upper_response)
         q3_match = re.search(r"\bQ3\b[^A-Z]*(YES|NO)\b", upper_response)
         final_match = re.search(r"\bFINAL\b[^A-Z]*(YES|NO)\b", upper_response)
 
@@ -651,21 +645,20 @@ class ContextJudgeClient:
         if reason_match:
             reason = reason_match.group(1).strip()
 
-        if q1_match and q2_match and q3_match:
+        if q1_match and q3_match:
             q1 = q1_match.group(1) == "YES"
-            q2 = q2_match.group(1) == "YES"
             q3 = q3_match.group(1) == "YES"
-            yes_count = sum([q1, q2, q3])
-            expected_final = yes_count >= 2
+            # FINAL=YES when BOTH Q1 AND Q3 are YES
+            expected_final = q1 and q3
             approved = expected_final
 
             if final_match:
                 final = final_match.group(1) == "YES"
                 if final != expected_final:
                     reason = (
-                        f"Inconsistent FINAL with 2-of-3 rule. Parsed reason: {reason}"
+                        f"Inconsistent FINAL. Parsed reason: {reason}"
                         if reason
-                        else "Inconsistent FINAL with 2-of-3 rule."
+                        else "Inconsistent FINAL."
                     )
 
             return approved, reason, True
@@ -699,32 +692,98 @@ class ContextJudgeClient:
             self._tts_play_thread.start()
 
     def _play_tts_sequential(self, reason: str) -> None:
-        """Play queued TTS from multiple clients sequentially (no overlap)."""
-        # Keep looping until all clients are drained (handles late arrivals)
-        while not self._shutdown_event.is_set():
-            played_any = False
-            for idx, client in enumerate(self.tts_clients):
-                if self._shutdown_event.is_set():
-                    return
-                if not client.has_queued_audio():
-                    continue
-                played_any = True
-                # Pass emit_done=False so individual clients don't emit tts_done
-                started = client.play_queued(
-                    reason=f"judge_approved[{idx}]: {reason}",
-                    emit_done=False,
-                )
-                if not started:
-                    continue
-                while client.is_playing and not self._shutdown_event.is_set():
-                    time.sleep(0.05)
-            # If nothing was played this round, we're done
-            if not played_any:
-                break
+        """Play queued TTS from multiple clients with no gap.
 
-        # Emit tts_done once after ALL clients are done
+        Collects all audio from all TTS clients first, then plays through
+        a single PyAudio stream to eliminate gaps between items.
+        """
+        # 1. Collect all audio from all TTS clients
+        all_audio: list[tuple[bytes, str]] = []
+        for client in self.tts_clients:
+            with client._queue_lock:
+                all_audio.extend(client.audio_queue)
+                client.audio_queue.clear()
+
+        if not all_audio:
+            log_print(
+                "DEBUG",
+                "No audio collected for playback",
+                session_id=self.session_id,
+            )
+            return
+
+        log_print(
+            "INFO",
+            f"Playing {len(all_audio)} TTS items with single stream",
+            session_id=self.session_id,
+            reason=reason,
+        )
+
+        # 2. Play all audio through a single PyAudio stream (no gap)
+        pa = None
+        stream = None
+        try:
+            pa = pyaudio.PyAudio()
+            stream = pa.open(
+                format=pyaudio.paInt16,
+                channels=1,
+                rate=24000,  # TTS_SAMPLE_RATE
+                output=True,
+            )
+
+            for audio_bytes, text in all_audio:
+                if self._shutdown_event.is_set():
+                    break
+                pcm_data = self._extract_pcm_from_wav(audio_bytes)
+                if pcm_data:
+                    # Write in chunks so stop requests can interrupt
+                    chunk_size = 4096
+                    for i in range(0, len(pcm_data), chunk_size):
+                        if self._shutdown_event.is_set():
+                            break
+                        stream.write(pcm_data[i : i + chunk_size])
+                    log_print(
+                        "DEBUG",
+                        f"Played TTS: {text[:30]}...",
+                        session_id=self.session_id,
+                    )
+
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"PyAudio playback error: {e}",
+                session_id=self.session_id,
+            )
+        finally:
+            if stream:
+                try:
+                    stream.stop_stream()
+                    stream.close()
+                except Exception:
+                    pass
+            if pa:
+                try:
+                    pa.terminate()
+                except Exception:
+                    pass
+
+        # Emit tts_done once after ALL audio is done
         if not self._shutdown_event.is_set():
             self.sio.emit("tts_done")
+
+    def _extract_pcm_from_wav(self, wav_bytes: bytes) -> Optional[bytes]:
+        """Extract raw PCM data from WAV bytes."""
+        try:
+            with io.BytesIO(wav_bytes) as wav_io:
+                with wave.open(wav_io, "rb") as wav_file:
+                    return wav_file.readframes(wav_file.getnframes())
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Failed to extract PCM from WAV: {e}",
+                session_id=self.session_id,
+            )
+            return None
 
     def _clear_tts(self) -> None:
         """Clear queued TTS audio."""

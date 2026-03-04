@@ -12,6 +12,7 @@ import threading
 import time
 from typing import Optional
 
+import numpy as np
 import pyaudio
 
 from clients import RealtimeClient, SummaryClient
@@ -23,6 +24,10 @@ _mic_monitor_streams: dict[int, tuple[pyaudio.Stream, pyaudio.PyAudio]] = {}
 _mic_monitor_lock = threading.Lock()
 _mic_monitor_running = False
 _mic_monitor_thread: Optional[threading.Thread] = None
+
+# Noise gate calibration monitoring
+_noise_gate_monitor_running = False
+_noise_gate_monitor_thread: Optional[threading.Thread] = None
 from config import TEMPLATES_DIR
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
@@ -250,6 +255,113 @@ def stop_mic_monitor():
         _mic_monitor_thread = None
 
 
+def _noise_gate_monitor_loop(device_indices: list[int], mic_ids: list[str]):
+    """Background thread to monitor mic RMS for noise gate calibration."""
+    global _noise_gate_monitor_running
+
+    CHUNK = 1024
+    RATE = 24000
+    FORMAT = pyaudio.paInt16
+
+    # Build mapping: device_idx -> mic_id
+    device_to_mic: dict[int, str] = {}
+    for device_idx, mic_id in zip(device_indices, mic_ids):
+        device_to_mic[device_idx] = mic_id
+
+    streams = []
+
+    try:
+        # Open streams for each unique device
+        for device_idx in device_to_mic.keys():
+            try:
+                pa = pyaudio.PyAudio()
+                stream = pa.open(
+                    format=FORMAT,
+                    channels=1,
+                    rate=RATE,
+                    input=True,
+                    input_device_index=device_idx,
+                    frames_per_buffer=CHUNK,
+                )
+                streams.append((device_idx, stream, pa))
+                log_print("INFO", f"Noise gate monitor opened for device {device_idx}")
+            except Exception as e:
+                log_print("ERROR", f"Failed to open noise gate monitor for device {device_idx}: {e}")
+
+        while _noise_gate_monitor_running and streams:
+            levels = {}
+            for device_idx, stream, pa in streams:
+                try:
+                    data = stream.read(CHUNK, exception_on_overflow=False)
+                    # Calculate RMS
+                    audio_data = np.frombuffer(data, dtype=np.int16)
+                    rms = float(np.sqrt(np.mean(audio_data.astype(np.float64) ** 2)))
+                    mic_id = device_to_mic.get(device_idx)
+                    if mic_id:
+                        levels[mic_id] = rms
+                except Exception as e:
+                    log_print("ERROR", f"Noise gate monitor read error: {e}")
+
+            if levels:
+                sio.emit("noise_gate_levels", levels)
+
+            sio.sleep(0.05)  # 50ms interval
+
+    except Exception as e:
+        log_print("ERROR", f"Noise gate monitor failed: {e}")
+    finally:
+        for device_idx, stream, pa in streams:
+            try:
+                stream.stop_stream()
+                stream.close()
+                pa.terminate()
+            except:
+                pass
+        log_print("INFO", "Noise gate monitor stopped")
+
+
+def start_noise_gate_monitor(device_indices: list[int], mic_ids: list[str]):
+    """Start monitoring mic RMS for noise gate calibration."""
+    global _noise_gate_monitor_running, _noise_gate_monitor_thread
+
+    stop_noise_gate_monitor()
+    time.sleep(0.1)
+
+    _noise_gate_monitor_running = True
+    _noise_gate_monitor_thread = sio.start_background_task(
+        _noise_gate_monitor_loop, device_indices, mic_ids
+    )
+    log_print("INFO", f"Starting noise gate monitor for devices {device_indices}")
+
+
+def stop_noise_gate_monitor():
+    """Stop noise gate calibration monitoring."""
+    global _noise_gate_monitor_running, _noise_gate_monitor_thread
+
+    _noise_gate_monitor_running = False
+    if _noise_gate_monitor_thread:
+        _noise_gate_monitor_thread = None
+
+
+@sio.on("start_noise_gate_monitor")
+def handle_start_noise_gate_monitor(data: dict):
+    """Start noise gate calibration monitoring."""
+    session_id = request.sid
+    device_indices = data.get("device_indices", [])
+    mic_ids = data.get("mic_ids", [])
+    if device_indices:
+        log_print("INFO", f"Start noise gate monitor: devices={device_indices}, mics={mic_ids}", session_id=session_id)
+        start_noise_gate_monitor(device_indices, mic_ids)
+
+
+@sio.on("stop_noise_gate_monitor")
+def handle_stop_noise_gate_monitor():
+    """Stop noise gate calibration monitoring."""
+    session_id = request.sid
+    log_print("INFO", "Stop noise gate monitor", session_id=session_id)
+    stop_noise_gate_monitor()
+
+
 @sio.on("start_mic_monitor")
 def handle_start_mic_monitor(data: dict):
     """Start mic level monitoring for selected devices."""
@@ -285,8 +397,9 @@ def handle_disconnect():
     logger = get_logger(session_id)
     logger.log("client_disconnected")
 
-    # Stop mic monitor
+    # Stop mic monitors
     stop_mic_monitor()
+    stop_noise_gate_monitor()
 
     # Stop running clients when user disconnects (e.g., page refresh)
     with _clients_lock:
@@ -314,6 +427,7 @@ def handle_start(data: dict):
 
     # Stop mic monitor when session starts
     stop_mic_monitor()
+    stop_noise_gate_monitor()
 
     with _clients_lock:
         if client:
@@ -337,7 +451,37 @@ def handle_start(data: dict):
         summary_mics = data.get("summary_mics", [])  # list of ints
         voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
 
-        client = RealtimeClient(sio, source, session_id, device_index=keyword_mic)
+        # Noise gate settings
+        noise_gate_data = data.get("noise_gate", {})
+        enable_noise_gate = noise_gate_data.get("enabled", False)
+        noise_gate_config = None
+        if enable_noise_gate:
+            from clients.audio_filter import NoiseGateConfig
+            threshold = noise_gate_data.get("threshold", 500)
+            # Calculate margin_multiplier based on threshold
+            # We set noise_floor to threshold/2 and margin to 2.0 so threshold = noise_floor * 2
+            noise_gate_config = NoiseGateConfig(
+                min_threshold=threshold,  # Use threshold directly as min
+                margin_multiplier=1.0,    # Direct threshold mode
+            )
+            log_print(
+                "INFO",
+                f"Noise gate enabled with threshold={threshold}",
+                session_id=session_id,
+            )
+
+        client = RealtimeClient(
+            sio,
+            source,
+            session_id,
+            device_index=keyword_mic,
+            enable_noise_gate=enable_noise_gate,
+            noise_gate_config=noise_gate_config,
+        )
+
+        # If noise gate is enabled with fixed threshold, set it
+        if enable_noise_gate and client.noise_gate:
+            client.set_noise_threshold(noise_gate_data.get("threshold", 500))
 
         # Create one SummaryClient per summary mic
         for i, mic_idx in enumerate(summary_mics):

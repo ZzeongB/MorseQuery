@@ -27,6 +27,31 @@
         .mic-level { width: 60px; height: 8px; background: #222; border-radius: 4px; overflow: hidden; }
         .mic-level-bar { height: 100%; background: #4ade80; width: 0%; transition: width 0.05s; }
 
+        /* Noise gate calibration */
+        .noise-gate-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #333; }
+        .noise-gate-container { display: flex; flex-direction: column; gap: 12px; max-width: 400px; }
+        .noise-gate-meter { position: relative; height: 30px; background: #111; border-radius: 6px; overflow: hidden; }
+        .noise-gate-level { position: absolute; left: 0; top: 0; height: 100%; background: linear-gradient(90deg, #22c55e 0%, #4ade80 60%, #fbbf24 80%, #ef4444 100%); transition: width 0.05s; }
+        .noise-gate-threshold { position: absolute; top: 0; height: 100%; width: 3px; background: #fff; cursor: ew-resize; z-index: 10; transition: left 0.05s; }
+        .noise-gate-threshold::before { content: ''; position: absolute; top: -8px; left: -6px; width: 15px; height: 15px; background: #fff; border-radius: 50%; }
+        .noise-gate-threshold::after { content: ''; position: absolute; bottom: -8px; left: -6px; width: 15px; height: 15px; background: #fff; border-radius: 50%; }
+        .noise-gate-filtered-zone { position: absolute; left: 0; top: 0; height: 100%; background: rgba(239, 68, 68, 0.2); pointer-events: none; }
+        .noise-gate-info { display: flex; justify-content: space-between; font-size: 12px; color: #888; }
+        .noise-gate-info span { min-width: 80px; }
+        .noise-gate-info .current { color: #4ade80; font-weight: 600; }
+        .noise-gate-info .threshold { color: #fff; font-weight: 600; }
+        .noise-gate-status { display: flex; gap: 8px; align-items: center; font-size: 12px; }
+        .noise-gate-status .gate-state { padding: 4px 10px; border-radius: 12px; font-weight: 500; }
+        .noise-gate-status .gate-state.open { background: #22c55e; color: #000; }
+        .noise-gate-status .gate-state.closed { background: #ef4444; color: #fff; }
+        .noise-gate-toggle { display: flex; gap: 8px; align-items: center; }
+        .noise-gate-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: #4ade80; }
+        .noise-gate-toggle label { font-size: 13px; color: #ccc; cursor: pointer; }
+        .noise-gate-mic-label { font-size: 11px; color: #888; margin-top: 8px; margin-bottom: 4px; }
+        .noise-gate-mic-label:first-of-type { margin-top: 0; }
+        .noise-gate-threshold-control { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #333; }
+        .noise-gate-threshold-control input[type="range"] { flex: 1; accent-color: #4ade80; }
+
         /* Main layout */
         #main-content { display: none; width: 100%; padding: 20px; padding-bottom: 50px; padding-right: 320px; }
 
@@ -431,6 +456,52 @@
             <span class="height-label" id="heightLabel">Bottom</span>
         </div>
 
+        <!-- Noise Gate Calibration -->
+        <div class="source-select noise-gate-section" id="noiseGateSection">
+            <div class="noise-gate-toggle">
+                <input type="checkbox" id="noiseGateEnabled" onchange="toggleNoiseGate()">
+                <label for="noiseGateEnabled">Noise Gate (filter background noise)</label>
+            </div>
+            <div class="noise-gate-container" id="noiseGateContainer" style="display: none;">
+                <!-- Summary 1 meter -->
+                <div class="noise-gate-mic-label">Summary 1</div>
+                <div class="noise-gate-meter" id="noiseGateMeter1">
+                    <div class="noise-gate-filtered-zone" id="noiseGateFilteredZone1"></div>
+                    <div class="noise-gate-level" id="noiseGateLevel1"></div>
+                    <div class="noise-gate-threshold" id="noiseGateThreshold1"></div>
+                </div>
+                <div class="noise-gate-info">
+                    <span>Current: <span class="current" id="noiseGateCurrentLevel1">0</span></span>
+                    <span class="noise-gate-status">
+                        <span class="gate-state closed" id="noiseGateState1">CLOSED</span>
+                    </span>
+                </div>
+
+                <!-- Summary 2 meter -->
+                <div class="noise-gate-mic-label">Summary 2</div>
+                <div class="noise-gate-meter" id="noiseGateMeter2">
+                    <div class="noise-gate-filtered-zone" id="noiseGateFilteredZone2"></div>
+                    <div class="noise-gate-level" id="noiseGateLevel2"></div>
+                    <div class="noise-gate-threshold" id="noiseGateThreshold2"></div>
+                </div>
+                <div class="noise-gate-info">
+                    <span>Current: <span class="current" id="noiseGateCurrentLevel2">0</span></span>
+                    <span class="noise-gate-status">
+                        <span class="gate-state closed" id="noiseGateState2">CLOSED</span>
+                    </span>
+                </div>
+
+                <!-- Shared threshold control -->
+                <div class="noise-gate-threshold-control">
+                    <span>Threshold: <span class="threshold" id="noiseGateThresholdValue">300</span></span>
+                    <input type="range" id="noiseGateThresholdSlider" min="0" max="5000" value="300" oninput="updateNoiseGateThresholdFromSlider()">
+                </div>
+                <div style="font-size: 11px; color: #666;">
+                    Drag slider or click meter to set threshold. Audio below threshold will be filtered.
+                </div>
+            </div>
+        </div>
+
         <button onclick="start('all')">Start</button>
     </div>
 
@@ -494,6 +565,124 @@
         let isDragging = false;
         let availableDevices = [];
         const micSelectIds = ['summaryMic1', 'summaryMic2', 'keywordMic'];
+
+        // Noise gate calibration
+        let noiseGateEnabled = false;
+        let noiseGateThreshold = 300;  // RMS value (0-32768 scale)
+        let noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
+        const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
+
+        function toggleNoiseGate() {
+            noiseGateEnabled = document.getElementById('noiseGateEnabled').checked;
+            const container = document.getElementById('noiseGateContainer');
+            container.style.display = noiseGateEnabled ? 'flex' : 'none';
+
+            if (noiseGateEnabled) {
+                // Start monitoring summary mics for calibration
+                startNoiseGateMonitor();
+                initNoiseGateMetersClick();
+            } else {
+                stopNoiseGateMonitor();
+            }
+        }
+
+        function startNoiseGateMonitor() {
+            const sum1Select = document.getElementById('summaryMic1');
+            const sum2Select = document.getElementById('summaryMic2');
+            const deviceIndices = [];
+            const micIds = [];
+
+            if (sum1Select.value) {
+                deviceIndices.push(parseInt(sum1Select.value));
+                micIds.push('sum1');
+            }
+            if (sum2Select.value) {
+                deviceIndices.push(parseInt(sum2Select.value));
+                micIds.push('sum2');
+            }
+
+            if (deviceIndices.length > 0) {
+                socket.emit('start_noise_gate_monitor', { device_indices: deviceIndices, mic_ids: micIds });
+            }
+        }
+
+        function stopNoiseGateMonitor() {
+            socket.emit('stop_noise_gate_monitor');
+        }
+
+        function updateNoiseGateUI(micId, rms) {
+            const suffix = micId === 'sum1' ? '1' : '2';
+            noiseGateCurrentRMS[micId] = rms;
+
+            // Update level bar (percentage of max scale)
+            const levelPercent = Math.min(100, (rms / NOISE_GATE_MAX_RMS) * 100);
+            const levelEl = document.getElementById('noiseGateLevel' + suffix);
+            if (levelEl) levelEl.style.width = levelPercent + '%';
+
+            // Update current level text
+            const currentEl = document.getElementById('noiseGateCurrentLevel' + suffix);
+            if (currentEl) currentEl.textContent = Math.round(rms);
+
+            // Update gate state
+            const isOpen = rms >= noiseGateThreshold;
+            const stateEl = document.getElementById('noiseGateState' + suffix);
+            if (stateEl) {
+                stateEl.textContent = isOpen ? 'OPEN' : 'CLOSED';
+                stateEl.className = 'gate-state ' + (isOpen ? 'open' : 'closed');
+            }
+        }
+
+        function updateNoiseGateThresholdUI() {
+            // Update threshold position on both meters
+            const thresholdPercent = Math.min(100, (noiseGateThreshold / NOISE_GATE_MAX_RMS) * 100);
+
+            ['1', '2'].forEach(suffix => {
+                const thresholdEl = document.getElementById('noiseGateThreshold' + suffix);
+                const filteredEl = document.getElementById('noiseGateFilteredZone' + suffix);
+                if (thresholdEl) thresholdEl.style.left = thresholdPercent + '%';
+                if (filteredEl) filteredEl.style.width = thresholdPercent + '%';
+            });
+
+            document.getElementById('noiseGateThresholdValue').textContent = Math.round(noiseGateThreshold);
+            document.getElementById('noiseGateThresholdSlider').value = noiseGateThreshold;
+
+            // Update gate states with new threshold
+            updateNoiseGateUI('sum1', noiseGateCurrentRMS.sum1);
+            updateNoiseGateUI('sum2', noiseGateCurrentRMS.sum2);
+        }
+
+        function updateNoiseGateThresholdFromSlider() {
+            noiseGateThreshold = parseInt(document.getElementById('noiseGateThresholdSlider').value);
+            updateNoiseGateThresholdUI();
+        }
+
+        function initNoiseGateMetersClick() {
+            // Allow clicking on meters to set threshold
+            ['1', '2'].forEach(suffix => {
+                const meter = document.getElementById('noiseGateMeter' + suffix);
+                if (meter) {
+                    meter.onclick = function(e) {
+                        const rect = meter.getBoundingClientRect();
+                        const relativeX = e.clientX - rect.left;
+                        const percentage = Math.max(0, Math.min(100, (relativeX / rect.width) * 100));
+                        noiseGateThreshold = (percentage / 100) * NOISE_GATE_MAX_RMS;
+                        updateNoiseGateThresholdUI();
+                    };
+                }
+            });
+
+            // Initialize UI
+            updateNoiseGateThresholdUI();
+        }
+
+        // Receive noise gate monitor levels
+        socket.on('noise_gate_levels', data => {
+            if (noiseGateEnabled) {
+                for (const [micId, rms] of Object.entries(data)) {
+                    updateNoiseGateUI(micId, rms);
+                }
+            }
+        });
 
         // Fetch and populate mic devices
         async function fetchDevices() {
@@ -846,7 +1035,9 @@
             hideLoadingIndicator();
             hideSummaryText();
             pendingSummaryTexts = [];
-            showSkippedIndicator('Summary not needed');
+            // Show specific reason why summary is not needed
+            const reason = data.reason || 'Summary not needed';
+            showSkippedIndicator(reason);
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
@@ -926,7 +1117,7 @@
             console.error('Keyword TTS error:', data.error);
         });
 
-        function cancelSummaryPlayback() {
+        function stopTtsPlayback() {
             // Cancel server-side queued/playing TTS
             socket.emit('cancel_tts');
 
@@ -942,6 +1133,7 @@
                 try { URL.revokeObjectURL(currentTtsUrl); } catch (e) {}
                 currentTtsUrl = null;
             }
+            // Clear queue
             while (ttsQueue.length > 0) {
                 const item = ttsQueue.shift();
                 if (item && item.url) {
@@ -949,6 +1141,10 @@
                 }
             }
             ttsPlaying = false;
+        }
+
+        function cancelSummaryPlayback() {
+            stopTtsPlayback();
             summaryRequested = false;
             summaryInProgress = false;
             awaitingJudgeDecision = false;
@@ -1040,6 +1236,7 @@
 
             // Stop mic level monitors when starting session
             stopAllMicMonitors();
+            stopNoiseGateMonitor();
 
             // Build start params with mic selections
             const params = { source: source };
@@ -1052,6 +1249,14 @@
                 params.keyword_mic = kw ? parseInt(kw) : null;
                 params.summary_mics = [s1, s2].filter(x => x).map(x => parseInt(x));
                 params.voice_ids = [v1, v2];
+
+                // Noise gate settings
+                if (noiseGateEnabled) {
+                    params.noise_gate = {
+                        enabled: true,
+                        threshold: noiseGateThreshold
+                    };
+                }
             }
             socket.emit('start', params);
         }
@@ -1196,7 +1401,8 @@
                     return;
                 }
                 if (infoVisible && options.length > 0) {
-                    // Second double tap - dismiss keywords and request summary
+                    // Second double tap - stop audio, dismiss keywords and request summary
+                    stopTtsPlayback();
                     showDismissIndicator();
                     dismissKeywords();
                 } else {
@@ -1222,6 +1428,8 @@
                 setTimeout(() => {
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                         if (options.length > 0) {
+                            // Stop current audio and move to next keyword
+                            stopTtsPlayback();
                             currentIdx = (currentIdx + 1) % options.length;
                             render();
                         }

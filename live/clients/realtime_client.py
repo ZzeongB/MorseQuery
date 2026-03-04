@@ -21,6 +21,7 @@ from flask_socketio import SocketIO
 from logger import get_logger, log_print
 from pydub import AudioSegment
 
+from .audio_filter import AdaptiveNoiseGate, NoiseGateConfig
 from .prompt import KEYWORD_EXTRACTION_PROMPT, KEYWORD_SESSION_INSTRUCTIONS
 
 
@@ -33,6 +34,8 @@ class RealtimeClient:
         source: str = "mp3",
         session_id: str = "default",
         device_index: int | None = None,
+        enable_noise_gate: bool = False,
+        noise_gate_config: NoiseGateConfig | None = None,
     ):
         self.sio = socketio
         self.source = source
@@ -41,6 +44,8 @@ class RealtimeClient:
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
         self.chunks_sent = 0
+        self.chunks_filtered = 0  # Chunks filtered by noise gate
+        self.chunks_since_last_request = 0  # Track audio since last request
         self.response_buffer = ""
         self.logger = get_logger(session_id)
         self.extracted_keywords: list[str] = []  # Track previously extracted keywords
@@ -57,14 +62,27 @@ class RealtimeClient:
         # Reference to summary clients for forwarding transcripts
         self.summary_clients: list = []
 
+        # Noise gate for filtering ambient audio
+        self.enable_noise_gate = enable_noise_gate
+        self.noise_gate: AdaptiveNoiseGate | None = None
+        if enable_noise_gate:
+            config = noise_gate_config or NoiseGateConfig(
+                sample_rate=AUDIO_RATE,
+                chunk_size=AUDIO_CHUNK,
+            )
+            self.noise_gate = AdaptiveNoiseGate(config=config, session_id=session_id)
+
         log_print(
             "INFO",
             "RealtimeClient created",
             session_id=session_id,
             source=source,
             device=device_index,
+            noise_gate=enable_noise_gate,
         )
-        self.logger.log("client_created", source=source, device=device_index)
+        self.logger.log(
+            "client_created", source=source, device=device_index, noise_gate=enable_noise_gate
+        )
 
     def set_summary_clients(self, clients: list) -> None:
         """Set reference to SummaryClients for transcript forwarding.
@@ -394,6 +412,16 @@ class RealtimeClient:
                     )
                     continue
 
+                # Apply noise gate if enabled
+                if self.noise_gate:
+                    if not self.noise_gate.process(chunk):
+                        # Audio filtered - skip sending
+                        self.chunks_filtered += 1
+                        # Emit gate status periodically
+                        if self.chunks_filtered % 50 == 0:
+                            self.sio.emit("noise_gate_status", self.noise_gate.get_status())
+                        continue
+
                 if not self._send_audio_chunk(chunk):
                     if self._shutdown_event.is_set():
                         break
@@ -404,6 +432,9 @@ class RealtimeClient:
                         f"Audio chunks sent: {self.chunks_sent}",
                         session_id=self.session_id,
                     )
+                    # Emit gate status with chunk stats
+                    if self.noise_gate:
+                        self.sio.emit("noise_gate_status", self.noise_gate.get_status())
 
         except Exception as e:
             log_print("ERROR", f"Mic stream error: {e}", session_id=self.session_id)
@@ -545,6 +576,7 @@ class RealtimeClient:
                     )
                 )
                 self.chunks_sent += 1
+                self.chunks_since_last_request += 1
                 return True
             except Exception:
                 return False
@@ -556,15 +588,23 @@ class RealtimeClient:
             time.time() - self.stream_start_time if self.stream_start_time else 0.0
         )
 
+        has_new_audio = self.chunks_since_last_request >= 1
+
         log_print(
             "INFO",
             "Requesting keyword extraction",
             session_id=self.session_id,
             chunks_so_far=self.chunks_sent,
+            chunks_since_last=self.chunks_since_last_request,
+            has_new_audio=has_new_audio,
             elapsed_sec=elapsed_sec,
         )
         self.logger.log(
-            "keyword_request", chunks_so_far=self.chunks_sent, elapsed_sec=elapsed_sec
+            "keyword_request",
+            chunks_so_far=self.chunks_sent,
+            chunks_since_last=self.chunks_since_last_request,
+            has_new_audio=has_new_audio,
+            elapsed_sec=elapsed_sec,
         )
 
         # Track user action with timing
@@ -588,8 +628,9 @@ class RealtimeClient:
             return
 
         try:
-            # Commit current audio buffer
-            ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+            # Only commit if there's new audio (avoids "buffer too small" error)
+            if has_new_audio:
+                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
 
             # Build prompt with previously extracted keywords to avoid repetition
             prompt = KEYWORD_EXTRACTION_PROMPT
@@ -609,12 +650,80 @@ class RealtimeClient:
                 )
             )
 
-            # Clear buffer after commit to analyze only new audio next time
-            ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
+            # Clear buffer and reset counter only if we committed new audio
+            if has_new_audio:
+                ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
+                self.chunks_since_last_request = 0
         except Exception as e:
             log_print(
                 "ERROR", f"request() send failed: {e}", session_id=self.session_id
             )
+
+    # --------------------------
+    # Noise Gate Control Methods
+    # --------------------------
+
+    def start_noise_calibration(self) -> bool:
+        """Start noise gate calibration.
+
+        Returns:
+            True if calibration started, False if noise gate not enabled
+        """
+        if not self.noise_gate:
+            return False
+        self.noise_gate.start_calibration()
+        self.sio.emit("noise_gate_calibrating", {"status": "started"})
+        return True
+
+    def stop_noise_calibration(self) -> dict | None:
+        """Stop noise gate calibration and get results.
+
+        Returns:
+            Calibration results dict, or None if noise gate not enabled
+        """
+        if not self.noise_gate:
+            return None
+        results = self.noise_gate.stop_calibration()
+        self.sio.emit("noise_gate_calibrating", {"status": "stopped", "results": results})
+        return results
+
+    def set_noise_threshold(self, threshold: float | None) -> bool:
+        """Set noise gate threshold manually.
+
+        Args:
+            threshold: Fixed threshold value, or None to use adaptive
+
+        Returns:
+            True if set, False if noise gate not enabled
+        """
+        if not self.noise_gate:
+            return False
+        self.noise_gate.set_threshold_override(threshold)
+        return True
+
+    def update_noise_gate_config(self, **kwargs) -> bool:
+        """Update noise gate configuration.
+
+        Args:
+            **kwargs: Config parameters to update
+
+        Returns:
+            True if updated, False if noise gate not enabled
+        """
+        if not self.noise_gate:
+            return False
+        self.noise_gate.update_config(**kwargs)
+        return True
+
+    def get_noise_gate_status(self) -> dict | None:
+        """Get current noise gate status.
+
+        Returns:
+            Status dict, or None if noise gate not enabled
+        """
+        if not self.noise_gate:
+            return None
+        return self.noise_gate.get_status()
 
     def start(self) -> None:
         """Start the realtime client."""
@@ -623,10 +732,16 @@ class RealtimeClient:
         self._shutdown_event.clear()
         self.running = True
         self.chunks_sent = 0
+        self.chunks_filtered = 0  # Reset filtered count
+        self.chunks_since_last_request = 0  # Reset for new session
         self.extracted_keywords = []  # Reset for new session
         self.user_actions = []  # Reset user actions
         self.stream_start_time = 0.0  # Reset stream start time
         self.recording_buffer = []  # Reset recording
+
+        # Reset noise gate if enabled
+        if self.noise_gate:
+            self.noise_gate.reset()
 
         with self._ws_lock:
             self.ws = websocket.WebSocketApp(
@@ -645,8 +760,24 @@ class RealtimeClient:
 
     def stop(self) -> None:
         """Stop the realtime client."""
-        log_print("INFO", "Stopping RealtimeClient", session_id=self.session_id)
-        self.logger.log("client_stop", total_chunks=self.chunks_sent)
+        # Log noise gate stats if enabled
+        gate_stats = None
+        if self.noise_gate:
+            gate_stats = self.noise_gate.get_status()
+
+        log_print(
+            "INFO",
+            "Stopping RealtimeClient",
+            session_id=self.session_id,
+            chunks_sent=self.chunks_sent,
+            chunks_filtered=self.chunks_filtered,
+        )
+        self.logger.log(
+            "client_stop",
+            total_chunks=self.chunks_sent,
+            filtered_chunks=self.chunks_filtered,
+            noise_gate_stats=gate_stats,
+        )
         was_running = self.running
         self.running = False
         self._shutdown_event.set()
