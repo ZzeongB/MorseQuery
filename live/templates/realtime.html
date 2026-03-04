@@ -181,21 +181,64 @@
             opacity: 0;
         }
 
-        /* Optional summary text display during TTS playback */
-        .summary-text {
+        /* Speech bubbles for summaries */
+        .summary-bubbles {
             display: none;
-            margin-bottom: 14px;
-            max-width: 700px;
-            padding: 10px 14px;
-            border: 1px solid #334155;
-            border-radius: 10px;
-            background: rgba(148, 163, 184, 0.12);
-            color: #e2e8f0;
-            line-height: 1.45;
-            font-size: 14px;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 16px;
+            max-width: 600px;
         }
-        .summary-text.active {
+        .summary-bubbles.active {
+            display: flex;
+        }
+        .speech-bubble {
+            display: none;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.4;
+            max-width: 80%;
+            position: relative;
+        }
+        .speech-bubble.active {
             display: block;
+        }
+        /* Left bubble (Summary 1) */
+        .speech-bubble.left {
+            align-self: flex-start;
+            background: #334155;
+            color: #fff;
+            border-bottom-left-radius: 4px;
+        }
+        .speech-bubble.left::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-top-color: #334155;
+            border-right-color: #334155;
+        }
+        /* Right bubble (Summary 2) */
+        .speech-bubble.right {
+            align-self: flex-end;
+            background: #334155;
+            color: #fff;
+            border-bottom-right-radius: 4px;
+        }
+        .speech-bubble.right::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -6px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-top-color: #334155;
+            border-left-color: #334155;
         }
 
         /* Height position selector */
@@ -417,9 +460,11 @@
             <span class="label">Searching</span>
         </div>
 
-        <!-- Dismiss indicator -->
-        <div class="dismiss-indicator" id="dismissIndicator">Dismissed</div>
-        <div class="summary-text" id="summaryText"></div>
+        <!-- Summary speech bubbles -->
+        <div class="summary-bubbles" id="summaryBubbles">
+            <div class="speech-bubble left" id="summaryBubble1"></div>
+            <div class="speech-bubble right" id="summaryBubble2"></div>
+        </div>
 
         <div class="options-list" id="optionsList"></div>
     </div>
@@ -443,6 +488,8 @@
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
+        let inferencingTimer = null;
+        const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
@@ -554,7 +601,7 @@
             if (!enabled) {
                 hideSummaryText();
             } else if (summaryInProgress && pendingSummaryTexts.length > 0) {
-                showSummaryText(pendingSummaryTexts.join(' / '));
+                showSummaryText();
             }
         }
 
@@ -679,7 +726,13 @@
         window.addEventListener('resize', applyWidgetHeight);
 
         socket.on('keywords', data => {
+            // Clear inferencing timeout
+            if (inferencingTimer) {
+                clearTimeout(inferencingTimer);
+                inferencingTimer = null;
+            }
             if (!Array.isArray(data) || data.length === 0) {
+                hideLoadingIndicator();
                 return;
             }
             hideLoadingIndicator();
@@ -763,7 +816,7 @@
             // TTS is playing - hide summarizing indicator
             hideLoadingIndicator();
             if (pendingSummaryTexts.length > 0) {
-                showSummaryText(pendingSummaryTexts.join(' / '));
+                showSummaryText();
             }
         });
 
@@ -840,6 +893,11 @@
             // Hide summarizing indicator when TTS audio arrives
             hideLoadingIndicator();
             summaryInProgress = true;
+
+            // Show speech bubbles during TTS playback
+            if (pendingSummaryTexts.length > 0) {
+                showSummaryText();
+            }
 
             // Decode base64 audio
             enqueueTtsAudio(data.audio);
@@ -1061,19 +1119,45 @@
             }
         }
 
-        function showSummaryText(text) {
-            if (!showSummaryTextEnabled || !text) return;
-            const el = document.getElementById('summaryText');
-            if (!el) return;
-            el.textContent = `Summary: ${text}`;
-            el.classList.add('active');
+        function showSummaryText() {
+            if (!showSummaryTextEnabled || pendingSummaryTexts.length === 0) return;
+            const container = document.getElementById('summaryBubbles');
+            const bubble1 = document.getElementById('summaryBubble1');
+            const bubble2 = document.getElementById('summaryBubble2');
+            if (!container || !bubble1 || !bubble2) return;
+
+            // Show first summary in left bubble
+            if (pendingSummaryTexts[0]) {
+                bubble1.textContent = pendingSummaryTexts[0];
+                bubble1.classList.add('active');
+            } else {
+                bubble1.classList.remove('active');
+            }
+
+            // Show second summary in right bubble
+            if (pendingSummaryTexts[1]) {
+                bubble2.textContent = pendingSummaryTexts[1];
+                bubble2.classList.add('active');
+            } else {
+                bubble2.classList.remove('active');
+            }
+
+            container.classList.add('active');
         }
 
         function hideSummaryText() {
-            const el = document.getElementById('summaryText');
-            if (!el) return;
-            el.textContent = '';
-            el.classList.remove('active');
+            const container = document.getElementById('summaryBubbles');
+            const bubble1 = document.getElementById('summaryBubble1');
+            const bubble2 = document.getElementById('summaryBubble2');
+            if (container) container.classList.remove('active');
+            if (bubble1) {
+                bubble1.textContent = '';
+                bubble1.classList.remove('active');
+            }
+            if (bubble2) {
+                bubble2.textContent = '';
+                bubble2.classList.remove('active');
+            }
         }
 
         function requestKeywordTts(items) {
@@ -1121,6 +1205,14 @@
                     socket.emit('start_listening');
                     socket.emit('request');
                     showLoadingIndicator('Inferring');
+
+                    // Set timeout for inferencing
+                    if (inferencingTimer) clearTimeout(inferencingTimer);
+                    inferencingTimer = setTimeout(() => {
+                        hideLoadingIndicator();
+                        showSkippedIndicator('No keywords found');
+                        inferencingTimer = null;
+                    }, INFERENCING_TIMEOUT_MS);
                 }
                 lastSpace = 0;
             } else {

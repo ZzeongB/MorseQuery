@@ -700,16 +700,31 @@ class ContextJudgeClient:
 
     def _play_tts_sequential(self, reason: str) -> None:
         """Play queued TTS from multiple clients sequentially (no overlap)."""
-        for idx, client in enumerate(self.tts_clients):
-            if self._shutdown_event.is_set():
+        # Keep looping until all clients are drained (handles late arrivals)
+        while not self._shutdown_event.is_set():
+            played_any = False
+            for idx, client in enumerate(self.tts_clients):
+                if self._shutdown_event.is_set():
+                    return
+                if not client.has_queued_audio():
+                    continue
+                played_any = True
+                # Pass emit_done=False so individual clients don't emit tts_done
+                started = client.play_queued(
+                    reason=f"judge_approved[{idx}]: {reason}",
+                    emit_done=False,
+                )
+                if not started:
+                    continue
+                while client.is_playing and not self._shutdown_event.is_set():
+                    time.sleep(0.05)
+            # If nothing was played this round, we're done
+            if not played_any:
                 break
-            if not client.has_queued_audio():
-                continue
-            started = client.play_queued(reason=f"judge_approved[{idx}]: {reason}")
-            if not started:
-                continue
-            while client.is_playing and not self._shutdown_event.is_set():
-                time.sleep(0.05)
+
+        # Emit tts_done once after ALL clients are done
+        if not self._shutdown_event.is_set():
+            self.sio.emit("tts_done")
 
     def _clear_tts(self) -> None:
         """Clear queued TTS audio."""

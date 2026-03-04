@@ -34,38 +34,29 @@ Never guess unseen/unsaid terms.
 - Follow per-request output format exactly.
 """
 
-KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from recently committed audio only.
+KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from recently committed audio.
+
+MANDATORY: You MUST output at least 1 keyword. Output 0 keywords is FORBIDDEN.
 
 Rules:
-- You MUST output AT LEAST 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
-- If 2 or 3 clearly spoken technical terms exist, you MUST output 2 or 3.
-- Never output 0 keywords.
-- Keywords must be clearly spoken (no guessing).
-- English only. Noun phrases or technical terms only.
-- Do not repeat keywords already output in this session.
-- Each explanation MUST be 20–30 words.
-- Do NOT exceed 20 words under any circumstance.
-- Keep definitions minimal and direct.
-- Strictly output in the following format, with no extra text:
+- Output 1 to 3 keywords. Always output at least 1.
+- If you heard ANY noun at all, output it as a keyword.
+- Prefer technical terms, but common nouns are acceptable if no technical terms exist.
+- English only.
+- Each explanation: 15–25 words.
+- Do not repeat keywords from this session.
 
-Order:
-- Most recently mentioned first; prefer more difficult/technical terms.
+Format (strict):
+<keyword>: <one sentence explanation>
 
-Format:
-<keyword>: <one concise sentence (max 30 words)>
+Example:
+AI: Artificial Intelligence refers to computer systems designed to perform tasks requiring human intelligence.
+Machine Learning: A subfield of AI enabling systems to learn from experience without explicit programming.
 
-VALID Example:
-AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence.
-Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed.
-
-INVALID EXAMPLES (DO NOT DO THIS):
-- "It sounds like they are talking about economics"  ❌ (inference)
-- "trade policy" without it being spoken ❌ (guessing)
-- "interesting point" ❌ (vague)
-- Keyword - description ❌ (wrong format)
-- {"event": "keyword", "definition": "..."} ❌ (wrong format)
-- AI: Artificial Intelligence ❌ (too short, needs full sentence)
-- keywords: [AI, machine learning] ❌ (wrong format, no explanations)
+FORBIDDEN:
+- Outputting 0 keywords ❌
+- Meta-commentary like "I heard them talking about..." ❌
+- JSON or structured data ❌
 """
 
 KEYWORD_FALLBACK_PROMPT = """You MUST output exactly ONE keyword from the audio.
@@ -103,8 +94,8 @@ Do nothing else.
 English only.
 
 # Length
-Maximum 12 words.
-One sentence only.
+Maximum 8 words.
+One short phrase only.
 
 # Conversation Flow
 Wait silently.
@@ -119,7 +110,7 @@ Never make up content or guess at what was said.
 - Output ONLY plain English sentences.
 - NEVER output JSON, timestamps, code, or structured data.
 - NEVER output {"start_time", "end_time"} or any JSON format.
-- Maximum 12 words per summary.
+- Maximum 8 words per summary.
 - If audio is empty or unclear, output exactly: ...
 
 You will receive audio segments. Output what the listener must know now to keep up.
@@ -133,7 +124,7 @@ Summarize ONLY the speaker's utterance between start and end signals.
 Do NOT summarize anything outside those signals.
 
 # Requirements (ALL must be satisfied)
-- Length: Maximum 12 words and exactly one sentence.
+- Length: Maximum 8 words. Short phrase only.
 - Goal: Help the listener rejoin the current discussion immediately.
 - Meaning: Keep only the most important actionable or context-critical point.
 - Priority: Include new key facts/decisions/constraints; drop background detail.
@@ -157,12 +148,12 @@ If the segment is unclear, trivial, or non-essential for catch-up, output exactl
 Original:
 "Over the past decade, we've seen how rapidly social media platforms can shape public opinion, sometimes amplifying extreme views, and I worry that without stronger oversight, these platforms might unintentionally undermine democratic processes."
 Output:
-"Social media can amplify extremes and undermine democracy."
+"Social media may undermine democracy."
 
 Original:
 "Let's move the deadline to Friday because legal review isn't done yet."
 Output:
-"Deadline moved to Friday because legal review is pending."
+"Deadline moved to Friday."
 
 # Empty String Example
 Original:

@@ -4,11 +4,12 @@ import base64
 import io
 import threading
 import wave
+from datetime import datetime
 from typing import Callable, Optional
 
 import pyaudio
 import requests
-from config import CARTESIA_API_KEY
+from config import CARTESIA_API_KEY, TTS_LOG_DIR
 from flask_socketio import SocketIO
 from logger import log_print
 
@@ -46,6 +47,10 @@ class TTSClient:
         self._queue_lock = threading.Lock()
         self.is_playing = False
         self._stop_playback_event = threading.Event()
+
+        # TTS logging
+        self._tts_counter = 0
+        self._tts_counter_lock = threading.Lock()
 
         log_print(
             "INFO",
@@ -85,7 +90,7 @@ class TTSClient:
                 "sample_rate": 24000,
             },
             "language": language,
-            "generation_config": {"volume": 1, "speed": 1.15, "emotion": "neutral"},
+            "generation_config": {"volume": 1, "speed": 1.2, "emotion": "neutral"},
         }
 
         headers = {
@@ -103,12 +108,15 @@ class TTSClient:
             )
 
             if response.status_code == 200:
+                audio_bytes = response.content
+                # Save TTS result to file
+                self._save_tts_audio(audio_bytes, text)
                 log_print(
                     "INFO",
-                    f"TTS synthesis successful, {len(response.content)} bytes",
+                    f"TTS synthesis successful, {len(audio_bytes)} bytes",
                     session_id=self.session_id,
                 )
-                return response.content
+                return audio_bytes
             else:
                 log_print(
                     "ERROR",
@@ -121,6 +129,58 @@ class TTSClient:
             log_print(
                 "ERROR",
                 f"TTS request failed: {e}",
+                session_id=self.session_id,
+            )
+            return None
+
+    def _save_tts_audio(self, audio_bytes: bytes, text: str) -> Optional[str]:
+        """Save TTS audio to logs/tts/ directory.
+
+        Filename format: YYYYMMDD_HHMMSS_sessionid_ttsid.wav
+
+        Args:
+            audio_bytes: WAV format audio bytes
+            text: Original text that was synthesized
+
+        Returns:
+            Path to saved file, or None if failed
+        """
+        try:
+            # Get next TTS ID
+            with self._tts_counter_lock:
+                self._tts_counter += 1
+                tts_id = self._tts_counter
+
+            # Generate filename
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"{timestamp}_{self.session_id}_{tts_id:04d}.wav"
+            filepath = TTS_LOG_DIR / filename
+
+            # Save audio file
+            with open(filepath, "wb") as f:
+                f.write(audio_bytes)
+
+            # Save metadata alongside
+            meta_filepath = TTS_LOG_DIR / f"{timestamp}_{self.session_id}_{tts_id:04d}.txt"
+            with open(meta_filepath, "w", encoding="utf-8") as f:
+                f.write(f"Text: {text}\n")
+                f.write(f"Session: {self.session_id}\n")
+                f.write(f"TTS ID: {tts_id}\n")
+                f.write(f"Timestamp: {timestamp}\n")
+                f.write(f"Size: {len(audio_bytes)} bytes\n")
+
+            log_print(
+                "INFO",
+                f"TTS saved: {filename}",
+                session_id=self.session_id,
+                tts_id=tts_id,
+            )
+            return str(filepath)
+
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"Failed to save TTS audio: {e}",
                 session_id=self.session_id,
             )
             return None
@@ -240,6 +300,7 @@ class TTSClient:
             callback: Function called with True if queued successfully, False otherwise
             language: Language code
         """
+
         def _synthesize_and_callback():
             success = self.queue_audio(text, language)
             try:
@@ -257,11 +318,12 @@ class TTSClient:
         )
         thread.start()
 
-    def play_queued(self, reason: str = "") -> bool:
+    def play_queued(self, reason: str = "", emit_done: bool = True) -> bool:
         """Play all queued audio using PyAudio (server-side playback).
 
         Args:
             reason: Optional reason for playing (for logging)
+            emit_done: Whether to emit tts_done when playback finishes
 
         Returns:
             True if audio was played, False if queue was empty or already playing
@@ -302,17 +364,20 @@ class TTSClient:
         # Play in background thread
         thread = threading.Thread(
             target=self._play_audio_list,
-            args=(to_play,),
+            args=(to_play, emit_done),
             daemon=True,
         )
         thread.start()
         return True
 
-    def _play_audio_list(self, audio_list: list[tuple[bytes, str]]) -> None:
+    def _play_audio_list(
+        self, audio_list: list[tuple[bytes, str]], emit_done: bool = True
+    ) -> None:
         """Play a list of audio bytes using PyAudio.
 
         Args:
             audio_list: List of (audio_bytes, text) tuples
+            emit_done: Whether to emit tts_done when playback finishes
         """
         pa = None
         stream = None
@@ -371,7 +436,8 @@ class TTSClient:
                     pass
 
             self.is_playing = False
-            self.sio.emit("tts_done")
+            if emit_done:
+                self.sio.emit("tts_done")
 
     def _extract_pcm_from_wav(self, wav_bytes: bytes) -> Optional[bytes]:
         """Extract raw PCM data from WAV bytes.

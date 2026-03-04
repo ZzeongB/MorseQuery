@@ -19,8 +19,10 @@ DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_002.mp3"
 # Paths
 BASE_DIR = Path(__file__).parent
 LOG_DIR = BASE_DIR / "logs"
+TTS_LOG_DIR = LOG_DIR / "tts"
 TEMPLATES_DIR = BASE_DIR / "templates"
 
 # Ensure directories exist
 LOG_DIR.mkdir(exist_ok=True)
+TTS_LOG_DIR.mkdir(exist_ok=True)
 TEMPLATES_DIR.mkdir(exist_ok=True)
