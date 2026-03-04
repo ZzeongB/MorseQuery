@@ -703,6 +703,46 @@ def handle_keyword_tts(data: dict):
     log_print("INFO", "keyword_tts requested", session_id=session_id, chars=len(text))
 
 
+@sio.on("keyword_tts_preload")
+def handle_keyword_tts_preload(data: dict):
+    """Pre-synthesize keyword TTS and keep it in cache (no playback)."""
+    session_id = request.sid
+    payload = data or {}
+    texts = payload.get("texts", [])
+    if not isinstance(texts, list):
+        return
+
+    # Normalize + dedupe while preserving order.
+    unique_texts = []
+    seen = set()
+    for raw in texts:
+        text = str(raw or "").strip()
+        if not text or text in seen:
+            continue
+        seen.add(text)
+        unique_texts.append(text)
+
+    if not unique_texts:
+        return
+
+    with _clients_lock:
+        tts = keyword_tts_client
+    if not tts:
+        return
+
+    def _preload():
+        for text in unique_texts:
+            tts.synthesize(text, language="en")
+        log_print(
+            "INFO",
+            "keyword_tts preloaded",
+            session_id=session_id,
+            count=len(unique_texts),
+        )
+
+    threading.Thread(target=_preload, daemon=True).start()
+
+
 @sio.on("cancel_keyword_tts")
 def handle_cancel_keyword_tts():
     """Cancel keyword TTS only (do not affect summary flow)."""

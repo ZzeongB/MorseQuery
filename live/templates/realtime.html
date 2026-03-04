@@ -565,6 +565,7 @@
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
         let keywordTtsPlaying = false; // Track if keyword TTS is playing
+        let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
         let inferencingTimer = null;
         const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
         let widgetHeight = 0; // 0 = bottom, 100 = top
@@ -964,6 +965,9 @@
             render();
             infoVisible = true;
 
+            // Preload TTS for loaded keywords so selection can play immediately.
+            preloadKeywordTtsForItems(data);
+
             if (keywordOutputMode === 'audio') {
                 // Keep UI selection and first auto-play target consistent.
                 playCurrentKeywordTts();
@@ -983,6 +987,7 @@
             summaryRequested = false;
             summaryInProgress = false;
             keywordTtsPlaying = false;
+            keywordTtsPreloadedTexts.clear();
             pendingSummaryTexts = [];
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
@@ -1426,6 +1431,26 @@
                 const desc = (item.desc || '').trim();
                 if (!word || !desc) continue;
                 socket.emit('keyword_tts', { text: `${word}. ${desc}` });
+            }
+        }
+
+        function preloadKeywordTtsForItems(items) {
+            if (!Array.isArray(items) || items.length === 0) return;
+
+            const texts = [];
+            for (const item of items) {
+                const word = (item.word || '').trim();
+                const desc = (item.desc || '').trim();
+                if (!word || !desc) continue;
+
+                const text = `${word}. ${desc}`;
+                if (keywordTtsPreloadedTexts.has(text)) continue;
+                keywordTtsPreloadedTexts.add(text);
+                texts.push(text);
+            }
+
+            if (texts.length > 0) {
+                socket.emit('keyword_tts_preload', { texts });
             }
         }
 
