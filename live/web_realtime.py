@@ -667,9 +667,14 @@ def handle_keyword_tts(data: dict):
 
 @sio.on("cancel_tts")
 def handle_cancel_tts():
-    """Cancel pending/playing summary TTS."""
+    """Cancel pending/playing TTS (both keyword and summary)."""
     session_id = request.sid
     with _clients_lock:
+        # Cancel keyword TTS
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback()
+
+        # Cancel summary TTS
         if context_judge:
             context_judge.cancel_tts(reason="doubleclick_cancel")
         else:

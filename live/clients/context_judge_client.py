@@ -721,10 +721,14 @@ class ContextJudgeClient:
         """
         # 1. Collect all audio from all TTS clients
         all_audio: list[tuple[bytes, str]] = []
+        output_device_index = None
         for client in self.tts_clients:
             with client._queue_lock:
                 all_audio.extend(client.audio_queue)
                 client.audio_queue.clear()
+            # Use the first client's output_device_index
+            if output_device_index is None and client.output_device_index is not None:
+                output_device_index = client.output_device_index
 
         if not all_audio:
             log_print(
@@ -741,17 +745,23 @@ class ContextJudgeClient:
             reason=reason,
         )
 
+        # Emit tts_playing event to show summary bubbles
+        self.sio.emit("tts_playing", {"reason": reason, "count": len(all_audio)})
+
         # 2. Play all audio through a single PyAudio stream (no gap)
         pa = None
         stream = None
         try:
             pa = pyaudio.PyAudio()
-            stream = pa.open(
-                format=pyaudio.paInt16,
-                channels=1,
-                rate=24000,  # TTS_SAMPLE_RATE
-                output=True,
-            )
+            open_kwargs = {
+                "format": pyaudio.paInt16,
+                "channels": 1,
+                "rate": 24000,  # TTS_SAMPLE_RATE
+                "output": True,
+            }
+            if output_device_index is not None:
+                open_kwargs["output_device_index"] = output_device_index
+            stream = pa.open(**open_kwargs)
 
             for audio_bytes, text in all_audio:
                 if self._shutdown_event.is_set():

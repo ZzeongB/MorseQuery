@@ -564,6 +564,7 @@
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
+        let keywordTtsPlaying = false; // Track if keyword TTS is playing
         let inferencingTimer = null;
         const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
         let widgetHeight = 0; // 0 = bottom, 100 = top
@@ -980,6 +981,7 @@
             infoVisible = false;
             summaryRequested = false;
             summaryInProgress = false;
+            keywordTtsPlaying = false;
             pendingSummaryTexts = [];
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
@@ -1397,12 +1399,29 @@
 
         function requestKeywordTts(items) {
             if (!Array.isArray(items) || items.length === 0) return;
+            keywordTtsPlaying = true;
             for (const item of items) {
                 const word = (item.word || '').trim();
                 const desc = (item.desc || '').trim();
                 if (!word || !desc) continue;
                 socket.emit('keyword_tts', { text: `${word}. ${desc}` });
             }
+        }
+
+        function playCurrentKeywordTts() {
+            if (options.length === 0) return;
+            const item = options[currentIdx];
+            if (!item) return;
+            const word = (item.word || '').trim();
+            const desc = (item.desc || '').trim();
+            if (!word || !desc) return;
+            keywordTtsPlaying = true;
+            socket.emit('keyword_tts', { text: `${word}. ${desc}` });
+        }
+
+        function cancelKeywordTts() {
+            socket.emit('cancel_tts');
+            keywordTtsPlaying = false;
         }
 
         let dismissTimer = null;
@@ -1424,17 +1443,31 @@
             const now = Date.now();
             if (now - lastSpace < 300) {
                 // Double tap
-                if (summaryRequested || summaryInProgress) {
+                if (summaryRequested || summaryInProgress && !keywordTtsPlaying) {
                     // During summary flow: double tap cancels playback/queue
                     cancelSummaryPlayback();
                     lastSpace = 0;
                     return;
                 }
                 if (infoVisible && options.length > 0) {
-                    // Second double tap - stop audio, dismiss keywords and request summary
-                    stopTtsPlayback();
-                    showDismissIndicator();
-                    dismissKeywords();
+                    // Double tap with keywords visible - cancel keyword TTS and start summary
+                    const wasKeywordPlaying = keywordTtsPlaying;
+                    cancelKeywordTts();
+                    // Clear keywords UI immediately
+                    options = [];
+                    currentIdx = 0;
+                    infoVisible = false;
+                    document.getElementById('optionsList').innerHTML = '';
+
+                    if (wasKeywordPlaying) {
+                        // Show "Keyword canceled" briefly, then start summarizing
+                        showSkippedIndicator('Keyword canceled');
+                        setTimeout(() => {
+                            startSummarizing();
+                        }, 500);
+                    } else {
+                        startSummarizing();
+                    }
                 } else {
                     // First double tap - start listening segment and request keywords
                     hideSummary();
@@ -1458,14 +1491,28 @@
                 setTimeout(() => {
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                         if (options.length > 0) {
-                            // Stop current audio and move to next keyword
-                            stopTtsPlayback();
+                            // Stop current audio, move to next keyword, and play its audio
+                            cancelKeywordTts();
                             currentIdx = (currentIdx + 1) % options.length;
                             render();
+                            if (keywordOutputMode === 'audio') {
+                                playCurrentKeywordTts();
+                            }
                         }
                         lastSpace = 0;
                     }
                 }, 300);
+            }
+        }
+
+        function startSummarizing() {
+            // End listening segment and request summary if enabled
+            if (dismissMode === 'summary') {
+                summaryRequested = true;
+                summaryInProgress = true;
+                awaitingJudgeDecision = false;
+                showLoadingIndicator('Summarizing...', 'summarizing');
+                socket.emit('end_listening');
             }
         }
 
@@ -1475,15 +1522,7 @@
             currentIdx = 0;
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
-
-            // End listening segment and request summary if enabled
-            if (dismissMode === 'summary') {
-                summaryRequested = true;
-                summaryInProgress = true;
-                awaitingJudgeDecision = false;
-                showLoadingIndicator('Summarizing...', 'summarizing');
-                socket.emit('end_listening');
-            }
+            startSummarizing();
         }
 
         document.addEventListener('keydown', e => {
