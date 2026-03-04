@@ -500,6 +500,9 @@ def handle_start(data: dict):
             keyword_tts_kwargs["voice_id"] = keyword_voice_id
         keyword_tts_client = TTSClient(**keyword_tts_kwargs)
 
+        # Judge agent settings (when disabled, summaries play without judgment)
+        judge_enabled = data.get("judge_enabled", True)
+
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})
         enable_noise_gate = noise_gate_data.get("enabled", False)
@@ -549,7 +552,8 @@ def handle_start(data: dict):
 
         # Create ContextJudgeClient if we have summary clients with TTS
         # Uses the first summary mic for audio context
-        if summary_mics and summary_clients:
+        # When judge_enabled=False, summaries play directly without judgment
+        if summary_mics and summary_clients and judge_enabled:
             judge_tts_clients = [
                 sc.tts_client for sc in summary_clients if sc.tts_client is not None
             ]
@@ -575,6 +579,12 @@ def handle_start(data: dict):
             log_print(
                 "INFO",
                 "ContextJudgeClient created and connected",
+                session_id=session_id,
+            )
+        elif summary_mics and summary_clients:
+            log_print(
+                "INFO",
+                "Judge agent disabled - summaries will play directly",
                 session_id=session_id,
             )
 
@@ -644,6 +654,8 @@ def handle_end_listening():
                 context_judge.end_listening()
             log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
         else:
+            # No summary clients - signal completion immediately
+            sio.emit("summary_done", {"is_empty": True, "no_summary": True, "segment_id": 0})
             log_print(
                 "WARN",
                 "end_listening ignored - no summary clients",

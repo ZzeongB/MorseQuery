@@ -745,6 +745,8 @@ class ContextJudgeClient:
                 "No audio collected for playback",
                 session_id=self.session_id,
             )
+            # Still emit tts_done to signal completion (text-only mode)
+            self.sio.emit("tts_done")
             return
 
         log_print(

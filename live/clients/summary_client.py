@@ -411,7 +411,15 @@ class SummaryClient:
                     event_name="summary_tts",
                     language="en",
                 )
-            elif is_empty:
+            elif not is_empty:
+                # No callback (judge disabled) and no TTS - signal completion
+                log_print(
+                    "INFO",
+                    "Summary complete (text only, no TTS)",
+                    session_id=self.session_id,
+                )
+                self.sio.emit("tts_done")
+            else:
                 log_print(
                     "INFO",
                     "Skipping summary TTS: empty summary",

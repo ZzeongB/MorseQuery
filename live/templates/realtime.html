@@ -442,6 +442,11 @@
             <button id="btn-summary-text-on" class="selected" onclick="setSummaryTextMode(true)">Show</button>
             <button id="btn-summary-text-off" onclick="setSummaryTextMode(false)">Hide</button>
         </div>
+        <div class="source-select">
+            <span>Judge Agent:</span>
+            <button id="btn-judge-on" class="selected" onclick="setJudgeEnabled(true)">On</button>
+            <button id="btn-judge-off" onclick="setJudgeEnabled(false)">Off</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -564,6 +569,7 @@
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
+        let judgeEnabled = true; // Judge agent on/off (when off, summaries play without judgment)
         let keywordTtsPlaying = false; // Track if keyword TTS is playing
         let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
         let inferencingTimer = null;
@@ -819,6 +825,12 @@
             } else if (summaryInProgress && pendingSummaryTexts.length > 0) {
                 showSummaryText();
             }
+        }
+
+        function setJudgeEnabled(enabled) {
+            judgeEnabled = enabled;
+            document.getElementById('btn-judge-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-judge-off').classList.toggle('selected', !enabled);
         }
 
         function setDescView(dv) {
@@ -1316,6 +1328,10 @@
                     };
                 }
             }
+
+            // Judge agent setting
+            params.judge_enabled = judgeEnabled;
+
             socket.emit('start', params);
         }
 
