@@ -28,6 +28,9 @@ _mic_monitor_thread: Optional[threading.Thread] = None
 # Noise gate calibration monitoring
 _noise_gate_monitor_running = False
 _noise_gate_monitor_thread: Optional[threading.Thread] = None
+
+# Global PyAudio lock to prevent segfaults from concurrent access
+_pyaudio_lock = threading.Lock()
 from config import TEMPLATES_DIR
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
@@ -144,19 +147,20 @@ def index():
 @app.route("/api/devices")
 def api_devices():
     """Return list of available audio input devices."""
-    pa = pyaudio.PyAudio()
-    devices = []
+    with _pyaudio_lock:
+        pa = pyaudio.PyAudio()
+        devices = []
 
-    for i in range(pa.get_device_count()):
-        info = pa.get_device_info_by_index(i)
-        if info["maxInputChannels"] > 0:
-            devices.append({
-                "index": i,
-                "name": info["name"],
-                "channels": info["maxInputChannels"],
-            })
+        for i in range(pa.get_device_count()):
+            info = pa.get_device_info_by_index(i)
+            if info["maxInputChannels"] > 0:
+                devices.append({
+                    "index": i,
+                    "name": info["name"],
+                    "channels": info["maxInputChannels"],
+                })
 
-    pa.terminate()
+        pa.terminate()
     log_print("INFO", f"Found {len(devices)} input devices")
     return jsonify(devices)
 
@@ -180,15 +184,16 @@ def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]):
     streams = []
     for device_idx in device_to_selects.keys():
         try:
-            pa = pyaudio.PyAudio()
-            stream = pa.open(
-                format=FORMAT,
-                channels=1,
-                rate=RATE,
-                input=True,
-                input_device_index=device_idx,
-                frames_per_buffer=CHUNK,
-            )
+            with _pyaudio_lock:
+                pa = pyaudio.PyAudio()
+                stream = pa.open(
+                    format=FORMAT,
+                    channels=1,
+                    rate=RATE,
+                    input=True,
+                    input_device_index=device_idx,
+                    frames_per_buffer=CHUNK,
+                )
             streams.append((device_idx, stream, pa))
             log_print("INFO", f"Mic monitor opened for device {device_idx}")
         except Exception as e:
@@ -274,15 +279,16 @@ def _noise_gate_monitor_loop(device_indices: list[int], mic_ids: list[str]):
         # Open streams for each unique device
         for device_idx in device_to_mic.keys():
             try:
-                pa = pyaudio.PyAudio()
-                stream = pa.open(
-                    format=FORMAT,
-                    channels=1,
-                    rate=RATE,
-                    input=True,
-                    input_device_index=device_idx,
-                    frames_per_buffer=CHUNK,
-                )
+                with _pyaudio_lock:
+                    pa = pyaudio.PyAudio()
+                    stream = pa.open(
+                        format=FORMAT,
+                        channels=1,
+                        rate=RATE,
+                        input=True,
+                        input_device_index=device_idx,
+                        frames_per_buffer=CHUNK,
+                    )
                 streams.append((device_idx, stream, pa))
                 log_print("INFO", f"Noise gate monitor opened for device {device_idx}")
             except Exception as e:

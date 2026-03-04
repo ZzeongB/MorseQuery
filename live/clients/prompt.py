@@ -17,7 +17,7 @@ Do not add commentary.
 
 # Context
 You continuously hear conversation audio.
-You extract keywords only from the committed audio segment requested by the system.
+You extract keywords only from the recent conversation when requested by the system.
 You do NOT participate in or respond to the conversation.
 
 # Instructions / Rules
@@ -46,14 +46,19 @@ If no valid keywords, output nothing rather than conversing.
 - Follow per-request output format exactly.
 """
 
-KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from recently committed audio.
+KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from the conversation.
 
 MANDATORY: You MUST output at least 1 keyword. Output 0 keywords is FORBIDDEN.
 
+Prioritization:
+1. FIRST: Keywords from the MOST RECENT audio (last few seconds) - highest priority.
+2. FALLBACK: If recent audio has no clear keywords, use earlier conversation context.
+3. NEVER output nothing. Always find at least 1 keyword from the entire conversation.
+
 Rules:
-- You MUST output AT LEAST 1 keyword if any are clearly spoken, and up to 3 if there are multiple.
-- If 2 or 3 clearly spoken technical terms exist, you MUST output 2 or 3.
-- Never output 0 keywords.
+- Output 1-3 keywords based on what was actually spoken.
+- If only 1 difficult/technical term exists, output just 1.
+- If 2-3 clearly spoken technical terms exist, output all of them.
 - Keywords must be clearly spoken (no guessing).
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
@@ -78,6 +83,8 @@ INVALID EXAMPLES (DO NOT DO THIS):
 - Keyword - description ❌ (wrong format)
 - AI: Artificial Intelligence ❌ (too short, needs full sentence)
 - keywords: [AI, machine learning] ❌ (wrong format, no explanations)
+- Padding with easy words like "the", "today", "people" ❌ (only technical terms)
+- "No keywords found" or empty output ❌ (ALWAYS output at least 1 keyword)
 """
 
 # Keep session instructions minimal; put strict rules in per-request prompts.
@@ -213,7 +220,7 @@ You do NOT participate in or respond to the conversation.
 
 # Instructions / Rules
 Only output when requested.
-Answer using Q1/Q3/FINAL/REASON format.
+Answer using Q1/Q2/FINAL/REASON format.
 English only.
 One line only.
 Follow the per-request judgment instructions strictly.
@@ -230,8 +237,8 @@ If unable to judge, output fallback format rather than conversing.
 
 # CRITICAL RULES:
 - MANDATORY OUTPUT FORMAT:
-  Q1=<YES|NO>;Q3=<YES|NO>;FINAL=<YES|NO>;REASON=<short reason>
-- Use ONLY uppercase YES or NO for Q1/Q3/FINAL.
+  Q1=<YES|NO>;Q2=<YES|NO>;FINAL=<YES|NO>;REASON=<short reason>
+- Use ONLY uppercase YES or NO for Q1/Q2/FINAL.
 - Do NOT engage in conversation.
 - Do NOT ask questions.
 - Do NOT address any speaker.
@@ -271,44 +278,42 @@ MISSED SUMMARY: "{summary}"
 
 # Questions (ALL required)
 - Q1 CATCH_UP_VALUE: Is there important missed information worth hearing now?
-- Q3 INTERRUPT_TIMING: Is playing now net-beneficial?
-  - Q3 can be YES even mid-thought if current speech is repetitive/low-information.
+- Q2 INTERRUPT_TIMING: Is playing now net-beneficial?
+  - Q2 can be YES even mid-thought if current speech is repetitive/low-information.
 
 # Decision Rule (mandatory)
-- FINAL=YES when BOTH Q1 AND Q3 are YES.
+- FINAL=YES when BOTH Q1 AND Q2 are YES.
 - FINAL=NO otherwise.
 - If CAPTURED_SEGMENT_DURATION_SEC is below {min_segment_duration_sec:.2f}, force FINAL=NO.
 
 # REASON Guidelines
-- When FINAL=YES: Explain why summary is valuable now.
-- When FINAL=NO: Explain WHY summary is not needed:
-  - Q1=NO: "No new context" / "Already known info" / "Nothing important missed"
-  - Q3=NO: "Focus on conversation" / "Speaker making key point" / "Bad timing"
+- REASON must be ONE short phrase (2-4 words max).
+- Examples: "key detail", "bad timing", "no context", "speaker paused"
 
 # Output (exactly one line)
-Q1=<YES|NO>;Q3=<YES|NO>;FINAL=<YES|NO>;REASON=<short reason>
+Q1=<YES|NO>;Q2=<YES|NO>;FINAL=<YES|NO>;REASON=<2-4 word phrase>
 
 # Good Examples
-Q1=YES;Q3=YES;FINAL=YES;REASON=Critical missed detail and speaker paused.
-Q1=YES;Q3=YES;FINAL=YES;REASON=New key point and interruption cost is low.
-Q1=NO;Q3=YES;FINAL=NO;REASON=No new context, already known info.
-Q1=YES;Q3=NO;FINAL=NO;REASON=Focus on conversation, speaker making key point.
-Q1=NO;Q3=NO;FINAL=NO;REASON=Nothing important missed, focus on conversation.
+Q1=YES;Q2=YES;FINAL=YES;REASON=key detail
+Q1=YES;Q2=YES;FINAL=YES;REASON=speaker paused
+Q1=NO;Q2=YES;FINAL=NO;REASON=No important information missed.
+Q1=YES;Q2=NO;FINAL=NO;REASON=Bad timing. Focus on current speech.
+Q1=NO;Q2=NO;FINAL=NO;REASON=No important information missed.
 
 # Bad Examples (DO NOT DO THIS)
 - YES: Sounds useful.
 - NO: Not now.
-- Q1=yes Q3=yes final=no
-- {{"Q1":"YES","Q3":"YES","FINAL":"NO"}}
-- {{"Q1":YES,"Q3":NO,"FINAL=YES,"REASON=...}}
+- Q1=yes Q2=yes final=no
+- {{"Q1":"YES","Q2":"YES","FINAL":"NO"}}
+- {{"Q1":YES,"Q2":NO,"FINAL=YES,"REASON=...}}
 - It sounds like ... could you share more?
 - You seeing any other sectors that are supported strongly by the government?
 - Any multi-line response
 
 # Self-Check Before Output
 1) Is the output exactly one line?
-2) Are Q1/Q3/FINAL all uppercase YES or NO?
+2) Are Q1/Q2/FINAL all uppercase YES or NO?
 3) Does FINAL match the decision rule?
 If any check fails, output:
-Q1=NO;Q3=NO;FINAL=NO;REASON=Format fallback.
+Q1=NO;Q2=NO;FINAL=NO;REASON=Format fallback.
 """

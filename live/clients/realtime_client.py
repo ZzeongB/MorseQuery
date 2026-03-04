@@ -81,7 +81,10 @@ class RealtimeClient:
             noise_gate=enable_noise_gate,
         )
         self.logger.log(
-            "client_created", source=source, device=device_index, noise_gate=enable_noise_gate
+            "client_created",
+            source=source,
+            device=device_index,
+            noise_gate=enable_noise_gate,
         )
 
     def set_summary_clients(self, clients: list) -> None:
@@ -103,25 +106,17 @@ class RealtimeClient:
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
 
-        # Configure with VAD for continuous transcription + manual keyword extraction
+        # Configure without VAD - manual keyword extraction only (spacebar)
         session_config = {
             "modalities": ["text", "audio"],
             "input_audio_format": "pcm16",
-            "turn_detection": {
-                "type": "server_vad",
-                "threshold": 0.5,
-                "prefix_padding_ms": 300,
-                "silence_duration_ms": 500,
-            },
-            "input_audio_transcription": {
-                "model": "whisper-1",
-            },
+            "turn_detection": None,  # No VAD - spacebar only
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }
 
         ws.send(json.dumps({"type": "session.update", "session": session_config}))
         log_print(
-            "DEBUG", "Session update sent (VAD enabled)", session_id=self.session_id
+            "DEBUG", "Session update sent (VAD disabled)", session_id=self.session_id
         )
         self.logger.log("session_update_sent")
         threading.Thread(target=self._stream_audio, daemon=True).start()
@@ -179,25 +174,55 @@ class RealtimeClient:
         )
         self.logger.log("vad_transcript", transcript=transcript)
 
-        # Emit to frontend
-        self.sio.emit("transcript_received", {"transcript": transcript})
+        # Don't emit to frontend - VAD transcripts are for internal context only
 
     def _parse_json_format(self, text: str) -> list[dict]:
-        """Parse JSON-like format: {"key": value, "key2": value2}"""
+        """Parse JSON-like format: {"key": value, "key2": value2}
+
+        Also handles: {"keyword": "term: description"} where key is a meta label.
+        """
         keywords = []
-        # Remove outer braces
+        meta_keys = {"keyword", "keywords", "term", "terms", "word", "words"}
+
+        # Try proper JSON parse first
+        try:
+            parsed = json.loads(text)
+            if isinstance(parsed, dict):
+                for key, value in parsed.items():
+                    key = str(key).strip()
+                    value = str(value).strip()
+
+                    # If key is a meta label like "keyword", extract from value
+                    if key.lower() in meta_keys and ":" in value:
+                        word, desc = value.split(":", 1)
+                        word = word.strip()
+                        desc = desc.strip()
+                        if word and desc:
+                            keywords.append({"word": word, "desc": desc})
+                    elif value:
+                        keywords.append({"word": key, "desc": value})
+                return keywords
+        except json.JSONDecodeError:
+            pass
+
+        # Fallback: regex parsing
         inner = text[1:-1].strip()
         if not inner:
             return keywords
 
-        # Split by comma, but be careful with commas inside values
-        # Pattern: "key": value (value may or may not be quoted)
         pattern = r'"([^"]+)":\s*"?([^",}]+)"?'
         matches = re.findall(pattern, inner)
 
         for word, desc in matches:
             word = word.strip()
             desc = desc.strip().rstrip('"')
+
+            # If key is meta label, extract from value
+            if word.lower() in meta_keys and ":" in desc:
+                actual_word, actual_desc = desc.split(":", 1)
+                word = actual_word.strip()
+                desc = actual_desc.strip()
+
             if word and desc:
                 keywords.append({"word": word, "desc": desc})
 
@@ -257,19 +282,29 @@ class RealtimeClient:
         return cleaned
 
     def _parse_line_format(self, text: str) -> list[dict]:
-        """Parse line-by-line format: keyword: description"""
+        """Parse line-by-line format: keyword only OR keyword: description"""
         keywords = []
         for line in text.split("\n"):
+            line = line.strip()
+            if not line:
+                continue
+
+            # Strip leading numbers/bullets (e.g., "1.", "1)", "-", "*")
+            line = re.sub(r"^[\d\.\)\-\*\s]+", "", line).strip()
+            if not line:
+                continue
+
+            # Skip lines with braces (malformed JSON-like output)
+            if "{" in line or "}" in line:
+                continue
+
             if ":" in line:
                 word, desc = line.split(":", 1)
                 word = word.strip()
                 desc = desc.strip()
 
                 # Skip invalid entries
-                if not word or not desc:
-                    continue
-                # Skip lines with braces (malformed JSON-like output)
-                if "{" in word or "}" in word or "{" in desc or "}" in desc:
+                if not word:
                     continue
                 # Skip meta labels like "keyword:", "keywords:", "term:", etc.
                 word_lower = word.lower()
@@ -282,12 +317,24 @@ class RealtimeClient:
                     "words",
                 ):
                     continue
-                # Strip leading numbers/bullets (e.g., "1.", "1)", "-", "*")
-                word = re.sub(r"^[\d\.\)\-\*\s]+", "", word).strip()
-                if not word:
-                    continue
 
                 keywords.append({"word": word, "desc": desc})
+            else:
+                # No colon - treat entire line as keyword with empty description
+                word = line.strip()
+                # Skip meta labels
+                word_lower = word.lower()
+                if word_lower in (
+                    "keyword",
+                    "keywords",
+                    "term",
+                    "terms",
+                    "word",
+                    "words",
+                ):
+                    continue
+                if word:
+                    keywords.append({"word": word, "desc": ""})
 
         return keywords
 
@@ -412,15 +459,17 @@ class RealtimeClient:
                     )
                     continue
 
-                # Apply noise gate if enabled
+                # Track noise gate status (but don't filter - send all audio to OpenAI)
                 if self.noise_gate:
-                    if not self.noise_gate.process(chunk):
-                        # Audio filtered - skip sending
+                    is_speech = self.noise_gate.process(chunk)
+                    if not is_speech:
                         self.chunks_filtered += 1
                         # Emit gate status periodically
                         if self.chunks_filtered % 50 == 0:
-                            self.sio.emit("noise_gate_status", self.noise_gate.get_status())
-                        continue
+                            self.sio.emit(
+                                "noise_gate_status", self.noise_gate.get_status()
+                            )
+                    # Note: We still send ALL audio to OpenAI regardless of noise gate
 
                 if not self._send_audio_chunk(chunk):
                     if self._shutdown_event.is_set():
@@ -645,6 +694,7 @@ class RealtimeClient:
                         "response": {
                             "modalities": ["text"],
                             "instructions": prompt,
+                            "max_output_tokens": 500,
                         },
                     }
                 )
@@ -684,7 +734,9 @@ class RealtimeClient:
         if not self.noise_gate:
             return None
         results = self.noise_gate.stop_calibration()
-        self.sio.emit("noise_gate_calibrating", {"status": "stopped", "results": results})
+        self.sio.emit(
+            "noise_gate_calibrating", {"status": "stopped", "results": results}
+        )
         return results
 
     def set_noise_threshold(self, threshold: float | None) -> bool:

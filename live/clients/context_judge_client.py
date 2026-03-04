@@ -577,7 +577,7 @@ class ContextJudgeClient:
             parsed = json.loads(response)
             if isinstance(parsed, dict):
                 q1_raw = str(parsed.get("Q1", "")).upper()
-                q3_raw = str(parsed.get("Q3", "")).upper()
+                q3_raw = str(parsed.get("Q2", parsed.get("Q3", ""))).upper()
                 final_raw = str(parsed.get("FINAL", "")).upper()
                 reason = str(parsed.get("REASON", "")).strip()
 
@@ -604,10 +604,10 @@ class ContextJudgeClient:
             pass
 
         # Strict format:
-        # Q1=YES;Q3=YES;FINAL=NO;REASON=...
+        # Q1=YES;Q2=YES;FINAL=NO;REASON=...
         strict_pattern = (
             r"Q1\s*=\s*(YES|NO)\s*;\s*"
-            r"Q3\s*=\s*(YES|NO)\s*;\s*"
+            r"Q[23]\s*=\s*(YES|NO)\s*;\s*"
             r"FINAL\s*=\s*(YES|NO)\s*;\s*"
             r"REASON\s*=\s*(.+)$"
         )
@@ -631,11 +631,11 @@ class ContextJudgeClient:
 
         # Tolerant key-value fallback for malformed JSON/kv responses.
         # Examples handled:
-        # {"Q1":YES,"Q3":NO,"FINAL=YES,"REASON=..."}
-        # Q1:YES, Q3:NO, FINAL:YES, REASON:...
+        # {"Q1":YES,"Q2":NO,"FINAL=YES,"REASON=..."}
+        # Q1:YES, Q2:NO, FINAL:YES, REASON:...
         upper_response = response.upper()
         q1_match = re.search(r"\bQ1\b[^A-Z]*(YES|NO)\b", upper_response)
-        q3_match = re.search(r"\bQ3\b[^A-Z]*(YES|NO)\b", upper_response)
+        q3_match = re.search(r"\bQ[23]\b[^A-Z]*(YES|NO)\b", upper_response)
         final_match = re.search(r"\bFINAL\b[^A-Z]*(YES|NO)\b", upper_response)
 
         reason = ""
