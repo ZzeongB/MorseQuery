@@ -447,6 +447,11 @@
             <button id="btn-judge-on" class="selected" onclick="setJudgeEnabled(true)">On</button>
             <button id="btn-judge-off" onclick="setJudgeEnabled(false)">Off</button>
         </div>
+        <div class="source-select">
+            <span>Audio Feedback:</span>
+            <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackEnabled(true)">On</button>
+            <button id="btn-audio-feedback-off" onclick="setAudioFeedbackEnabled(false)">Off</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -585,6 +590,11 @@
         let noiseGateThreshold = 300;  // RMS value (0-32768 scale)
         let noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
         const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
+        let audioFeedbackEnabled = true;
+        let audioContext = null;
+        let audioUnlocked = false;
+        let loadingAudioInterval = null;
+        let loadingAudioToken = 0;
 
         function toggleNoiseGate() {
             noiseGateEnabled = document.getElementById('noiseGateEnabled').checked;
@@ -833,6 +843,120 @@
             document.getElementById('btn-judge-off').classList.toggle('selected', !enabled);
         }
 
+        function setAudioFeedbackEnabled(enabled) {
+            audioFeedbackEnabled = enabled;
+            document.getElementById('btn-audio-feedback-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-audio-feedback-off').classList.toggle('selected', !enabled);
+            if (!enabled) {
+                stopLoadingAudioFeedback();
+            }
+        }
+
+        async function ensureAudioContext() {
+            if (!audioFeedbackEnabled) return null;
+            if (!audioContext || audioContext.state === 'closed') {
+                const Ctx = window.AudioContext || window.webkitAudioContext;
+                if (!Ctx) return null;
+                audioContext = new Ctx();
+                audioUnlocked = false;
+            }
+            if (audioContext.state === 'suspended') {
+                try {
+                    await audioContext.resume();
+                    audioUnlocked = true;
+                } catch (e) {}
+            }
+            if (audioContext.state === 'running') {
+                audioUnlocked = true;
+            }
+            return audioContext;
+        }
+
+        async function unlockAudioFeedback() {
+            const ctx = await ensureAudioContext();
+            if (!ctx || audioUnlocked) return;
+            try {
+                // Tiny silent blip to satisfy strict autoplay policies.
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                const now = ctx.currentTime;
+                gain.gain.setValueAtTime(0.0001, now);
+                osc.frequency.setValueAtTime(440, now);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.01);
+                audioUnlocked = true;
+            } catch (e) {}
+        }
+
+        async function playTone(freq, durationMs = 70, gainValue = 0.06, type = 'sine') {
+            const ctx = await ensureAudioContext();
+            if (!ctx) return;
+            if (ctx.state !== 'running') return;
+
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            const now = ctx.currentTime;
+            const end = now + durationMs / 1000;
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, now);
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.exponentialRampToValueAtTime(gainValue, now + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, end);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(now);
+            osc.stop(end);
+        }
+
+        function playConfirmedFeedback() {
+            if (!audioFeedbackEnabled) return;
+            playTone(880, 70, 0.055, 'sine');
+            setTimeout(() => playTone(1174, 80, 0.06, 'sine'), 95);
+        }
+
+        function playTapFeedback() {
+            if (!audioFeedbackEnabled) return;
+            playTone(900, 45, 0.048, 'sine');
+        }
+
+        function startLoadingAudioFeedback(mode = 'inferring') {
+            if (!audioFeedbackEnabled) return;
+            stopLoadingAudioFeedback();
+            loadingAudioToken += 1;
+            const token = loadingAudioToken;
+
+            const loop = () => {
+                if (!audioFeedbackEnabled || token !== loadingAudioToken) return;
+                if (mode === 'summarizing') {
+                    playTone(740, 60, 0.04, 'sine');
+                    setTimeout(() => {
+                        if (token !== loadingAudioToken) return;
+                        playTone(880, 65, 0.042, 'sine');
+                    }, 90);
+                } else {
+                    // Inferring loop: matches confirmed timbre but quieter.
+                    playTone(988, 50, 0.034, 'sine');
+                    setTimeout(() => {
+                        if (token !== loadingAudioToken) return;
+                        playTone(1174, 55, 0.036, 'sine');
+                    }, 80);
+                }
+            };
+
+            loop();
+            loadingAudioInterval = setInterval(loop, 900);
+        }
+
+        function stopLoadingAudioFeedback() {
+            loadingAudioToken += 1;
+            if (loadingAudioInterval) {
+                clearInterval(loadingAudioInterval);
+                loadingAudioInterval = null;
+            }
+        }
+
         function setDescView(dv) {
             descView = dv;
             document.getElementById('btn-desc-single').classList.toggle('selected', dv === 'single');
@@ -1021,22 +1145,30 @@
             const text = (!data.is_empty && !data.no_summary) ? (data.summary || '').trim() : '';
             if (text) {
                 pendingSummaryTexts.push(text);
-                awaitingJudgeDecision = true;
-                showLoadingIndicator('Judging...', 'summarizing');
+                playConfirmedFeedback();
 
-                if (summaryFinalizeTimer) {
-                    clearTimeout(summaryFinalizeTimer);
-                }
-                summaryFinalizeTimer = setTimeout(() => {
-                    // After waiting up to 5s for judge/playback, finalize fallback.
-                    if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
-                        summaryRequested = false;
-                        awaitingJudgeDecision = false;
-                        showSkippedIndicator('No important information missed.');
-                        hideSummaryText();
-                        pendingSummaryTexts = [];
+                if (judgeEnabled) {
+                    // Judge mode: wait for judge decision
+                    awaitingJudgeDecision = true;
+                    showLoadingIndicator('Judging...', 'summarizing');
+
+                    if (summaryFinalizeTimer) {
+                        clearTimeout(summaryFinalizeTimer);
                     }
-                }, 5000);
+                    summaryFinalizeTimer = setTimeout(() => {
+                        // After waiting up to 5s for judge/playback, finalize fallback.
+                        if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
+                            summaryRequested = false;
+                            awaitingJudgeDecision = false;
+                            showSkippedIndicator('No important information missed.');
+                            hideSummaryText();
+                            pendingSummaryTexts = [];
+                        }
+                    }, 5000);
+                } else {
+                    // Judge off: summary_tts will arrive shortly, just hide loading
+                    hideLoadingIndicator();
+                }
                 return;
             }
 
@@ -1059,6 +1191,7 @@
         // TTS playback status from server
         socket.on('tts_playing', data => {
             const reason = (data && data.reason) || '';
+            stopLoadingAudioFeedback();
 
             if (reason === 'keyword') {
                 // Keyword TTS started - now show the visual display
@@ -1127,6 +1260,9 @@
                 currentTtsAudio = null;
                 currentTtsUrl = null;
                 summaryInProgress = false;
+                // Hide speech bubbles when browser TTS playback completes
+                hideSummaryText();
+                pendingSummaryTexts = [];
                 return;
             }
 
@@ -1155,6 +1291,7 @@
 
         socket.on('summary_tts', data => {
             if (!data.audio) return;
+            stopLoadingAudioFeedback();
 
             // Clear judge-related state since we're playing directly (judge disabled)
             awaitingJudgeDecision = false;
@@ -1368,11 +1505,13 @@
             }
             document.querySelector('#loadingIndicator .label').textContent = label;
             indicator.classList.add('active');
+            startLoadingAudioFeedback(mode);
         }
 
         function hideLoadingIndicator() {
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('active', 'summarizing', 'skipped');
+            stopLoadingAudioFeedback();
         }
 
         function showSkippedIndicator(message = 'Summary not needed') {
@@ -1526,16 +1665,20 @@
 
         function handleTap() {
             const now = Date.now();
+            // User gesture keeps WebAudio context unlocked.
+            unlockAudioFeedback();
             if (now - lastSpace < 300) {
                 // Double tap
                 if (summaryRequested || summaryInProgress && !keywordTtsPlaying) {
                     // During summary flow: double tap cancels playback/queue
+                    playConfirmedFeedback();
                     cancelSummaryPlayback();
                     lastSpace = 0;
                     return;
                 }
                 if (infoVisible && options.length > 0) {
                     // Double tap with keywords visible - cancel keyword TTS and start summary
+                    playConfirmedFeedback();
                     const wasKeywordPlaying = keywordTtsPlaying;
                     cancelKeywordTts();
                     // Clear keywords UI immediately
@@ -1555,6 +1698,7 @@
                     }
                 } else {
                     // First double tap - start listening segment and request keywords
+                    playConfirmedFeedback();
                     hideSummary();
                     socket.emit('start_listening');
                     socket.emit('request');
@@ -1577,6 +1721,7 @@
                     if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                         if (options.length > 0) {
                             // Stop current audio, move to next keyword, and play its audio
+                            playTapFeedback();
                             cancelKeywordTts();
                             currentIdx = (currentIdx + 1) % options.length;
                             render();
@@ -1616,6 +1761,7 @@
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
                 return;
             }
+            unlockAudioFeedback();
             // Prevent default for all keys to avoid browser actions
             e.preventDefault();
         });
