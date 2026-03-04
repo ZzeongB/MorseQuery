@@ -471,6 +471,13 @@ class SummaryClient:
         # Remove a single pair of wrapping quotes if model returns quoted sentence.
         if len(summary) >= 2 and summary[0] == '"' and summary[-1] == '"':
             summary = summary[1:-1].strip()
+        # Also handle single quotes
+        if len(summary) >= 2 and summary[0] == "'" and summary[-1] == "'":
+            summary = summary[1:-1].strip()
+
+        # Re-check emptiness after stripping quotes
+        if not summary:
+            return ""
 
         lower = summary.lower()
 

@@ -964,7 +964,6 @@
                 hideLoadingIndicator();
                 return;
             }
-            hideLoadingIndicator();
             hideSummary();
             // Append new keywords and keep last 3
             options = options.concat(data);
@@ -974,15 +973,19 @@
             }
             // Focus on newest keyword
             currentIdx = options.length - 1;
-            render();
             infoVisible = true;
 
             // Preload TTS for loaded keywords so selection can play immediately.
             preloadKeywordTtsForItems(data);
 
             if (keywordOutputMode === 'audio') {
+                // Audio mode: defer visual rendering until TTS starts playing.
                 // Keep UI selection and first auto-play target consistent.
                 playCurrentKeywordTts();
+            } else {
+                // Text-only mode: render immediately.
+                hideLoadingIndicator();
+                render();
             }
         });
         socket.on('summary_chunk', data => {
@@ -1055,6 +1058,18 @@
 
         // TTS playback status from server
         socket.on('tts_playing', data => {
+            const reason = (data && data.reason) || '';
+
+            if (reason === 'keyword') {
+                // Keyword TTS started - now show the visual display
+                if (keywordOutputMode === 'audio' && options.length > 0) {
+                    hideLoadingIndicator();
+                    render();
+                }
+                return;
+            }
+
+            // Summary TTS
             summaryInProgress = true;
             summaryRequested = false;
             awaitingJudgeDecision = false;
@@ -1140,6 +1155,14 @@
 
         socket.on('summary_tts', data => {
             if (!data.audio) return;
+
+            // Clear judge-related state since we're playing directly (judge disabled)
+            awaitingJudgeDecision = false;
+            summaryRequested = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
 
             // Hide summarizing indicator when TTS audio arrives
             hideLoadingIndicator();
