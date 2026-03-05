@@ -1232,6 +1232,8 @@
                 }
                 summaryFinalizeTimer = setTimeout(() => {
                     // TTS did not arrive in time.
+                    // Skip if reconstruction is pending or in progress
+                    if (reconstructorEnabled && (pendingReconstructedTurns.length > 0 || pendingReconstructedSegmentId > 0)) return;
                     if (!summaryInProgress && summaryRequested) {
                         summaryRequested = false;
                         summaryInProgress = false;
@@ -1250,7 +1252,9 @@
                 clearTimeout(summaryFinalizeTimer);
             }
             summaryFinalizeTimer = setTimeout(() => {
+                // Skip if reconstruction is pending or in progress
                 if (pendingSummaryTexts.length > 0 || !summaryRequested) return;
+                if (reconstructorEnabled && (pendingReconstructedTurns.length > 0 || pendingReconstructedSegmentId > 0)) return;
                 summaryRequested = false;
                 summaryInProgress = false;
                 awaitingJudgeDecision = false;
@@ -1337,6 +1341,12 @@
             const segId = Number((data && data.segment_id) || 0);
             pendingReconstructedTurns = turns;
             pendingReconstructedSegmentId = segId;
+            // Clear summary finalize timer - reconstruction is in progress
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
+            summaryInProgress = true;
             // Render when conversation_tts starts so text/audio begin together.
             if (turns.length === 0) {
                 renderedReconstructedSegmentId = 0;
@@ -1722,6 +1732,11 @@
         }
 
         function showLoadingIndicator(label = 'Searching', mode = 'inferring') {
+            // Cancel any pending skipped indicator auto-hide
+            if (skippedIndicatorTimer) {
+                clearTimeout(skippedIndicatorTimer);
+                skippedIndicatorTimer = null;
+            }
             document.getElementById('tapDot1').style.display = 'none';
             document.getElementById('tapDot2').style.display = 'none';
             const indicator = document.getElementById('loadingIndicator');
@@ -1759,11 +1774,14 @@
         }
 
         function hideLoadingIndicator() {
+            console.log('hideLoadingIndicator called');
+            console.trace();
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('active', 'summarizing', 'skipped');
             stopLoadingAudioFeedback();
         }
 
+        let skippedIndicatorTimer = null;
         function showSkippedIndicator(message = 'All caught up') {
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('summarizing');
@@ -1771,7 +1789,9 @@
             document.querySelector('#loadingIndicator .label').textContent = normalizeSkipMessage(message);
             playCompleteFeedback();
             // Auto-hide after 2 seconds
-            setTimeout(() => {
+            if (skippedIndicatorTimer) clearTimeout(skippedIndicatorTimer);
+            skippedIndicatorTimer = setTimeout(() => {
+                skippedIndicatorTimer = null;
                 hideLoadingIndicator();
             }, 2000);
         }
