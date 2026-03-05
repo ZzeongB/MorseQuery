@@ -34,6 +34,7 @@ class RealtimeClient:
         source: str = "mp3",
         session_id: str = "default",
         device_index: int | None = None,
+        mp3_file: str | None = None,
         enable_noise_gate: bool = False,
         noise_gate_config: NoiseGateConfig | None = None,
     ):
@@ -41,6 +42,7 @@ class RealtimeClient:
         self.source = source
         self.session_id = session_id
         self.device_index = device_index  # Specific mic device index
+        self.mp3_file = mp3_file
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
         self.chunks_sent = 0
@@ -79,12 +81,14 @@ class RealtimeClient:
             session_id=session_id,
             source=source,
             device=device_index,
+            mp3_file=mp3_file,
             noise_gate=enable_noise_gate,
         )
         self.logger.log(
             "client_created",
             source=source,
             device=device_index,
+            mp3_file=mp3_file,
             noise_gate=enable_noise_gate,
         )
 
@@ -545,12 +549,13 @@ class RealtimeClient:
         pa = None
         stream = None
         try:
+            target_file = self.mp3_file or DEFAULT_AUDIO_FILE
             log_print(
                 "INFO",
-                f"Loading MP3 file: {DEFAULT_AUDIO_FILE}",
+                f"Loading MP3 file: {target_file}",
                 session_id=self.session_id,
             )
-            audio = AudioSegment.from_file(DEFAULT_AUDIO_FILE)
+            audio = AudioSegment.from_file(target_file)
             audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)
             raw = audio.raw_data
             duration_sec = len(audio) / 1000.0
@@ -564,7 +569,7 @@ class RealtimeClient:
             )
             self.logger.log(
                 "mp3_loaded",
-                file=DEFAULT_AUDIO_FILE,
+                file=target_file,
                 duration_sec=duration_sec,
                 bytes=len(raw),
             )

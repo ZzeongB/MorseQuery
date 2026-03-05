@@ -481,6 +481,23 @@
                 </div>
             </div>
         </div>
+        <div class="source-select" id="mp3SourceSection" style="display: none;">
+            <span>MP3 Sources:</span>
+            <div class="mic-select-group">
+                <div class="mic-select-item">
+                    <label>Summary 0</label>
+                    <input type="text" id="summaryMp3_0" class="voice-input" placeholder="./mp3/20260305_155420_sum0.wav" value="./mp3/20260305_155420_sum0.wav">
+                </div>
+                <div class="mic-select-item">
+                    <label>Summary 1</label>
+                    <input type="text" id="summaryMp3_1" class="voice-input" placeholder="./mp3/20260305_155420_sum1.wav" value="./mp3/20260305_155420_sum1.wav">
+                </div>
+                <div class="mic-select-item">
+                    <label>Keyword</label>
+                    <input type="text" id="keywordMp3" class="voice-input" placeholder="./mp3/20260305_155420.wav" value="./mp3/20260305_155420.wav">
+                </div>
+            </div>
+        </div>
         <div class="source-select">
             <span>Dismiss:</span>
             <button id="btn-dismiss-summary" class="selected" onclick="setDismissMode('summary')">With Summary</button>
@@ -912,6 +929,7 @@
             document.getElementById('btn-mp3').classList.toggle('selected', s === 'mp3');
             // Show/hide mic selection
             document.getElementById('micSelectSection').style.display = s === 'mic' ? 'block' : 'none';
+            document.getElementById('mp3SourceSection').style.display = s === 'mp3' ? 'block' : 'none';
             if (s === 'mic' && availableDevices.length === 0) {
                 fetchDevices();
             } else if (s === 'mp3') {
@@ -1771,14 +1789,27 @@
                 params.voice_ids = [v1, v2];
                 params.keyword_voice_id = kwVoice || null;
                 params.tts_output_device = ttsOut ? parseInt(ttsOut) : null;
+            } else if (source === 'mp3') {
+                const sum0 = document.getElementById('summaryMp3_0').value.trim();
+                const sum1 = document.getElementById('summaryMp3_1').value.trim();
+                const keywordPath = document.getElementById('keywordMp3').value.trim();
+                const v1 = document.getElementById('voice1').value;
+                const v2 = document.getElementById('voice2').value;
+                const kwVoice = document.getElementById('keywordVoice').value;
+                const ttsOut = document.getElementById('ttsOutput').value;
+                params.summary_sources = [sum0, sum1].filter(x => x);
+                params.keyword_source = keywordPath || null;
+                params.voice_ids = [v1, v2];
+                params.keyword_voice_id = kwVoice || null;
+                params.tts_output_device = ttsOut ? parseInt(ttsOut) : null;
+            }
 
-                // Noise gate settings
-                if (noiseGateEnabled) {
-                    params.noise_gate = {
-                        enabled: true,
-                        threshold: noiseGateThreshold
-                    };
-                }
+            // Noise gate threshold can also be used as MP3 noise-cut threshold.
+            if (noiseGateEnabled) {
+                params.noise_gate = {
+                    enabled: true,
+                    threshold: noiseGateThreshold
+                };
             }
 
             // Judge agent setting

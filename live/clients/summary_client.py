@@ -11,6 +11,7 @@ import threading
 import time
 from typing import Callable, Optional
 
+import numpy as np
 import pyaudio
 import websocket
 from config import AUDIO_CHUNK, AUDIO_RATE, LOG_DIR, OPENAI_API_KEY, OPENAI_REALTIME_URL
@@ -33,7 +34,10 @@ class SummaryClient:
         self,
         socketio: SocketIO,
         session_id: str = "default",
+        source: str = "mic",
         device_indices: list[int] | None = None,
+        audio_file: str | None = None,
+        noise_cut_threshold: int = 0,
         enable_tts: bool = True,
         prepare_tts_on_callback: bool = True,
         mic_id: str = "summary",
@@ -42,7 +46,10 @@ class SummaryClient:
     ):
         self.sio = socketio
         self.session_id = session_id
+        self.source = source
         self.device_indices = device_indices or []
+        self.audio_file = audio_file
+        self.noise_cut_threshold = max(0, int(noise_cut_threshold or 0))
         self.mic_id = mic_id
         self.voice_id = voice_id
         self.output_device_index = output_device_index
@@ -99,7 +106,10 @@ class SummaryClient:
             "INFO",
             "SummaryClient created",
             session_id=session_id,
+            source=source,
             devices=device_indices,
+            audio_file=audio_file,
+            noise_cut_threshold=self.noise_cut_threshold,
             tts_enabled=enable_tts,
             prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
@@ -107,7 +117,10 @@ class SummaryClient:
         )
         self.logger.log(
             "summary_client_created",
+            source=source,
             devices=device_indices,
+            audio_file=audio_file,
+            noise_cut_threshold=self.noise_cut_threshold,
             tts_enabled=enable_tts,
             prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
@@ -330,8 +343,10 @@ class SummaryClient:
             )
         )
 
-        # Start audio streaming if devices are configured
-        if self.device_indices:
+        # Start audio streaming if source is configured
+        if (self.source == "mic" and self.device_indices) or (
+            self.source == "mp3" and self.audio_file
+        ):
             threading.Thread(target=self._stream_audio, daemon=True).start()
 
     def on_message(self, _ws: websocket.WebSocketApp, message: str) -> None:
@@ -583,6 +598,13 @@ class SummaryClient:
                     pass
 
     def _stream_audio(self) -> None:
+        """Stream audio from configured source."""
+        if self.source == "mp3":
+            self._stream_audio_from_mp3()
+        else:
+            self._stream_audio_from_mic()
+
+    def _stream_audio_from_mic(self) -> None:
         """Stream audio from configured microphone."""
         if not self.device_indices:
             log_print(
@@ -705,6 +727,112 @@ class SummaryClient:
                 "INFO",
                 "SummaryClient audio streaming stopped",
                 session_id=self.session_id,
+            )
+
+    def _stream_audio_from_mp3(self) -> None:
+        """Stream audio from configured MP3 file."""
+        if not self.audio_file:
+            log_print(
+                "WARN",
+                "SummaryClient: no mp3 file configured",
+                session_id=self.session_id,
+            )
+            return
+
+        if not self.running:
+            log_print(
+                "WARN",
+                "SummaryClient: not running, skipping MP3 stream",
+                session_id=self.session_id,
+            )
+            return
+
+        try:
+            audio = AudioSegment.from_file(self.audio_file)
+            audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)
+            raw = audio.raw_data
+
+            log_print(
+                "INFO",
+                "SummaryClient MP3 stream started",
+                session_id=self.session_id,
+                file=self.audio_file,
+                duration_ms=len(audio),
+            )
+            self.logger.log(
+                "summary_mp3_stream_start",
+                file=self.audio_file,
+                duration_ms=len(audio),
+            )
+
+            chunk_bytes = AUDIO_CHUNK * 2
+            commit_interval = 3.0
+            last_commit = 0.0
+
+            for i in range(0, len(raw), chunk_bytes):
+                if not self.running or not self.connected or self._shutdown_event.is_set():
+                    break
+
+                data = raw[i : i + chunk_bytes]
+                if not data:
+                    break
+
+                # Pad tail chunk to keep frame alignment.
+                if len(data) < chunk_bytes:
+                    data = data + b"\x00" * (chunk_bytes - len(data))
+
+                if self.noise_cut_threshold > 0:
+                    arr = np.frombuffer(data, dtype=np.int16).copy()
+                    arr[np.abs(arr) < self.noise_cut_threshold] = 0
+                    data = arr.tobytes()
+
+                # Record audio
+                self.recording_buffer.append(data)
+
+                # Maintain rolling buffer for last 3 seconds
+                self.recent_audio_buffer.append(data)
+                if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
+                    self.recent_audio_buffer.pop(0)
+
+                audio_b64 = base64.b64encode(data).decode()
+
+                with self._lock:
+                    ws = self.ws
+                    if ws and not self._shutdown_event.is_set():
+                        try:
+                            ws.send(
+                                json.dumps(
+                                    {
+                                        "type": "input_audio_buffer.append",
+                                        "audio": audio_b64,
+                                    }
+                                )
+                            )
+
+                            # Periodic commit (skip during listening to keep segment intact)
+                            now = time.time()
+                            if now - last_commit >= commit_interval and not self.listening:
+                                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                                last_commit = now
+                        except Exception:
+                            break
+
+                # Keep real-time pacing
+                time.sleep(AUDIO_CHUNK / AUDIO_RATE)
+
+        except Exception as e:
+            log_print(
+                "ERROR",
+                f"SummaryClient failed to stream mp3: {e}",
+                session_id=self.session_id,
+            )
+            self.logger.log("summary_mp3_stream_error", error=str(e), file=self.audio_file)
+        finally:
+            log_print(
+                "INFO",
+                "SummaryClient MP3 streaming stopped",
+                session_id=self.session_id,
+                file=self.audio_file,
             )
 
     def _close_stream(self) -> None:

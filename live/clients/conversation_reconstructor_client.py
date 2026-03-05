@@ -11,6 +11,7 @@ import websocket
 from config import AUDIO_CHUNK, AUDIO_RATE, OPENAI_API_KEY, OPENAI_REALTIME_URL
 from flask_socketio import SocketIO
 from logger import get_logger, log_print
+from pydub import AudioSegment
 
 from .prompt import RECONSTRUCTOR_SESSION_INSTRUCTIONS, build_reconstruction_prompt
 
@@ -22,12 +23,16 @@ class ConversationReconstructorClient:
         self,
         socketio: SocketIO,
         session_id: str = "default",
+        source: str = "mic",
         device_indices: list[int] | None = None,
+        audio_file: str | None = None,
         on_reconstruction_callback: Optional[Callable[[dict], None]] = None,
     ):
         self.sio = socketio
         self.session_id = session_id
+        self.source = source
         self.device_indices = device_indices or []
+        self.audio_file = audio_file
 
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
@@ -66,11 +71,15 @@ class ConversationReconstructorClient:
             "INFO",
             "ConversationReconstructorClient created",
             session_id=session_id,
+            source=source,
             devices=device_indices,
+            audio_file=audio_file,
         )
         self.logger.log(
             "conversation_reconstructor_created",
+            source=source,
             devices=device_indices,
+            audio_file=audio_file,
         )
 
     def start_listening(self) -> None:
@@ -255,7 +264,9 @@ class ConversationReconstructorClient:
                 int(queued.get("segment_id", 0) or 0),
             )
 
-        if self.device_indices:
+        if (self.source == "mic" and self.device_indices) or (
+            self.source == "mp3" and self.audio_file
+        ):
             threading.Thread(target=self._stream_audio, daemon=True).start()
 
     def on_message(self, _ws: websocket.WebSocketApp, message: str) -> None:
@@ -389,6 +400,13 @@ class ConversationReconstructorClient:
             self.ws = None
 
     def _stream_audio(self) -> None:
+        """Stream audio from configured source."""
+        if self.source == "mp3":
+            self._stream_audio_from_mp3()
+            return
+        self._stream_audio_from_mic()
+
+    def _stream_audio_from_mic(self) -> None:
         """Stream audio from configured microphone."""
         if not self.device_indices:
             return
@@ -466,6 +484,84 @@ class ConversationReconstructorClient:
                     pass
             self.stream = None
             self.pa = None
+
+    def _stream_audio_from_mp3(self) -> None:
+        """Stream audio from configured MP3 file."""
+        if not self.audio_file:
+            return
+        if not self.running:
+            return
+
+        try:
+            audio = AudioSegment.from_file(self.audio_file)
+            audio = audio.set_frame_rate(AUDIO_RATE).set_channels(1).set_sample_width(2)
+            raw = audio.raw_data
+
+            log_print(
+                "INFO",
+                "ConversationReconstructor MP3 stream started",
+                session_id=self.session_id,
+                file=self.audio_file,
+                duration_ms=len(audio),
+            )
+            self.logger.log(
+                "reconstructor_mp3_stream_start",
+                file=self.audio_file,
+                duration_ms=len(audio),
+            )
+
+            chunk_bytes = AUDIO_CHUNK * 2
+            commit_interval = 3.0
+            last_commit = 0.0
+
+            for i in range(0, len(raw), chunk_bytes):
+                if not self.running or not self.connected or self._shutdown_event.is_set():
+                    break
+
+                data = raw[i : i + chunk_bytes]
+                if not data:
+                    break
+
+                if len(data) < chunk_bytes:
+                    data = data + b"\x00" * (chunk_bytes - len(data))
+
+                self.recent_audio_buffer.append(data)
+                if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
+                    self.recent_audio_buffer.pop(0)
+
+                audio_b64 = base64.b64encode(data).decode()
+
+                with self._lock:
+                    ws = self.ws
+                    if ws and not self._shutdown_event.is_set():
+                        try:
+                            ws.send(
+                                json.dumps(
+                                    {
+                                        "type": "input_audio_buffer.append",
+                                        "audio": audio_b64,
+                                    }
+                                )
+                            )
+                            now = time.time()
+                            if now - last_commit >= commit_interval and not self.listening:
+                                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                                last_commit = now
+                        except Exception:
+                            break
+
+                time.sleep(AUDIO_CHUNK / AUDIO_RATE)
+        except Exception as e:
+            self.logger.log(
+                "reconstructor_mp3_stream_error",
+                error=str(e),
+                file=self.audio_file,
+            )
+            log_print(
+                "ERROR",
+                f"ConversationReconstructor MP3 stream error: {e}",
+                session_id=self.session_id,
+            )
 
     def start(self) -> None:
         """Start the reconstructor client."""

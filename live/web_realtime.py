@@ -919,9 +919,24 @@ def handle_start(data: dict):
 
         source = data.get("source", "mic")
 
-        # Get mic selections: keyword_mic (single) and summary_mics (list of up to 2)
+        # Get source selections for keyword and summary agents.
         keyword_mic = data.get("keyword_mic")  # int or None
         summary_mics = data.get("summary_mics", [])  # list of ints
+        keyword_source = str(data.get("keyword_source", "") or "").strip() or None
+        raw_summary_sources = data.get("summary_sources", [])
+        summary_sources = [
+            str(x).strip()
+            for x in raw_summary_sources
+            if str(x or "").strip()
+        ]
+        if not summary_sources:
+            fallback_sum0 = str(
+                data.get("summary0_source", "") or data.get("summary_0_source", "")
+            ).strip()
+            fallback_sum1 = str(
+                data.get("summary1_source", "") or data.get("summary_1_source", "")
+            ).strip()
+            summary_sources = [x for x in [fallback_sum0, fallback_sum1] if x]
         voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
         keyword_voice_id = data.get("keyword_voice_id")  # voice ID for keyword TTS
         tts_output_device = data.get("tts_output_device")  # output device index for TTS
@@ -964,6 +979,7 @@ def handle_start(data: dict):
             source,
             session_id,
             device_index=keyword_mic,
+            mp3_file=keyword_source,
             enable_noise_gate=enable_noise_gate,
             noise_gate_config=noise_gate_config,
         )
@@ -973,18 +989,30 @@ def handle_start(data: dict):
             client.set_noise_threshold(noise_gate_data.get("threshold", 500))
         client.add_vad_transcript_callback(_on_vad_transcript)
 
-        # Create one SummaryClient per summary mic
-        for i, mic_idx in enumerate(summary_mics):
+        # Create one SummaryClient per summary source.
+        summary_input_count = len(summary_mics) if source == "mic" else len(summary_sources)
+        for i in range(summary_input_count):
             voice_id = voice_ids[i] if i < len(voice_ids) else None
+            mic_kwargs = {}
+            if source == "mic":
+                mic_kwargs["device_indices"] = [summary_mics[i]]
+            else:
+                mic_kwargs["audio_file"] = summary_sources[i]
+                mic_kwargs["noise_cut_threshold"] = (
+                    int(noise_gate_data.get("threshold", 500))
+                    if enable_noise_gate
+                    else 0
+                )
             sc = SummaryClient(
                 sio,
                 session_id=f"{session_id}_sum{i}",
-                device_indices=[mic_idx],
+                source=source,
                 enable_tts=bool(voice_id),
                 prepare_tts_on_callback=judge_enabled,
                 mic_id=f"summary_{i}",
                 voice_id=voice_id,
                 output_device_index=tts_output_device,
+                **mic_kwargs,
             )
             summary_clients.append(sc)
             sc.start()
@@ -992,7 +1020,7 @@ def handle_start(data: dict):
         # Create ContextJudgeClient if we have summary clients with TTS
         # Uses the first summary mic for audio context
         # When judge_enabled=False, summaries play directly without judgment
-        if summary_mics and summary_clients and judge_enabled:
+        if source == "mic" and summary_mics and summary_clients and judge_enabled:
             judge_tts_clients = [
                 sc.tts_client for sc in summary_clients if sc.tts_client is not None
             ]
@@ -1009,19 +1037,29 @@ def handle_start(data: dict):
                 "ContextJudgeClient created and connected",
                 session_id=session_id,
             )
-        elif summary_mics and summary_clients:
+        elif summary_clients:
             log_print(
                 "INFO",
                 "Judge agent disabled - summaries will play directly",
                 session_id=session_id,
             )
 
-        if summary_mics and summary_clients and reconstructor_enabled:
+        if summary_clients and reconstructor_enabled:
+            reconstructor_kwargs = {}
+            if source == "mic" and summary_mics:
+                reconstructor_kwargs["device_indices"] = [summary_mics[0]]
+            elif source == "mp3":
+                if keyword_source:
+                    reconstructor_kwargs["audio_file"] = keyword_source
+                elif summary_sources:
+                    reconstructor_kwargs["audio_file"] = summary_sources[0]
+
             conversation_reconstructor = ConversationReconstructorClient(
                 sio,
                 session_id=f"{session_id}_reconstructor",
-                device_indices=[summary_mics[0]],
+                source=source,
                 on_reconstruction_callback=_on_reconstruction_result,
+                **reconstructor_kwargs,
             )
             conversation_reconstructor.start()
             log_print(
@@ -1031,7 +1069,7 @@ def handle_start(data: dict):
             )
 
         # Connect summary callbacks to aggregated batcher when any agent is enabled.
-        if summary_mics and summary_clients and (judge_enabled or reconstructor_enabled):
+        if summary_clients and (judge_enabled or reconstructor_enabled):
             for i, sc in enumerate(summary_clients):
                 sc.set_summary_callback(
                     _make_summary_batch_callback(

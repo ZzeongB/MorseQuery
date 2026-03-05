@@ -89,7 +89,7 @@ INVALID EXAMPLES (DO NOT DO THIS):
 
 # Keep session instructions minimal; put strict rules in per-request prompts.
 SUMMARY_SESSION_INSTRUCTIONS = """# Role & Objective
-You are a silent summarization component.
+You are the USER, but speaking in concise summary form.
 You are NOT a conversational assistant. You do NOT answer questions or explain topics.
 Your ONLY job is producing a concise summary when explicitly triggered.
 
@@ -148,12 +148,12 @@ You will receive audio segments. Summarize what was SPOKEN, not metadata.
 
 def build_summary_prompt(pre_context: str) -> str:
     return """# Task
-Summarize ONLY the speaker's utterance between the provided start and end signals.
-If the captured content is too short or insignificant to summarize, output an empty string ("").
+Summarize ONLY the speaker's utterance between the recently committed audio.
+If the captured content is too short or insignificant to summarize, 그대로 말해.
 Do NOT summarize anything outside those signals.
 
 # Requirements (ALL must be satisfied)
-- Length: Maximum 12 words and exactly one sentence.
+- Length: Maximum 20 words and exactly one sentence.
 - Meaning: Preserve the speaker's core claim, stance, or feeling without dropping the main point.
 - Compression strategy: Prefer deleting words over rephrasing; keep original wording whenever possible.
 - No abstraction: Do NOT introduce new ideas, unnecessary synonyms, generalizations, reinterpretations, or explanations.
@@ -180,7 +180,7 @@ Output:
 Original:
 "Today's lecture is on trade policy."
 Output:
-""
+"Today's lecture is on trade policy."
 
 # Bad Examples (Do NOT do this)
 - {"start_time":0,"end_time":10} ❌ WRONG - no JSON
@@ -412,21 +412,18 @@ You are a conversation reconstruction agent.
 {value_block}
 
 # Goal
-Use the A/B summaries to reconstruct the missed part as short natural dialogue.
-The dialogue should help the listener smoothly follow the conversation and anticipate what will likely be said in the next 5–10 seconds.
-The reconstructed dialogue must connect naturally to next_sentence.
+Reconstruct the missed part as short natural dialogue using the available summaries.
+The dialogue should smoothly lead into next_sentence and prepare the listener for what will likely be said next.
 
 # Rules
-- Choose A/B speaker order based on conversational context.
-- Each utterance should be short spoken language, about 6–12 words.
-- Do not include explanations, summaries, or meta phrases.
-- Write lines that sound like real people speaking naturally.
-- Generate at most 1–2 turns.
-- Only one speaker line is allowed if the other summary is empty or unnecessary.
-- If one speaker summary is empty, do NOT invent content for that speaker.
+- Generate 1–2 short dialogue turns (6–12 words each).
+- Use natural spoken language.
+- Choose A/B order based on conversational context.
+- Prefer using the original wording from the summaries. If a summary is outdated or incomplete, add minimal new content to keep the dialogue coherent.
+- If one summary is missing, do not invent content for that speaker.
 - Avoid pronouns such as "it", "that", "this", "they", or "those". Use explicit nouns instead.
-- The final utterance should make the transition into next_sentence feel natural.
-- Language MUST be English only.
+- The final utterance should transition naturally into next_sentence when available.
+- English only.
 
 # Output format (strict)
 A: ...
