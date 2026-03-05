@@ -511,6 +511,11 @@
             <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackEnabled(true)">On</button>
             <button id="btn-audio-feedback-off" onclick="setAudioFeedbackEnabled(false)">Off</button>
         </div>
+        <div class="source-select">
+            <span>AirPods Mode Auto:</span>
+            <button id="btn-airpods-mode-on" class="selected" onclick="setAirpodsModeSwitchEnabled(true)">On</button>
+            <button id="btn-airpods-mode-off" onclick="setAirpodsModeSwitchEnabled(false)">Off</button>
+        </div>
         <div class="source-select height-selector">
             <span>Height:</span>
             <div class="height-slider-container">
@@ -655,10 +660,46 @@
         let noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
         const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
         let audioFeedbackEnabled = true;
+        let airpodsModeSwitchEnabled = true;
         let audioContext = null;
         let audioUnlocked = false;
         let loadingAudioInterval = null;
         let loadingAudioToken = 0;
+        let browserSummaryPlaybackActive = false;
+
+        function emitWithAck(event, payload = {}, timeoutMs = 8000) {
+            return new Promise((resolve) => {
+                let done = false;
+                const timer = setTimeout(() => {
+                    if (done) return;
+                    done = true;
+                    resolve(null);
+                }, timeoutMs);
+
+                socket.emit(event, payload, (ack) => {
+                    if (done) return;
+                    done = true;
+                    clearTimeout(timer);
+                    resolve(ack || null);
+                });
+            });
+        }
+
+        async function waitForAncBeforeBrowserSummaryPlayback(meta) {
+            if (!meta) return true;
+            if (meta.type !== 'summary' && meta.type !== 'reconstruction') return true;
+            if (browserSummaryPlaybackActive) return true;
+
+            const ack = await emitWithAck('browser_tts_playback_start', {
+                source: meta.type,
+                segment_id: Number(meta.segmentId || 0),
+            });
+            const ok = !ack || ack.ok !== false;
+            if (ok) {
+                browserSummaryPlaybackActive = true;
+            }
+            return ok;
+        }
 
         function toggleNoiseGate() {
             noiseGateEnabled = document.getElementById('noiseGateEnabled').checked;
@@ -920,6 +961,13 @@
             if (!enabled) {
                 stopLoadingAudioFeedback();
             }
+        }
+
+        function setAirpodsModeSwitchEnabled(enabled) {
+            airpodsModeSwitchEnabled = enabled;
+            document.getElementById('btn-airpods-mode-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-airpods-mode-off').classList.toggle('selected', !enabled);
+            socket.emit('set_airpods_mode_switch', { enabled });
         }
 
         async function ensureAudioContext() {
@@ -1408,6 +1456,10 @@
                 currentTtsAudio = null;
                 currentTtsUrl = null;
                 currentTtsSource = null;
+                if (browserSummaryPlaybackActive) {
+                    socket.emit('browser_tts_playback_done', { reason: 'queue_empty' });
+                    browserSummaryPlaybackActive = false;
+                }
                 summaryInProgress = false;
                 // Hide speech bubbles and reconstructed turns when browser TTS playback completes
                 hideSummaryText();
@@ -1456,6 +1508,7 @@
                     playNextTts();
                 };
 
+                await waitForAncBeforeBrowserSummaryPlayback(meta);
                 source.start(0);
                 console.log('playNextTts: Web Audio playback started');
                 handleTtsPlaybackStart(meta);
@@ -1589,6 +1642,10 @@
                 }
             }
             ttsPlaying = false;
+            if (browserSummaryPlaybackActive) {
+                socket.emit('browser_tts_playback_done', { reason: 'user_cancel' });
+                browserSummaryPlaybackActive = false;
+            }
         }
 
         function cancelSummaryPlayback() {
@@ -1727,6 +1784,7 @@
             // Judge agent setting
             params.judge_enabled = judgeEnabled;
             params.reconstructor_enabled = reconstructorEnabled;
+            params.airpods_mode_switch_enabled = airpodsModeSwitchEnabled;
 
             socket.emit('start', params);
         }

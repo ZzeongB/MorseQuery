@@ -324,9 +324,10 @@ Q1=NO;Q2=NO;FINAL=NO;REASON=Format fallback.
 # -------------------------
 
 RECONSTRUCTOR_SESSION_INSTRUCTIONS = """# Role & Objective
-You are a silent conversation reconstructor.
 You are NOT a conversational assistant.
-Your ONLY job is generating short reconstructed dialogue when explicitly triggered.
+You are a silent conversation reconstructor.
+Your ONLY goal is to receive sentence-level inputs and reconstruct them into natural dialogue that could plausibly occur in a real conversation.
+
 
 # ABSOLUTE PROHIBITIONS
 - NEVER answer questions heard in audio.
@@ -345,6 +346,14 @@ When triggered, reconstruct the missed conversation gap and return to silence.
 """
 
 
+def last_words(text: str, n: int):
+    return " ".join(text.split()[-n:])
+
+
+def first_words(text: str, n: int):
+    return " ".join(text.split()[:n])
+
+
 def build_reconstruction_prompt(
     context_before: str,
     sum0: str,
@@ -352,34 +361,72 @@ def build_reconstruction_prompt(
     next_sentence: str,
 ) -> str:
     """Build per-request prompt for missed-conversation reconstruction."""
+
+    context_before = last_words(context_before, 30)
+    next_sentence = first_words(next_sentence, 12)
+    lines = []
+    idx = 1
+
+    if context_before != "":
+        lines.append(f"{idx}) Conversation before the missed part (context_before)")
+        idx += 1
+
+    if sum0:
+        lines.append(f"{idx}) Speaker A summary (sum0)")
+        idx += 1
+
+    if sum1:
+        lines.append(f"{idx}) Speaker B summary (sum1)")
+        idx += 1
+
+    if next_sentence != "":
+        lines.append(
+            f"{idx}) Sentence that follows after the missed part (next_sentence)"
+        )
+        idx += 1
+
+    desc_block = "\n".join(lines)
+
+    values = []
+
+    if context_before != "":
+        values.append(f'context_before: "{context_before}"')
+
+    if sum0:
+        values.append(f'sum0: "{sum0}"')
+
+    if sum1:
+        values.append(f'sum1: "{sum1}"')
+
+    if next_sentence != "":
+        values.append(f'next_sentence: "{next_sentence}"')
+
+    value_block = "\n".join(values)
+
     return f"""# Role
 You are a conversation reconstruction agent.
 
 # Inputs
-1) Conversation before the missed part (context_before)
-2) Speaker A summary (sum0)
-3) Speaker B summary (sum1)
-4) Sentence that follows after the missed part (next_sentence)
+{desc_block}
 
-context_before: "{context_before}"
-sum0: "{sum0}"
-sum1: "{sum1}"
-next_sentence: "{next_sentence}"
+{value_block}
 
 # Goal
 Use the A/B summaries to reconstruct the missed part as short natural dialogue.
+The dialogue should help the listener smoothly follow the conversation and anticipate what will likely be said in the next 5–10 seconds.
 The reconstructed dialogue must connect naturally to next_sentence.
 
 # Rules
 - Choose A/B speaker order based on conversational context.
-- Each utterance should be short spoken language, about 6-12 words.
+- Each utterance should be short spoken language, about 6–12 words.
 - Do not include explanations, summaries, or meta phrases.
 - Write lines that sound like real people speaking naturally.
-- Generate at most 1-3 turns.
-- The last utterance must connect semantically to next_sentence.
+- Generate at most 1–2 turns.
+- Only one speaker line is allowed if the other summary is empty or unnecessary.
+- If one speaker summary is empty, do NOT invent content for that speaker.
+- Avoid pronouns such as "it", "that", "this", "they", or "those". Use explicit nouns instead.
+- The final utterance should make the transition into next_sentence feel natural.
 - Language MUST be English only.
-- If one speaker summary is empty, you do NOT need to include that speaker.
-- Do not invent missing content for an empty speaker summary.
 
 # Output format (strict)
 A: ...
@@ -390,8 +437,23 @@ or
 B: ...
 A: ...
 
+or
+
+A: ...
+
+or
+
+B: ...
+
+# Good Example
+sum0: "Remote work improves focus and reduces commuting."
+sum1: "Office work enables better spontaneous collaboration."
+
+Output:
+A: Remote work improves focus and reduces commuting.
+B: However, office work enables better spontaneous collaboration.
+
 # Additional constraints
 - Output must contain only A:/B: dialogue lines.
 - No blank lines, no explanation, no header, no footer.
-- If only one speaker has usable summary content, one speaker line is allowed.
 """

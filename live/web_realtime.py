@@ -9,11 +9,15 @@ Dependencies:
 
 import base64
 import io
+import os
+import subprocess
 import struct
+import sys
 import threading
 import time
 import wave
 from collections import deque
+from pathlib import Path
 import re
 from typing import Optional
 
@@ -44,6 +48,117 @@ from logger import get_logger, log_print
 
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR))
 sio = SocketIO(app, cors_allowed_origins="*")
+
+# AirPods ANC/Transparency auto-switch during TTS playback.
+_airpods_lock = threading.Lock()
+_airpods_active_tts_count = 0
+_airpods_last_mode: Optional[str] = None
+_airpods_mode_switch_enabled = True
+_airpods_script_path = Path(__file__).resolve().parents[1] / "airpod.py"
+
+
+def _run_airpods_mode(mode: str, reason: str, wait: bool = False) -> None:
+    """Best-effort mode switch using airpod.py."""
+    if mode not in {"anc", "transparency"}:
+        return
+    if sys.platform != "darwin":
+        return
+    if not _airpods_script_path.exists():
+        log_print(
+            "WARN",
+            "airpod.py not found; skipping AirPods mode switch",
+            path=str(_airpods_script_path),
+            mode=mode,
+        )
+        return
+
+    def _apply() -> None:
+        try:
+            cmd = [sys.executable, str(_airpods_script_path), mode]
+            env = os.environ.copy()
+            env.setdefault("PYTHONUNBUFFERED", "1")
+            result = subprocess.run(
+                cmd,
+                check=False,
+                capture_output=True,
+                text=True,
+                env=env,
+            )
+            if result.returncode != 0:
+                log_print(
+                    "WARN",
+                    "AirPods mode command failed",
+                    mode=mode,
+                    reason=reason,
+                    returncode=result.returncode,
+                    stderr=(result.stderr or "").strip()[:200],
+                )
+                return
+            log_print("INFO", "AirPods mode switched", mode=mode, reason=reason)
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"AirPods mode switch failed: {e}",
+                mode=mode,
+                reason=reason,
+            )
+
+    if wait:
+        _apply()
+    else:
+        threading.Thread(target=_apply, daemon=True).start()
+
+
+def _set_airpods_mode(mode: str, reason: str, wait: bool = False) -> None:
+    with _airpods_lock:
+        global _airpods_last_mode, _airpods_mode_switch_enabled
+        if not _airpods_mode_switch_enabled:
+            return
+        if _airpods_last_mode == mode:
+            return
+        _airpods_last_mode = mode
+    _run_airpods_mode(mode, reason, wait=wait)
+
+
+def _on_tts_started(reason: str) -> None:
+    with _airpods_lock:
+        global _airpods_active_tts_count
+        _airpods_active_tts_count += 1
+        should_switch = _airpods_active_tts_count == 1
+    if should_switch:
+        # Block TTS start briefly until ANC command is applied.
+        _set_airpods_mode("anc", reason, wait=True)
+
+
+def _on_tts_finished(reason: str) -> None:
+    with _airpods_lock:
+        global _airpods_active_tts_count
+        if _airpods_active_tts_count > 0:
+            _airpods_active_tts_count -= 1
+        should_switch = _airpods_active_tts_count == 0
+    if should_switch:
+        _set_airpods_mode("transparency", reason)
+
+
+def _reset_tts_airpods_state(reason: str) -> None:
+    with _airpods_lock:
+        global _airpods_active_tts_count
+        _airpods_active_tts_count = 0
+    _set_airpods_mode("transparency", reason)
+
+
+_original_sio_emit = sio.emit
+
+
+def _emit_with_airpods(event, *args, **kwargs):
+    if event == "tts_playing":
+        _on_tts_started("socketio_tts_playing")
+    elif event == "tts_done":
+        _on_tts_finished("socketio_tts_done")
+    return _original_sio_emit(event, *args, **kwargs)
+
+
+sio.emit = _emit_with_airpods  # type: ignore[assignment]
 
 # Active clients (per session in production, global for simplicity here)
 _clients_lock = threading.Lock()
@@ -760,6 +875,7 @@ def handle_disconnect():
             conversation_reconstructor = None
         keyword_tts_client = None
         _active_runtime_sid = None
+    _reset_tts_airpods_state("disconnect")
     with _judge_batch_lock:
         _judge_batch.clear()
         _judge_completed_segments.clear()
@@ -769,13 +885,18 @@ def handle_disconnect():
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid
+    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid, _airpods_mode_switch_enabled
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
     # Stop mic monitor when session starts
     stop_mic_monitor()
     stop_noise_gate_monitor()
+    with _airpods_lock:
+        _airpods_mode_switch_enabled = bool(
+            (data or {}).get("airpods_mode_switch_enabled", True)
+        )
+    _reset_tts_airpods_state("start")
 
     with _clients_lock:
         if client:
@@ -946,6 +1067,7 @@ def handle_stop():
     with _clients_lock:
         if client:
             client.stop()
+    _reset_tts_airpods_state("stop")
 
 
 @sio.on("request")
@@ -1072,6 +1194,12 @@ def handle_keyword_tts(data: dict):
     # Latest-only behavior: if a newer navigation request arrives while synthesis
     # is in-flight, this request is dropped before playback.
     def _synthesize_and_play():
+        def _watch_keyword_playback_done() -> None:
+            # keyword path uses emit_done=False, so tts_done is not emitted.
+            while tts.is_playing:
+                time.sleep(0.05)
+            _on_tts_finished("keyword_tts_done")
+
         audio_bytes = tts.synthesize(text, language="en")
         if not audio_bytes:
             return
@@ -1085,6 +1213,7 @@ def handle_keyword_tts(data: dict):
         # If previous playback is still tearing down after cancel, first call can miss.
         # Retry briefly so the latest navigation click starts audio without a second tap.
         if tts.play_queued(reason="keyword", emit_done=False):
+            threading.Thread(target=_watch_keyword_playback_done, daemon=True).start()
             return
         for _ in range(30):  # up to ~300ms
             time.sleep(0.01)
@@ -1092,6 +1221,7 @@ def handle_keyword_tts(data: dict):
                 if request_token != _keyword_tts_request_token:
                     return
             if tts.play_queued(reason="keyword", emit_done=False):
+                threading.Thread(target=_watch_keyword_playback_done, daemon=True).start()
                 return
 
     threading.Thread(target=_synthesize_and_play, daemon=True).start()
@@ -1151,6 +1281,7 @@ def handle_cancel_keyword_tts():
         _keyword_tts_request_token += 1
         if keyword_tts_client:
             keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
+    _reset_tts_airpods_state("cancel_keyword_tts")
     log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
 
 
@@ -1175,7 +1306,44 @@ def handle_cancel_tts():
             for sc in summary_clients:
                 if sc.tts_client:
                     sc.tts_client.stop_playback()
+    _reset_tts_airpods_state("cancel_tts")
     log_print("INFO", "cancel_tts handled", session_id=session_id)
+
+
+@sio.on("browser_tts_playback_start")
+def handle_browser_tts_playback_start(data: dict):
+    """Browser-side TTS playback start (summary/reconstruction)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    source = str((data or {}).get("source", "")).strip() or "browser"
+    _on_tts_started(f"browser_tts_playback_start:{source}")
+    return {"ok": True}
+
+
+@sio.on("browser_tts_playback_done")
+def handle_browser_tts_playback_done(data: dict):
+    """Browser-side TTS playback done (summary/reconstruction)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    reason = str((data or {}).get("reason", "")).strip() or "browser_done"
+    _on_tts_finished(f"browser_tts_playback_done:{reason}")
+
+
+@sio.on("set_airpods_mode_switch")
+def handle_set_airpods_mode_switch(data: dict):
+    """Update AirPods ANC/Transparency auto-switch enable flag."""
+    global _airpods_mode_switch_enabled
+    enabled = bool((data or {}).get("enabled", True))
+    with _airpods_lock:
+        _airpods_mode_switch_enabled = enabled
+    log_print(
+        "INFO",
+        "AirPods mode auto-switch updated",
+        session_id=request.sid,
+        enabled=enabled,
+    )
 
 
 if __name__ == "__main__":
