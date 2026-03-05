@@ -35,6 +35,7 @@ class SummaryClient:
         session_id: str = "default",
         device_indices: list[int] | None = None,
         enable_tts: bool = True,
+        prepare_tts_on_callback: bool = True,
         mic_id: str = "summary",
         voice_id: str | None = None,
         output_device_index: int | None = None,
@@ -79,6 +80,7 @@ class SummaryClient:
 
         # TTS client
         self.enable_tts = enable_tts
+        self.prepare_tts_on_callback = prepare_tts_on_callback
         if enable_tts and voice_id:
             self.tts_client = TTSClient(
                 socketio,
@@ -99,6 +101,7 @@ class SummaryClient:
             session_id=session_id,
             devices=device_indices,
             tts_enabled=enable_tts,
+            prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
             output_device_index=output_device_index,
         )
@@ -106,6 +109,7 @@ class SummaryClient:
             "summary_client_created",
             devices=device_indices,
             tts_enabled=enable_tts,
+            prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
             output_device_index=output_device_index,
         )
@@ -381,7 +385,7 @@ class SummaryClient:
                 callback = self.on_summary_callback
 
                 # Queue TTS for potential playback (ContextJudgeClient decides)
-                if self.enable_tts and self.tts_client:
+                if self.enable_tts and self.tts_client and self.prepare_tts_on_callback:
                     tts_ready_callback = self._resolve_tts_ready_callback()
                     if tts_ready_callback:
                         self.tts_client.queue_audio_with_callback(
@@ -394,6 +398,12 @@ class SummaryClient:
                     log_print(
                         "INFO",
                         f"TTS queued for parallel judgment: {summary[:50]}...",
+                        session_id=self.session_id,
+                    )
+                elif self.enable_tts and self.tts_client and not self.prepare_tts_on_callback:
+                    log_print(
+                        "INFO",
+                        "Skipping summary TTS queue for callback mode",
                         session_id=self.session_id,
                     )
 

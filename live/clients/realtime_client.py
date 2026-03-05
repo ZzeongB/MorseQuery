@@ -61,6 +61,7 @@ class RealtimeClient:
 
         # Reference to summary clients for forwarding transcripts
         self.summary_clients: list = []
+        self._vad_transcript_callbacks: list = []
 
         # Noise gate for filtering ambient audio
         self.enable_noise_gate = enable_noise_gate
@@ -100,23 +101,41 @@ class RealtimeClient:
             session_id=self.session_id,
         )
 
+    def add_vad_transcript_callback(self, callback) -> None:
+        """Register callback called with each VAD transcript string."""
+        if callback is None:
+            return
+        self._vad_transcript_callbacks.append(callback)
+
     def on_open(self, ws: websocket.WebSocketApp) -> None:
         """Handle WebSocket connection opened."""
         log_print("INFO", "WebSocket connected to OpenAI", session_id=self.session_id)
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
 
-        # Configure without VAD - manual keyword extraction only (spacebar)
+        # Configure with server-side VAD transcription so we can capture
+        # context_before / next_sentence more frequently.
         session_config = {
             "modalities": ["text", "audio"],
             "input_audio_format": "pcm16",
-            "turn_detection": None,  # No VAD - spacebar only
+            "turn_detection": {
+                "type": "server_vad",
+                "threshold": 0.45,
+                "prefix_padding_ms": 180,
+                "silence_duration_ms": 420,
+                "create_response": False,
+            },
+            "input_audio_transcription": {
+                "model": "whisper-1",
+            },
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }
 
         ws.send(json.dumps({"type": "session.update", "session": session_config}))
         log_print(
-            "DEBUG", "Session update sent (VAD disabled)", session_id=self.session_id
+            "DEBUG",
+            "Session update sent (server_vad transcription enabled)",
+            session_id=self.session_id,
         )
         self.logger.log("session_update_sent")
         threading.Thread(target=self._stream_audio, daemon=True).start()
@@ -175,6 +194,15 @@ class RealtimeClient:
         self.logger.log("vad_transcript", transcript=transcript)
 
         # Don't emit to frontend - VAD transcripts are for internal context only
+        for callback in self._vad_transcript_callbacks:
+            try:
+                callback(transcript)
+            except Exception as e:
+                log_print(
+                    "WARN",
+                    f"VAD transcript callback failed: {e}",
+                    session_id=self.session_id,
+                )
 
     def _parse_json_format(self, text: str) -> list[dict]:
         """Parse JSON-like format: {"key": value, "key2": value2}

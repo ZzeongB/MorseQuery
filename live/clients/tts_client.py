@@ -12,7 +12,7 @@ import pyaudio
 import requests
 from config import CARTESIA_API_KEY, TTS_LOG_DIR
 from flask_socketio import SocketIO
-from logger import log_print
+from logger import get_logger, log_print
 
 # Cartesia API settings
 CARTESIA_API_URL = "https://api.cartesia.ai/tts/bytes"
@@ -54,6 +54,7 @@ class TTSClient:
         self._play_thread: Optional[threading.Thread] = None
 
         # TTS logging
+        self.logger = get_logger(session_id)
         self._tts_counter = 0
         self._tts_counter_lock = threading.Lock()
         self._cache_lock = threading.Lock()
@@ -204,12 +205,21 @@ class TTSClient:
                 f.write(f"TTS ID: {tts_id}\n")
                 f.write(f"Timestamp: {timestamp}\n")
                 f.write(f"Size: {len(audio_bytes)} bytes\n")
+                f.write(f"Audio Path: {filepath.resolve()}\n")
 
             log_print(
                 "INFO",
                 f"TTS saved: {filename}",
                 session_id=self.session_id,
                 tts_id=tts_id,
+            )
+            self.logger.log(
+                "tts_saved",
+                tts_id=tts_id,
+                tts_text=text,
+                tts_audio_path=str(filepath.resolve()),
+                tts_meta_path=str(meta_filepath.resolve()),
+                tts_size_bytes=len(audio_bytes),
             )
             return str(filepath)
 

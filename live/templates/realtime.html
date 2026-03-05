@@ -266,6 +266,37 @@
             border-left-color: #334155;
         }
 
+        /* Reconstructed conversation (A/B ordered turns) */
+        .reconstructed-turns {
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+            max-width: 640px;
+        }
+        .reconstructed-turns.active {
+            display: flex;
+        }
+        .reconstructed-turn {
+            padding: 8px 12px;
+            border-radius: 10px;
+            background: #1f2937;
+            border: 1px solid #374151;
+            color: #e5e7eb;
+            font-size: 13px;
+            line-height: 1.4;
+            max-width: 90%;
+            white-space: pre-wrap;
+        }
+        .reconstructed-turn.a {
+            align-self: flex-start;
+            border-color: #4b5563;
+        }
+        .reconstructed-turn.b {
+            align-self: flex-end;
+            border-color: #4ade80;
+        }
+
         /* Height position selector */
         .height-selector {
             display: flex;
@@ -444,8 +475,13 @@
         </div>
         <div class="source-select">
             <span>Judge Agent:</span>
-            <button id="btn-judge-on" class="selected" onclick="setJudgeEnabled(true)">On</button>
-            <button id="btn-judge-off" onclick="setJudgeEnabled(false)">Off</button>
+            <button id="btn-judge-on" onclick="setJudgeEnabled(true)">On</button>
+            <button id="btn-judge-off" class="selected" onclick="setJudgeEnabled(false)">Off</button>
+        </div>
+        <div class="source-select">
+            <span>Reconstructor:</span>
+            <button id="btn-reconstructor-on" class="selected" onclick="setReconstructorEnabled(true)">On</button>
+            <button id="btn-reconstructor-off" onclick="setReconstructorEnabled(false)">Off</button>
         </div>
         <div class="source-select">
             <span>Audio Feedback:</span>
@@ -551,6 +587,7 @@
             <div class="speech-bubble left" id="summaryBubble1"></div>
             <div class="speech-bubble right" id="summaryBubble2"></div>
         </div>
+        <div class="reconstructed-turns" id="reconstructedTurns"></div>
 
         <div class="options-list" id="optionsList"></div>
     </div>
@@ -574,7 +611,8 @@
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
         let keywordOutputMode = 'text'; // 'text' | 'audio'
-        let judgeEnabled = true; // Judge agent on/off (when off, summaries play without judgment)
+        let judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
+        let reconstructorEnabled = true; // Conversation reconstructor on/off
         let keywordTtsPlaying = false; // Track if keyword TTS is playing
         let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
         let inferencingTimer = null;
@@ -841,6 +879,12 @@
             judgeEnabled = enabled;
             document.getElementById('btn-judge-on').classList.toggle('selected', enabled);
             document.getElementById('btn-judge-off').classList.toggle('selected', !enabled);
+        }
+
+        function setReconstructorEnabled(enabled) {
+            reconstructorEnabled = enabled;
+            document.getElementById('btn-reconstructor-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-reconstructor-off').classList.toggle('selected', !enabled);
         }
 
         function setAudioFeedbackEnabled(enabled) {
@@ -1136,6 +1180,7 @@
             document.getElementById('optionsList').innerHTML = '';
             hideLoadingIndicator();
             hideSummaryText();
+            hideReconstructedTurns();
         });
 
         socket.on('summary_done', data => {
@@ -1248,6 +1293,14 @@
             showSkippedIndicator(reason);
         });
 
+        socket.on('conversation_reconstructed', data => {
+            console.log('conversation_reconstructed', data);
+        });
+        socket.on('conversation_reconstructed_turns', data => {
+            const turns = Array.isArray(data && data.turns) ? data.turns : [];
+            renderReconstructedTurns(turns);
+        });
+
         // TTS audio playback with queue (play sequentially, no overlap)
         let ttsQueue = [];
         let ttsPlaying = false;
@@ -1332,6 +1385,10 @@
             if (!data.audio) return;
             enqueueTtsAudio(data.audio);
         });
+        socket.on('conversation_tts', data => {
+            if (!data.audio) return;
+            enqueueTtsAudio(data.audio);
+        });
 
         socket.on('keyword_tts_error', data => {
             console.error('Keyword TTS error:', data.error);
@@ -1374,6 +1431,7 @@
             }
             hideLoadingIndicator();
             hideSummaryText();
+            hideReconstructedTurns();
             pendingSummaryTexts = [];
             showSkippedIndicator('Summary canceled');
         }
@@ -1491,6 +1549,7 @@
 
             // Judge agent setting
             params.judge_enabled = judgeEnabled;
+            params.reconstructor_enabled = reconstructorEnabled;
 
             socket.emit('start', params);
         }
@@ -1599,6 +1658,28 @@
                 bubble2.textContent = '';
                 bubble2.classList.remove('active');
             }
+        }
+
+        function renderReconstructedTurns(turns) {
+            const container = document.getElementById('reconstructedTurns');
+            if (!container) return;
+            if (!Array.isArray(turns) || turns.length === 0) {
+                container.classList.remove('active');
+                container.innerHTML = '';
+                return;
+            }
+
+            container.innerHTML = turns.map(turn => {
+                const speaker = (turn.speaker || '').toUpperCase() === 'B' ? 'B' : 'A';
+                const cls = speaker === 'A' ? 'a' : 'b';
+                const text = (turn.text || '').trim();
+                return `<div class="reconstructed-turn ${cls}"><strong>${speaker}:</strong> ${text}</div>`;
+            }).join('');
+            container.classList.add('active');
+        }
+
+        function hideReconstructedTurns() {
+            renderReconstructedTurns([]);
         }
 
         function requestKeywordTts(items) {
@@ -1738,6 +1819,7 @@
         function startSummarizing() {
             // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
+                hideReconstructedTurns();
                 summaryRequested = true;
                 summaryInProgress = true;
                 awaitingJudgeDecision = false;

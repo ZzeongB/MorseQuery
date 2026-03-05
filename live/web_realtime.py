@@ -7,15 +7,18 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
+import base64
 import struct
 import threading
 import time
+from collections import deque
+import re
 from typing import Optional
 
 import numpy as np
 import pyaudio
 
-from clients import RealtimeClient, SummaryClient
+from clients import ConversationReconstructorClient, RealtimeClient, SummaryClient
 from clients.context_judge_client import ContextJudgeClient
 from clients.tts_client import TTSClient
 
@@ -45,25 +48,215 @@ _clients_lock = threading.Lock()
 client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
+conversation_reconstructor: Optional[ConversationReconstructorClient] = None
 keyword_tts_client: Optional[TTSClient] = None
 _keyword_tts_request_token = 0
+_active_runtime_sid: Optional[str] = None
 
-# Aggregate multiple summary-agent outputs into one judge request per segment
+# Aggregate multiple summary-agent outputs into one request batch per segment
 _judge_batch_lock = threading.Lock()
 _judge_batch: dict[int, dict] = {}
 _judge_completed_segments: set[int] = set()
 _JUDGE_BATCH_TIMEOUT_SEC = 0.7
 
+# Conversation context tracking (from keyword RealtimeClient VAD transcripts)
+_segment_ctx_lock = threading.Lock()
+_segment_seq = 0
+_segment_windows: dict[int, dict] = {}
+_recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
+
+
+def _reset_segment_tracking() -> None:
+    global _segment_seq
+    with _segment_ctx_lock:
+        _segment_seq = 0
+        _segment_windows.clear()
+        _recent_vad_transcripts.clear()
+
+
+def _on_vad_transcript(transcript: str) -> None:
+    now = time.time()
+    text = (transcript or "").strip()
+    if not text:
+        return
+
+    with _segment_ctx_lock:
+        _recent_vad_transcripts.append((now, text))
+        # Bind next_sentence to the earliest ended segment that does not have one yet.
+        pending = sorted(
+            (
+                (seg_id, info)
+                for seg_id, info in _segment_windows.items()
+                if info.get("end_ts") is not None and not info.get("next_sentence")
+            ),
+            key=lambda x: x[0],
+        )
+        for seg_id, info in pending:
+            if now >= float(info.get("end_ts", 0.0)):
+                info["next_sentence"] = text
+                log_print(
+                    "INFO",
+                    "Captured next_sentence for segment",
+                    segment_id=seg_id,
+                    chars=len(text),
+                )
+                break
+
+
+def _collect_context_before(segment_id: int) -> str:
+    with _segment_ctx_lock:
+        window = _segment_windows.get(segment_id, {})
+        start_ts = window.get("start_ts")
+        if start_ts is None:
+            return ""
+
+        # Use the recent context (last ~25s before start, max 3 lines).
+        candidates = [
+            text
+            for ts, text in _recent_vad_transcripts
+            if ts < float(start_ts) and ts >= float(start_ts) - 25.0
+        ]
+    return " ".join(candidates[-3:]).strip()
+
+
+def _consume_next_sentence(segment_id: int) -> str:
+    # Wait briefly to capture the first post-segment transcript.
+    deadline = time.time() + 1.2
+    while time.time() < deadline:
+        with _segment_ctx_lock:
+            window = _segment_windows.get(segment_id, {})
+            text = str(window.get("next_sentence", "") or "").strip()
+        if text:
+            return text
+        time.sleep(0.05)
+    return ""
+
+
+def _parse_reconstructed_turns(text: str) -> list[tuple[str, str]]:
+    """Parse reconstructed dialogue lines preserving order."""
+    turns: list[tuple[str, str]] = []
+    normalized = str(text or "")
+    # Handle escaped newlines from model output logs/serialization.
+    normalized = normalized.replace("\\n", "\n").replace("\r\n", "\n").replace("\r", "\n")
+
+    # Parse turn blocks robustly across multiline output.
+    pattern = (
+        r"(?:^|\n)\s*(?:SPEAKER\s*)?([AB])\s*(?::|-|–|—)\s*(.+?)"
+        r"(?=(?:\n\s*(?:SPEAKER\s*)?[AB]\s*(?::|-|–|—)\s*)|\Z)"
+    )
+    for m in re.finditer(pattern, normalized, flags=re.IGNORECASE | re.DOTALL):
+        speaker = m.group(1).upper()
+        utterance = " ".join(m.group(2).strip().split())
+        if not utterance:
+            continue
+        turns.append((speaker, utterance))
+        if len(turns) >= 3:
+            break
+    return turns
+
+
+def _get_tts_client_for_speaker(speaker: str) -> Optional[TTSClient]:
+    idx = 0 if speaker == "A" else 1
+    if idx < len(summary_clients):
+        sc = summary_clients[idx]
+        if sc.tts_client:
+            return sc.tts_client
+    if summary_clients:
+        for sc in summary_clients:
+            if sc.tts_client:
+                return sc.tts_client
+    return keyword_tts_client
+
+
+def _on_reconstruction_result(payload: dict) -> None:
+    """Emit reconstructed turns and synthesize per-turn TTS in sequence."""
+    conversation = str((payload or {}).get("conversation", "")).strip()
+    sum0 = str((payload or {}).get("sum0", "")).strip()
+    sum1 = str((payload or {}).get("sum1", "")).strip()
+    segment_id = int((payload or {}).get("segment_id", 0) or 0)
+    turns = _parse_reconstructed_turns(conversation)
+    if not turns:
+        # Fallback: if model format drifts, still provide ordered A/B turns.
+        if sum0:
+            turns.append(("A", sum0))
+        if sum1:
+            turns.append(("B", sum1))
+        if not turns and conversation:
+            turns.append(("A", conversation[:240]))
+        if not turns:
+            return
+
+    sio.emit(
+        "conversation_reconstructed_turns",
+        {
+            "segment_id": segment_id,
+            "turns": [{"speaker": s, "text": t} for s, t in turns],
+        },
+    )
+
+    def _synthesize_turns():
+        # Collect all synthesized audio first
+        audio_items: list[tuple[bytes, str, str, int]] = []  # (audio_bytes, speaker, text, idx)
+        primary_tts = None
+
+        for i, (speaker, text) in enumerate(turns):
+            with _clients_lock:
+                tts = _get_tts_client_for_speaker(speaker)
+            if not tts:
+                continue
+            if primary_tts is None:
+                primary_tts = tts
+            audio_bytes = tts.synthesize(text, language="en")
+            if not audio_bytes:
+                continue
+            audio_items.append((audio_bytes, speaker, text, i))
+
+        if not audio_items or not primary_tts:
+            log_print(
+                "WARN",
+                "No audio synthesized for reconstruction",
+                segment_id=segment_id,
+            )
+            return
+
+        # Queue all audio to the primary TTS client for sequential playback
+        for audio_bytes, speaker, text, i in audio_items:
+            primary_tts.queue_audio_bytes(audio_bytes, text)
+            # Also emit to client for visual feedback
+            audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
+            sio.emit(
+                "conversation_tts",
+                {
+                    "segment_id": segment_id,
+                    "turn_index": i,
+                    "speaker": speaker,
+                    "text": text,
+                    "audio": audio_b64,
+                    "format": "wav",
+                    "sample_rate": 24000,
+                },
+            )
+
+        # Play all queued audio on server side (via speakers)
+        primary_tts.play_queued(reason="reconstruction", emit_done=True)
+
+    threading.Thread(target=_synthesize_turns, daemon=True).start()
+
+
+def _is_active_session(session_id: str) -> bool:
+    return _active_runtime_sid is None or session_id == _active_runtime_sid
+
 
 def _flush_judge_batch(segment_id: int, session_id: str) -> None:
-    """Flush aggregated summaries for a segment into one judge request."""
+    """Flush aggregated summaries for a segment into judge/reconstructor requests."""
     with _judge_batch_lock:
         batch = _judge_batch.get(segment_id)
         judge = context_judge
+        reconstructor = conversation_reconstructor
         if (
             not batch
             or batch.get("sent")
-            or not judge
+            or (not judge and not reconstructor)
             or segment_id in _judge_completed_segments
         ):
             return
@@ -86,17 +279,31 @@ def _flush_judge_batch(segment_id: int, session_id: str) -> None:
 
     log_print(
         "INFO",
-        "Flushing batched summaries to judge",
+        "Flushing batched summaries",
         session_id=session_id,
         segment_id=segment_id,
         count=len(summaries_by_source),
     )
     expected_tts_count = int(batch.get("tts_expected_count", len(merged_parts)))
-    judge.judge_summary(
-        merged_summary,
-        segment_id,
-        expected_tts_count=max(0, expected_tts_count),
-    )
+    if judge:
+        judge.judge_summary(
+            merged_summary,
+            segment_id,
+            expected_tts_count=max(0, expected_tts_count),
+        )
+
+    if reconstructor:
+        sum0 = summaries_by_source.get("sum0", "").strip()
+        sum1 = summaries_by_source.get("sum1", "").strip()
+        context_before = _collect_context_before(segment_id)
+        next_sentence = _consume_next_sentence(segment_id)
+        reconstructor.reconstruct_conversation(
+            context_before=context_before,
+            sum0=sum0,
+            sum1=sum1,
+            next_sentence=next_sentence,
+            segment_id=segment_id,
+        )
 
 
 def _make_summary_batch_callback(source_id: str, session_id: str, tts_enabled: bool):
@@ -429,7 +636,7 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_clients, context_judge, keyword_tts_client
+    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -439,7 +646,17 @@ def handle_disconnect():
     stop_mic_monitor()
     stop_noise_gate_monitor()
 
-    # Stop running clients when user disconnects (e.g., page refresh)
+    # Ignore disconnects from non-active sockets; runtime is shared globals.
+    if _active_runtime_sid and session_id != _active_runtime_sid:
+        log_print(
+            "INFO",
+            "Ignoring disconnect from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
+
+    # Stop running clients when active user disconnects (e.g., page refresh)
     with _clients_lock:
         if client:
             client.stop()
@@ -450,16 +667,21 @@ def handle_disconnect():
         if context_judge:
             context_judge.stop()
             context_judge = None
+        if conversation_reconstructor:
+            conversation_reconstructor.stop()
+            conversation_reconstructor = None
         keyword_tts_client = None
+        _active_runtime_sid = None
     with _judge_batch_lock:
         _judge_batch.clear()
         _judge_completed_segments.clear()
+    _reset_segment_tracking()
 
 
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients, context_judge, keyword_tts_client
+    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -477,9 +699,14 @@ def handle_start(data: dict):
         if context_judge:
             context_judge.stop()
             context_judge = None
+        if conversation_reconstructor:
+            conversation_reconstructor.stop()
+            conversation_reconstructor = None
         with _judge_batch_lock:
             _judge_batch.clear()
             _judge_completed_segments.clear()
+        _reset_segment_tracking()
+        _active_runtime_sid = session_id
 
         source = data.get("source", "mic")
 
@@ -501,7 +728,8 @@ def handle_start(data: dict):
         keyword_tts_client = TTSClient(**keyword_tts_kwargs)
 
         # Judge agent settings (when disabled, summaries play without judgment)
-        judge_enabled = data.get("judge_enabled", True)
+        judge_enabled = data.get("judge_enabled", False)
+        reconstructor_enabled = data.get("reconstructor_enabled", True)
 
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})
@@ -534,6 +762,7 @@ def handle_start(data: dict):
         # If noise gate is enabled with fixed threshold, set it
         if enable_noise_gate and client.noise_gate:
             client.set_noise_threshold(noise_gate_data.get("threshold", 500))
+        client.add_vad_transcript_callback(_on_vad_transcript)
 
         # Create one SummaryClient per summary mic
         for i, mic_idx in enumerate(summary_mics):
@@ -543,6 +772,7 @@ def handle_start(data: dict):
                 session_id=f"{session_id}_sum{i}",
                 device_indices=[mic_idx],
                 enable_tts=bool(voice_id),
+                prepare_tts_on_callback=judge_enabled,
                 mic_id=f"summary_{i}",
                 voice_id=voice_id,
                 output_device_index=tts_output_device,
@@ -565,17 +795,6 @@ def handle_start(data: dict):
             )
             context_judge.start()
 
-            # Connect summary callbacks to judge
-            for i, sc in enumerate(summary_clients):
-                sc.set_summary_callback(
-                    _make_summary_batch_callback(
-                        source_id=f"sum{i}",
-                        session_id=session_id,
-                        tts_enabled=sc.tts_client is not None,
-                    )
-                )
-                sc.set_tts_ready_callback(context_judge.on_tts_ready)
-
             log_print(
                 "INFO",
                 "ContextJudgeClient created and connected",
@@ -587,6 +806,33 @@ def handle_start(data: dict):
                 "Judge agent disabled - summaries will play directly",
                 session_id=session_id,
             )
+
+        if summary_mics and summary_clients and reconstructor_enabled:
+            conversation_reconstructor = ConversationReconstructorClient(
+                sio,
+                session_id=f"{session_id}_reconstructor",
+                device_indices=[summary_mics[0]],
+                on_reconstruction_callback=_on_reconstruction_result,
+            )
+            conversation_reconstructor.start()
+            log_print(
+                "INFO",
+                "ConversationReconstructorClient created and connected",
+                session_id=session_id,
+            )
+
+        # Connect summary callbacks to aggregated batcher when any agent is enabled.
+        if summary_mics and summary_clients and (judge_enabled or reconstructor_enabled):
+            for i, sc in enumerate(summary_clients):
+                sc.set_summary_callback(
+                    _make_summary_batch_callback(
+                        source_id=f"sum{i}",
+                        session_id=session_id,
+                        tts_enabled=sc.tts_client is not None,
+                    )
+                )
+                if context_judge:
+                    sc.set_tts_ready_callback(context_judge.on_tts_ready)
 
         # Connect RealtimeClient to SummaryClients for transcript forwarding
         client.set_summary_clients(summary_clients)
@@ -600,6 +846,14 @@ def handle_stop():
     global client
     session_id = request.sid
     log_print("INFO", "Stop requested", session_id=session_id)
+    if not _is_active_session(session_id):
+        log_print(
+            "INFO",
+            "Ignoring stop from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
 
     with _clients_lock:
         if client:
@@ -611,6 +865,14 @@ def handle_request():
     """Handle manual keyword extraction request."""
     session_id = request.sid
     log_print("INFO", "Manual request triggered", session_id=session_id)
+    if not _is_active_session(session_id):
+        log_print(
+            "INFO",
+            "Ignoring request from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
 
     with _clients_lock:
         if client and client.running:
@@ -622,15 +884,33 @@ def handle_request():
 @sio.on("start_listening")
 def handle_start_listening():
     """Start a listening segment for later summarization."""
+    global _segment_seq
     session_id = request.sid
+    if not _is_active_session(session_id):
+        log_print(
+            "INFO",
+            "Ignoring start_listening from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
 
     with _clients_lock:
         if summary_clients:
+            with _segment_ctx_lock:
+                _segment_seq += 1
+                _segment_windows[_segment_seq] = {
+                    "start_ts": time.time(),
+                    "end_ts": None,
+                    "next_sentence": "",
+                }
             for sc in summary_clients:
                 sc.start_listening()
             # Also notify context judge
             if context_judge:
                 context_judge.start_listening()
+            if conversation_reconstructor:
+                conversation_reconstructor.start_listening()
             log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
         else:
             log_print(
@@ -644,14 +924,27 @@ def handle_start_listening():
 def handle_end_listening():
     """End listening segment and request summary."""
     session_id = request.sid
+    if not _is_active_session(session_id):
+        log_print(
+            "INFO",
+            "Ignoring end_listening from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
 
     with _clients_lock:
         if summary_clients:
+            with _segment_ctx_lock:
+                if _segment_seq > 0 and _segment_seq in _segment_windows:
+                    _segment_windows[_segment_seq]["end_ts"] = time.time()
             for sc in summary_clients:
                 sc.end_listening()
             # Also notify context judge
             if context_judge:
                 context_judge.end_listening()
+            if conversation_reconstructor:
+                conversation_reconstructor.end_listening()
             log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
         else:
             # No summary clients - signal completion immediately
@@ -675,6 +968,8 @@ def handle_keyword_tts(data: dict):
     """Synthesize keyword definition audio and play on server."""
     global _keyword_tts_request_token
     session_id = request.sid
+    if not _is_active_session(session_id):
+        return
     text = str((data or {}).get("text", "")).strip()
     if not text:
         return
@@ -719,6 +1014,8 @@ def handle_keyword_tts(data: dict):
 def handle_keyword_tts_preload(data: dict):
     """Pre-synthesize keyword TTS and keep it in cache (no playback)."""
     session_id = request.sid
+    if not _is_active_session(session_id):
+        return
     payload = data or {}
     texts = payload.get("texts", [])
     if not isinstance(texts, list):
@@ -760,6 +1057,8 @@ def handle_cancel_keyword_tts():
     """Cancel keyword TTS only (do not affect summary flow)."""
     global _keyword_tts_request_token
     session_id = request.sid
+    if not _is_active_session(session_id):
+        return
     with _clients_lock:
         _keyword_tts_request_token += 1
         if keyword_tts_client:
@@ -772,6 +1071,8 @@ def handle_cancel_tts():
     """Cancel pending/playing TTS (both keyword and summary)."""
     global _keyword_tts_request_token
     session_id = request.sid
+    if not _is_active_session(session_id):
+        return
     with _clients_lock:
         _keyword_tts_request_token += 1
         # Cancel keyword TTS
