@@ -278,23 +278,46 @@
             display: flex;
         }
         .reconstructed-turn {
-            padding: 8px 12px;
-            border-radius: 10px;
-            background: #1f2937;
-            border: 1px solid #374151;
-            color: #e5e7eb;
-            font-size: 13px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            color: #fff;
+            font-size: 14px;
             line-height: 1.4;
             max-width: 90%;
             white-space: pre-wrap;
+            position: relative;
         }
         .reconstructed-turn.a {
             align-self: flex-start;
-            border-color: #4b5563;
+            background: #334155;
+            border-bottom-left-radius: 4px;
+        }
+        .reconstructed-turn.a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: -6px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-top-color: #334155;
+            border-right-color: #334155;
         }
         .reconstructed-turn.b {
             align-self: flex-end;
-            border-color: #4ade80;
+            background: #0f766e;
+            border-bottom-right-radius: 4px;
+        }
+        .reconstructed-turn.b::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: -6px;
+            width: 0;
+            height: 0;
+            border: 6px solid transparent;
+            border-top-color: #0f766e;
+            border-left-color: #0f766e;
         }
 
         /* Height position selector */
@@ -617,6 +640,9 @@
         let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
         let inferencingTimer = null;
         const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
+        let pendingReconstructedTurns = [];
+        let pendingReconstructedSegmentId = 0;
+        let renderedReconstructedSegmentId = 0;
         let widgetHeight = 0; // 0 = bottom, 100 = top
         let isDragging = false;
         let availableDevices = [];
@@ -965,6 +991,12 @@
             playTone(900, 45, 0.048, 'sine');
         }
 
+        function playCompleteFeedback() {
+            if (!audioFeedbackEnabled) return;
+            playTone(780, 60, 0.042, 'sine');
+            setTimeout(() => playTone(620, 90, 0.045, 'sine'), 85);
+        }
+
         function startLoadingAudioFeedback(mode = 'inferring') {
             if (!audioFeedbackEnabled) return;
             stopLoadingAudioFeedback();
@@ -1181,6 +1213,9 @@
             hideLoadingIndicator();
             hideSummaryText();
             hideReconstructedTurns();
+            pendingReconstructedTurns = [];
+            pendingReconstructedSegmentId = 0;
+            renderedReconstructedSegmentId = 0;
         });
 
         socket.on('summary_done', data => {
@@ -1190,30 +1225,23 @@
             const text = (!data.is_empty && !data.no_summary) ? (data.summary || '').trim() : '';
             if (text) {
                 pendingSummaryTexts.push(text);
-                playConfirmedFeedback();
-
-                if (judgeEnabled) {
-                    // Judge mode: wait for judge decision
-                    awaitingJudgeDecision = true;
-                    showLoadingIndicator('Judging...', 'summarizing');
-
-                    if (summaryFinalizeTimer) {
-                        clearTimeout(summaryFinalizeTimer);
-                    }
-                    summaryFinalizeTimer = setTimeout(() => {
-                        // After waiting up to 5s for judge/playback, finalize fallback.
-                        if (awaitingJudgeDecision && summaryRequested && !summaryInProgress) {
-                            summaryRequested = false;
-                            awaitingJudgeDecision = false;
-                            showSkippedIndicator('No important information missed.');
-                            hideSummaryText();
-                            pendingSummaryTexts = [];
-                        }
-                    }, 5000);
-                } else {
-                    // Judge off: summary_tts will arrive shortly, just hide loading
-                    hideLoadingIndicator();
+                // Keep audio minimal while summarizing; loading loop only until TTS starts.
+                // Keep Summarizing... until actual TTS arrives.
+                if (summaryFinalizeTimer) {
+                    clearTimeout(summaryFinalizeTimer);
                 }
+                summaryFinalizeTimer = setTimeout(() => {
+                    // TTS did not arrive in time.
+                    if (!summaryInProgress && summaryRequested) {
+                        summaryRequested = false;
+                        summaryInProgress = false;
+                        awaitingJudgeDecision = false;
+                        hideLoadingIndicator();
+                        hideSummaryText();
+                        pendingSummaryTexts = [];
+                        showSkippedIndicator('Summary unavailable');
+                    }
+                }, 8000);
                 return;
             }
 
@@ -1229,7 +1257,7 @@
                 hideLoadingIndicator();
                 hideSummaryText();
                 pendingSummaryTexts = [];
-                showSkippedIndicator('No important information missed.');
+                showSkippedIndicator('No summary detected');
             }, 1500);
         });
 
@@ -1244,6 +1272,11 @@
                     hideLoadingIndicator();
                     render();
                 }
+                return;
+            }
+
+            // In reconstruction mode, keep Summarizing... until browser playback actually starts.
+            if (reconstructorEnabled) {
                 return;
             }
 
@@ -1289,16 +1322,26 @@
             hideSummaryText();
             pendingSummaryTexts = [];
             // Show specific reason why summary is not needed
-            const reason = data.reason || 'Summary not needed';
+            const reason = data.reason || 'All caught up';
             showSkippedIndicator(reason);
         });
 
         socket.on('conversation_reconstructed', data => {
             console.log('conversation_reconstructed', data);
         });
+        socket.on('conversation_reconstruct_done', data => {
+            console.log('conversation_reconstruct_done', data.segment_id, data.turn_count);
+        });
         socket.on('conversation_reconstructed_turns', data => {
             const turns = Array.isArray(data && data.turns) ? data.turns : [];
-            renderReconstructedTurns(turns);
+            const segId = Number((data && data.segment_id) || 0);
+            pendingReconstructedTurns = turns;
+            pendingReconstructedSegmentId = segId;
+            // Render when conversation_tts starts so text/audio begin together.
+            if (turns.length === 0) {
+                renderedReconstructedSegmentId = 0;
+                renderReconstructedTurns([]);
+            }
         });
 
         // TTS audio playback with queue (play sequentially, no overlap)
@@ -1307,43 +1350,127 @@
         let currentTtsAudio = null;
         let currentTtsUrl = null;
 
-        function playNextTts() {
+        // Unlock browser audio on user gesture (required for autoplay policy)
+        async function unlockAudioForTts() {
+            if (audioUnlocked) return;
+
+            try {
+                // Use AudioContext to unlock audio
+                const ctx = await ensureAudioContext();
+                if (ctx && ctx.state === 'running') {
+                    audioUnlocked = true;
+                    console.log('Audio unlocked for TTS via AudioContext');
+                }
+            } catch (e) {
+                console.warn('Audio unlock failed:', e);
+            }
+        }
+
+        function handleTtsPlaybackStart(meta = null) {
+            // Keep Summarizing... visible until browser confirms playback start.
+            hideLoadingIndicator();
+
+            if (meta && meta.type === 'summary') {
+                if (pendingSummaryTexts.length > 0) {
+                    showSummaryText();
+                }
+                return;
+            }
+
+            if (meta && meta.type === 'reconstruction') {
+                const segId = Number((meta && meta.segmentId) || 0);
+                if (
+                    pendingReconstructedTurns.length > 0 &&
+                    pendingReconstructedSegmentId === segId &&
+                    renderedReconstructedSegmentId !== segId
+                ) {
+                    renderReconstructedTurns(pendingReconstructedTurns);
+                    renderedReconstructedSegmentId = segId;
+                }
+            }
+        }
+
+        let currentTtsSource = null;  // Web Audio API source node
+
+        async function playNextTts() {
             if (ttsQueue.length === 0) {
                 ttsPlaying = false;
                 currentTtsAudio = null;
                 currentTtsUrl = null;
+                currentTtsSource = null;
                 summaryInProgress = false;
-                // Hide speech bubbles when browser TTS playback completes
+                // Hide speech bubbles and reconstructed turns when browser TTS playback completes
                 hideSummaryText();
+                hideReconstructedTurns();
                 pendingSummaryTexts = [];
+                pendingReconstructedTurns = [];
+                pendingReconstructedSegmentId = 0;
+                renderedReconstructedSegmentId = 0;
                 return;
             }
 
             ttsPlaying = true;
             summaryInProgress = true;
-            const { audioData, url } = ttsQueue.shift();
+            const { audioData, url, meta } = ttsQueue.shift();
             currentTtsUrl = url;
+            console.log('playNextTts: playing audio via Web Audio API');
 
-            const audio = new Audio(url);
-            currentTtsAudio = audio;
-            audio.play().catch(e => {
-                console.error('TTS playback failed:', e);
+            try {
+                // Use Web Audio API (works after AudioContext is resumed)
+                const ctx = await ensureAudioContext();
+                if (!ctx) {
+                    console.error('No AudioContext available');
+                    URL.revokeObjectURL(url);
+                    playNextTts();
+                    return;
+                }
+
+                // Convert string audioData to ArrayBuffer
+                const arrayBuffer = new ArrayBuffer(audioData.length);
+                const view = new Uint8Array(arrayBuffer);
+                for (let i = 0; i < audioData.length; i++) {
+                    view[i] = audioData.charCodeAt(i);
+                }
+
+                const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+                const source = ctx.createBufferSource();
+                source.buffer = audioBuffer;
+                source.connect(ctx.destination);
+                currentTtsSource = source;
+
+                source.onended = () => {
+                    URL.revokeObjectURL(url);
+                    currentTtsAudio = null;
+                    currentTtsUrl = null;
+                    currentTtsSource = null;
+                    playNextTts();
+                };
+
+                source.start(0);
+                console.log('playNextTts: Web Audio playback started');
+                handleTtsPlaybackStart(meta);
+
+            } catch (e) {
+                console.error('Web Audio playback failed:', e);
                 URL.revokeObjectURL(url);
                 currentTtsAudio = null;
                 currentTtsUrl = null;
-                playNextTts();
-            });
-
-            audio.onended = () => {
-                URL.revokeObjectURL(url);
-                currentTtsAudio = null;
-                currentTtsUrl = null;
+                currentTtsSource = null;
                 playNextTts();
             };
         }
 
         socket.on('summary_tts', data => {
             if (!data.audio) return;
+            // Ignore direct summary TTS only when reconstruction payload is actually pending.
+            // Otherwise summary_tts acts as fallback so UI/audio don't disappear.
+            if (
+                reconstructorEnabled &&
+                pendingReconstructedTurns.length > 0 &&
+                pendingReconstructedSegmentId > 0
+            ) {
+                return;
+            }
             stopLoadingAudioFeedback();
 
             // Clear judge-related state since we're playing directly (judge disabled)
@@ -1354,17 +1481,10 @@
                 summaryFinalizeTimer = null;
             }
 
-            // Hide summarizing indicator when TTS audio arrives
-            hideLoadingIndicator();
             summaryInProgress = true;
 
-            // Show speech bubbles during TTS playback
-            if (pendingSummaryTexts.length > 0) {
-                showSummaryText();
-            }
-
             // Decode base64 audio
-            enqueueTtsAudio(data.audio);
+            enqueueTtsAudio(data.audio, { type: 'summary' });
         });
 
         socket.on('summary_tts_error', data => {
@@ -1379,15 +1499,49 @@
             hideLoadingIndicator();
             hideSummaryText();
             pendingSummaryTexts = [];
+            showSkippedIndicator('Summary audio failed');
         });
 
         socket.on('keyword_tts', data => {
             if (!data.audio) return;
             enqueueTtsAudio(data.audio);
         });
-        socket.on('conversation_tts', data => {
+        socket.on('conversation_tts_done', data => {
+            console.log('conversation_tts_done', data.segment_id, data.count);
+        });
+        socket.on('conversation_tts_merged', data => {
+            console.log(
+                'conversation_tts_merged received',
+                data.segment_id,
+                data.count,
+                data.audio ? data.audio.length : 0
+            );
             if (!data.audio) return;
-            enqueueTtsAudio(data.audio);
+            const segId = Number((data && data.segment_id) || 0);
+            stopLoadingAudioFeedback();
+            summaryRequested = false;
+            summaryInProgress = true;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
+            enqueueTtsAudio(data.audio, { type: 'reconstruction', segmentId: segId });
+        });
+        socket.on('conversation_tts', data => {
+            console.log('conversation_tts received', data.segment_id, data.turn_index, data.audio ? data.audio.length : 0);
+            if (!data.audio) return;
+            const segId = Number((data && data.segment_id) || 0);
+            // Keep Summarizing... until actual browser-playable TTS arrives.
+            stopLoadingAudioFeedback();
+            summaryRequested = false;
+            summaryInProgress = true;
+            awaitingJudgeDecision = false;
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
+            enqueueTtsAudio(data.audio, { type: 'reconstruction', segmentId: segId });
         });
 
         socket.on('keyword_tts_error', data => {
@@ -1398,13 +1552,20 @@
             // Cancel server-side queued/playing TTS
             socket.emit('cancel_tts');
 
-            // Cancel browser-side queued/playing TTS
+            // Cancel browser-side queued/playing TTS (HTML5 Audio)
             if (currentTtsAudio) {
                 try {
                     currentTtsAudio.pause();
                     currentTtsAudio.currentTime = 0;
                 } catch (e) {}
                 currentTtsAudio = null;
+            }
+            // Cancel Web Audio API source
+            if (currentTtsSource) {
+                try {
+                    currentTtsSource.stop();
+                } catch (e) {}
+                currentTtsSource = null;
             }
             if (currentTtsUrl) {
                 try { URL.revokeObjectURL(currentTtsUrl); } catch (e) {}
@@ -1432,11 +1593,15 @@
             hideLoadingIndicator();
             hideSummaryText();
             hideReconstructedTurns();
+            pendingReconstructedTurns = [];
+            pendingReconstructedSegmentId = 0;
+            renderedReconstructedSegmentId = 0;
             pendingSummaryTexts = [];
             showSkippedIndicator('Summary canceled');
         }
 
-        function enqueueTtsAudio(audioBase64) {
+        function enqueueTtsAudio(audioBase64, meta = null) {
+            console.log('enqueueTtsAudio called, ttsPlaying:', ttsPlaying, 'queueLen:', ttsQueue.length);
             const audioData = atob(audioBase64);
             const audioArray = new Uint8Array(audioData.length);
             for (let i = 0; i < audioData.length; i++) {
@@ -1445,10 +1610,12 @@
 
             const blob = new Blob([audioArray], { type: 'audio/wav' });
             const url = URL.createObjectURL(blob);
-            ttsQueue.push({ audioData, url });
+            ttsQueue.push({ audioData, url, meta });
 
             if (!ttsPlaying) {
                 playNextTts();
+            } else {
+                console.log('enqueueTtsAudio: ttsPlaying=true, skipping playNextTts');
             }
         }
 
@@ -1559,6 +1726,10 @@
             document.getElementById('tapDot2').style.display = 'none';
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('summarizing', 'skipped');
+            if (mode === 'inferring') {
+                hideSummaryText();
+                hideReconstructedTurns();
+            }
             if (mode === 'summarizing') {
                 indicator.classList.add('summarizing');
             }
@@ -1567,17 +1738,38 @@
             startLoadingAudioFeedback(mode);
         }
 
+        function normalizeSkipMessage(message) {
+            const text = (message || '').trim();
+            switch (text) {
+                case 'Summary unavailable':
+                    return 'Summary ready shortly';
+                case 'No summary detected':
+                    return 'All caught up';
+                case 'Summary audio failed':
+                    return 'Summary ready in text';
+                case 'Summary canceled':
+                    return 'Summary skipped';
+                case 'Summary not needed':
+                    return 'All caught up';
+                case 'No keywords found':
+                    return 'No new keywords this round';
+                default:
+                    return text || 'All caught up';
+            }
+        }
+
         function hideLoadingIndicator() {
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('active', 'summarizing', 'skipped');
             stopLoadingAudioFeedback();
         }
 
-        function showSkippedIndicator(message = 'Summary not needed') {
+        function showSkippedIndicator(message = 'All caught up') {
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('summarizing');
             indicator.classList.add('active', 'skipped');
-            document.querySelector('#loadingIndicator .label').textContent = message;
+            document.querySelector('#loadingIndicator .label').textContent = normalizeSkipMessage(message);
+            playCompleteFeedback();
             // Auto-hide after 2 seconds
             setTimeout(() => {
                 hideLoadingIndicator();
@@ -1612,11 +1804,14 @@
         }
 
         function hideSummary() {
-            // Summary display removed
+            // Clear summary/reconstruction visuals when entering a new inferencing cycle.
             if (summaryTimer) {
                 clearTimeout(summaryTimer);
                 summaryTimer = null;
             }
+            hideSummaryText();
+            hideReconstructedTurns();
+            pendingSummaryTexts = [];
         }
 
         function showSummaryText() {
@@ -1672,9 +1867,15 @@
             container.innerHTML = turns.map(turn => {
                 const speaker = (turn.speaker || '').toUpperCase() === 'B' ? 'B' : 'A';
                 const cls = speaker === 'A' ? 'a' : 'b';
-                const text = (turn.text || '').trim();
-                return `<div class="reconstructed-turn ${cls}"><strong>${speaker}:</strong> ${text}</div>`;
+                const rawText = (turn.text || '').trim();
+                const text = rawText.replace(/^\s*[AB]\s*:\s*/i, '').trim();
+                if (!text) return '';
+                return `<div class="reconstructed-turn ${cls}">${text}</div>`;
             }).join('');
+            if (!container.innerHTML.trim()) {
+                container.classList.remove('active');
+                return;
+            }
             container.classList.add('active');
         }
 
@@ -1789,7 +1990,7 @@
                     if (inferencingTimer) clearTimeout(inferencingTimer);
                     inferencingTimer = setTimeout(() => {
                         hideLoadingIndicator();
-                        showSkippedIndicator('No keywords found');
+                        showSkippedIndicator('No new keywords this round');
                         inferencingTimer = null;
                     }, INFERENCING_TIMEOUT_MS);
                 }
@@ -1820,10 +2021,14 @@
             // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
                 hideReconstructedTurns();
+                pendingSummaryTexts = [];
+                hideSummaryText();
                 summaryRequested = true;
                 summaryInProgress = true;
                 awaitingJudgeDecision = false;
                 showLoadingIndicator('Summarizing...', 'summarizing');
+                // Unlock audio on user gesture before server processing
+                unlockAudioForTts();
                 socket.emit('end_listening');
             }
         }
@@ -1835,6 +2040,44 @@
             infoVisible = false;
             document.getElementById('optionsList').innerHTML = '';
             startSummarizing();
+        }
+
+        function clearAllActiveUiAndAudio() {
+            // Stop any active browser/server-side playback and pending timers.
+            stopTtsPlayback();
+            cancelKeywordTts();
+            if (inferencingTimer) {
+                clearTimeout(inferencingTimer);
+                inferencingTimer = null;
+            }
+            if (summaryFinalizeTimer) {
+                clearTimeout(summaryFinalizeTimer);
+                summaryFinalizeTimer = null;
+            }
+            stopLoadingAudioFeedback();
+
+            // Reset UI/state
+            options = [];
+            currentIdx = 0;
+            infoVisible = false;
+            summaryRequested = false;
+            summaryInProgress = false;
+            awaitingJudgeDecision = false;
+            keywordTtsPlaying = false;
+            pendingSummaryTexts = [];
+            pendingReconstructedTurns = [];
+            pendingReconstructedSegmentId = 0;
+            renderedReconstructedSegmentId = 0;
+            lastSpace = 0;
+
+            document.getElementById('optionsList').innerHTML = '';
+            hideLoadingIndicator();
+            hideSummaryText();
+            hideReconstructedTurns();
+            document.getElementById('tapDot1').classList.remove('show');
+            document.getElementById('tapDot2').classList.remove('show');
+            document.getElementById('tapDot1').style.display = '';
+            document.getElementById('tapDot2').style.display = '';
         }
 
         document.addEventListener('keydown', e => {
@@ -1851,6 +2094,10 @@
         document.addEventListener('keyup', e => {
             // Allow normal input behavior in text fields
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
+                return;
+            }
+            if (e.key === 'PageDown') {
+                clearAllActiveUiAndAudio();
                 return;
             }
             // Accept any key input

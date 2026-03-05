@@ -8,9 +8,11 @@ Dependencies:
 """
 
 import base64
+import io
 import struct
 import threading
 import time
+import wave
 from collections import deque
 import re
 from typing import Optional
@@ -193,36 +195,120 @@ def _on_reconstruction_result(payload: dict) -> None:
             "turns": [{"speaker": s, "text": t} for s, t in turns],
         },
     )
+    sio.emit(
+        "conversation_reconstruct_done",
+        {
+            "segment_id": segment_id,
+            "turn_count": len(turns),
+        },
+    )
+
+    def _merge_wav_items(audio_items: list[tuple[bytes, str, str, int]]) -> Optional[bytes]:
+        """Concatenate multiple mono 16-bit 24kHz WAV bytes into one WAV."""
+        if not audio_items:
+            return None
+        pcm_chunks: list[bytes] = []
+        for audio_bytes, _, _, _ in audio_items:
+            try:
+                with io.BytesIO(audio_bytes) as wav_io:
+                    with wave.open(wav_io, "rb") as wf:
+                        if (
+                            wf.getnchannels() != 1
+                            or wf.getsampwidth() != 2
+                            or wf.getframerate() != 24000
+                        ):
+                            log_print(
+                                "WARN",
+                                "Unexpected reconstruction TTS WAV format; skipping merge",
+                                segment_id=segment_id,
+                                channels=wf.getnchannels(),
+                                sampwidth=wf.getsampwidth(),
+                                framerate=wf.getframerate(),
+                            )
+                            return None
+                        pcm_chunks.append(wf.readframes(wf.getnframes()))
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"Failed to parse reconstruction TTS WAV for merge: {e}",
+                    segment_id=segment_id,
+                )
+                return None
+
+        merged_pcm = b"".join(pcm_chunks)
+        if not merged_pcm:
+            return None
+        out_io = io.BytesIO()
+        with wave.open(out_io, "wb") as out_wav:
+            out_wav.setnchannels(1)
+            out_wav.setsampwidth(2)
+            out_wav.setframerate(24000)
+            out_wav.writeframes(merged_pcm)
+        return out_io.getvalue()
 
     def _synthesize_turns():
-        # Collect all synthesized audio first
         audio_items: list[tuple[bytes, str, str, int]] = []  # (audio_bytes, speaker, text, idx)
-        primary_tts = None
-
         for i, (speaker, text) in enumerate(turns):
             with _clients_lock:
                 tts = _get_tts_client_for_speaker(speaker)
             if not tts:
                 continue
-            if primary_tts is None:
-                primary_tts = tts
+
             audio_bytes = tts.synthesize(text, language="en")
             if not audio_bytes:
                 continue
             audio_items.append((audio_bytes, speaker, text, i))
 
-        if not audio_items or not primary_tts:
+        if not audio_items:
             log_print(
                 "WARN",
                 "No audio synthesized for reconstruction",
                 segment_id=segment_id,
             )
+            sio.emit(
+                "conversation_tts_done",
+                {
+                    "segment_id": segment_id,
+                    "count": 0,
+                },
+            )
             return
 
-        # Queue all audio to the primary TTS client for sequential playback
+        # Emit only after all per-turn TTS synthesis completes.
+        sio.emit(
+            "conversation_tts_done",
+            {
+                "segment_id": segment_id,
+                "count": len(audio_items),
+            },
+        )
+
+        merged_wav = _merge_wav_items(audio_items)
+        if merged_wav:
+            sio.emit(
+                "conversation_tts_merged",
+                {
+                    "segment_id": segment_id,
+                    "audio": base64.b64encode(merged_wav).decode("utf-8"),
+                    "format": "wav",
+                    "sample_rate": 24000,
+                    "count": len(audio_items),
+                },
+            )
+            log_print(
+                "INFO",
+                f"conversation_tts_merged emitted: count={len(audio_items)}, bytes={len(merged_wav)}",
+                segment_id=segment_id,
+            )
+            return
+
+        # Fallback: emit per-turn audio if merge fails.
+        log_print(
+            "INFO",
+            f"Merge unavailable; emitting {len(audio_items)} conversation_tts events",
+            segment_id=segment_id,
+        )
         for audio_bytes, speaker, text, i in audio_items:
-            primary_tts.queue_audio_bytes(audio_bytes, text)
-            # Also emit to client for visual feedback
             audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
             sio.emit(
                 "conversation_tts",
@@ -236,9 +322,11 @@ def _on_reconstruction_result(payload: dict) -> None:
                     "sample_rate": 24000,
                 },
             )
-
-        # Play all queued audio on server side (via speakers)
-        primary_tts.play_queued(reason="reconstruction", emit_done=True)
+            log_print(
+                "INFO",
+                f"conversation_tts emitted: turn={i}, speaker={speaker}, audio_bytes={len(audio_bytes)}",
+                segment_id=segment_id,
+            )
 
     threading.Thread(target=_synthesize_turns, daemon=True).start()
 

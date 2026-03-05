@@ -9,8 +9,8 @@ import pyautogui as pg
 # python -c "import pyautogui as p,time; time.sleep(3); print(p.position())"
 
 POS = {
-    "transparency": (2237, 352),
-    "anc": (2237, 411),  # -270 / 2237
+    "transparency": (4777, 352),
+    "anc": (4777, 411),  # -270 / 2237 / 4777
 }
 
 GET_FRONT_APP = textwrap.dedent(

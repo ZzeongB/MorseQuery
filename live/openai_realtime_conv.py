@@ -3,11 +3,16 @@ import base64
 import json
 import os
 import threading
+from pathlib import Path
 
 import pyaudio
 import websocket
+from dotenv import load_dotenv
 from pydub import AudioSegment
 from pynput import keyboard
+
+# Always prefer project-root .env over live/.env
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env", override=False)
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview"

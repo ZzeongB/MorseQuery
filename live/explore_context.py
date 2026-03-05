@@ -25,7 +25,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from pydub import AudioSegment
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env", override=False)
 
 # OpenLexicon 경로 (프로젝트 루트 기준)
 LEXICON_PATH = Path(__file__).parent.parent / "data" / "lexicon" / "OpenLexicon.xlsx"

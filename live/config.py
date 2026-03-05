@@ -2,6 +2,11 @@
 
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+# Always prefer project-root .env over live/.env
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=False)
 
 # API Keys
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")

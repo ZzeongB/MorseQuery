@@ -401,9 +401,11 @@ class SummaryClient:
                         session_id=self.session_id,
                     )
                 elif self.enable_tts and self.tts_client and not self.prepare_tts_on_callback:
+                    # Callback is set (for reconstruction) - skip direct summary TTS
+                    # Reconstruction will handle TTS via conversation_tts_merged event
                     log_print(
                         "INFO",
-                        "Skipping summary TTS queue for callback mode",
+                        f"Skipping summary TTS (reconstruction mode): {summary[:50]}...",
                         session_id=self.session_id,
                     )
 

@@ -9,12 +9,13 @@ Context Change Detector
 import os
 import sys
 import re
+from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from openai import OpenAI
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env", override=False)
 
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
