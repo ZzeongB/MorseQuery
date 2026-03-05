@@ -136,10 +136,10 @@ class ConversationReconstructorClient:
             )
             return
 
-        if not (sum0 or sum1):
+        if not (sum0 or sum1 or context_before or next_sentence):
             log_print(
                 "INFO",
-                "reconstruct_conversation ignored (empty summaries)",
+                "reconstruct_conversation ignored (no usable clues)",
                 session_id=self.session_id,
                 segment_id=segment_id,
             )
@@ -215,7 +215,7 @@ class ConversationReconstructorClient:
                             "response": {
                                 "modalities": ["text"],
                                 "instructions": prompt,
-                                "temperature": 1,
+                                "temperature": 0.6,
                                 "max_output_tokens": 200,
                             },
                         }

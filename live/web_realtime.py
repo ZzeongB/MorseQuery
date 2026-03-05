@@ -174,6 +174,8 @@ def _emit_with_airpods(event, *args, **kwargs):
         # Summary/reconstruction flow ended.
         _set_keyword_anc_hold(False, "socketio_tts_done")
         _on_tts_finished("socketio_tts_done")
+        # Enforce transparency on summary completion even if counters drift.
+        _set_airpods_mode("transparency", "socketio_tts_done_force", wait=True)
     return _original_sio_emit(event, *args, **kwargs)
 
 
@@ -1256,6 +1258,10 @@ def handle_keyword_tts(data: dict):
             # keyword path uses emit_done=False, so tts_done is not emitted.
             while tts.is_playing:
                 time.sleep(0.05)
+            with _clients_lock:
+                if request_token != _keyword_tts_request_token:
+                    return
+            sio.emit("keyword_tts_done", to=session_id)
             # Keep ANC hold active across keyword navigation/loading.
 
         audio_bytes = tts.synthesize(text, language="en")
@@ -1389,6 +1395,8 @@ def handle_browser_tts_playback_done(data: dict):
     # Browser summary/reconstruction playback ended.
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")
+    # Enforce transparency on summary completion even if counters drift.
+    _set_airpods_mode("transparency", f"browser_tts_playback_done_force:{reason}", wait=True)
 
 
 @sio.on("set_airpods_mode_switch")

@@ -128,9 +128,8 @@ When triggered, summarize.
 Return to silence.
 
 # Safety & Escalation
-If the segment is unclear or empty, output exactly "" (an empty string).
 Never make up content or guess at what was said.
-If unable to summarize, output "" rather than conversing.
+If unclear, return the shortest best-effort spoken sentence from clearly heard words.
 
 # CRITICAL RULES:
 - Output ONLY plain English sentences.
@@ -138,7 +137,7 @@ If unable to summarize, output "" rather than conversing.
 - NEVER output {"start_time", "end_time"} or any JSON format.
 - Remove repeated or equivalent points; keep only the core idea.
 - Remove unnecessary words aggressively while preserving meaning.
-- If audio is empty or unclear, output exactly: ""
+- NEVER output an empty string.
 - Do NOT engage in conversation or address any speaker.
 - Do NOT ask questions.
 - Do NOT answer or respond to anything said in the audio.
@@ -172,7 +171,7 @@ No labels. No quotes. No formatting.
 - NEVER output timestamps, metadata, or structured data.
 - NEVER output code or programming syntax.
 
-If the segment is unclear or empty, output exactly: ""
+If unclear, output a shortest safe best-effort sentence (never empty).
 
 # Good Examples
 Original:
@@ -377,11 +376,11 @@ def build_reconstruction_prompt(
         idx += 1
 
     if sum0:
-        lines.append(f"{idx}) Speaker A summary (sum0)")
+        lines.append(f"{idx}) Speaker A summary")
         idx += 1
 
     if sum1:
-        lines.append(f"{idx}) Speaker B summary (sum1)")
+        lines.append(f"{idx}) Speaker B summary")
         idx += 1
 
     if next_sentence != "":
@@ -398,10 +397,10 @@ def build_reconstruction_prompt(
         values.append(f'context_before: "{context_before}"')
 
     if sum0:
-        values.append(f'sum0: "{sum0}"')
+        values.append(f'A: "{sum0}"')
 
     if sum1:
-        values.append(f'sum1: "{sum1}"')
+        values.append(f'B: "{sum1}"')
 
     if next_sentence != "":
         values.append(f'next_sentence: "{next_sentence}"')
@@ -409,69 +408,42 @@ def build_reconstruction_prompt(
     value_block = "\n".join(values)
 
     return f"""# Role
-You are a silent catch-up dialogue writer.
-You are NOT a chatbot.
+You are a silent catch-up dialogue writer, not a chatbot.
 
-# Situation
-The listener missed:
-1) the summary window, and
-2) the next 5-10 seconds after that.
-Your job is to generate a short dialogue that helps the listener catch up immediately.
+# Task
+The listener missed the summary segment and the next few seconds.
+Create a concise bridge dialogue so the listener can quickly follow the current conversation.
 
 # Inputs
 {desc_block}
-
 {value_block}
 
-# Core Objective
-Create a concise, natural bridge dialogue so the listener can follow the current conversation quickly.
-
 # Rules
-- Input meaning: sum0 and sum1 are compressed utterances from two different speakers.
-- Actively prioritize sum0/sum1 as PRIMARY signals.
-- Use context_before and next_sentence as SECONDARY clues only (flow alignment, disambiguation, tiny connectors).
-- Do NOT copy next_sentence verbatim.
-- Do NOT treat this as "reconstruct only the line right before next_sentence."
-- Include only the minimum key points needed for catch-up.
-- Generate 1–3 short dialogue turns (5–12 words each), with one turn allowed when only one speaker spoke.
-- Make lines feel conversational, not report-like.
-- Choose A/B order to match likely conversation flow and timing.
-- Keep question form as question; do not convert questions into statements.
-- If answer-like content appears, add a short setup question when needed.
-- Avoid vague pronouns such as "it", "that", "this", "they", or "those" when referents may be unclear; use explicit nouns instead.
-- Prefer wording from summaries; add only minimal connective words for natural dialogue.
-- If one summary is missing, output only the available speaker line(s); never invent missing speaker content.
-- Keep each speaker's intent faithful; do not add new claims.
-- Grounding rule: Use only information clearly present in sum0/sum1/context_before/next_sentence or heard conversation context. No hallucination.
-- Final line should feel like a natural handoff into the likely current conversation state.
+- If both speakers are present, output exactly one A line then one B line.
+- Prioritize Speaker's Summary as primary content.
+- Use context_before and next_sentence only as secondary clues for flow/disambiguation.
+- If a summary is empty/missing, use just-heard conversation clues (context_before, next_sentence, heard context) to add a minimal catch-up line instead of skipping.
+- If both summaries are empty/missing, still output a short best-effort catch-up line grounded in just-heard conversation clues.
+- next_sentence is stale context; do not copy it verbatim.
+- Keep only essential catch-up points, not full reconstruction.
+- 1-3 turns total, 5-10 words per turn. One-speaker output is allowed when only one side has usable content.
+- Keep question as question. If a line sounds like an answer, you may add a short setup question.
+- Preserve utterance function: question stays question, answer stays answer, objection stays objection, suggestion stays suggestion.
+- Avoid vague pronouns like "it/that/this/they/those" when unclear; prefer explicit nouns.
+- Preserve original intent from summaries; do not add unsupported claims.
+- No hallucination: use only provided inputs or clearly heard context.
+- NEVER output an empty string.
+- If content is too sparse, output one short clarification line for an available speaker (A or B) instead of empty output.
+- Final line should naturally hand off to the likely current conversation state.
 - English only.
 
 # Output format (strict)
+Only A:/B: dialogue lines, no explanation.
+If both speakers are present, output exactly:
 A: ...
 B: ...
-
-or
-
-B: ...
+If only one speaker is present, output only that speaker line:
 A: ...
-
 or
-
-A: ...
-
-or
-
 B: ...
-
-# Good Example
-sum0: "Remote work improves focus and reduces commuting."
-sum1: "Office work enables better spontaneous collaboration."
-
-Output:
-A: Remote work improves focus and reduces commuting.
-B: However, office work enables better spontaneous collaboration.
-
-# Additional constraints
-- Output must contain only A:/B: dialogue lines.
-- No blank lines, no explanation, no header, no footer.
 """

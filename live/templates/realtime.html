@@ -514,6 +514,11 @@
             <button id="btn-summary-text-off" onclick="setSummaryTextMode(false)">Hide</button>
         </div>
         <div class="source-select">
+            <span>Auto Pre-Summarize:</span>
+            <button id="btn-auto-presum-on" class="selected" onclick="setAutoPreSummarizeEnabled(true)">On</button>
+            <button id="btn-auto-presum-off" onclick="setAutoPreSummarizeEnabled(false)">Off</button>
+        </div>
+        <div class="source-select">
             <span>Judge Agent:</span>
             <button id="btn-judge-on" onclick="setJudgeEnabled(true)">On</button>
             <button id="btn-judge-off" class="selected" onclick="setJudgeEnabled(false)">Off</button>
@@ -652,6 +657,7 @@
         let summaryRequested = false; // Track if we actually requested a summary
         let summaryInProgress = false; // summarizing or tts playback in progress
         let showSummaryTextEnabled = true;
+        let autoPreSummarizeEnabled = true;
         let pendingSummaryTexts = [];
         let summaryFinalizeTimer = null;
         let awaitingJudgeDecision = false;
@@ -659,9 +665,14 @@
         let judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
         let reconstructorEnabled = true; // Conversation reconstructor on/off
         let keywordTtsPlaying = false; // Track if keyword TTS is playing
+        let keywordTtsCurrentText = '';
+        let keywordAutoSummarizeTimer = null;
+        let pendingSummarizeIndicatorAfterKeyword = false;
         let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
         let inferencingTimer = null;
         const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
+        const KEYWORD_SUMMARY_LEAD_MS = 2000;
+        const KEYWORD_ESTIMATED_WPS = 3.5; // Cartesia speed=1.2 approximation
         let pendingReconstructedTurns = [];
         let pendingReconstructedSegmentId = 0;
         let renderedReconstructedSegmentId = 0;
@@ -682,9 +693,24 @@
         let audioUnlocked = false;
         let loadingAudioInterval = null;
         let loadingAudioToken = 0;
+        let loadingAudioStartTimer = null;
         let browserSummaryPlaybackActive = false;
-        const AUDIO_FEEDBACK_GAIN_MULTIPLIER = 1.8;
-        const AUDIO_FEEDBACK_MAX_GAIN = 0.2;
+        let activeBrowserTtsType = null;
+        let suppressNextBrowserTtsEndCue = false;
+        let ttsCueLastPlayedAt = {
+            keyword_start: 0,
+            keyword_end: 0,
+            summary_start: 0,
+            summary_end: 0,
+        };
+        const AUDIO_FEEDBACK_GAIN_MULTIPLIER = 6.0;
+        const AUDIO_FEEDBACK_MAX_GAIN = 0.8;
+        const AUDIO_CUE_DEDUP_WINDOWS = {
+            keyword_start: 220,
+            keyword_end: 220,
+            summary_start: 1400,
+            summary_end: 1400,
+        };
 
         function emitWithAck(event, payload = {}, timeoutMs = 8000) {
             return new Promise((resolve) => {
@@ -962,6 +988,15 @@
             }
         }
 
+        function setAutoPreSummarizeEnabled(enabled) {
+            autoPreSummarizeEnabled = enabled;
+            document.getElementById('btn-auto-presum-on').classList.toggle('selected', enabled);
+            document.getElementById('btn-auto-presum-off').classList.toggle('selected', !enabled);
+            if (!enabled) {
+                clearKeywordAutoSummarizeTimer();
+            }
+        }
+
         function setJudgeEnabled(enabled) {
             judgeEnabled = enabled;
             document.getElementById('btn-judge-on').classList.toggle('selected', enabled);
@@ -1054,8 +1089,10 @@
 
         function playConfirmedFeedback() {
             if (!audioFeedbackEnabled) return;
-            playTone(880, 70, 0.055, 'sine');
-            setTimeout(() => playTone(1174, 80, 0.06, 'sine'), 95);
+            // Distinct triple-rise: "confirmed and accepted".
+            playTone(740, 55, 0.07, 'triangle');
+            setTimeout(() => playTone(988, 60, 0.078, 'triangle'), 78);
+            setTimeout(() => playTone(1318, 78, 0.086, 'triangle'), 162);
         }
 
         function playTapFeedback() {
@@ -1069,36 +1106,90 @@
             setTimeout(() => playTone(620, 90, 0.045, 'sine'), 85);
         }
 
-        function startLoadingAudioFeedback(mode = 'inferring') {
+        function shouldPlayCue(cueId) {
+            const now = Date.now();
+            const last = ttsCueLastPlayedAt[cueId] || 0;
+            const dedupMs = AUDIO_CUE_DEDUP_WINDOWS[cueId] || 220;
+            if (now - last < dedupMs) return false;
+            ttsCueLastPlayedAt[cueId] = now;
+            return true;
+        }
+
+        function playTtsStartFeedback(type) {
+            if (!audioFeedbackEnabled) return;
+            if (type === 'keyword') {
+                if (!shouldPlayCue('keyword_start')) return;
+                // Bright upward pair = keyword TTS start.
+                playTone(1397, 52, 0.06, 'square');
+                setTimeout(() => playTone(1760, 60, 0.066, 'square'), 76);
+                return;
+            }
+            if (!shouldPlayCue('summary_start')) return;
+            // Warmer upward pair = summary/reconstruction TTS start.
+            playTone(622, 70, 0.058, 'triangle');
+            setTimeout(() => playTone(784, 90, 0.064, 'triangle'), 92);
+        }
+
+        function playTtsEndFeedback(type) {
+            if (!audioFeedbackEnabled) return;
+            if (type === 'keyword') {
+                if (!shouldPlayCue('keyword_end')) return;
+                // Bright descending pair = keyword TTS end.
+                playTone(1760, 60, 0.058, 'square');
+                setTimeout(() => playTone(1318, 88, 0.062, 'square'), 78);
+                return;
+            }
+            if (!shouldPlayCue('summary_end')) return;
+            // Warmer descending pair = summary/reconstruction TTS end.
+            playTone(784, 80, 0.056, 'triangle');
+            setTimeout(() => playTone(523, 110, 0.062, 'triangle'), 98);
+        }
+
+        function startLoadingAudioFeedback(mode = 'inferring', startDelayMs = 0) {
             if (!audioFeedbackEnabled) return;
             stopLoadingAudioFeedback();
             loadingAudioToken += 1;
             const token = loadingAudioToken;
+            const isSummarizing = mode === 'summarizing';
 
             const loop = () => {
                 if (!audioFeedbackEnabled || token !== loadingAudioToken) return;
-                if (mode === 'summarizing') {
-                    playTone(740, 60, 0.04, 'sine');
+                if (isSummarizing) {
+                    // Summary wait: lower + slower pattern.
+                    playTone(560, 90, 0.038, 'triangle');
                     setTimeout(() => {
                         if (token !== loadingAudioToken) return;
-                        playTone(880, 65, 0.042, 'sine');
-                    }, 90);
+                        playTone(420, 110, 0.04, 'triangle');
+                    }, 130);
                 } else {
-                    // Inferring loop: matches confirmed timbre but quieter.
-                    playTone(988, 50, 0.034, 'sine');
+                    // Keyword inferring: brighter + quicker pattern.
+                    playTone(1046, 45, 0.033, 'sine');
                     setTimeout(() => {
                         if (token !== loadingAudioToken) return;
-                        playTone(1174, 55, 0.036, 'sine');
-                    }, 80);
+                        playTone(1318, 48, 0.035, 'sine');
+                    }, 70);
                 }
             };
 
+            const safeDelay = Math.max(0, Number(startDelayMs) || 0);
+            if (safeDelay > 0) {
+                loadingAudioStartTimer = setTimeout(() => {
+                    if (!audioFeedbackEnabled || token !== loadingAudioToken) return;
+                    loop();
+                    loadingAudioInterval = setInterval(loop, isSummarizing ? 1200 : 820);
+                }, safeDelay);
+                return;
+            }
             loop();
-            loadingAudioInterval = setInterval(loop, 900);
+            loadingAudioInterval = setInterval(loop, isSummarizing ? 1200 : 820);
         }
 
         function stopLoadingAudioFeedback() {
             loadingAudioToken += 1;
+            if (loadingAudioStartTimer) {
+                clearTimeout(loadingAudioStartTimer);
+                loadingAudioStartTimer = null;
+            }
             if (loadingAudioInterval) {
                 clearInterval(loadingAudioInterval);
                 loadingAudioInterval = null;
@@ -1273,7 +1364,10 @@
             infoVisible = false;
             summaryRequested = false;
             summaryInProgress = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
+            clearKeywordAutoSummarizeTimer();
             keywordTtsPreloadedTexts.clear();
             pendingSummaryTexts = [];
             awaitingJudgeDecision = false;
@@ -1309,6 +1403,7 @@
                     if (!summaryInProgress && summaryRequested) {
                         summaryRequested = false;
                         summaryInProgress = false;
+                        pendingSummarizeIndicatorAfterKeyword = false;
                         awaitingJudgeDecision = false;
                         hideLoadingIndicator();
                         hideSummaryText();
@@ -1329,6 +1424,7 @@
                 if (reconstructorEnabled && (pendingReconstructedTurns.length > 0 || pendingReconstructedSegmentId > 0)) return;
                 summaryRequested = false;
                 summaryInProgress = false;
+                pendingSummarizeIndicatorAfterKeyword = false;
                 awaitingJudgeDecision = false;
                 hideLoadingIndicator();
                 hideSummaryText();
@@ -1343,6 +1439,8 @@
             stopLoadingAudioFeedback();
 
             if (reason === 'keyword') {
+                keywordTtsPlaying = true;
+                scheduleAutoSummarizeFromKeywordPlayback();
                 // Keyword TTS started - now show the visual display
                 if (keywordOutputMode === 'audio' && options.length > 0) {
                     hideLoadingIndicator();
@@ -1359,6 +1457,7 @@
             // Summary TTS
             summaryInProgress = true;
             summaryRequested = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
@@ -1369,13 +1468,20 @@
             if (pendingSummaryTexts.length > 0) {
                 showSummaryText();
             }
+            // Fallback for server-side playback paths that do not use browser queue.
+            setTimeout(() => {
+                if (ttsPlaying || ttsQueue.length > 0) return;
+                playTtsStartFeedback('summary');
+            }, 260);
         });
 
         socket.on('tts_done', () => {
             // TTS finished playing
             summaryInProgress = false;
             summaryRequested = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             awaitingJudgeDecision = false;
+            playTtsEndFeedback('summary');
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
                 summaryFinalizeTimer = null;
@@ -1389,6 +1495,7 @@
             // Judge rejected playback: stop summarizing state immediately.
             summaryRequested = false;
             summaryInProgress = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
@@ -1453,6 +1560,9 @@
             hideLoadingIndicator();
 
             if (meta && meta.type === 'summary') {
+                if (autoPreSummarizeEnabled) {
+                    hideInfo();
+                }
                 if (pendingSummaryTexts.length > 0) {
                     showSummaryText();
                 }
@@ -1460,6 +1570,9 @@
             }
 
             if (meta && meta.type === 'reconstruction') {
+                if (autoPreSummarizeEnabled) {
+                    hideInfo();
+                }
                 const segId = Number((meta && meta.segmentId) || 0);
                 if (
                     pendingReconstructedTurns.length > 0 &&
@@ -1480,6 +1593,11 @@
                 currentTtsAudio = null;
                 currentTtsUrl = null;
                 currentTtsSource = null;
+                if (!suppressNextBrowserTtsEndCue && activeBrowserTtsType) {
+                    playTtsEndFeedback(activeBrowserTtsType);
+                }
+                suppressNextBrowserTtsEndCue = false;
+                activeBrowserTtsType = null;
                 if (browserSummaryPlaybackActive) {
                     socket.emit('browser_tts_playback_done', { reason: 'queue_empty' });
                     browserSummaryPlaybackActive = false;
@@ -1494,10 +1612,15 @@
                 renderedReconstructedSegmentId = 0;
                 return;
             }
+            if (isBlockedByKeywordPlayback(ttsQueue[0].meta)) {
+                ttsPlaying = false;
+                return;
+            }
 
             ttsPlaying = true;
             summaryInProgress = true;
             const { audioData, url, meta } = ttsQueue.shift();
+            const ttsType = (meta && meta.type === 'keyword') ? 'keyword' : 'summary';
             currentTtsUrl = url;
             console.log('playNextTts: playing audio via Web Audio API');
 
@@ -1533,6 +1656,10 @@
                 };
 
                 await waitForAncBeforeBrowserSummaryPlayback(meta);
+                if (activeBrowserTtsType !== ttsType) {
+                    playTtsStartFeedback(ttsType);
+                    activeBrowserTtsType = ttsType;
+                }
                 source.start(0);
                 console.log('playNextTts: Web Audio playback started');
                 handleTtsPlaybackStart(meta);
@@ -1591,7 +1718,7 @@
 
         socket.on('keyword_tts', data => {
             if (!data.audio) return;
-            enqueueTtsAudio(data.audio);
+            enqueueTtsAudio(data.audio, { type: 'keyword' });
         });
         socket.on('conversation_tts_done', data => {
             console.log('conversation_tts_done', data.segment_id, data.count);
@@ -1633,11 +1760,35 @@
 
         socket.on('keyword_tts_error', data => {
             console.error('Keyword TTS error:', data.error);
+            keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
+            clearKeywordAutoSummarizeTimer();
+            if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
+                pendingSummarizeIndicatorAfterKeyword = false;
+                showLoadingIndicator('Summarizing...', 'summarizing', 220);
+            }
+        });
+
+        socket.on('keyword_tts_done', () => {
+            keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
+            clearKeywordAutoSummarizeTimer();
+            if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
+                pendingSummarizeIndicatorAfterKeyword = false;
+                showLoadingIndicator('Summarizing...', 'summarizing', 220);
+            }
+            if (!ttsPlaying && ttsQueue.length === 0) {
+                playTtsEndFeedback('keyword');
+            }
+            if (!ttsPlaying && ttsQueue.length > 0) {
+                playNextTts();
+            }
         });
 
         function stopTtsPlayback() {
             // Cancel server-side queued/playing TTS
             socket.emit('cancel_tts');
+            suppressNextBrowserTtsEndCue = true;
 
             // Cancel browser-side queued/playing TTS (HTML5 Audio)
             if (currentTtsAudio) {
@@ -1676,6 +1827,7 @@
             stopTtsPlayback();
             summaryRequested = false;
             summaryInProgress = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             awaitingJudgeDecision = false;
             if (summaryFinalizeTimer) {
                 clearTimeout(summaryFinalizeTimer);
@@ -1703,11 +1855,49 @@
             const url = URL.createObjectURL(blob);
             ttsQueue.push({ audioData, url, meta });
 
-            if (!ttsPlaying) {
+            if (!ttsPlaying && !isBlockedByKeywordPlayback(meta)) {
                 playNextTts();
             } else {
                 console.log('enqueueTtsAudio: ttsPlaying=true, skipping playNextTts');
             }
+        }
+
+        function isSummaryOrReconstructionMeta(meta) {
+            return !!meta && (meta.type === 'summary' || meta.type === 'reconstruction');
+        }
+
+        function isBlockedByKeywordPlayback(meta) {
+            return autoPreSummarizeEnabled && keywordTtsPlaying && isSummaryOrReconstructionMeta(meta);
+        }
+
+        function clearKeywordAutoSummarizeTimer() {
+            if (keywordAutoSummarizeTimer) {
+                clearTimeout(keywordAutoSummarizeTimer);
+                keywordAutoSummarizeTimer = null;
+            }
+        }
+
+        function estimateKeywordTtsDurationMs(text) {
+            const normalized = String(text || '').trim();
+            if (!normalized) return 0;
+            const words = normalized.split(/\s+/).filter(Boolean).length;
+            const punctuationPauses = (normalized.match(/[.,!?;:]/g) || []).length;
+            const estimatedSeconds = Math.max(2.0, (words / KEYWORD_ESTIMATED_WPS) + (punctuationPauses * 0.12));
+            return Math.round(estimatedSeconds * 1000);
+        }
+
+        function scheduleAutoSummarizeFromKeywordPlayback() {
+            clearKeywordAutoSummarizeTimer();
+            if (!autoPreSummarizeEnabled) return;
+            if (dismissMode !== 'summary') return;
+            if (summaryRequested || summaryInProgress) return;
+            const durationMs = estimateKeywordTtsDurationMs(keywordTtsCurrentText);
+            if (durationMs <= 0) return;
+            const delayMs = Math.max(0, durationMs - KEYWORD_SUMMARY_LEAD_MS);
+            keywordAutoSummarizeTimer = setTimeout(() => {
+                keywordAutoSummarizeTimer = null;
+                startSummarizing({ silentWhileKeyword: true });
+            }, delayMs);
         }
 
         function render() {
@@ -1826,7 +2016,7 @@
             socket.emit('start', params);
         }
 
-        function showLoadingIndicator(label = 'Searching', mode = 'inferring') {
+        function showLoadingIndicator(label = 'Searching', mode = 'inferring', audioDelayMs = 0) {
             // Cancel any pending skipped indicator auto-hide
             if (skippedIndicatorTimer) {
                 clearTimeout(skippedIndicatorTimer);
@@ -1845,7 +2035,7 @@
             }
             document.querySelector('#loadingIndicator .label').textContent = label;
             indicator.classList.add('active');
-            startLoadingAudioFeedback(mode);
+            startLoadingAudioFeedback(mode, audioDelayMs);
         }
 
         function normalizeSkipMessage(message) {
@@ -2036,13 +2226,18 @@
             const word = (item.word || '').trim();
             const desc = (item.desc || '').trim();
             if (!word || !desc) return;
+            clearKeywordAutoSummarizeTimer();
             keywordTtsPlaying = true;
-            socket.emit('keyword_tts', { text: `${word}. ${desc}` });
+            keywordTtsCurrentText = `${word}. ${desc}`;
+            scheduleAutoSummarizeFromKeywordPlayback();
+            socket.emit('keyword_tts', { text: keywordTtsCurrentText });
         }
 
         function cancelKeywordTts() {
+            clearKeywordAutoSummarizeTimer();
             socket.emit('cancel_keyword_tts');
             keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
         }
 
         let dismissTimer = null;
@@ -2099,7 +2294,8 @@
                     hideSummary();
                     socket.emit('start_listening');
                     socket.emit('request');
-                    showLoadingIndicator('Inferring');
+                    // Delay inferring earcon so the confirm cue is never masked.
+                    showLoadingIndicator('Inferring', 'inferring', 320);
 
                     // Set timeout for inferencing
                     if (inferencingTimer) clearTimeout(inferencingTimer);
@@ -2132,16 +2328,24 @@
             }
         }
 
-        function startSummarizing() {
+        function startSummarizing(opts = {}) {
             // End listening segment and request summary if enabled
             if (dismissMode === 'summary') {
+                if (summaryRequested) return;
+                clearKeywordAutoSummarizeTimer();
                 hideReconstructedTurns();
                 pendingSummaryTexts = [];
                 hideSummaryText();
                 summaryRequested = true;
                 summaryInProgress = true;
                 awaitingJudgeDecision = false;
-                showLoadingIndicator('Summarizing...', 'summarizing');
+                const silentWhileKeyword = !!opts.silentWhileKeyword;
+                const shouldDeferIndicatorUntilKeywordDone =
+                    silentWhileKeyword && autoPreSummarizeEnabled && keywordTtsPlaying;
+                pendingSummarizeIndicatorAfterKeyword = shouldDeferIndicatorUntilKeywordDone;
+                if (!shouldDeferIndicatorUntilKeywordDone) {
+                    showLoadingIndicator('Summarizing...', 'summarizing');
+                }
                 // Unlock audio on user gesture before server processing
                 unlockAudioForTts();
                 socket.emit('end_listening');
@@ -2161,6 +2365,7 @@
             // Stop any active browser/server-side playback and pending timers.
             stopTtsPlayback();
             cancelKeywordTts();
+            clearKeywordAutoSummarizeTimer();
             if (inferencingTimer) {
                 clearTimeout(inferencingTimer);
                 inferencingTimer = null;
@@ -2177,8 +2382,10 @@
             infoVisible = false;
             summaryRequested = false;
             summaryInProgress = false;
+            pendingSummarizeIndicatorAfterKeyword = false;
             awaitingJudgeDecision = false;
             keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
             pendingSummaryTexts = [];
             pendingReconstructedTurns = [];
             pendingReconstructedSegmentId = 0;
