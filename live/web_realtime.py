@@ -54,6 +54,7 @@ _airpods_lock = threading.Lock()
 _airpods_active_tts_count = 0
 _airpods_last_mode: Optional[str] = None
 _airpods_mode_switch_enabled = True
+_airpods_keyword_hold = False
 _airpods_script_path = Path(__file__).resolve().parents[1] / "airpod.py"
 
 
@@ -132,18 +133,34 @@ def _on_tts_started(reason: str) -> None:
 
 def _on_tts_finished(reason: str) -> None:
     with _airpods_lock:
-        global _airpods_active_tts_count
+        global _airpods_active_tts_count, _airpods_keyword_hold
         if _airpods_active_tts_count > 0:
             _airpods_active_tts_count -= 1
-        should_switch = _airpods_active_tts_count == 0
+        should_switch = _airpods_active_tts_count == 0 and not _airpods_keyword_hold
     if should_switch:
         _set_airpods_mode("transparency", reason)
 
 
+def _set_keyword_anc_hold(active: bool, reason: str) -> None:
+    with _airpods_lock:
+        global _airpods_keyword_hold
+        _airpods_keyword_hold = active
+    if active:
+        # Keep ANC locked from keyword phase until summary end/dismiss.
+        _set_airpods_mode("anc", reason, wait=True)
+    else:
+        # If no playback is active, release immediately.
+        with _airpods_lock:
+            should_release = _airpods_active_tts_count == 0
+        if should_release:
+            _set_airpods_mode("transparency", reason)
+
+
 def _reset_tts_airpods_state(reason: str) -> None:
     with _airpods_lock:
-        global _airpods_active_tts_count
+        global _airpods_active_tts_count, _airpods_keyword_hold
         _airpods_active_tts_count = 0
+        _airpods_keyword_hold = False
     _set_airpods_mode("transparency", reason)
 
 
@@ -154,6 +171,8 @@ def _emit_with_airpods(event, *args, **kwargs):
     if event == "tts_playing":
         _on_tts_started("socketio_tts_playing")
     elif event == "tts_done":
+        # Summary/reconstruction flow ended.
+        _set_keyword_anc_hold(False, "socketio_tts_done")
         _on_tts_finished("socketio_tts_done")
     return _original_sio_emit(event, *args, **kwargs)
 
@@ -1228,6 +1247,7 @@ def handle_keyword_tts(data: dict):
         request_token = _keyword_tts_request_token
     if not tts:
         return
+    _set_keyword_anc_hold(True, "keyword_tts_requested")
 
     # Latest-only behavior: if a newer navigation request arrives while synthesis
     # is in-flight, this request is dropped before playback.
@@ -1236,7 +1256,7 @@ def handle_keyword_tts(data: dict):
             # keyword path uses emit_done=False, so tts_done is not emitted.
             while tts.is_playing:
                 time.sleep(0.05)
-            _on_tts_finished("keyword_tts_done")
+            # Keep ANC hold active across keyword navigation/loading.
 
         audio_bytes = tts.synthesize(text, language="en")
         if not audio_bytes:
@@ -1319,7 +1339,6 @@ def handle_cancel_keyword_tts():
         _keyword_tts_request_token += 1
         if keyword_tts_client:
             keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
-    _reset_tts_airpods_state("cancel_keyword_tts")
     log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
 
 
@@ -1344,6 +1363,7 @@ def handle_cancel_tts():
             for sc in summary_clients:
                 if sc.tts_client:
                     sc.tts_client.stop_playback()
+    _set_keyword_anc_hold(False, "cancel_tts")
     _reset_tts_airpods_state("cancel_tts")
     log_print("INFO", "cancel_tts handled", session_id=session_id)
 
@@ -1366,6 +1386,8 @@ def handle_browser_tts_playback_done(data: dict):
     if not _is_active_session(session_id):
         return
     reason = str((data or {}).get("reason", "")).strip() or "browser_done"
+    # Browser summary/reconstruction playback ended.
+    _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")
 
 

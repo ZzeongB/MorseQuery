@@ -8,9 +8,11 @@ import pyautogui as pg
 # Use below command to get the coordinates of the transparency and anc buttons in the sound menu.
 # python -c "import pyautogui as p,time; time.sleep(3); print(p.position())"
 
+# 352, 411/ 389, 437
+
 POS = {
-    "transparency": (4777, 389),
-    "anc": (4777, 437),  # -270 / 2237 / 4777
+    "transparency": (4777, 352),
+    "anc": (4777, 411),  # -270 / 2237 / 4777
 }
 
 GET_FRONT_APP = textwrap.dedent(
