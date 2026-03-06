@@ -46,7 +46,8 @@ from flask_socketio import SocketIO
 from handlers.grounding import handle_search_grounding
 from logger import get_logger, log_print
 
-app = Flask(__name__, template_folder=str(TEMPLATES_DIR))
+STATIC_DIR = Path(__file__).parent / "static"
+app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
 sio = SocketIO(app, cors_allowed_origins="*")
 
 # AirPods ANC/Transparency auto-switch during TTS playback.
