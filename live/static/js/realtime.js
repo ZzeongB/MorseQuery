@@ -54,13 +54,14 @@ let noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
 const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
 
 // Audio feedback
-let audioFeedbackEnabled = true;
+let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
 let airpodsModeSwitchEnabled = true;
 let audioContext = null;
 let audioUnlocked = false;
 let loadingAudioInterval = null;
 let loadingAudioToken = 0;
 let loadingAudioStartTimer = null;
+let verbalCueLastAt = {};
 let browserSummaryPlaybackActive = false;
 let activeBrowserTtsType = null;
 let suppressNextBrowserTtsEndCue = false;
@@ -369,13 +370,52 @@ function setReconstructorEnabled(enabled) {
     document.getElementById('btn-reconstructor-off').classList.toggle('selected', !enabled);
 }
 
-function setAudioFeedbackEnabled(enabled) {
-    audioFeedbackEnabled = enabled;
-    document.getElementById('btn-audio-feedback-on').classList.toggle('selected', enabled);
-    document.getElementById('btn-audio-feedback-off').classList.toggle('selected', !enabled);
-    if (!enabled) {
+function isToneFeedbackEnabled() {
+    return audioFeedbackMode !== 'off';
+}
+
+function isVerbalFeedbackEnabled() {
+    return audioFeedbackMode === 'verbal';
+}
+
+function speakFeedback(text, dedupMs = 450) {
+    if (!isVerbalFeedbackEnabled()) return;
+    if (!('speechSynthesis' in window)) return;
+    const key = (text || '').toLowerCase();
+    const now = Date.now();
+    const last = verbalCueLastAt[key] || 0;
+    if (now - last < dedupMs) return;
+    verbalCueLastAt[key] = now;
+    try {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 1.0;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        window.speechSynthesis.speak(utterance);
+    } catch (e) {}
+}
+
+function setAudioFeedbackMode(mode) {
+    const normalized = mode === 'verbal' ? 'verbal' : (mode === 'off' ? 'off' : 'on');
+    audioFeedbackMode = normalized;
+    document.getElementById('btn-audio-feedback-on').classList.toggle('selected', normalized === 'on');
+    const verbalBtn = document.getElementById('btn-audio-feedback-verbal');
+    if (verbalBtn) verbalBtn.classList.toggle('selected', normalized === 'verbal');
+    document.getElementById('btn-audio-feedback-off').classList.toggle('selected', normalized === 'off');
+    if (normalized === 'off') {
         stopLoadingAudioFeedback();
     }
+    if (normalized === 'off' && 'speechSynthesis' in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+        return;
+    }
+    // Mode button click is a user gesture: unlock WebAudio so tone can play in verbal mode too.
+    unlockAudioFeedback();
+}
+
+// Backward compatibility for older button handlers/calls
+function setAudioFeedbackEnabled(enabled) {
+    setAudioFeedbackMode(enabled ? 'on' : 'off');
 }
 
 function setAirpodsModeSwitchEnabled(enabled) {
@@ -396,7 +436,7 @@ function setDescView(dv) {
 // ============================================================================
 
 async function ensureAudioContext() {
-    if (!audioFeedbackEnabled) return null;
+    if (!isToneFeedbackEnabled()) return null;
     if (!audioContext || audioContext.state === 'closed') {
         const Ctx = window.AudioContext || window.webkitAudioContext;
         if (!Ctx) return null;
@@ -457,19 +497,19 @@ async function playTone(freq, durationMs = 70, gainValue = 0.06, type = 'sine') 
 }
 
 function playConfirmedFeedback() {
-    if (!audioFeedbackEnabled) return;
+    if (!isToneFeedbackEnabled()) return;
     playTone(740, 55, 0.07, 'triangle');
     setTimeout(() => playTone(988, 60, 0.078, 'triangle'), 78);
     setTimeout(() => playTone(1318, 78, 0.086, 'triangle'), 162);
 }
 
 function playTapFeedback() {
-    if (!audioFeedbackEnabled) return;
+    if (!isToneFeedbackEnabled()) return;
     playTone(900, 45, 0.048, 'sine');
 }
 
 function playCompleteFeedback() {
-    if (!audioFeedbackEnabled) return;
+    if (!isToneFeedbackEnabled()) return;
     playTone(780, 60, 0.042, 'sine');
     setTimeout(() => playTone(620, 90, 0.045, 'sine'), 85);
 }
@@ -484,7 +524,14 @@ function shouldPlayCue(cueId) {
 }
 
 function playTtsStartFeedback(type) {
-    if (!audioFeedbackEnabled) return;
+    if (isVerbalFeedbackEnabled()) {
+        if (type === 'keyword') {
+            speakFeedback('Keyword start!', 400);
+        } else {
+            speakFeedback('Summary start!', 500);
+        }
+    }
+    if (!isToneFeedbackEnabled()) return;
     if (type === 'keyword') {
         if (!shouldPlayCue('keyword_start')) return;
         playTone(1397, 52, 0.06, 'square');
@@ -497,7 +544,12 @@ function playTtsStartFeedback(type) {
 }
 
 function playTtsEndFeedback(type) {
-    if (!audioFeedbackEnabled) return;
+    if (isVerbalFeedbackEnabled()) {
+        if (type === 'summary') {
+            speakFeedback('Summary end!', 500);
+        }
+    }
+    if (!isToneFeedbackEnabled()) return;
     if (type === 'keyword') {
         if (!shouldPlayCue('keyword_end')) return;
         playTone(1760, 60, 0.058, 'square');
@@ -510,14 +562,19 @@ function playTtsEndFeedback(type) {
 }
 
 function startLoadingAudioFeedback(mode = 'inferring', startDelayMs = 0) {
-    if (!audioFeedbackEnabled) return;
+    if (audioFeedbackMode === 'off') return;
     stopLoadingAudioFeedback();
     loadingAudioToken += 1;
     const token = loadingAudioToken;
     const isSummarizing = mode === 'summarizing';
+    const safeDelay = Math.max(0, Number(startDelayMs) || 0);
+
+    if (isVerbalFeedbackEnabled()) {
+        speakFeedback(isSummarizing ? 'Summarizing!' : 'Keyword inferring!', 900);
+    }
 
     const loop = () => {
-        if (!audioFeedbackEnabled || token !== loadingAudioToken) return;
+        if (!isToneFeedbackEnabled() || token !== loadingAudioToken) return;
         if (isSummarizing) {
             playTone(560, 90, 0.038, 'triangle');
             setTimeout(() => {
@@ -533,10 +590,9 @@ function startLoadingAudioFeedback(mode = 'inferring', startDelayMs = 0) {
         }
     };
 
-    const safeDelay = Math.max(0, Number(startDelayMs) || 0);
     if (safeDelay > 0) {
         loadingAudioStartTimer = setTimeout(() => {
-            if (!audioFeedbackEnabled || token !== loadingAudioToken) return;
+            if (!isToneFeedbackEnabled() || token !== loadingAudioToken) return;
             loop();
             loadingAudioInterval = setInterval(loop, isSummarizing ? 1200 : 820);
         }, safeDelay);

@@ -94,8 +94,9 @@
         </div>
         <div class="source-select">
             <span>Audio Feedback:</span>
-            <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackEnabled(true)">On</button>
-            <button id="btn-audio-feedback-off" onclick="setAudioFeedbackEnabled(false)">Off</button>
+            <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackMode('on')">On</button>
+            <button id="btn-audio-feedback-verbal" onclick="setAudioFeedbackMode('verbal')">On-Verbal</button>
+            <button id="btn-audio-feedback-off" onclick="setAudioFeedbackMode('off')">Off</button>
         </div>
         <div class="source-select">
             <span>AirPods Mode Auto:</span>
