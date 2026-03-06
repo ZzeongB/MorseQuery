@@ -2059,8 +2059,6 @@
         }
 
         function hideLoadingIndicator() {
-            console.log('hideLoadingIndicator called');
-            console.trace();
             const indicator = document.getElementById('loadingIndicator');
             indicator.classList.remove('active', 'summarizing', 'skipped');
             stopLoadingAudioFeedback();
