@@ -137,6 +137,9 @@ If unclear, return the shortest best-effort spoken sentence from clearly heard w
 - NEVER output {"start_time", "end_time"} or any JSON format.
 - Remove repeated or equivalent points; keep only the core idea.
 - Remove unnecessary words aggressively while preserving meaning.
+- Keep source wording whenever possible; prefer deletion over substitution.
+- Do NOT change key nouns, entities, numbers, or target objects.
+- Do NOT infer hidden intent or add unstated details.
 - NEVER output an empty string.
 - Do NOT engage in conversation or address any speaker.
 - Do NOT ask questions.
@@ -156,10 +159,12 @@ Do NOT summarize anything outside those signals.
 - Length: Maximum 14 words and exactly one sentence.
 - Meaning: Preserve only the speaker's core idea without changing intent.
 - Mimic style: Keep original wording when possible; prefer deleting words over rewriting.
+- Lexical fidelity: do not replace key nouns/entities with different words.
 - Form preservation: Question stays a question; argument stays an argument.
 - Redundancy removal: Drop repeated or equivalent content and keep only one core point.
 - No filler: Remove empty agreement, empathy, hedging, or social padding.
 - No abstraction: Do NOT add new ideas, interpretation, explanation, or meta-summary.
+- No invention: If unsure, output a minimal verbatim-safe fragment from clearly heard words.
 - Style: Must still sound naturally spoken by a person.
 
 # Output
@@ -366,12 +371,14 @@ def build_reconstruction_prompt(
 ) -> str:
     """Build per-request prompt for missed-conversation reconstruction."""
 
-    context_before = last_words(context_before, 30)
+    context_before = last_words(context_before, 12)
     next_sentence = first_words(next_sentence, 12)
+    has_summary = bool(sum0 or sum1)
+    use_context_hints = not has_summary
     lines = []
     idx = 1
 
-    if context_before != "":
+    if use_context_hints and context_before != "":
         lines.append(f"{idx}) Conversation before the missed part (context_before)")
         idx += 1
 
@@ -383,7 +390,7 @@ def build_reconstruction_prompt(
         lines.append(f"{idx}) Speaker B summary")
         idx += 1
 
-    if next_sentence != "":
+    if use_context_hints and next_sentence != "":
         lines.append(
             f"{idx}) Sentence that follows after the missed part (next_sentence)"
         )
@@ -393,7 +400,7 @@ def build_reconstruction_prompt(
 
     values = []
 
-    if context_before != "":
+    if use_context_hints and context_before != "":
         values.append(f'context_before: "{context_before}"')
 
     if sum0:
@@ -402,7 +409,7 @@ def build_reconstruction_prompt(
     if sum1:
         values.append(f'B: "{sum1}"')
 
-    if next_sentence != "":
+    if use_context_hints and next_sentence != "":
         values.append(f'next_sentence: "{next_sentence}"')
 
     value_block = "\n".join(values)
@@ -410,39 +417,43 @@ def build_reconstruction_prompt(
     return f"""# Role
 You are a silent catch-up dialogue writer, not a chatbot.
 
-# Task
+# Objective
 The listener missed the summary segment and the next few seconds.
-Create a concise bridge dialogue so the listener can quickly follow the current conversation.
+Write a concise bridge dialogue so the listener can quickly follow the current conversation.
 
 # Inputs
 {desc_block}
 {value_block}
 
-# Rules
-- Keep it very short: total dialogue content must be 15 words or fewer.
+# Speaker Mapping (Strict)
 - If both speakers are present, output exactly one A line then one B line.
-- Prioritize Speaker's Summary as primary content.
-- Use context_before and next_sentence only as secondary clues for flow/disambiguation.
-- If a summary is empty/missing, use just-heard conversation clues (context_before, next_sentence, heard context) to add a minimal catch-up line instead of skipping.
-- If both summaries are empty/missing, still output a short best-effort catch-up line grounded in just-heard conversation clues.
+- Never mix speakers: A line can contain only A/sum0 content, and B line can contain only B/sum1 content.
+- If sum1 is empty/missing, do NOT output any B line.
+- If sum0 is empty/missing, do NOT output any A line.
+
+# Content Rules
+- Keep it very short: total dialogue content must be 15 words or fewer.
+- Prioritize speaker summaries as primary content.
+- Ignore context_before/next_sentence when any summary is present.
+- Use context_before/next_sentence only when summaries are empty/missing.
+- If summaries are empty/missing, still output one short best-effort catch-up line grounded in just-heard clues.
 - next_sentence is stale context; do not copy it verbatim.
-- Keep only essential catch-up points, not full reconstruction.
-- Keep question as question. If a line sounds like an answer, you may add a short setup question.
-- Preserve utterance function: question stays question, answer stays answer, objection stays objection, suggestion stays suggestion.
+- Remove duplicate/overlapping points and keep only essential catch-up content.
+- Preserve meaning explicitly: keep the same request/claim/question, same target/object, and same stance.
+- Do not replace core nouns or intent with different ideas.
+- Preserve utterance function (question/answer/objection/suggestion) from the source.
 - Avoid vague pronouns like "it/that/this/they/those" when unclear; prefer explicit nouns.
-- Preserve original intent from summaries; do not add unsupported claims.
-- No hallucination: use only provided inputs or clearly heard context.
+- Preserve original intent and avoid hallucination: use only provided inputs or clearly heard context.
+- If content is sparse, output one short clarification line for an available speaker (A or B).
 - NEVER output an empty string.
-- If content is too sparse, output one short clarification line for an available speaker (A or B) instead of empty output.
-- Final line should naturally hand off to the likely current conversation state.
 - English only.
 
-# Output format (strict)
+# Output Format (Strict)
 Only A:/B: dialogue lines, no explanation.
-If both speakers are present, output exactly:
+If both speakers are present:
 A: ...
 B: ...
-If only one speaker is present, output only that speaker line:
+If only one speaker is present:
 A: ...
 or
 B: ...
