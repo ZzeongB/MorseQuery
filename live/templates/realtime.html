@@ -69,8 +69,8 @@
         </div>
         <div class="source-select">
             <span>Keyword Output:</span>
-            <button id="btn-keyword-text" class="selected" onclick="setKeywordOutputMode('text')">Text</button>
-            <button id="btn-keyword-audio" onclick="setKeywordOutputMode('audio')">Text+Audio</button>
+            <button id="btn-keyword-text" onclick="setKeywordOutputMode('text')">Text</button>
+            <button id="btn-keyword-audio" class="selected" onclick="setKeywordOutputMode('audio')">Text+Audio</button>
         </div>
         <div class="source-select">
             <span>Summary Text:</span>
@@ -159,8 +159,8 @@
 
                 <!-- Shared threshold control -->
                 <div class="noise-gate-threshold-control">
-                    <span>Threshold: <span class="threshold" id="noiseGateThresholdValue">300</span></span>
-                    <input type="range" id="noiseGateThresholdSlider" min="0" max="5000" value="300" oninput="updateNoiseGateThresholdFromSlider()">
+                    <span>Threshold: <span class="threshold" id="noiseGateThresholdValue">500</span></span>
+                    <input type="range" id="noiseGateThresholdSlider" min="0" max="5000" value="500" oninput="updateNoiseGateThresholdFromSlider()">
                 </div>
                 <div style="font-size: 11px; color: #666;">
                     Drag slider or click meter to set threshold. Audio below threshold will be filtered.
