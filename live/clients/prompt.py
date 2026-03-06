@@ -419,6 +419,7 @@ Create a concise bridge dialogue so the listener can quickly follow the current 
 {value_block}
 
 # Rules
+- Keep it very short: total dialogue content must be 15 words or fewer.
 - If both speakers are present, output exactly one A line then one B line.
 - Prioritize Speaker's Summary as primary content.
 - Use context_before and next_sentence only as secondary clues for flow/disambiguation.
@@ -426,7 +427,6 @@ Create a concise bridge dialogue so the listener can quickly follow the current 
 - If both summaries are empty/missing, still output a short best-effort catch-up line grounded in just-heard conversation clues.
 - next_sentence is stale context; do not copy it verbatim.
 - Keep only essential catch-up points, not full reconstruction.
-- 1-3 turns total, 5-10 words per turn. One-speaker output is allowed when only one side has usable content.
 - Keep question as question. If a line sounds like an answer, you may add a short setup question.
 - Preserve utterance function: question stays question, answer stays answer, objection stays objection, suggestion stays suggestion.
 - Avoid vague pronouns like "it/that/this/they/those" when unclear; prefer explicit nouns.

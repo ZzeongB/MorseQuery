@@ -216,7 +216,7 @@ class ConversationReconstructorClient:
                                 "modalities": ["text"],
                                 "instructions": prompt,
                                 "temperature": 0.6,
-                                "max_output_tokens": 200,
+                                "max_output_tokens": 80,
                             },
                         }
                     )
