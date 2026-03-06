@@ -32,11 +32,17 @@ let reconstructorEnabled = true; // Conversation reconstructor on/off
 let keywordTtsPlaying = false; // Track if keyword TTS is playing
 let keywordTtsCurrentText = '';
 let keywordAutoSummarizeTimer = null;
+let keywordPlaybackToken = 0;
 let pendingSummarizeIndicatorAfterKeyword = false;
 let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
+let configuredSummaryClientCount = 2;
+let summarySegmentState = new Map(); // segmentId -> {received, nonEmpty}
+let pendingEmptySummarySignal = null; // {segmentId}
+let listeningActive = false;
 let inferencingTimer = null;
 const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
 const KEYWORD_SUMMARY_LEAD_MS = 2000;
+let keywordSummaryLeadMs = KEYWORD_SUMMARY_LEAD_MS;
 const KEYWORD_ESTIMATED_WPS = 3.5; // Cartesia speed=1.2 approximation
 let pendingReconstructedTurns = [];
 let pendingReconstructedSegmentId = 0;
@@ -356,6 +362,12 @@ function setAutoPreSummarizeEnabled(enabled) {
     if (!enabled) {
         clearKeywordAutoSummarizeTimer();
     }
+}
+
+function setKeywordSummaryLeadMs(ms) {
+    const value = Number(ms);
+    if (!Number.isFinite(value) || value < 0) return;
+    keywordSummaryLeadMs = Math.round(value);
 }
 
 function setJudgeEnabled(enabled) {
@@ -780,6 +792,7 @@ async function playNextTts() {
         pendingReconstructedTurns = [];
         pendingReconstructedSegmentId = 0;
         renderedReconstructedSegmentId = 0;
+        maybeEmitPendingEmptySummarySignal();
         return;
     }
     if (isBlockedByKeywordPlayback(ttsQueue[0].meta)) {
@@ -934,6 +947,26 @@ function clearKeywordAutoSummarizeTimer() {
     }
 }
 
+function startListeningIfNeeded() {
+    if (listeningActive) return;
+    socket.emit('start_listening');
+    listeningActive = true;
+}
+
+function endListeningIfNeeded() {
+    if (!listeningActive) return false;
+    socket.emit('end_listening');
+    listeningActive = false;
+    return true;
+}
+
+function recoverListeningForKeywordNavigation() {
+    if (summaryRequested && !keywordTtsPlaying) {
+        cancelSummaryPlayback();
+    }
+    startListeningIfNeeded();
+}
+
 function estimateKeywordTtsDurationMs(text) {
     const normalized = String(text || '').trim();
     if (!normalized) return 0;
@@ -943,15 +976,16 @@ function estimateKeywordTtsDurationMs(text) {
     return Math.round(estimatedSeconds * 1000);
 }
 
-function scheduleAutoSummarizeFromKeywordPlayback() {
+function scheduleAutoSummarizeFromKeywordPlayback(playbackToken = keywordPlaybackToken) {
     clearKeywordAutoSummarizeTimer();
     if (!autoPreSummarizeEnabled) return;
     if (dismissMode !== 'summary') return;
     if (summaryRequested || summaryInProgress) return;
     const durationMs = estimateKeywordTtsDurationMs(keywordTtsCurrentText);
     if (durationMs <= 0) return;
-    const delayMs = Math.max(0, durationMs - KEYWORD_SUMMARY_LEAD_MS);
+    const delayMs = Math.max(0, durationMs - keywordSummaryLeadMs);
     keywordAutoSummarizeTimer = setTimeout(() => {
+        if (playbackToken !== keywordPlaybackToken) return;
         keywordAutoSummarizeTimer = null;
         startSummarizing({ silentWhileKeyword: true });
     }, delayMs);
@@ -996,13 +1030,15 @@ function playCurrentKeywordTts() {
     const desc = (item.desc || '').trim();
     if (!word || !desc) return;
     clearKeywordAutoSummarizeTimer();
+    keywordPlaybackToken += 1;
     keywordTtsPlaying = true;
     keywordTtsCurrentText = `${word}. ${desc}`;
-    scheduleAutoSummarizeFromKeywordPlayback();
+    scheduleAutoSummarizeFromKeywordPlayback(keywordPlaybackToken);
     socket.emit('keyword_tts', { text: keywordTtsCurrentText });
 }
 
 function cancelKeywordTts() {
+    keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
     socket.emit('cancel_keyword_tts');
     keywordTtsPlaying = false;
@@ -1058,6 +1094,7 @@ function selectKeyword(idx) {
     currentIdx = idx;
     render();
     if (keywordOutputMode === 'audio') {
+        recoverListeningForKeywordNavigation();
         cancelKeywordTts();
         playCurrentKeywordTts();
     }
@@ -1121,16 +1158,87 @@ function hideLoadingIndicator() {
 }
 
 function showSkippedIndicator(message = 'All caught up') {
+    return showSkippedIndicatorWithOptions(message, { playCompleteFeedback: true });
+}
+
+function showSkippedIndicatorWithOptions(message = 'All caught up', opts = {}) {
+    const shouldPlayComplete = opts.playCompleteFeedback !== false;
     const indicator = document.getElementById('loadingIndicator');
     indicator.classList.remove('summarizing');
     indicator.classList.add('active', 'skipped');
     document.querySelector('#loadingIndicator .label').textContent = normalizeSkipMessage(message);
-    playCompleteFeedback();
+    if (shouldPlayComplete) {
+        playCompleteFeedback();
+    }
     if (skippedIndicatorTimer) clearTimeout(skippedIndicatorTimer);
     skippedIndicatorTimer = setTimeout(() => {
         skippedIndicatorTimer = null;
         hideLoadingIndicator();
     }, 2000);
+}
+
+function getExpectedSummaryClientCount() {
+    return Math.max(1, Number(configuredSummaryClientCount) || 1);
+}
+
+function markSummaryDoneForSegment(segmentId, hasText) {
+    if (segmentId <= 0) return;
+    const prev = summarySegmentState.get(segmentId) || { received: 0, nonEmpty: 0 };
+    prev.received += 1;
+    if (hasText) prev.nonEmpty += 1;
+    summarySegmentState.set(segmentId, prev);
+}
+
+function hasAllSummariesEmpty(segmentId) {
+    if (segmentId <= 0) return false;
+    const state = summarySegmentState.get(segmentId);
+    if (!state) return false;
+    return state.received >= getExpectedSummaryClientCount() && state.nonEmpty === 0;
+}
+
+function isKeywordPlaybackBusy() {
+    if (keywordTtsPlaying) return true;
+    if (activeBrowserTtsType === 'keyword') return true;
+    return ttsQueue.some(item => item && item.meta && item.meta.type === 'keyword');
+}
+
+function emitAllCaughtUpForEmptySummary(segmentId) {
+    summaryRequested = false;
+    summaryInProgress = false;
+    pendingSummarizeIndicatorAfterKeyword = false;
+    awaitingJudgeDecision = false;
+    if (summaryFinalizeTimer) {
+        clearTimeout(summaryFinalizeTimer);
+        summaryFinalizeTimer = null;
+    }
+    hideLoadingIndicator();
+    hideSummaryText();
+    hideReconstructedTurns();
+    pendingSummaryTexts = [];
+    pendingReconstructedTurns = [];
+    pendingReconstructedSegmentId = 0;
+    renderedReconstructedSegmentId = 0;
+    options = [];
+    currentIdx = 0;
+    infoVisible = false;
+    document.getElementById('optionsList').innerHTML = '';
+    showSkippedIndicatorWithOptions('All caught up!', { playCompleteFeedback: false });
+    playTtsStartFeedback('summary');
+    setTimeout(() => playTtsEndFeedback('summary'), 320);
+    summarySegmentState.delete(segmentId);
+}
+
+function maybeEmitPendingEmptySummarySignal() {
+    if (!pendingEmptySummarySignal) return;
+    if (isKeywordPlaybackBusy()) return;
+    const pending = pendingEmptySummarySignal;
+    pendingEmptySummarySignal = null;
+    emitAllCaughtUpForEmptySummary(pending.segmentId);
+}
+
+function queueEmptySummarySignal(segmentId) {
+    pendingEmptySummarySignal = { segmentId };
+    maybeEmitPendingEmptySummarySignal();
 }
 
 function showTapIndicator() {
@@ -1264,6 +1372,8 @@ function start(v) {
 
     stopAllMicMonitors();
     stopNoiseGateMonitor();
+    summarySegmentState.clear();
+    pendingEmptySummarySignal = null;
 
     const params = { source: source };
     if (source === 'mic') {
@@ -1276,6 +1386,7 @@ function start(v) {
         const ttsOut = document.getElementById('ttsOutput').value;
         params.keyword_mic = kw ? parseInt(kw) : null;
         params.summary_mics = [s1, s2].filter(x => x).map(x => parseInt(x));
+        configuredSummaryClientCount = params.summary_mics.length;
         params.voice_ids = [v1, v2];
         params.keyword_voice_id = kwVoice || null;
         params.tts_output_device = ttsOut ? parseInt(ttsOut) : null;
@@ -1288,6 +1399,7 @@ function start(v) {
         const kwVoice = document.getElementById('keywordVoice').value;
         const ttsOut = document.getElementById('ttsOutput').value;
         params.summary_sources = [sum0, sum1].filter(x => x);
+        configuredSummaryClientCount = params.summary_sources.length;
         params.keyword_source = keywordPath || null;
         params.voice_ids = [v1, v2];
         params.keyword_voice_id = kwVoice || null;
@@ -1311,6 +1423,7 @@ function start(v) {
 function startSummarizing(opts = {}) {
     if (dismissMode === 'summary') {
         if (summaryRequested) return;
+        if (!listeningActive) return;
         clearKeywordAutoSummarizeTimer();
         hideReconstructedTurns();
         pendingSummaryTexts = [];
@@ -1326,7 +1439,7 @@ function startSummarizing(opts = {}) {
             showLoadingIndicator('Summarizing...', 'summarizing');
         }
         unlockAudioForTts();
-        socket.emit('end_listening');
+        endListeningIfNeeded();
     }
 }
 
@@ -1359,6 +1472,7 @@ function clearAllActiveUiAndAudio() {
     summaryInProgress = false;
     pendingSummarizeIndicatorAfterKeyword = false;
     awaitingJudgeDecision = false;
+    listeningActive = false;
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
     pendingSummaryTexts = [];
@@ -1412,7 +1526,7 @@ function handleTap() {
         } else {
             playConfirmedFeedback();
             hideSummary();
-            socket.emit('start_listening');
+            startListeningIfNeeded();
             socket.emit('request');
             showLoadingIndicator('Inferring', 'inferring', 320);
 
@@ -1432,6 +1546,7 @@ function handleTap() {
             if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
                 if (options.length > 0) {
                     playTapFeedback();
+                    recoverListeningForKeywordNavigation();
                     cancelKeywordTts();
                     currentIdx = (currentIdx + 1) % options.length;
                     render();
@@ -1509,6 +1624,7 @@ socket.on('session_ended', () => {
     summaryRequested = false;
     summaryInProgress = false;
     pendingSummarizeIndicatorAfterKeyword = false;
+    listeningActive = false;
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
     clearKeywordAutoSummarizeTimer();
@@ -1526,10 +1642,15 @@ socket.on('session_ended', () => {
     pendingReconstructedTurns = [];
     pendingReconstructedSegmentId = 0;
     renderedReconstructedSegmentId = 0;
+    summarySegmentState.clear();
+    pendingEmptySummarySignal = null;
 });
 
 socket.on('summary_done', data => {
+    const segmentId = Number((data && data.segment_id) || 0);
     const text = (!data.is_empty && !data.no_summary) ? (data.summary || '').trim() : '';
+    markSummaryDoneForSegment(segmentId, !!text);
+
     if (text) {
         pendingSummaryTexts.push(text);
         if (summaryFinalizeTimer) {
@@ -1551,6 +1672,12 @@ socket.on('summary_done', data => {
         return;
     }
 
+    if (hasAllSummariesEmpty(segmentId)) {
+        if (reconstructorEnabled && (pendingReconstructedTurns.length > 0 || pendingReconstructedSegmentId > 0)) return;
+        queueEmptySummarySignal(segmentId);
+        return;
+    }
+
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
     }
@@ -1565,6 +1692,7 @@ socket.on('summary_done', data => {
         hideSummaryText();
         pendingSummaryTexts = [];
         showSkippedIndicator('No summary detected');
+        if (segmentId > 0) summarySegmentState.delete(segmentId);
     }, 1500);
 });
 
@@ -1574,7 +1702,7 @@ socket.on('tts_playing', data => {
 
     if (reason === 'keyword') {
         keywordTtsPlaying = true;
-        scheduleAutoSummarizeFromKeywordPlayback();
+        scheduleAutoSummarizeFromKeywordPlayback(keywordPlaybackToken);
         if (keywordOutputMode === 'audio' && options.length > 0) {
             hideLoadingIndicator();
             render();
@@ -1607,6 +1735,7 @@ socket.on('tts_playing', data => {
 socket.on('tts_done', () => {
     summaryInProgress = false;
     summaryRequested = false;
+    listeningActive = false;
     pendingSummarizeIndicatorAfterKeyword = false;
     awaitingJudgeDecision = false;
     playTtsEndFeedback('summary');
@@ -1622,6 +1751,7 @@ socket.on('tts_done', () => {
 socket.on('judge_rejected', data => {
     summaryRequested = false;
     summaryInProgress = false;
+    listeningActive = false;
     pendingSummarizeIndicatorAfterKeyword = false;
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
@@ -1672,6 +1802,7 @@ socket.on('summary_tts', data => {
 
     awaitingJudgeDecision = false;
     summaryRequested = false;
+    listeningActive = false;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
         summaryFinalizeTimer = null;
@@ -1716,6 +1847,7 @@ socket.on('conversation_tts_merged', data => {
     const segId = Number((data && data.segment_id) || 0);
     stopLoadingAudioFeedback();
     summaryRequested = false;
+    listeningActive = false;
     summaryInProgress = true;
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
@@ -1731,6 +1863,7 @@ socket.on('conversation_tts', data => {
     const segId = Number((data && data.segment_id) || 0);
     stopLoadingAudioFeedback();
     summaryRequested = false;
+    listeningActive = false;
     summaryInProgress = true;
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
@@ -1744,6 +1877,7 @@ socket.on('keyword_tts_error', data => {
     console.error('Keyword TTS error:', data.error);
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
+    keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
     if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
         pendingSummarizeIndicatorAfterKeyword = false;
@@ -1754,6 +1888,7 @@ socket.on('keyword_tts_error', data => {
 socket.on('keyword_tts_done', () => {
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
+    keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
     if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
         pendingSummarizeIndicatorAfterKeyword = false;
@@ -1765,6 +1900,7 @@ socket.on('keyword_tts_done', () => {
     if (!ttsPlaying && ttsQueue.length > 0) {
         playNextTts();
     }
+    maybeEmitPendingEmptySummarySignal();
 });
 
 // ============================================================================
