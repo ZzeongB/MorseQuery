@@ -1,12 +1,14 @@
 """OpenAI Realtime API client for keyword extraction."""
 
 import base64
+from collections import deque
 import json
 import re
 import threading
 import time
 from typing import Optional
 
+import openai
 import pyaudio
 import websocket
 from config import (
@@ -65,6 +67,7 @@ class RealtimeClient:
         # Reference to summary clients for forwarding transcripts
         self.summary_clients: list = []
         self._vad_transcript_callbacks: list = []
+        self._vad_transcript_history: deque[str] = deque(maxlen=120)
 
         # Noise gate for filtering ambient audio
         self.enable_noise_gate = enable_noise_gate
@@ -197,6 +200,7 @@ class RealtimeClient:
             session_id=self.session_id,
         )
         self.logger.log("vad_transcript", transcript=transcript)
+        self._vad_transcript_history.append(transcript)
 
         # Don't emit to frontend - VAD transcripts are for internal context only
         for callback in self._vad_transcript_callbacks:
@@ -208,6 +212,69 @@ class RealtimeClient:
                     f"VAD transcript callback failed: {e}",
                     session_id=self.session_id,
                 )
+
+    def _get_transcript_so_far(self, max_chars: int = 6000) -> str:
+        """Return recent cumulative VAD transcript text for fallback extraction."""
+        parts = [t.strip() for t in self._vad_transcript_history if t and t.strip()]
+        if not parts:
+            return ""
+        text = " ".join(parts).strip()
+        if len(text) <= max_chars:
+            return text
+        return text[-max_chars:]
+
+    def _extract_keywords_with_gpt_mini_fallback(self) -> list[dict]:
+        """Fallback extractor when realtime output produced no valid keywords."""
+        transcript_text = self._get_transcript_so_far(max_chars=6000)
+        if not transcript_text:
+            self.logger.log("keywords_fallback_skipped_no_transcript")
+            return []
+
+        try:
+            response = openai.chat.completions.create(
+                model="gpt-4o-mini",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You extract spoken technical keywords from transcript text.\n"
+                            "Output must contain at least 1 keyword.\n"
+                            "Never output zero keywords.\n"
+                            "Use only terms that appear in transcript.\n"
+                            "Output format per line: <keyword>: <exactly 30-word description>.\n"
+                            "English only. No bullets, no numbering, no extra text."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            "Extract 1-3 keywords from this transcript.\n"
+                            "At least 1 keyword is mandatory.\n\n"
+                            f"{transcript_text}"
+                        ),
+                    },
+                ],
+                temperature=0.2,
+            )
+            text = str((response.choices[0].message.content or "")).strip()
+            parsed = self._sanitize_keywords(self._parse_line_format(text))
+            if parsed:
+                self.logger.log(
+                    "keywords_fallback_success",
+                    keyword_count=len(parsed),
+                    raw_response=text,
+                )
+                return parsed
+            self.logger.log("keywords_fallback_empty_after_parse", raw_response=text)
+            return []
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"gpt-mini fallback keyword extraction failed: {e}",
+                session_id=self.session_id,
+            )
+            self.logger.log("keywords_fallback_error", error=str(e))
+            return []
 
     def _parse_json_format(self, text: str) -> list[dict]:
         """Parse JSON-like format: {"key": value, "key2": value2}
@@ -382,6 +449,8 @@ class RealtimeClient:
         else:
             keywords = self._parse_line_format(keywords_text)
         keywords = self._sanitize_keywords(keywords)
+        if not keywords:
+            keywords = self._extract_keywords_with_gpt_mini_fallback()
 
         log_print(
             "INFO",
@@ -824,6 +893,7 @@ class RealtimeClient:
         self.chunks_filtered = 0  # Reset filtered count
         self.chunks_since_last_request = 0  # Reset for new session
         self.extracted_keywords = []  # Reset for new session
+        self._vad_transcript_history.clear()
         with self._state_lock:
             self.user_actions = []  # Reset user actions
             self.latest_keywords = []  # Reset keyword cache

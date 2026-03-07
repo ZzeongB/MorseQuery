@@ -1995,6 +1995,16 @@ socket.on('keyword_tts_done', () => {
     keywordTtsCurrentText = '';
     keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
+    // Fallback auto-trigger: if duration estimate missed, trigger summarize on actual TTS completion.
+    if (
+        autoPreSummarizeEnabled &&
+        dismissMode === 'summary' &&
+        listeningActive &&
+        !summaryTriggeredForListeningSession &&
+        !summaryRequested
+    ) {
+        startSummarizing();
+    }
     if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
         pendingSummarizeIndicatorAfterKeyword = false;
         showLoadingIndicator('Summarizing...', 'summarizing', 220);
