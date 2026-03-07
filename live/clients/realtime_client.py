@@ -1,11 +1,11 @@
 """OpenAI Realtime API client for keyword extraction."""
 
 import base64
-from collections import deque
 import json
 import re
 import threading
 import time
+from collections import deque
 from typing import Optional
 
 import openai
@@ -52,6 +52,8 @@ class RealtimeClient:
         self.response_buffer = ""
         self.logger = get_logger(session_id)
         self.extracted_keywords: list[str] = []  # Track previously extracted keywords
+        self.completed_tts_keywords: list[str] = []  # Track keyword-TTS completed words
+        self._completed_tts_keyword_set: set[str] = set()
 
         # Thread synchronization
         self._ws_lock = threading.Lock()
@@ -60,7 +62,9 @@ class RealtimeClient:
 
         # Session recording
         self.user_actions: list[dict] = []  # Track user keyword requests with timing
-        self.latest_keywords: list[dict] = []  # Last parsed keyword list with descriptions
+        self.latest_keywords: list[
+            dict
+        ] = []  # Last parsed keyword list with descriptions
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
         self.recording_buffer: list[bytes] = []  # Audio recording
 
@@ -95,6 +99,10 @@ class RealtimeClient:
             mp3_file=mp3_file,
             noise_gate=enable_noise_gate,
         )
+
+    @staticmethod
+    def _normalize_keyword_text(keyword: str) -> str:
+        return re.sub(r"\s+", " ", str(keyword or "").strip().lower())
 
     def set_summary_clients(self, clients: list) -> None:
         """Set reference to SummaryClients for transcript forwarding.
@@ -229,6 +237,9 @@ class RealtimeClient:
         if not transcript_text:
             self.logger.log("keywords_fallback_skipped_no_transcript")
             return []
+        self.logger.log(
+            "keywords_fallback_started", transcript_length=len(transcript_text)
+        )
 
         try:
             response = openai.chat.completions.create(
@@ -257,7 +268,18 @@ class RealtimeClient:
                 temperature=0.2,
             )
             text = str((response.choices[0].message.content or "")).strip()
-            parsed = self._sanitize_keywords(self._parse_line_format(text))
+            if text.startswith("```"):
+                text = re.sub(r"^```[a-zA-Z0-9_-]*\n?", "", text).strip()
+                if text.endswith("```"):
+                    text = text[:-3].strip()
+            parsed = []
+            if (
+                (text.startswith("{") and text.endswith("}"))
+                or (text.startswith("[") and text.endswith("]"))
+            ):
+                parsed.extend(self._parse_json_format(text))
+            parsed.extend(self._parse_line_format(text))
+            parsed = self._sanitize_keywords(parsed)
             if parsed:
                 self.logger.log(
                     "keywords_fallback_success",
@@ -287,6 +309,15 @@ class RealtimeClient:
         # Try proper JSON parse first
         try:
             parsed = json.loads(text)
+            if isinstance(parsed, list):
+                for item in parsed:
+                    if not isinstance(item, dict):
+                        continue
+                    word = str(item.get("word", "")).strip()
+                    desc = str(item.get("desc", "")).strip()
+                    if word and desc:
+                        keywords.append({"word": word, "desc": desc})
+                return keywords
             if isinstance(parsed, dict):
                 for key, value in parsed.items():
                     key = str(key).strip()
@@ -381,6 +412,21 @@ class RealtimeClient:
 
         return cleaned
 
+    def _filter_completed_tts_keywords(self, keywords: list[dict]) -> list[dict]:
+        """Exclude keywords that already completed keyword-TTS playback."""
+        with self._state_lock:
+            blocked = set(self._completed_tts_keyword_set)
+        if not blocked:
+            return keywords
+
+        filtered: list[dict] = []
+        for kw in keywords:
+            normalized = self._normalize_keyword_text(kw.get("word", ""))
+            if normalized and normalized in blocked:
+                continue
+            filtered.append(kw)
+        return filtered
+
     def _parse_line_format(self, text: str) -> list[dict]:
         """Parse line-by-line format: keyword only OR keyword: description"""
         keywords = []
@@ -449,8 +495,20 @@ class RealtimeClient:
         else:
             keywords = self._parse_line_format(keywords_text)
         keywords = self._sanitize_keywords(keywords)
-        if not keywords:
+        keywords = self._filter_completed_tts_keywords(keywords)
+        log_print(
+            "DEBUG",
+            f"Parsed keywords: {keywords}",
+            session_id=self.session_id,
+        )
+        if keywords == []:
+            log_print(
+                "WARN",
+                "No valid keywords parsed from response, attempting gpt-mini fallback",
+                session_id=self.session_id,
+            )
             keywords = self._extract_keywords_with_gpt_mini_fallback()
+            keywords = self._filter_completed_tts_keywords(keywords)
 
         log_print(
             "INFO",
@@ -466,7 +524,7 @@ class RealtimeClient:
 
         # Track extracted keywords to avoid repetition
         for kw in keywords:
-            word = kw["word"].lower()
+            word = self._normalize_keyword_text(kw["word"])
             if word not in self.extracted_keywords:
                 self.extracted_keywords.append(word)
 
@@ -787,11 +845,20 @@ class RealtimeClient:
             if has_new_audio:
                 ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
 
-            # Build prompt with previously extracted keywords to avoid repetition
+            # Build prompt with previously used keywords to avoid repetition.
             prompt = KEYWORD_EXTRACTION_PROMPT
-            if self.extracted_keywords:
-                already_extracted = ", ".join(self.extracted_keywords[-20:])  # Last 20
-                prompt = f"{KEYWORD_EXTRACTION_PROMPT}\n\nALREADY EXTRACTED (do NOT repeat): {already_extracted}"
+            excluded_keywords: list[str] = []
+            excluded_keywords.extend(self.extracted_keywords[-20:])
+            excluded_keywords.extend(self.completed_tts_keywords[-40:])
+            if excluded_keywords:
+                deduped_excluded = list(dict.fromkeys(excluded_keywords))
+                blocked = ", ".join(deduped_excluded)
+                prompt = (
+                    f"{KEYWORD_EXTRACTION_PROMPT}\n\n"
+                    "Do NOT include any keyword from this history "
+                    "(already extracted + keyword-tts playback completed): "
+                    f"{blocked}"
+                )
 
             ws.send(
                 json.dumps(
@@ -800,7 +867,7 @@ class RealtimeClient:
                         "response": {
                             "modalities": ["text"],
                             "instructions": prompt,
-                            "max_output_tokens": 500,
+                            "max_output_tokens": 700,
                         },
                     }
                 )
@@ -893,6 +960,8 @@ class RealtimeClient:
         self.chunks_filtered = 0  # Reset filtered count
         self.chunks_since_last_request = 0  # Reset for new session
         self.extracted_keywords = []  # Reset for new session
+        self.completed_tts_keywords = []  # Reset for new session
+        self._completed_tts_keyword_set.clear()
         self._vad_transcript_history.clear()
         with self._state_lock:
             self.user_actions = []  # Reset user actions
@@ -971,6 +1040,17 @@ class RealtimeClient:
         if not items or limit == 0:
             return []
         return items[:limit]
+
+    def mark_keyword_tts_completed(self, keyword: str) -> None:
+        """Track a keyword that finished keyword-TTS playback."""
+        normalized = self._normalize_keyword_text(keyword)
+        if not normalized:
+            return
+        with self._state_lock:
+            if normalized in self._completed_tts_keyword_set:
+                return
+            self._completed_tts_keyword_set.add(normalized)
+            self.completed_tts_keywords.append(normalized)
 
     def _save_audio(self) -> None:
         """Save recorded audio as WAV."""

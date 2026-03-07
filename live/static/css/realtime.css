@@ -275,6 +275,20 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
 .reconstructed-turns.active {
     display: flex;
 }
+.reconstructed-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.reconstructed-followup-sep {
+    align-self: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin: 2px 0;
+}
 .reconstructed-turn {
     padding: 10px 14px;
     border-radius: 16px;

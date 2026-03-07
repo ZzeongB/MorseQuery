@@ -93,6 +93,13 @@
             <button id="btn-reconstructor-off" onclick="setReconstructorEnabled(false)">Off</button>
         </div>
         <div class="source-select">
+            <span>Transcription Concise:</span>
+            <button id="btn-compress-fastest" class="selected" onclick="setTranscriptCompressionMode('fastest')">1) Fastest</button>
+            <button id="btn-compress-realtime" onclick="setTranscriptCompressionMode('realtime')">2) realtime</button>
+            <button id="btn-compress-api-mini" onclick="setTranscriptCompressionMode('api_mini')">3) api_mini</button>
+            <button id="btn-compress-api-nano" onclick="setTranscriptCompressionMode('api_nano')">4) api_nano</button>
+        </div>
+        <div class="source-select">
             <span>Audio Feedback:</span>
             <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackMode('on')">On</button>
             <button id="btn-audio-feedback-verbal" onclick="setAudioFeedbackMode('verbal')">On-Verbal</button>

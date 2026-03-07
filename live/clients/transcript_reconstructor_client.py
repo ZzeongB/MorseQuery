@@ -53,6 +53,7 @@ class TranscriptReconstructorClient:
         self.pending_segment_id: int = 0
         self.pending_dialogue: str = ""
         self.pending_before_context: str = ""
+        self.pending_keyword_context: str = ""
         self.pending_prompt: str = ""
         self.on_reconstruction_callback = on_reconstruction_callback
         self._queued_request: Optional[dict] = None
@@ -87,7 +88,9 @@ class TranscriptReconstructorClient:
         self.listening = True
         self.response_buffer = ""
 
-        self.logger.log("transcript_reconstructor_start_listening", segment_id=self.segment_id)
+        self.logger.log(
+            "transcript_reconstructor_start_listening", segment_id=self.segment_id
+        )
 
     def end_listening(self) -> None:
         """Mark the end of a listening segment."""
@@ -95,13 +98,16 @@ class TranscriptReconstructorClient:
             return
 
         self.listening = False
-        self.logger.log("transcript_reconstructor_end_listening", segment_id=self.segment_id)
+        self.logger.log(
+            "transcript_reconstructor_end_listening", segment_id=self.segment_id
+        )
 
     def reconstruct_transcript(
         self,
         dialogue: str,
         segment_id: int,
         before_context: str = "",
+        keyword_context: str = "",
     ) -> None:
         """Request compressed transcript from LLM.
 
@@ -109,6 +115,7 @@ class TranscriptReconstructorClient:
             dialogue: The formatted dialogue string (A: ...\nB: ...)
             segment_id: The segment identifier
             before_context: Short transcript context before the missed segment
+            keyword_context: Current viewed keywords
         """
         if not self.running:
             log_print(
@@ -130,12 +137,14 @@ class TranscriptReconstructorClient:
         self.pending_segment_id = segment_id
         self.pending_dialogue = dialogue.strip()
         self.pending_before_context = (before_context or "").strip()
+        self.pending_keyword_context = (keyword_context or "").strip()
         self.response_buffer = ""
         self._request_start_time = time.time()
 
         prompt = build_transcript_reconstruction_prompt(
             self.pending_dialogue,
             before_context=self.pending_before_context,
+            keyword_context=self.pending_keyword_context,
         )
         self.pending_prompt = prompt
 
@@ -144,6 +153,7 @@ class TranscriptReconstructorClient:
             segment_id=segment_id,
             dialogue=self.pending_dialogue[:200],
             before_context=self.pending_before_context[:200],
+            keyword_context=self.pending_keyword_context[:200],
             prompt=prompt[:200],
         )
         log_print(
@@ -153,6 +163,7 @@ class TranscriptReconstructorClient:
             segment_id=segment_id,
             dialogue_chars=len(self.pending_dialogue),
             before_context_chars=len(self.pending_before_context),
+            keyword_context_chars=len(self.pending_keyword_context),
         )
 
         # If websocket is not ready yet, queue and send on connect.
@@ -194,7 +205,9 @@ class TranscriptReconstructorClient:
                     )
                 )
             except Exception as e:
-                self.logger.log("transcript_reconstruction_request_failed", error=str(e))
+                self.logger.log(
+                    "transcript_reconstruction_request_failed", error=str(e)
+                )
                 log_print(
                     "ERROR",
                     f"reconstruct_transcript send failed: {e}",
@@ -283,6 +296,7 @@ class TranscriptReconstructorClient:
             prompt=self.pending_prompt[:200],
             dialogue=self.pending_dialogue[:200],
             before_context=self.pending_before_context[:200],
+            keyword_context=self.pending_keyword_context[:200],
             output_raw=raw,
             normalized=compressed,
             elapsed_ms=elapsed_ms,
@@ -301,6 +315,7 @@ class TranscriptReconstructorClient:
             "compressed_text": compressed,
             "original_dialogue": self.pending_dialogue,
             "before_context": self.pending_before_context,
+            "keyword_context": self.pending_keyword_context,
             "elapsed_ms": elapsed_ms,
             "method": "realtime_api",
         }
@@ -311,7 +326,9 @@ class TranscriptReconstructorClient:
             try:
                 self.on_reconstruction_callback(payload)
             except Exception as e:
-                self.logger.log("transcript_reconstruction_callback_failed", error=str(e))
+                self.logger.log(
+                    "transcript_reconstruction_callback_failed", error=str(e)
+                )
                 log_print(
                     "ERROR",
                     f"transcript reconstruction callback failed: {e}",
@@ -321,6 +338,7 @@ class TranscriptReconstructorClient:
         self.pending_segment_id = 0
         self.pending_dialogue = ""
         self.pending_before_context = ""
+        self.pending_keyword_context = ""
         self.pending_prompt = ""
 
     def _normalize_output(self, text: str) -> str:
@@ -348,7 +366,9 @@ class TranscriptReconstructorClient:
     def on_close(self, _ws: websocket.WebSocketApp, status: int, msg: str) -> None:
         self.connected = False
         self.running = False
-        self.logger.log("transcript_reconstructor_ws_closed", status=status, message=msg)
+        self.logger.log(
+            "transcript_reconstructor_ws_closed", status=status, message=msg
+        )
         log_print(
             "INFO",
             "TranscriptReconstructorClient closed",

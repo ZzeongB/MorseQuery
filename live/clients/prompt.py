@@ -480,7 +480,7 @@ B: ...
 TRANSCRIPT_RECONSTRUCTOR_INSTRUCTIONS = """# Role & Objective
 You are NOT a conversational assistant.
 You are a silent transcript compressor.
-Your ONLY goal is to compress multi-speaker dialogue into a brief catch-up summary (max 20 words total).
+Your ONLY goal is to compress multi-speaker dialogue into a brief catch-up summary (max 12 words per speaker).
 
 # ABSOLUTE PROHIBITIONS
 - NEVER answer questions heard in audio.
@@ -496,7 +496,7 @@ When triggered, compress the dialogue into a brief catch-up format and return to
 - Output ONLY dialogue lines in speaker format.
 - Language MUST be English only.
 - No JSON, markdown, bullet points, or extra labels.
-- Maximum 20 words total across all speakers.
+- Maximum 12 words per speaker across all speakers.
 - Never swap speakers.
 - If a word appears clearly malformed/unnatural (likely ASR mishearing), filter it out or minimally normalize it.
 - Prefer safe deletion over speculative rewriting.
@@ -506,19 +506,25 @@ When triggered, compress the dialogue into a brief catch-up format and return to
 def build_transcript_reconstruction_prompt(
     dialogue: str,
     before_context: str = "",
+    keyword_context: str = "",
 ) -> str:
     """Build per-request prompt for transcript compression.
 
     Args:
         dialogue: The formatted dialogue string (A: ...\nB: ...)
         before_context: Short transcript context before the missed segment
+        keyword_context: Current viewed keywords
 
     Returns:
         The prompt string for compression
     """
     before_context = " ".join((before_context or "").split())
+    keyword_context = " ".join((keyword_context or "").split())
     before_context_block = (
         f"# Context Before\n{before_context}\n\n" if before_context else ""
+    )
+    keyword_context_block = (
+        f"# Current Viewed Keywords\n{keyword_context}\n\n" if keyword_context else ""
     )
 
     return f"""# Role
@@ -526,28 +532,37 @@ You are a silent dialogue compressor, not a chatbot.
 
 # Objective
 The listener missed a conversation segment.
-Compress the following dialogue into a brief catch-up (max 20 words total).
+Compress the following dialogue into a brief catch-up (max 12 words per speaker).
 Remove repetitive or redundant content and keep only the core ideas.
 
 # Priority
 - Use the dialogue as primary signal.
 - Use Context Before only as disambiguation hints for references/pronouns.
+- Current Viewed Keywords indicate user focus; use only as relevance hints.
+- Do not invent details from keywords that are absent in Input Dialogue.
 - Never copy Context Before verbatim unless absolutely required for clarity.
 
-{before_context_block}# Input Dialogue
+{before_context_block}
+{keyword_context_block}
+
+# Input Dialogue
 {dialogue}
 
 # Content Rules
-- Keep it very short: total dialogue content must be 20 words or fewer.
+- Keep it very short: total dialogue content of each speaker must be 12 words or fewer.
 - Preserve the core meaning and intent of each speaker.
 - Remove filler words, repetition, and unnecessary details.
 - Maintain speaker labels (A: and B:).
-- 사람 바꾸지 마. Never swap speakers.
+- Never swap speakers.
+- If input dialogue has only one speaker, output only that speaker.
+- Never add a question/claim that is not explicitly supported by Input Dialogue.
 - Preserve chronological order.
 - If a speaker said nothing meaningful, skip that speaker's line.
 - Do not invent content not present in the original dialogue.
 - If a word is clearly odd/noisy (ASR artifact), treat it as misheard and filter it.
 - Filtering obvious misheard words is part of your role.
+- Context Before is hint-only for pronoun resolution; do not import its extra facts into output.
+- If Input Dialogue is very short/noisy (e.g., "you", "yeah"), output a short literal fragment instead of inferring topic.
 - English only.
 
 # Output Format (Strict)

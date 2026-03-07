@@ -11,8 +11,9 @@ import base64
 import io
 import json
 import os
-import subprocess
+import re
 import struct
+import subprocess
 import sys
 import threading
 import time
@@ -20,13 +21,11 @@ import wave
 from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
-import re
 from typing import Optional
 
 import numpy as np
 import openai
 import pyaudio
-
 from clients import (
     ConversationReconstructorClient,
     DialogueStore,
@@ -50,7 +49,7 @@ _noise_gate_monitor_thread: Optional[threading.Thread] = None
 # Global PyAudio lock to prevent segfaults from concurrent access
 _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, jsonify, render_template, request
 from flask_socketio import SocketIO
 from handlers.grounding import handle_search_grounding
 from logger import get_logger, get_session_dir, get_session_subdir, log_print
@@ -207,16 +206,19 @@ _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
 _dialogue_segment_start_time: float = 0.0
 _DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
 _MISS_PADDING_BEFORE_SEC = 1.0
-_SEGMENT_DIALOGUE_RETRY_COUNT = 5
-_SEGMENT_DIALOGUE_RETRY_DELAY_SEC = 0.45
 _SEGMENT_TAIL_GRACE_SEC = 1.4
-_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH = 2
 _SEGMENT_POST_END_WAIT_SEC = 0.45
+_SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
+_SEGMENT_DIALOGUE_MAX_WAIT_SEC = 4.0
+_SEGMENT_DIALOGUE_POLL_SEC = 0.12
+_POST_TTS_FOLLOWUP_WAIT_SEC = 0.3
 _BEFORE_CONTEXT_RECENT_WINDOW_SEC = 60.0
 
 # Persist 3-path compression results (time/input/output) for every segment/session.
 _three_path_results_lock = threading.Lock()
-_all_sessions_three_path_file = LOG_DIR / "sessions" / "all_sessions_three_path_results.json"
+_all_sessions_three_path_file = (
+    LOG_DIR / "sessions" / "all_sessions_three_path_results.json"
+)
 
 # Aggregate multiple summary-agent outputs into one request batch per segment
 _judge_batch_lock = threading.Lock()
@@ -231,14 +233,30 @@ _segment_windows: dict[int, dict] = {}
 _recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
 _before_context_lock = threading.Lock()
 _before_context_summary = ""
+_post_tts_followup_active = False
+_post_tts_followup_inflight = False
+_post_tts_followup_cursor_ts = 0.0
+_post_tts_followup_live_window_open = False
+_segment_compression_inflight: set[int] = set()
+_transcript_compression_mode = "realtime"
 
 
 def _reset_segment_tracking() -> None:
     global _segment_seq, _before_context_summary
+    global \
+        _post_tts_followup_active, \
+        _post_tts_followup_inflight, \
+        _post_tts_followup_cursor_ts
+    global _post_tts_followup_live_window_open, _segment_compression_inflight
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
         _recent_vad_transcripts.clear()
+        _post_tts_followup_active = False
+        _post_tts_followup_inflight = False
+        _post_tts_followup_cursor_ts = 0.0
+        _post_tts_followup_live_window_open = False
+        _segment_compression_inflight.clear()
     with _before_context_lock:
         _before_context_summary = ""
 
@@ -406,7 +424,7 @@ def _build_before_context_via_gpt_mini(
                         "You create context hints for downstream dialogue compression.\n"
                         "Must be concise, accurate, and grounded only in the provided inputs.\n"
                         "Do not invent facts.\n"
-                        "Include: Topic/intent, current conversation state, and keyword relevance."
+                        "Include: Topic/intent, and current conversation state."
                     ),
                 },
                 {
@@ -415,14 +433,15 @@ def _build_before_context_via_gpt_mini(
                         "Build before_context from the following.\n\n"
                         f"[Previous summarized context]\n{previous_context or '(none)'}\n\n"
                         f"[Recent dialogue (last 30-60s)]\n{recent_dialogue or '(none)'}\n\n"
-                        f"[Keywords]\n{keyword_block or '(none)'}"
                     ),
                 },
             ],
             temperature=0.2,
         )
         text = str((response.choices[0].message.content or "")).strip()
-        normalized = "\n".join(line.strip() for line in text.splitlines() if line.strip())
+        normalized = "\n".join(
+            line.strip() for line in text.splitlines() if line.strip()
+        )
         if normalized:
             _set_before_context_summary(normalized)
         return normalized
@@ -517,6 +536,7 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
     Returns:
         Callback function taking (transcript: str)
     """
+
     def _callback(transcript: str) -> None:
         if not transcript or not transcript.strip():
             return
@@ -559,7 +579,44 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             timestamp=entry.timestamp,
         )
 
+        # If summary pipeline is already running, trigger follow-up compression
+        # immediately when new VAD arrives (until near-end cutoff).
+        should_trigger_followup = False
+        with _segment_ctx_lock:
+            should_trigger_followup = (
+                _post_tts_followup_active
+                and _post_tts_followup_live_window_open
+                and (not _post_tts_followup_inflight)
+                and (len(_segment_compression_inflight) == 0)
+                and entry.timestamp >= float(_post_tts_followup_cursor_ts or 0.0)
+            )
+        if should_trigger_followup:
+            threading.Thread(
+                target=_trigger_post_tts_followup_if_needed,
+                args=(session_id, "vad_arrived"),
+                daemon=True,
+            ).start()
+
     return _callback
+
+
+def _on_segment_compression_finished(segment_id: int, session_id: str) -> None:
+    """Mark base segment compression completion and optionally release follow-up."""
+    should_trigger_followup = False
+    with _segment_ctx_lock:
+        _segment_compression_inflight.discard(segment_id)
+        should_trigger_followup = (
+            _post_tts_followup_active
+            and _post_tts_followup_live_window_open
+            and (not _post_tts_followup_inflight)
+            and (len(_segment_compression_inflight) == 0)
+        )
+    if should_trigger_followup:
+        threading.Thread(
+            target=_trigger_post_tts_followup_if_needed,
+            args=(session_id, "segment_complete"),
+            daemon=True,
+        ).start()
 
 
 _EVAL_STOPWORDS = {
@@ -647,6 +704,67 @@ def _compute_dialogue_fidelity(original: str, compressed: str) -> float:
     return max(0.0, score)
 
 
+def _extract_speakers(text: str) -> set[str]:
+    return set(re.findall(r"(?:^|\n)\s*([AB])\s*:", text or ""))
+
+
+def _build_literal_fallback(dialogue: str, max_words: int = 12) -> str:
+    """Return short literal line(s) from source dialogue."""
+    out_lines: list[str] = []
+    for raw_line in (dialogue or "").splitlines():
+        line = raw_line.strip()
+        if not (line.startswith("A:") or line.startswith("B:")):
+            continue
+        speaker, _, text = line.partition(":")
+        text = " ".join(text.strip().split())
+        if not text:
+            continue
+        words = text.split()
+        out_lines.append(f"{speaker.strip()}: {' '.join(words[:max_words])}")
+        if len(out_lines) >= 2:
+            break
+    return "\n".join(out_lines)
+
+
+def _coerce_compressed_to_source(dialogue: str, compressed: str) -> str:
+    """Constrain compressed output to source speakers and minimal lexical grounding."""
+    src = (dialogue or "").strip()
+    out = (compressed or "").strip()
+    if not src:
+        return ""
+    if not out:
+        return _build_literal_fallback(src)
+
+    source_speakers = _extract_speakers(src)
+    output_lines = []
+    for raw_line in out.splitlines():
+        line = raw_line.strip()
+        if not (line.startswith("A:") or line.startswith("B:")):
+            continue
+        spk = line[0]
+        if source_speakers and spk not in source_speakers:
+            continue
+        output_lines.append(line)
+        if len(output_lines) >= 2:
+            break
+
+    # If source has one speaker, force one-speaker output.
+    if len(source_speakers) == 1 and output_lines:
+        only_speaker = next(iter(source_speakers))
+        output_lines = [ln for ln in output_lines if ln.startswith(f"{only_speaker}:")]
+
+    candidate = "\n".join(output_lines).strip()
+    if not candidate:
+        return _build_literal_fallback(src)
+
+    # If lexical grounding is too weak, use literal fallback to avoid hallucination.
+    fidelity = _compute_dialogue_fidelity(src, candidate)
+    if fidelity < 0.12:
+        fallback = _build_literal_fallback(src)
+        return fallback or candidate
+    return candidate
+
+
 def _get_combined_dialogue() -> str:
     """Get combined dialogue from all stores, sorted chronologically."""
     all_entries = []
@@ -681,7 +799,9 @@ def _get_dialogue_since_segment_start() -> str:
     return "\n".join(lines)
 
 
-def _get_dialogue_by_time_window(start_ts: float, end_ts: float) -> tuple[str, list[dict]]:
+def _get_dialogue_by_time_window(
+    start_ts: float, end_ts: float
+) -> tuple[str, list[dict]]:
     """Slice always-on transcript buffer by timestamp window."""
     all_entries = []
     for store in _dialogue_stores.values():
@@ -757,6 +877,7 @@ def _compress_dialogue_api(
     segment_id: int,
     model: str,
     before_context: str = "",
+    keyword_context: str = "",
     fallback_models: list[str] | None = None,
 ) -> dict:
     """Compress dialogue using OpenAI chat-completions API.
@@ -782,7 +903,11 @@ def _compress_dialogue_api(
                         "content": (
                             "You are a dialogue compressor. Compress the dialogue into a brief "
                             "catch-up (max 30 words total). Preserve speaker labels (A: and B:). "
-                            "Remove filler and keep only core ideas. Output only dialogue lines."
+                            "Remove filler and keep only core ideas. Output only dialogue lines. "
+                            "Each speaker line must be 12 words or fewer. "
+                            "If a token/word is clearly odd or context-mismatched (likely transcript error), ignore it. "
+                            "Never invent claims/questions not in Dialogue. "
+                            "If Dialogue has one speaker, output only that speaker."
                         ),
                     },
                     {
@@ -790,7 +915,12 @@ def _compress_dialogue_api(
                         "content": (
                             "Compress this dialogue.\n\n"
                             f"Before context (hints only):\n{before_context.strip() or '(none)'}\n\n"
-                            f"Dialogue:\n{dialogue}"
+                            f"Current viewed keywords:\n{keyword_context.strip() or '(none)'}\n\n"
+                            f"Dialogue:\n{dialogue}\n\n"
+                            "Rules: Context is hint-only. Do not import extra facts from context. "
+                            "If dialogue is short/noisy, output short literal fragment only. "
+                            "Drop context-mismatched weird tokens rather than guessing replacements. "
+                            "Hard limit: each A:/B: line <= 12 words."
                         ),
                     },
                 ],
@@ -811,6 +941,7 @@ def _compress_dialogue_api(
                     break
 
             normalized = "\n".join(lines) if lines else compressed[:400]
+            normalized = _coerce_compressed_to_source(dialogue, normalized)
             fidelity = _compute_dialogue_fidelity(dialogue, normalized)
             method = f"api_{candidate.replace('-', '_')}"
 
@@ -878,15 +1009,17 @@ def _save_dialogue_json(
                     else store.get_dialogue_chronological()
                 )
                 for entry in entries:
-                    all_entries.append({
-                        "timestamp": entry.timestamp,
-                        "timestamp_iso_utc": datetime.fromtimestamp(
-                            entry.timestamp, tz=timezone.utc
-                        ).isoformat(),
-                        "speaker": entry.speaker_id,
-                        "source_id": entry.source_id,
-                        "text": entry.text,
-                    })
+                    all_entries.append(
+                        {
+                            "timestamp": entry.timestamp,
+                            "timestamp_iso_utc": datetime.fromtimestamp(
+                                entry.timestamp, tz=timezone.utc
+                            ).isoformat(),
+                            "speaker": entry.speaker_id,
+                            "source_id": entry.source_id,
+                            "text": entry.text,
+                        }
+                    )
 
         # Sort by timestamp
         all_entries.sort(key=lambda e: e["timestamp"])
@@ -950,6 +1083,9 @@ def _trigger_parallel_compression_for_dialogue(
 ) -> None:
     """Run 3-path compression for provided dialogue and auto-select output."""
     session_logger = get_logger(session_id)
+    if trigger_source == "segment":
+        with _segment_ctx_lock:
+            _segment_compression_inflight.add(segment_id)
 
     if not dialogue or not dialogue.strip():
         log_print(
@@ -969,6 +1105,8 @@ def _trigger_parallel_compression_for_dialogue(
             },
             to=session_id,
         )
+        if trigger_source == "segment":
+            _on_segment_compression_finished(segment_id, session_id)
         return
 
     # Save dialogue to JSON for debugging
@@ -989,6 +1127,16 @@ def _trigger_parallel_compression_for_dialogue(
         before_context_chars=len(before_context or ""),
         trigger_source=trigger_source,
     )
+    keyword_items = _get_current_keywords_with_desc(limit=3)
+    keyword_context = "; ".join(
+        (
+            f"{str(k.get('word', '')).strip()}: {str(k.get('desc', '')).strip()}"
+            if str(k.get("desc", "")).strip()
+            else str(k.get("word", "")).strip()
+        )
+        for k in keyword_items
+        if str(k.get("word", "")).strip()
+    )
 
     results = {
         "segment_id": segment_id,
@@ -1002,7 +1150,8 @@ def _trigger_parallel_compression_for_dialogue(
     expected_paths = 3
 
     def _on_realtime_result(payload: dict) -> None:
-        text = str(payload.get("compressed_text", "") or "")
+        raw_text = str(payload.get("compressed_text", "") or "")
+        text = _coerce_compressed_to_source(dialogue, raw_text)
         elapsed_ms = float(payload.get("elapsed_ms", 0.0) or 0.0)
         fidelity = _compute_dialogue_fidelity(dialogue, text)
         with results_lock:
@@ -1020,12 +1169,15 @@ def _trigger_parallel_compression_for_dialogue(
             if done_count >= expected_paths:
                 results_ready.set()
 
-    def _run_api_path(model: str, key: str, fallback_models: list[str] | None = None) -> None:
+    def _run_api_path(
+        model: str, key: str, fallback_models: list[str] | None = None
+    ) -> None:
         api_result = _compress_dialogue_api(
             dialogue,
             segment_id,
             model,
             before_context=before_context,
+            keyword_context=keyword_context,
             fallback_models=fallback_models,
         )
         compressed_text = str(api_result.get("compressed_text", "") or "")
@@ -1081,13 +1233,22 @@ def _trigger_parallel_compression_for_dialogue(
         # Set temporary callback to capture result
         original_callback = tr.on_reconstruction_callback
         tr.on_reconstruction_callback = _on_realtime_result
-        tr.reconstruct_transcript(dialogue, segment_id, before_context=before_context)
+        tr.reconstruct_transcript(
+            dialogue,
+            segment_id,
+            before_context=before_context,
+            keyword_context=keyword_context,
+        )
+
         # Restore original callback after a delay
         def _restore_callback():
             time.sleep(5.0)
             with _clients_lock:
                 if transcript_reconstructor:
-                    transcript_reconstructor.on_reconstruction_callback = original_callback
+                    transcript_reconstructor.on_reconstruction_callback = (
+                        original_callback
+                    )
+
         threading.Thread(target=_restore_callback, daemon=True).start()
     else:
         # No Realtime client - mark as skipped
@@ -1132,16 +1293,27 @@ def _trigger_parallel_compression_for_dialogue(
 
             selected = None
             by_key = {c["key"]: c for c in candidates}
-            # Selection policy:
-            # 1) Prefer realtime when available.
-            # 2) If realtime is empty/missing, prefer api_mini.
-            # 3) Fallback to api_nano.
-            if by_key.get("realtime"):
-                selected = by_key["realtime"]
-            elif by_key.get("api_mini"):
-                selected = by_key["api_mini"]
-            elif by_key.get("api_nano"):
-                selected = by_key["api_nano"]
+            mode = _transcript_compression_mode
+            if mode == "fastest":
+                selected = min(
+                    candidates,
+                    key=lambda c: float(c.get("elapsed_ms", 0.0) or 0.0),
+                    default=None,
+                )
+            elif mode in ("realtime", "api_mini", "api_nano"):
+                selected = by_key.get(mode)
+                if not selected:
+                    selected = (
+                        by_key.get("realtime")
+                        or by_key.get("api_mini")
+                        or by_key.get("api_nano")
+                    )
+            else:
+                selected = (
+                    by_key.get("realtime")
+                    or by_key.get("api_mini")
+                    or by_key.get("api_nano")
+                )
 
             comparison = {
                 "segment_id": segment_id,
@@ -1153,6 +1325,7 @@ def _trigger_parallel_compression_for_dialogue(
                 "realtime": results.get("realtime"),
                 "api_mini": results.get("api_mini"),
                 "api_nano": results.get("api_nano"),
+                "selection_mode": mode,
                 "selected": selected,
             }
         three_path_record = {
@@ -1162,6 +1335,7 @@ def _trigger_parallel_compression_for_dialogue(
             "trigger_source": trigger_source,
             "input": dialogue,
             "before_context": before_context,
+            "keyword_context": keyword_context,
             "output": {
                 "realtime": (comparison.get("realtime") or {}).get("text", ""),
                 "api_mini": (comparison.get("api_mini") or {}).get("text", ""),
@@ -1169,9 +1343,15 @@ def _trigger_parallel_compression_for_dialogue(
                 "selected": (comparison.get("selected") or {}).get("method", ""),
             },
             "meta": {
-                "realtime_elapsed_ms": (comparison.get("realtime") or {}).get("elapsed_ms"),
-                "api_mini_elapsed_ms": (comparison.get("api_mini") or {}).get("elapsed_ms"),
-                "api_nano_elapsed_ms": (comparison.get("api_nano") or {}).get("elapsed_ms"),
+                "realtime_elapsed_ms": (comparison.get("realtime") or {}).get(
+                    "elapsed_ms"
+                ),
+                "api_mini_elapsed_ms": (comparison.get("api_mini") or {}).get(
+                    "elapsed_ms"
+                ),
+                "api_nano_elapsed_ms": (comparison.get("api_nano") or {}).get(
+                    "elapsed_ms"
+                ),
                 "window": comparison.get("window") or {},
                 "entry_count": comparison.get("entry_count", 0),
             },
@@ -1197,7 +1377,14 @@ def _trigger_parallel_compression_for_dialogue(
         chosen_method = str((selected or {}).get("method", "") or "")
 
         if chosen_text:
-            _synthesize_compressed_dialogue(chosen_text, segment_id, chosen_method)
+            _synthesize_compressed_dialogue(
+                chosen_text,
+                segment_id,
+                chosen_method,
+                trigger_source=trigger_source,
+            )
+            if trigger_source == "segment":
+                _on_segment_compression_finished(segment_id, session_id)
             return
 
         # All paths returned empty/invalid output: end summary flow explicitly.
@@ -1211,6 +1398,8 @@ def _trigger_parallel_compression_for_dialogue(
             },
             to=session_id,
         )
+        if trigger_source == "segment":
+            _on_segment_compression_finished(segment_id, session_id)
 
     threading.Thread(target=_emit_comparison, daemon=True).start()
 
@@ -1238,39 +1427,61 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
             "tail_grace_sec": _SEGMENT_TAIL_GRACE_SEC,
         }
 
-        for attempt in range(_SEGMENT_DIALOGUE_RETRY_COUNT):
+        # Watermark gate: wait until observed transcript count stops growing
+        # for a quiet window, then compress.
+        wait_start = time.time()
+        stable_since = wait_start
+        target_watermark = 0
+        poll_count = 0
+
+        while True:
             dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
             entry_count = len(entries)
-            has_dialogue = bool(dialogue and dialogue.strip())
-            is_last_attempt = attempt >= (_SEGMENT_DIALOGUE_RETRY_COUNT - 1)
+            now = time.time()
+            poll_count += 1
 
-            if has_dialogue and (
-                entry_count >= _SEGMENT_MIN_ENTRIES_BEFORE_FLUSH or is_last_attempt
-            ):
-                if attempt > 0:
+            if entry_count > target_watermark:
+                target_watermark = entry_count
+                stable_since = now
+                if target_watermark > 0:
                     log_print(
                         "INFO",
-                        "Recovered late VAD transcripts for segment",
+                        "Segment watermark advanced",
                         session_id=session_id,
                         segment_id=segment_id,
-                        attempt=attempt + 1,
-                        entries=entry_count,
-                        min_entries=_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH,
+                        target_watermark=target_watermark,
+                        elapsed_ms=int((now - wait_start) * 1000),
+                    )
+
+            watermark_reached = entry_count >= target_watermark
+            quiet_elapsed = now - stable_since
+            quiet_enough = quiet_elapsed >= _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC
+            timed_out = (now - wait_start) >= _SEGMENT_DIALOGUE_MAX_WAIT_SEC
+
+            if (watermark_reached and quiet_enough) or timed_out:
+                if timed_out:
+                    log_print(
+                        "WARN",
+                        "Segment dialogue wait timeout; compressing with current transcripts",
+                        session_id=session_id,
+                        segment_id=segment_id,
+                        received_entries=entry_count,
+                        target_watermark=target_watermark,
+                        max_wait_sec=_SEGMENT_DIALOGUE_MAX_WAIT_SEC,
+                    )
+                elif target_watermark > 0:
+                    log_print(
+                        "INFO",
+                        "Segment watermark settled; starting compression",
+                        session_id=session_id,
+                        segment_id=segment_id,
+                        settled_entries=entry_count,
+                        quiet_ms=int(quiet_elapsed * 1000),
+                        polls=poll_count,
                     )
                 break
-            if has_dialogue and not is_last_attempt:
-                log_print(
-                    "INFO",
-                    "Waiting briefly for extra VAD transcript entries",
-                    session_id=session_id,
-                    segment_id=segment_id,
-                    attempt=attempt + 1,
-                    entries=entry_count,
-                    min_entries=_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH,
-                    tail_grace_sec=_SEGMENT_TAIL_GRACE_SEC,
-                )
-            if attempt < _SEGMENT_DIALOGUE_RETRY_COUNT - 1:
-                time.sleep(_SEGMENT_DIALOGUE_RETRY_DELAY_SEC)
+
+            time.sleep(_SEGMENT_DIALOGUE_POLL_SEC)
     else:
         dialogue = _get_dialogue_since_segment_start()
 
@@ -1298,7 +1509,100 @@ def _trigger_parallel_compression_after_delay(
     _trigger_parallel_compression(segment_id, session_id)
 
 
-def _synthesize_compressed_dialogue(compressed_text: str, segment_id: int, method: str = "unknown") -> None:
+def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> None:
+    """If new VAD arrived after end_listening, compress+TTS it as follow-up."""
+    global \
+        _segment_seq, \
+        _post_tts_followup_inflight, \
+        _post_tts_followup_cursor_ts, \
+        _post_tts_followup_active
+    global _post_tts_followup_live_window_open
+
+    if reason == "user_cancel":
+        with _segment_ctx_lock:
+            _post_tts_followup_active = False
+            _post_tts_followup_inflight = False
+            _post_tts_followup_live_window_open = False
+        return
+
+    should_wait = reason not in {"summary_tts_near_end", "vad_arrived"}
+    if should_wait and _POST_TTS_FOLLOWUP_WAIT_SEC > 0:
+        time.sleep(_POST_TTS_FOLLOWUP_WAIT_SEC)
+
+    with _segment_ctx_lock:
+        if not _post_tts_followup_active or _post_tts_followup_inflight:
+            return
+        if len(_segment_compression_inflight) > 0:
+            return
+        start_ts = float(_post_tts_followup_cursor_ts or 0.0)
+        if start_ts <= 0:
+            _post_tts_followup_active = False
+            return
+        end_ts = time.time()
+        if end_ts <= start_ts:
+            return
+        _post_tts_followup_inflight = True
+
+    dialogue, entries = _get_dialogue_by_time_window(start_ts, end_ts)
+    entry_count = len(entries)
+
+    with _segment_ctx_lock:
+        if entries:
+            last_ts = float(entries[-1].get("timestamp") or end_ts)
+            _post_tts_followup_cursor_ts = max(last_ts + 0.001, end_ts)
+        else:
+            _post_tts_followup_active = False
+            _post_tts_followup_inflight = False
+            _post_tts_followup_cursor_ts = end_ts
+            return
+
+        _segment_seq += 1
+        segment_id = _segment_seq
+        _segment_windows[segment_id] = {
+            "start_ts": start_ts,
+            "end_ts": end_ts,
+            "next_sentence": "",
+        }
+
+    before_context = _collect_context_before_start_ts(start_ts)
+
+    log_print(
+        "INFO",
+        "Triggering post-TTS follow-up compression",
+        session_id=session_id,
+        segment_id=segment_id,
+        reason=reason or "browser_tts_done",
+        entries=entry_count,
+    )
+
+    def _run_followup():
+        global _post_tts_followup_inflight
+        try:
+            _trigger_parallel_compression_for_dialogue(
+                dialogue=dialogue,
+                segment_id=segment_id,
+                session_id=session_id,
+                before_context=before_context,
+                trigger_source="post_tts_followup",
+                window={
+                    "start_ts": start_ts,
+                    "end_ts": end_ts,
+                },
+                entries=entries,
+            )
+        finally:
+            with _segment_ctx_lock:
+                _post_tts_followup_inflight = False
+
+    threading.Thread(target=_run_followup, daemon=True).start()
+
+
+def _synthesize_compressed_dialogue(
+    compressed_text: str,
+    segment_id: int,
+    method: str = "unknown",
+    trigger_source: str = "segment",
+) -> None:
     """Synthesize TTS for compressed dialogue and emit as merged audio.
 
     Args:
@@ -1324,7 +1628,9 @@ def _synthesize_compressed_dialogue(compressed_text: str, segment_id: int, metho
         )
         return
 
-    audio_items: list[tuple[bytes, str, str, int]] = []  # (audio_bytes, speaker, text, idx)
+    audio_items: list[
+        tuple[bytes, str, str, int]
+    ] = []  # (audio_bytes, speaker, text, idx)
 
     for i, (speaker, text) in enumerate(turns):
         with _clients_lock:
@@ -1346,7 +1652,9 @@ def _synthesize_compressed_dialogue(compressed_text: str, segment_id: int, metho
         return
 
     # Merge audio items into single WAV
-    def _merge_wav_items_compressed(items: list[tuple[bytes, str, str, int]]) -> Optional[bytes]:
+    def _merge_wav_items_compressed(
+        items: list[tuple[bytes, str, str, int]],
+    ) -> Optional[bytes]:
         """Concatenate multiple mono 16-bit 24kHz WAV bytes into one WAV."""
         if not items:
             return None
@@ -1397,6 +1705,7 @@ def _synthesize_compressed_dialogue(compressed_text: str, segment_id: int, metho
                 "format": "wav",
                 "sample_rate": 24000,
                 "method": method,
+                "trigger_source": trigger_source,
                 "turn_count": len(audio_items),
             },
         )
@@ -1413,7 +1722,9 @@ def _parse_reconstructed_turns(text: str) -> list[tuple[str, str]]:
     turns: list[tuple[str, str]] = []
     normalized = str(text or "")
     # Handle escaped newlines from model output logs/serialization.
-    normalized = normalized.replace("\\n", "\n").replace("\r\n", "\n").replace("\r", "\n")
+    normalized = (
+        normalized.replace("\\n", "\n").replace("\r\n", "\n").replace("\r", "\n")
+    )
 
     # Parse turn blocks robustly across multiline output.
     pattern = (
@@ -1628,11 +1939,13 @@ def api_devices():
         for i in range(pa.get_device_count()):
             info = pa.get_device_info_by_index(i)
             if info["maxInputChannels"] > 0:
-                devices.append({
-                    "index": i,
-                    "name": info["name"],
-                    "channels": info["maxInputChannels"],
-                })
+                devices.append(
+                    {
+                        "index": i,
+                        "name": info["name"],
+                        "channels": info["maxInputChannels"],
+                    }
+                )
 
         pa.terminate()
     log_print("INFO", f"Found {len(devices)} input devices")
@@ -1649,11 +1962,13 @@ def api_output_devices():
         for i in range(pa.get_device_count()):
             info = pa.get_device_info_by_index(i)
             if info["maxOutputChannels"] > 0:
-                devices.append({
-                    "index": i,
-                    "name": info["name"],
-                    "channels": info["maxOutputChannels"],
-                })
+                devices.append(
+                    {
+                        "index": i,
+                        "name": info["name"],
+                        "channels": info["maxOutputChannels"],
+                    }
+                )
 
         pa.terminate()
     log_print("INFO", f"Found {len(devices)} output devices")
@@ -1692,7 +2007,9 @@ def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]):
             streams.append((device_idx, stream, pa))
             log_print("INFO", f"Mic monitor opened for device {device_idx}")
         except Exception as e:
-            log_print("ERROR", f"Failed to open mic monitor for device {device_idx}: {e}")
+            log_print(
+                "ERROR", f"Failed to open mic monitor for device {device_idx}: {e}"
+            )
 
     while _mic_monitor_running and streams:
         levels = {}
@@ -1787,7 +2104,10 @@ def _noise_gate_monitor_loop(device_indices: list[int], mic_ids: list[str]):
                 streams.append((device_idx, stream, pa))
                 log_print("INFO", f"Noise gate monitor opened for device {device_idx}")
             except Exception as e:
-                log_print("ERROR", f"Failed to open noise gate monitor for device {device_idx}: {e}")
+                log_print(
+                    "ERROR",
+                    f"Failed to open noise gate monitor for device {device_idx}: {e}",
+                )
 
         while _noise_gate_monitor_running and streams:
             levels = {}
@@ -1851,7 +2171,11 @@ def handle_start_noise_gate_monitor(data: dict):
     device_indices = data.get("device_indices", [])
     mic_ids = data.get("mic_ids", [])
     if device_indices:
-        log_print("INFO", f"Start noise gate monitor: devices={device_indices}, mics={mic_ids}", session_id=session_id)
+        log_print(
+            "INFO",
+            f"Start noise gate monitor: devices={device_indices}, mics={mic_ids}",
+            session_id=session_id,
+        )
         start_noise_gate_monitor(device_indices, mic_ids)
 
 
@@ -1869,7 +2193,11 @@ def handle_start_mic_monitor(data: dict):
     session_id = request.sid
     device_indices = data.get("device_indices", [])
     select_ids = data.get("select_ids", [])
-    log_print("INFO", f"Start mic monitor: devices={device_indices}, ids={select_ids}", session_id=session_id)
+    log_print(
+        "INFO",
+        f"Start mic monitor: devices={device_indices}, ids={select_ids}",
+        session_id=session_id,
+    )
     start_mic_monitor(device_indices, select_ids)
 
 
@@ -1892,7 +2220,14 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_clients, context_judge, conversation_reconstructor, transcript_reconstructor, keyword_tts_client, _active_runtime_sid
+    global \
+        client, \
+        summary_clients, \
+        context_judge, \
+        conversation_reconstructor, \
+        transcript_reconstructor, \
+        keyword_tts_client, \
+        _active_runtime_sid
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -1947,7 +2282,16 @@ def handle_disconnect():
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients, context_judge, conversation_reconstructor, transcript_reconstructor, keyword_tts_client, _active_runtime_sid, _airpods_mode_switch_enabled
+    global \
+        client, \
+        summary_clients, \
+        context_judge, \
+        conversation_reconstructor, \
+        transcript_reconstructor, \
+        keyword_tts_client, \
+        _active_runtime_sid, \
+        _airpods_mode_switch_enabled, \
+        _transcript_compression_mode
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -1997,9 +2341,7 @@ def handle_start(data: dict):
         keyword_source = str(data.get("keyword_source", "") or "").strip() or None
         raw_summary_sources = data.get("summary_sources", [])
         summary_sources = [
-            str(x).strip()
-            for x in raw_summary_sources
-            if str(x or "").strip()
+            str(x).strip() for x in raw_summary_sources if str(x or "").strip()
         ]
         if not summary_sources:
             fallback_sum0 = str(
@@ -2026,6 +2368,11 @@ def handle_start(data: dict):
         # Keep the field for backward compatibility, but summary-generation path is disabled.
         judge_enabled = data.get("judge_enabled", False)
         reconstructor_enabled = data.get("reconstructor_enabled", True)
+        requested_mode = str(data.get("transcript_compression_mode", "realtime"))
+        if requested_mode in ("fastest", "realtime", "api_mini", "api_nano"):
+            _transcript_compression_mode = requested_mode
+        else:
+            _transcript_compression_mode = "realtime"
 
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})
@@ -2033,12 +2380,13 @@ def handle_start(data: dict):
         noise_gate_config = None
         if enable_noise_gate:
             from clients.audio_filter import NoiseGateConfig
+
             threshold = noise_gate_data.get("threshold", 500)
             # Calculate margin_multiplier based on threshold
             # We set noise_floor to threshold/2 and margin to 2.0 so threshold = noise_floor * 2
             noise_gate_config = NoiseGateConfig(
                 min_threshold=threshold,  # Use threshold directly as min
-                margin_multiplier=1.0,    # Direct threshold mode
+                margin_multiplier=1.0,  # Direct threshold mode
             )
             log_print(
                 "INFO",
@@ -2062,7 +2410,9 @@ def handle_start(data: dict):
         client.add_vad_transcript_callback(_on_vad_transcript)
 
         # Create one SummaryClient per summary source.
-        summary_input_count = len(summary_mics) if source == "mic" else len(summary_sources)
+        summary_input_count = (
+            len(summary_mics) if source == "mic" else len(summary_sources)
+        )
         for i in range(summary_input_count):
             voice_id = voice_ids[i] if i < len(voice_ids) else None
             mic_kwargs = {}
@@ -2164,13 +2514,20 @@ def handle_request():
         if client and client.running:
             client.request()
         else:
-            log_print("WARN", "Request ignored - no running client", session_id=session_id)
+            log_print(
+                "WARN", "Request ignored - no running client", session_id=session_id
+            )
 
 
 @sio.on("start_listening")
 def handle_start_listening():
     """Start a listening segment for later summarization."""
     global _segment_seq, _dialogue_segment_start_time
+    global \
+        _post_tts_followup_active, \
+        _post_tts_followup_inflight, \
+        _post_tts_followup_cursor_ts
+    global _post_tts_followup_live_window_open
     session_id = request.sid
     if not _is_active_session(session_id):
         log_print(
@@ -2193,6 +2550,10 @@ def handle_start_listening():
                     "end_ts": None,
                     "next_sentence": "",
                 }
+                _post_tts_followup_active = False
+                _post_tts_followup_inflight = False
+                _post_tts_followup_cursor_ts = 0.0
+                _post_tts_followup_live_window_open = False
             for sc in summary_clients:
                 sc.start_listening()
             # Also notify context judge
@@ -2202,7 +2563,12 @@ def handle_start_listening():
                 conversation_reconstructor.start_listening()
             if transcript_reconstructor:
                 transcript_reconstructor.start_listening()
-            log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
+            log_print(
+                "INFO",
+                "Start listening",
+                session_id=session_id,
+                clients=len(summary_clients),
+            )
         else:
             log_print(
                 "WARN",
@@ -2214,6 +2580,11 @@ def handle_start_listening():
 @sio.on("end_listening")
 def handle_end_listening():
     """End listening segment and request summary."""
+    global \
+        _post_tts_followup_active, \
+        _post_tts_followup_inflight, \
+        _post_tts_followup_cursor_ts
+    global _post_tts_followup_live_window_open
     session_id = request.sid
     if not _is_active_session(session_id):
         log_print(
@@ -2229,7 +2600,12 @@ def handle_end_listening():
             with _segment_ctx_lock:
                 current_segment_id = _segment_seq
                 if _segment_seq > 0 and _segment_seq in _segment_windows:
-                    _segment_windows[_segment_seq]["end_ts"] = time.time()
+                    ended_at = time.time()
+                    _segment_windows[_segment_seq]["end_ts"] = ended_at
+                    _post_tts_followup_active = True
+                    _post_tts_followup_inflight = False
+                    _post_tts_followup_cursor_ts = ended_at
+                    _post_tts_followup_live_window_open = True
             for sc in summary_clients:
                 sc.end_listening()
             # Also notify context judge
@@ -2247,10 +2623,17 @@ def handle_end_listening():
                 daemon=True,
             ).start()
 
-            log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
+            log_print(
+                "INFO",
+                "End listening, requesting summary",
+                session_id=session_id,
+                clients=len(summary_clients),
+            )
         else:
             # No summary clients - signal completion immediately
-            sio.emit("summary_done", {"is_empty": True, "no_summary": True, "segment_id": 0})
+            sio.emit(
+                "summary_done", {"is_empty": True, "no_summary": True, "segment_id": 0}
+            )
             log_print(
                 "WARN",
                 "end_listening ignored - no summary clients",
@@ -2294,7 +2677,9 @@ def handle_request_missed_summary(data: dict):
     if end_ts < start_ts:
         start_ts, end_ts = end_ts, start_ts
 
-    pad_before = float(payload.get("padding_before_sec", _MISS_PADDING_BEFORE_SEC) or 0.0)
+    pad_before = float(
+        payload.get("padding_before_sec", _MISS_PADDING_BEFORE_SEC) or 0.0
+    )
     pad_after = float(payload.get("padding_after_sec", 0.0) or 0.0)
     pad_before = max(0.0, min(5.0, pad_before))
     pad_after = max(0.0, min(3.0, pad_after))
@@ -2385,9 +2770,14 @@ def handle_keyword_tts(data: dict):
     session_id = request.sid
     if not _is_active_session(session_id):
         return
-    text = str((data or {}).get("text", "")).strip()
+    payload = data or {}
+    text = str(payload.get("text", "")).strip()
+    keyword = str(payload.get("keyword", "")).strip()
     if not text:
         return
+    if not keyword:
+        # Fallback: derive keyword from "keyword. description" text payload.
+        keyword = text.split(".", 1)[0].strip()
 
     with _clients_lock:
         tts = keyword_tts_client
@@ -2407,6 +2797,8 @@ def handle_keyword_tts(data: dict):
             with _clients_lock:
                 if request_token != _keyword_tts_request_token:
                     return
+                if client and client.running and keyword:
+                    client.mark_keyword_tts_completed(keyword)
             sio.emit("keyword_tts_done", to=session_id)
             # Keep ANC hold active across keyword navigation/loading.
 
@@ -2431,7 +2823,9 @@ def handle_keyword_tts(data: dict):
                 if request_token != _keyword_tts_request_token:
                     return
             if tts.play_queued(reason="keyword", emit_done=False):
-                threading.Thread(target=_watch_keyword_playback_done, daemon=True).start()
+                threading.Thread(
+                    target=_watch_keyword_playback_done, daemon=True
+                ).start()
                 return
 
     threading.Thread(target=_synthesize_and_play, daemon=True).start()
@@ -2542,7 +2936,26 @@ def handle_browser_tts_playback_done(data: dict):
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")
     # Enforce transparency on summary completion even if counters drift.
-    _set_airpods_mode("transparency", f"browser_tts_playback_done_force:{reason}", wait=True)
+    _set_airpods_mode(
+        "transparency", f"browser_tts_playback_done_force:{reason}", wait=True
+    )
+
+
+@sio.on("browser_tts_near_end")
+def handle_browser_tts_near_end(data: dict):
+    """Browser-side summary/reconstruction TTS near-end signal (~2s before done)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    reason = str((data or {}).get("reason", "")).strip() or "summary_tts_near_end"
+    global _post_tts_followup_live_window_open
+    with _segment_ctx_lock:
+        _post_tts_followup_live_window_open = False
+    threading.Thread(
+        target=_trigger_post_tts_followup_if_needed,
+        args=(session_id, reason),
+        daemon=True,
+    ).start()
 
 
 @sio.on("set_airpods_mode_switch")
@@ -2564,4 +2977,6 @@ if __name__ == "__main__":
     log_print("INFO", "=" * 50)
     log_print("INFO", "Starting web_realtime server")
     log_print("INFO", "=" * 50)
+    sio.run(app, host="0.0.0.0", port=5002, debug=False)
+    sio.run(app, host="0.0.0.0", port=5002, debug=False)
     sio.run(app, host="0.0.0.0", port=5002, debug=False)
