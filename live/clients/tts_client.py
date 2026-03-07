@@ -10,9 +10,9 @@ from typing import Callable, Optional
 
 import pyaudio
 import requests
-from config import CARTESIA_API_KEY, TTS_LOG_DIR
+from config import CARTESIA_API_KEY
 from flask_socketio import SocketIO
-from logger import get_logger, log_print
+from logger import get_logger, get_session_subdir, log_print
 
 # Cartesia API settings
 CARTESIA_API_URL = "https://api.cartesia.ai/tts/bytes"
@@ -171,7 +171,7 @@ class TTSClient:
             return None
 
     def _save_tts_audio(self, audio_bytes: bytes, text: str) -> Optional[str]:
-        """Save TTS audio to logs/tts/ directory.
+        """Save TTS audio to session-scoped tts directory.
 
         Filename format: YYYYMMDD_HHMMSS_sessionid_ttsid.wav
 
@@ -190,15 +190,16 @@ class TTSClient:
 
             # Generate filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            tts_dir = get_session_subdir(self.session_id, "tts")
             filename = f"{timestamp}_{self.session_id}_{tts_id:04d}.wav"
-            filepath = TTS_LOG_DIR / filename
+            filepath = tts_dir / filename
 
             # Save audio file
             with open(filepath, "wb") as f:
                 f.write(audio_bytes)
 
             # Save metadata alongside
-            meta_filepath = TTS_LOG_DIR / f"{timestamp}_{self.session_id}_{tts_id:04d}.txt"
+            meta_filepath = tts_dir / f"{timestamp}_{self.session_id}_{tts_id:04d}.txt"
             with open(meta_filepath, "w", encoding="utf-8") as f:
                 f.write(f"Text: {text}\n")
                 f.write(f"Session: {self.session_id}\n")

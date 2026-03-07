@@ -1,10 +1,56 @@
 """Logging utilities for the realtime application."""
 
 import json
+import re
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from config import LOG_DIR
+
+SESSIONS_DIR = LOG_DIR / "sessions"
+SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+_session_root_dirs: dict[str, Path] = {}
+
+
+def _sanitize_name(value: str) -> str:
+    text = str(value or "").strip()
+    if not text:
+        return "default"
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", text)
+
+
+def get_root_session_id(session_id: str) -> str:
+    """Return the shared root session id.
+
+    Component clients append suffixes like `_sum0`, `_keyword_tts`.
+    We group them under the same root directory.
+    """
+    text = str(session_id or "default")
+    return text.split("_", 1)[0]
+
+
+def get_session_dir(session_id: str) -> Path:
+    """Get/create base directory for a (root) session."""
+    root_id = _sanitize_name(get_root_session_id(session_id))
+    existing = _session_root_dirs.get(root_id)
+    if existing is not None:
+        existing.mkdir(parents=True, exist_ok=True)
+        return existing
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+    path = SESSIONS_DIR / f"{ts}_{root_id}"
+    path.mkdir(parents=True, exist_ok=True)
+    _session_root_dirs[root_id] = path
+    return path
+
+
+def get_session_subdir(session_id: str, kind: str) -> Path:
+    """Get/create a subdirectory under a session directory."""
+    safe_kind = _sanitize_name(kind or "misc")
+    path = get_session_dir(session_id) / safe_kind
+    path.mkdir(parents=True, exist_ok=True)
+    return path
 
 
 def get_timestamp() -> str:
@@ -25,9 +71,11 @@ class JsonLogger:
     def __init__(self, session_id: str):
         self.session_id = session_id
         self.start_time = datetime.now()
+        safe_session = _sanitize_name(session_id)
+        json_dir = get_session_subdir(session_id, "json")
         self.log_file = (
-            LOG_DIR
-            / f"logs/{self.start_time.strftime('%Y%m%d_%H%M%S')}_{session_id}.json"
+            json_dir
+            / f"{self.start_time.strftime('%Y%m%d_%H%M%S')}_{safe_session}.json"
         )
         self.events: list[dict] = []
         log_print(

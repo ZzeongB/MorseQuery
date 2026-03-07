@@ -43,7 +43,7 @@ let listeningActive = false;
 let summaryTriggeredForListeningSession = false;
 let inferencingTimer = null;
 const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
-const KEYWORD_SUMMARY_LEAD_MS = 2000;
+const KEYWORD_SUMMARY_LEAD_MS = 1000;
 let keywordSummaryLeadMs = KEYWORD_SUMMARY_LEAD_MS;
 const KEYWORD_ESTIMATED_WPS = 3.5; // Cartesia speed=1.2 approximation
 let pendingReconstructedTurns = [];
@@ -1197,6 +1197,15 @@ function getExpectedSummaryClientCount() {
     return Math.max(1, Number(configuredSummaryClientCount) || 1);
 }
 
+function isSummaryCycleActive() {
+    return (
+        summaryRequested ||
+        summaryInProgress ||
+        pendingSummarizeIndicatorAfterKeyword ||
+        awaitingJudgeDecision
+    );
+}
+
 function markSummaryDoneForSegment(segmentId, hasText) {
     if (segmentId <= 0) return;
     const prev = summarySegmentState.get(segmentId) || { received: 0, nonEmpty: 0 };
@@ -1362,6 +1371,25 @@ function renderReconstructedTurns(turns) {
 
 function hideReconstructedTurns() {
     renderReconstructedTurns([]);
+}
+
+function parseCompressedDialogueTurns(text) {
+    const normalized = String(text || '').replace(/\\n/g, '\n');
+    const lines = normalized
+        .split('\n')
+        .map(line => line.trim())
+        .filter(Boolean);
+    const turns = [];
+    for (const line of lines) {
+        const match = line.match(/^(?:speaker\s*)?([AB])\s*[:\-–—]\s*(.+)$/i);
+        if (!match) continue;
+        const speaker = match[1].toUpperCase();
+        const utterance = (match[2] || '').trim();
+        if (!utterance) continue;
+        turns.push({ speaker, text: utterance });
+        if (turns.length >= 3) break;
+    }
+    return turns;
 }
 
 function showDismissIndicator() {
@@ -1670,6 +1698,12 @@ socket.on('session_ended', () => {
 
 socket.on('summary_done', data => {
     const segmentId = Number((data && data.segment_id) || 0);
+    if (!isSummaryCycleActive()) {
+        // Ignore stale/unsolicited summary events when user is not in a summary flow.
+        if (segmentId > 0) summarySegmentState.delete(segmentId);
+        return;
+    }
+
     const text = (!data.is_empty && !data.no_summary) ? (data.summary || '').trim() : '';
     markSummaryDoneForSegment(segmentId, !!text);
 
@@ -1877,6 +1911,54 @@ socket.on('conversation_tts_merged', data => {
         summaryFinalizeTimer = null;
     }
     enqueueTtsAudio(data.audio, { type: 'reconstruction', segmentId: segId });
+});
+
+socket.on('compressed_dialogue_tts', data => {
+    if (!data || !data.audio) return;
+    const segId = Number((data && data.segment_id) || 0);
+    const method = (data && data.method) || 'unknown';
+    const text = (data && data.text) || '';
+
+    const turns = parseCompressedDialogueTurns(text);
+    if (turns.length > 0) {
+        pendingReconstructedTurns = turns;
+        pendingReconstructedSegmentId = segId;
+        renderedReconstructedSegmentId = 0;
+    }
+
+    stopLoadingAudioFeedback();
+    summaryRequested = false;
+    listeningActive = false;
+    summaryInProgress = true;
+    awaitingJudgeDecision = false;
+    if (summaryFinalizeTimer) {
+        clearTimeout(summaryFinalizeTimer);
+        summaryFinalizeTimer = null;
+    }
+    console.log('compressed_dialogue_tts received', segId, method, data.turn_count || 0);
+    enqueueTtsAudio(data.audio, { type: 'reconstruction', segmentId: segId });
+});
+
+socket.on('transcript_compression_comparison', data => {
+    if (!data) return;
+    const segId = Number((data && data.segment_id) || 0);
+    const selected = data.selected || null;
+    console.log('transcript_compression_comparison', data);
+    if (selected && selected.method) {
+        console.log(
+            `[seg=${segId}] selected=${selected.method} latency=${Math.round(selected.elapsed_ms || 0)}ms`
+        );
+    }
+});
+
+socket.on('dialogue_transcript_ready', data => {
+    if (!data) return;
+    console.log(
+        'dialogue_transcript_ready',
+        Number(data.segment_id || 0),
+        Number(data.entry_count || 0),
+        data.path || ''
+    );
 });
 
 socket.on('conversation_tts', data => {

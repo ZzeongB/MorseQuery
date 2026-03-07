@@ -9,6 +9,7 @@ Dependencies:
 
 import base64
 import io
+import json
 import os
 import subprocess
 import struct
@@ -17,14 +18,22 @@ import threading
 import time
 import wave
 from collections import deque
+from datetime import datetime, timezone
 from pathlib import Path
 import re
 from typing import Optional
 
 import numpy as np
+import openai
 import pyaudio
 
-from clients import ConversationReconstructorClient, RealtimeClient, SummaryClient
+from clients import (
+    ConversationReconstructorClient,
+    DialogueStore,
+    RealtimeClient,
+    SummaryClient,
+    TranscriptReconstructorClient,
+)
 from clients.context_judge_client import ContextJudgeClient
 from clients.tts_client import TTSClient
 
@@ -40,11 +49,11 @@ _noise_gate_monitor_thread: Optional[threading.Thread] = None
 
 # Global PyAudio lock to prevent segfaults from concurrent access
 _pyaudio_lock = threading.Lock()
-from config import TEMPLATES_DIR
+from config import LOG_DIR, TEMPLATES_DIR
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 from handlers.grounding import handle_search_grounding
-from logger import get_logger, log_print
+from logger import get_logger, get_session_dir, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
@@ -188,9 +197,26 @@ client: Optional[RealtimeClient] = None
 summary_clients: list[SummaryClient] = []  # One per summary mic
 context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 conversation_reconstructor: Optional[ConversationReconstructorClient] = None
+transcript_reconstructor: Optional[TranscriptReconstructorClient] = None
 keyword_tts_client: Optional[TTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
+
+# Dialogue stores for VAD transcripts (one per summary speaker)
+_dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
+_dialogue_segment_start_time: float = 0.0
+_DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
+_MISS_PADDING_BEFORE_SEC = 1.0
+_SEGMENT_DIALOGUE_RETRY_COUNT = 5
+_SEGMENT_DIALOGUE_RETRY_DELAY_SEC = 0.45
+_SEGMENT_TAIL_GRACE_SEC = 1.4
+_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH = 2
+_SEGMENT_POST_END_WAIT_SEC = 0.45
+_BEFORE_CONTEXT_RECENT_WINDOW_SEC = 60.0
+
+# Persist 3-path compression results (time/input/output) for every segment/session.
+_three_path_results_lock = threading.Lock()
+_all_sessions_three_path_file = LOG_DIR / "sessions" / "all_sessions_three_path_results.json"
 
 # Aggregate multiple summary-agent outputs into one request batch per segment
 _judge_batch_lock = threading.Lock()
@@ -203,14 +229,18 @@ _segment_ctx_lock = threading.Lock()
 _segment_seq = 0
 _segment_windows: dict[int, dict] = {}
 _recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
+_before_context_lock = threading.Lock()
+_before_context_summary = ""
 
 
 def _reset_segment_tracking() -> None:
-    global _segment_seq
+    global _segment_seq, _before_context_summary
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
         _recent_vad_transcripts.clear()
+    with _before_context_lock:
+        _before_context_summary = ""
 
 
 def _on_vad_transcript(transcript: str) -> None:
@@ -242,6 +272,199 @@ def _on_vad_transcript(transcript: str) -> None:
                 break
 
 
+def _get_current_keywords_with_desc(limit: int = 3) -> list[dict]:
+    """Get latest extracted keywords from RealtimeClient."""
+    with _clients_lock:
+        current_client = client
+    if not current_client:
+        return []
+    try:
+        return current_client.get_recent_keywords(limit=limit)
+    except Exception:
+        return []
+
+
+def _get_dialogue_before_start_ts(start_ts: float) -> str:
+    """Get full speaker-labeled dialogue before a given timestamp."""
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_entries_between(0.0, start_ts))
+
+    all_entries.sort(key=lambda e: e.timestamp)
+    if not all_entries:
+        return ""
+    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    return "\n".join(lines)
+
+
+def _get_recent_dialogue_before_start_ts(
+    start_ts: float,
+    window_sec: float = _BEFORE_CONTEXT_RECENT_WINDOW_SEC,
+) -> str:
+    """Get recent speaker-labeled dialogue in [start_ts-window_sec, start_ts]."""
+    lo = max(0.0, float(start_ts) - max(1.0, float(window_sec)))
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_entries_between(lo, start_ts))
+    all_entries.sort(key=lambda e: e.timestamp)
+    if not all_entries:
+        return ""
+    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    return "\n".join(lines)
+
+
+def _get_before_context_summary() -> str:
+    with _before_context_lock:
+        return str(_before_context_summary or "")
+
+
+def _set_before_context_summary(text: str) -> None:
+    global _before_context_summary
+    with _before_context_lock:
+        _before_context_summary = str(text or "").strip()
+
+
+def _get_all_dialogue_entries() -> list[dict]:
+    """Get all dialogue entries across speakers in chronological order."""
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_dialogue_chronological())
+    all_entries.sort(key=lambda e: e.timestamp)
+    return [
+        {
+            "timestamp": e.timestamp,
+            "timestamp_iso_utc": datetime.fromtimestamp(
+                e.timestamp, tz=timezone.utc
+            ).isoformat(),
+            "speaker": e.speaker_id,
+            "source_id": e.source_id,
+            "text": e.text,
+        }
+        for e in all_entries
+    ]
+
+
+def _save_session_full_dialogue_json(session_id: str, reason: str) -> None:
+    """Append full session dialogue snapshots under dialogue/."""
+    try:
+        entries = _get_all_dialogue_entries()
+        formatted_dialogue = "\n".join(
+            f"{e['speaker']}: {e['text']}" for e in entries if e.get("text")
+        )
+        payload = {
+            "session_id": session_id,
+            "captured_at": datetime.now().isoformat(),
+            "reason": reason,
+            "entry_count": len(entries),
+            "formatted_dialogue": formatted_dialogue,
+            "entries": entries,
+        }
+
+        logs_dir = get_session_subdir(session_id, "dialogue")
+        logs_dir.mkdir(parents=True, exist_ok=True)
+        filepath = logs_dir / f"{session_id}_session_full_snapshots.json"
+        _append_json_list(filepath, payload)
+
+        log_print(
+            "INFO",
+            "Appended session full dialogue JSON",
+            session_id=session_id,
+            reason=reason,
+            path=str(filepath),
+            entry_count=len(entries),
+        )
+    except Exception as e:
+        log_print(
+            "ERROR",
+            f"Failed to save session full dialogue JSON: {e}",
+            session_id=session_id,
+            reason=reason,
+        )
+
+
+def _build_before_context_via_gpt_mini(
+    *,
+    previous_context: str,
+    recent_dialogue: str,
+    keyword_block: str,
+) -> str:
+    """Build concise and accurate before_context from dialogue + keywords."""
+    if (
+        not previous_context.strip()
+        and not recent_dialogue.strip()
+        and not keyword_block.strip()
+    ):
+        return ""
+
+    try:
+        response = openai.chat.completions.create(
+            model="gpt-4o-mini",
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You create context hints for downstream dialogue compression.\n"
+                        "Must be concise, accurate, and grounded only in the provided inputs.\n"
+                        "Do not invent facts.\n"
+                        "Include: Topic/intent, current conversation state, and keyword relevance."
+                    ),
+                },
+                {
+                    "role": "user",
+                    "content": (
+                        "Build before_context from the following.\n\n"
+                        f"[Previous summarized context]\n{previous_context or '(none)'}\n\n"
+                        f"[Recent dialogue (last 30-60s)]\n{recent_dialogue or '(none)'}\n\n"
+                        f"[Keywords]\n{keyword_block or '(none)'}"
+                    ),
+                },
+            ],
+            temperature=0.2,
+        )
+        text = str((response.choices[0].message.content or "")).strip()
+        normalized = "\n".join(line.strip() for line in text.splitlines() if line.strip())
+        if normalized:
+            _set_before_context_summary(normalized)
+        return normalized
+    except Exception as e:
+        log_print("WARN", f"before_context gpt-mini build failed: {e}")
+        return ""
+
+
+def _build_highlevel_before_context(start_ts: float) -> str:
+    """Build before-context using previous context + recent dialogue + keywords."""
+    previous_context = _get_before_context_summary()
+    recent_dialogue = _get_recent_dialogue_before_start_ts(start_ts)
+    keyword_items = _get_current_keywords_with_desc(limit=3)
+    keyword_hint_parts = []
+    for item in keyword_items:
+        word = str(item.get("word", "") or "").strip()
+        desc = str(item.get("desc", "") or "").strip()
+        if not word:
+            continue
+        if desc:
+            keyword_hint_parts.append(f"{word}: {desc}")
+        else:
+            keyword_hint_parts.append(word)
+
+    if not keyword_hint_parts:
+        keyword_block = ""
+    else:
+        keyword_block = "; ".join(keyword_hint_parts)
+
+    llm_context = _build_before_context_via_gpt_mini(
+        previous_context=previous_context,
+        recent_dialogue=recent_dialogue,
+        keyword_block=keyword_block,
+    )
+    if llm_context:
+        return llm_context
+
+    if keyword_block:
+        return f"Current keywords: {keyword_block}"
+    return ""
+
+
 def _collect_context_before(segment_id: int) -> str:
     with _segment_ctx_lock:
         window = _segment_windows.get(segment_id, {})
@@ -249,13 +472,12 @@ def _collect_context_before(segment_id: int) -> str:
         if start_ts is None:
             return ""
 
-        # Use the recent context (last ~25s before start, max 3 lines).
-        candidates = [
-            text
-            for ts, text in _recent_vad_transcripts
-            if ts < float(start_ts) and ts >= float(start_ts) - 25.0
-        ]
-    return " ".join(candidates[-3:]).strip()
+        start_ts_value = float(start_ts)
+    return _collect_context_before_start_ts(start_ts_value)
+
+
+def _collect_context_before_start_ts(start_ts: float) -> str:
+    return _build_highlevel_before_context(start_ts)
 
 
 def _consume_next_sentence(segment_id: int) -> str:
@@ -269,6 +491,921 @@ def _consume_next_sentence(segment_id: int) -> str:
             return text
         time.sleep(0.05)
     return ""
+
+
+# -------------------------
+# Dialogue Store and Transcript Compression
+# -------------------------
+
+
+def _reset_dialogue_stores() -> None:
+    """Reset all dialogue stores."""
+    global _dialogue_segment_start_time
+    for store in _dialogue_stores.values():
+        store.clear()
+    _dialogue_stores.clear()
+    _dialogue_segment_start_time = 0.0
+
+
+def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: str):
+    """Create a VAD transcript callback that adds entries to the DialogueStore.
+
+    Args:
+        speaker_id: Speaker identifier ("A" or "B")
+        session_id: Session ID for logging
+
+    Returns:
+        Callback function taking (transcript: str)
+    """
+    def _callback(transcript: str) -> None:
+        if not transcript or not transcript.strip():
+            return
+
+        text = transcript.strip()
+
+        # Get or create dialogue store for this speaker
+        if speaker_id not in _dialogue_stores:
+            _dialogue_stores[speaker_id] = DialogueStore()
+
+        store = _dialogue_stores[speaker_id]
+        entry = store.add_entry(
+            speaker_id=speaker_id,
+            text=text,
+            source_id=source_id,
+        )
+        _append_session_transcript_entry(
+            session_id=session_id,
+            record={
+                "type": "utterance",
+                "captured_at": datetime.now().isoformat(),
+                "timestamp": entry.timestamp,
+                "timestamp_iso_utc": datetime.fromtimestamp(
+                    entry.timestamp, tz=timezone.utc
+                ).isoformat(),
+                "speaker": entry.speaker_id,
+                "source_id": entry.source_id,
+                "text": entry.text,
+            },
+        )
+        prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
+        _ = store.prune_before(prune_cutoff)
+
+        log_print(
+            "INFO",
+            "VAD transcript added to DialogueStore",
+            session_id=session_id,
+            speaker=speaker_id,
+            text=text[:50],
+            timestamp=entry.timestamp,
+        )
+
+    return _callback
+
+
+_EVAL_STOPWORDS = {
+    "a",
+    "an",
+    "and",
+    "are",
+    "as",
+    "at",
+    "be",
+    "but",
+    "by",
+    "for",
+    "from",
+    "in",
+    "is",
+    "it",
+    "of",
+    "on",
+    "or",
+    "that",
+    "the",
+    "to",
+    "was",
+    "were",
+    "with",
+    "you",
+    "we",
+    "they",
+    "i",
+    "he",
+    "she",
+    "this",
+    "those",
+    "these",
+}
+
+
+def _tokenize_for_fidelity(text: str) -> list[str]:
+    cleaned = re.sub(r"\b[AB]\s*:\s*", " ", (text or "").lower())
+    tokens = re.findall(r"[a-z0-9']+", cleaned)
+    return [t for t in tokens if t and (len(t) > 2 or t.isdigit())]
+
+
+def _compute_dialogue_fidelity(original: str, compressed: str) -> float:
+    """Approximate faithfulness score in [0, 1] using lexical overlap + speaker preservation."""
+    orig_tokens = _tokenize_for_fidelity(original)
+    comp_tokens = _tokenize_for_fidelity(compressed)
+    if not orig_tokens or not comp_tokens:
+        return 0.0
+
+    orig_content = [t for t in orig_tokens if t not in _EVAL_STOPWORDS]
+    comp_content = [t for t in comp_tokens if t not in _EVAL_STOPWORDS]
+    if not orig_content or not comp_content:
+        return 0.0
+
+    orig_set = set(orig_content)
+    comp_set = set(comp_content)
+    overlap = len(orig_set & comp_set)
+    if overlap <= 0:
+        return 0.0
+
+    precision = overlap / max(1, len(comp_set))
+    recall = overlap / max(1, len(orig_set))
+    f1 = (2 * precision * recall) / max(1e-9, (precision + recall))
+
+    has_a_in_src = bool(re.search(r"(?:^|\n)\s*A\s*:", original))
+    has_b_in_src = bool(re.search(r"(?:^|\n)\s*B\s*:", original))
+    has_a_in_out = bool(re.search(r"(?:^|\n)\s*A\s*:", compressed))
+    has_b_in_out = bool(re.search(r"(?:^|\n)\s*B\s*:", compressed))
+    speaker_bonus = 0.0
+    if has_a_in_src and has_a_in_out:
+        speaker_bonus += 0.05
+    if has_b_in_src and has_b_in_out:
+        speaker_bonus += 0.05
+
+    word_count = len(comp_tokens)
+    length_penalty = 1.0
+    if word_count > 35:
+        length_penalty = 0.9
+    if word_count > 50:
+        length_penalty = 0.75
+
+    score = min(1.0, (f1 + speaker_bonus) * length_penalty)
+    return max(0.0, score)
+
+
+def _get_combined_dialogue() -> str:
+    """Get combined dialogue from all stores, sorted chronologically."""
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_dialogue_chronological())
+
+    # Sort all entries by timestamp
+    all_entries.sort(key=lambda e: e.timestamp)
+
+    if not all_entries:
+        return ""
+
+    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    return "\n".join(lines)
+
+
+def _get_dialogue_since_segment_start() -> str:
+    """Get dialogue since the last segment start."""
+    if _dialogue_segment_start_time <= 0:
+        return _get_combined_dialogue()
+
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_entries_since(_dialogue_segment_start_time))
+
+    all_entries.sort(key=lambda e: e.timestamp)
+
+    if not all_entries:
+        return ""
+
+    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    return "\n".join(lines)
+
+
+def _get_dialogue_by_time_window(start_ts: float, end_ts: float) -> tuple[str, list[dict]]:
+    """Slice always-on transcript buffer by timestamp window."""
+    all_entries = []
+    for store in _dialogue_stores.values():
+        all_entries.extend(store.get_entries_between(start_ts, end_ts))
+
+    all_entries.sort(key=lambda e: e.timestamp)
+    if not all_entries:
+        return "", []
+
+    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    entries_payload = [
+        {
+            "timestamp": e.timestamp,
+            "timestamp_iso_utc": datetime.fromtimestamp(
+                e.timestamp, tz=timezone.utc
+            ).isoformat(),
+            "speaker": e.speaker_id,
+            "source_id": e.source_id,
+            "text": e.text,
+        }
+        for e in all_entries
+    ]
+    return "\n".join(lines), entries_payload
+
+
+def _append_json_list(filepath: Path, record: dict) -> None:
+    """Append one record into a JSON list file."""
+    existing: list = []
+    if filepath.exists():
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                loaded = json.load(f)
+            if isinstance(loaded, list):
+                existing = loaded
+        except Exception:
+            existing = []
+    existing.append(record)
+    filepath.parent.mkdir(parents=True, exist_ok=True)
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(existing, f, ensure_ascii=False, indent=2)
+
+
+def _append_session_transcript_entry(session_id: str, record: dict) -> None:
+    """Append one utterance record to the session full transcript."""
+    try:
+        logs_dir = get_session_subdir(session_id, "dialogue")
+        logs_dir.mkdir(parents=True, exist_ok=True)
+        filepath = logs_dir / f"{session_id}_session_full_transcript.json"
+        _append_json_list(filepath, record)
+    except Exception as e:
+        log_print(
+            "ERROR",
+            f"Failed to append session transcript entry: {e}",
+            session_id=session_id,
+        )
+
+
+def _save_three_path_results_record(record: dict, session_id: str) -> None:
+    """Save (time,input,output) 3-path comparison record.
+
+    Writes both:
+    1) session-scoped file
+    2) all-sessions aggregate file
+    """
+    session_file = get_session_dir(session_id) / "three_path_results.json"
+    with _three_path_results_lock:
+        _append_json_list(session_file, record)
+        _append_json_list(_all_sessions_three_path_file, record)
+
+
+def _compress_dialogue_api(
+    dialogue: str,
+    segment_id: int,
+    model: str,
+    before_context: str = "",
+    fallback_models: list[str] | None = None,
+) -> dict:
+    """Compress dialogue using OpenAI chat-completions API.
+
+    Args:
+        dialogue: The formatted dialogue string (A: ...\nB: ...)
+        segment_id: The segment identifier
+
+    Returns:
+        Dictionary with compressed_text, elapsed_ms, method, and fidelity score
+    """
+    start_time = time.time()
+    candidates = [model] + [m for m in (fallback_models or []) if m and m != model]
+    last_error = ""
+
+    for candidate in candidates:
+        try:
+            response = openai.chat.completions.create(
+                model=candidate,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": (
+                            "You are a dialogue compressor. Compress the dialogue into a brief "
+                            "catch-up (max 30 words total). Preserve speaker labels (A: and B:). "
+                            "Remove filler and keep only core ideas. Output only dialogue lines."
+                        ),
+                    },
+                    {
+                        "role": "user",
+                        "content": (
+                            "Compress this dialogue.\n\n"
+                            f"Before context (hints only):\n{before_context.strip() or '(none)'}\n\n"
+                            f"Dialogue:\n{dialogue}"
+                        ),
+                    },
+                ],
+                max_tokens=100,
+                temperature=0.6,
+            )
+
+            compressed = response.choices[0].message.content or ""
+            elapsed_ms = (time.time() - start_time) * 1000
+
+            # Normalize output to A:/B: format
+            lines = []
+            for raw_line in compressed.splitlines():
+                line = raw_line.strip()
+                if line.startswith("A:") or line.startswith("B:"):
+                    lines.append(line)
+                if len(lines) >= 3:
+                    break
+
+            normalized = "\n".join(lines) if lines else compressed[:400]
+            fidelity = _compute_dialogue_fidelity(dialogue, normalized)
+            method = f"api_{candidate.replace('-', '_')}"
+
+            return {
+                "compressed_text": normalized,
+                "elapsed_ms": elapsed_ms,
+                "fidelity_score": fidelity,
+                "requested_model": model,
+                "model": candidate,
+                "fallback_used": candidate != model,
+                "method": method,
+                "segment_id": segment_id,
+            }
+        except Exception as e:
+            last_error = str(e)
+            is_last = candidate == candidates[-1]
+            log_level = "ERROR" if is_last else "WARN"
+            log_print(
+                log_level,
+                f"API compression failed for model {candidate}: {e}",
+                segment_id=segment_id,
+                model=candidate,
+                requested_model=model,
+            )
+            if is_last:
+                break
+
+    elapsed_ms = (time.time() - start_time) * 1000
+    method = f"api_{model.replace('-', '_')}"
+    return {
+        "compressed_text": "",
+        "elapsed_ms": elapsed_ms,
+        "fidelity_score": 0.0,
+        "requested_model": model,
+        "model": model,
+        "fallback_used": False,
+        "method": method,
+        "segment_id": segment_id,
+        "error": last_error or "unknown_error",
+    }
+
+
+def _save_dialogue_json(
+    dialogue: str,
+    segment_id: int,
+    session_id: str,
+    entries_override: list[dict] | None = None,
+    window: dict | None = None,
+) -> None:
+    """Save dialogue transcript to JSON file for debugging.
+
+    Args:
+        dialogue: The formatted dialogue string
+        segment_id: The segment identifier
+        session_id: Session ID for file naming
+    """
+    try:
+        # Get segment-scoped entries with timestamps (speaker + source + text).
+        all_entries = list(entries_override or [])
+        if not all_entries:
+            for store in _dialogue_stores.values():
+                entries = (
+                    store.get_entries_since(_dialogue_segment_start_time)
+                    if _dialogue_segment_start_time > 0
+                    else store.get_dialogue_chronological()
+                )
+                for entry in entries:
+                    all_entries.append({
+                        "timestamp": entry.timestamp,
+                        "timestamp_iso_utc": datetime.fromtimestamp(
+                            entry.timestamp, tz=timezone.utc
+                        ).isoformat(),
+                        "speaker": entry.speaker_id,
+                        "source_id": entry.source_id,
+                        "text": entry.text,
+                    })
+
+        # Sort by timestamp
+        all_entries.sort(key=lambda e: e["timestamp"])
+
+        # Create dialogue log
+        dialogue_log = {
+            "segment_id": segment_id,
+            "session_id": session_id,
+            "captured_at": datetime.now().isoformat(),
+            "segment_start_time": _dialogue_segment_start_time,
+            "window": window or {},
+            "entry_count": len(all_entries),
+            "formatted_dialogue": dialogue,
+            "entries": all_entries,
+        }
+
+        # Save to session-scoped dialogue directory
+        logs_dir = get_session_subdir(session_id, "dialogue")
+        logs_dir.mkdir(parents=True, exist_ok=True)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{timestamp}_seg{segment_id}_{session_id}_dialogue.json"
+        filepath = logs_dir / filename
+
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(dialogue_log, f, indent=2, ensure_ascii=False)
+
+        sio.emit(
+            "dialogue_transcript_ready",
+            {
+                "segment_id": segment_id,
+                "entry_count": len(all_entries),
+                "formatted_dialogue": dialogue,
+                "entries": all_entries,
+                "path": str(filepath),
+            },
+        )
+
+        log_print(
+            "INFO",
+            f"Dialogue saved to {filepath}",
+            segment_id=segment_id,
+            entry_count=len(all_entries),
+        )
+    except Exception as e:
+        log_print(
+            "ERROR",
+            f"Failed to save dialogue JSON: {e}",
+            segment_id=segment_id,
+        )
+
+
+def _trigger_parallel_compression_for_dialogue(
+    dialogue: str,
+    segment_id: int,
+    session_id: str,
+    before_context: str = "",
+    trigger_source: str = "segment",
+    window: dict | None = None,
+    entries: list[dict] | None = None,
+) -> None:
+    """Run 3-path compression for provided dialogue and auto-select output."""
+    session_logger = get_logger(session_id)
+
+    if not dialogue or not dialogue.strip():
+        log_print(
+            "INFO",
+            "No dialogue to compress",
+            session_id=session_id,
+            segment_id=segment_id,
+            trigger_source=trigger_source,
+        )
+        sio.emit(
+            "judge_rejected",
+            {
+                "reason": "All caught up",
+                "segment_id": segment_id,
+                "summary": "",
+                "no_dialogue": True,
+            },
+            to=session_id,
+        )
+        return
+
+    # Save dialogue to JSON for debugging
+    _save_dialogue_json(
+        dialogue,
+        segment_id,
+        session_id,
+        entries_override=entries,
+        window=window,
+    )
+
+    log_print(
+        "INFO",
+        "Triggering parallel compression",
+        session_id=session_id,
+        segment_id=segment_id,
+        dialogue_chars=len(dialogue),
+        before_context_chars=len(before_context or ""),
+        trigger_source=trigger_source,
+    )
+
+    results = {
+        "segment_id": segment_id,
+        "original_dialogue": dialogue,
+        "realtime": None,
+        "api_mini": None,
+        "api_nano": None,
+    }
+    results_lock = threading.Lock()
+    results_ready = threading.Event()
+    expected_paths = 3
+
+    def _on_realtime_result(payload: dict) -> None:
+        text = str(payload.get("compressed_text", "") or "")
+        elapsed_ms = float(payload.get("elapsed_ms", 0.0) or 0.0)
+        fidelity = _compute_dialogue_fidelity(dialogue, text)
+        with results_lock:
+            results["realtime"] = {
+                "text": text,
+                "elapsed_ms": elapsed_ms,
+                "fidelity_score": fidelity,
+                "method": "realtime_api",
+            }
+            done_count = sum(
+                1
+                for key in ("realtime", "api_mini", "api_nano")
+                if results.get(key) is not None
+            )
+            if done_count >= expected_paths:
+                results_ready.set()
+
+    def _run_api_path(model: str, key: str, fallback_models: list[str] | None = None) -> None:
+        api_result = _compress_dialogue_api(
+            dialogue,
+            segment_id,
+            model,
+            before_context=before_context,
+            fallback_models=fallback_models,
+        )
+        compressed_text = str(api_result.get("compressed_text", "") or "")
+        log_print(
+            "INFO",
+            "API compression result",
+            session_id=session_id,
+            segment_id=segment_id,
+            trigger_source=trigger_source,
+            requested_model=api_result.get("requested_model", model),
+            model=api_result.get("model", model),
+            fallback_used=api_result.get("fallback_used", False),
+            elapsed_ms=api_result.get("elapsed_ms"),
+            fidelity_score=api_result.get("fidelity_score"),
+            text_preview=compressed_text[:200],
+            has_error=bool(api_result.get("error")),
+        )
+        session_logger.log(
+            "api_compression_result",
+            segment_id=segment_id,
+            trigger_source=trigger_source,
+            key=key,
+            requested_model=api_result.get("requested_model", model),
+            model=api_result.get("model", model),
+            fallback_used=api_result.get("fallback_used", False),
+            elapsed_ms=api_result.get("elapsed_ms"),
+            fidelity_score=api_result.get("fidelity_score"),
+            compressed_text=compressed_text,
+            error=api_result.get("error"),
+        )
+        with results_lock:
+            results[key] = {
+                "text": api_result.get("compressed_text", ""),
+                "elapsed_ms": api_result.get("elapsed_ms", 0),
+                "fidelity_score": api_result.get("fidelity_score", 0.0),
+                "method": api_result.get("method", f"api_{model}"),
+            }
+            done_count = sum(
+                1
+                for k in ("realtime", "api_mini", "api_nano")
+                if results.get(k) is not None
+            )
+            if done_count >= expected_paths:
+                results_ready.set()
+
+        # Emit API result immediately
+        sio.emit("transcript_compressed_api", api_result)
+
+    # Path 1: Realtime API (if available)
+    with _clients_lock:
+        tr = transcript_reconstructor
+    if tr and tr.running:
+        # Set temporary callback to capture result
+        original_callback = tr.on_reconstruction_callback
+        tr.on_reconstruction_callback = _on_realtime_result
+        tr.reconstruct_transcript(dialogue, segment_id, before_context=before_context)
+        # Restore original callback after a delay
+        def _restore_callback():
+            time.sleep(5.0)
+            with _clients_lock:
+                if transcript_reconstructor:
+                    transcript_reconstructor.on_reconstruction_callback = original_callback
+        threading.Thread(target=_restore_callback, daemon=True).start()
+    else:
+        # No Realtime client - mark as skipped
+        with results_lock:
+            results["realtime"] = {
+                "text": "",
+                "elapsed_ms": 0,
+                "fidelity_score": 0.0,
+                "skipped": True,
+                "method": "realtime_api",
+            }
+
+    # Path 2/3: API calls (background threads)
+    threading.Thread(
+        target=_run_api_path,
+        args=("gpt-4o-mini", "api_mini", ["gpt-4.1-mini"]),
+        daemon=True,
+    ).start()
+    threading.Thread(
+        target=_run_api_path,
+        args=("gpt-4o-nano", "api_nano", ["gpt-4.1-nano"]),
+        daemon=True,
+    ).start()
+
+    # Wait for all results and emit comparison (with timeout)
+    def _emit_comparison():
+        results_ready.wait(timeout=10.0)
+        with results_lock:
+            candidates = []
+            for key in ("realtime", "api_mini", "api_nano"):
+                item = results.get(key)
+                if not item or not item.get("text"):
+                    continue
+                candidates.append(
+                    {
+                        "key": key,
+                        "text": item.get("text", ""),
+                        "elapsed_ms": float(item.get("elapsed_ms", 0.0) or 0.0),
+                        "method": str(item.get("method", key)),
+                    }
+                )
+
+            selected = None
+            by_key = {c["key"]: c for c in candidates}
+            # Selection policy:
+            # 1) Prefer realtime when available.
+            # 2) If realtime is empty/missing, prefer api_mini.
+            # 3) Fallback to api_nano.
+            if by_key.get("realtime"):
+                selected = by_key["realtime"]
+            elif by_key.get("api_mini"):
+                selected = by_key["api_mini"]
+            elif by_key.get("api_nano"):
+                selected = by_key["api_nano"]
+
+            comparison = {
+                "segment_id": segment_id,
+                "trigger_source": trigger_source,
+                "window": window or {},
+                "entry_count": len(entries or []),
+                "before_context": before_context,
+                "original_dialogue": dialogue,
+                "realtime": results.get("realtime"),
+                "api_mini": results.get("api_mini"),
+                "api_nano": results.get("api_nano"),
+                "selected": selected,
+            }
+        three_path_record = {
+            "time": datetime.now(timezone.utc).isoformat(),
+            "session_id": session_id,
+            "segment_id": segment_id,
+            "trigger_source": trigger_source,
+            "input": dialogue,
+            "before_context": before_context,
+            "output": {
+                "realtime": (comparison.get("realtime") or {}).get("text", ""),
+                "api_mini": (comparison.get("api_mini") or {}).get("text", ""),
+                "api_nano": (comparison.get("api_nano") or {}).get("text", ""),
+                "selected": (comparison.get("selected") or {}).get("method", ""),
+            },
+            "meta": {
+                "realtime_elapsed_ms": (comparison.get("realtime") or {}).get("elapsed_ms"),
+                "api_mini_elapsed_ms": (comparison.get("api_mini") or {}).get("elapsed_ms"),
+                "api_nano_elapsed_ms": (comparison.get("api_nano") or {}).get("elapsed_ms"),
+                "window": comparison.get("window") or {},
+                "entry_count": comparison.get("entry_count", 0),
+            },
+        }
+        _save_three_path_results_record(three_path_record, session_id)
+        sio.emit("transcript_compression_comparison", comparison)
+        realtime_info = comparison.get("realtime") or {}
+        api_mini_info = comparison.get("api_mini") or {}
+        api_nano_info = comparison.get("api_nano") or {}
+        log_print(
+            "INFO",
+            "Compression comparison emitted",
+            session_id=session_id,
+            segment_id=segment_id,
+            selected=(selected or {}).get("method"),
+            trigger_source=trigger_source,
+            realtime_elapsed_ms=realtime_info.get("elapsed_ms"),
+            api_mini_elapsed_ms=api_mini_info.get("elapsed_ms"),
+            api_nano_elapsed_ms=api_nano_info.get("elapsed_ms"),
+        )
+
+        chosen_text = str((selected or {}).get("text", "") or "")
+        chosen_method = str((selected or {}).get("method", "") or "")
+
+        if chosen_text:
+            _synthesize_compressed_dialogue(chosen_text, segment_id, chosen_method)
+            return
+
+        # All paths returned empty/invalid output: end summary flow explicitly.
+        sio.emit(
+            "judge_rejected",
+            {
+                "reason": "All caught up",
+                "segment_id": segment_id,
+                "summary": "",
+                "no_dialogue": True,
+            },
+            to=session_id,
+        )
+
+    threading.Thread(target=_emit_comparison, daemon=True).start()
+
+
+def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
+    """Compatibility path: use last listening-segment dialogue."""
+    dialogue = ""
+    entries: list[dict] = []
+    window_payload: dict = {}
+
+    # Prefer segment-window slicing to avoid races with subsequent listening sessions.
+    with _segment_ctx_lock:
+        segment_window = dict(_segment_windows.get(segment_id, {}))
+    start_ts = float(segment_window.get("start_ts") or 0.0)
+    end_ts = float(segment_window.get("end_ts") or 0.0)
+
+    if start_ts > 0:
+        if end_ts <= 0:
+            end_ts = time.time()
+        slice_end_ts = end_ts + _SEGMENT_TAIL_GRACE_SEC
+        window_payload = {
+            "start_ts": start_ts,
+            "end_ts": end_ts,
+            "slice_end_ts": slice_end_ts,
+            "tail_grace_sec": _SEGMENT_TAIL_GRACE_SEC,
+        }
+
+        for attempt in range(_SEGMENT_DIALOGUE_RETRY_COUNT):
+            dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
+            entry_count = len(entries)
+            has_dialogue = bool(dialogue and dialogue.strip())
+            is_last_attempt = attempt >= (_SEGMENT_DIALOGUE_RETRY_COUNT - 1)
+
+            if has_dialogue and (
+                entry_count >= _SEGMENT_MIN_ENTRIES_BEFORE_FLUSH or is_last_attempt
+            ):
+                if attempt > 0:
+                    log_print(
+                        "INFO",
+                        "Recovered late VAD transcripts for segment",
+                        session_id=session_id,
+                        segment_id=segment_id,
+                        attempt=attempt + 1,
+                        entries=entry_count,
+                        min_entries=_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH,
+                    )
+                break
+            if has_dialogue and not is_last_attempt:
+                log_print(
+                    "INFO",
+                    "Waiting briefly for extra VAD transcript entries",
+                    session_id=session_id,
+                    segment_id=segment_id,
+                    attempt=attempt + 1,
+                    entries=entry_count,
+                    min_entries=_SEGMENT_MIN_ENTRIES_BEFORE_FLUSH,
+                    tail_grace_sec=_SEGMENT_TAIL_GRACE_SEC,
+                )
+            if attempt < _SEGMENT_DIALOGUE_RETRY_COUNT - 1:
+                time.sleep(_SEGMENT_DIALOGUE_RETRY_DELAY_SEC)
+    else:
+        dialogue = _get_dialogue_since_segment_start()
+
+    before_context = _collect_context_before(segment_id)
+
+    _trigger_parallel_compression_for_dialogue(
+        dialogue=dialogue,
+        segment_id=segment_id,
+        session_id=session_id,
+        before_context=before_context,
+        trigger_source="segment",
+        window=window_payload,
+        entries=entries,
+    )
+
+
+def _trigger_parallel_compression_after_delay(
+    segment_id: int,
+    session_id: str,
+    delay_sec: float = _SEGMENT_POST_END_WAIT_SEC,
+) -> None:
+    """Delay compression start to allow late VAD transcripts to arrive."""
+    if delay_sec > 0:
+        time.sleep(delay_sec)
+    _trigger_parallel_compression(segment_id, session_id)
+
+
+def _synthesize_compressed_dialogue(compressed_text: str, segment_id: int, method: str = "unknown") -> None:
+    """Synthesize TTS for compressed dialogue and emit as merged audio.
+
+    Args:
+        compressed_text: The compressed dialogue text (A: ...\nB: ...)
+        segment_id: The segment identifier
+        method: The compression method used (for logging)
+    """
+    if not compressed_text or not compressed_text.strip():
+        log_print(
+            "WARN",
+            "No compressed text for TTS",
+            segment_id=segment_id,
+        )
+        return
+
+    turns = _parse_reconstructed_turns(compressed_text)
+    if not turns:
+        log_print(
+            "WARN",
+            "No turns parsed from compressed text",
+            segment_id=segment_id,
+            text=compressed_text[:100],
+        )
+        return
+
+    audio_items: list[tuple[bytes, str, str, int]] = []  # (audio_bytes, speaker, text, idx)
+
+    for i, (speaker, text) in enumerate(turns):
+        with _clients_lock:
+            tts = _get_tts_client_for_speaker(speaker)
+        if not tts:
+            continue
+
+        audio_bytes = tts.synthesize(text, language="en")
+        if not audio_bytes:
+            continue
+        audio_items.append((audio_bytes, speaker, text, i))
+
+    if not audio_items:
+        log_print(
+            "WARN",
+            "No audio synthesized for compressed dialogue",
+            segment_id=segment_id,
+        )
+        return
+
+    # Merge audio items into single WAV
+    def _merge_wav_items_compressed(items: list[tuple[bytes, str, str, int]]) -> Optional[bytes]:
+        """Concatenate multiple mono 16-bit 24kHz WAV bytes into one WAV."""
+        if not items:
+            return None
+        pcm_chunks: list[bytes] = []
+        for audio_bytes, _, _, _ in items:
+            try:
+                with io.BytesIO(audio_bytes) as wav_io:
+                    with wave.open(wav_io, "rb") as wf:
+                        if (
+                            wf.getnchannels() != 1
+                            or wf.getsampwidth() != 2
+                            or wf.getframerate() != 24000
+                        ):
+                            log_print(
+                                "WARN",
+                                "Unexpected compressed TTS WAV format; skipping merge",
+                                segment_id=segment_id,
+                            )
+                            return None
+                        pcm_chunks.append(wf.readframes(wf.getnframes()))
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"Failed to parse compressed TTS WAV: {e}",
+                    segment_id=segment_id,
+                )
+                return None
+
+        merged_pcm = b"".join(pcm_chunks)
+        if not merged_pcm:
+            return None
+        out_io = io.BytesIO()
+        with wave.open(out_io, "wb") as out_wav:
+            out_wav.setnchannels(1)
+            out_wav.setsampwidth(2)
+            out_wav.setframerate(24000)
+            out_wav.writeframes(merged_pcm)
+        return out_io.getvalue()
+
+    merged_wav = _merge_wav_items_compressed(audio_items)
+    if merged_wav:
+        sio.emit(
+            "compressed_dialogue_tts",
+            {
+                "segment_id": segment_id,
+                "audio": base64.b64encode(merged_wav).decode("utf-8"),
+                "text": compressed_text,
+                "format": "wav",
+                "sample_rate": 24000,
+                "method": method,
+                "turn_count": len(audio_items),
+            },
+        )
+        log_print(
+            "INFO",
+            f"compressed_dialogue_tts emitted: count={len(audio_items)}, bytes={len(merged_wav)}",
+            segment_id=segment_id,
+            method=method,
+        )
 
 
 def _parse_reconstructed_turns(text: str) -> list[tuple[str, str]]:
@@ -308,7 +1445,7 @@ def _get_tts_client_for_speaker(speaker: str) -> Optional[TTSClient]:
 
 
 def _on_reconstruction_result(payload: dict) -> None:
-    """Emit reconstructed turns and synthesize per-turn TTS in sequence."""
+    """Emit reconstructed turns (TTS disabled - handled by transcript compression flow)."""
     conversation = str((payload or {}).get("conversation", "")).strip()
     sum0 = str((payload or {}).get("sum0", "")).strip()
     sum1 = str((payload or {}).get("sum1", "")).strip()
@@ -340,136 +1477,30 @@ def _on_reconstruction_result(payload: dict) -> None:
         },
     )
 
-    def _merge_wav_items(audio_items: list[tuple[bytes, str, str, int]]) -> Optional[bytes]:
-        """Concatenate multiple mono 16-bit 24kHz WAV bytes into one WAV."""
-        if not audio_items:
-            return None
-        pcm_chunks: list[bytes] = []
-        for audio_bytes, _, _, _ in audio_items:
-            try:
-                with io.BytesIO(audio_bytes) as wav_io:
-                    with wave.open(wav_io, "rb") as wf:
-                        if (
-                            wf.getnchannels() != 1
-                            or wf.getsampwidth() != 2
-                            or wf.getframerate() != 24000
-                        ):
-                            log_print(
-                                "WARN",
-                                "Unexpected reconstruction TTS WAV format; skipping merge",
-                                segment_id=segment_id,
-                                channels=wf.getnchannels(),
-                                sampwidth=wf.getsampwidth(),
-                                framerate=wf.getframerate(),
-                            )
-                            return None
-                        pcm_chunks.append(wf.readframes(wf.getnframes()))
-            except Exception as e:
-                log_print(
-                    "ERROR",
-                    f"Failed to parse reconstruction TTS WAV for merge: {e}",
-                    segment_id=segment_id,
-                )
-                return None
-
-        merged_pcm = b"".join(pcm_chunks)
-        if not merged_pcm:
-            return None
-        out_io = io.BytesIO()
-        with wave.open(out_io, "wb") as out_wav:
-            out_wav.setnchannels(1)
-            out_wav.setsampwidth(2)
-            out_wav.setframerate(24000)
-            out_wav.writeframes(merged_pcm)
-        return out_io.getvalue()
-
-    def _synthesize_turns():
-        audio_items: list[tuple[bytes, str, str, int]] = []  # (audio_bytes, speaker, text, idx)
-        for i, (speaker, text) in enumerate(turns):
-            with _clients_lock:
-                tts = _get_tts_client_for_speaker(speaker)
-            if not tts:
-                continue
-
-            audio_bytes = tts.synthesize(text, language="en")
-            if not audio_bytes:
-                continue
-            audio_items.append((audio_bytes, speaker, text, i))
-
-        if not audio_items:
-            log_print(
-                "WARN",
-                "No audio synthesized for reconstruction",
-                segment_id=segment_id,
-            )
-            sio.emit(
-                "conversation_tts_done",
-                {
-                    "segment_id": segment_id,
-                    "count": 0,
-                },
-            )
-            return
-
-        # Emit only after all per-turn TTS synthesis completes.
-        sio.emit(
-            "conversation_tts_done",
-            {
-                "segment_id": segment_id,
-                "count": len(audio_items),
-            },
-        )
-
-        merged_wav = _merge_wav_items(audio_items)
-        if merged_wav:
-            sio.emit(
-                "conversation_tts_merged",
-                {
-                    "segment_id": segment_id,
-                    "audio": base64.b64encode(merged_wav).decode("utf-8"),
-                    "format": "wav",
-                    "sample_rate": 24000,
-                    "count": len(audio_items),
-                },
-            )
-            log_print(
-                "INFO",
-                f"conversation_tts_merged emitted: count={len(audio_items)}, bytes={len(merged_wav)}",
-                segment_id=segment_id,
-            )
-            return
-
-        # Fallback: emit per-turn audio if merge fails.
-        log_print(
-            "INFO",
-            f"Merge unavailable; emitting {len(audio_items)} conversation_tts events",
-            segment_id=segment_id,
-        )
-        for audio_bytes, speaker, text, i in audio_items:
-            audio_b64 = base64.b64encode(audio_bytes).decode("utf-8")
-            sio.emit(
-                "conversation_tts",
-                {
-                    "segment_id": segment_id,
-                    "turn_index": i,
-                    "speaker": speaker,
-                    "text": text,
-                    "audio": audio_b64,
-                    "format": "wav",
-                    "sample_rate": 24000,
-                },
-            )
-            log_print(
-                "INFO",
-                f"conversation_tts emitted: turn={i}, speaker={speaker}, audio_bytes={len(audio_bytes)}",
-                segment_id=segment_id,
-            )
-
-    threading.Thread(target=_synthesize_turns, daemon=True).start()
+    # TTS synthesis disabled here - now handled by transcript compression flow
+    # via _trigger_parallel_compression() -> _synthesize_compressed_dialogue()
+    # which uses actual VAD transcripts instead of summaries
 
 
 def _is_active_session(session_id: str) -> bool:
     return _active_runtime_sid is None or session_id == _active_runtime_sid
+
+
+def _normalize_client_ts(raw: object) -> float:
+    """Normalize client timestamp to unix seconds.
+
+    Accepts seconds or milliseconds epoch.
+    """
+    try:
+        ts = float(raw)  # type: ignore[arg-type]
+    except Exception:
+        return 0.0
+    if ts <= 0:
+        return 0.0
+    # 13-digit epoch milliseconds.
+    if ts >= 1_000_000_000_000:
+        return ts / 1000.0
+    return ts
 
 
 def _flush_judge_batch(segment_id: int, session_id: str) -> None:
@@ -861,7 +1892,7 @@ def handle_connect():
 @sio.on("disconnect")
 def handle_disconnect():
     """Handle client disconnection."""
-    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid
+    global client, summary_clients, context_judge, conversation_reconstructor, transcript_reconstructor, keyword_tts_client, _active_runtime_sid
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
     logger = get_logger(session_id)
@@ -895,19 +1926,28 @@ def handle_disconnect():
         if conversation_reconstructor:
             conversation_reconstructor.stop()
             conversation_reconstructor = None
+        if transcript_reconstructor:
+            transcript_reconstructor.stop()
+            transcript_reconstructor = None
         keyword_tts_client = None
+        target_session_id = _active_runtime_sid or session_id
+        _save_session_full_dialogue_json(
+            session_id=target_session_id,
+            reason="disconnect",
+        )
         _active_runtime_sid = None
     _reset_tts_airpods_state("disconnect")
     with _judge_batch_lock:
         _judge_batch.clear()
         _judge_completed_segments.clear()
     _reset_segment_tracking()
+    _reset_dialogue_stores()
 
 
 @sio.on("start")
 def handle_start(data: dict):
     """Start audio streaming and keyword extraction."""
-    global client, summary_clients, context_judge, conversation_reconstructor, keyword_tts_client, _active_runtime_sid, _airpods_mode_switch_enabled
+    global client, summary_clients, context_judge, conversation_reconstructor, transcript_reconstructor, keyword_tts_client, _active_runtime_sid, _airpods_mode_switch_enabled
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -921,6 +1961,7 @@ def handle_start(data: dict):
     _reset_tts_airpods_state("start")
 
     with _clients_lock:
+        previous_session_id = _active_runtime_sid
         if client:
             log_print("INFO", "Stopping previous client", session_id=session_id)
             client.stop()
@@ -933,10 +1974,19 @@ def handle_start(data: dict):
         if conversation_reconstructor:
             conversation_reconstructor.stop()
             conversation_reconstructor = None
+        if transcript_reconstructor:
+            transcript_reconstructor.stop()
+            transcript_reconstructor = None
+        if previous_session_id:
+            _save_session_full_dialogue_json(
+                session_id=previous_session_id,
+                reason="start_new_session",
+            )
         with _judge_batch_lock:
             _judge_batch.clear()
             _judge_completed_segments.clear()
         _reset_segment_tracking()
+        _reset_dialogue_stores()
         _active_runtime_sid = session_id
 
         source = data.get("source", "mic")
@@ -973,7 +2023,7 @@ def handle_start(data: dict):
             keyword_tts_kwargs["voice_id"] = keyword_voice_id
         keyword_tts_client = TTSClient(**keyword_tts_kwargs)
 
-        # Judge agent settings (when disabled, summaries play without judgment)
+        # Keep the field for backward compatibility, but summary-generation path is disabled.
         judge_enabled = data.get("judge_enabled", False)
         reconstructor_enabled = data.get("reconstructor_enabled", True)
 
@@ -1036,72 +2086,33 @@ def handle_start(data: dict):
                 output_device_index=tts_output_device,
                 **mic_kwargs,
             )
+            # Add VAD transcript callback for this speaker
+            speaker_id = "A" if i == 0 else "B"
+            sc.add_vad_transcript_callback(
+                _make_vad_transcript_callback(
+                    speaker_id=speaker_id,
+                    session_id=session_id,
+                    source_id=f"sum{i}",
+                )
+            )
             summary_clients.append(sc)
             sc.start()
 
-        # Create ContextJudgeClient if we have summary clients with TTS
-        # Uses the first summary mic for audio context
-        # When judge_enabled=False, summaries play directly without judgment
-        if source == "mic" and summary_mics and summary_clients and judge_enabled:
-            judge_tts_clients = [
-                sc.tts_client for sc in summary_clients if sc.tts_client is not None
-            ]
-            context_judge = ContextJudgeClient(
-                sio,
-                session_id=f"{session_id}_judge",
-                device_indices=[summary_mics[0]],
-                tts_clients=judge_tts_clients,
-            )
-            context_judge.start()
-
-            log_print(
-                "INFO",
-                "ContextJudgeClient created and connected",
-                session_id=session_id,
-            )
-        elif summary_clients:
-            log_print(
-                "INFO",
-                "Judge agent disabled - summaries will play directly",
-                session_id=session_id,
-            )
-
         if summary_clients and reconstructor_enabled:
-            reconstructor_kwargs = {}
-            if source == "mic" and summary_mics:
-                reconstructor_kwargs["device_indices"] = [summary_mics[0]]
-            elif source == "mp3":
-                if keyword_source:
-                    reconstructor_kwargs["audio_file"] = keyword_source
-                elif summary_sources:
-                    reconstructor_kwargs["audio_file"] = summary_sources[0]
-
-            conversation_reconstructor = ConversationReconstructorClient(
+            # Create TranscriptReconstructorClient for VAD transcript compression.
+            transcript_reconstructor = TranscriptReconstructorClient(
                 sio,
-                session_id=f"{session_id}_reconstructor",
+                session_id=f"{session_id}_transcript_reconstructor",
                 source=source,
-                on_reconstruction_callback=_on_reconstruction_result,
-                **reconstructor_kwargs,
             )
-            conversation_reconstructor.start()
+            transcript_reconstructor.start()
             log_print(
                 "INFO",
-                "ConversationReconstructorClient created and connected",
+                "TranscriptReconstructorClient created and connected",
                 session_id=session_id,
             )
 
-        # Connect summary callbacks to aggregated batcher when any agent is enabled.
-        if summary_clients and (judge_enabled or reconstructor_enabled):
-            for i, sc in enumerate(summary_clients):
-                sc.set_summary_callback(
-                    _make_summary_batch_callback(
-                        source_id=f"sum{i}",
-                        session_id=session_id,
-                        tts_enabled=sc.tts_client is not None,
-                    )
-                )
-                if context_judge:
-                    sc.set_tts_ready_callback(context_judge.on_tts_ready)
+        # Summary callbacks are intentionally not connected in VAD-only mode.
 
         # Connect RealtimeClient to SummaryClients for transcript forwarding
         client.set_summary_clients(summary_clients)
@@ -1127,6 +2138,11 @@ def handle_stop():
     with _clients_lock:
         if client:
             client.stop()
+        target_session_id = _active_runtime_sid or session_id
+        _save_session_full_dialogue_json(
+            session_id=target_session_id,
+            reason="stop",
+        )
     _reset_tts_airpods_state("stop")
 
 
@@ -1154,7 +2170,7 @@ def handle_request():
 @sio.on("start_listening")
 def handle_start_listening():
     """Start a listening segment for later summarization."""
-    global _segment_seq
+    global _segment_seq, _dialogue_segment_start_time
     session_id = request.sid
     if not _is_active_session(session_id):
         log_print(
@@ -1167,6 +2183,9 @@ def handle_start_listening():
 
     with _clients_lock:
         if summary_clients:
+            # Set dialogue segment start time for VAD transcript tracking
+            _dialogue_segment_start_time = time.time()
+
             with _segment_ctx_lock:
                 _segment_seq += 1
                 _segment_windows[_segment_seq] = {
@@ -1181,6 +2200,8 @@ def handle_start_listening():
                 context_judge.start_listening()
             if conversation_reconstructor:
                 conversation_reconstructor.start_listening()
+            if transcript_reconstructor:
+                transcript_reconstructor.start_listening()
             log_print("INFO", "Start listening", session_id=session_id, clients=len(summary_clients))
         else:
             log_print(
@@ -1206,6 +2227,7 @@ def handle_end_listening():
     with _clients_lock:
         if summary_clients:
             with _segment_ctx_lock:
+                current_segment_id = _segment_seq
                 if _segment_seq > 0 and _segment_seq in _segment_windows:
                     _segment_windows[_segment_seq]["end_ts"] = time.time()
             for sc in summary_clients:
@@ -1215,6 +2237,16 @@ def handle_end_listening():
                 context_judge.end_listening()
             if conversation_reconstructor:
                 conversation_reconstructor.end_listening()
+            if transcript_reconstructor:
+                transcript_reconstructor.end_listening()
+
+            # Trigger parallel compression of VAD transcripts
+            threading.Thread(
+                target=_trigger_parallel_compression_after_delay,
+                args=(current_segment_id, session_id),
+                daemon=True,
+            ).start()
+
             log_print("INFO", "End listening, requesting summary", session_id=session_id, clients=len(summary_clients))
         else:
             # No summary clients - signal completion immediately
@@ -1224,6 +2256,119 @@ def handle_end_listening():
                 "end_listening ignored - no summary clients",
                 session_id=session_id,
             )
+
+
+@sio.on("request_missed_summary")
+def handle_request_missed_summary(data: dict):
+    """Summarize missed window from always-on transcript buffer.
+
+    Expected payload:
+    - miss_start_ts: epoch sec/ms
+    - miss_end_ts: epoch sec/ms
+    - padding_before_sec: optional, default 1.0
+    - padding_after_sec: optional, default 0.0
+    """
+    global _segment_seq
+
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        log_print(
+            "INFO",
+            "Ignoring request_missed_summary from non-active session",
+            session_id=session_id,
+            active_session_id=_active_runtime_sid,
+        )
+        return
+
+    payload = data or {}
+    start_ts = _normalize_client_ts(payload.get("miss_start_ts"))
+    end_ts = _normalize_client_ts(payload.get("miss_end_ts"))
+    if start_ts <= 0 or end_ts <= 0:
+        sio.emit(
+            "missed_summary_error",
+            {"error": "invalid_timestamps", "data": payload},
+            to=session_id,
+        )
+        return
+
+    if end_ts < start_ts:
+        start_ts, end_ts = end_ts, start_ts
+
+    pad_before = float(payload.get("padding_before_sec", _MISS_PADDING_BEFORE_SEC) or 0.0)
+    pad_after = float(payload.get("padding_after_sec", 0.0) or 0.0)
+    pad_before = max(0.0, min(5.0, pad_before))
+    pad_after = max(0.0, min(3.0, pad_after))
+
+    window_start = max(0.0, start_ts - pad_before)
+    window_end = max(window_start, end_ts + pad_after)
+    dialogue, entries = _get_dialogue_by_time_window(window_start, window_end)
+    before_context = _collect_context_before_start_ts(window_start)
+
+    with _segment_ctx_lock:
+        _segment_seq += 1
+        segment_id = _segment_seq
+
+    sio.emit(
+        "missed_transcript_window",
+        {
+            "segment_id": segment_id,
+            "miss_start_ts": start_ts,
+            "miss_end_ts": end_ts,
+            "window_start_ts": window_start,
+            "window_end_ts": window_end,
+            "padding_before_sec": pad_before,
+            "padding_after_sec": pad_after,
+            "entry_count": len(entries),
+            "dialogue": dialogue,
+        },
+        to=session_id,
+    )
+
+    if not dialogue.strip():
+        sio.emit(
+            "missed_summary_empty",
+            {
+                "segment_id": segment_id,
+                "window_start_ts": window_start,
+                "window_end_ts": window_end,
+                "entry_count": 0,
+            },
+            to=session_id,
+        )
+        return
+
+    log_print(
+        "INFO",
+        "request_missed_summary accepted",
+        session_id=session_id,
+        segment_id=segment_id,
+        miss_start_ts=start_ts,
+        miss_end_ts=end_ts,
+        window_start_ts=window_start,
+        window_end_ts=window_end,
+        entries=len(entries),
+    )
+
+    threading.Thread(
+        target=_trigger_parallel_compression_for_dialogue,
+        kwargs={
+            "dialogue": dialogue,
+            "segment_id": segment_id,
+            "session_id": session_id,
+            "before_context": before_context,
+            "trigger_source": "missed_timestamp",
+            "window": {
+                "miss_start_ts": start_ts,
+                "miss_end_ts": end_ts,
+                "window_start_ts": window_start,
+                "window_end_ts": window_end,
+                "padding_before_sec": pad_before,
+                "padding_after_sec": pad_after,
+            },
+            "entries": entries,
+        },
+        daemon=True,
+    ).start()
 
 
 @sio.on("search_grounding")

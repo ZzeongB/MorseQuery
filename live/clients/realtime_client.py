@@ -13,12 +13,11 @@ from config import (
     AUDIO_CHUNK,
     AUDIO_RATE,
     DEFAULT_AUDIO_FILE,
-    LOG_DIR,
     OPENAI_API_KEY,
     OPENAI_REALTIME_URL,
 )
 from flask_socketio import SocketIO
-from logger import get_logger, log_print
+from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
 
 from .audio_filter import AdaptiveNoiseGate, NoiseGateConfig
@@ -54,10 +53,12 @@ class RealtimeClient:
 
         # Thread synchronization
         self._ws_lock = threading.Lock()
+        self._state_lock = threading.Lock()
         self._shutdown_event = threading.Event()
 
         # Session recording
         self.user_actions: list[dict] = []  # Track user keyword requests with timing
+        self.latest_keywords: list[dict] = []  # Last parsed keyword list with descriptions
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
         self.recording_buffer: list[bytes] = []  # Audio recording
 
@@ -401,8 +402,10 @@ class RealtimeClient:
                 self.extracted_keywords.append(word)
 
         # Update last user action with extracted keywords
-        if self.user_actions:
-            self.user_actions[-1]["keywords"] = keywords
+        with self._state_lock:
+            self.latest_keywords = [dict(kw) for kw in keywords]
+            if self.user_actions:
+                self.user_actions[-1]["keywords"] = keywords
 
         # Emit only when we have valid keywords. Empty output should not change UI state.
         if keywords:
@@ -690,13 +693,14 @@ class RealtimeClient:
         )
 
         # Track user action with timing
-        self.user_actions.append(
-            {
-                "elapsed_sec": elapsed_sec,
-                "action": "keyword_request",
-                "keywords": [],  # Will be filled in _handle_response_done
-            }
-        )
+        with self._state_lock:
+            self.user_actions.append(
+                {
+                    "elapsed_sec": elapsed_sec,
+                    "action": "keyword_request",
+                    "keywords": [],  # Will be filled in _handle_response_done
+                }
+            )
 
         self.sio.emit("clear")
 
@@ -820,7 +824,9 @@ class RealtimeClient:
         self.chunks_filtered = 0  # Reset filtered count
         self.chunks_since_last_request = 0  # Reset for new session
         self.extracted_keywords = []  # Reset for new session
-        self.user_actions = []  # Reset user actions
+        with self._state_lock:
+            self.user_actions = []  # Reset user actions
+            self.latest_keywords = []  # Reset keyword cache
         self.stream_start_time = 0.0  # Reset stream start time
         self.recording_buffer = []  # Reset recording
 
@@ -887,6 +893,15 @@ class RealtimeClient:
         if was_running:
             self.sio.emit("session_ended")
 
+    def get_recent_keywords(self, limit: int = 3) -> list[dict]:
+        """Return recently extracted keywords with descriptions."""
+        limit = max(0, int(limit))
+        with self._state_lock:
+            items = [dict(kw) for kw in (self.latest_keywords or [])]
+        if not items or limit == 0:
+            return []
+        return items[:limit]
+
     def _save_audio(self) -> None:
         """Save recorded audio as WAV."""
         if not self.recording_buffer:
@@ -899,9 +914,8 @@ class RealtimeClient:
             raw_audio = b"".join(self.recording_buffer)
             self.recording_buffer = []
 
-            # Create audio directory
-            audio_dir = LOG_DIR / "audio"
-            audio_dir.mkdir(parents=True, exist_ok=True)
+            # Create session-scoped audio directory
+            audio_dir = get_session_subdir(self.session_id, "audio")
 
             # Convert raw PCM to AudioSegment
             audio = AudioSegment(

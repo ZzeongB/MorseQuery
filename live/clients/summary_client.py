@@ -14,13 +14,16 @@ from typing import Callable, Optional
 import numpy as np
 import pyaudio
 import websocket
-from config import AUDIO_CHUNK, AUDIO_RATE, LOG_DIR, OPENAI_API_KEY, OPENAI_REALTIME_URL
+from config import AUDIO_CHUNK, AUDIO_RATE, OPENAI_API_KEY, OPENAI_REALTIME_URL
 from flask_socketio import SocketIO
-from logger import get_logger, log_print
+from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
 
-from .prompt import SUMMARY_SESSION_INSTRUCTIONS, build_summary_prompt
+from .prompt import SUMMARY_SESSION_INSTRUCTIONS
 from .tts_client import TTSClient
+
+_VAD_TRANSCRIPT_BATCH_TARGET = 2
+_VAD_TRANSCRIPT_DEBOUNCE_SEC = 0.55
 
 
 class SummaryClient:
@@ -81,10 +84,6 @@ class SummaryClient:
         self._lock = threading.Lock()
         self._shutdown_event = threading.Event()
 
-        # White noise playback
-        self.noise_stream = None
-        self.noise_playing = False
-
         # TTS client
         self.enable_tts = enable_tts
         self.prepare_tts_on_callback = prepare_tts_on_callback
@@ -101,6 +100,12 @@ class SummaryClient:
         # Callback for summary judgment (called when summary is generated)
         self.on_summary_callback: Optional[Callable[[str, int], None]] = None
         self.on_tts_ready_callback: Optional[Callable[[bool], None]] = None
+
+        # VAD transcript callbacks (called when input audio transcription completes)
+        self._vad_transcript_callbacks: list[Callable[[str], None]] = []
+        self._vad_transcript_lock = threading.Lock()
+        self._vad_pending_transcripts: list[str] = []
+        self._vad_flush_timer: Optional[threading.Timer] = None
 
         log_print(
             "INFO",
@@ -155,6 +160,95 @@ class SummaryClient:
             "Summary TTS ready callback set",
             session_id=self.session_id,
         )
+
+    def add_vad_transcript_callback(self, callback: Callable[[str], None]) -> None:
+        """Add callback to be called when VAD transcript is completed.
+
+        Args:
+            callback: Function taking (transcript: str)
+        """
+        self._vad_transcript_callbacks.append(callback)
+        log_print(
+            "INFO",
+            "VAD transcript callback added",
+            session_id=self.session_id,
+        )
+
+    def _handle_vad_transcript(self, transcript: str) -> None:
+        """Handle completed VAD transcript by calling all registered callbacks."""
+        for callback in self._vad_transcript_callbacks:
+            try:
+                callback(transcript)
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"VAD transcript callback failed: {e}",
+                    session_id=self.session_id,
+                )
+                self.logger.log("vad_transcript_callback_failed", error=str(e))
+
+    def _flush_pending_vad_transcripts(self, force: bool = False) -> None:
+        """Flush queued VAD transcripts to callbacks."""
+        with self._vad_transcript_lock:
+            if not self._vad_pending_transcripts:
+                return
+            if not force and len(self._vad_pending_transcripts) < _VAD_TRANSCRIPT_BATCH_TARGET:
+                return
+            pending = self._vad_pending_transcripts[:]
+            self._vad_pending_transcripts.clear()
+            timer = self._vad_flush_timer
+            self._vad_flush_timer = None
+
+        if timer:
+            try:
+                timer.cancel()
+            except Exception:
+                pass
+
+        for text in pending:
+            self._handle_vad_transcript(text)
+
+        self.logger.log(
+            "vad_transcript_flush",
+            count=len(pending),
+            force=force,
+            segment_id=self.segment_id,
+        )
+
+    def _schedule_vad_transcript_flush(self) -> None:
+        with self._vad_transcript_lock:
+            if self._vad_flush_timer:
+                try:
+                    self._vad_flush_timer.cancel()
+                except Exception:
+                    pass
+            timer = threading.Timer(
+                _VAD_TRANSCRIPT_DEBOUNCE_SEC,
+                self._flush_pending_vad_transcripts,
+                kwargs={"force": True},
+            )
+            timer.daemon = True
+            self._vad_flush_timer = timer
+            timer.start()
+
+    def _queue_vad_transcript(self, transcript: str) -> None:
+        flush_now = False
+        with self._vad_transcript_lock:
+            self._vad_pending_transcripts.append(transcript)
+            queued_count = len(self._vad_pending_transcripts)
+            if queued_count >= _VAD_TRANSCRIPT_BATCH_TARGET:
+                flush_now = True
+
+        self.logger.log(
+            "vad_transcript_queued",
+            queued_count=queued_count,
+            segment_id=self.segment_id,
+        )
+
+        if flush_now:
+            self._flush_pending_vad_transcripts(force=True)
+        else:
+            self._schedule_vad_transcript_flush()
 
     def _run_summary_callback(
         self, callback: Callable[[str, int], None], summary: str, segment_id: int
@@ -228,34 +322,11 @@ class SummaryClient:
         self.listening = True
         self.response_buffer = ""
 
-        # Clear buffer and re-append last 3 seconds as the start of the new segment
-        with self._lock:
-            ws = self.ws
-            if ws:
-                try:
-                    ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
-                    # Re-append last 3 seconds of audio
-                    for chunk in self.recent_audio_buffer:
-                        audio_b64 = base64.b64encode(chunk).decode()
-                        ws.send(
-                            json.dumps(
-                                {
-                                    "type": "input_audio_buffer.append",
-                                    "audio": audio_b64,
-                                }
-                            )
-                        )
-                except Exception:
-                    pass
-
         self.logger.log("start_listening", segment_id=self.segment_id)
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
-        # Start white noise playback
-        # self._start_white_noise()
-
     def end_listening(self) -> None:
-        """End the segment and request a summary of what was said."""
+        """End the segment (VAD transcript mode only; no summary generation)."""
         if not self.running or not self.connected:
             log_print(
                 "WARN",
@@ -275,48 +346,12 @@ class SummaryClient:
         self.listening = False
         self.response_buffer = ""
 
-        # Stop white noise playback
-        # self._stop_white_noise()
-
         self.logger.log("end_listening", segment_id=self.segment_id)
         self.sio.emit("listening_end", {"segment_id": self.segment_id})
-
-        prompt = build_summary_prompt(self.pre_context)
-
         self.logger.log(
-            "summary_request",
+            "summary_request_skipped_vad_only",
             segment_id=self.segment_id,
-            pre_context_chars=len(self.pre_context),
         )
-
-        # Commit the segment audio and request summary (all under lock)
-        with self._lock:
-            ws = self.ws
-            if not ws:
-                log_print(
-                    "WARN",
-                    "end_listening ignored (no websocket)",
-                    session_id=self.session_id,
-                )
-                return
-
-            try:
-                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
-                ws.send(
-                    json.dumps(
-                        {
-                            "type": "response.create",
-                            "response": {
-                                "modalities": ["text"],
-                                "instructions": prompt,
-                                "temperature": 0.6,
-                                "max_output_tokens": 120,
-                            },
-                        }
-                    )
-                )
-            except Exception as e:
-                self.logger.log("end_listening_send_failed", error=str(e))
 
     # -------------------------
     # Websocket handlers
@@ -336,8 +371,16 @@ class SummaryClient:
                     "session": {
                         "modalities": ["text", "audio"],
                         "input_audio_format": "pcm16",
-                        "turn_detection": None,
+                        "turn_detection": {
+                            "type": "server_vad",
+                            "threshold": 0.5,
+                            "prefix_padding_ms": 300,
+                            "silence_duration_ms": 500,
+                        },
                         "instructions": SUMMARY_SESSION_INSTRUCTIONS,
+                        "input_audio_transcription": {
+                            "model": "whisper-1",
+                        },
                     },
                 }
             )
@@ -364,94 +407,19 @@ class SummaryClient:
             self.logger.log("summary_openai_session_updated")
             return
 
-        if etype == "response.text.delta":
-            delta = event.get("delta", "")
-            if delta:
-                self.response_buffer += delta
-                self.sio.emit("summary_chunk", delta)
+        if etype == "conversation.item.input_audio_transcription.completed":
+            transcript = event.get("transcript", "")
+            if transcript and transcript.strip():
+                self._queue_vad_transcript(transcript.strip())
+                self.logger.log(
+                    "vad_transcript_completed",
+                    transcript=transcript.strip()[:100],
+                    segment_id=self.segment_id,
+                )
             return
 
-        if etype == "response.done":
-            raw = self.response_buffer
-            self.response_buffer = ""
-
-            self.logger.log("summary_response_done", raw=raw)
-
-            summary = self._sanitize_summary_output(raw)
-            is_empty = not summary
-
-            payload = {
-                "segment_id": self.segment_id,
-                "is_empty": is_empty,
-                "summary": "" if is_empty else summary,
-            }
-
-            # Update pre_context for next segment
-            if not is_empty:
-                self.pre_context = (self.pre_context + " " + summary).strip()
-                if len(self.pre_context) > 500:
-                    self.pre_context = self.pre_context[-500:]
-
-            self.sio.emit("summary_done", payload)
-
-            # If we have a valid summary and callback is set, run TTS + judge in parallel
-            if not is_empty and self.on_summary_callback:
-                segment_id = self.segment_id
-                callback = self.on_summary_callback
-
-                # Queue TTS for potential playback (ContextJudgeClient decides)
-                if self.enable_tts and self.tts_client and self.prepare_tts_on_callback:
-                    tts_ready_callback = self._resolve_tts_ready_callback()
-                    if tts_ready_callback:
-                        self.tts_client.queue_audio_with_callback(
-                            summary,
-                            callback=tts_ready_callback,
-                            language="en",
-                        )
-                    else:
-                        self.tts_client.queue_audio_async(summary, "en")
-                    log_print(
-                        "INFO",
-                        f"TTS queued for parallel judgment: {summary[:50]}...",
-                        session_id=self.session_id,
-                    )
-                elif self.enable_tts and self.tts_client and not self.prepare_tts_on_callback:
-                    # Callback is set (for reconstruction) - skip direct summary TTS
-                    # Reconstruction will handle TTS via conversation_tts_merged event
-                    log_print(
-                        "INFO",
-                        f"Skipping summary TTS (reconstruction mode): {summary[:50]}...",
-                        session_id=self.session_id,
-                    )
-
-                # Trigger judgment in background so TTS and judge start in parallel
-                threading.Thread(
-                    target=self._run_summary_callback,
-                    args=(callback, summary, segment_id),
-                    daemon=True,
-                ).start()
-
-            elif not is_empty and self.enable_tts and self.tts_client:
-                # No callback set - play TTS directly (fallback behavior)
-                self.tts_client.synthesize_async(
-                    summary,
-                    event_name="summary_tts",
-                    language="en",
-                )
-            elif not is_empty:
-                # No callback (judge disabled) and no TTS - signal completion
-                log_print(
-                    "INFO",
-                    "Summary complete (text only, no TTS)",
-                    session_id=self.session_id,
-                )
-                self.sio.emit("tts_done")
-            else:
-                log_print(
-                    "INFO",
-                    "Skipping summary TTS: empty summary",
-                    session_id=self.session_id,
-                )
+        if etype in {"response.text.delta", "response.done"}:
+            # Summary generation path is disabled in VAD-only mode.
             return
 
         if etype == "error":
@@ -533,70 +501,6 @@ class SummaryClient:
     # Audio streaming
     # -------------------------
 
-    def _generate_white_noise(self, num_samples: int, volume: float = 0.1) -> bytes:
-        """Generate white noise audio chunk."""
-        import random
-        import struct
-
-        # Generate random samples scaled by volume
-        max_val = int(32767 * volume)
-        samples = [random.randint(-max_val, max_val) for _ in range(num_samples)]
-        return struct.pack(f"{num_samples}h", *samples)
-
-    def _start_white_noise(self) -> None:
-        """Start playing white noise through speakers."""
-        if self.noise_playing:
-            return
-
-        self.noise_playing = True
-        threading.Thread(target=self._play_white_noise_loop, daemon=True).start()
-        log_print("INFO", "White noise started", session_id=self.session_id)
-
-    def _stop_white_noise(self) -> None:
-        """Stop playing white noise."""
-        self.noise_playing = False
-        log_print("INFO", "White noise stopped", session_id=self.session_id)
-
-    def _play_white_noise_loop(self) -> None:
-        """Loop that plays white noise until stopped."""
-        pa = None
-        stream = None
-        try:
-            pa = pyaudio.PyAudio()
-            stream = pa.open(
-                format=pyaudio.paInt16,
-                channels=1,
-                rate=AUDIO_RATE,
-                output=True,
-                frames_per_buffer=AUDIO_CHUNK,
-            )
-
-            while (
-                self.noise_playing
-                and self.running
-                and not self._shutdown_event.is_set()
-            ):
-                noise = self._generate_white_noise(AUDIO_CHUNK, volume=0.05)
-                try:
-                    stream.write(noise)
-                except Exception:
-                    if self._shutdown_event.is_set():
-                        break
-        except Exception as e:
-            log_print("ERROR", f"White noise error: {e}", session_id=self.session_id)
-        finally:
-            if stream:
-                try:
-                    stream.stop_stream()
-                    stream.close()
-                except Exception:
-                    pass
-            if pa:
-                try:
-                    pa.terminate()
-                except Exception:
-                    pass
-
     def _stream_audio(self) -> None:
         """Stream audio from configured source."""
         if self.source == "mp3":
@@ -649,9 +553,6 @@ class SummaryClient:
             self.pa = pa
             self.stream = stream
 
-            commit_interval = 3.0
-            last_commit = 0.0
-
             while self.running and self.connected and not self._shutdown_event.is_set():
                 try:
                     data = stream.read(AUDIO_CHUNK, exception_on_overflow=False)
@@ -664,6 +565,12 @@ class SummaryClient:
                         session_id=self.session_id,
                     )
                     continue
+
+                # Apply fixed threshold gate for mic input when configured.
+                if self.noise_cut_threshold > 0:
+                    arr = np.frombuffer(data, dtype=np.int16).copy()
+                    arr[np.abs(arr) < self.noise_cut_threshold] = 0
+                    data = arr.tobytes()
 
                 # Record audio
                 self.recording_buffer.append(data)
@@ -687,17 +594,6 @@ class SummaryClient:
                                     }
                                 )
                             )
-
-                            # Periodic commit (skip during listening to keep segment intact)
-                            now = time.time()
-                            if (
-                                now - last_commit >= commit_interval
-                                and not self.listening
-                            ):
-                                ws.send(
-                                    json.dumps({"type": "input_audio_buffer.commit"})
-                                )
-                                last_commit = now
                         except Exception:
                             break
 
@@ -766,9 +662,6 @@ class SummaryClient:
             )
 
             chunk_bytes = AUDIO_CHUNK * 2
-            commit_interval = 3.0
-            last_commit = 0.0
-
             for i in range(0, len(raw), chunk_bytes):
                 if not self.running or not self.connected or self._shutdown_event.is_set():
                     break
@@ -808,12 +701,6 @@ class SummaryClient:
                                     }
                                 )
                             )
-
-                            # Periodic commit (skip during listening to keep segment intact)
-                            now = time.time()
-                            if now - last_commit >= commit_interval and not self.listening:
-                                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
-                                last_commit = now
                         except Exception:
                             break
 
@@ -882,9 +769,7 @@ class SummaryClient:
         self.connected = False
         self.listening = False
         self._shutdown_event.set()
-
-        # Stop white noise if playing
-        self._stop_white_noise()
+        self._flush_pending_vad_transcripts(force=True)
 
         self.logger.log("summary_client_stop")
 
@@ -917,9 +802,8 @@ class SummaryClient:
             )
             self.recording_buffer = []
 
-            # Create audio directory
-            audio_dir = LOG_DIR / "audio"
-            audio_dir.mkdir(parents=True, exist_ok=True)
+            # Create session-scoped audio directory
+            audio_dir = get_session_subdir(self.session_id, "audio")
 
             # Convert raw PCM to AudioSegment (or create empty)
             if raw_audio:

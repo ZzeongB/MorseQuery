@@ -18,7 +18,8 @@ OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-pr
 
 # Audio settings
 AUDIO_RATE = 24000
-AUDIO_CHUNK = 4800
+# 100ms chunks (was 200ms). This reduces "just-before-tap" miss window.
+AUDIO_CHUNK = 2400
 DEFAULT_AUDIO_FILE = "../mp3/tariffs_clips/clip_002.mp3"
 
 # Paths
