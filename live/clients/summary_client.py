@@ -192,7 +192,10 @@ class SummaryClient:
         with self._vad_transcript_lock:
             if not self._vad_pending_transcripts:
                 return
-            if not force and len(self._vad_pending_transcripts) < _VAD_TRANSCRIPT_BATCH_TARGET:
+            if (
+                not force
+                and len(self._vad_pending_transcripts) < _VAD_TRANSCRIPT_BATCH_TARGET
+            ):
                 return
             pending = self._vad_pending_transcripts[:]
             self._vad_pending_transcripts.clear()
@@ -374,8 +377,8 @@ class SummaryClient:
                         "turn_detection": {
                             "type": "server_vad",
                             "threshold": 0.5,
-                            "prefix_padding_ms": 300,
-                            "silence_duration_ms": 500,
+                            "prefix_padding_ms": 200,
+                            "silence_duration_ms": 300,
                         },
                         "instructions": SUMMARY_SESSION_INSTRUCTIONS,
                         "input_audio_transcription": {
@@ -663,7 +666,11 @@ class SummaryClient:
 
             chunk_bytes = AUDIO_CHUNK * 2
             for i in range(0, len(raw), chunk_bytes):
-                if not self.running or not self.connected or self._shutdown_event.is_set():
+                if (
+                    not self.running
+                    or not self.connected
+                    or self._shutdown_event.is_set()
+                ):
                     break
 
                 data = raw[i : i + chunk_bytes]
@@ -713,7 +720,9 @@ class SummaryClient:
                 f"SummaryClient failed to stream mp3: {e}",
                 session_id=self.session_id,
             )
-            self.logger.log("summary_mp3_stream_error", error=str(e), file=self.audio_file)
+            self.logger.log(
+                "summary_mp3_stream_error", error=str(e), file=self.audio_file
+            )
         finally:
             log_print(
                 "INFO",

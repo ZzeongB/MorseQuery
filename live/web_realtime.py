@@ -708,6 +708,30 @@ def _extract_speakers(text: str) -> set[str]:
     return set(re.findall(r"(?:^|\n)\s*([AB])\s*:", text or ""))
 
 
+_SUSPICIOUS_SINGLETON_TOKENS = {
+    "you",
+    "yeah",
+    "yep",
+    "yup",
+    "uh",
+    "um",
+    "hmm",
+    "hm",
+    "ah",
+    "oh",
+    "ok",
+    "okay",
+    "right",
+}
+
+
+def _is_suspicious_singleton_utterance(text: str) -> bool:
+    words = re.findall(r"[a-zA-Z']+", str(text or ""))
+    if len(words) != 1:
+        return False
+    return words[0].lower() in _SUSPICIOUS_SINGLETON_TOKENS
+
+
 def _build_literal_fallback(dialogue: str, max_words: int = 12) -> str:
     """Return short literal line(s) from source dialogue."""
     out_lines: list[str] = []
@@ -718,6 +742,8 @@ def _build_literal_fallback(dialogue: str, max_words: int = 12) -> str:
         speaker, _, text = line.partition(":")
         text = " ".join(text.strip().split())
         if not text:
+            continue
+        if _is_suspicious_singleton_utterance(text):
             continue
         words = text.split()
         out_lines.append(f"{speaker.strip()}: {' '.join(words[:max_words])}")
@@ -743,6 +769,9 @@ def _coerce_compressed_to_source(dialogue: str, compressed: str) -> str:
             continue
         spk = line[0]
         if source_speakers and spk not in source_speakers:
+            continue
+        _, _, utterance = line.partition(":")
+        if _is_suspicious_singleton_utterance(utterance):
             continue
         output_lines.append(line)
         if len(output_lines) >= 2:
@@ -906,6 +935,8 @@ def _compress_dialogue_api(
                             "Remove filler and keep only core ideas. Output only dialogue lines. "
                             "Each speaker line must be 12 words or fewer. "
                             "If a token/word is clearly odd or context-mismatched (likely transcript error), ignore it. "
+                            "Drop content that is unrelated to current context or user-viewed keywords. "
+                            "Treat isolated one-word utterances as likely transcription errors unless clearly meaningful. "
                             "Never invent claims/questions not in Dialogue. "
                             "If Dialogue has one speaker, output only that speaker."
                         ),
@@ -920,6 +951,8 @@ def _compress_dialogue_api(
                             "Rules: Context is hint-only. Do not import extra facts from context. "
                             "If dialogue is short/noisy, output short literal fragment only. "
                             "Drop context-mismatched weird tokens rather than guessing replacements. "
+                            "Exclude lines/phrases unrelated to the active context or viewed keywords. "
+                            "Treat one-word fragments as possible transcription errors and drop them when uncertain. "
                             "Hard limit: each A:/B: line <= 12 words."
                         ),
                     },
@@ -2785,7 +2818,6 @@ def handle_keyword_tts(data: dict):
         request_token = _keyword_tts_request_token
     if not tts:
         return
-    _set_keyword_anc_hold(True, "keyword_tts_requested")
 
     # Latest-only behavior: if a newer navigation request arrives while synthesis
     # is in-flight, this request is dropped before playback.
@@ -2812,6 +2844,8 @@ def handle_keyword_tts(data: dict):
 
         tts.stop_playback(wait=True, timeout_sec=1.2)
         tts.queue_audio_bytes(audio_bytes, text)
+        # Switch ANC right before keyword playback starts (not at request time).
+        _set_keyword_anc_hold(True, "keyword_tts_before_playback")
         # If previous playback is still tearing down after cancel, first call can miss.
         # Retry briefly so the latest navigation click starts audio without a second tap.
         if tts.play_queued(reason="keyword", emit_done=False):

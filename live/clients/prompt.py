@@ -540,6 +540,8 @@ Remove repetitive or redundant content and keep only the core ideas.
 - Use Context Before only as disambiguation hints for references/pronouns.
 - Current Viewed Keywords indicate user focus; use only as relevance hints.
 - Do not invent details from keywords that are absent in Input Dialogue.
+- Exclude phrases that are unrelated to current context or viewed keywords.
+- Treat isolated one-word fragments as likely transcription errors unless clearly meaningful.
 - Never copy Context Before verbatim unless absolutely required for clarity.
 
 {before_context_block}
