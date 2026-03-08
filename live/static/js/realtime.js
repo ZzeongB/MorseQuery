@@ -100,6 +100,7 @@ let ttsPlaying = false;
 let currentTtsAudio = null;
 let currentTtsUrl = null;
 let currentTtsSource = null;  // Web Audio API source node
+let summaryTextAllowedThisPlayback = false;
 let currentSummaryNearEndTimer = null;
 let skippedIndicatorTimer = null;
 let dismissTimer = null;
@@ -763,6 +764,7 @@ async function unlockAudioForTts() {
 
 function handleTtsPlaybackStart(meta = null) {
     hideLoadingIndicator();
+    summaryTextAllowedThisPlayback = !!(meta && meta.type === 'summary');
 
     if (meta && meta.type === 'summary') {
         if (autoPreSummarizeEnabled) {
@@ -778,23 +780,8 @@ function handleTtsPlaybackStart(meta = null) {
     hideSummaryText();
 
     if (meta && meta.type === 'reconstruction') {
-        if (autoPreSummarizeEnabled) {
-            hideInfo();
-        }
-        const segId = Number((meta && meta.segmentId) || 0);
-        const triggerSource = (meta && meta.triggerSource) || '';
-        if (
-            pendingReconstructedTurns.length > 0 &&
-            pendingReconstructedSegmentId === segId &&
-            renderedReconstructedSegmentId !== segId
-        ) {
-            if (triggerSource === 'post_tts_followup' && baseReconstructedTurns.length > 0) {
-                renderReconstructedStack(baseReconstructedTurns, followupReconstructedGroups);
-            } else {
-                renderReconstructedTurns(pendingReconstructedTurns);
-            }
-            renderedReconstructedSegmentId = segId;
-        }
+        hideReconstructedTurns();
+        return;
     }
 }
 
@@ -1357,6 +1344,7 @@ function hideSummary() {
 }
 
 function showSummaryText() {
+    if (!summaryTextAllowedThisPlayback) return;
     if (!showSummaryTextEnabled || pendingSummaryTexts.length === 0) return;
     const container = document.getElementById('summaryBubbles');
     const bubble1 = document.getElementById('summaryBubble1');
@@ -1381,6 +1369,7 @@ function showSummaryText() {
 }
 
 function hideSummaryText() {
+    summaryTextAllowedThisPlayback = false;
     const container = document.getElementById('summaryBubbles');
     const bubble1 = document.getElementById('summaryBubble1');
     const bubble2 = document.getElementById('summaryBubble2');
@@ -1396,6 +1385,15 @@ function hideSummaryText() {
 }
 
 function renderReconstructedTurns(turns) {
+    // Keep UI text hidden unless explicitly allowed for summary text mode.
+    if (!summaryTextAllowedThisPlayback) {
+        const container = document.getElementById('reconstructedTurns');
+        if (container) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+        }
+        return;
+    }
     const html = buildReconstructedTurnsHtml(turns);
     const container = document.getElementById('reconstructedTurns');
     if (!container) return;
@@ -1421,6 +1419,14 @@ function buildReconstructedTurnsHtml(turns) {
 }
 
 function renderReconstructedStack(baseTurns, groups) {
+    if (!summaryTextAllowedThisPlayback) {
+        const container = document.getElementById('reconstructedTurns');
+        if (container) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+        }
+        return;
+    }
     const container = document.getElementById('reconstructedTurns');
     if (!container) return;
 
@@ -1971,6 +1977,7 @@ socket.on('summary_tts', data => {
     }
 
     summaryInProgress = true;
+    summaryTextAllowedThisPlayback = true;
     enqueueTtsAudio(data.audio, { type: 'summary' });
 });
 
@@ -2057,6 +2064,7 @@ socket.on('compressed_dialogue_tts', data => {
     summaryRequested = false;
     listeningActive = false;
     summaryInProgress = true;
+    summaryTextAllowedThisPlayback = false;
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
