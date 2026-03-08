@@ -1530,11 +1530,23 @@ function start(v) {
 
     const params = { source: source };
     const fastCatchupThresholdEl = document.getElementById('fastCatchupThresholdSec');
-    let fastCatchupThresholdSec = Number(fastCatchupThresholdEl ? fastCatchupThresholdEl.value : 10);
-    if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 10;
+    const fastCatchupSpeedEl = document.getElementById('fastCatchupSpeed');
+    const fastCatchupGapEl = document.getElementById('fastCatchupGapSec');
+    let fastCatchupThresholdSec = Number(fastCatchupThresholdEl ? fastCatchupThresholdEl.value : 20);
+    let fastCatchupSpeed = Number(fastCatchupSpeedEl ? fastCatchupSpeedEl.value : 1.5);
+    let fastCatchupGapSec = Number(fastCatchupGapEl ? fastCatchupGapEl.value : 0.0);
+    if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 20;
+    if (!Number.isFinite(fastCatchupSpeed)) fastCatchupSpeed = 1.5;
+    if (!Number.isFinite(fastCatchupGapSec)) fastCatchupGapSec = 0.0;
     fastCatchupThresholdSec = Math.min(30, Math.max(1, Math.round(fastCatchupThresholdSec)));
+    fastCatchupSpeed = Math.min(3.0, Math.max(1.0, Math.round(fastCatchupSpeed * 10) / 10));
+    fastCatchupGapSec = Math.min(2.0, Math.max(0.0, Math.round(fastCatchupGapSec * 10) / 10));
     if (fastCatchupThresholdEl) fastCatchupThresholdEl.value = String(fastCatchupThresholdSec);
+    if (fastCatchupSpeedEl) fastCatchupSpeedEl.value = fastCatchupSpeed.toFixed(1);
+    if (fastCatchupGapEl) fastCatchupGapEl.value = fastCatchupGapSec.toFixed(1);
     params.fast_catchup_threshold_sec = fastCatchupThresholdSec;
+    params.fast_catchup_speed = fastCatchupSpeed;
+    params.fast_catchup_gap_sec = fastCatchupGapSec;
     if (source === 'mic') {
         const kw = document.getElementById('keywordMic').value;
         const s1 = document.getElementById('summaryMic1').value;

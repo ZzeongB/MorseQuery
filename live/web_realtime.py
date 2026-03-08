@@ -15,6 +15,7 @@ import re
 import struct
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 import wave
@@ -28,6 +29,15 @@ import openai
 import pyaudio
 from pydub import AudioSegment, effects, silence
 from pydub.utils import make_chunks
+
+try:
+    from audiotsm import wsola as _audiotsm_wsola
+    from audiotsm.io.wav import WavReader as _AudioTSMWavReader
+    from audiotsm.io.wav import WavWriter as _AudioTSMWavWriter
+
+    _AUDIO_TSM_AVAILABLE = True
+except Exception:
+    _AUDIO_TSM_AVAILABLE = False
 from clients import (
     ConversationReconstructorClient,
     DialogueStore,
@@ -208,9 +218,9 @@ _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
 _dialogue_segment_start_time: float = 0.0
 _DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
 _MISS_PADDING_BEFORE_SEC = 1.0
-_FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 10.0
-_FAST_CATCHUP_DEFAULT_SPEED = 1.6
-_FAST_CATCHUP_DEFAULT_GAP_SEC = 0.5
+_FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 20.0
+_FAST_CATCHUP_DEFAULT_SPEED = 1.5
+_FAST_CATCHUP_DEFAULT_GAP_SEC = 0.0
 _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB = -45.0
 _FAST_CATCHUP_TARGET_RMS_DBFS = -18.0
 _FAST_CATCHUP_TARGET_PEAK_DBFS = -1.5
@@ -221,6 +231,8 @@ _FAST_CATCHUP_DENOISE_ENABLED = True
 _FAST_CATCHUP_DENOISE_CHUNK_MS = 20
 _FAST_CATCHUP_DENOISE_NOISE_ATTEN_DB = 12.0
 _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
+_fast_catchup_speed_runtime = _FAST_CATCHUP_DEFAULT_SPEED
+_fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -1607,6 +1619,8 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     if end_ts <= start_ts:
         end_ts = time.time()
     end_ts = _snap_end_to_vad_stop(end_ts)
+    speed = float(_fast_catchup_speed_runtime)
+    gap_sec = float(_fast_catchup_gap_sec_runtime)
 
     # Round 1: the original missed segment [start, end]
     cursor_start = start_ts
@@ -1625,8 +1639,8 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
             session_id=session_id,
             start_ts=cursor_start,
             end_ts=cursor_end,
-            speed=_FAST_CATCHUP_DEFAULT_SPEED,
-            gap_sec=_FAST_CATCHUP_DEFAULT_GAP_SEC,
+            speed=speed,
+            gap_sec=gap_sec,
             silence_thresh_db=_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
             trigger_source=f"segment_fast_catchup_source_step{step + 1}",
         )
@@ -1742,7 +1756,7 @@ def _apply_fast_catchup_to_segment(
     if audio is None or len(audio) <= 0:
         return audio
     speed = max(1.0, min(3.0, float(speed or _FAST_CATCHUP_DEFAULT_SPEED)))
-    gap_sec = max(0.1, min(2.0, float(gap_sec or _FAST_CATCHUP_DEFAULT_GAP_SEC)))
+    gap_sec = max(0.0, min(2.0, float(gap_sec if gap_sec is not None else _FAST_CATCHUP_DEFAULT_GAP_SEC)))
     min_silence_len_ms = int(gap_sec * 1000.0)
     keep_silence_ms = 35
 
@@ -1769,29 +1783,25 @@ def _apply_fast_catchup_to_segment(
         except Exception:
             pass
 
-    try:
-        spans = silence.detect_nonsilent(
-            audio,
-            min_silence_len=min_silence_len_ms,
-            silence_thresh=float(silence_thresh_db),
-        )
-        if spans:
-            compact = AudioSegment.silent(duration=0, frame_rate=audio.frame_rate)
-            for start_ms, end_ms in spans:
-                lo = max(0, start_ms - keep_silence_ms)
-                hi = min(len(audio), end_ms + keep_silence_ms)
-                compact += audio[lo:hi]
-            audio = compact
-    except Exception:
-        pass
-
-    if speed > 1.01:
+    if gap_sec > 0:
         try:
-            audio = effects.speedup(
-                audio, playback_speed=speed, chunk_size=120, crossfade=20
+            spans = silence.detect_nonsilent(
+                audio,
+                min_silence_len=min_silence_len_ms,
+                silence_thresh=float(silence_thresh_db),
             )
+            if spans:
+                compact = AudioSegment.silent(duration=0, frame_rate=audio.frame_rate)
+                for start_ms, end_ms in spans:
+                    lo = max(0, start_ms - keep_silence_ms)
+                    hi = min(len(audio), end_ms + keep_silence_ms)
+                    compact += audio[lo:hi]
+                audio = compact
         except Exception:
             pass
+
+    if speed > 1.01:
+        audio = _speedup_with_audiotsm(audio, speed)
 
     # Match perceived level close to Cartesia TTS:
     # - raise RMS toward target
@@ -1811,6 +1821,55 @@ def _apply_fast_catchup_to_segment(
     except Exception:
         pass
     return audio
+
+
+def _speedup_with_audiotsm(audio: AudioSegment, speed: float) -> AudioSegment:
+    """Time-scale audio using audiotsm WSOLA; fallback only if unavailable/error."""
+    if audio is None or len(audio) <= 0:
+        return audio
+    speed = max(1.0, min(3.0, float(speed or _FAST_CATCHUP_DEFAULT_SPEED)))
+    if speed <= 1.01:
+        return audio
+
+    if not _AUDIO_TSM_AVAILABLE:
+        # Temporary fallback to keep runtime resilient until dependency is installed.
+        try:
+            return effects.speedup(
+                audio, playback_speed=speed, chunk_size=120, crossfade=20
+            )
+        except Exception:
+            return audio
+
+    try:
+        with tempfile.TemporaryDirectory(prefix="fastcatchup_tsm_") as tmpdir:
+            in_wav = os.path.join(tmpdir, "in.wav")
+            out_wav = os.path.join(tmpdir, "out.wav")
+            audio.export(in_wav, format="wav")
+            with _AudioTSMWavReader(in_wav) as reader:
+                with _AudioTSMWavWriter(
+                    out_wav,
+                    reader.channels,
+                    reader.samplerate,
+                ) as writer:
+                    # WSOLA tends to preserve speech intelligibility for small speed-ups.
+                    tsm = _audiotsm_wsola(
+                        channels=reader.channels,
+                        speed=speed,
+                        frame_length=1024,
+                    )
+                    tsm.run(reader, writer)
+            return AudioSegment.from_file(out_wav, format="wav")
+    except Exception as e:
+        log_print(
+            "WARN",
+            f"audiotsm speed-up failed, fallback to pydub: {e}",
+        )
+        try:
+            return effects.speedup(
+                audio, playback_speed=speed, chunk_size=120, crossfade=20
+            )
+        except Exception:
+            return audio
 
 
 def _save_fast_catchup_audio(
@@ -2623,7 +2682,9 @@ def handle_start(data: dict):
         _active_runtime_sid, \
         _airpods_mode_switch_enabled, \
         _transcript_compression_mode, \
-        _fast_catchup_threshold_sec_runtime
+        _fast_catchup_threshold_sec_runtime, \
+        _fast_catchup_speed_runtime, \
+        _fast_catchup_gap_sec_runtime
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -2717,6 +2778,24 @@ def handle_start(data: dict):
             _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
         _fast_catchup_threshold_sec_runtime = max(
             1.0, min(30.0, _fast_catchup_threshold_sec_runtime)
+        )
+        try:
+            _fast_catchup_speed_runtime = float(
+                data.get("fast_catchup_speed", _FAST_CATCHUP_DEFAULT_SPEED)
+                or _FAST_CATCHUP_DEFAULT_SPEED
+            )
+        except Exception:
+            _fast_catchup_speed_runtime = _FAST_CATCHUP_DEFAULT_SPEED
+        _fast_catchup_speed_runtime = max(1.0, min(3.0, _fast_catchup_speed_runtime))
+        try:
+            _fast_catchup_gap_sec_runtime = float(
+                data.get("fast_catchup_gap_sec", _FAST_CATCHUP_DEFAULT_GAP_SEC)
+                or _FAST_CATCHUP_DEFAULT_GAP_SEC
+            )
+        except Exception:
+            _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
+        _fast_catchup_gap_sec_runtime = max(
+            0.0, min(2.0, _fast_catchup_gap_sec_runtime)
         )
 
         # Noise gate settings
@@ -3006,6 +3085,8 @@ def handle_end_listening():
                 segment_duration_sec=current_segment_duration_sec,
                 fast_catchup=should_fast_catchup,
                 threshold_sec=threshold_sec,
+                speed=_fast_catchup_speed_runtime,
+                gap_sec=_fast_catchup_gap_sec_runtime,
             )
         else:
             # No summary clients - signal completion immediately
@@ -3030,8 +3111,8 @@ def handle_request_missed_summary(data: dict):
     - padding_after_sec: optional, default 0.0
     - fast_catchup_enabled: optional, default true
     - fast_catchup_threshold_sec: optional, default 10.0
-    - fast_catchup_speed: optional, default 1.6
-    - fast_catchup_gap_sec: optional, default 0.5
+    - fast_catchup_speed: optional, default 1.5
+    - fast_catchup_gap_sec: optional, default 0.0
     - fast_catchup_silence_thresh_db: optional, default -45
     """
     global _segment_seq
@@ -3096,7 +3177,7 @@ def handle_request_missed_summary(data: dict):
     )
     fast_catchup_threshold_sec = max(0.0, min(30.0, fast_catchup_threshold_sec))
     fast_catchup_speed = max(1.0, min(3.0, fast_catchup_speed))
-    fast_catchup_gap_sec = max(0.1, min(2.0, fast_catchup_gap_sec))
+    fast_catchup_gap_sec = max(0.0, min(2.0, fast_catchup_gap_sec))
 
     with _segment_ctx_lock:
         _segment_seq += 1
