@@ -31,6 +31,8 @@ let keywordOutputMode = 'audio'; // 'text' | 'audio'
 let judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
 let reconstructorEnabled = true; // Conversation reconstructor on/off
 let transcriptCompressionMode = 'fastest'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
+let fastCatchupChainEnabled = true;
+let summaryFollowupEnabled = true;
 let keywordTtsPlaying = false; // Track if keyword TTS is playing
 let keywordTtsCurrentText = '';
 let keywordAutoSummarizeTimer = null;
@@ -401,6 +403,18 @@ function setTranscriptCompressionMode(mode) {
     document.getElementById('btn-compress-realtime').classList.toggle('selected', mode === 'realtime');
     document.getElementById('btn-compress-api-mini').classList.toggle('selected', mode === 'api_mini');
     document.getElementById('btn-compress-api-nano').classList.toggle('selected', mode === 'api_nano');
+}
+
+function setFastCatchupChainEnabled(enabled) {
+    fastCatchupChainEnabled = !!enabled;
+    document.getElementById('btn-catchup-chain-on').classList.toggle('selected', fastCatchupChainEnabled);
+    document.getElementById('btn-catchup-chain-off').classList.toggle('selected', !fastCatchupChainEnabled);
+}
+
+function setSummaryFollowupEnabled(enabled) {
+    summaryFollowupEnabled = !!enabled;
+    document.getElementById('btn-summary-followup-on').classList.toggle('selected', summaryFollowupEnabled);
+    document.getElementById('btn-summary-followup-off').classList.toggle('selected', !summaryFollowupEnabled);
 }
 
 function isToneFeedbackEnabled() {
@@ -1587,6 +1601,8 @@ function start(v) {
     params.judge_enabled = judgeEnabled;
     params.reconstructor_enabled = reconstructorEnabled;
     params.transcript_compression_mode = transcriptCompressionMode;
+    params.fast_catchup_chain_enabled = fastCatchupChainEnabled;
+    params.summary_followup_enabled = summaryFollowupEnabled;
     params.airpods_mode_switch_enabled = airpodsModeSwitchEnabled;
 
     socket.emit('start', params);

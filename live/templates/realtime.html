@@ -91,6 +91,16 @@
             <input id="fastCatchupGapSec" type="number" min="0" max="2.0" step="0.1" value="0.0" style="width: 72px;">
         </div>
         <div class="source-select">
+            <span>Catch-up Chain:</span>
+            <button id="btn-catchup-chain-on" class="selected" onclick="setFastCatchupChainEnabled(true)">On</button>
+            <button id="btn-catchup-chain-off" onclick="setFastCatchupChainEnabled(false)">Off</button>
+        </div>
+        <div class="source-select">
+            <span>Summary Follow-up:</span>
+            <button id="btn-summary-followup-on" class="selected" onclick="setSummaryFollowupEnabled(true)">On</button>
+            <button id="btn-summary-followup-off" onclick="setSummaryFollowupEnabled(false)">Off</button>
+        </div>
+        <div class="source-select">
             <span>Judge Agent:</span>
             <button id="btn-judge-on" onclick="setJudgeEnabled(true)">On</button>
             <button id="btn-judge-off" class="selected" onclick="setJudgeEnabled(false)">Off</button>

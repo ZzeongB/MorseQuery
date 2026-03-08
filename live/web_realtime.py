@@ -233,6 +233,8 @@ _FAST_CATCHUP_DENOISE_NOISE_ATTEN_DB = 12.0
 _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
 _fast_catchup_speed_runtime = _FAST_CATCHUP_DEFAULT_SPEED
 _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
+_fast_catchup_chain_enabled_runtime = True
+_summary_followup_enabled_runtime = True
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -1627,7 +1629,10 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     cursor_end = end_ts
     emitted_any = False
 
-    for step in range(_FAST_CATCHUP_CHAIN_MAX_STEPS):
+    max_steps = (
+        _FAST_CATCHUP_CHAIN_MAX_STEPS if _fast_catchup_chain_enabled_runtime else 1
+    )
+    for step in range(max_steps):
         lag_sec = max(0.0, cursor_end - cursor_start)
         if lag_sec <= _FAST_CATCHUP_CHAIN_MIN_LAG_SEC:
             break
@@ -1665,6 +1670,13 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
         _post_tts_followup_cursor_ts, \
         _post_tts_followup_active
     global _post_tts_followup_live_window_open
+
+    if not _summary_followup_enabled_runtime:
+        with _segment_ctx_lock:
+            _post_tts_followup_active = False
+            _post_tts_followup_inflight = False
+            _post_tts_followup_live_window_open = False
+        return
 
     if reason == "user_cancel":
         with _segment_ctx_lock:
@@ -2684,7 +2696,9 @@ def handle_start(data: dict):
         _transcript_compression_mode, \
         _fast_catchup_threshold_sec_runtime, \
         _fast_catchup_speed_runtime, \
-        _fast_catchup_gap_sec_runtime
+        _fast_catchup_gap_sec_runtime, \
+        _fast_catchup_chain_enabled_runtime, \
+        _summary_followup_enabled_runtime
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -2796,6 +2810,12 @@ def handle_start(data: dict):
             _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
         _fast_catchup_gap_sec_runtime = max(
             0.0, min(2.0, _fast_catchup_gap_sec_runtime)
+        )
+        _fast_catchup_chain_enabled_runtime = bool(
+            data.get("fast_catchup_chain_enabled", True)
+        )
+        _summary_followup_enabled_runtime = bool(
+            data.get("summary_followup_enabled", True)
         )
 
         # Noise gate settings
@@ -3032,10 +3052,12 @@ def handle_end_listening():
                     )
                     _segment_windows[_segment_seq]["end_ts"] = ended_at
                     current_segment_duration_sec = max(0.0, ended_at - started_at)
-                    _post_tts_followup_active = True
+                    _post_tts_followup_active = bool(_summary_followup_enabled_runtime)
                     _post_tts_followup_inflight = False
                     _post_tts_followup_cursor_ts = ended_at
-                    _post_tts_followup_live_window_open = True
+                    _post_tts_followup_live_window_open = bool(
+                        _summary_followup_enabled_runtime
+                    )
             for sc in summary_clients:
                 sc.end_listening()
             # Also notify context judge
@@ -3087,6 +3109,8 @@ def handle_end_listening():
                 threshold_sec=threshold_sec,
                 speed=_fast_catchup_speed_runtime,
                 gap_sec=_fast_catchup_gap_sec_runtime,
+                catchup_chain_enabled=_fast_catchup_chain_enabled_runtime,
+                summary_followup_enabled=_summary_followup_enabled_runtime,
             )
         else:
             # No summary clients - signal completion immediately
