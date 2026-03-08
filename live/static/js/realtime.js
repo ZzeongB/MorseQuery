@@ -774,6 +774,9 @@ function handleTtsPlaybackStart(meta = null) {
         return;
     }
 
+    // Summary text should be visible only during actual summary_tts playback.
+    hideSummaryText();
+
     if (meta && meta.type === 'reconstruction') {
         if (autoPreSummarizeEnabled) {
             hideInfo();
@@ -1520,6 +1523,12 @@ function start(v) {
     pendingSkippedIndicator = null;
 
     const params = { source: source };
+    const fastCatchupThresholdEl = document.getElementById('fastCatchupThresholdSec');
+    let fastCatchupThresholdSec = Number(fastCatchupThresholdEl ? fastCatchupThresholdEl.value : 10);
+    if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 10;
+    fastCatchupThresholdSec = Math.min(30, Math.max(1, Math.round(fastCatchupThresholdSec)));
+    if (fastCatchupThresholdEl) fastCatchupThresholdEl.value = String(fastCatchupThresholdSec);
+    params.fast_catchup_threshold_sec = fastCatchupThresholdSec;
     if (source === 'mic') {
         const kw = document.getElementById('keywordMic').value;
         const s1 = document.getElementById('summaryMic1').value;
@@ -1875,9 +1884,6 @@ socket.on('tts_playing', data => {
         summaryFinalizeTimer = null;
     }
     hideLoadingIndicator();
-    if (pendingSummaryTexts.length > 0) {
-        showSummaryText();
-    }
     setTimeout(() => {
         if (ttsPlaying || ttsQueue.length > 0) return;
         playTtsStartFeedback('summary');

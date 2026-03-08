@@ -83,6 +83,10 @@
             <button id="btn-auto-presum-off" onclick="setAutoPreSummarizeEnabled(false)">Off</button>
         </div>
         <div class="source-select">
+            <span>Fast Catch-up X(s):</span>
+            <input id="fastCatchupThresholdSec" type="number" min="1" max="30" step="1" value="10" style="width: 72px;">
+        </div>
+        <div class="source-select">
             <span>Judge Agent:</span>
             <button id="btn-judge-on" onclick="setJudgeEnabled(true)">On</button>
             <button id="btn-judge-off" class="selected" onclick="setJudgeEnabled(false)">Off</button>

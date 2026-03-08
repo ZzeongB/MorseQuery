@@ -26,6 +26,8 @@ from typing import Optional
 import numpy as np
 import openai
 import pyaudio
+from pydub import AudioSegment, effects, silence
+from pydub.utils import make_chunks
 from clients import (
     ConversationReconstructorClient,
     DialogueStore,
@@ -206,6 +208,19 @@ _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
 _dialogue_segment_start_time: float = 0.0
 _DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
 _MISS_PADDING_BEFORE_SEC = 1.0
+_FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 10.0
+_FAST_CATCHUP_DEFAULT_SPEED = 1.6
+_FAST_CATCHUP_DEFAULT_GAP_SEC = 0.5
+_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB = -45.0
+_FAST_CATCHUP_TARGET_RMS_DBFS = -18.0
+_FAST_CATCHUP_TARGET_PEAK_DBFS = -1.5
+_FAST_CATCHUP_CHAIN_MAX_STEPS = 5
+_FAST_CATCHUP_CHAIN_MIN_LAG_SEC = 2.0
+_FAST_CATCHUP_EXTRA_GAIN_DB = 9.5
+_FAST_CATCHUP_DENOISE_ENABLED = True
+_FAST_CATCHUP_DENOISE_CHUNK_MS = 20
+_FAST_CATCHUP_DENOISE_NOISE_ATTEN_DB = 12.0
+_fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -231,6 +246,7 @@ _segment_ctx_lock = threading.Lock()
 _segment_seq = 0
 _segment_windows: dict[int, dict] = {}
 _recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
+_recent_vad_boundaries = deque(maxlen=200)  # (ts, event_type)
 _before_context_lock = threading.Lock()
 _before_context_summary = ""
 _post_tts_followup_active = False
@@ -252,6 +268,7 @@ def _reset_segment_tracking() -> None:
         _segment_seq = 0
         _segment_windows.clear()
         _recent_vad_transcripts.clear()
+        _recent_vad_boundaries.clear()
         _post_tts_followup_active = False
         _post_tts_followup_inflight = False
         _post_tts_followup_cursor_ts = 0.0
@@ -288,6 +305,43 @@ def _on_vad_transcript(transcript: str) -> None:
                     chars=len(text),
                 )
                 break
+
+
+def _on_vad_boundary(event_type: str, payload: dict) -> None:
+    """Track fast speech boundaries from server VAD events."""
+    ts = float((payload or {}).get("received_at_ts") or time.time())
+    et = str(event_type or "").strip().lower()
+    if et not in {"speech_started", "speech_stopped"}:
+        return
+    with _segment_ctx_lock:
+        _recent_vad_boundaries.append((ts, et))
+
+
+def _snap_end_to_vad_stop(
+    target_end_ts: float,
+    wait_sec: float = 0.45,
+    max_lookback_sec: float = 20.0,
+) -> float:
+    """Snap an end timestamp to the nearest recent speech_stopped boundary."""
+    target = float(target_end_ts or 0.0)
+    if target <= 0:
+        return target
+    deadline = time.time() + max(0.0, float(wait_sec))
+    while True:
+        with _segment_ctx_lock:
+            candidates = [
+                ts
+                for ts, et in _recent_vad_boundaries
+                if et == "speech_stopped"
+                and ts >= target
+                and ts <= target + max_lookback_sec
+            ]
+        if candidates:
+            return min(candidates)
+        if time.time() >= deadline:
+            break
+        time.sleep(0.03)
+    return target
 
 
 def _get_current_keywords_with_desc(limit: int = 3) -> list[dict]:
@@ -1073,7 +1127,7 @@ def _save_dialogue_json(
         logs_dir = get_session_subdir(session_id, "dialogue")
         logs_dir.mkdir(parents=True, exist_ok=True)
 
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         filename = f"{timestamp}_seg{segment_id}_{session_id}_dialogue.json"
         filepath = logs_dir / filename
 
@@ -1542,6 +1596,53 @@ def _trigger_parallel_compression_after_delay(
     _trigger_parallel_compression(segment_id, session_id)
 
 
+def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
+    """Try iterative source-audio fast catch-up for one listening segment."""
+    with _segment_ctx_lock:
+        segment_window = dict(_segment_windows.get(segment_id, {}))
+    start_ts = float(segment_window.get("start_ts") or 0.0)
+    end_ts = float(segment_window.get("end_ts") or 0.0)
+    if start_ts <= 0:
+        return False
+    if end_ts <= start_ts:
+        end_ts = time.time()
+    end_ts = _snap_end_to_vad_stop(end_ts)
+
+    # Round 1: the original missed segment [start, end]
+    cursor_start = start_ts
+    cursor_end = end_ts
+    emitted_any = False
+
+    for step in range(_FAST_CATCHUP_CHAIN_MAX_STEPS):
+        lag_sec = max(0.0, cursor_end - cursor_start)
+        if lag_sec <= _FAST_CATCHUP_CHAIN_MIN_LAG_SEC:
+            break
+
+        dialogue, _entries = _get_dialogue_by_time_window(cursor_start, cursor_end)
+        output_sec = _synthesize_fast_catchup_dialogue(
+            dialogue=dialogue,
+            segment_id=segment_id,
+            session_id=session_id,
+            start_ts=cursor_start,
+            end_ts=cursor_end,
+            speed=_FAST_CATCHUP_DEFAULT_SPEED,
+            gap_sec=_FAST_CATCHUP_DEFAULT_GAP_SEC,
+            silence_thresh_db=_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
+            trigger_source=f"segment_fast_catchup_source_step{step + 1}",
+        )
+        if output_sec <= 0:
+            return emitted_any
+        emitted_any = True
+
+        # Wait approximately for emitted audio playback, then catch the newly
+        # accumulated lag window [previous_end, now].
+        time.sleep(min(8.0, output_sec))
+        cursor_start = cursor_end
+        cursor_end = _snap_end_to_vad_stop(time.time())
+
+    return emitted_any
+
+
 def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> None:
     """If new VAD arrived after end_listening, compress+TTS it as follow-up."""
     global \
@@ -1628,6 +1729,203 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
                 _post_tts_followup_inflight = False
 
     threading.Thread(target=_run_followup, daemon=True).start()
+
+
+def _apply_fast_catchup_to_segment(
+    audio: AudioSegment,
+    *,
+    speed: float = _FAST_CATCHUP_DEFAULT_SPEED,
+    gap_sec: float = _FAST_CATCHUP_DEFAULT_GAP_SEC,
+    silence_thresh_db: float = _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
+) -> AudioSegment:
+    """Apply gap removal + speed-up to an AudioSegment."""
+    if audio is None or len(audio) <= 0:
+        return audio
+    speed = max(1.0, min(3.0, float(speed or _FAST_CATCHUP_DEFAULT_SPEED)))
+    gap_sec = max(0.1, min(2.0, float(gap_sec or _FAST_CATCHUP_DEFAULT_GAP_SEC)))
+    min_silence_len_ms = int(gap_sec * 1000.0)
+    keep_silence_ms = 35
+
+    # Pre-denoise before silence trim/speed-up:
+    # 1) speech-band filters, 2) attenuate very low-level chunks.
+    if _FAST_CATCHUP_DENOISE_ENABLED:
+        try:
+            audio = audio.high_pass_filter(90).low_pass_filter(7600)
+            chunk_ms = max(10, int(_FAST_CATCHUP_DENOISE_CHUNK_MS))
+            noise_chunks = make_chunks(audio, chunk_ms)
+            noise_floor = (
+                min(-34.0, float(audio.dBFS) - 12.0)
+                if audio.dBFS != float("-inf")
+                else -40.0
+            )
+            denoised = AudioSegment.silent(duration=0, frame_rate=audio.frame_rate)
+            for chunk in noise_chunks:
+                if chunk.dBFS == float("-inf") or chunk.dBFS < noise_floor:
+                    denoised += chunk - float(_FAST_CATCHUP_DENOISE_NOISE_ATTEN_DB)
+                else:
+                    denoised += chunk
+            if len(denoised) > 0:
+                audio = denoised
+        except Exception:
+            pass
+
+    try:
+        spans = silence.detect_nonsilent(
+            audio,
+            min_silence_len=min_silence_len_ms,
+            silence_thresh=float(silence_thresh_db),
+        )
+        if spans:
+            compact = AudioSegment.silent(duration=0, frame_rate=audio.frame_rate)
+            for start_ms, end_ms in spans:
+                lo = max(0, start_ms - keep_silence_ms)
+                hi = min(len(audio), end_ms + keep_silence_ms)
+                compact += audio[lo:hi]
+            audio = compact
+    except Exception:
+        pass
+
+    if speed > 1.01:
+        try:
+            audio = effects.speedup(
+                audio, playback_speed=speed, chunk_size=120, crossfade=20
+            )
+        except Exception:
+            pass
+
+    # Match perceived level close to Cartesia TTS:
+    # - raise RMS toward target
+    # - clamp by peak headroom to avoid clipping
+    try:
+        if audio.max_dBFS != float("-inf"):
+            rms_gain = float(_FAST_CATCHUP_TARGET_RMS_DBFS) - float(audio.dBFS)
+            peak_headroom = float(_FAST_CATCHUP_TARGET_PEAK_DBFS) - float(audio.max_dBFS)
+            gain_db = min(rms_gain, peak_headroom)
+            if gain_db > 0.0:
+                audio = audio.apply_gain(gain_db)
+    except Exception:
+        pass
+    # User-requested extra loudness boost (~3x amplitude).
+    try:
+        audio = audio.apply_gain(float(_FAST_CATCHUP_EXTRA_GAIN_DB))
+    except Exception:
+        pass
+    return audio
+
+
+def _save_fast_catchup_audio(
+    *,
+    session_id: str,
+    segment_id: int,
+    wav_bytes: bytes,
+    speed: float,
+    gap_sec: float,
+) -> Optional[str]:
+    """Persist fast-catchup audio for debugging/replay."""
+    if not wav_bytes:
+        return None
+    try:
+        out_dir = get_session_subdir(session_id, "fast_catchup")
+        out_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = (
+            f"{timestamp}_seg{segment_id}_x{speed:.2f}_gap{gap_sec:.2f}_fastcatchup.wav"
+        )
+        path = out_dir / filename
+        with open(path, "wb") as f:
+            f.write(wav_bytes)
+        return str(path)
+    except Exception as e:
+        log_print(
+            "WARN",
+            f"Failed to save fast catch-up audio: {e}",
+            session_id=session_id,
+            segment_id=segment_id,
+        )
+        return None
+
+
+def _synthesize_fast_catchup_dialogue(
+    dialogue: str,
+    segment_id: int,
+    session_id: str,
+    *,
+    start_ts: float = 0.0,
+    end_ts: float = 0.0,
+    speed: float = _FAST_CATCHUP_DEFAULT_SPEED,
+    gap_sec: float = _FAST_CATCHUP_DEFAULT_GAP_SEC,
+    silence_thresh_db: float = _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
+    trigger_source: str = "missed_fast_catchup",
+) -> float:
+    """Emit fast catch-up from original source audio (not TTS)."""
+    with _clients_lock:
+        current_client = client
+    if not current_client:
+        return 0.0
+
+    try:
+        pcm = current_client.get_audio_window_pcm(start_ts, end_ts)
+    except Exception:
+        return 0.0
+    if not pcm:
+        return 0.0
+
+    source_audio = AudioSegment(
+        data=pcm,
+        sample_width=2,
+        frame_rate=24000,
+        channels=1,
+    )
+    processed_audio = _apply_fast_catchup_to_segment(
+        source_audio,
+        speed=speed,
+        gap_sec=gap_sec,
+        silence_thresh_db=silence_thresh_db,
+    )
+    if processed_audio is None or len(processed_audio) <= 0:
+        return 0.0
+    out_io = io.BytesIO()
+    processed_audio.export(out_io, format="wav")
+    processed_wav = out_io.getvalue()
+    if not processed_wav:
+        return 0.0
+    saved_path = _save_fast_catchup_audio(
+        session_id=session_id,
+        segment_id=segment_id,
+        wav_bytes=processed_wav,
+        speed=speed,
+        gap_sec=gap_sec,
+    )
+
+    method = f"fast_catchup_source_{speed:.2f}x_nogap{gap_sec:.2f}s"
+    sio.emit(
+        "compressed_dialogue_tts",
+        {
+            "segment_id": segment_id,
+            "audio": base64.b64encode(processed_wav).decode("utf-8"),
+            "text": str(dialogue or ""),
+            "format": "wav",
+            "sample_rate": 24000,
+            "method": method,
+            "trigger_source": trigger_source,
+            "turn_count": 0,
+            "saved_path": saved_path,
+        },
+        to=session_id,
+    )
+    log_print(
+        "INFO",
+        "Fast catch-up emitted (source audio)",
+        session_id=session_id,
+        segment_id=segment_id,
+        source_duration_ms=len(source_audio),
+        output_duration_ms=len(processed_audio),
+        speed=speed,
+        gap_sec=gap_sec,
+        silence_thresh_db=silence_thresh_db,
+        saved_path=saved_path,
+    )
+    return max(0.0, len(processed_audio) / 1000.0)
 
 
 def _synthesize_compressed_dialogue(
@@ -2324,7 +2622,8 @@ def handle_start(data: dict):
         keyword_tts_client, \
         _active_runtime_sid, \
         _airpods_mode_switch_enabled, \
-        _transcript_compression_mode
+        _transcript_compression_mode, \
+        _fast_catchup_threshold_sec_runtime
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -2406,6 +2705,19 @@ def handle_start(data: dict):
             _transcript_compression_mode = requested_mode
         else:
             _transcript_compression_mode = "realtime"
+        try:
+            _fast_catchup_threshold_sec_runtime = float(
+                data.get(
+                    "fast_catchup_threshold_sec",
+                    _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC,
+                )
+                or _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
+            )
+        except Exception:
+            _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
+        _fast_catchup_threshold_sec_runtime = max(
+            1.0, min(30.0, _fast_catchup_threshold_sec_runtime)
+        )
 
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})
@@ -2441,6 +2753,7 @@ def handle_start(data: dict):
         if enable_noise_gate and client.noise_gate:
             client.set_noise_threshold(noise_gate_data.get("threshold", 500))
         client.add_vad_transcript_callback(_on_vad_transcript)
+        client.add_vad_boundary_callback(_on_vad_boundary)
 
         # Create one SummaryClient per summary source.
         summary_input_count = (
@@ -2630,11 +2943,16 @@ def handle_end_listening():
 
     with _clients_lock:
         if summary_clients:
+            current_segment_duration_sec = 0.0
             with _segment_ctx_lock:
                 current_segment_id = _segment_seq
                 if _segment_seq > 0 and _segment_seq in _segment_windows:
                     ended_at = time.time()
+                    started_at = float(
+                        _segment_windows[_segment_seq].get("start_ts") or ended_at
+                    )
                     _segment_windows[_segment_seq]["end_ts"] = ended_at
+                    current_segment_duration_sec = max(0.0, ended_at - started_at)
                     _post_tts_followup_active = True
                     _post_tts_followup_inflight = False
                     _post_tts_followup_cursor_ts = ended_at
@@ -2649,18 +2967,45 @@ def handle_end_listening():
             if transcript_reconstructor:
                 transcript_reconstructor.end_listening()
 
-            # Trigger parallel compression of VAD transcripts
-            threading.Thread(
-                target=_trigger_parallel_compression_after_delay,
-                args=(current_segment_id, session_id),
-                daemon=True,
-            ).start()
+            threshold_sec = float(_fast_catchup_threshold_sec_runtime)
+            should_fast_catchup = (
+                current_segment_duration_sec > 0
+                and current_segment_duration_sec <= threshold_sec
+            )
+            if should_fast_catchup:
+                with _segment_ctx_lock:
+                    # Fast catch-up path should not trigger post-TTS follow-up compression.
+                    _post_tts_followup_active = False
+                    _post_tts_followup_inflight = False
+                    _post_tts_followup_live_window_open = False
+
+                def _run_fast_catchup_or_fallback():
+                    ok = _try_fast_catchup_for_segment(current_segment_id, session_id)
+                    if ok:
+                        return
+                    _trigger_parallel_compression_after_delay(
+                        current_segment_id, session_id
+                    )
+
+                threading.Thread(
+                    target=_run_fast_catchup_or_fallback,
+                    daemon=True,
+                ).start()
+            else:
+                threading.Thread(
+                    target=_trigger_parallel_compression_after_delay,
+                    args=(current_segment_id, session_id),
+                    daemon=True,
+                ).start()
 
             log_print(
                 "INFO",
                 "End listening, requesting summary",
                 session_id=session_id,
                 clients=len(summary_clients),
+                segment_duration_sec=current_segment_duration_sec,
+                fast_catchup=should_fast_catchup,
+                threshold_sec=threshold_sec,
             )
         else:
             # No summary clients - signal completion immediately
@@ -2683,6 +3028,11 @@ def handle_request_missed_summary(data: dict):
     - miss_end_ts: epoch sec/ms
     - padding_before_sec: optional, default 1.0
     - padding_after_sec: optional, default 0.0
+    - fast_catchup_enabled: optional, default true
+    - fast_catchup_threshold_sec: optional, default 10.0
+    - fast_catchup_speed: optional, default 1.6
+    - fast_catchup_gap_sec: optional, default 0.5
+    - fast_catchup_silence_thresh_db: optional, default -45
     """
     global _segment_seq
 
@@ -2719,8 +3069,34 @@ def handle_request_missed_summary(data: dict):
 
     window_start = max(0.0, start_ts - pad_before)
     window_end = max(window_start, end_ts + pad_after)
+    miss_duration_sec = max(0.0, float(end_ts - start_ts))
     dialogue, entries = _get_dialogue_by_time_window(window_start, window_end)
     before_context = _collect_context_before_start_ts(window_start)
+
+    fast_catchup_enabled = bool(payload.get("fast_catchup_enabled", True))
+    fast_catchup_threshold_sec = float(
+        payload.get(
+            "fast_catchup_threshold_sec", _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
+        )
+        or _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
+    )
+    fast_catchup_speed = float(
+        payload.get("fast_catchup_speed", _FAST_CATCHUP_DEFAULT_SPEED)
+        or _FAST_CATCHUP_DEFAULT_SPEED
+    )
+    fast_catchup_gap_sec = float(
+        payload.get("fast_catchup_gap_sec", _FAST_CATCHUP_DEFAULT_GAP_SEC)
+        or _FAST_CATCHUP_DEFAULT_GAP_SEC
+    )
+    fast_catchup_silence_thresh_db = float(
+        payload.get(
+            "fast_catchup_silence_thresh_db", _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
+        )
+        or _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
+    )
+    fast_catchup_threshold_sec = max(0.0, min(30.0, fast_catchup_threshold_sec))
+    fast_catchup_speed = max(1.0, min(3.0, fast_catchup_speed))
+    fast_catchup_gap_sec = max(0.1, min(2.0, fast_catchup_gap_sec))
 
     with _segment_ctx_lock:
         _segment_seq += 1
@@ -2764,8 +3140,60 @@ def handle_request_missed_summary(data: dict):
         miss_end_ts=end_ts,
         window_start_ts=window_start,
         window_end_ts=window_end,
+        miss_duration_sec=miss_duration_sec,
         entries=len(entries),
     )
+
+    should_fast_catchup = (
+        fast_catchup_enabled
+        and miss_duration_sec > 0
+        and miss_duration_sec <= fast_catchup_threshold_sec
+    )
+    if should_fast_catchup:
+        log_print(
+            "INFO",
+            "Using fast catch-up for missed window",
+            session_id=session_id,
+            segment_id=segment_id,
+            miss_duration_sec=miss_duration_sec,
+            threshold_sec=fast_catchup_threshold_sec,
+            speed=fast_catchup_speed,
+            gap_sec=fast_catchup_gap_sec,
+        )
+
+        def _run_fast_catchup_with_fallback():
+            output_sec = _synthesize_fast_catchup_dialogue(
+                dialogue=dialogue,
+                segment_id=segment_id,
+                session_id=session_id,
+                start_ts=window_start,
+                end_ts=window_end,
+                speed=fast_catchup_speed,
+                gap_sec=fast_catchup_gap_sec,
+                silence_thresh_db=fast_catchup_silence_thresh_db,
+                trigger_source="missed_fast_catchup_source",
+            )
+            if output_sec > 0:
+                return
+            _trigger_parallel_compression_for_dialogue(
+                dialogue=dialogue,
+                segment_id=segment_id,
+                session_id=session_id,
+                before_context=before_context,
+                trigger_source="missed_timestamp",
+                window={
+                    "miss_start_ts": start_ts,
+                    "miss_end_ts": end_ts,
+                    "window_start_ts": window_start,
+                    "window_end_ts": window_end,
+                    "padding_before_sec": pad_before,
+                    "padding_after_sec": pad_after,
+                },
+                entries=entries,
+            )
+
+        threading.Thread(target=_run_fast_catchup_with_fallback, daemon=True).start()
+        return
 
     threading.Thread(
         target=_trigger_parallel_compression_for_dialogue,

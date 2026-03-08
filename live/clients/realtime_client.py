@@ -59,6 +59,7 @@ class RealtimeClient:
         self._ws_lock = threading.Lock()
         self._state_lock = threading.Lock()
         self._shutdown_event = threading.Event()
+        self._audio_ring_lock = threading.Lock()
 
         # Session recording
         self.user_actions: list[dict] = []  # Track user keyword requests with timing
@@ -67,10 +68,13 @@ class RealtimeClient:
         ] = []  # Last parsed keyword list with descriptions
         self.stream_start_time: float = 0.0  # Audio stream start timestamp
         self.recording_buffer: list[bytes] = []  # Audio recording
+        self._audio_ring: deque[tuple[float, float, bytes]] = deque()
+        self._audio_ring_retention_sec = 20 * 60
 
         # Reference to summary clients for forwarding transcripts
         self.summary_clients: list = []
         self._vad_transcript_callbacks: list = []
+        self._vad_boundary_callbacks: list = []
         self._vad_transcript_history: deque[str] = deque(maxlen=120)
 
         # Noise gate for filtering ambient audio
@@ -122,6 +126,17 @@ class RealtimeClient:
         if callback is None:
             return
         self._vad_transcript_callbacks.append(callback)
+
+    def add_vad_boundary_callback(self, callback) -> None:
+        """Register callback called with VAD speech boundary events.
+
+        Callback signature:
+            callback(event_type: str, payload: dict) -> None
+        where event_type is one of {"speech_started", "speech_stopped"}.
+        """
+        if callback is None:
+            return
+        self._vad_boundary_callbacks.append(callback)
 
     def on_open(self, ws: websocket.WebSocketApp) -> None:
         """Handle WebSocket connection opened."""
@@ -185,6 +200,10 @@ class RealtimeClient:
             transcript = event.get("transcript", "")
             if transcript and transcript.strip():
                 self._handle_vad_transcript(transcript.strip())
+        elif etype == "input_audio_buffer.speech_started":
+            self._handle_vad_boundary("speech_started", event)
+        elif etype == "input_audio_buffer.speech_stopped":
+            self._handle_vad_boundary("speech_stopped", event)
         elif etype == "response.text.delta":
             delta = event.get("delta", "")
             if delta:
@@ -218,6 +237,26 @@ class RealtimeClient:
                 log_print(
                     "WARN",
                     f"VAD transcript callback failed: {e}",
+                    session_id=self.session_id,
+                )
+
+    def _handle_vad_boundary(self, boundary_type: str, event: dict) -> None:
+        """Handle speech start/stop boundary events from server VAD."""
+        payload = {
+            "boundary_type": boundary_type,
+            "received_at_ts": time.time(),
+            "audio_start_ms": event.get("audio_start_ms"),
+            "audio_end_ms": event.get("audio_end_ms"),
+            "item_id": event.get("item_id"),
+        }
+        self.logger.log("vad_boundary", **payload)
+        for callback in self._vad_boundary_callbacks:
+            try:
+                callback(boundary_type, payload)
+            except Exception as e:
+                log_print(
+                    "WARN",
+                    f"VAD boundary callback failed: {e}",
                     session_id=self.session_id,
                 )
 
@@ -776,6 +815,14 @@ class RealtimeClient:
         """Send audio chunk to OpenAI. Returns False if send failed."""
         # Record audio
         self.recording_buffer.append(chunk)
+        now = time.time()
+        chunk_duration = (len(chunk) / 2.0) / float(AUDIO_RATE)
+        chunk_start = now - chunk_duration
+        with self._audio_ring_lock:
+            self._audio_ring.append((chunk_start, now, bytes(chunk)))
+            cutoff = now - float(self._audio_ring_retention_sec)
+            while self._audio_ring and self._audio_ring[0][1] < cutoff:
+                self._audio_ring.popleft()
 
         audio_b64 = base64.b64encode(chunk).decode()
         with self._ws_lock:
@@ -793,6 +840,43 @@ class RealtimeClient:
             except Exception:
                 return False
         return False
+
+    def get_audio_window_pcm(self, start_ts: float, end_ts: float) -> bytes:
+        """Return mono PCM16 bytes for [start_ts, end_ts] from rolling audio."""
+        start_ts = float(start_ts or 0.0)
+        end_ts = float(end_ts or 0.0)
+        if start_ts <= 0 or end_ts <= 0:
+            return b""
+        if end_ts < start_ts:
+            start_ts, end_ts = end_ts, start_ts
+        with self._audio_ring_lock:
+            chunks = list(self._audio_ring)
+        if not chunks:
+            return b""
+
+        out_parts: list[bytes] = []
+        bytes_per_sample = 2
+        for chunk_start, chunk_end, chunk in chunks:
+            if chunk_end <= start_ts or chunk_start >= end_ts:
+                continue
+            ov_start = max(start_ts, chunk_start)
+            ov_end = min(end_ts, chunk_end)
+            if ov_end <= ov_start:
+                continue
+            duration = max(1e-6, chunk_end - chunk_start)
+            start_ratio = (ov_start - chunk_start) / duration
+            end_ratio = (ov_end - chunk_start) / duration
+            chunk_samples = len(chunk) // bytes_per_sample
+            i0 = int(max(0, min(chunk_samples, round(start_ratio * chunk_samples))))
+            i1 = int(max(0, min(chunk_samples, round(end_ratio * chunk_samples))))
+            if i1 <= i0:
+                continue
+            b0 = i0 * bytes_per_sample
+            b1 = i1 * bytes_per_sample
+            out_parts.append(chunk[b0:b1])
+        if not out_parts:
+            return b""
+        return b"".join(out_parts)
 
     def request(self) -> None:
         """Request keyword extraction from accumulated audio."""
