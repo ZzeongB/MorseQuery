@@ -640,6 +640,7 @@ function start(v) {
     params.transcript_compression_mode = transcriptCompressionMode;
     params.fast_catchup_chain_enabled = fastCatchupChainEnabled;
     params.summary_followup_enabled = summaryFollowupEnabled;
+    params.missed_summary_latency_bridge_enabled = missedSummaryLatencyBridgeEnabled;
     params.airpods_mode_switch_enabled = airpodsModeSwitchEnabled;
 
     socket.emit('start', params);
@@ -720,4 +721,3 @@ function clearAllActiveUiAndAudio() {
 // ============================================================================
 // Input Handling
 // ============================================================================
-

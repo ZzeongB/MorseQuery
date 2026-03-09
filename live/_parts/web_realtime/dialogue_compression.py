@@ -309,6 +309,188 @@ def _save_dialogue_json(
         )
 
 
+def _emit_missed_summary_latency_bridge(
+    *,
+    segment_id: int,
+    session_id: str,
+    window: dict | None,
+) -> bool:
+    """After summary TTS synthesis, fast-catch up post-summary latency audio."""
+    payload = window or {}
+    if not bool(payload.get("missed_summary_latency_bridge_enabled", False)):
+        log_print(
+            "INFO",
+            "Latency bridge skipped: disabled",
+            session_id=session_id,
+            segment_id=segment_id,
+            trigger_source=payload.get("trigger_source", ""),
+        )
+        return False
+
+    bridge_decision_ts = float(payload.get("bridge_decision_ts") or 0.0)
+    summary_started_ts = float(payload.get("summary_started_ts") or 0.0)
+    window_end_ts = float(payload.get("window_end_ts") or 0.0)
+    bridge_start_ts = max(bridge_decision_ts, summary_started_ts, window_end_ts)
+    if bridge_start_ts <= 0:
+        log_print(
+            "INFO",
+            "Latency bridge skipped: invalid start",
+            session_id=session_id,
+            segment_id=segment_id,
+            summary_started_ts=summary_started_ts,
+            bridge_decision_ts=bridge_decision_ts,
+            window_end_ts=window_end_ts,
+        )
+        return False
+
+    bridge_end_ts = time.time()
+    lag_sec = max(0.0, bridge_end_ts - bridge_start_ts)
+    bridge_window_sec = max(0.0, bridge_end_ts - bridge_start_ts)
+    if lag_sec < 0.2:
+        log_print(
+            "INFO",
+            "Latency bridge skipped: tiny lag",
+            session_id=session_id,
+            segment_id=segment_id,
+            lag_sec=lag_sec,
+            summary_started_ts=summary_started_ts,
+            bridge_decision_ts=bridge_decision_ts,
+            window_end_ts=window_end_ts,
+            bridge_start_ts=bridge_start_ts,
+            bridge_end_ts=bridge_end_ts,
+            bridge_window_sec=bridge_window_sec,
+        )
+        return False
+
+    speed = max(
+        1.0,
+        min(
+            3.0,
+            float(payload.get("fast_catchup_speed", _fast_catchup_speed_runtime) or _fast_catchup_speed_runtime),
+        ),
+    )
+    gap_sec = max(
+        0.0,
+        min(
+            2.0,
+            float(payload.get("fast_catchup_gap_sec", _fast_catchup_gap_sec_runtime) or _fast_catchup_gap_sec_runtime),
+        ),
+    )
+    silence_thresh_db = float(
+        payload.get("fast_catchup_silence_thresh_db", _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB)
+        or _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
+    )
+    bridge_dialogue, bridge_entries = _get_dialogue_by_time_window(
+        bridge_start_ts, bridge_end_ts
+    )
+    if not bridge_dialogue.strip():
+        log_print(
+            "INFO",
+            "Latency bridge skipped: no dialogue",
+            session_id=session_id,
+            segment_id=segment_id,
+            summary_started_ts=summary_started_ts,
+            window_end_ts=window_end_ts,
+            bridge_start_ts=bridge_start_ts,
+            bridge_end_ts=bridge_end_ts,
+            bridge_window_sec=bridge_window_sec,
+            lag_sec=lag_sec,
+            bridge_entry_count=len(bridge_entries),
+        )
+        return False
+
+    output_sec = _synthesize_fast_catchup_dialogue(
+        dialogue=bridge_dialogue,
+        segment_id=segment_id,
+        session_id=session_id,
+        start_ts=bridge_start_ts,
+        end_ts=bridge_end_ts,
+        speed=speed,
+        gap_sec=gap_sec,
+        silence_thresh_db=silence_thresh_db,
+        trigger_source="missed_summary_latency_bridge",
+    )
+    if output_sec <= 0:
+        return False
+    log_print(
+        "INFO",
+        "Missed-summary latency bridge emitted",
+        session_id=session_id,
+        segment_id=segment_id,
+        bridge_lag_sec=lag_sec,
+        summary_started_ts=summary_started_ts,
+        bridge_decision_ts=bridge_decision_ts,
+        window_end_ts=window_end_ts,
+        bridge_start_ts=bridge_start_ts,
+        bridge_end_ts=bridge_end_ts,
+        bridge_window_sec=bridge_window_sec,
+        bridge_entry_count=len(bridge_entries),
+        output_sec=output_sec,
+        speed=speed,
+        gap_sec=gap_sec,
+    )
+    return True
+
+
+def _register_pending_latency_bridge(
+    *,
+    session_id: str,
+    segment_id: int,
+    trigger_source: str,
+    window: dict | None,
+) -> None:
+    payload = dict(window or {})
+    if not bool(payload.get("missed_summary_latency_bridge_enabled", False)):
+        return
+    if trigger_source not in ("segment", "missed_timestamp"):
+        return
+    with _segment_ctx_lock:
+        _pending_latency_bridge_by_session[session_id] = {
+            "segment_id": int(segment_id),
+            "trigger_source": trigger_source,
+            "window": payload,
+            "registered_at_ts": time.time(),
+        }
+    log_print(
+        "INFO",
+        "Latency bridge armed",
+        session_id=session_id,
+        segment_id=segment_id,
+        trigger_source=trigger_source,
+        bridge_decision_ts=payload.get("bridge_decision_ts"),
+        window_end_ts=payload.get("window_end_ts"),
+    )
+
+
+def _has_pending_latency_bridge(session_id: str) -> bool:
+    with _segment_ctx_lock:
+        return session_id in _pending_latency_bridge_by_session
+
+
+def _emit_pending_latency_bridge_if_needed(session_id: str, reason: str = "") -> bool:
+    with _segment_ctx_lock:
+        pending = _pending_latency_bridge_by_session.pop(session_id, None)
+    if not pending:
+        return False
+    try:
+        window = dict(pending.get("window") or {})
+        window["trigger_source"] = pending.get("trigger_source", "")
+        return _emit_missed_summary_latency_bridge(
+            segment_id=int(pending.get("segment_id") or 0),
+            session_id=session_id,
+            window=window,
+        )
+    except Exception as e:
+        log_print(
+            "WARN",
+            f"Latency bridge emit failed: {e}",
+            session_id=session_id,
+            segment_id=int(pending.get("segment_id") or 0),
+            reason=reason or "browser_tts_done",
+        )
+        return False
+
+
 def _trigger_parallel_compression_for_dialogue(
     dialogue: str,
     segment_id: int,
@@ -320,6 +502,24 @@ def _trigger_parallel_compression_for_dialogue(
 ) -> None:
     """Run 3-path compression for provided dialogue and auto-select output."""
     session_logger = get_logger(session_id)
+    summary_started_ts = time.time()
+    window_payload = dict(window or {})
+    if summary_started_ts > 0:
+        window_payload["summary_started_ts"] = summary_started_ts
+    window_payload.setdefault("bridge_decision_ts", summary_started_ts)
+    window_payload.setdefault(
+        "missed_summary_latency_bridge_enabled",
+        bool(_missed_summary_latency_bridge_enabled_runtime),
+    )
+    window_payload.setdefault("fast_catchup_speed", float(_fast_catchup_speed_runtime))
+    window_payload.setdefault(
+        "fast_catchup_gap_sec", float(_fast_catchup_gap_sec_runtime)
+    )
+    window_payload.setdefault(
+        "fast_catchup_silence_thresh_db",
+        float(_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB),
+    )
+    window_payload["trigger_source"] = trigger_source
     if trigger_source == "segment":
         with _segment_ctx_lock:
             _segment_compression_inflight.add(segment_id)
@@ -352,7 +552,7 @@ def _trigger_parallel_compression_for_dialogue(
         segment_id,
         session_id,
         entries_override=entries,
-        window=window,
+        window=window_payload,
     )
 
     log_print(
@@ -556,6 +756,7 @@ def _trigger_parallel_compression_for_dialogue(
                 "segment_id": segment_id,
                 "trigger_source": trigger_source,
                 "window": window or {},
+                "summary_started_ts": summary_started_ts,
                 "entry_count": len(entries or []),
                 "before_context": before_context,
                 "original_dialogue": dialogue,
@@ -620,6 +821,12 @@ def _trigger_parallel_compression_for_dialogue(
                 chosen_method,
                 trigger_source=trigger_source,
             )
+            _register_pending_latency_bridge(
+                session_id=session_id,
+                segment_id=segment_id,
+                trigger_source=trigger_source,
+                window=window_payload,
+            )
             if trigger_source == "segment":
                 _on_segment_compression_finished(segment_id, session_id)
             return
@@ -663,6 +870,9 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
             "slice_end_ts": slice_end_ts,
             "tail_grace_sec": _SEGMENT_TAIL_GRACE_SEC,
         }
+        bridge_decision_ts = float(segment_window.get("bridge_decision_ts") or 0.0)
+        if bridge_decision_ts > 0:
+            window_payload["bridge_decision_ts"] = bridge_decision_ts
 
         # Watermark gate: wait until observed transcript count stops growing
         # for a quiet window, then compress.
@@ -867,4 +1077,3 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     if (not has_open_utterance) and had_pending and (not session_has_pending):
         _emit_fast_catchup_pending(session_id, False, segment_id)
     return emitted_any
-

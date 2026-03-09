@@ -85,7 +85,8 @@ def handle_start(data: dict):
         _fast_catchup_speed_runtime, \
         _fast_catchup_gap_sec_runtime, \
         _fast_catchup_chain_enabled_runtime, \
-        _summary_followup_enabled_runtime
+        _summary_followup_enabled_runtime, \
+        _missed_summary_latency_bridge_enabled_runtime
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -203,6 +204,9 @@ def handle_start(data: dict):
         )
         _summary_followup_enabled_runtime = bool(
             data.get("summary_followup_enabled", False)
+        )
+        _missed_summary_latency_bridge_enabled_runtime = bool(
+            data.get("missed_summary_latency_bridge_enabled", False)
         )
 
         # Noise gate settings
@@ -484,6 +488,9 @@ def handle_end_listening():
                     daemon=True,
                 ).start()
             else:
+                with _segment_ctx_lock:
+                    if current_segment_id > 0 and current_segment_id in _segment_windows:
+                        _segment_windows[current_segment_id]["bridge_decision_ts"] = time.time()
                 threading.Thread(
                     target=_trigger_parallel_compression_after_delay,
                     args=(current_segment_id, session_id),
@@ -570,6 +577,12 @@ def handle_request_missed_summary(data: dict):
     before_context = _collect_context_before_start_ts(window_start)
 
     fast_catchup_enabled = bool(payload.get("fast_catchup_enabled", True))
+    missed_summary_latency_bridge_enabled = bool(
+        payload.get(
+            "missed_summary_latency_bridge_enabled",
+            _missed_summary_latency_bridge_enabled_runtime,
+        )
+    )
     fast_catchup_threshold_sec = float(
         payload.get(
             "fast_catchup_threshold_sec", _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
@@ -671,6 +684,7 @@ def handle_request_missed_summary(data: dict):
             )
             if output_sec > 0:
                 return
+            fallback_decision_ts = time.time()
             _trigger_parallel_compression_for_dialogue(
                 dialogue=dialogue,
                 segment_id=segment_id,
@@ -678,12 +692,17 @@ def handle_request_missed_summary(data: dict):
                 before_context=before_context,
                 trigger_source="missed_timestamp",
                 window={
+                    "bridge_decision_ts": fallback_decision_ts,
                     "miss_start_ts": start_ts,
                     "miss_end_ts": end_ts,
                     "window_start_ts": window_start,
                     "window_end_ts": window_end,
                     "padding_before_sec": pad_before,
                     "padding_after_sec": pad_after,
+                    "missed_summary_latency_bridge_enabled": missed_summary_latency_bridge_enabled,
+                    "fast_catchup_speed": fast_catchup_speed,
+                    "fast_catchup_gap_sec": fast_catchup_gap_sec,
+                    "fast_catchup_silence_thresh_db": fast_catchup_silence_thresh_db,
                 },
                 entries=entries,
             )
@@ -691,6 +710,7 @@ def handle_request_missed_summary(data: dict):
         threading.Thread(target=_run_fast_catchup_with_fallback, daemon=True).start()
         return
 
+    summarize_decision_ts = time.time()
     threading.Thread(
         target=_trigger_parallel_compression_for_dialogue,
         kwargs={
@@ -700,12 +720,17 @@ def handle_request_missed_summary(data: dict):
             "before_context": before_context,
             "trigger_source": "missed_timestamp",
             "window": {
+                "bridge_decision_ts": summarize_decision_ts,
                 "miss_start_ts": start_ts,
                 "miss_end_ts": end_ts,
                 "window_start_ts": window_start,
                 "window_end_ts": window_end,
                 "padding_before_sec": pad_before,
                 "padding_after_sec": pad_after,
+                "missed_summary_latency_bridge_enabled": missed_summary_latency_bridge_enabled,
+                "fast_catchup_speed": fast_catchup_speed,
+                "fast_catchup_gap_sec": fast_catchup_gap_sec,
+                "fast_catchup_silence_thresh_db": fast_catchup_silence_thresh_db,
             },
             "entries": entries,
         },
@@ -890,9 +915,16 @@ def handle_browser_tts_playback_done(data: dict):
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     reason = str((data or {}).get("reason", "")).strip() or "browser_done"
+    if reason == "user_cancel":
+        with _segment_ctx_lock:
+            _pending_latency_bridge_by_session.pop(session_id, None)
     if reason != "user_cancel" and _has_pending_fast_catchup(session_id):
         _emit_fast_catchup_pending(session_id, True, 0)
         return {"ok": True, "defer_finish": True}
+    if reason != "user_cancel" and _has_pending_latency_bridge(session_id):
+        emitted = _emit_pending_latency_bridge_if_needed(session_id, reason)
+        if emitted:
+            return {"ok": True, "defer_finish": True}
     # Browser summary/reconstruction playback ended.
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")

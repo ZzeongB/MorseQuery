@@ -227,6 +227,7 @@ _fast_catchup_speed_runtime = _FAST_CATCHUP_DEFAULT_SPEED
 _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
 _fast_catchup_chain_enabled_runtime = False
 _summary_followup_enabled_runtime = False
+_missed_summary_latency_bridge_enabled_runtime = False
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -264,6 +265,7 @@ _post_tts_followup_live_window_open = False
 _segment_compression_inflight: set[int] = set()
 _pending_fast_catchup_segments: dict[int, str] = {}
 _pending_fast_catchup_inflight: set[int] = set()
+_pending_latency_bridge_by_session: dict[str, dict] = {}
 _transcript_compression_mode = "realtime"
 
 
@@ -298,7 +300,8 @@ def _reset_segment_tracking() -> None:
         _post_tts_followup_live_window_open, \
         _segment_compression_inflight, \
         _pending_fast_catchup_segments, \
-        _pending_fast_catchup_inflight
+        _pending_fast_catchup_inflight, \
+        _pending_latency_bridge_by_session
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
@@ -313,6 +316,7 @@ def _reset_segment_tracking() -> None:
         _segment_compression_inflight.clear()
         _pending_fast_catchup_segments.clear()
         _pending_fast_catchup_inflight.clear()
+        _pending_latency_bridge_by_session.clear()
     with _before_context_lock:
         _before_context_summary = ""
 

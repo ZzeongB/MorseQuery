@@ -33,6 +33,7 @@ let reconstructorEnabled = true; // Conversation reconstructor on/off
 let transcriptCompressionMode = 'fastest'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
 let fastCatchupChainEnabled = false;
 let summaryFollowupEnabled = false;
+let missedSummaryLatencyBridgeEnabled = false;
 let fastCatchupPending = false;
 let keywordTtsPlaying = false; // Track if keyword TTS is playing
 let keywordTtsCurrentText = '';
@@ -416,6 +417,12 @@ function setSummaryFollowupEnabled(enabled) {
     summaryFollowupEnabled = !!enabled;
     document.getElementById('btn-summary-followup-on').classList.toggle('selected', summaryFollowupEnabled);
     document.getElementById('btn-summary-followup-off').classList.toggle('selected', !summaryFollowupEnabled);
+}
+
+function setMissedSummaryLatencyBridgeEnabled(enabled) {
+    missedSummaryLatencyBridgeEnabled = !!enabled;
+    document.getElementById('btn-missed-bridge-on').classList.toggle('selected', missedSummaryLatencyBridgeEnabled);
+    document.getElementById('btn-missed-bridge-off').classList.toggle('selected', !missedSummaryLatencyBridgeEnabled);
 }
 
 function isToneFeedbackEnabled() {
@@ -989,4 +996,3 @@ function cancelSummaryPlayback() {
     pendingSummaryTexts = [];
     showSkippedIndicator('Summary canceled');
 }
-
