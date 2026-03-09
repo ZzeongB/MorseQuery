@@ -1,1 +1,0 @@
-"""MorseQuery source package."""
