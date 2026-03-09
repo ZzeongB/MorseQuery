@@ -135,6 +135,7 @@ socket.on('session_ended', () => {
     keywordTtsPreloadedTexts.clear();
     pendingSummaryTexts = [];
     streamingTtsBuffers.clear();
+    recentlyFinishedStreamingTts.clear();
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
@@ -419,6 +420,30 @@ socket.on('streaming_tts_chunk', data => {
     // Otherwise, chunk stays buffered until this stream's turn
 });
 
+const RECENT_STREAM_DONE_TTL_MS = 15000;
+const recentlyFinishedStreamingTts = new Map(); // streamId -> finishedAt(ms)
+
+function markStreamingTtsFinished(streamId) {
+    if (!streamId) return;
+    const now = Date.now();
+    recentlyFinishedStreamingTts.set(streamId, now);
+    for (const [id, ts] of recentlyFinishedStreamingTts) {
+        if (now - ts > RECENT_STREAM_DONE_TTL_MS) {
+            recentlyFinishedStreamingTts.delete(id);
+        }
+    }
+}
+
+function wasStreamingTtsFinishedRecently(streamId) {
+    const ts = recentlyFinishedStreamingTts.get(streamId);
+    if (!ts) return false;
+    if (Date.now() - ts > RECENT_STREAM_DONE_TTL_MS) {
+        recentlyFinishedStreamingTts.delete(streamId);
+        return false;
+    }
+    return true;
+}
+
 function createStreamingPlayer(queueItem) {
     const { streamId, sampleRate, meta, ttsType } = queueItem;
     const player = new StreamingTtsPlayer(streamId, sampleRate, meta);
@@ -449,6 +474,7 @@ function createStreamingPlayer(queueItem) {
         if (idx >= 0) {
             streamingTtsQueue.splice(idx, 1);
         }
+        markStreamingTtsFinished(streamId);
         streamingTtsPlayers.delete(streamId);
         currentStreamingPlayer = null;
 
@@ -472,15 +498,7 @@ function createStreamingPlayer(queueItem) {
             }
 
             // Auto-start summarizing if enabled (after playback done)
-            if (
-                autoPreSummarizeEnabled &&
-                dismissMode === 'summary' &&
-                listeningActive &&
-                !summaryTriggeredForListeningSession &&
-                !summaryRequested
-            ) {
-                startSummarizing();
-            }
+            maybeStartSummarizingAfterKeyword();
         } else if (ttsType === 'reconstruction' || ttsType === 'summary') {
             // Check if there are more summary streams in queue
             const hasMoreSummary = streamingTtsQueue.some(
@@ -542,7 +560,12 @@ socket.on('streaming_tts_done', data => {
 
     const queueItem = streamingTtsQueue.find(item => item.streamId === streamId);
     if (!queueItem) {
-        console.log(`[StreamingTTS] Done received for unknown stream: ${streamId}`);
+        if (!data || !data.stopped) {
+            // Normal races can deliver "done" after playback cleanup, or for empty streams with no chunks.
+            if (!wasStreamingTtsFinishedRecently(streamId)) {
+                console.log(`[StreamingTTS] Ignore late/empty done: ${streamId}`);
+            }
+        }
         return;
     }
 
@@ -555,6 +578,7 @@ socket.on('streaming_tts_done', data => {
         }
         const idx = streamingTtsQueue.findIndex(item => item.streamId === streamId);
         if (idx >= 0) streamingTtsQueue.splice(idx, 1);
+        markStreamingTtsFinished(streamId);
         streamingTtsPlayers.delete(streamId);
         if (currentStreamingPlayer === queueItem.player) {
             currentStreamingPlayer = null;
@@ -722,15 +746,8 @@ socket.on('keyword_tts_done', () => {
     clearKeywordAutoSummarizeTimer();
     const keywordPlaybackBusy = isKeywordPlaybackBusy();
     // Fallback auto-trigger: if duration estimate missed, trigger summarize on actual TTS completion.
-    if (
-        autoPreSummarizeEnabled &&
-        dismissMode === 'summary' &&
-        listeningActive &&
-        !summaryTriggeredForListeningSession &&
-        !summaryRequested &&
-        !keywordPlaybackBusy
-    ) {
-        startSummarizing();
+    if (!keywordPlaybackBusy) {
+        maybeStartSummarizingAfterKeyword();
     }
     if (
         pendingSummarizeIndicatorAfterKeyword &&

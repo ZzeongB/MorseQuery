@@ -67,6 +67,9 @@ class StreamingTTSClient:
         self._is_streaming = False
         self._receive_thread: Optional[threading.Thread] = None
         self._stop_event = threading.Event()
+        self._stream_token = 0
+        self._active_stream_token = 0
+        self._stopped_stream_tokens: set[int] = set()
 
         # Text input queue for streaming
         self._text_queue: deque[str] = deque()
@@ -180,6 +183,11 @@ class StreamingTTSClient:
             return False
 
         try:
+            with self._context_lock:
+                self._stream_token += 1
+                stream_token = self._stream_token
+                self._active_stream_token = stream_token
+                self._stopped_stream_tokens.discard(stream_token)
             self._stop_event.clear()
             self._audio_chunks = []
             self._current_text = initial_text
@@ -198,7 +206,7 @@ class StreamingTTSClient:
                         "sample_rate": STREAMING_SAMPLE_RATE,
                     },
                     language=self.language,
-                    generation_config={"volume": 1, "speed": 1.2, "emotion": "neutral"},
+                    generation_config={"volume": 1, "speed": 1.7, "emotion": "neutral"},
                 )
 
             self._is_streaming = True
@@ -206,6 +214,7 @@ class StreamingTTSClient:
             # Start receive thread
             self._receive_thread = threading.Thread(
                 target=self._receive_audio_loop,
+                args=(stream_token, dict(self.event_extra)),
                 daemon=True,
             )
             self._receive_thread.start()
@@ -238,7 +247,7 @@ class StreamingTTSClient:
             # Connection might be broken, close it
             with self._connection_lock:
                 self._close_connection_unsafe()
-            self._cleanup_stream()
+            self._cleanup_stream(stream_token)
             return False
 
     def push_text(self, text: str) -> bool:
@@ -310,7 +319,11 @@ class StreamingTTSClient:
                 )
                 return False
 
-    def _receive_audio_loop(self) -> None:
+    def _is_stream_stopped(self, stream_token: int) -> bool:
+        with self._context_lock:
+            return stream_token in self._stopped_stream_tokens
+
+    def _receive_audio_loop(self, stream_token: int, event_extra: dict) -> None:
         """Background thread to receive and emit audio chunks."""
         total_bytes = 0
         chunk_count = 0
@@ -324,7 +337,7 @@ class StreamingTTSClient:
                 return
 
             for response in ctx.receive():
-                if self._stop_event.is_set():
+                if self._is_stream_stopped(stream_token):
                     break
 
                 if response.type == "chunk" and response.audio:
@@ -344,7 +357,7 @@ class StreamingTTSClient:
                             "format": "pcm_s16le",
                             "sample_rate": STREAMING_SAMPLE_RATE,
                             "chunk_index": chunk_count,
-                            **self.event_extra,
+                            **event_extra,
                         },
                         to=self.emit_to,
                     )
@@ -367,7 +380,7 @@ class StreamingTTSClient:
                     break
 
         except Exception as e:
-            if not self._stop_event.is_set():
+            if not self._is_stream_stopped(stream_token):
                 log_print(
                     "ERROR",
                     f"TTS receive error: {e}",
@@ -377,15 +390,24 @@ class StreamingTTSClient:
         finally:
             # Save audio and cleanup stream (but keep connection)
             self._save_audio()
-            self._emit_stream_done(chunk_count, total_bytes)
-            self._cleanup_stream()
+            stopped = self._is_stream_stopped(stream_token)
+            self._emit_stream_done(chunk_count, total_bytes, event_extra, stopped)
+            self._cleanup_stream(stream_token)
+            with self._context_lock:
+                self._stopped_stream_tokens.discard(stream_token)
 
             # If there was a connection error, close the connection
             if connection_error:
                 with self._connection_lock:
                     self._close_connection_unsafe()
 
-    def _emit_stream_done(self, chunk_count: int, total_bytes: int) -> None:
+    def _emit_stream_done(
+        self,
+        chunk_count: int,
+        total_bytes: int,
+        event_extra: dict,
+        stopped: bool,
+    ) -> None:
         """Emit stream completion event to client."""
         duration_ms = (
             (time.time() - self._stream_start_time) * 1000
@@ -401,8 +423,8 @@ class StreamingTTSClient:
                 "duration_ms": round(duration_ms, 2),
                 "text": self._current_text,
                 "sample_rate": STREAMING_SAMPLE_RATE,
-                "stopped": self._stop_event.is_set(),
-                **self.event_extra,
+                "stopped": stopped,
+                **event_extra,
             },
             to=self.emit_to,
         )
@@ -474,11 +496,18 @@ class StreamingTTSClient:
     def stop_stream(self) -> None:
         """Stop the current TTS stream (keeps connection open)."""
         log_print("INFO", "Stopping TTS stream", session_id=self.session_id)
+        with self._context_lock:
+            active = self._active_stream_token
+            if active > 0:
+                self._stopped_stream_tokens.add(active)
         self._stop_event.set()
-        self._cleanup_stream()
+        self._cleanup_stream(active)
 
-    def _cleanup_stream(self) -> None:
+    def _cleanup_stream(self, stream_token: Optional[int] = None) -> None:
         """Clean up stream resources (context only, keep connection)."""
+        with self._context_lock:
+            if stream_token is not None and stream_token != self._active_stream_token:
+                return
         self._is_streaming = False
 
         with self._context_lock:

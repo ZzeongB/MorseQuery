@@ -173,9 +173,64 @@ function playCurrentKeywordTts() {
     socket.emit('keyword_tts', { text: keywordTtsCurrentText, keyword: word });
 }
 
+function stopKeywordStreamingPlaybackLocally() {
+    const wasCurrentKeyword =
+        currentStreamingPlayer &&
+        currentStreamingPlayer.meta &&
+        currentStreamingPlayer.meta.type === 'keyword';
+
+    for (const item of streamingTtsQueue) {
+        if (!item) continue;
+        if (item.ttsType !== 'keyword') continue;
+        if (item.player) {
+            try {
+                item.player.stop();
+            } catch (e) {}
+        }
+        streamingTtsPlayers.delete(item.streamId);
+    }
+
+    streamingTtsQueue = streamingTtsQueue.filter(item => item && item.ttsType !== 'keyword');
+
+    if (wasCurrentKeyword) {
+        currentStreamingPlayer = null;
+    }
+
+    if (!currentStreamingPlayer && streamingTtsQueue.length > 0) {
+        playNextStreamingTts();
+    }
+}
+
+function removeQueuedKeywordBrowserTts() {
+    if (!Array.isArray(ttsQueue) || ttsQueue.length === 0) return;
+    const kept = [];
+    for (const item of ttsQueue) {
+        if (item && item.meta && item.meta.type === 'keyword') {
+            if (item.url) {
+                try { URL.revokeObjectURL(item.url); } catch (e) {}
+            }
+            continue;
+        }
+        kept.push(item);
+    }
+    ttsQueue = kept;
+}
+
+function maybeStartSummarizingAfterKeyword() {
+    if (!autoPreSummarizeEnabled) return;
+    if (dismissMode !== 'summary') return;
+    if (summaryTriggeredForListeningSession) return;
+    if (!listeningActive) return;
+    if (summaryRequested) return;
+    if (isKeywordPlaybackBusy()) return;
+    startSummarizing();
+}
+
 function cancelKeywordTts() {
     keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
+    stopKeywordStreamingPlaybackLocally();
+    removeQueuedKeywordBrowserTts();
     socket.emit('cancel_keyword_tts');
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
@@ -357,7 +412,13 @@ function hasAllSummariesEmpty(segmentId) {
 function isKeywordPlaybackBusy() {
     if (keywordTtsPlaying) return true;
     if (activeBrowserTtsType === 'keyword') return true;
-    return ttsQueue.some(item => item && item.meta && item.meta.type === 'keyword');
+    if (ttsQueue.some(item => item && item.meta && item.meta.type === 'keyword')) return true;
+    if (streamingTtsQueue.some(item => item && item.ttsType === 'keyword')) return true;
+    return !!(
+        currentStreamingPlayer &&
+        currentStreamingPlayer.meta &&
+        currentStreamingPlayer.meta.type === 'keyword'
+    );
 }
 
 function emitAllCaughtUpForEmptySummary(segmentId) {

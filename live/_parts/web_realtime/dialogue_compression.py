@@ -794,7 +794,7 @@ def _trigger_parallel_compression_for_dialogue(
     ).start()
     threading.Thread(
         target=_run_api_path,
-        args=("gpt-4o-nano", "api_nano", ["gpt-4.1-nano"]),
+        args=("gpt-4.1-nano", "api_nano", ["gpt-4.1-nano"]),
         daemon=True,
     ).start()
 

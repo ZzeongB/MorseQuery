@@ -245,11 +245,14 @@ class TranscriptFilter:
         )
 
         if self.on_filtered_transcript:
+            # Use realtime timestamp for window slicing stability.
+            # Summary transcripts can arrive late; using arrival ts causes
+            # segment-window misses during parallel compression.
             self.on_filtered_transcript(
                 summary_entry.speaker_id,
                 summary_entry.source_id,
                 summary_entry.text,
-                summary_entry.timestamp,
+                realtime_entry.timestamp,
             )
 
     def _calculate_similarity(self, text1: str, text2: str) -> float:

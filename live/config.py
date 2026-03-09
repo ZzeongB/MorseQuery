@@ -32,7 +32,7 @@ OPENAI_SESSION_CONFIG = {
         "type": "server_vad",
         "threshold": 0.5,
         "prefix_padding_ms": 200,
-        "silence_duration_ms": 200,
+        "silence_duration_ms": 300,
         "create_response": False,
     },
     "input_audio_transcription": {

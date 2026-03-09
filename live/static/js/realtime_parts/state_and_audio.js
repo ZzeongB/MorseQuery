@@ -559,6 +559,9 @@ class StreamingTtsPlayer {
             await new Promise(resolve => setTimeout(resolve, remainingMs + 50));
         }
 
+        // If stream was cancelled while waiting, don't fire end callback.
+        if (this.isStopped) return;
+
         this.isPlaying = false;
         const totalDuration = this.totalSamplesScheduled / this.sampleRate;
         console.log(`StreamingTtsPlayer[${this.streamId}]: Finished, duration=${totalDuration.toFixed(2)}s`);

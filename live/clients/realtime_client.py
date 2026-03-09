@@ -67,6 +67,8 @@ class RealtimeClient:
         self._vad_transcript_callbacks: list = []
         self._vad_boundary_callbacks: list = []
         self._vad_transcript_history: deque[str] = deque(maxlen=120)
+        self._keyword_retry_attempt = 0
+        self._max_keyword_retry_attempts = 1
         self.enable_noise_gate = enable_noise_gate
         self.noise_gate: AdaptiveNoiseGate | None = None
         if enable_noise_gate:
@@ -433,11 +435,12 @@ class RealtimeClient:
         if keywords == []:
             log_print(
                 "WARN",
-                "No valid keywords parsed from response, attempting gpt-mini fallback",
+                "No valid keywords parsed from response",
                 session_id=self.session_id,
             )
-            keywords = self._extract_keywords_with_gpt_mini_fallback()
-            keywords = self._filter_completed_tts_keywords(keywords)
+            if self._request_keyword_retry_in_realtime():
+                self.response_buffer = ""
+                return
         log_print(
             "INFO",
             "Response complete",
@@ -462,6 +465,48 @@ class RealtimeClient:
         else:
             self.logger.log("keywords_empty_ignored")
         self.response_buffer = ""
+
+    def _request_keyword_retry_in_realtime(self) -> bool:
+        if self._keyword_retry_attempt >= self._max_keyword_retry_attempts:
+            self.logger.log("keywords_retry_exhausted")
+            return False
+        with self._ws_lock:
+            ws = self.ws
+        if not ws:
+            self.logger.log("keywords_retry_skipped_no_ws")
+            return False
+        retry_prompt = (
+            f"{KEYWORD_EXTRACTION_PROMPT}\n\n"
+            "Your previous output was invalid or empty. "
+            "Retry now and return 1-3 lines in `<keyword>: <description>` format only."
+        )
+        try:
+            ws.send(
+                json.dumps(
+                    {
+                        "type": "response.create",
+                        "response": {
+                            "modalities": ["text"],
+                            "instructions": retry_prompt,
+                            "max_output_tokens": 700,
+                        },
+                    }
+                )
+            )
+            self._keyword_retry_attempt += 1
+            self.logger.log(
+                "keywords_retry_requested",
+                attempt=self._keyword_retry_attempt,
+            )
+            return True
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"keywords retry request failed: {e}",
+                session_id=self.session_id,
+            )
+            self.logger.log("keywords_retry_request_failed", error=str(e))
+            return False
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         log_print("ERROR", f"WebSocket error: {error}", session_id=self.session_id)
@@ -727,6 +772,7 @@ class RealtimeClient:
         return b"".join(out_parts)
 
     def request(self) -> None:
+        self._keyword_retry_attempt = 0
         elapsed_sec = (
             time.time() - self.stream_start_time if self.stream_start_time else 0.0
         )
