@@ -5,6 +5,7 @@ import threading
 import time
 from collections import deque
 from typing import Optional
+
 import openai
 import pyaudio
 import websocket
@@ -18,8 +19,11 @@ from config import (
 from flask_socketio import SocketIO
 from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
+
 from .audio_filter import AdaptiveNoiseGate, NoiseGateConfig
 from .prompt import KEYWORD_EXTRACTION_PROMPT, KEYWORD_SESSION_INSTRUCTIONS
+
+
 class RealtimeClient:
     def __init__(
         self,
@@ -86,9 +90,11 @@ class RealtimeClient:
             mp3_file=mp3_file,
             noise_gate=enable_noise_gate,
         )
+
     @staticmethod
     def _normalize_keyword_text(keyword: str) -> str:
         return re.sub(r"\s+", " ", str(keyword or "").strip().lower())
+
     def set_summary_clients(self, clients: list) -> None:
         self.summary_clients = clients
         log_print(
@@ -96,14 +102,17 @@ class RealtimeClient:
             f"Set {len(clients)} summary clients for transcript forwarding",
             session_id=self.session_id,
         )
+
     def add_vad_transcript_callback(self, callback) -> None:
         if callback is None:
             return
         self._vad_transcript_callbacks.append(callback)
+
     def add_vad_boundary_callback(self, callback) -> None:
         if callback is None:
             return
         self._vad_boundary_callbacks.append(callback)
+
     def on_open(self, ws: websocket.WebSocketApp) -> None:
         log_print("INFO", "WebSocket connected to OpenAI", session_id=self.session_id)
         self.logger.log("websocket_connected")
@@ -114,12 +123,12 @@ class RealtimeClient:
             "turn_detection": {
                 "type": "server_vad",
                 "threshold": 0.45,
-                "prefix_padding_ms": 180,
-                "silence_duration_ms": 420,
+                "prefix_padding_ms": 150,
+                "silence_duration_ms": 150,
                 "create_response": False,
             },
             "input_audio_transcription": {
-                "model": "whisper-1",
+                "model": "gpt-4o-transcribe",
             },
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }
@@ -131,6 +140,7 @@ class RealtimeClient:
         )
         self.logger.log("session_update_sent")
         threading.Thread(target=self._stream_audio, daemon=True).start()
+
     def on_message(self, _ws: websocket.WebSocketApp, message: str) -> None:
         event = json.loads(message)
         etype = event.get("type", "")
@@ -157,6 +167,7 @@ class RealtimeClient:
             error_msg = event.get("error", {}).get("message", "Unknown error")
             log_print("ERROR", f"OpenAI error: {error_msg}", session_id=self.session_id)
             self.logger.log("openai_error", error=error_msg)
+
     def _handle_vad_transcript(self, transcript: str) -> None:
         log_print(
             "INFO",
@@ -174,6 +185,7 @@ class RealtimeClient:
                     f"VAD transcript callback failed: {e}",
                     session_id=self.session_id,
                 )
+
     def _handle_vad_boundary(self, boundary_type: str, event: dict) -> None:
         payload = {
             "boundary_type": boundary_type,
@@ -192,6 +204,7 @@ class RealtimeClient:
                     f"VAD boundary callback failed: {e}",
                     session_id=self.session_id,
                 )
+
     def _get_transcript_so_far(self, max_chars: int = 6000) -> str:
         parts = [t.strip() for t in self._vad_transcript_history if t and t.strip()]
         if not parts:
@@ -200,6 +213,7 @@ class RealtimeClient:
         if len(text) <= max_chars:
             return text
         return text[-max_chars:]
+
     def _extract_keywords_with_gpt_mini_fallback(self) -> list[dict]:
         transcript_text = self._get_transcript_so_far(max_chars=6000)
         if not transcript_text:
@@ -240,9 +254,8 @@ class RealtimeClient:
                 if text.endswith("```"):
                     text = text[:-3].strip()
             parsed = []
-            if (
-                (text.startswith("{") and text.endswith("}"))
-                or (text.startswith("[") and text.endswith("]"))
+            if (text.startswith("{") and text.endswith("}")) or (
+                text.startswith("[") and text.endswith("]")
             ):
                 parsed.extend(self._parse_json_format(text))
             parsed.extend(self._parse_line_format(text))
@@ -264,6 +277,7 @@ class RealtimeClient:
             )
             self.logger.log("keywords_fallback_error", error=str(e))
             return []
+
     def _parse_json_format(self, text: str) -> list[dict]:
         keywords = []
         meta_keys = {"keyword", "keywords", "term", "terms", "word", "words"}
@@ -308,6 +322,7 @@ class RealtimeClient:
             if word and desc:
                 keywords.append({"word": word, "desc": desc})
         return keywords
+
     def _sanitize_keywords(self, keywords: list[dict]) -> list[dict]:
         blocked_words = {
             "keyword",
@@ -350,6 +365,7 @@ class RealtimeClient:
             seen.add(word_lower)
             cleaned.append({"word": word, "desc": desc})
         return cleaned
+
     def _filter_completed_tts_keywords(self, keywords: list[dict]) -> list[dict]:
         with self._state_lock:
             blocked = set(self._completed_tts_keyword_set)
@@ -362,6 +378,7 @@ class RealtimeClient:
                 continue
             filtered.append(kw)
         return filtered
+
     def _parse_line_format(self, text: str) -> list[dict]:
         keywords = []
         for line in text.split("\n"):
@@ -405,6 +422,7 @@ class RealtimeClient:
                 if word:
                     keywords.append({"word": word, "desc": ""})
         return keywords
+
     def _handle_response_done(self) -> None:
         keywords_text = self.response_buffer.strip()
         if keywords_text.startswith("{") and keywords_text.endswith("}"):
@@ -450,10 +468,12 @@ class RealtimeClient:
         else:
             self.logger.log("keywords_empty_ignored")
         self.response_buffer = ""
+
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
         log_print("ERROR", f"WebSocket error: {error}", session_id=self.session_id)
         self.logger.log("websocket_error", error=str(error))
         self.sio.emit("status", f"Error: {error}")
+
     def on_close(self, _ws: websocket.WebSocketApp, status: int, msg: str) -> None:
         log_print(
             "INFO",
@@ -465,6 +485,7 @@ class RealtimeClient:
         self.logger.log("websocket_closed", status=status, message=msg)
         self.sio.emit("status", "Disconnected")
         self.running = False
+
     def _stream_audio(self) -> None:
         self.stream_start_time = time.time()
         log_print(
@@ -478,6 +499,7 @@ class RealtimeClient:
             self._stream_from_mic()
         else:
             self._stream_from_mp3()
+
     def _stream_from_mic(self) -> None:
         pa = None
         stream = None
@@ -559,6 +581,7 @@ class RealtimeClient:
             if not self._shutdown_event.is_set():
                 self.sio.emit("status", "Stopped")
                 self.sio.emit("session_ended")
+
     def _stream_from_mp3(self) -> None:
         pa = None
         stream = None
@@ -646,6 +669,7 @@ class RealtimeClient:
             if not self._shutdown_event.is_set():
                 self.sio.emit("status", "Done")
                 self.sio.emit("session_ended")
+
     def _send_audio_chunk(self, chunk: bytes) -> bool:
         self.recording_buffer.append(chunk)
         now = time.time()
@@ -672,6 +696,7 @@ class RealtimeClient:
             except Exception:
                 return False
         return False
+
     def get_audio_window_pcm(self, start_ts: float, end_ts: float) -> bytes:
         start_ts = float(start_ts or 0.0)
         end_ts = float(end_ts or 0.0)
@@ -706,6 +731,7 @@ class RealtimeClient:
         if not out_parts:
             return b""
         return b"".join(out_parts)
+
     def request(self) -> None:
         elapsed_sec = (
             time.time() - self.stream_start_time if self.stream_start_time else 0.0
@@ -778,12 +804,14 @@ class RealtimeClient:
             log_print(
                 "ERROR", f"request() send failed: {e}", session_id=self.session_id
             )
+
     def start_noise_calibration(self) -> bool:
         if not self.noise_gate:
             return False
         self.noise_gate.start_calibration()
         self.sio.emit("noise_gate_calibrating", {"status": "started"})
         return True
+
     def stop_noise_calibration(self) -> dict | None:
         if not self.noise_gate:
             return None
@@ -792,20 +820,24 @@ class RealtimeClient:
             "noise_gate_calibrating", {"status": "stopped", "results": results}
         )
         return results
+
     def set_noise_threshold(self, threshold: float | None) -> bool:
         if not self.noise_gate:
             return False
         self.noise_gate.set_threshold_override(threshold)
         return True
+
     def update_noise_gate_config(self, **kwargs) -> bool:
         if not self.noise_gate:
             return False
         self.noise_gate.update_config(**kwargs)
         return True
+
     def get_noise_gate_status(self) -> dict | None:
         if not self.noise_gate:
             return None
         return self.noise_gate.get_status()
+
     def start(self) -> None:
         log_print("INFO", "Starting RealtimeClient", session_id=self.session_id)
         self.logger.log("client_start")
@@ -839,6 +871,7 @@ class RealtimeClient:
             )
             ws = self.ws
         threading.Thread(target=ws.run_forever, daemon=True).start()
+
     def stop(self) -> None:
         gate_stats = None
         if self.noise_gate:
@@ -871,6 +904,7 @@ class RealtimeClient:
         self._save_audio()
         if was_running:
             self.sio.emit("session_ended")
+
     def get_recent_keywords(self, limit: int = 3) -> list[dict]:
         limit = max(0, int(limit))
         with self._state_lock:
@@ -878,6 +912,7 @@ class RealtimeClient:
         if not items or limit == 0:
             return []
         return items[:limit]
+
     def mark_keyword_tts_completed(self, keyword: str) -> None:
         normalized = self._normalize_keyword_text(keyword)
         if not normalized:
@@ -887,11 +922,13 @@ class RealtimeClient:
                 return
             self._completed_tts_keyword_set.add(normalized)
             self.completed_tts_keywords.append(normalized)
+
     def _save_audio(self) -> None:
         if not self.recording_buffer:
             return
         try:
             from datetime import datetime
+
             raw_audio = b"".join(self.recording_buffer)
             self.recording_buffer = []
             audio_dir = get_session_subdir(self.session_id, "audio")

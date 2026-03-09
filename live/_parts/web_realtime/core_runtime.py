@@ -329,6 +329,23 @@ def _on_vad_transcript(transcript: str) -> None:
     if not text:
         return
 
+    # Save RealtimeClient VAD transcript to file
+    if _active_runtime_sid:
+        _append_session_transcript_entry(
+            session_id=_active_runtime_sid,
+            record={
+                "type": "utterance",
+                "captured_at": datetime.now().isoformat(),
+                "timestamp": now,
+                "timestamp_iso_utc": datetime.fromtimestamp(
+                    now, tz=timezone.utc
+                ).isoformat(),
+                "speaker": "realtime",
+                "source_id": "realtime",
+                "text": text,
+            },
+        )
+
     with _segment_ctx_lock:
         _recent_vad_transcripts.append((now, text))
         # Bind next_sentence to the earliest ended segment that does not have one yet.

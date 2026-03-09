@@ -11,11 +11,9 @@ Usage:
     python explore_context.py audio.mp3 --mode rare-words --top-k 3
 """
 
-import argparse
 import math
 import os
 import re
-import sys
 from collections import Counter
 from pathlib import Path
 
@@ -34,24 +32,175 @@ EMBEDDING_MODEL = "text-embedding-3-small"
 
 # 영어 불용어 (자주 쓰이는 일반적인 단어들)
 STOPWORDS = {
-    "i", "me", "my", "myself", "we", "our", "ours", "ourselves", "you", "your",
-    "yours", "yourself", "yourselves", "he", "him", "his", "himself", "she",
-    "her", "hers", "herself", "it", "its", "itself", "they", "them", "their",
-    "theirs", "themselves", "what", "which", "who", "whom", "this", "that",
-    "these", "those", "am", "is", "are", "was", "were", "be", "been", "being",
-    "have", "has", "had", "having", "do", "does", "did", "doing", "a", "an",
-    "the", "and", "but", "if", "or", "because", "as", "until", "while", "of",
-    "at", "by", "for", "with", "about", "against", "between", "into", "through",
-    "during", "before", "after", "above", "below", "to", "from", "up", "down",
-    "in", "out", "on", "off", "over", "under", "again", "further", "then",
-    "once", "here", "there", "when", "where", "why", "how", "all", "each",
-    "few", "more", "most", "other", "some", "such", "no", "nor", "not", "only",
-    "own", "same", "so", "than", "too", "very", "s", "t", "can", "will", "just",
-    "don", "should", "now", "d", "ll", "m", "o", "re", "ve", "y", "ain", "aren",
-    "couldn", "didn", "doesn", "hadn", "hasn", "haven", "isn", "ma", "mightn",
-    "mustn", "needn", "shan", "shouldn", "wasn", "weren", "won", "wouldn",
-    "yeah", "okay", "ok", "like", "know", "think", "going", "want", "got",
-    "get", "go", "come", "say", "said", "would", "could", "one", "two",
+    "i",
+    "me",
+    "my",
+    "myself",
+    "we",
+    "our",
+    "ours",
+    "ourselves",
+    "you",
+    "your",
+    "yours",
+    "yourself",
+    "yourselves",
+    "he",
+    "him",
+    "his",
+    "himself",
+    "she",
+    "her",
+    "hers",
+    "herself",
+    "it",
+    "its",
+    "itself",
+    "they",
+    "them",
+    "their",
+    "theirs",
+    "themselves",
+    "what",
+    "which",
+    "who",
+    "whom",
+    "this",
+    "that",
+    "these",
+    "those",
+    "am",
+    "is",
+    "are",
+    "was",
+    "were",
+    "be",
+    "been",
+    "being",
+    "have",
+    "has",
+    "had",
+    "having",
+    "do",
+    "does",
+    "did",
+    "doing",
+    "a",
+    "an",
+    "the",
+    "and",
+    "but",
+    "if",
+    "or",
+    "because",
+    "as",
+    "until",
+    "while",
+    "of",
+    "at",
+    "by",
+    "for",
+    "with",
+    "about",
+    "against",
+    "between",
+    "into",
+    "through",
+    "during",
+    "before",
+    "after",
+    "above",
+    "below",
+    "to",
+    "from",
+    "up",
+    "down",
+    "in",
+    "out",
+    "on",
+    "off",
+    "over",
+    "under",
+    "again",
+    "further",
+    "then",
+    "once",
+    "here",
+    "there",
+    "when",
+    "where",
+    "why",
+    "how",
+    "all",
+    "each",
+    "few",
+    "more",
+    "most",
+    "other",
+    "some",
+    "such",
+    "no",
+    "nor",
+    "not",
+    "only",
+    "own",
+    "same",
+    "so",
+    "than",
+    "too",
+    "very",
+    "s",
+    "t",
+    "can",
+    "will",
+    "just",
+    "don",
+    "should",
+    "now",
+    "d",
+    "ll",
+    "m",
+    "o",
+    "re",
+    "ve",
+    "y",
+    "ain",
+    "aren",
+    "couldn",
+    "didn",
+    "doesn",
+    "hadn",
+    "hasn",
+    "haven",
+    "isn",
+    "ma",
+    "mightn",
+    "mustn",
+    "needn",
+    "shan",
+    "shouldn",
+    "wasn",
+    "weren",
+    "won",
+    "wouldn",
+    "yeah",
+    "okay",
+    "ok",
+    "like",
+    "know",
+    "think",
+    "going",
+    "want",
+    "got",
+    "get",
+    "go",
+    "come",
+    "say",
+    "said",
+    "would",
+    "could",
+    "one",
+    "two",
 }
 
 
@@ -246,7 +395,7 @@ def transcribe_mp3(filepath: str, client: OpenAI) -> list[dict]:
 
     with open(temp_path, "rb") as f:
         response = client.audio.transcriptions.create(
-            model="whisper-1",
+            model="gpt-4o-transcribe",
             file=f,
             response_format="verbose_json",
             timestamp_granularities=["segment"],
@@ -367,7 +516,9 @@ def get_rare_words_per_segment(
     freq_threshold: int = 2,
 ) -> list[list[str]]:
     """각 세그먼트에서 rare words 추출."""
-    print(f"🔍 Extracting rare words (top_k={top_k}, freq_threshold={freq_threshold})...")
+    print(
+        f"🔍 Extracting rare words (top_k={top_k}, freq_threshold={freq_threshold})..."
+    )
 
     rare_words_list = []
     for seg in segments:
@@ -377,7 +528,9 @@ def get_rare_words_per_segment(
     # 통계 출력
     total_rare = sum(len(rw) for rw in rare_words_list)
     non_empty = sum(1 for rw in rare_words_list if rw)
-    print(f"✅ Found {total_rare} rare words across {non_empty}/{len(segments)} segments\n")
+    print(
+        f"✅ Found {total_rare} rare words across {non_empty}/{len(segments)} segments\n"
+    )
 
     return rare_words_list
 
@@ -475,7 +628,9 @@ def print_rare_words_results(
 ):
     """Rare words 방식 결과 출력."""
     print("=" * 90)
-    print(f"📊 Rare Words Results (prev_window={prev_window}, curr_window={curr_window})")
+    print(
+        f"📊 Rare Words Results (prev_window={prev_window}, curr_window={curr_window})"
+    )
     print(f"   Thresholds: low={low_threshold}, high={high_threshold}")
     print("=" * 90)
     print()
@@ -532,7 +687,9 @@ def print_rare_words_results_with_scores(
     score_label = {"corpus": "freq", "tfidf": "tfidf", "lexicon": "lex"}[method]
 
     print("=" * 100)
-    print(f"📊 Rare Words Results [{method.upper()}] (prev_window={prev_window}, curr_window={curr_window})")
+    print(
+        f"📊 Rare Words Results [{method.upper()}] (prev_window={prev_window}, curr_window={curr_window})"
+    )
     print(f"   Thresholds: low={low_threshold}, high={high_threshold}")
     print("=" * 100)
     print()
@@ -541,7 +698,9 @@ def print_rare_words_results_with_scores(
     high_sims = 0
     skipped = 0
 
-    for seg, rare_with_scores, sim in zip(segments, rare_words_with_scores, similarities):
+    for seg, rare_with_scores, sim in zip(
+        segments, rare_words_with_scores, similarities
+    ):
         time_str = f"[{seg['start']:6.1f}s]"
 
         # 단어와 점수 함께 표시
@@ -607,5 +766,3 @@ def aggregate_embeddings(embeddings: list[np.ndarray]) -> np.ndarray:
     if not embeddings:
         return np.zeros(1536)
     return np.mean(embeddings, axis=0)
-
-

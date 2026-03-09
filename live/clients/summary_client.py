@@ -398,13 +398,13 @@ class SummaryClient:
                         "input_audio_format": "pcm16",
                         "turn_detection": {
                             "type": "server_vad",
-                            "threshold": 0.5,
+                            "threshold": 0.45,
                             "prefix_padding_ms": 150,
                             "silence_duration_ms": 150,
                         },
                         "instructions": SUMMARY_SESSION_INSTRUCTIONS,
                         "input_audio_transcription": {
-                            "model": "whisper-1",
+                            "model": "gpt-4o-transcribe",
                         },
                     },
                 }
