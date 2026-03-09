@@ -1,3 +1,9 @@
+from clients.prompt import (
+    DIALOGUE_COMPRESSION_SYSTEM_PROMPT,
+    build_dialogue_compression_user_prompt,
+)
+
+
 def _get_combined_dialogue() -> str:
     """Get combined dialogue from all stores, sorted chronologically."""
     all_entries = []
@@ -133,31 +139,14 @@ def _compress_dialogue_api(
                 messages=[
                     {
                         "role": "system",
-                        "content": (
-                            "You are a dialogue compressor. Compress the dialogue into a brief "
-                            "catch-up (max 30 words total). Preserve speaker labels (A: and B:). "
-                            "Remove filler and keep only core ideas. Output only dialogue lines. "
-                            "Each speaker line must be 12 words or fewer. "
-                            "If a token/word is clearly odd or context-mismatched (likely transcript error), ignore it. "
-                            "Drop content that is unrelated to current context or user-viewed keywords. "
-                            "Treat isolated one-word utterances as likely transcription errors unless clearly meaningful. "
-                            "Never invent claims/questions not in Dialogue. "
-                            "If Dialogue has one speaker, output only that speaker."
-                        ),
+                        "content": DIALOGUE_COMPRESSION_SYSTEM_PROMPT,
                     },
                     {
                         "role": "user",
-                        "content": (
-                            "Compress this dialogue.\n\n"
-                            f"Before context (hints only):\n{before_context.strip() or '(none)'}\n\n"
-                            f"Current viewed keywords:\n{keyword_context.strip() or '(none)'}\n\n"
-                            f"Dialogue:\n{dialogue}\n\n"
-                            "Rules: Context is hint-only. Do not import extra facts from context. "
-                            "If dialogue is short/noisy, output short literal fragment only. "
-                            "Drop context-mismatched weird tokens rather than guessing replacements. "
-                            "Exclude lines/phrases unrelated to the active context or viewed keywords. "
-                            "Treat one-word fragments as possible transcription errors and drop them when uncertain. "
-                            "Hard limit: each A:/B: line <= 12 words."
+                        "content": build_dialogue_compression_user_prompt(
+                            dialogue=dialogue,
+                            before_context=before_context,
+                            keyword_context=keyword_context,
                         ),
                     },
                 ],

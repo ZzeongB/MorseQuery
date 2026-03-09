@@ -6,6 +6,7 @@ import threading
 import wave
 from collections import OrderedDict
 from datetime import datetime
+from time import perf_counter
 from typing import Callable, Optional
 
 import pyaudio
@@ -132,17 +133,23 @@ class TTSClient:
         }
 
         try:
+            request_started = perf_counter()
             response = requests.post(
                 CARTESIA_API_URL,
                 json=payload,
                 headers=headers,
                 timeout=30,
             )
+            generation_latency_ms = (perf_counter() - request_started) * 1000
 
             if response.status_code == 200:
                 audio_bytes = response.content
                 # Save TTS result to file
-                self._save_tts_audio(audio_bytes, normalized_text)
+                self._save_tts_audio(
+                    audio_bytes,
+                    normalized_text,
+                    generation_latency_ms=generation_latency_ms,
+                )
                 with self._cache_lock:
                     self._synth_cache[cache_key] = audio_bytes
                     self._synth_cache.move_to_end(cache_key)
@@ -152,6 +159,7 @@ class TTSClient:
                     "INFO",
                     f"TTS synthesis successful, {len(audio_bytes)} bytes",
                     session_id=self.session_id,
+                    generation_latency_ms=round(generation_latency_ms, 2),
                 )
                 return audio_bytes
             else:
@@ -159,6 +167,7 @@ class TTSClient:
                     "ERROR",
                     f"TTS API error: {response.status_code} - {response.text}",
                     session_id=self.session_id,
+                    generation_latency_ms=round(generation_latency_ms, 2),
                 )
                 return None
 
@@ -170,7 +179,12 @@ class TTSClient:
             )
             return None
 
-    def _save_tts_audio(self, audio_bytes: bytes, text: str) -> Optional[str]:
+    def _save_tts_audio(
+        self,
+        audio_bytes: bytes,
+        text: str,
+        generation_latency_ms: Optional[float] = None,
+    ) -> Optional[str]:
         """Save TTS audio to session-scoped tts directory.
 
         Filename format: YYYYMMDD_HHMMSS_sessionid_ttsid.wav
@@ -178,6 +192,7 @@ class TTSClient:
         Args:
             audio_bytes: WAV format audio bytes
             text: Original text that was synthesized
+            generation_latency_ms: Cartesia generation latency in milliseconds
 
         Returns:
             Path to saved file, or None if failed
@@ -206,6 +221,8 @@ class TTSClient:
                 f.write(f"TTS ID: {tts_id}\n")
                 f.write(f"Timestamp: {timestamp}\n")
                 f.write(f"Size: {len(audio_bytes)} bytes\n")
+                if generation_latency_ms is not None:
+                    f.write(f"Generation Latency (ms): {generation_latency_ms:.2f}\n")
                 f.write(f"Audio Path: {filepath.resolve()}\n")
 
             log_print(
@@ -221,6 +238,7 @@ class TTSClient:
                 tts_audio_path=str(filepath.resolve()),
                 tts_meta_path=str(meta_filepath.resolve()),
                 tts_size_bytes=len(audio_bytes),
+                tts_generation_latency_ms=generation_latency_ms,
             )
             return str(filepath)
 
