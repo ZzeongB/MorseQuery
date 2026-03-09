@@ -19,7 +19,7 @@ CARTESIA_API_URL = "https://api.cartesia.ai/tts/bytes"
 CARTESIA_VERSION = "2025-04-16"
 
 # Default voice settings
-DEFAULT_MODEL_ID = "sonic-3"
+DEFAULT_MODEL_ID = "sonic-turbo-2025-06-04"  # "sonic-3"
 DEFAULT_VOICE_ID = "67192626-0be9-4f45-b660-580d318c994d"  # Barbershop Man
 
 # Audio playback settings
