@@ -89,6 +89,9 @@
             <input id="fastCatchupSpeed" type="number" min="1.0" max="3.0" step="0.1" value="1.5" style="width: 72px;">
             <span style="margin-left: 12px;">Gap Remove(s):</span>
             <input id="fastCatchupGapSec" type="number" min="0" max="2.0" step="0.1" value="0.0" style="width: 72px;">
+            <span style="margin-left: 12px;">Window:</span>
+            <button id="btn-catchup-window-vad" class="selected" onclick="setFastCatchupWindowMode('vad_utterance')">VAD</button>
+            <button id="btn-catchup-window-time" onclick="setFastCatchupWindowMode('time_window')">Time</button>
         </div>
         <div class="source-select">
             <span>Catch-up Chain:</span>

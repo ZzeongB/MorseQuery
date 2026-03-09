@@ -32,6 +32,7 @@ let judgeEnabled = false; // Judge agent on/off (when off, summaries play withou
 let reconstructorEnabled = true; // Conversation reconstructor on/off
 let transcriptCompressionMode = 'fastest'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
 let fastCatchupChainEnabled = false;
+let fastCatchupWindowMode = 'vad_utterance'; // 'vad_utterance' | 'time_window'
 let summaryFollowupEnabled = false;
 let missedSummaryLatencyBridgeEnabled = true;
 let fastCatchupPending = false;
@@ -411,6 +412,12 @@ function setFastCatchupChainEnabled(enabled) {
     fastCatchupChainEnabled = !!enabled;
     document.getElementById('btn-catchup-chain-on').classList.toggle('selected', fastCatchupChainEnabled);
     document.getElementById('btn-catchup-chain-off').classList.toggle('selected', !fastCatchupChainEnabled);
+}
+
+function setFastCatchupWindowMode(mode) {
+    fastCatchupWindowMode = mode === 'time_window' ? 'time_window' : 'vad_utterance';
+    document.getElementById('btn-catchup-window-vad').classList.toggle('selected', fastCatchupWindowMode === 'vad_utterance');
+    document.getElementById('btn-catchup-window-time').classList.toggle('selected', fastCatchupWindowMode === 'time_window');
 }
 
 function setSummaryFollowupEnabled(enabled) {

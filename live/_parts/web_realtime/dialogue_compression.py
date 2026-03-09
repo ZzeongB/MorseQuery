@@ -1068,6 +1068,40 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     if end_ts <= start_ts:
         end_ts = time.time()
 
+    window_mode = str(_fast_catchup_window_mode_runtime or _FAST_CATCHUP_WINDOW_MODE_DEFAULT)
+    if window_mode == "time_window":
+        window_start = max(start_ts, cursor_ts)
+        window_end = max(window_start, end_ts)
+        lag_sec = max(0.0, window_end - window_start)
+        if lag_sec <= 0.05:
+            return False
+
+        dialogue, _entries = _get_dialogue_by_time_window(window_start, window_end)
+        output_sec = _synthesize_fast_catchup_dialogue(
+            dialogue=dialogue,
+            segment_id=segment_id,
+            session_id=session_id,
+            start_ts=window_start,
+            end_ts=window_end,
+            speed=float(_fast_catchup_speed_runtime),
+            gap_sec=float(_fast_catchup_gap_sec_runtime),
+            silence_thresh_db=_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
+            trigger_source="segment_fast_catchup_time_window",
+        )
+        emitted_any = output_sec > 0
+        should_emit_clear = False
+        with _segment_ctx_lock:
+            if segment_id in _segment_windows:
+                _segment_windows[segment_id]["fast_catchup_cursor_ts"] = window_end
+            cleared_pending = _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            session_has_pending = any(
+                sid == session_id for sid in _pending_fast_catchup_segments.values()
+            )
+            should_emit_clear = cleared_pending and (not session_has_pending)
+        if should_emit_clear:
+            _emit_fast_catchup_pending(session_id, False, segment_id)
+        return emitted_any
+
     utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
         segment_start_ts=start_ts,
         segment_end_ts=end_ts,

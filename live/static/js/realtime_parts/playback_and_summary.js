@@ -598,6 +598,7 @@ function start(v) {
     params.fast_catchup_threshold_sec = fastCatchupThresholdSec;
     params.fast_catchup_speed = fastCatchupSpeed;
     params.fast_catchup_gap_sec = fastCatchupGapSec;
+    params.fast_catchup_window_mode = fastCatchupWindowMode;
     if (source === 'mic') {
         const kw = document.getElementById('keywordMic').value;
         const s1 = document.getElementById('summaryMic1').value;

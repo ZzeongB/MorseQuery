@@ -84,6 +84,7 @@ def handle_start(data: dict):
         _fast_catchup_threshold_sec_runtime, \
         _fast_catchup_speed_runtime, \
         _fast_catchup_gap_sec_runtime, \
+        _fast_catchup_window_mode_runtime, \
         _fast_catchup_chain_enabled_runtime, \
         _summary_followup_enabled_runtime, \
         _missed_summary_latency_bridge_enabled_runtime
@@ -199,6 +200,14 @@ def handle_start(data: dict):
         _fast_catchup_gap_sec_runtime = max(
             0.0, min(2.0, _fast_catchup_gap_sec_runtime)
         )
+        requested_window_mode = str(
+            data.get("fast_catchup_window_mode", _FAST_CATCHUP_WINDOW_MODE_DEFAULT)
+            or _FAST_CATCHUP_WINDOW_MODE_DEFAULT
+        ).strip().lower()
+        if requested_window_mode in ("vad_utterance", "time_window"):
+            _fast_catchup_window_mode_runtime = requested_window_mode
+        else:
+            _fast_catchup_window_mode_runtime = _FAST_CATCHUP_WINDOW_MODE_DEFAULT
         _fast_catchup_chain_enabled_runtime = bool(
             data.get("fast_catchup_chain_enabled", False)
         )
@@ -507,6 +516,7 @@ def handle_end_listening():
                 threshold_sec=threshold_sec,
                 speed=_fast_catchup_speed_runtime,
                 gap_sec=_fast_catchup_gap_sec_runtime,
+                window_mode=_fast_catchup_window_mode_runtime,
                 catchup_chain_enabled=_fast_catchup_chain_enabled_runtime,
                 summary_followup_enabled=_summary_followup_enabled_runtime,
             )
