@@ -62,7 +62,15 @@ def log_print(level: str, message: str, **kwargs: Any) -> None:
     """Print formatted log message to console."""
     timestamp = get_timestamp()
     extra = f" | {kwargs}" if kwargs else ""
-    print(f"[{timestamp}] [{level.upper():5}] {message}{extra}")
+    text = f"[{timestamp}] [{level.upper():5}] {message}{extra}"
+    if str(message).startswith("VAD speech_started at") or str(message).startswith(
+        "VAD speech_stopped at"
+    ):
+        yellow = "\033[33m"
+        reset = "\033[0m"
+        print(f"{yellow}{text}{reset}")
+        return
+    print(text)
 
 
 class JsonLogger:

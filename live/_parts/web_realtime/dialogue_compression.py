@@ -330,7 +330,9 @@ def _emit_missed_summary_latency_bridge(
     bridge_decision_ts = float(payload.get("bridge_decision_ts") or 0.0)
     summary_started_ts = float(payload.get("summary_started_ts") or 0.0)
     window_end_ts = float(payload.get("window_end_ts") or 0.0)
-    bridge_start_ts = max(bridge_decision_ts, summary_started_ts, window_end_ts)
+    segment_end_ts = float(payload.get("end_ts") or 0.0)
+    base_end_ts = max(window_end_ts, segment_end_ts)
+    bridge_start_ts = max(bridge_decision_ts, summary_started_ts, base_end_ts)
     if bridge_start_ts <= 0:
         log_print(
             "INFO",
@@ -340,6 +342,7 @@ def _emit_missed_summary_latency_bridge(
             summary_started_ts=summary_started_ts,
             bridge_decision_ts=bridge_decision_ts,
             window_end_ts=window_end_ts,
+            segment_end_ts=segment_end_ts,
         )
         return False
 
@@ -356,6 +359,7 @@ def _emit_missed_summary_latency_bridge(
             summary_started_ts=summary_started_ts,
             bridge_decision_ts=bridge_decision_ts,
             window_end_ts=window_end_ts,
+            segment_end_ts=segment_end_ts,
             bridge_start_ts=bridge_start_ts,
             bridge_end_ts=bridge_end_ts,
             bridge_window_sec=bridge_window_sec,
@@ -380,38 +384,103 @@ def _emit_missed_summary_latency_bridge(
         payload.get("fast_catchup_silence_thresh_db", _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB)
         or _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
     )
-    bridge_dialogue, bridge_entries = _get_dialogue_by_time_window(
-        bridge_start_ts, bridge_end_ts
+    utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
+        segment_start_ts=bridge_start_ts,
+        segment_end_ts=bridge_end_ts,
+        min_start_ts=bridge_start_ts,
     )
-    if not bridge_dialogue.strip():
+    if len(utterance_windows) <= 0 and has_open_utterance:
+        wait_for_stop_sec = max(
+            0.0,
+            min(
+                3.0,
+                float(payload.get("bridge_wait_for_speech_stop_sec", 1.8) or 1.8),
+            ),
+        )
+        waited_end_ts = _snap_end_to_vad_stop(
+            bridge_end_ts,
+            wait_sec=wait_for_stop_sec,
+            max_lookback_sec=8.0,
+        )
+        if waited_end_ts > bridge_end_ts:
+            bridge_end_ts = waited_end_ts
+            lag_sec = max(0.0, bridge_end_ts - bridge_start_ts)
+            bridge_window_sec = max(0.0, bridge_end_ts - bridge_start_ts)
+            utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
+                segment_start_ts=bridge_start_ts,
+                segment_end_ts=bridge_end_ts,
+                min_start_ts=bridge_start_ts,
+            )
+            log_print(
+                "INFO",
+                "Latency bridge waited for speech_stopped",
+                session_id=session_id,
+                segment_id=segment_id,
+                wait_for_stop_sec=wait_for_stop_sec,
+                bridge_end_ts=bridge_end_ts,
+                speech_done_count=len(utterance_windows),
+                has_open_utterance=has_open_utterance,
+            )
+
+    speech_done_count = len(utterance_windows)
+    if speech_done_count <= 0:
         log_print(
             "INFO",
-            "Latency bridge skipped: no dialogue",
+            "Latency bridge skipped: no speech_done window",
             session_id=session_id,
             segment_id=segment_id,
             summary_started_ts=summary_started_ts,
+            bridge_decision_ts=bridge_decision_ts,
             window_end_ts=window_end_ts,
+            segment_end_ts=segment_end_ts,
             bridge_start_ts=bridge_start_ts,
             bridge_end_ts=bridge_end_ts,
             bridge_window_sec=bridge_window_sec,
             lag_sec=lag_sec,
-            bridge_entry_count=len(bridge_entries),
+            speech_done_count=speech_done_count,
+            has_open_utterance=has_open_utterance,
         )
         return False
 
-    output_sec = _synthesize_fast_catchup_dialogue(
-        dialogue=bridge_dialogue,
-        segment_id=segment_id,
-        session_id=session_id,
-        start_ts=bridge_start_ts,
-        end_ts=bridge_end_ts,
-        speed=speed,
-        gap_sec=gap_sec,
-        silence_thresh_db=silence_thresh_db,
-        trigger_source="missed_summary_latency_bridge",
-    )
-    if output_sec <= 0:
+    emitted_count = 0
+    output_sec_total = 0.0
+    for idx, (utt_start, utt_end) in enumerate(utterance_windows, start=1):
+        utt_dialogue, _utt_entries = _get_dialogue_by_time_window(utt_start, utt_end)
+        output_sec = _synthesize_fast_catchup_dialogue(
+            dialogue=utt_dialogue,
+            segment_id=segment_id,
+            session_id=session_id,
+            start_ts=utt_start,
+            end_ts=utt_end,
+            speed=speed,
+            gap_sec=gap_sec,
+            silence_thresh_db=silence_thresh_db,
+            trigger_source=f"missed_summary_latency_bridge_utt{idx}",
+        )
+        if output_sec <= 0:
+            continue
+        emitted_count += 1
+        output_sec_total += output_sec
+
+    if emitted_count <= 0:
+        log_print(
+            "INFO",
+            "Latency bridge skipped: no audio from speech_done windows",
+            session_id=session_id,
+            segment_id=segment_id,
+            summary_started_ts=summary_started_ts,
+            bridge_decision_ts=bridge_decision_ts,
+            window_end_ts=window_end_ts,
+            segment_end_ts=segment_end_ts,
+            bridge_start_ts=bridge_start_ts,
+            bridge_end_ts=bridge_end_ts,
+            bridge_window_sec=bridge_window_sec,
+            lag_sec=lag_sec,
+            speech_done_count=speech_done_count,
+            has_open_utterance=has_open_utterance,
+        )
         return False
+
     log_print(
         "INFO",
         "Missed-summary latency bridge emitted",
@@ -421,11 +490,14 @@ def _emit_missed_summary_latency_bridge(
         summary_started_ts=summary_started_ts,
         bridge_decision_ts=bridge_decision_ts,
         window_end_ts=window_end_ts,
+        segment_end_ts=segment_end_ts,
         bridge_start_ts=bridge_start_ts,
         bridge_end_ts=bridge_end_ts,
         bridge_window_sec=bridge_window_sec,
-        bridge_entry_count=len(bridge_entries),
-        output_sec=output_sec,
+        speech_done_count=speech_done_count,
+        emitted_count=emitted_count,
+        output_sec=output_sec_total,
+        has_open_utterance=has_open_utterance,
         speed=speed,
         gap_sec=gap_sec,
     )
@@ -1003,6 +1075,17 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     )
 
     if not utterance_windows and has_open_utterance:
+        if not _fast_catchup_chain_enabled_runtime:
+            log_print(
+                "INFO",
+                "Fast catch-up chain disabled; skipping pending open utterance",
+                session_id=session_id,
+                segment_id=segment_id,
+                start_ts=start_ts,
+                end_ts=end_ts,
+                cursor_ts=cursor_ts,
+            )
+            return False
         newly_pending = False
         with _segment_ctx_lock:
             newly_pending = segment_id not in _pending_fast_catchup_segments
