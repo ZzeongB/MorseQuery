@@ -581,6 +581,21 @@ def _trigger_parallel_compression_for_dialogue(
         session_id=session_id,
     )
 
+    # For segment-triggered summaries, re-slice after pending-wait so late-arriving
+    # final transcript chunks are not dropped by an earlier slice_end_ts.
+    if trigger_source == "segment":
+        start_ts_from_window = float((window or {}).get("start_ts") or 0.0)
+        if start_ts_from_window > 0:
+            prev_slice_end = float((window or {}).get("slice_end_ts") or 0.0)
+            refreshed_slice_end = max(
+                prev_slice_end, time.time() + _SEGMENT_TAIL_GRACE_SEC
+            )
+            dialogue, entries = _get_dialogue_by_time_window(
+                start_ts_from_window, refreshed_slice_end
+            )
+            if window is not None:
+                window["slice_end_ts"] = refreshed_slice_end
+
     # Build enhanced before context with last 3 turns
     start_ts = float((window or {}).get("start_ts") or time.time())
     last_3_turns = _get_last_n_turns_before(start_ts, n_turns=2)

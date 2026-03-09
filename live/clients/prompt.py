@@ -601,17 +601,27 @@ def build_dialogue_compression_user_prompt(
     keyword_context: str = "",
 ) -> str:
     """Build user prompt for API-based dialogue compression."""
-    return (
-        "Compress this dialogue.\n\n"
-        f"Before context (hints only):\n{before_context.strip() or '(none)'}\n\n"
-        f"Current viewed keywords:\n{keyword_context.strip() or '(none)'}\n\n"
-        f"Dialogue:\n{dialogue}\n\n"
-        "Rules: Context is hint-only. Do not import extra facts from context. "
-        "If dialogue is short/noisy, output short literal fragment only. "
-        "Drop context-mismatched weird tokens rather than guessing replacements. "
-        "Exclude lines/phrases unrelated to the active context or viewed keywords. "
-        "Treat one-word fragments as possible transcription errors and drop them when uncertain. "
-        "Transcript may contain typos; correct them using context and keywords when obvious. "
-        "Hard limit: each A:/B: line <= 12 words. "
-        "Hard limit: total dialogue <= 20 words."
-    )
+    return f"""Compress this dialogue.
+
+    Before context (hints only):
+    {before_context.strip() or "(none)"}
+
+    Current viewed keywords (hints only):
+    {keyword_context.strip() or "(none)"}
+
+    Dialogue:
+    {dialogue}
+
+    Rules:
+    - Context is hint-only. Do not import extra facts from context.
+    - If dialogue is short/noisy, output short literal fragment only.
+    - Drop context-mismatched weird tokens rather than guessing replacements.
+    - Exclude lines/phrases unrelated to the active context or viewed keywords.
+    - Treat one-word fragments as possible transcription errors and drop them when uncertain.
+    - Transcript may contain typos; correct them using context and keywords when obvious.
+    - The most recent part of the dialogue must be preserved and included in the output.
+
+    Limits:
+    - Each A:/B: line ≤ 8 words.
+    - Total dialogue ≤ 15 words.
+    """

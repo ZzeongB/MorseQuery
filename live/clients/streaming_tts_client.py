@@ -206,7 +206,7 @@ class StreamingTTSClient:
                         "sample_rate": STREAMING_SAMPLE_RATE,
                     },
                     language=self.language,
-                    generation_config={"volume": 1, "speed": 1.7, "emotion": "neutral"},
+                    generation_config={"volume": 1, "speed": 1.4, "emotion": "neutral"},
                 )
 
             self._is_streaming = True
