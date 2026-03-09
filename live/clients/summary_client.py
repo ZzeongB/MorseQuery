@@ -15,7 +15,7 @@ import noisereduce as nr
 import numpy as np
 import pyaudio
 import websocket
-from config import AUDIO_CHUNK, AUDIO_RATE, OPENAI_API_KEY, OPENAI_REALTIME_URL
+from config import AUDIO_CHUNK, AUDIO_RATE, OPENAI_API_KEY, OPENAI_REALTIME_URL, OPENAI_SESSION_CONFIG
 from flask_socketio import SocketIO
 from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
@@ -389,28 +389,11 @@ class SummaryClient:
         )
         self.logger.log("summary_ws_connected")
 
-        ws.send(
-            json.dumps(
-                {
-                    "type": "session.update",
-                    "session": {
-                        "modalities": ["text", "audio"],
-                        "input_audio_format": "pcm16",
-                        "turn_detection": {
-                            "type": "server_vad",
-                            "threshold": 0.45,
-                            "prefix_padding_ms": 150,
-                            "silence_duration_ms": 150,
-                        },
-                        "instructions": SUMMARY_SESSION_INSTRUCTIONS,
-                        "input_audio_transcription": {
-                            "model": "gpt-4o-transcribe",
-                            "language": "en",
-                        },
-                    },
-                }
-            )
-        )
+        session_config = {
+            **OPENAI_SESSION_CONFIG,
+            "instructions": SUMMARY_SESSION_INSTRUCTIONS,
+        }
+        ws.send(json.dumps({"type": "session.update", "session": session_config}))
 
         # Start audio streaming if source is configured
         if (self.source == "mic" and self.device_indices) or (

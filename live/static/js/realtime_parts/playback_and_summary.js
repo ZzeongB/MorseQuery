@@ -583,10 +583,10 @@ function start(v) {
     const fastCatchupThresholdEl = document.getElementById('fastCatchupThresholdSec');
     const fastCatchupSpeedEl = document.getElementById('fastCatchupSpeed');
     const fastCatchupGapEl = document.getElementById('fastCatchupGapSec');
-    let fastCatchupThresholdSec = Number(fastCatchupThresholdEl ? fastCatchupThresholdEl.value : 20);
+    let fastCatchupThresholdSec = Number(fastCatchupThresholdEl ? fastCatchupThresholdEl.value : 1);
     let fastCatchupSpeed = Number(fastCatchupSpeedEl ? fastCatchupSpeedEl.value : 1.5);
     let fastCatchupGapSec = Number(fastCatchupGapEl ? fastCatchupGapEl.value : 0.0);
-    if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 20;
+    if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 1;
     if (!Number.isFinite(fastCatchupSpeed)) fastCatchupSpeed = 1.5;
     if (!Number.isFinite(fastCatchupGapSec)) fastCatchupGapSec = 0.0;
     fastCatchupThresholdSec = Math.min(30, Math.max(1, Math.round(fastCatchupThresholdSec)));

@@ -32,8 +32,10 @@ except Exception:
 from clients import (
     ConversationReconstructorClient,
     DialogueStore,
+    FilterConfig,
     RealtimeClient,
     SummaryClient,
+    TranscriptFilter,
     TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
@@ -208,9 +210,13 @@ _active_runtime_sid: Optional[str] = None
 # Dialogue stores for VAD transcripts (one per summary speaker)
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
 _dialogue_segment_start_time: float = 0.0
+
+# Transcript filter for matching summary transcripts to realtime
+_transcript_filter: Optional[TranscriptFilter] = None
+_transcript_filter_enabled: bool = True  # Can be toggled via start event
 _DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
 _MISS_PADDING_BEFORE_SEC = 1.0
-_FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 20.0
+_FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 1.0
 _FAST_CATCHUP_DEFAULT_SPEED = 1.5
 _FAST_CATCHUP_DEFAULT_GAP_SEC = 0.0
 _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB = -45.0
@@ -229,7 +235,7 @@ _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
 _fast_catchup_window_mode_runtime = _FAST_CATCHUP_WINDOW_MODE_DEFAULT
 _fast_catchup_chain_enabled_runtime = False
 _summary_followup_enabled_runtime = False
-_missed_summary_latency_bridge_enabled_runtime = True
+_missed_summary_latency_bridge_enabled_runtime = False
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -345,6 +351,10 @@ def _on_vad_transcript(transcript: str) -> None:
                 "text": text,
             },
         )
+
+    # Feed to transcript filter for summary matching
+    if _transcript_filter_enabled and _transcript_filter:
+        _transcript_filter.add_realtime_transcript(text, now)
 
     with _segment_ctx_lock:
         _recent_vad_transcripts.append((now, text))
@@ -705,20 +715,102 @@ def _consume_next_sentence(segment_id: int) -> str:
 
 
 def _reset_dialogue_stores() -> None:
-    """Reset all dialogue stores."""
-    global _dialogue_segment_start_time
+    """Reset all dialogue stores and transcript filter."""
+    global _dialogue_segment_start_time, _transcript_filter
     for store in _dialogue_stores.values():
         store.clear()
     _dialogue_stores.clear()
     _dialogue_segment_start_time = 0.0
+    if _transcript_filter:
+        _transcript_filter.clear()
+        _transcript_filter = None
+
+
+def _add_filtered_transcript_to_store(
+    speaker_id: str, source_id: str, text: str, timestamp: float
+) -> None:
+    """Add a filtered (matched) transcript to DialogueStore.
+
+    Called by TranscriptFilter when a summary transcript matches realtime.
+    """
+    session_id = _active_runtime_sid
+    if not session_id:
+        return
+
+    # Get or create dialogue store for this speaker
+    if speaker_id not in _dialogue_stores:
+        _dialogue_stores[speaker_id] = DialogueStore()
+
+    store = _dialogue_stores[speaker_id]
+    entry = store.add_entry(
+        speaker_id=speaker_id,
+        text=text,
+        source_id=source_id,
+        timestamp=timestamp,
+    )
+    _append_session_transcript_entry(
+        session_id=session_id,
+        record={
+            "type": "utterance",
+            "captured_at": datetime.now().isoformat(),
+            "timestamp": entry.timestamp,
+            "timestamp_iso_utc": datetime.fromtimestamp(
+                entry.timestamp, tz=timezone.utc
+            ).isoformat(),
+            "speaker": entry.speaker_id,
+            "source_id": entry.source_id,
+            "text": entry.text,
+            "filtered": True,  # Mark as filtered/matched
+        },
+    )
+    prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
+    _ = store.prune_before(prune_cutoff)
+
+    # Trigger follow-up compression if needed
+    should_trigger_followup = False
+    with _segment_ctx_lock:
+        should_trigger_followup = (
+            _post_tts_followup_active
+            and _post_tts_followup_live_window_open
+            and (not _post_tts_followup_inflight)
+            and (len(_segment_compression_inflight) == 0)
+            and entry.timestamp >= float(_post_tts_followup_cursor_ts or 0.0)
+        )
+    if should_trigger_followup:
+        threading.Thread(
+            target=_trigger_post_tts_followup_if_needed,
+            args=(session_id, "vad_arrived"),
+            daemon=True,
+        ).start()
+
+
+def _init_transcript_filter(session_id: str) -> None:
+    """Initialize the transcript filter for a session."""
+    global _transcript_filter
+    if _transcript_filter:
+        _transcript_filter.clear()
+    _transcript_filter = TranscriptFilter(
+        session_id=session_id,
+        config=FilterConfig(
+            match_window_sec=3.0,
+            min_similarity=0.4,
+            ttl_sec=5.0,
+        ),
+        on_filtered_transcript=_add_filtered_transcript_to_store,
+    )
+    log_print("INFO", "TranscriptFilter initialized (zero-latency)", session_id=session_id)
 
 
 def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: str):
     """Create a VAD transcript callback that adds entries to the DialogueStore.
 
+    When transcript filter is enabled, feeds to filter for matching.
+    When disabled, adds directly to DialogueStore.
+
     Args:
         speaker_id: Speaker identifier ("A" or "B")
         session_id: Session ID for logging
+        source_id: Source identifier (e.g., "sum0", "sum1")
 
     Returns:
         Callback function taking (transcript: str)
@@ -729,8 +821,19 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             return
 
         text = transcript.strip()
+        now = time.time()
 
-        # Get or create dialogue store for this speaker
+        # If filter is enabled, feed to filter for matching
+        if _transcript_filter_enabled and _transcript_filter:
+            _transcript_filter.add_summary_transcript(
+                text=text,
+                source_id=source_id,
+                speaker_id=speaker_id,
+                timestamp=now,
+            )
+            return
+
+        # Direct mode (filter disabled) - add directly to DialogueStore
         if speaker_id not in _dialogue_stores:
             _dialogue_stores[speaker_id] = DialogueStore()
 
@@ -757,17 +860,7 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
         _ = store.prune_before(prune_cutoff)
 
-        # log_print(
-        #     "INFO",
-        #     "VAD transcript added to DialogueStore",
-        #     session_id=session_id,
-        #     speaker=speaker_id,
-        #     text=text[:50],
-        #     timestamp=entry.timestamp,
-        # )
-
-        # If summary pipeline is already running, trigger follow-up compression
-        # immediately when new VAD arrives (until near-end cutoff).
+        # Trigger follow-up compression if needed
         should_trigger_followup = False
         with _segment_ctx_lock:
             should_trigger_followup = (

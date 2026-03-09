@@ -15,6 +15,7 @@ from config import (
     DEFAULT_AUDIO_FILE,
     OPENAI_API_KEY,
     OPENAI_REALTIME_URL,
+    OPENAI_SESSION_CONFIG,
 )
 from flask_socketio import SocketIO
 from logger import get_logger, get_session_subdir, log_print
@@ -118,19 +119,7 @@ class RealtimeClient:
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
         session_config = {
-            "modalities": ["text", "audio"],
-            "input_audio_format": "pcm16",
-            "turn_detection": {
-                "type": "server_vad",
-                "threshold": 0.45,
-                "prefix_padding_ms": 150,
-                "silence_duration_ms": 150,
-                "create_response": False,
-            },
-            "input_audio_transcription": {
-                "model": "gpt-4o-transcribe",
-                "language": "en",
-            },
+            **OPENAI_SESSION_CONFIG,
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }
         ws.send(json.dumps({"type": "session.update", "session": session_config}))

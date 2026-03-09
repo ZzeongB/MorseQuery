@@ -129,6 +129,10 @@ def handle_start(data: dict):
         _reset_dialogue_stores()
         _active_runtime_sid = session_id
 
+        # Initialize transcript filter for matching summary to realtime
+        if _transcript_filter_enabled:
+            _init_transcript_filter(session_id)
+
         source = data.get("source", "mic")
 
         # Get source selections for keyword and summary agents.
@@ -542,7 +546,7 @@ def handle_request_missed_summary(data: dict):
     - padding_before_sec: optional, default 1.0
     - padding_after_sec: optional, default 0.0
     - fast_catchup_enabled: optional, default true
-    - fast_catchup_threshold_sec: optional, default 10.0
+    - fast_catchup_threshold_sec: optional, default 1.0
     - fast_catchup_speed: optional, default 1.5
     - fast_catchup_gap_sec: optional, default 0.0
     - fast_catchup_silence_thresh_db: optional, default -45
