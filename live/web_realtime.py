@@ -192,6 +192,8 @@ def _emit_with_airpods(event, *args, **kwargs):
     if event == "tts_playing":
         _on_tts_started("socketio_tts_playing")
     elif event == "tts_done":
+        if _has_pending_fast_catchup():
+            return _original_sio_emit(event, *args, **kwargs)
         # Summary/reconstruction flow ended.
         _set_keyword_anc_hold(False, "socketio_tts_done")
         _on_tts_finished("socketio_tts_done")
@@ -233,8 +235,8 @@ _FAST_CATCHUP_DENOISE_NOISE_ATTEN_DB = 12.0
 _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
 _fast_catchup_speed_runtime = _FAST_CATCHUP_DEFAULT_SPEED
 _fast_catchup_gap_sec_runtime = _FAST_CATCHUP_DEFAULT_GAP_SEC
-_fast_catchup_chain_enabled_runtime = True
-_summary_followup_enabled_runtime = True
+_fast_catchup_chain_enabled_runtime = False
+_summary_followup_enabled_runtime = False
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.45
 _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
@@ -261,6 +263,8 @@ _segment_seq = 0
 _segment_windows: dict[int, dict] = {}
 _recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
 _recent_vad_boundaries = deque(maxlen=200)  # (ts, event_type)
+_recent_vad_utterances = deque(maxlen=200)  # (speech_started_ts, speech_stopped_ts)
+_vad_open_speech_start_ts: Optional[float] = None
 _before_context_lock = threading.Lock()
 _before_context_summary = ""
 _post_tts_followup_active = False
@@ -268,26 +272,57 @@ _post_tts_followup_inflight = False
 _post_tts_followup_cursor_ts = 0.0
 _post_tts_followup_live_window_open = False
 _segment_compression_inflight: set[int] = set()
+_pending_fast_catchup_segments: dict[int, str] = {}
+_pending_fast_catchup_inflight: set[int] = set()
 _transcript_compression_mode = "realtime"
+
+
+def _has_pending_fast_catchup(session_id: Optional[str] = None) -> bool:
+    with _segment_ctx_lock:
+        if not _pending_fast_catchup_segments:
+            return False
+        if not session_id:
+            return True
+        return any(sid == session_id for sid in _pending_fast_catchup_segments.values())
+
+
+def _emit_fast_catchup_pending(session_id: str, pending: bool, segment_id: int) -> None:
+    try:
+        sio.emit(
+            "fast_catchup_pending",
+            {"pending": bool(pending), "segment_id": int(segment_id)},
+            to=session_id,
+        )
+    except Exception:
+        pass
 
 
 def _reset_segment_tracking() -> None:
     global _segment_seq, _before_context_summary
+    global _vad_open_speech_start_ts
     global \
         _post_tts_followup_active, \
         _post_tts_followup_inflight, \
         _post_tts_followup_cursor_ts
-    global _post_tts_followup_live_window_open, _segment_compression_inflight
+    global \
+        _post_tts_followup_live_window_open, \
+        _segment_compression_inflight, \
+        _pending_fast_catchup_segments, \
+        _pending_fast_catchup_inflight
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
         _recent_vad_transcripts.clear()
         _recent_vad_boundaries.clear()
+        _recent_vad_utterances.clear()
+        _vad_open_speech_start_ts = None
         _post_tts_followup_active = False
         _post_tts_followup_inflight = False
         _post_tts_followup_cursor_ts = 0.0
         _post_tts_followup_live_window_open = False
         _segment_compression_inflight.clear()
+        _pending_fast_catchup_segments.clear()
+        _pending_fast_catchup_inflight.clear()
     with _before_context_lock:
         _before_context_summary = ""
 
@@ -323,12 +358,68 @@ def _on_vad_transcript(transcript: str) -> None:
 
 def _on_vad_boundary(event_type: str, payload: dict) -> None:
     """Track fast speech boundaries from server VAD events."""
+    global _vad_open_speech_start_ts
     ts = float((payload or {}).get("received_at_ts") or time.time())
     et = str(event_type or "").strip().lower()
     if et not in {"speech_started", "speech_stopped"}:
         return
+    trigger_segments: list[tuple[int, str]] = []
     with _segment_ctx_lock:
         _recent_vad_boundaries.append((ts, et))
+        if et == "speech_started":
+            _vad_open_speech_start_ts = ts
+        else:
+            start_ts = _vad_open_speech_start_ts
+            if start_ts is None:
+                # Recover if start event was dropped: ignore invalid pair.
+                return
+            if ts > start_ts:
+                _recent_vad_utterances.append((start_ts, ts))
+            _vad_open_speech_start_ts = None
+            if _pending_fast_catchup_segments:
+                for segment_id, pending_session_id in _pending_fast_catchup_segments.items():
+                    if segment_id in _pending_fast_catchup_inflight:
+                        continue
+                    _pending_fast_catchup_inflight.add(segment_id)
+                    trigger_segments.append((segment_id, pending_session_id))
+
+    for segment_id, pending_session_id in trigger_segments:
+        threading.Thread(
+            target=_run_pending_fast_catchup_segment,
+            args=(segment_id, pending_session_id),
+            daemon=True,
+        ).start()
+
+
+def _get_completed_vad_utterance_windows(
+    *,
+    segment_start_ts: float,
+    segment_end_ts: float,
+    min_start_ts: float,
+) -> tuple[list[tuple[float, float]], bool]:
+    """Get completed utterances overlapping segment range and pending-open status."""
+    windows: list[tuple[float, float]] = []
+    has_open_utterance = False
+    with _segment_ctx_lock:
+        utterances = list(_recent_vad_utterances)
+        open_start = _vad_open_speech_start_ts
+
+    for utt_start, utt_end in utterances:
+        if utt_end <= min_start_ts:
+            continue
+        if utt_start >= segment_end_ts:
+            continue
+        if utt_end <= segment_start_ts:
+            continue
+        win_start = max(segment_start_ts, min_start_ts, utt_start)
+        win_end = float(utt_end)
+        if win_end > win_start:
+            windows.append((win_start, win_end))
+
+    if open_start is not None and open_start < segment_end_ts and open_start >= min_start_ts:
+        has_open_utterance = True
+
+    return windows, has_open_utterance
 
 
 def _snap_end_to_vad_stop(
@@ -1610,32 +1701,76 @@ def _trigger_parallel_compression_after_delay(
     _trigger_parallel_compression(segment_id, session_id)
 
 
+def _run_pending_fast_catchup_segment(segment_id: int, session_id: str) -> None:
+    """Retry fast-catchup for pending segment when a new VAD stop arrives."""
+    try:
+        ok = _try_fast_catchup_for_segment(segment_id, session_id)
+        if ok:
+            return
+        _trigger_parallel_compression_after_delay(segment_id, session_id)
+    finally:
+        with _segment_ctx_lock:
+            _pending_fast_catchup_inflight.discard(segment_id)
+
+
 def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
-    """Try iterative source-audio fast catch-up for one listening segment."""
+    """Try source-audio fast catch-up using completed VAD utterance windows."""
     with _segment_ctx_lock:
         segment_window = dict(_segment_windows.get(segment_id, {}))
     start_ts = float(segment_window.get("start_ts") or 0.0)
     end_ts = float(segment_window.get("end_ts") or 0.0)
+    cursor_ts = float(segment_window.get("fast_catchup_cursor_ts") or start_ts)
     if start_ts <= 0:
         return False
     if end_ts <= start_ts:
         end_ts = time.time()
-    end_ts = _snap_end_to_vad_stop(end_ts)
+
+    utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
+        segment_start_ts=start_ts,
+        segment_end_ts=end_ts,
+        min_start_ts=cursor_ts,
+    )
+
+    if not utterance_windows and has_open_utterance:
+        newly_pending = False
+        with _segment_ctx_lock:
+            newly_pending = segment_id not in _pending_fast_catchup_segments
+            _pending_fast_catchup_segments[segment_id] = session_id
+        if newly_pending:
+            _emit_fast_catchup_pending(session_id, True, segment_id)
+        log_print(
+            "INFO",
+            "Fast catch-up pending open utterance",
+            session_id=session_id,
+            segment_id=segment_id,
+            start_ts=start_ts,
+            end_ts=end_ts,
+            cursor_ts=cursor_ts,
+        )
+        return True
+
+    if not utterance_windows:
+        cleared_pending = False
+        session_has_pending = False
+        with _segment_ctx_lock:
+            cleared_pending = _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            session_has_pending = any(
+                sid == session_id for sid in _pending_fast_catchup_segments.values()
+            )
+        if cleared_pending and not session_has_pending:
+            _emit_fast_catchup_pending(session_id, False, segment_id)
+        return False
+
     speed = float(_fast_catchup_speed_runtime)
     gap_sec = float(_fast_catchup_gap_sec_runtime)
-
-    # Round 1: the original missed segment [start, end]
-    cursor_start = start_ts
-    cursor_end = end_ts
     emitted_any = False
+    last_emitted_end_ts = cursor_ts
 
-    max_steps = (
-        _FAST_CATCHUP_CHAIN_MAX_STEPS if _fast_catchup_chain_enabled_runtime else 1
-    )
-    for step in range(max_steps):
+    for idx, (cursor_start, cursor_end) in enumerate(utterance_windows, start=1):
         lag_sec = max(0.0, cursor_end - cursor_start)
         if lag_sec <= _FAST_CATCHUP_CHAIN_MIN_LAG_SEC:
-            break
+            last_emitted_end_ts = max(last_emitted_end_ts, cursor_end)
+            continue
 
         dialogue, _entries = _get_dialogue_by_time_window(cursor_start, cursor_end)
         output_sec = _synthesize_fast_catchup_dialogue(
@@ -1647,18 +1782,29 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
             speed=speed,
             gap_sec=gap_sec,
             silence_thresh_db=_FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
-            trigger_source=f"segment_fast_catchup_source_step{step + 1}",
+            trigger_source=f"segment_fast_catchup_vad_utt{idx}",
         )
         if output_sec <= 0:
-            return emitted_any
+            break
         emitted_any = True
+        last_emitted_end_ts = max(last_emitted_end_ts, cursor_end)
 
-        # Wait approximately for emitted audio playback, then catch the newly
-        # accumulated lag window [previous_end, now].
-        time.sleep(min(8.0, output_sec))
-        cursor_start = cursor_end
-        cursor_end = _snap_end_to_vad_stop(time.time())
-
+    with _segment_ctx_lock:
+        if segment_id in _segment_windows:
+            _segment_windows[segment_id]["fast_catchup_cursor_ts"] = last_emitted_end_ts
+        had_pending = segment_id in _pending_fast_catchup_segments
+        if has_open_utterance:
+            _pending_fast_catchup_segments[segment_id] = session_id
+            session_has_pending = True
+        else:
+            _pending_fast_catchup_segments.pop(segment_id, None)
+            session_has_pending = any(
+                sid == session_id for sid in _pending_fast_catchup_segments.values()
+            )
+    if has_open_utterance and not had_pending:
+        _emit_fast_catchup_pending(session_id, True, segment_id)
+    if (not has_open_utterance) and had_pending and (not session_has_pending):
+        _emit_fast_catchup_pending(session_id, False, segment_id)
     return emitted_any
 
 
@@ -1722,6 +1868,7 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
             "start_ts": start_ts,
             "end_ts": end_ts,
             "next_sentence": "",
+            "fast_catchup_cursor_ts": start_ts,
         }
 
     before_context = _collect_context_before_start_ts(start_ts)
@@ -2812,10 +2959,10 @@ def handle_start(data: dict):
             0.0, min(2.0, _fast_catchup_gap_sec_runtime)
         )
         _fast_catchup_chain_enabled_runtime = bool(
-            data.get("fast_catchup_chain_enabled", True)
+            data.get("fast_catchup_chain_enabled", False)
         )
         _summary_followup_enabled_runtime = bool(
-            data.get("summary_followup_enabled", True)
+            data.get("summary_followup_enabled", False)
         )
 
         # Noise gate settings
@@ -2994,11 +3141,15 @@ def handle_start_listening():
                     "start_ts": time.time(),
                     "end_ts": None,
                     "next_sentence": "",
+                    "fast_catchup_cursor_ts": time.time(),
                 }
                 _post_tts_followup_active = False
                 _post_tts_followup_inflight = False
                 _post_tts_followup_cursor_ts = 0.0
                 _post_tts_followup_live_window_open = False
+                _pending_fast_catchup_segments.clear()
+                _pending_fast_catchup_inflight.clear()
+            _emit_fast_catchup_pending(session_id, False, _segment_seq)
             for sc in summary_clients:
                 sc.start_listening()
             # Also notify context judge
@@ -3497,8 +3648,11 @@ def handle_browser_tts_playback_done(data: dict):
     """Browser-side TTS playback done (summary/reconstruction)."""
     session_id = request.sid
     if not _is_active_session(session_id):
-        return
+        return {"ok": False, "active": False}
     reason = str((data or {}).get("reason", "")).strip() or "browser_done"
+    if reason != "user_cancel" and _has_pending_fast_catchup(session_id):
+        _emit_fast_catchup_pending(session_id, True, 0)
+        return {"ok": True, "defer_finish": True}
     # Browser summary/reconstruction playback ended.
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")
@@ -3506,6 +3660,7 @@ def handle_browser_tts_playback_done(data: dict):
     _set_airpods_mode(
         "transparency", f"browser_tts_playback_done_force:{reason}", wait=True
     )
+    return {"ok": True, "defer_finish": False}
 
 
 @sio.on("browser_tts_near_end")
