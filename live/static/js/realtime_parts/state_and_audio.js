@@ -101,6 +101,7 @@ const AUDIO_CUE_DEDUP_WINDOWS = {
 
 // TTS playback
 let ttsQueue = [];
+let streamingTtsBuffers = new Map(); // stream_id -> { chunks: Uint8Array[], meta }
 let ttsPlaying = false;
 let currentTtsAudio = null;
 let currentTtsUrl = null;
@@ -853,6 +854,7 @@ function scheduleSummaryNearEndSignal(meta, durationSec) {
 async function playNextTts() {
     if (ttsQueue.length === 0) {
         const finishedSummaryPlayback = browserSummaryPlaybackActive || activeBrowserTtsType === 'summary';
+        const finishedKeywordPlayback = activeBrowserTtsType === 'keyword';
         clearCurrentSummaryNearEndTimer();
         ttsPlaying = false;
         currentTtsAudio = null;
@@ -875,6 +877,30 @@ async function playNextTts() {
         }
         suppressNextBrowserTtsEndCue = false;
         activeBrowserTtsType = null;
+        if (finishedKeywordPlayback) {
+            keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
+            if (
+                pendingSummarizeIndicatorAfterKeyword &&
+                summaryRequested &&
+                summaryInProgress
+            ) {
+                pendingSummarizeIndicatorAfterKeyword = false;
+                hideInfo();
+                hideSummaryText();
+                hideReconstructedTurns();
+                showLoadingIndicator('Summarizing...', 'summarizing', 220);
+            }
+            if (
+                autoPreSummarizeEnabled &&
+                dismissMode === 'summary' &&
+                listeningActive &&
+                !summaryTriggeredForListeningSession &&
+                !summaryRequested
+            ) {
+                startSummarizing();
+            }
+        }
         summaryInProgress = false;
         allowPostFollowupTts = false;
         hideSummaryText();
@@ -895,7 +921,7 @@ async function playNextTts() {
 
     ttsPlaying = true;
     summaryInProgress = true;
-    const { audioData, url, meta } = ttsQueue.shift();
+    const { audioData, audioBytes, url, meta } = ttsQueue.shift();
     const ttsType = (meta && meta.type === 'keyword') ? 'keyword' : 'summary';
     currentTtsUrl = url;
     console.log('playNextTts: playing audio via Web Audio API');
@@ -909,10 +935,18 @@ async function playNextTts() {
             return;
         }
 
-        const arrayBuffer = new ArrayBuffer(audioData.length);
-        const view = new Uint8Array(arrayBuffer);
-        for (let i = 0; i < audioData.length; i++) {
-            view[i] = audioData.charCodeAt(i);
+        let arrayBuffer;
+        if (audioBytes && audioBytes.buffer) {
+            arrayBuffer = audioBytes.buffer.slice(
+                audioBytes.byteOffset,
+                audioBytes.byteOffset + audioBytes.byteLength,
+            );
+        } else {
+            arrayBuffer = new ArrayBuffer(audioData.length);
+            const view = new Uint8Array(arrayBuffer);
+            for (let i = 0; i < audioData.length; i++) {
+                view[i] = audioData.charCodeAt(i);
+            }
         }
 
         const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
@@ -978,6 +1012,7 @@ function stopTtsPlayback() {
             try { URL.revokeObjectURL(item.url); } catch (e) {}
         }
     }
+    streamingTtsBuffers.clear();
     ttsPlaying = false;
     if (browserSummaryPlaybackActive) {
         socket.emit('browser_tts_playback_done', { reason: 'user_cancel' });

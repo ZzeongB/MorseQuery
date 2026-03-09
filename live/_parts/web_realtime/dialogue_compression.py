@@ -906,6 +906,7 @@ def _trigger_parallel_compression_for_dialogue(
             _synthesize_compressed_dialogue(
                 chosen_text,
                 segment_id,
+                session_id,
                 chosen_method,
                 trigger_source=trigger_source,
             )

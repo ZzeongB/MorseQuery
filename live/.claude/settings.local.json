@@ -3,7 +3,8 @@
     "allow": [
       "Bash(python:*)",
       "Bash(grep:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(pip show:*)"
     ]
   }
 }

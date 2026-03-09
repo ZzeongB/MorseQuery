@@ -5,12 +5,14 @@ from clients.conversation_reconstructor_client import ConversationReconstructorC
 from clients.dialogue_store import DialogueEntry, DialogueStore
 from clients.realtime_client import RealtimeClient
 from clients.summary_client import SummaryClient
+from clients.streaming_tts_client import StreamingTTSClient
 from clients.transcript_filter import FilterConfig, TranscriptFilter
 from clients.transcript_reconstructor_client import TranscriptReconstructorClient
 
 __all__ = [
     "RealtimeClient",
     "SummaryClient",
+    "StreamingTTSClient",
     "ContextJudgeClient",
     "ConversationReconstructorClient",
     "DialogueEntry",

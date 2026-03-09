@@ -134,6 +134,7 @@ socket.on('session_ended', () => {
     clearKeywordAutoSummarizeTimer();
     keywordTtsPreloadedTexts.clear();
     pendingSummaryTexts = [];
+    streamingTtsBuffers.clear();
     awaitingJudgeDecision = false;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
@@ -348,6 +349,65 @@ socket.on('keyword_tts', data => {
     enqueueTtsAudio(data.audio, { type: 'keyword' });
 });
 
+socket.on('streaming_tts_chunk', data => {
+    if (!data || !data.audio) return;
+    const streamId = String(data.stream_id || '').trim();
+    if (!streamId) return;
+
+    const audioData = atob(data.audio);
+    const chunk = new Uint8Array(audioData.length);
+    for (let i = 0; i < audioData.length; i++) {
+        chunk[i] = audioData.charCodeAt(i);
+    }
+
+    const existing = streamingTtsBuffers.get(streamId) || {
+        chunks: [],
+        meta: {
+            type: data.type || 'summary',
+            segmentId: Number(data.segment_id || 0),
+            method: data.method || '',
+            triggerSource: data.trigger_source || '',
+        },
+    };
+    existing.chunks.push(chunk);
+    streamingTtsBuffers.set(streamId, existing);
+});
+
+socket.on('streaming_tts_done', data => {
+    const streamId = String((data && data.stream_id) || '').trim();
+    if (!streamId) return;
+
+    const buffered = streamingTtsBuffers.get(streamId);
+    streamingTtsBuffers.delete(streamId);
+    if (!buffered || !Array.isArray(buffered.chunks) || buffered.chunks.length === 0) {
+        return;
+    }
+    if (data && data.stopped) {
+        return;
+    }
+
+    const pcm = concatUint8Arrays(buffered.chunks);
+    const wav = pcm16ToWavBytes(pcm, Number(data.sample_rate || 24000), 1);
+    const ttsType = buffered.meta && buffered.meta.type ? buffered.meta.type : 'summary';
+
+    if (ttsType === 'reconstruction') {
+        stopLoadingAudioFeedback();
+        summaryRequested = false;
+        listeningActive = false;
+        summaryInProgress = true;
+        awaitingJudgeDecision = false;
+        if (summaryFinalizeTimer) {
+            clearTimeout(summaryFinalizeTimer);
+            summaryFinalizeTimer = null;
+        }
+    }
+
+    enqueueTtsBytes(wav, 'audio/wav', {
+        type: ttsType,
+        segmentId: Number((buffered.meta && buffered.meta.segmentId) || 0),
+    });
+});
+
 socket.on('conversation_tts_done', data => {
     console.log('conversation_tts_done', data.segment_id, data.count);
 });
@@ -486,17 +546,24 @@ socket.on('keyword_tts_done', () => {
     keywordTtsCurrentText = '';
     keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
+    const keywordPlaybackBusy = isKeywordPlaybackBusy();
     // Fallback auto-trigger: if duration estimate missed, trigger summarize on actual TTS completion.
     if (
         autoPreSummarizeEnabled &&
         dismissMode === 'summary' &&
         listeningActive &&
         !summaryTriggeredForListeningSession &&
-        !summaryRequested
+        !summaryRequested &&
+        !keywordPlaybackBusy
     ) {
         startSummarizing();
     }
-    if (pendingSummarizeIndicatorAfterKeyword && summaryRequested && summaryInProgress) {
+    if (
+        pendingSummarizeIndicatorAfterKeyword &&
+        summaryRequested &&
+        summaryInProgress &&
+        !keywordPlaybackBusy
+    ) {
         pendingSummarizeIndicatorAfterKeyword = false;
         hideInfo();
         hideSummaryText();

@@ -39,6 +39,7 @@ from clients import (
     TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
+from clients.streaming_tts_client import StreamingTTSClient
 from clients.tts_client import TTSClient
 
 # Mic level monitoring
@@ -204,6 +205,7 @@ context_judge: Optional[ContextJudgeClient] = None  # Context-aware TTS judge
 conversation_reconstructor: Optional[ConversationReconstructorClient] = None
 transcript_reconstructor: Optional[TranscriptReconstructorClient] = None
 keyword_tts_client: Optional[TTSClient] = None
+keyword_tts_stream_client: Optional[StreamingTTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
 

@@ -16,6 +16,8 @@ from flask import jsonify, render_template, request
 from pydub import AudioSegment, effects, silence
 from pydub.utils import make_chunks
 
+from clients.streaming_tts_client import StreamingTTSClient
+
 
 def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> None:
     """If new VAD arrived after end_listening, compress+TTS it as follow-up."""
@@ -363,6 +365,7 @@ def _synthesize_fast_catchup_dialogue(
 def _synthesize_compressed_dialogue(
     compressed_text: str,
     segment_id: int,
+    session_id: str,
     method: str = "unknown",
     trigger_source: str = "segment",
 ) -> None:
@@ -391,93 +394,65 @@ def _synthesize_compressed_dialogue(
         )
         return
 
-    audio_items: list[
-        tuple[bytes, str, str, int]
-    ] = []  # (audio_bytes, speaker, text, idx)
-
     for i, (speaker, text) in enumerate(turns):
         with _clients_lock:
             tts = _get_tts_client_for_speaker(speaker)
         if not tts:
             continue
 
-        audio_bytes = tts.synthesize(text, language="en")
-        if not audio_bytes:
-            continue
-        audio_items.append((audio_bytes, speaker, text, i))
-
-    if not audio_items:
-        log_print(
-            "WARN",
-            "No audio synthesized for compressed dialogue",
-            segment_id=segment_id,
-        )
-        return
-
-    # Merge audio items into single WAV
-    def _merge_wav_items_compressed(
-        items: list[tuple[bytes, str, str, int]],
-    ) -> Optional[bytes]:
-        """Concatenate multiple mono 16-bit 24kHz WAV bytes into one WAV."""
-        if not items:
-            return None
-        pcm_chunks: list[bytes] = []
-        for audio_bytes, _, _, _ in items:
-            try:
-                with io.BytesIO(audio_bytes) as wav_io:
-                    with wave.open(wav_io, "rb") as wf:
-                        if (
-                            wf.getnchannels() != 1
-                            or wf.getsampwidth() != 2
-                            or wf.getframerate() != 24000
-                        ):
-                            log_print(
-                                "WARN",
-                                "Unexpected compressed TTS WAV format; skipping merge",
-                                segment_id=segment_id,
-                            )
-                            return None
-                        pcm_chunks.append(wf.readframes(wf.getnframes()))
-            except Exception as e:
-                log_print(
-                    "ERROR",
-                    f"Failed to parse compressed TTS WAV: {e}",
-                    segment_id=segment_id,
-                )
-                return None
-
-        merged_pcm = b"".join(pcm_chunks)
-        if not merged_pcm:
-            return None
-        out_io = io.BytesIO()
-        with wave.open(out_io, "wb") as out_wav:
-            out_wav.setnchannels(1)
-            out_wav.setsampwidth(2)
-            out_wav.setframerate(24000)
-            out_wav.writeframes(merged_pcm)
-        return out_io.getvalue()
-
-    merged_wav = _merge_wav_items_compressed(audio_items)
-    if merged_wav:
-        sio.emit(
-            "compressed_dialogue_tts",
-            {
+        stream_id = f"recon_{session_id}_{segment_id}_{i}"
+        stream_client = StreamingTTSClient(
+            socketio=sio,
+            session_id=f"{session_id}_recon_stream_{segment_id}_{i}",
+            voice_id=tts.voice_id,
+            model_id=tts.model_id,
+            chunk_event="streaming_tts_chunk",
+            done_event="streaming_tts_done",
+            emit_to=session_id,
+            event_extra={
+                "stream_id": stream_id,
+                "type": "reconstruction",
                 "segment_id": segment_id,
-                "audio": base64.b64encode(merged_wav).decode("utf-8"),
-                "text": compressed_text,
-                "format": "wav",
-                "sample_rate": 24000,
                 "method": method,
                 "trigger_source": trigger_source,
-                "turn_count": len(audio_items),
+                "turn_index": i,
+                "speaker": speaker,
             },
         )
-        log_print(
-            "INFO",
-            f"compressed_dialogue_tts emitted: count={len(audio_items)}, bytes={len(merged_wav)}",
-            segment_id=segment_id,
-            method=method,
-        )
+        started = stream_client.start_stream()
+        pushed = started and stream_client.push_text(text)
+        if started and pushed:
+            stream_client.finish_input()
+            while stream_client.is_streaming:
+                time.sleep(0.02)
+            stream_client.close()
+        else:
+            stream_client.close()
+            log_print(
+                "WARN",
+                "Streaming synthesis failed for compressed turn",
+                segment_id=segment_id,
+                speaker=speaker,
+                turn_index=i,
+            )
+
+    sio.emit(
+        "conversation_tts_done",
+        {
+            "segment_id": segment_id,
+            "count": len(turns),
+            "method": method,
+            "trigger_source": trigger_source,
+        },
+        to=session_id,
+    )
+    log_print(
+        "INFO",
+        "compressed_dialogue_tts streamed",
+        segment_id=segment_id,
+        method=method,
+        turns=len(turns),
+    )
 
 
 def _parse_reconstructed_turns(text: str) -> list[tuple[str, str]]:

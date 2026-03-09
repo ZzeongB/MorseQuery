@@ -17,6 +17,53 @@ function enqueueTtsAudio(audioBase64, meta = null) {
     }
 }
 
+function enqueueTtsBytes(audioBytes, mimeType = 'audio/wav', meta = null) {
+    if (!audioBytes || audioBytes.length === 0) return;
+    const blob = new Blob([audioBytes], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    ttsQueue.push({ audioBytes, url, meta });
+
+    if (!ttsPlaying && !isBlockedByKeywordPlayback(meta)) {
+        playNextTts();
+    }
+}
+
+function concatUint8Arrays(chunks) {
+    const total = chunks.reduce((sum, item) => sum + item.length, 0);
+    const merged = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) {
+        merged.set(chunk, offset);
+        offset += chunk.length;
+    }
+    return merged;
+}
+
+function pcm16ToWavBytes(pcmBytes, sampleRate = 24000, channels = 1) {
+    const dataSize = pcmBytes.length;
+    const wav = new Uint8Array(44 + dataSize);
+    const view = new DataView(wav.buffer);
+    const bytesPerSample = 2;
+    const blockAlign = channels * bytesPerSample;
+    const byteRate = sampleRate * blockAlign;
+
+    view.setUint32(0, 0x52494646, false); // RIFF
+    view.setUint32(4, 36 + dataSize, true);
+    view.setUint32(8, 0x57415645, false); // WAVE
+    view.setUint32(12, 0x666d7420, false); // fmt
+    view.setUint32(16, 16, true); // PCM fmt chunk size
+    view.setUint16(20, 1, true); // PCM
+    view.setUint16(22, channels, true);
+    view.setUint32(24, sampleRate, true);
+    view.setUint32(28, byteRate, true);
+    view.setUint16(32, blockAlign, true);
+    view.setUint16(34, 16, true); // bits per sample
+    view.setUint32(36, 0x64617461, false); // data
+    view.setUint32(40, dataSize, true);
+    wav.set(pcmBytes, 44);
+    return wav;
+}
+
 function isSummaryOrReconstructionMeta(meta) {
     return !!meta && (meta.type === 'summary' || meta.type === 'reconstruction');
 }
