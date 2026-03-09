@@ -198,6 +198,7 @@ class StreamingTTSClient:
                         "sample_rate": STREAMING_SAMPLE_RATE,
                     },
                     language=self.language,
+                    generation_config={"volume": 1, "speed": 1.2, "emotion": "neutral"},
                 )
 
             self._is_streaming = True
@@ -386,7 +387,11 @@ class StreamingTTSClient:
 
     def _emit_stream_done(self, chunk_count: int, total_bytes: int) -> None:
         """Emit stream completion event to client."""
-        duration_ms = (time.time() - self._stream_start_time) * 1000 if self._stream_start_time else 0
+        duration_ms = (
+            (time.time() - self._stream_start_time) * 1000
+            if self._stream_start_time
+            else 0
+        )
         self.sio.emit(
             self.done_event,
             {
@@ -426,8 +431,12 @@ class StreamingTTSClient:
                 f.write(raw_audio)
 
             # Save metadata
-            meta_filepath = tts_dir / f"{timestamp}_{self.session_id}_stream_{tts_id:04d}.txt"
-            duration_sec = len(raw_audio) / (STREAMING_SAMPLE_RATE * 2)  # 16-bit = 2 bytes
+            meta_filepath = (
+                tts_dir / f"{timestamp}_{self.session_id}_stream_{tts_id:04d}.txt"
+            )
+            duration_sec = len(raw_audio) / (
+                STREAMING_SAMPLE_RATE * 2
+            )  # 16-bit = 2 bytes
             with open(meta_filepath, "w", encoding="utf-8") as f:
                 f.write(f"Text: {self._current_text}\n")
                 f.write(f"Session: {self.session_id}\n")

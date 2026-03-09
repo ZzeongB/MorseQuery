@@ -115,7 +115,11 @@ class RealtimeClient:
         self._vad_boundary_callbacks.append(callback)
 
     def on_open(self, ws: websocket.WebSocketApp) -> None:
-        log_print("INFO", "WebSocket connected to OpenAI", session_id=self.session_id)
+        log_print(
+            "INFO",
+            f"WebSocket connected to OpenAI with config: {OPENAI_SESSION_CONFIG}",
+            session_id=self.session_id,
+        )
         self.logger.log("websocket_connected")
         self.sio.emit("status", "Connected")
         session_config = {
