@@ -359,18 +359,26 @@ def _emit_missed_summary_latency_bridge(
         1.0,
         min(
             3.0,
-            float(payload.get("fast_catchup_speed", _fast_catchup_speed_runtime) or _fast_catchup_speed_runtime),
+            float(
+                payload.get("fast_catchup_speed", _fast_catchup_speed_runtime)
+                or _fast_catchup_speed_runtime
+            ),
         ),
     )
     gap_sec = max(
         0.0,
         min(
             2.0,
-            float(payload.get("fast_catchup_gap_sec", _fast_catchup_gap_sec_runtime) or _fast_catchup_gap_sec_runtime),
+            float(
+                payload.get("fast_catchup_gap_sec", _fast_catchup_gap_sec_runtime)
+                or _fast_catchup_gap_sec_runtime
+            ),
         ),
     )
     silence_thresh_db = float(
-        payload.get("fast_catchup_silence_thresh_db", _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB)
+        payload.get(
+            "fast_catchup_silence_thresh_db", _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
+        )
         or _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB
     )
     utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
@@ -395,10 +403,12 @@ def _emit_missed_summary_latency_bridge(
             bridge_end_ts = waited_end_ts
             lag_sec = max(0.0, bridge_end_ts - bridge_start_ts)
             bridge_window_sec = max(0.0, bridge_end_ts - bridge_start_ts)
-            utterance_windows, has_open_utterance = _get_completed_vad_utterance_windows(
-                segment_start_ts=bridge_start_ts,
-                segment_end_ts=bridge_end_ts,
-                min_start_ts=bridge_start_ts,
+            utterance_windows, has_open_utterance = (
+                _get_completed_vad_utterance_windows(
+                    segment_start_ts=bridge_start_ts,
+                    segment_end_ts=bridge_end_ts,
+                    min_start_ts=bridge_start_ts,
+                )
             )
             log_print(
                 "INFO",
@@ -563,6 +573,23 @@ def _trigger_parallel_compression_for_dialogue(
 ) -> None:
     """Run 3-path compression for provided dialogue and auto-select output."""
     session_logger = get_logger(session_id)
+
+    # Wait for any pending speech transcript before starting compression
+    _wait_for_pending_speech_transcript(
+        max_wait_sec=2.0,
+        poll_interval_sec=0.1,
+        session_id=session_id,
+    )
+
+    # Build enhanced before context with last 3 turns
+    start_ts = float((window or {}).get("start_ts") or time.time())
+    last_3_turns = _get_last_n_turns_before(start_ts, n_turns=2)
+    if last_3_turns:
+        if before_context:
+            before_context = f"{before_context}\n\n[Recent transcript before this segment]\n{last_3_turns}"
+        else:
+            before_context = f"[Recent transcript before this segment]\n{last_3_turns}"
+
     summary_started_ts = time.time()
     window_payload = dict(window or {})
     if summary_started_ts > 0:
@@ -1057,7 +1084,9 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     if end_ts <= start_ts:
         end_ts = time.time()
 
-    window_mode = str(_fast_catchup_window_mode_runtime or _FAST_CATCHUP_WINDOW_MODE_DEFAULT)
+    window_mode = str(
+        _fast_catchup_window_mode_runtime or _FAST_CATCHUP_WINDOW_MODE_DEFAULT
+    )
     if window_mode == "time_window":
         window_start = max(start_ts, cursor_ts)
         window_end = max(window_start, end_ts)
@@ -1082,7 +1111,9 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
         with _segment_ctx_lock:
             if segment_id in _segment_windows:
                 _segment_windows[segment_id]["fast_catchup_cursor_ts"] = window_end
-            cleared_pending = _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            cleared_pending = (
+                _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            )
             session_has_pending = any(
                 sid == session_id for sid in _pending_fast_catchup_segments.values()
             )
@@ -1130,7 +1161,9 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
         cleared_pending = False
         session_has_pending = False
         with _segment_ctx_lock:
-            cleared_pending = _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            cleared_pending = (
+                _pending_fast_catchup_segments.pop(segment_id, None) is not None
+            )
             session_has_pending = any(
                 sid == session_id for sid in _pending_fast_catchup_segments.values()
             )

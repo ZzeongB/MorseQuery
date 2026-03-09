@@ -487,6 +487,79 @@ def _snap_end_to_vad_stop(
     return target
 
 
+def _wait_for_pending_speech_transcript(
+    max_wait_sec: float = 2.0,
+    poll_interval_sec: float = 0.1,
+    session_id: Optional[str] = None,
+) -> bool:
+    """Wait for pending speech (speech_started but not yet stopped) to complete.
+
+    If there's an open speech, waits for:
+    1. speech_stopped event
+    2. Transcript to arrive
+
+    Args:
+        max_wait_sec: Maximum time to wait
+        poll_interval_sec: Polling interval
+        session_id: Session ID for logging
+
+    Returns:
+        True if we waited and transcript arrived, False if timeout or no pending
+    """
+    start_time = time.time()
+    initial_open_ts = None
+
+    with _segment_ctx_lock:
+        initial_open_ts = _vad_open_speech_start_ts
+
+    if initial_open_ts is None:
+        # No pending speech
+        return False
+
+    log_print(
+        "INFO",
+        f"Waiting for pending speech transcript (started at {initial_open_ts:.2f})",
+        session_id=session_id,
+    )
+
+    # Track initial transcript count to detect new arrivals
+    initial_transcript_count = len(_recent_vad_transcripts)
+
+    while (time.time() - start_time) < max_wait_sec:
+        with _segment_ctx_lock:
+            current_open_ts = _vad_open_speech_start_ts
+            current_transcript_count = len(_recent_vad_transcripts)
+
+        # Check if speech ended (open_ts changed to None or different)
+        speech_ended = (current_open_ts is None) or (current_open_ts != initial_open_ts)
+
+        # Check if new transcript arrived
+        new_transcript_arrived = current_transcript_count > initial_transcript_count
+
+        if speech_ended and new_transcript_arrived:
+            elapsed_ms = (time.time() - start_time) * 1000
+            log_print(
+                "INFO",
+                f"Pending speech transcript arrived (waited {elapsed_ms:.0f}ms)",
+                session_id=session_id,
+            )
+            return True
+
+        if speech_ended:
+            # Speech ended but transcript not yet arrived, keep waiting briefly
+            pass
+
+        time.sleep(poll_interval_sec)
+
+    elapsed_ms = (time.time() - start_time) * 1000
+    log_print(
+        "WARN",
+        f"Timeout waiting for pending speech transcript ({elapsed_ms:.0f}ms)",
+        session_id=session_id,
+    )
+    return False
+
+
 def _get_current_keywords_with_desc(limit: int = 3) -> list[dict]:
     """Get latest extracted keywords from RealtimeClient."""
     with _clients_lock:
@@ -525,6 +598,36 @@ def _get_recent_dialogue_before_start_ts(
     if not all_entries:
         return ""
     lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
+    return "\n".join(lines)
+
+
+def _get_last_n_turns_before(start_ts: float, n_turns: int = 3) -> str:
+    """Get the last N dialogue turns before start_ts.
+
+    Args:
+        start_ts: Timestamp to search before
+        n_turns: Number of turns to retrieve (default 3)
+
+    Returns:
+        Formatted dialogue string with speaker labels
+    """
+    all_entries = []
+    for store in _dialogue_stores.values():
+        # Get all entries before start_ts
+        entries = store.get_entries_between(0.0, start_ts)
+        all_entries.extend(entries)
+
+    # Sort by timestamp descending, take last N
+    all_entries.sort(key=lambda e: e.timestamp, reverse=True)
+    last_n = all_entries[:n_turns]
+
+    # Reverse back to chronological order
+    last_n.reverse()
+
+    if not last_n:
+        return ""
+
+    lines = [f"{e.speaker_id}: {e.text}" for e in last_n]
     return "\n".join(lines)
 
 
