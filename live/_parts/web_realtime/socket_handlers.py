@@ -169,9 +169,18 @@ def handle_start(data: dict):
         if keyword_voice_id:
             keyword_tts_kwargs["voice_id"] = keyword_voice_id
         keyword_tts_client = TTSClient(**keyword_tts_kwargs)
+
+        # Create persistent streaming TTS client for keywords
         if keyword_tts_stream_client:
             keyword_tts_stream_client.close()
-        keyword_tts_stream_client = None
+        keyword_tts_stream_client = StreamingTTSClient(
+            socketio=sio,
+            session_id=f"{session_id}_keyword_stream",
+            voice_id=keyword_voice_id or DEFAULT_VOICE_ID,
+            chunk_event="streaming_tts_chunk",
+            done_event="streaming_tts_done",
+            emit_to=session_id,
+        )
 
         # Keep the field for backward compatibility, but summary-generation path is disabled.
         judge_enabled = data.get("judge_enabled", False)
@@ -793,27 +802,19 @@ def handle_keyword_tts(data: dict):
     # Latest-only behavior: if a newer navigation request arrives while synthesis
     # is in-flight, this request is dropped before playback.
     def _synthesize_and_play():
-        global keyword_tts_stream_client
         stream_id = f"keyword_{session_id}_{request_token}"
-        stream_client = StreamingTTSClient(
-            socketio=sio,
-            session_id=f"{session_id}_keyword_stream_{request_token}",
-            voice_id=tts.voice_id,
-            model_id=tts.model_id,
-            chunk_event="streaming_tts_chunk",
-            done_event="streaming_tts_done",
-            emit_to=session_id,
-            event_extra={"stream_id": stream_id, "type": "keyword"},
-        )
 
         with _clients_lock:
             if request_token != _keyword_tts_request_token:
-                stream_client.close()
                 return
-            if keyword_tts_stream_client:
-                keyword_tts_stream_client.stop_stream()
-                keyword_tts_stream_client.close()
-            keyword_tts_stream_client = stream_client
+            stream_client = keyword_tts_stream_client
+            if not stream_client:
+                return
+            # Stop any previous stream on the same client
+            if stream_client.is_streaming:
+                stream_client.stop_stream()
+            # Update event_extra for this request
+            stream_client.event_extra = {"stream_id": stream_id, "type": "keyword"}
 
         # Keep ANC hold active across keyword navigation/loading.
         _set_keyword_anc_hold(True, "keyword_tts_before_stream")
@@ -822,16 +823,14 @@ def handle_keyword_tts(data: dict):
         pushed = started and stream_client.push_text(text)
         if started and pushed:
             stream_client.finish_input()
+            # Emit tts_playing to trigger keyword UI render on frontend
+            sio.emit("tts_playing", {"reason": "keyword"}, to=session_id)
         else:
             sio.emit(
                 "keyword_tts_error",
                 {"error": "Streaming keyword TTS failed", "text": text},
                 to=session_id,
             )
-            with _clients_lock:
-                if keyword_tts_stream_client is stream_client:
-                    keyword_tts_stream_client = None
-            stream_client.close()
             return
 
         while stream_client.is_streaming:
@@ -843,11 +842,7 @@ def handle_keyword_tts(data: dict):
 
         with _clients_lock:
             is_latest = request_token == _keyword_tts_request_token
-            if keyword_tts_stream_client is stream_client:
-                keyword_tts_stream_client = None
             local_client = client
-
-        stream_client.close()
 
         if not is_latest:
             return
@@ -904,7 +899,7 @@ def handle_keyword_tts_preload(data: dict):
 @sio.on("cancel_keyword_tts")
 def handle_cancel_keyword_tts():
     """Cancel keyword TTS only (do not affect summary flow)."""
-    global _keyword_tts_request_token, keyword_tts_stream_client
+    global _keyword_tts_request_token
     session_id = request.sid
     if not _is_active_session(session_id):
         return
@@ -914,15 +909,13 @@ def handle_cancel_keyword_tts():
             keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
         if keyword_tts_stream_client:
             keyword_tts_stream_client.stop_stream()
-            keyword_tts_stream_client.close()
-            keyword_tts_stream_client = None
     log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
 
 
 @sio.on("cancel_tts")
 def handle_cancel_tts():
     """Cancel pending/playing TTS (both keyword and summary)."""
-    global _keyword_tts_request_token, keyword_tts_stream_client
+    global _keyword_tts_request_token
     session_id = request.sid
     if not _is_active_session(session_id):
         return
@@ -933,8 +926,6 @@ def handle_cancel_tts():
             keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
         if keyword_tts_stream_client:
             keyword_tts_stream_client.stop_stream()
-            keyword_tts_stream_client.close()
-            keyword_tts_stream_client = None
 
         # Cancel summary TTS
         if context_judge:

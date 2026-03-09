@@ -216,10 +216,28 @@ socket.on('tts_playing', data => {
 
     if (reason === 'keyword') {
         keywordTtsPlaying = true;
-        scheduleAutoSummarizeFromKeywordPlayback(keywordPlaybackToken);
+        // Don't schedule auto-summarize here - wait until keyword TTS is done
         if (keywordOutputMode === 'audio' && options.length > 0) {
             hideLoadingIndicator();
             render();
+        }
+        return;
+    }
+
+    if (reason === 'reconstruction') {
+        summaryInProgress = true;
+        summaryRequested = false;
+        pendingSummarizeIndicatorAfterKeyword = false;
+        awaitingJudgeDecision = false;
+        if (summaryFinalizeTimer) {
+            clearTimeout(summaryFinalizeTimer);
+            summaryFinalizeTimer = null;
+        }
+        hideLoadingIndicator();
+        summaryTextAllowedThisPlayback = true;
+        if (pendingReconstructedTurns.length > 0) {
+            renderReconstructedTurns(pendingReconstructedTurns);
+            renderedReconstructedSegmentId = pendingReconstructedSegmentId;
         }
         return;
     }
@@ -360,52 +378,200 @@ socket.on('streaming_tts_chunk', data => {
         chunk[i] = audioData.charCodeAt(i);
     }
 
-    const existing = streamingTtsBuffers.get(streamId) || {
-        chunks: [],
-        meta: {
-            type: data.type || 'summary',
-            segmentId: Number(data.segment_id || 0),
-            method: data.method || '',
-            triggerSource: data.trigger_source || '',
-        },
+    const sampleRate = Number(data.sample_rate || 24000);
+    const ttsType = data.type || 'summary';
+    const meta = {
+        type: ttsType,
+        segmentId: Number(data.segment_id || 0),
+        method: data.method || '',
+        triggerSource: data.trigger_source || '',
     };
-    existing.chunks.push(chunk);
-    streamingTtsBuffers.set(streamId, existing);
+
+    // Check if this stream is already in the queue
+    let queueItem = streamingTtsQueue.find(item => item.streamId === streamId);
+
+    if (!queueItem) {
+        // Create new queue item for this stream
+        queueItem = {
+            streamId,
+            sampleRate,
+            meta,
+            ttsType,
+            chunks: [],
+            receivingDone: false,
+            player: null,
+        };
+        streamingTtsQueue.push(queueItem);
+        console.log(`[StreamingTTS] New stream queued: ${streamId}, queue length: ${streamingTtsQueue.length}`);
+    }
+
+    // Buffer the chunk
+    queueItem.chunks.push(chunk);
+
+    // If no current player, start playing this stream
+    if (!currentStreamingPlayer) {
+        startStreamingTtsPlayback(queueItem);
+    } else if (currentStreamingPlayer === queueItem.player) {
+        // This is the current stream, push chunk immediately
+        queueItem.player.pushChunk(chunk);
+        queueItem.chunks.pop(); // Remove from buffer since pushed
+    }
+    // Otherwise, chunk stays buffered until this stream's turn
 });
+
+function createStreamingPlayer(queueItem) {
+    const { streamId, sampleRate, meta, ttsType } = queueItem;
+    const player = new StreamingTtsPlayer(streamId, sampleRate, meta);
+
+    player.onFirstChunk = () => {
+        hideLoadingIndicator();
+        if (ttsType === 'keyword') {
+            keywordTtsPlaying = true;
+            playTtsStartFeedback('keyword');
+        } else if (ttsType === 'reconstruction' || ttsType === 'summary') {
+            stopLoadingAudioFeedback();
+            summaryInProgress = true;
+            // Only play start feedback for first summary stream
+            const isFirstSummary = streamingTtsQueue.findIndex(
+                item => item.ttsType === 'reconstruction' || item.ttsType === 'summary'
+            ) === streamingTtsQueue.indexOf(queueItem);
+            if (isFirstSummary) {
+                playTtsStartFeedback('summary');
+            }
+        }
+    };
+
+    player.onEndCallback = () => {
+        console.log(`[StreamingTTS] Playback ended: ${streamId}`);
+
+        // Remove this stream from queue
+        const idx = streamingTtsQueue.findIndex(item => item.streamId === streamId);
+        if (idx >= 0) {
+            streamingTtsQueue.splice(idx, 1);
+        }
+        streamingTtsPlayers.delete(streamId);
+        currentStreamingPlayer = null;
+
+        if (ttsType === 'keyword') {
+            keywordTtsPlaying = false;
+            keywordTtsCurrentText = '';
+            playTtsEndFeedback('keyword');
+            hideInfo();
+            socket.emit('keyword_tts_done');
+
+            // Show "Summarizing..." if it was deferred
+            if (
+                pendingSummarizeIndicatorAfterKeyword &&
+                summaryRequested &&
+                summaryInProgress
+            ) {
+                pendingSummarizeIndicatorAfterKeyword = false;
+                hideSummaryText();
+                hideReconstructedTurns();
+                showLoadingIndicator('Summarizing...', 'summarizing', 220);
+            }
+
+            // Auto-start summarizing if enabled (after playback done)
+            if (
+                autoPreSummarizeEnabled &&
+                dismissMode === 'summary' &&
+                listeningActive &&
+                !summaryTriggeredForListeningSession &&
+                !summaryRequested
+            ) {
+                startSummarizing();
+            }
+        } else if (ttsType === 'reconstruction' || ttsType === 'summary') {
+            // Check if there are more summary streams in queue
+            const hasMoreSummary = streamingTtsQueue.some(
+                item => item.ttsType === 'reconstruction' || item.ttsType === 'summary'
+            );
+            if (!hasMoreSummary) {
+                playTtsEndFeedback('summary');
+                summaryInProgress = false;
+                hideSummaryText();
+                hideReconstructedTurns();
+            }
+        }
+
+        // Play next stream in queue
+        playNextStreamingTts();
+    };
+
+    return player;
+}
+
+function startStreamingTtsPlayback(queueItem) {
+    if (queueItem.player) return; // Already started
+
+    const player = createStreamingPlayer(queueItem);
+    queueItem.player = player;
+    streamingTtsPlayers.set(queueItem.streamId, player);
+    currentStreamingPlayer = player;
+
+    console.log(`[StreamingTTS] Starting playback: ${queueItem.streamId}`);
+
+    // Push all buffered chunks
+    for (const chunk of queueItem.chunks) {
+        player.pushChunk(chunk);
+    }
+    queueItem.chunks = [];
+
+    // If already done receiving, signal finish
+    if (queueItem.receivingDone) {
+        console.log(`[StreamingTTS] Stream already done receiving: ${queueItem.streamId}, signaling finish`);
+        player.finish();
+    }
+}
+
+function playNextStreamingTts() {
+    if (streamingTtsQueue.length === 0) {
+        currentStreamingPlayer = null;
+        console.log('[StreamingTTS] Queue empty');
+        return;
+    }
+
+    const next = streamingTtsQueue[0];
+    console.log(`[StreamingTTS] Playing next: ${next.streamId}`);
+    startStreamingTtsPlayback(next);
+}
 
 socket.on('streaming_tts_done', data => {
     const streamId = String((data && data.stream_id) || '').trim();
     if (!streamId) return;
 
-    const buffered = streamingTtsBuffers.get(streamId);
-    streamingTtsBuffers.delete(streamId);
-    if (!buffered || !Array.isArray(buffered.chunks) || buffered.chunks.length === 0) {
+    const queueItem = streamingTtsQueue.find(item => item.streamId === streamId);
+    if (!queueItem) {
+        console.log(`[StreamingTTS] Done received for unknown stream: ${streamId}`);
         return;
     }
+
+    console.log(`[StreamingTTS] Receiving done: ${streamId}, stopped: ${!!(data && data.stopped)}`);
+
     if (data && data.stopped) {
+        // Stream was stopped/cancelled
+        if (queueItem.player) {
+            queueItem.player.stop();
+        }
+        const idx = streamingTtsQueue.findIndex(item => item.streamId === streamId);
+        if (idx >= 0) streamingTtsQueue.splice(idx, 1);
+        streamingTtsPlayers.delete(streamId);
+        if (currentStreamingPlayer === queueItem.player) {
+            currentStreamingPlayer = null;
+            playNextStreamingTts();
+        }
         return;
     }
 
-    const pcm = concatUint8Arrays(buffered.chunks);
-    const wav = pcm16ToWavBytes(pcm, Number(data.sample_rate || 24000), 1);
-    const ttsType = buffered.meta && buffered.meta.type ? buffered.meta.type : 'summary';
+    // Mark as done receiving chunks
+    queueItem.receivingDone = true;
 
-    if (ttsType === 'reconstruction') {
-        stopLoadingAudioFeedback();
-        summaryRequested = false;
-        listeningActive = false;
-        summaryInProgress = true;
-        awaitingJudgeDecision = false;
-        if (summaryFinalizeTimer) {
-            clearTimeout(summaryFinalizeTimer);
-            summaryFinalizeTimer = null;
-        }
+    // If this stream is currently playing, signal finish to wait for playback
+    if (queueItem.player && currentStreamingPlayer === queueItem.player) {
+        queueItem.player.finish();
+        // onEndCallback will handle cleanup and playing next
     }
-
-    enqueueTtsBytes(wav, 'audio/wav', {
-        type: ttsType,
-        segmentId: Number((buffered.meta && buffered.meta.segmentId) || 0),
-    });
+    // If not yet playing, it will be handled when its turn comes
 });
 
 socket.on('conversation_tts_done', data => {
@@ -542,6 +708,14 @@ socket.on('keyword_tts_error', data => {
 });
 
 socket.on('keyword_tts_done', () => {
+    // Server-side done can arrive before browser playback ends for streaming keyword TTS.
+    // In that case, defer completion handling until playback actually ends.
+    const streamingKeywordStillPlaying = streamingTtsQueue.some(item => item && item.ttsType === 'keyword');
+    if (streamingKeywordStillPlaying) {
+        console.log('[StreamingTTS] Ignore keyword_tts_done until keyword playback ends');
+        return;
+    }
+
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
     keywordPlaybackToken += 1;

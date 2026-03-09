@@ -611,5 +611,7 @@ def build_dialogue_compression_user_prompt(
         "Drop context-mismatched weird tokens rather than guessing replacements. "
         "Exclude lines/phrases unrelated to the active context or viewed keywords. "
         "Treat one-word fragments as possible transcription errors and drop them when uncertain. "
-        "Hard limit: each A:/B: line <= 12 words."
+        "Transcript may contain typos; correct them using context and keywords when obvious. "
+        "Hard limit: each A:/B: line <= 12 words. "
+        "Hard limit: total dialogue <= 20 words."
     )

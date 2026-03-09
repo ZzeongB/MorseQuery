@@ -102,6 +102,9 @@ const AUDIO_CUE_DEDUP_WINDOWS = {
 // TTS playback
 let ttsQueue = [];
 let streamingTtsBuffers = new Map(); // stream_id -> { chunks: Uint8Array[], meta }
+let streamingTtsPlayers = new Map(); // stream_id -> StreamingTtsPlayer instance
+let streamingTtsQueue = []; // Queue for sequential playback: { streamId, player, chunks: [] }
+let currentStreamingPlayer = null; // Currently playing streaming TTS
 let ttsPlaying = false;
 let currentTtsAudio = null;
 let currentTtsUrl = null;
@@ -431,6 +434,144 @@ function setMissedSummaryLatencyBridgeEnabled(enabled) {
     missedSummaryLatencyBridgeEnabled = !!enabled;
     document.getElementById('btn-missed-bridge-on').classList.toggle('selected', missedSummaryLatencyBridgeEnabled);
     document.getElementById('btn-missed-bridge-off').classList.toggle('selected', !missedSummaryLatencyBridgeEnabled);
+}
+
+// ============================================================================
+// Streaming TTS Player
+// ============================================================================
+
+class StreamingTtsPlayer {
+    constructor(streamId, sampleRate = 24000, meta = {}) {
+        this.streamId = streamId;
+        this.sampleRate = sampleRate;
+        this.meta = meta;
+        this.audioContext = null;
+        this.nextPlayTime = 0;
+        this.isPlaying = false;
+        this.isStopped = false;
+        this.pendingChunks = [];
+        this.scheduledSources = [];
+        this.totalSamplesScheduled = 0;
+        this.startedPlayback = false;
+        this.onEndCallback = null;
+    }
+
+    async start() {
+        if (this.audioContext) return;
+
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if (!Ctx) {
+            console.error('StreamingTtsPlayer: No AudioContext available');
+            return;
+        }
+
+        this.audioContext = new Ctx({ sampleRate: this.sampleRate });
+        if (this.audioContext.state === 'suspended') {
+            try {
+                await this.audioContext.resume();
+            } catch (e) {
+                console.error('StreamingTtsPlayer: Failed to resume AudioContext', e);
+            }
+        }
+
+        this.nextPlayTime = this.audioContext.currentTime + 0.05; // Small buffer
+        this.isPlaying = true;
+        console.log(`StreamingTtsPlayer[${this.streamId}]: Started, sampleRate=${this.sampleRate}`);
+    }
+
+    async pushChunk(pcmBytes) {
+        if (this.isStopped) return;
+
+        if (!this.audioContext) {
+            await this.start();
+        }
+
+        if (!this.audioContext || this.audioContext.state === 'closed') return;
+
+        // PCM S16LE to Float32
+        const samples = pcmBytes.length / 2;
+        const float32 = new Float32Array(samples);
+        const dataView = new DataView(pcmBytes.buffer, pcmBytes.byteOffset, pcmBytes.byteLength);
+
+        for (let i = 0; i < samples; i++) {
+            const int16 = dataView.getInt16(i * 2, true); // little-endian
+            float32[i] = int16 / 32768.0;
+        }
+
+        // Create AudioBuffer
+        const audioBuffer = this.audioContext.createBuffer(1, samples, this.sampleRate);
+        audioBuffer.getChannelData(0).set(float32);
+
+        // Schedule playback
+        const source = this.audioContext.createBufferSource();
+        source.buffer = audioBuffer;
+        source.connect(this.audioContext.destination);
+
+        // Calculate when to play
+        const currentTime = this.audioContext.currentTime;
+        if (this.nextPlayTime < currentTime) {
+            this.nextPlayTime = currentTime + 0.02;
+        }
+
+        source.start(this.nextPlayTime);
+        this.scheduledSources.push(source);
+
+        const duration = samples / this.sampleRate;
+        this.nextPlayTime += duration;
+        this.totalSamplesScheduled += samples;
+
+        // Trigger UI update on first chunk
+        if (!this.startedPlayback) {
+            this.startedPlayback = true;
+            this.onFirstChunk();
+        }
+    }
+
+    onFirstChunk() {
+        // Override in usage to trigger UI updates
+    }
+
+    stop() {
+        this.isStopped = true;
+        this.isPlaying = false;
+
+        for (const source of this.scheduledSources) {
+            try {
+                source.stop();
+            } catch (e) {}
+        }
+        this.scheduledSources = [];
+
+        if (this.audioContext && this.audioContext.state !== 'closed') {
+            this.audioContext.close().catch(() => {});
+        }
+        this.audioContext = null;
+
+        console.log(`StreamingTtsPlayer[${this.streamId}]: Stopped`);
+    }
+
+    async finish() {
+        if (this.isStopped) return;
+
+        // Wait for all scheduled audio to finish
+        if (this.audioContext && this.nextPlayTime > this.audioContext.currentTime) {
+            const remainingMs = (this.nextPlayTime - this.audioContext.currentTime) * 1000;
+            await new Promise(resolve => setTimeout(resolve, remainingMs + 50));
+        }
+
+        this.isPlaying = false;
+        const totalDuration = this.totalSamplesScheduled / this.sampleRate;
+        console.log(`StreamingTtsPlayer[${this.streamId}]: Finished, duration=${totalDuration.toFixed(2)}s`);
+
+        if (this.onEndCallback) {
+            this.onEndCallback();
+        }
+
+        if (this.audioContext && this.audioContext.state !== 'closed') {
+            this.audioContext.close().catch(() => {});
+        }
+        this.audioContext = null;
+    }
 }
 
 function isToneFeedbackEnabled() {
@@ -1013,6 +1154,19 @@ function stopTtsPlayback() {
         }
     }
     streamingTtsBuffers.clear();
+    // Stop all streaming TTS players
+    for (const [streamId, player] of streamingTtsPlayers) {
+        player.stop();
+    }
+    streamingTtsPlayers.clear();
+    // Clear streaming TTS queue
+    for (const item of streamingTtsQueue) {
+        if (item.player) {
+            item.player.stop();
+        }
+    }
+    streamingTtsQueue = [];
+    currentStreamingPlayer = null;
     ttsPlaying = false;
     if (browserSummaryPlaybackActive) {
         socket.emit('browser_tts_playback_done', { reason: 'user_cancel' });

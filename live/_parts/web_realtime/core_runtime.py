@@ -39,7 +39,7 @@ from clients import (
     TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
-from clients.streaming_tts_client import StreamingTTSClient
+from clients.streaming_tts_client import StreamingTTSClient, DEFAULT_VOICE_ID
 from clients.tts_client import TTSClient
 
 # Mic level monitoring

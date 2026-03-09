@@ -394,6 +394,22 @@ def _synthesize_compressed_dialogue(
         )
         return
 
+    # Emit turns data for frontend text UI
+    turns_payload = [
+        {"speaker": speaker, "text": text}
+        for speaker, text in turns
+    ]
+    sio.emit(
+        "conversation_reconstructed_turns",
+        {
+            "segment_id": segment_id,
+            "turns": turns_payload,
+            "method": method,
+            "trigger_source": trigger_source,
+        },
+        to=session_id,
+    )
+
     for i, (speaker, text) in enumerate(turns):
         with _clients_lock:
             tts = _get_tts_client_for_speaker(speaker)
@@ -423,6 +439,13 @@ def _synthesize_compressed_dialogue(
         pushed = started and stream_client.push_text(text)
         if started and pushed:
             stream_client.finish_input()
+            # Emit tts_playing on first turn to trigger text UI
+            if i == 0:
+                sio.emit(
+                    "tts_playing",
+                    {"reason": "reconstruction", "segment_id": segment_id},
+                    to=session_id,
+                )
             while stream_client.is_streaming:
                 time.sleep(0.02)
             stream_client.close()

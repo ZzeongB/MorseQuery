@@ -26,6 +26,7 @@ class StreamingTTSClient:
     """WebSocket-based streaming TTS client for Cartesia.
 
     Supports:
+    - Persistent WebSocket connection (reused across TTS requests)
     - Streaming text input: push text chunks as they arrive
     - Streaming audio output: emit audio chunks to client as they're generated
     """
@@ -52,10 +53,13 @@ class StreamingTTSClient:
         self.emit_to = emit_to
         self.event_extra = event_extra or {}
 
-        # Cartesia client
+        # Cartesia client and persistent connection
         self.client: Optional[Cartesia] = None
         self._connection_manager = None  # TTSResourceConnectionManager (for cleanup)
         self._connection = None  # Actual connection (from __enter__)
+        self._connection_lock = threading.Lock()
+
+        # Per-stream context
         self._context = None
         self._context_lock = threading.Lock()
 
@@ -107,8 +111,52 @@ class StreamingTTSClient:
             )
             return False
 
+    def _ensure_connection(self) -> bool:
+        """Ensure WebSocket connection is open. Reuse existing or create new."""
+        with self._connection_lock:
+            # Check if existing connection is still valid
+            if self._connection is not None:
+                try:
+                    # Connection exists, assume it's valid
+                    return True
+                except Exception:
+                    # Connection is broken, close and reconnect
+                    self._close_connection_unsafe()
+
+            # Create new connection
+            try:
+                self._connection_manager = self.client.tts.websocket_connect()
+                self._connection = self._connection_manager.__enter__()
+                log_print(
+                    "INFO",
+                    "WebSocket connection established",
+                    session_id=self.session_id,
+                )
+                return True
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"Failed to establish WebSocket connection: {e}",
+                    session_id=self.session_id,
+                )
+                self._connection_manager = None
+                self._connection = None
+                return False
+
+    def _close_connection_unsafe(self) -> None:
+        """Close WebSocket connection without lock (caller must hold lock)."""
+        if self._connection_manager:
+            try:
+                self._connection_manager.__exit__(None, None, None)
+            except Exception:
+                pass
+        self._connection_manager = None
+        self._connection = None
+
     def start_stream(self, initial_text: str = "") -> bool:
         """Start a new streaming TTS session.
+
+        Reuses existing WebSocket connection, creates new context.
 
         Args:
             initial_text: Optional initial text to start with
@@ -127,27 +175,30 @@ class StreamingTTSClient:
             )
             self.stop_stream()
 
+        # Ensure connection is open
+        if not self._ensure_connection():
+            return False
+
         try:
             self._stop_event.clear()
             self._audio_chunks = []
             self._current_text = initial_text
             self._stream_start_time = time.time()
 
-            # Connect via WebSocket
-            self._connection_manager = self.client.tts.websocket_connect()
-            self._connection = self._connection_manager.__enter__()
-
-            # Create context for this stream
-            self._context = self._connection.context(
-                model_id=self.model_id,
-                voice={"mode": "id", "id": self.voice_id},
-                output_format={
-                    "container": STREAMING_CONTAINER,
-                    "encoding": STREAMING_ENCODING,
-                    "sample_rate": STREAMING_SAMPLE_RATE,
-                },
-                language=self.language,
-            )
+            # Create context for this stream (reusing connection)
+            with self._connection_lock:
+                if self._connection is None:
+                    return False
+                self._context = self._connection.context(
+                    model_id=self.model_id,
+                    voice={"mode": "id", "id": self.voice_id},
+                    output_format={
+                        "container": STREAMING_CONTAINER,
+                        "encoding": STREAMING_ENCODING,
+                        "sample_rate": STREAMING_SAMPLE_RATE,
+                    },
+                    language=self.language,
+                )
 
             self._is_streaming = True
 
@@ -160,7 +211,7 @@ class StreamingTTSClient:
 
             log_print(
                 "INFO",
-                "TTS stream started",
+                "TTS stream started (reusing connection)",
                 session_id=self.session_id,
             )
             self.logger.log("tts_stream_started")
@@ -183,7 +234,10 @@ class StreamingTTSClient:
                 f"Failed to start TTS stream: {e}",
                 session_id=self.session_id,
             )
-            self._cleanup()
+            # Connection might be broken, close it
+            with self._connection_lock:
+                self._close_connection_unsafe()
+            self._cleanup_stream()
             return False
 
     def push_text(self, text: str) -> bool:
@@ -259,6 +313,7 @@ class StreamingTTSClient:
         """Background thread to receive and emit audio chunks."""
         total_bytes = 0
         chunk_count = 0
+        connection_error = False
 
         try:
             with self._context_lock:
@@ -317,11 +372,17 @@ class StreamingTTSClient:
                     f"TTS receive error: {e}",
                     session_id=self.session_id,
                 )
+                connection_error = True
         finally:
-            # Save audio and cleanup
+            # Save audio and cleanup stream (but keep connection)
             self._save_audio()
             self._emit_stream_done(chunk_count, total_bytes)
-            self._cleanup()
+            self._cleanup_stream()
+
+            # If there was a connection error, close the connection
+            if connection_error:
+                with self._connection_lock:
+                    self._close_connection_unsafe()
 
     def _emit_stream_done(self, chunk_count: int, total_bytes: int) -> None:
         """Emit stream completion event to client."""
@@ -402,25 +463,17 @@ class StreamingTTSClient:
             return None
 
     def stop_stream(self) -> None:
-        """Stop the current TTS stream."""
+        """Stop the current TTS stream (keeps connection open)."""
         log_print("INFO", "Stopping TTS stream", session_id=self.session_id)
         self._stop_event.set()
-        self._cleanup()
+        self._cleanup_stream()
 
-    def _cleanup(self) -> None:
-        """Clean up resources."""
+    def _cleanup_stream(self) -> None:
+        """Clean up stream resources (context only, keep connection)."""
         self._is_streaming = False
 
         with self._context_lock:
             self._context = None
-
-        self._connection = None
-        if self._connection_manager:
-            try:
-                self._connection_manager.__exit__(None, None, None)
-            except Exception:
-                pass
-            self._connection_manager = None
 
         self._audio_chunks = []
         self._current_text = ""
@@ -504,8 +557,21 @@ class StreamingTTSClient:
         """Check if a stream is currently active."""
         return self._is_streaming
 
+    @property
+    def is_connected(self) -> bool:
+        """Check if WebSocket connection is open."""
+        with self._connection_lock:
+            return self._connection is not None
+
+    def close_connection(self) -> None:
+        """Close the WebSocket connection."""
+        with self._connection_lock:
+            self._close_connection_unsafe()
+        log_print("INFO", "WebSocket connection closed", session_id=self.session_id)
+
     def close(self) -> None:
         """Close the client and release all resources."""
         self.stop_stream()
+        self.close_connection()
         self.client = None
         log_print("INFO", "StreamingTTSClient closed", session_id=self.session_id)

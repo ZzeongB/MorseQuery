@@ -169,7 +169,7 @@ function playCurrentKeywordTts() {
     keywordPlaybackToken += 1;
     keywordTtsPlaying = true;
     keywordTtsCurrentText = `${word}. ${desc}`;
-    scheduleAutoSummarizeFromKeywordPlayback(keywordPlaybackToken);
+    // Don't schedule auto-summarize here - wait until keyword TTS is done (handled in onEndCallback)
     socket.emit('keyword_tts', { text: keywordTtsCurrentText, keyword: word });
 }
 
