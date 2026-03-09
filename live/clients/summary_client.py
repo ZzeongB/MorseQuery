@@ -11,6 +11,7 @@ import threading
 import time
 from typing import Callable, Optional
 
+import noisereduce as nr
 import numpy as np
 import pyaudio
 import websocket
@@ -46,6 +47,9 @@ class SummaryClient:
         mic_id: str = "summary",
         voice_id: str | None = None,
         output_device_index: int | None = None,
+        enable_noise_reduction: bool = False,
+        noise_profile_duration: float = 2.0,
+        noise_reduction_buffer_duration: float = 0.5,
     ):
         self.sio = socketio
         self.session_id = session_id
@@ -56,6 +60,18 @@ class SummaryClient:
         self.mic_id = mic_id
         self.voice_id = voice_id
         self.output_device_index = output_device_index
+
+        # Noise reduction settings
+        self.enable_noise_reduction = enable_noise_reduction
+        self.noise_profile_duration = noise_profile_duration
+        self.noise_reduction_buffer_duration = noise_reduction_buffer_duration
+        self.noise_profile: Optional[np.ndarray] = None
+        self.noise_profile_collected = False
+        self.chunks_for_profile = int(noise_profile_duration * AUDIO_RATE / AUDIO_CHUNK)
+        self.chunks_for_nr_buffer = int(
+            noise_reduction_buffer_duration * AUDIO_RATE / AUDIO_CHUNK
+        )
+        self.nr_buffer: list[bytes] = []
 
         self.ws: Optional[websocket.WebSocketApp] = None
         self.running = False
@@ -119,6 +135,9 @@ class SummaryClient:
             prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
             output_device_index=output_device_index,
+            enable_noise_reduction=enable_noise_reduction,
+            noise_profile_duration=noise_profile_duration,
+            noise_reduction_buffer_duration=noise_reduction_buffer_duration,
         )
         self.logger.log(
             "summary_client_created",
@@ -130,6 +149,9 @@ class SummaryClient:
             prepare_tts_on_callback=prepare_tts_on_callback,
             voice_id=voice_id,
             output_device_index=output_device_index,
+            enable_noise_reduction=enable_noise_reduction,
+            noise_profile_duration=noise_profile_duration,
+            noise_reduction_buffer_duration=noise_reduction_buffer_duration,
         )
 
     # -------------------------
@@ -377,8 +399,8 @@ class SummaryClient:
                         "turn_detection": {
                             "type": "server_vad",
                             "threshold": 0.5,
-                            "prefix_padding_ms": 200,
-                            "silence_duration_ms": 300,
+                            "prefix_padding_ms": 150,
+                            "silence_duration_ms": 150,
                         },
                         "instructions": SUMMARY_SESSION_INSTRUCTIONS,
                         "input_audio_transcription": {
@@ -504,6 +526,75 @@ class SummaryClient:
     # Audio streaming
     # -------------------------
 
+    def _collect_noise_profile(self, audio_data: np.ndarray) -> None:
+        """Collect noise profile from initial audio samples."""
+        self.noise_profile = audio_data.astype(np.float32)
+        self.noise_profile_collected = True
+        log_print(
+            "INFO",
+            f"Noise profile collected ({len(audio_data)} samples)",
+            session_id=self.session_id,
+        )
+        self.logger.log(
+            "noise_profile_collected",
+            samples=len(audio_data),
+            duration_sec=len(audio_data) / AUDIO_RATE,
+        )
+
+    def _apply_noise_reduction(self, audio_data: np.ndarray) -> np.ndarray:
+        """Apply noise reduction to audio data using the collected profile."""
+        if self.noise_profile is None:
+            return audio_data
+
+        try:
+            reduced = nr.reduce_noise(
+                y=audio_data.astype(np.float32),
+                sr=AUDIO_RATE,
+                y_noise=self.noise_profile,
+                stationary=True,
+                prop_decrease=0.8,
+            )
+            return reduced.astype(np.int16)
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"Noise reduction failed: {e}",
+                session_id=self.session_id,
+            )
+            return audio_data
+
+    def _send_audio_chunk(self, data: bytes) -> bool:
+        """Send a single audio chunk to WebSocket and update buffers.
+
+        Returns True if sent successfully, False otherwise.
+        """
+        # Record audio
+        self.recording_buffer.append(data)
+
+        # Maintain rolling buffer for last 3 seconds
+        self.recent_audio_buffer.append(data)
+        if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
+            self.recent_audio_buffer.pop(0)
+
+        audio_b64 = base64.b64encode(data).decode()
+
+        with self._lock:
+            ws = self.ws
+            if ws and not self._shutdown_event.is_set():
+                try:
+                    ws.send(
+                        json.dumps(
+                            {
+                                "type": "input_audio_buffer.append",
+                                "audio": audio_b64,
+                            }
+                        )
+                    )
+                    return True
+                except Exception:
+                    return False
+        return False
+
     def _stream_audio(self) -> None:
         """Stream audio from configured source."""
         if self.source == "mp3":
@@ -556,6 +647,10 @@ class SummaryClient:
             self.pa = pa
             self.stream = stream
 
+            # Noise reduction state for this stream
+            profile_buffer: list[bytes] = []
+            nr_chunk_buffer: list[bytes] = []
+
             while self.running and self.connected and not self._shutdown_event.is_set():
                 try:
                     data = stream.read(AUDIO_CHUNK, exception_on_overflow=False)
@@ -575,30 +670,40 @@ class SummaryClient:
                     arr[np.abs(arr) < self.noise_cut_threshold] = 0
                     data = arr.tobytes()
 
-                # Record audio
-                self.recording_buffer.append(data)
-
-                # Maintain rolling buffer for last 3 seconds
-                self.recent_audio_buffer.append(data)
-                if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
-                    self.recent_audio_buffer.pop(0)
-
-                audio_b64 = base64.b64encode(data).decode()
-
-                with self._lock:
-                    ws = self.ws
-                    if ws and not self._shutdown_event.is_set():
-                        try:
-                            ws.send(
-                                json.dumps(
-                                    {
-                                        "type": "input_audio_buffer.append",
-                                        "audio": audio_b64,
-                                    }
-                                )
+                # Noise reduction: collect profile first, then buffer and process
+                if self.enable_noise_reduction:
+                    if not self.noise_profile_collected:
+                        # Phase 1: Collecting noise profile
+                        profile_buffer.append(data)
+                        if len(profile_buffer) >= self.chunks_for_profile:
+                            profile_audio = np.frombuffer(
+                                b"".join(profile_buffer), dtype=np.int16
                             )
-                        except Exception:
-                            break
+                            self._collect_noise_profile(profile_audio)
+                            profile_buffer.clear()
+                        continue  # Don't stream during profile collection
+
+                    # Phase 2: Buffer chunks and apply noise reduction
+                    nr_chunk_buffer.append(data)
+                    if len(nr_chunk_buffer) >= self.chunks_for_nr_buffer:
+                        # Combine buffer, apply NR, then split back
+                        combined = np.frombuffer(
+                            b"".join(nr_chunk_buffer), dtype=np.int16
+                        )
+                        reduced = self._apply_noise_reduction(combined)
+                        reduced_bytes = reduced.tobytes()
+
+                        # Split back into original chunk sizes
+                        chunk_bytes = AUDIO_CHUNK * 2  # 16-bit = 2 bytes per sample
+                        for i in range(0, len(reduced_bytes), chunk_bytes):
+                            chunk_data = reduced_bytes[i : i + chunk_bytes]
+                            if len(chunk_data) < chunk_bytes:
+                                break
+                            self._send_audio_chunk(chunk_data)
+                        nr_chunk_buffer.clear()
+                else:
+                    # No noise reduction - send directly
+                    self._send_audio_chunk(data)
 
         except Exception as e:
             log_print(
@@ -665,6 +770,11 @@ class SummaryClient:
             )
 
             chunk_bytes = AUDIO_CHUNK * 2
+
+            # Noise reduction state for this stream
+            profile_buffer: list[bytes] = []
+            nr_chunk_buffer: list[bytes] = []
+
             for i in range(0, len(raw), chunk_bytes):
                 if (
                     not self.running
@@ -686,30 +796,42 @@ class SummaryClient:
                     arr[np.abs(arr) < self.noise_cut_threshold] = 0
                     data = arr.tobytes()
 
-                # Record audio
-                self.recording_buffer.append(data)
-
-                # Maintain rolling buffer for last 3 seconds
-                self.recent_audio_buffer.append(data)
-                if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
-                    self.recent_audio_buffer.pop(0)
-
-                audio_b64 = base64.b64encode(data).decode()
-
-                with self._lock:
-                    ws = self.ws
-                    if ws and not self._shutdown_event.is_set():
-                        try:
-                            ws.send(
-                                json.dumps(
-                                    {
-                                        "type": "input_audio_buffer.append",
-                                        "audio": audio_b64,
-                                    }
-                                )
+                # Noise reduction: collect profile first, then buffer and process
+                if self.enable_noise_reduction:
+                    if not self.noise_profile_collected:
+                        # Phase 1: Collecting noise profile
+                        profile_buffer.append(data)
+                        if len(profile_buffer) >= self.chunks_for_profile:
+                            profile_audio = np.frombuffer(
+                                b"".join(profile_buffer), dtype=np.int16
                             )
-                        except Exception:
-                            break
+                            self._collect_noise_profile(profile_audio)
+                            profile_buffer.clear()
+                        time.sleep(AUDIO_CHUNK / AUDIO_RATE)
+                        continue  # Don't stream during profile collection
+
+                    # Phase 2: Buffer chunks and apply noise reduction
+                    nr_chunk_buffer.append(data)
+                    if len(nr_chunk_buffer) >= self.chunks_for_nr_buffer:
+                        # Combine buffer, apply NR, then split back
+                        combined = np.frombuffer(
+                            b"".join(nr_chunk_buffer), dtype=np.int16
+                        )
+                        reduced = self._apply_noise_reduction(combined)
+                        reduced_bytes = reduced.tobytes()
+
+                        # Split back into original chunk sizes and send
+                        for j in range(0, len(reduced_bytes), chunk_bytes):
+                            chunk_data = reduced_bytes[j : j + chunk_bytes]
+                            if len(chunk_data) < chunk_bytes:
+                                break
+                            self._send_audio_chunk(chunk_data)
+                            time.sleep(AUDIO_CHUNK / AUDIO_RATE)
+                        nr_chunk_buffer.clear()
+                    continue  # Skip final sleep when using NR buffering
+
+                # No noise reduction - send directly
+                self._send_audio_chunk(data)
 
                 # Keep real-time pacing
                 time.sleep(AUDIO_CHUNK / AUDIO_RATE)
@@ -779,6 +901,11 @@ class SummaryClient:
         self.listening = False
         self._shutdown_event.set()
         self._flush_pending_vad_transcripts(force=True)
+
+        # Reset noise reduction state for potential reuse
+        self.noise_profile = None
+        self.noise_profile_collected = False
+        self.nr_buffer.clear()
 
         self.logger.log("summary_client_stop")
 

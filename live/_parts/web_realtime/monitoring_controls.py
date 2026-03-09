@@ -119,14 +119,15 @@ def _apply_fast_catchup_to_segment(
     speed: float = _FAST_CATCHUP_DEFAULT_SPEED,
     gap_sec: float = _FAST_CATCHUP_DEFAULT_GAP_SEC,
     silence_thresh_db: float = _FAST_CATCHUP_DEFAULT_SILENCE_THRESH_DB,
-) -> AudioSegment:
+) -> tuple[AudioSegment, str]:
     """Apply gap removal + speed-up to an AudioSegment."""
     if audio is None or len(audio) <= 0:
-        return audio
+        return audio, "none_empty_audio"
     speed = max(1.0, min(3.0, float(speed or _FAST_CATCHUP_DEFAULT_SPEED)))
     gap_sec = max(0.0, min(2.0, float(gap_sec if gap_sec is not None else _FAST_CATCHUP_DEFAULT_GAP_SEC)))
     min_silence_len_ms = int(gap_sec * 1000.0)
     keep_silence_ms = 35
+    speedup_method = "none"
 
     # Pre-denoise before silence trim/speed-up:
     # 1) speech-band filters, 2) attenuate very low-level chunks.
@@ -169,7 +170,7 @@ def _apply_fast_catchup_to_segment(
             pass
 
     if speed > 1.01:
-        audio = _speedup_with_audiotsm(audio, speed)
+        audio, speedup_method = _speedup_with_audiotsm(audio, speed)
 
     # Match perceived level close to Cartesia TTS:
     # - raise RMS toward target
@@ -188,25 +189,25 @@ def _apply_fast_catchup_to_segment(
         audio = audio.apply_gain(float(_FAST_CATCHUP_EXTRA_GAIN_DB))
     except Exception:
         pass
-    return audio
+    return audio, speedup_method
 
 
-def _speedup_with_audiotsm(audio: AudioSegment, speed: float) -> AudioSegment:
+def _speedup_with_audiotsm(audio: AudioSegment, speed: float) -> tuple[AudioSegment, str]:
     """Time-scale audio using audiotsm WSOLA; fallback only if unavailable/error."""
     if audio is None or len(audio) <= 0:
-        return audio
+        return audio, "none_empty_audio"
     speed = max(1.0, min(3.0, float(speed or _FAST_CATCHUP_DEFAULT_SPEED)))
     if speed <= 1.01:
-        return audio
+        return audio, "none_speed<=1.01"
 
     if not _AUDIO_TSM_AVAILABLE:
         # Temporary fallback to keep runtime resilient until dependency is installed.
         try:
             return effects.speedup(
                 audio, playback_speed=speed, chunk_size=120, crossfade=20
-            )
+            ), "pydub_speedup_no_audiotsm"
         except Exception:
-            return audio
+            return audio, "none_pydub_fallback_failed"
 
     try:
         with tempfile.TemporaryDirectory(prefix="fastcatchup_tsm_") as tmpdir:
@@ -226,7 +227,7 @@ def _speedup_with_audiotsm(audio: AudioSegment, speed: float) -> AudioSegment:
                         frame_length=1024,
                     )
                     tsm.run(reader, writer)
-            return AudioSegment.from_file(out_wav, format="wav")
+            return AudioSegment.from_file(out_wav, format="wav"), "audiotsm_wsola"
     except Exception as e:
         log_print(
             "WARN",
@@ -235,9 +236,9 @@ def _speedup_with_audiotsm(audio: AudioSegment, speed: float) -> AudioSegment:
         try:
             return effects.speedup(
                 audio, playback_speed=speed, chunk_size=120, crossfade=20
-            )
+            ), "pydub_speedup_after_audiotsm_error"
         except Exception:
-            return audio
+            return audio, "none_pydub_fallback_failed"
 
 
 def _save_fast_catchup_audio(
@@ -303,7 +304,7 @@ def _synthesize_fast_catchup_dialogue(
         frame_rate=24000,
         channels=1,
     )
-    processed_audio = _apply_fast_catchup_to_segment(
+    processed_audio, speedup_method = _apply_fast_catchup_to_segment(
         source_audio,
         speed=speed,
         gap_sec=gap_sec,
@@ -324,7 +325,9 @@ def _synthesize_fast_catchup_dialogue(
         gap_sec=gap_sec,
     )
 
-    method = f"fast_catchup_source_{speed:.2f}x_nogap{gap_sec:.2f}s"
+    method = (
+        f"fast_catchup_source_{speed:.2f}x_nogap{gap_sec:.2f}s_{speedup_method}"
+    )
     sio.emit(
         "compressed_dialogue_tts",
         {
@@ -334,6 +337,7 @@ def _synthesize_fast_catchup_dialogue(
             "format": "wav",
             "sample_rate": 24000,
             "method": method,
+            "speedup_method": speedup_method,
             "trigger_source": trigger_source,
             "turn_count": 0,
             "saved_path": saved_path,
@@ -348,6 +352,7 @@ def _synthesize_fast_catchup_dialogue(
         source_duration_ms=len(source_audio),
         output_duration_ms=len(processed_audio),
         speed=speed,
+        speedup_method=speedup_method,
         gap_sec=gap_sec,
         silence_thresh_db=silence_thresh_db,
         saved_path=saved_path,
