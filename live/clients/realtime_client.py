@@ -129,6 +129,7 @@ class RealtimeClient:
             },
             "input_audio_transcription": {
                 "model": "gpt-4o-transcribe",
+                "language": "en",
             },
             "instructions": KEYWORD_SESSION_INSTRUCTIONS,
         }

@@ -405,6 +405,7 @@ class SummaryClient:
                         "instructions": SUMMARY_SESSION_INSTRUCTIONS,
                         "input_audio_transcription": {
                             "model": "gpt-4o-transcribe",
+                            "language": "en",
                         },
                     },
                 }
