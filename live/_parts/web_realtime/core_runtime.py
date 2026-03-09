@@ -7,34 +7,25 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
-import base64
-import io
-import json
 import os
 import re
-import struct
 import subprocess
 import sys
-import tempfile
 import threading
 import time
-import wave
+import json
 from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-import numpy as np
 import openai
 import pyaudio
-from pydub import AudioSegment, effects, silence
-from pydub.utils import make_chunks
 
 try:
     from audiotsm import wsola as _audiotsm_wsola
     from audiotsm.io.wav import WavReader as _AudioTSMWavReader
     from audiotsm.io.wav import WavWriter as _AudioTSMWavWriter
-
     _AUDIO_TSM_AVAILABLE = True
 except Exception:
     _AUDIO_TSM_AVAILABLE = False
@@ -61,9 +52,8 @@ _noise_gate_monitor_thread: Optional[threading.Thread] = None
 # Global PyAudio lock to prevent segfaults from concurrent access
 _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
-from flask import Flask, jsonify, render_template, request
+from flask import Flask
 from flask_socketio import SocketIO
-from handlers.grounding import handle_search_grounding
 from logger import get_logger, get_session_dir, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
@@ -368,7 +358,15 @@ def _on_vad_boundary(event_type: str, payload: dict) -> None:
         _recent_vad_boundaries.append((ts, et))
         if et == "speech_started":
             _vad_open_speech_start_ts = ts
+            log_print(
+                "DEBUG",
+                "VAD speech_started at {:.2f}".format(ts),
+            )
         else:
+            log_print(
+                "DEBUG",
+                "VAD speech_stopped at {:.2f}".format(ts),
+            )
             start_ts = _vad_open_speech_start_ts
             if start_ts is None:
                 # Recover if start event was dropped: ignore invalid pair.
@@ -377,7 +375,10 @@ def _on_vad_boundary(event_type: str, payload: dict) -> None:
                 _recent_vad_utterances.append((start_ts, ts))
             _vad_open_speech_start_ts = None
             if _pending_fast_catchup_segments:
-                for segment_id, pending_session_id in _pending_fast_catchup_segments.items():
+                for (
+                    segment_id,
+                    pending_session_id,
+                ) in _pending_fast_catchup_segments.items():
                     if segment_id in _pending_fast_catchup_inflight:
                         continue
                     _pending_fast_catchup_inflight.add(segment_id)
@@ -416,7 +417,11 @@ def _get_completed_vad_utterance_windows(
         if win_end > win_start:
             windows.append((win_start, win_end))
 
-    if open_start is not None and open_start < segment_end_ts and open_start >= min_start_ts:
+    if (
+        open_start is not None
+        and open_start < segment_end_ts
+        and open_start >= min_start_ts
+    ):
         has_open_utterance = True
 
     return windows, has_open_utterance
@@ -729,14 +734,14 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
         _ = store.prune_before(prune_cutoff)
 
-        log_print(
-            "INFO",
-            "VAD transcript added to DialogueStore",
-            session_id=session_id,
-            speaker=speaker_id,
-            text=text[:50],
-            timestamp=entry.timestamp,
-        )
+        # log_print(
+        #     "INFO",
+        #     "VAD transcript added to DialogueStore",
+        #     session_id=session_id,
+        #     speaker=speaker_id,
+        #     text=text[:50],
+        #     timestamp=entry.timestamp,
+        # )
 
         # If summary pipeline is already running, trigger follow-up compression
         # immediately when new VAD arrives (until near-end cutoff).
@@ -951,5 +956,3 @@ def _coerce_compressed_to_source(dialogue: str, compressed: str) -> str:
         fallback = _build_literal_fallback(src)
         return fallback or candidate
     return candidate
-
-

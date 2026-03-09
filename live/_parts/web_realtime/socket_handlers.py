@@ -939,4 +939,10 @@ if __name__ == "__main__":
     log_print("INFO", "=" * 50)
     log_print("INFO", "Starting web_realtime server")
     log_print("INFO", "=" * 50)
-    sio.run(app, host="0.0.0.0", port=5002, debug=False)
+    sio.run(
+        app,
+        host="0.0.0.0",
+        port=5002,
+        debug=False,
+        allow_unsafe_werkzeug=True,
+    )

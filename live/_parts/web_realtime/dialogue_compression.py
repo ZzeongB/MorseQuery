@@ -741,6 +741,7 @@ def _trigger_parallel_compression_after_delay(
     delay_sec: float = _SEGMENT_POST_END_WAIT_SEC,
 ) -> None:
     """Delay compression start to allow late VAD transcripts to arrive."""
+    _clear_fast_catchup_pending_for_segment(segment_id, session_id)
     if delay_sec > 0:
         time.sleep(delay_sec)
     _trigger_parallel_compression(segment_id, session_id)
@@ -752,10 +753,25 @@ def _run_pending_fast_catchup_segment(segment_id: int, session_id: str) -> None:
         ok = _try_fast_catchup_for_segment(segment_id, session_id)
         if ok:
             return
+        _clear_fast_catchup_pending_for_segment(segment_id, session_id)
         _trigger_parallel_compression_after_delay(segment_id, session_id)
     finally:
         with _segment_ctx_lock:
             _pending_fast_catchup_inflight.discard(segment_id)
+
+
+def _clear_fast_catchup_pending_for_segment(segment_id: int, session_id: str) -> None:
+    """Clear pending fast-catchup state when switching to compression fallback."""
+    should_emit_clear = False
+    with _segment_ctx_lock:
+        _pending_fast_catchup_inflight.discard(segment_id)
+        removed = _pending_fast_catchup_segments.pop(segment_id, None) is not None
+        session_has_pending = any(
+            sid == session_id for sid in _pending_fast_catchup_segments.values()
+        )
+        should_emit_clear = removed and (not session_has_pending)
+    if should_emit_clear:
+        _emit_fast_catchup_pending(session_id, False, segment_id)
 
 
 def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
@@ -851,5 +867,4 @@ def _try_fast_catchup_for_segment(segment_id: int, session_id: str) -> bool:
     if (not has_open_utterance) and had_pending and (not session_has_pending):
         _emit_fast_catchup_pending(session_id, False, segment_id)
     return emitted_any
-
 

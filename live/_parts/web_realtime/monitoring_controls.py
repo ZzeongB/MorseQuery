@@ -1,3 +1,22 @@
+import base64
+import io
+import os
+import re
+import struct
+import tempfile
+import threading
+import time
+import wave
+from datetime import datetime
+from typing import Optional
+
+import numpy as np
+import pyaudio
+from flask import jsonify, render_template, request
+from pydub import AudioSegment, effects, silence
+from pydub.utils import make_chunks
+
+
 def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> None:
     """If new VAD arrived after end_listening, compress+TTS it as follow-up."""
     global \
