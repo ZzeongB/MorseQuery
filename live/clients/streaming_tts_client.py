@@ -176,7 +176,10 @@ class StreamingTTSClient:
                 "Stream already active, stopping previous stream",
                 session_id=self.session_id,
             )
-            self.stop_stream()
+            self.stop_stream(wait=True, timeout_sec=1.0)
+        else:
+            # Defensive: prior stop may have flipped state before recv thread exited.
+            self._wait_for_receive_thread_idle(timeout_sec=0.8)
 
         # Ensure connection is open
         if not self._ensure_connection():
@@ -493,15 +496,51 @@ class StreamingTTSClient:
             )
             return None
 
-    def stop_stream(self) -> None:
+    def _wait_for_receive_thread_idle(self, timeout_sec: float = 1.0) -> bool:
+        """Wait until the receive thread is no longer running.
+
+        Returns True when thread is idle/exited, False on timeout.
+        """
+        recv_thread = self._receive_thread
+        if not recv_thread or not recv_thread.is_alive():
+            return True
+        if recv_thread is threading.current_thread():
+            return True
+
+        recv_thread.join(timeout=timeout_sec)
+        if not recv_thread.is_alive():
+            return True
+
+        log_print(
+            "WARN",
+            "TTS receive thread did not stop in time; resetting connection",
+            session_id=self.session_id,
+            timeout_sec=timeout_sec,
+        )
+        with self._connection_lock:
+            self._close_connection_unsafe()
+        recv_thread.join(timeout=0.5)
+        return not recv_thread.is_alive()
+
+    def stop_stream(self, wait: bool = False, timeout_sec: float = 1.0) -> None:
         """Stop the current TTS stream (keeps connection open)."""
         log_print("INFO", "Stopping TTS stream", session_id=self.session_id)
+        recv_thread = self._receive_thread
         with self._context_lock:
             active = self._active_stream_token
+            ctx = self._context
             if active > 0:
                 self._stopped_stream_tokens.add(active)
         self._stop_event.set()
+        if ctx is not None:
+            try:
+                # Ask provider to conclude input so recv loop can finish gracefully.
+                ctx.no_more_inputs()
+            except Exception:
+                pass
         self._cleanup_stream(active)
+        if wait:
+            self._wait_for_receive_thread_idle(timeout_sec=timeout_sec)
 
     def _cleanup_stream(self, stream_token: Optional[int] = None) -> None:
         """Clean up stream resources (context only, keep connection)."""

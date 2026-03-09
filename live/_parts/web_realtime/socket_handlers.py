@@ -961,13 +961,8 @@ def handle_browser_tts_playback_done(data: dict):
     if reason == "user_cancel":
         with _segment_ctx_lock:
             _pending_latency_bridge_by_session.pop(session_id, None)
-    if reason != "user_cancel" and _has_pending_fast_catchup(session_id):
-        _emit_fast_catchup_pending(session_id, True, 0)
-        return {"ok": True, "defer_finish": True}
-    if reason != "user_cancel" and _has_pending_latency_bridge(session_id):
-        emitted = _emit_pending_latency_bridge_if_needed(session_id, reason)
-        if emitted:
-            return {"ok": True, "defer_finish": True}
+    # Pending fast-catchup/latency-bridge deferral disabled:
+    # always finalize TTS lifecycle immediately on playback completion.
     # Browser summary/reconstruction playback ended.
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")

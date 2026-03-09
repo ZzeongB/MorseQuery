@@ -185,8 +185,6 @@ def _emit_with_airpods(event, *args, **kwargs):
     if event == "tts_playing":
         _on_tts_started("socketio_tts_playing")
     elif event == "tts_done":
-        if _has_pending_fast_catchup():
-            return _original_sio_emit(event, *args, **kwargs)
         # Summary/reconstruction flow ended.
         _set_keyword_anc_hold(False, "socketio_tts_done")
         _on_tts_finished("socketio_tts_done")
