@@ -1,14 +1,3 @@
-"""OpenAI Realtime API client for context-aware TTS judgment.
-
-This client continuously streams audio to OpenAI Realtime API and judges
-whether a summary TTS should be played based on:
-1. Catch-up Value (Q1): Does the missed content have important information?
-2. Interrupt Timing (Q3): Is this a good moment to interrupt?
-
-TTS and judgment run in parallel for reduced latency:
-- If TTS ready first: wait for judge, play if approved
-- If judge approves first: play as soon as TTS ready
-"""
 
 import base64
 import io
@@ -30,17 +19,7 @@ from .tts_client import TTSClient
 
 MIN_SEGMENT_DURATION_FOR_JUDGE_SEC = 2
 
-
 class ContextJudgeClient:
-    """Realtime client that judges whether to play TTS based on audio context.
-
-    Continuously streams audio to OpenAI Realtime API. When judge_summary() is called,
-    commits current audio buffer and requests LLM judgment on whether to play TTS.
-
-    TTS synthesis and judgment run in parallel. Playback occurs when both:
-    1. TTS synthesis is complete (audio queued)
-    2. Judge approves playback
-    """
 
     def __init__(
         self,
@@ -62,25 +41,20 @@ class ContextJudgeClient:
         self.response_buffer = ""
         self.logger = get_logger(session_id)
 
-        # Audio streaming
         self.pa: Optional[pyaudio.PyAudio] = None
         self.stream: Optional[pyaudio.Stream] = None
 
-        # Rolling buffer for last 3 seconds
         self.recent_audio_buffer: list[bytes] = []
         self.chunks_for_3_seconds = int(3 * AUDIO_RATE / AUDIO_CHUNK)
 
-        # Listening state (synchronized with SummaryClient)
         self.listening = False
         self.segment_id = 0
         self._segment_start_times: dict[int, float] = {}
         self._segment_end_times: dict[int, float] = {}
 
-        # Pending summary for judgment
         self.pending_summary: Optional[str] = None
         self.pending_segment_id: int = 0
 
-        # Parallel TTS/judgment state
         self._state_lock = threading.Lock()
         self.tts_ready_count: int = 0  # Number of TTS clients that have finished
         self.tts_expected_count: int = len(self.tts_clients)  # Expected TTS ready callbacks
@@ -88,7 +62,6 @@ class ContextJudgeClient:
         self.judge_approved: bool = False  # Judge decision (True=play, False=skip)
         self.judge_reason: str = ""  # Judge reason
 
-        # Thread synchronization
         self._lock = threading.Lock()
         self._shutdown_event = threading.Event()
         self._tts_stop_event = threading.Event()
@@ -108,12 +81,7 @@ class ContextJudgeClient:
             tts_clients=len(self.tts_clients),
         )
 
-    # -------------------------
-    # Public APIs
-    # -------------------------
-
     def start_listening(self) -> None:
-        """Mark the start of a listening segment (synchronized with SummaryClient)."""
         if not self.running or not self.connected:
             log_print(
                 "WARN",
@@ -127,7 +95,6 @@ class ContextJudgeClient:
         self.response_buffer = ""
         self._segment_start_times[self.segment_id] = time.time()
 
-        # Reset parallel state for new segment
         with self._state_lock:
             self.tts_ready_count = 0
             self.tts_expected_count = len(self.tts_clients)
@@ -135,13 +102,11 @@ class ContextJudgeClient:
             self.judge_approved = False
             self.judge_reason = ""
 
-        # Clear buffer and re-append last 3 seconds
         with self._lock:
             ws = self.ws
             if ws:
                 try:
                     ws.send(json.dumps({"type": "input_audio_buffer.clear"}))
-                    # Re-append last 3 seconds of audio for context
                     for chunk in self.recent_audio_buffer:
                         audio_b64 = base64.b64encode(chunk).decode()
                         ws.send(
@@ -163,7 +128,6 @@ class ContextJudgeClient:
         )
 
     def end_listening(self) -> None:
-        """Mark the end of a listening segment (synchronized with SummaryClient)."""
         if not self.running or not self.connected:
             return
 
@@ -179,17 +143,6 @@ class ContextJudgeClient:
     def judge_summary(
         self, summary: str, segment_id: int, expected_tts_count: Optional[int] = None
     ) -> None:
-        """Start judgment for the given summary (runs in parallel with TTS).
-
-        Called by SummaryClient after generating a summary.
-        Commits current audio buffer and requests LLM judgment.
-
-        Args:
-            summary: The summary text to judge
-            segment_id: The segment ID this summary belongs to
-            expected_tts_count: Number of TTS-ready callbacks expected for this segment.
-                If None, falls back to the number of configured TTS clients.
-        """
         if not self.running or not self.connected:
             log_print(
                 "WARN",
@@ -206,7 +159,6 @@ class ContextJudgeClient:
             )
             return
 
-        # Guard against duplicate judge requests for the same in-flight segment.
         with self._state_lock:
             if (
                 self.pending_summary is not None
@@ -225,7 +177,6 @@ class ContextJudgeClient:
                 )
                 return
 
-        # Reset state for new judgment
         with self._state_lock:
             self.tts_ready_count = 0
             if expected_tts_count is None:
@@ -254,10 +205,8 @@ class ContextJudgeClient:
                 self.judge_decided = True
                 self.judge_approved = False
                 self.judge_reason = reason
-                # If any TTS already queued/ready, clear immediately
                 should_clear_tts = self.tts_ready_count > 0
 
-            # If TTS already queued/ready, clear immediately to prevent stale playback.
             if should_clear_tts:
                 self._clear_tts()
 
@@ -299,7 +248,6 @@ class ContextJudgeClient:
             segment_duration_sec=segment_duration_sec,
         )
 
-        # Build judgment prompt with summary text
         prompt = build_judgment_prompt(
             summary,
             segment_duration_sec=segment_duration_sec,
@@ -317,10 +265,8 @@ class ContextJudgeClient:
                 return
 
             try:
-                # Commit current audio buffer
                 ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
 
-                # Request judgment from LLM
                 ws.send(
                     json.dumps(
                         {
@@ -343,7 +289,6 @@ class ContextJudgeClient:
                 )
 
     def _get_segment_duration_sec(self, segment_id: int) -> Optional[float]:
-        """Return start~end duration for a segment if available."""
         start = self._segment_start_times.get(segment_id)
         if start is None:
             return None
@@ -351,16 +296,6 @@ class ContextJudgeClient:
         return max(0.0, end - start)
 
     def on_tts_ready(self, success: bool) -> None:
-        """Called when TTS synthesis completes (callback from TTSClient).
-
-        Waits for ALL TTS clients to be ready before playing.
-        If judge already approved and all TTS ready, plays immediately.
-        If judge already rejected, clears queue.
-        If judge pending, waits for judge decision.
-
-        Args:
-            success: True if TTS was successfully queued
-        """
         log_print(
             "INFO",
             f"TTS ready callback: success={success}",
@@ -387,7 +322,6 @@ class ContextJudgeClient:
             )
 
             if self.judge_decided:
-                # Judge already made a decision
                 if self.judge_approved:
                     if all_tts_ready:
                         log_print(
@@ -410,19 +344,13 @@ class ContextJudgeClient:
                     )
                     self._clear_tts()
             else:
-                # Judge still pending, TTS will wait
                 log_print(
                     "INFO",
                     f"TTS ready ({self.tts_ready_count}/{self.tts_expected_count}), waiting for judge decision",
                     session_id=self.session_id,
                 )
 
-    # -------------------------
-    # WebSocket handlers
-    # -------------------------
-
     def on_open(self, ws: websocket.WebSocketApp) -> None:
-        """Handle WebSocket connection opened."""
         self.connected = True
         log_print(
             "INFO",
@@ -431,7 +359,6 @@ class ContextJudgeClient:
         )
         self.logger.log("judge_ws_connected")
 
-        # Configure session for audio input with no VAD (we control timing)
         ws.send(
             json.dumps(
                 {
@@ -446,12 +373,10 @@ class ContextJudgeClient:
             )
         )
 
-        # Start audio streaming if devices are configured
         if self.device_indices:
             threading.Thread(target=self._stream_audio, daemon=True).start()
 
     def on_message(self, _ws: websocket.WebSocketApp, message: str) -> None:
-        """Handle incoming WebSocket messages."""
         event = json.loads(message)
         etype = event.get("type", "")
 
@@ -487,7 +412,6 @@ class ContextJudgeClient:
             return
 
     def _handle_judgment_response(self) -> None:
-        """Parse LLM judgment response and decide whether to play TTS."""
         response = self.response_buffer.strip()
         self.response_buffer = ""
 
@@ -534,7 +458,6 @@ class ContextJudgeClient:
                 )
 
                 if all_tts_ready:
-                    # All TTS already ready, play immediately
                     log_print(
                         "INFO",
                         "Judge approved + all TTS ready -> playing",
@@ -542,7 +465,6 @@ class ContextJudgeClient:
                     )
                     self._play_tts(reason)
                 else:
-                    # TTS not ready, will play when all on_tts_ready callbacks complete
                     log_print(
                         "INFO",
                         f"Judge approved, waiting for TTS ({self.tts_ready_count}/{self.tts_expected_count})",
@@ -572,14 +494,12 @@ class ContextJudgeClient:
                 )
 
                 if self.tts_ready_count > 0:
-                    # Some TTS already ready, clear queue
                     log_print(
                         "INFO",
                         "Judge rejected + TTS ready -> clearing queue",
                         session_id=self.session_id,
                     )
                     self._clear_tts()
-                # If TTS not ready, it will be cleared when on_tts_ready is called
 
                 self.sio.emit(
                     "judge_rejected",
@@ -590,19 +510,10 @@ class ContextJudgeClient:
                     },
                 )
 
-        # Clear pending state
         self.pending_summary = None
         self.pending_segment_id = 0
 
     def _parse_judgment_response(self, response: str) -> tuple[bool, str, bool]:
-        """Parse judge response.
-
-        Returns:
-            (approved, reason, valid_format)
-            valid_format=False means the output did not follow supported formats.
-        """
-        # JSON format fallback:
-        # {"Q1":"YES","Q3":"YES","FINAL":"YES","REASON":"..."}
         try:
             parsed = json.loads(response)
             if isinstance(parsed, dict):
@@ -620,7 +531,6 @@ class ContextJudgeClient:
                     q3 = q3_raw == "YES"
                     final = final_raw == "YES"
 
-                    # FINAL=YES when BOTH Q1 AND Q3 are YES
                     expected_final = q1 and q3
                     approved = expected_final
                     if final != expected_final:
@@ -633,8 +543,6 @@ class ContextJudgeClient:
         except Exception:
             pass
 
-        # Strict format:
-        # Q1=YES;Q2=YES;FINAL=NO;REASON=...
         strict_pattern = (
             r"Q1\s*=\s*(YES|NO)\s*;\s*"
             r"Q[23]\s*=\s*(YES|NO)\s*;\s*"
@@ -648,7 +556,6 @@ class ContextJudgeClient:
             final = strict_match.group(3).upper() == "YES"
             reason = strict_match.group(4).strip()
 
-            # FINAL=YES when BOTH Q1 AND Q3 are YES
             expected_final = q1 and q3
             approved = expected_final
             if final != expected_final:
@@ -659,10 +566,6 @@ class ContextJudgeClient:
                 )
             return approved, reason, True
 
-        # Tolerant key-value fallback for malformed JSON/kv responses.
-        # Examples handled:
-        # {"Q1":YES,"Q2":NO,"FINAL=YES,"REASON=..."}
-        # Q1:YES, Q2:NO, FINAL:YES, REASON:...
         upper_response = response.upper()
         q1_match = re.search(r"\bQ1\b[^A-Z]*(YES|NO)\b", upper_response)
         q3_match = re.search(r"\bQ[23]\b[^A-Z]*(YES|NO)\b", upper_response)
@@ -678,7 +581,6 @@ class ContextJudgeClient:
         if q1_match and q3_match:
             q1 = q1_match.group(1) == "YES"
             q3 = q3_match.group(1) == "YES"
-            # FINAL=YES when BOTH Q1 AND Q3 are YES
             expected_final = q1 and q3
             approved = expected_final
 
@@ -693,7 +595,6 @@ class ContextJudgeClient:
 
             return approved, reason, True
 
-        # Legacy fallback: "YES: reason" / "NO: reason"
         upper = response.upper()
         if upper.startswith("YES"):
             reason = response.split(":", 1)[1].strip() if ":" in response else ""
@@ -702,15 +603,9 @@ class ContextJudgeClient:
             reason = response.split(":", 1)[1].strip() if ":" in response else ""
             return False, reason, True
 
-        # Invalid output: fail closed (NO)
         return False, "Invalid judge output format", False
 
     def _play_tts(self, reason: str) -> None:
-        """Play queued TTS audio.
-
-        Args:
-            reason: Reason for playing (for logging)
-        """
         with self._tts_play_lock:
             if self._tts_play_thread and self._tts_play_thread.is_alive():
                 return
@@ -723,19 +618,12 @@ class ContextJudgeClient:
             self._tts_play_thread.start()
 
     def _play_tts_sequential(self, reason: str) -> None:
-        """Play queued TTS from multiple clients with no gap.
-
-        Collects all audio from all TTS clients first, then plays through
-        a single PyAudio stream to eliminate gaps between items.
-        """
-        # 1. Collect all audio from all TTS clients
         all_audio: list[tuple[bytes, str]] = []
         output_device_index = None
         for client in self.tts_clients:
             with client._queue_lock:
                 all_audio.extend(client.audio_queue)
                 client.audio_queue.clear()
-            # Use the first client's output_device_index
             if output_device_index is None and client.output_device_index is not None:
                 output_device_index = client.output_device_index
 
@@ -745,7 +633,6 @@ class ContextJudgeClient:
                 "No audio collected for playback",
                 session_id=self.session_id,
             )
-            # Still emit tts_done to signal completion (text-only mode)
             self.sio.emit("tts_done")
             return
 
@@ -756,10 +643,8 @@ class ContextJudgeClient:
             reason=reason,
         )
 
-        # Emit tts_playing event to show summary bubbles
         self.sio.emit("tts_playing", {"reason": reason, "count": len(all_audio)})
 
-        # 2. Play all audio through a single PyAudio stream (no gap)
         pa = None
         stream = None
         try:
@@ -779,7 +664,6 @@ class ContextJudgeClient:
                     break
                 pcm_data = self._extract_pcm_from_wav(audio_bytes)
                 if pcm_data:
-                    # Write in chunks so stop requests can interrupt
                     chunk_size = 4096
                     for i in range(0, len(pcm_data), chunk_size):
                         if self._shutdown_event.is_set() or self._tts_stop_event.is_set():
@@ -810,12 +694,10 @@ class ContextJudgeClient:
                 except Exception:
                     pass
 
-        # Emit tts_done once after ALL audio is done
         if not self._shutdown_event.is_set() and not self._tts_stop_event.is_set():
             self.sio.emit("tts_done")
 
     def _extract_pcm_from_wav(self, wav_bytes: bytes) -> Optional[bytes]:
-        """Extract raw PCM data from WAV bytes."""
         try:
             with io.BytesIO(wav_bytes) as wav_io:
                 with wave.open(wav_io, "rb") as wav_file:
@@ -829,18 +711,15 @@ class ContextJudgeClient:
             return None
 
     def _clear_tts(self) -> None:
-        """Clear queued TTS audio."""
         for client in self.tts_clients:
             client.stop_playback()
 
     def cancel_tts(self, reason: str = "user_cancel") -> None:
-        """Cancel ongoing/pending TTS playback and queued audio."""
         with self._state_lock:
             self.judge_decided = True
             self.judge_approved = False
             self.judge_reason = reason
 
-        # Stop current summary playback thread promptly (without shutting down judge client).
         self._tts_stop_event.set()
         for client in self.tts_clients:
             client.stop_playback()
@@ -855,7 +734,6 @@ class ContextJudgeClient:
         )
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:
-        """Handle WebSocket error."""
         log_print(
             "ERROR",
             f"ContextJudgeClient websocket error: {error}",
@@ -864,7 +742,6 @@ class ContextJudgeClient:
         self.logger.log("judge_ws_error", error=str(error))
 
     def on_close(self, _ws: websocket.WebSocketApp, status: int, msg: str) -> None:
-        """Handle WebSocket connection closed."""
         self.connected = False
         self.running = False
         log_print("INFO", "ContextJudgeClient closed", session_id=self.session_id)
@@ -873,12 +750,7 @@ class ContextJudgeClient:
         with self._lock:
             self.ws = None
 
-    # -------------------------
-    # Audio streaming
-    # -------------------------
-
     def _stream_audio(self) -> None:
-        """Stream audio from configured microphone."""
         if not self.device_indices:
             log_print(
                 "WARN",
@@ -918,7 +790,6 @@ class ContextJudgeClient:
             )
             self.logger.log("judge_audio_start", device=device_name)
 
-            # Store references for cleanup
             self.pa = pa
             self.stream = stream
 
@@ -938,7 +809,6 @@ class ContextJudgeClient:
                     )
                     continue
 
-                # Maintain rolling buffer for last 3 seconds
                 self.recent_audio_buffer.append(data)
                 if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
                     self.recent_audio_buffer.pop(0)
@@ -958,7 +828,6 @@ class ContextJudgeClient:
                                 )
                             )
 
-                            # Periodic commit (skip during listening to keep segment intact)
                             now = time.time()
                             if (
                                 now - last_commit >= commit_interval
@@ -978,7 +847,6 @@ class ContextJudgeClient:
                 session_id=self.session_id,
             )
         finally:
-            # Clean up PyAudio resources safely
             if stream:
                 try:
                     stream.stop_stream()
@@ -999,12 +867,7 @@ class ContextJudgeClient:
                 session_id=self.session_id,
             )
 
-    # -------------------------
-    # Lifecycle
-    # -------------------------
-
     def start(self) -> None:
-        """Start the context judge client."""
         self._shutdown_event.clear()
         self.running = True
         self.logger.log("context_judge_start")
@@ -1025,7 +888,6 @@ class ContextJudgeClient:
         threading.Thread(target=ws.run_forever, daemon=True).start()
 
     def stop(self) -> None:
-        """Stop the context judge client."""
         self.running = False
         self.connected = False
         self.listening = False
@@ -1033,7 +895,6 @@ class ContextJudgeClient:
 
         self.logger.log("context_judge_stop")
 
-        # Wait briefly for audio thread to exit cleanly
         time.sleep(0.15)
 
         with self._lock:
