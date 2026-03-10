@@ -123,7 +123,7 @@ class TTSClient:
                 "sample_rate": 24000,
             },
             "language": language,
-            "generation_config": {"volume": 1, "speed": 1.2, "emotion": "neutral"},
+            "generation_config": {"volume": 1, "speed": 1, "emotion": "neutral"},
         }
 
         headers = {
