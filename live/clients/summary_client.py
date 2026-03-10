@@ -433,6 +433,42 @@ class SummaryClient:
                 )
             return
 
+        if etype == "input_audio_buffer.speech_started":
+            received_at_ts = time.time()
+            log_print(
+                "DEBUG",
+                "Summary VAD speech_started at {:.2f}".format(received_at_ts),
+                session_id=self.session_id,
+                mic_id=self.mic_id,
+            )
+            self.logger.log(
+                "summary_vad_boundary",
+                boundary_type="speech_started",
+                received_at_ts=received_at_ts,
+                audio_start_ms=event.get("audio_start_ms"),
+                item_id=event.get("item_id"),
+                mic_id=self.mic_id,
+            )
+            return
+
+        if etype == "input_audio_buffer.speech_stopped":
+            received_at_ts = time.time()
+            log_print(
+                "DEBUG",
+                "Summary VAD speech_stopped at {:.2f}".format(received_at_ts),
+                session_id=self.session_id,
+                mic_id=self.mic_id,
+            )
+            self.logger.log(
+                "summary_vad_boundary",
+                boundary_type="speech_stopped",
+                received_at_ts=received_at_ts,
+                audio_end_ms=event.get("audio_end_ms"),
+                item_id=event.get("item_id"),
+                mic_id=self.mic_id,
+            )
+            return
+
         if etype in {"response.text.delta", "response.done"}:
             # Summary generation path is disabled in VAD-only mode.
             return
