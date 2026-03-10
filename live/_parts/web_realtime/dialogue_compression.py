@@ -574,14 +574,7 @@ def _trigger_parallel_compression_for_dialogue(
     """Run 3-path compression for provided dialogue and auto-select output."""
     session_logger = get_logger(session_id)
 
-    # Wait for any pending speech transcript before starting compression
-    _wait_for_pending_speech_transcript(
-        max_wait_sec=2.0,
-        poll_interval_sec=0.1,
-        session_id=session_id,
-    )
-
-    # For segment-triggered summaries, re-slice after pending-wait so late-arriving
+    # For segment-triggered summaries, re-slice so late-arriving
     # final transcript chunks are not dropped by an earlier slice_end_ts.
     if trigger_source == "segment":
         start_ts_from_window = float((window or {}).get("start_ts") or 0.0)
@@ -978,61 +971,15 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
         if bridge_decision_ts > 0:
             window_payload["bridge_decision_ts"] = bridge_decision_ts
 
-        # Watermark gate: wait until observed transcript count stops growing
-        # for a quiet window, then compress.
-        wait_start = time.time()
-        stable_since = wait_start
-        target_watermark = 0
-        poll_count = 0
-
-        while True:
-            dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
-            entry_count = len(entries)
-            now = time.time()
-            poll_count += 1
-
-            if entry_count > target_watermark:
-                target_watermark = entry_count
-                stable_since = now
-                if target_watermark > 0:
-                    log_print(
-                        "INFO",
-                        "Segment watermark advanced",
-                        session_id=session_id,
-                        segment_id=segment_id,
-                        target_watermark=target_watermark,
-                        elapsed_ms=int((now - wait_start) * 1000),
-                    )
-
-            watermark_reached = entry_count >= target_watermark
-            quiet_elapsed = now - stable_since
-            quiet_enough = quiet_elapsed >= _SEGMENT_DIALOGUE_QUIET_WINDOW_SEC
-            timed_out = (now - wait_start) >= _SEGMENT_DIALOGUE_MAX_WAIT_SEC
-
-            if (watermark_reached and quiet_enough) or timed_out:
-                if timed_out:
-                    log_print(
-                        "WARN",
-                        "Segment dialogue wait timeout; compressing with current transcripts",
-                        session_id=session_id,
-                        segment_id=segment_id,
-                        received_entries=entry_count,
-                        target_watermark=target_watermark,
-                        max_wait_sec=_SEGMENT_DIALOGUE_MAX_WAIT_SEC,
-                    )
-                elif target_watermark > 0:
-                    log_print(
-                        "INFO",
-                        "Segment watermark settled; starting compression",
-                        session_id=session_id,
-                        segment_id=segment_id,
-                        settled_entries=entry_count,
-                        quiet_ms=int(quiet_elapsed * 1000),
-                        polls=poll_count,
-                    )
-                break
-
-            time.sleep(_SEGMENT_DIALOGUE_POLL_SEC)
+        # Get dialogue immediately without waiting for watermark stabilization
+        dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
+        log_print(
+            "INFO",
+            "Segment dialogue sliced (no wait)",
+            session_id=session_id,
+            segment_id=segment_id,
+            entry_count=len(entries),
+        )
     else:
         dialogue = _get_dialogue_since_segment_start()
 

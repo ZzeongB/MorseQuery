@@ -237,10 +237,14 @@ _fast_catchup_chain_enabled_runtime = False
 _summary_followup_enabled_runtime = False
 _missed_summary_latency_bridge_enabled_runtime = False
 _SEGMENT_TAIL_GRACE_SEC = 1.4
-_SEGMENT_POST_END_WAIT_SEC = 0.45
-_SEGMENT_DIALOGUE_QUIET_WINDOW_SEC = 1.0
-_SEGMENT_DIALOGUE_MAX_WAIT_SEC = 4.0
-_SEGMENT_DIALOGUE_POLL_SEC = 0.12
+_SEGMENT_POST_END_WAIT_SEC = 0.0  # No delay - start summarization immediately
+# To trigger summarization X seconds before keyword_tts ends, set this > 0
+# (Currently keyword_tts duration is not predictable, so this is mainly for the
+#  delay after end_listening before compression starts)
+
+# Early summarization: trigger compression this many seconds before keyword_tts ends
+# Note: This is approximate since streaming TTS duration is not known in advance
+_KEYWORD_TTS_EARLY_SUMMARIZATION_SEC = 1.0
 _POST_TTS_FOLLOWUP_WAIT_SEC = 0.3
 _BEFORE_CONTEXT_RECENT_WINDOW_SEC = 60.0
 

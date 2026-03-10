@@ -847,11 +847,31 @@ def handle_keyword_tts(data: dict):
             )
             return
 
+        # Track streaming and emit near_end event before completion
+        # Estimate TTS duration: ~12 chars/second for English
+        estimated_duration_sec = max(1.0, len(text) / 12.0)
+        near_end_lead_sec = min(
+            _KEYWORD_TTS_EARLY_SUMMARIZATION_SEC,
+            estimated_duration_sec * 0.3,  # At most 30% of duration
+        )
+        near_end_time = time.time() + estimated_duration_sec - near_end_lead_sec
+        near_end_emitted = False
+
         while stream_client.is_streaming:
             with _clients_lock:
                 if request_token != _keyword_tts_request_token:
                     stream_client.stop_stream()
                     break
+
+            # Emit near_end event when approaching estimated end
+            if not near_end_emitted and time.time() >= near_end_time:
+                near_end_emitted = True
+                sio.emit(
+                    "keyword_tts_near_end",
+                    {"reason": "keyword", "lead_sec": near_end_lead_sec},
+                    to=session_id,
+                )
+
             time.sleep(0.02)
 
         with _clients_lock:
