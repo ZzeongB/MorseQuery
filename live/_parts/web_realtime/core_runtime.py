@@ -354,6 +354,7 @@ def _on_vad_transcript(transcript: str) -> None:
                 "source_id": "realtime",
                 "text": text,
             },
+            source_id="realtime",
         )
 
     with _segment_ctx_lock:
@@ -391,15 +392,7 @@ def _on_vad_boundary(event_type: str, payload: dict) -> None:
         _recent_vad_boundaries.append((ts, et))
         if et == "speech_started":
             _vad_open_speech_start_ts = ts
-            log_print(
-                "DEBUG",
-                "VAD speech_started at {:.2f}".format(ts),
-            )
         else:
-            log_print(
-                "DEBUG",
-                "VAD speech_stopped at {:.2f}".format(ts),
-            )
             start_ts = _vad_open_speech_start_ts
             if start_ts is None:
                 # Recover if start event was dropped: ignore invalid pair.
@@ -906,10 +899,10 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         source_id: Source identifier (e.g., "sum0", "sum1")
 
     Returns:
-        Callback function taking (transcript: str)
+        Callback function taking (transcript: str, start_ts: Optional[float])
     """
 
-    def _callback(transcript: str) -> None:
+    def _callback(transcript: str, start_ts: Optional[float] = None) -> None:
         if not transcript or not transcript.strip():
             return
 
@@ -929,19 +922,29 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             text=text,
             source_id=source_id,
         )
+
+        # Build record with optional start_time
+        record = {
+            "type": "utterance",
+            "captured_at": datetime.now().isoformat(),
+            "timestamp": entry.timestamp,
+            "timestamp_iso_utc": datetime.fromtimestamp(
+                entry.timestamp, tz=timezone.utc
+            ).isoformat(),
+            "speaker": entry.speaker_id,
+            "source_id": entry.source_id,
+            "text": entry.text,
+        }
+        if start_ts is not None:
+            record["start_time"] = start_ts
+            record["start_time_iso_utc"] = datetime.fromtimestamp(
+                start_ts, tz=timezone.utc
+            ).isoformat()
+
         _append_session_transcript_entry(
             session_id=session_id,
-            record={
-                "type": "utterance",
-                "captured_at": datetime.now().isoformat(),
-                "timestamp": entry.timestamp,
-                "timestamp_iso_utc": datetime.fromtimestamp(
-                    entry.timestamp, tz=timezone.utc
-                ).isoformat(),
-                "speaker": entry.speaker_id,
-                "source_id": entry.source_id,
-                "text": entry.text,
-            },
+            record=record,
+            source_id=source_id,
         )
         prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
         _ = store.prune_before(prune_cutoff)

@@ -83,18 +83,33 @@ def _append_json_list(filepath: Path, record: dict) -> None:
         json.dump(existing, f, ensure_ascii=False, indent=2)
 
 
-def _append_session_transcript_entry(session_id: str, record: dict) -> None:
-    """Append one utterance record to the session full transcript."""
+def _append_session_transcript_entry(
+    session_id: str, record: dict, source_id: str | None = None
+) -> None:
+    """Append one utterance record to the session transcripts.
+
+    Saves to:
+    1. Full session transcript (all sources combined)
+    2. Source-specific transcript file (if source_id provided)
+    """
     try:
         logs_dir = get_session_subdir(session_id, "dialogue")
         logs_dir.mkdir(parents=True, exist_ok=True)
-        filepath = logs_dir / f"{session_id}_session_full_transcript.json"
-        _append_json_list(filepath, record)
+
+        # Save to full transcript
+        full_filepath = logs_dir / f"{session_id}_session_full_transcript.json"
+        _append_json_list(full_filepath, record)
+
+        # Save to source-specific file if source_id provided
+        if source_id:
+            source_filepath = logs_dir / f"{session_id}_transcript_{source_id}.json"
+            _append_json_list(source_filepath, record)
     except Exception as e:
         log_print(
             "ERROR",
             f"Failed to append session transcript entry: {e}",
             session_id=session_id,
+            source_id=source_id,
         )
 
 

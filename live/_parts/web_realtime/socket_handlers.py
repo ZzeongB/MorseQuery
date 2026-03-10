@@ -824,6 +824,7 @@ def handle_keyword_tts(data: dict):
                 keyword=keyword,
             )
             return
+        request_token = _keyword_tts_request_token
 
     def _synthesize_and_play():
         stream_id = f"keyword_{session_id}_{int(time.time() * 1000)}"

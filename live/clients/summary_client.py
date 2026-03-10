@@ -124,15 +124,22 @@ class SummaryClient:
         self.on_tts_ready_callback: Optional[Callable[[bool], None]] = None
 
         # VAD transcript callbacks (called when input audio transcription completes)
-        self._vad_transcript_callbacks: list[Callable[[str], None]] = []
+        # Callback signature: (transcript: str, start_ts: Optional[float]) -> None
+        self._vad_transcript_callbacks: list[
+            Callable[[str, Optional[float]], None]
+        ] = []
         self._vad_transcript_lock = threading.Lock()
-        self._vad_pending_transcripts: list[str] = []
+        # Store tuples of (transcript, start_ts)
+        self._vad_pending_transcripts: list[tuple[str, Optional[float]]] = []
         self._vad_flush_timer: Optional[threading.Timer] = None
 
         # VAD state tracking for diarization
         self._vad_state_lock = threading.Lock()
         self._is_speaking = False
         self._speech_start_ts: Optional[float] = None
+        self._last_speech_start_ts: Optional[float] = (
+            None  # Preserved until transcript arrives
+        )
         self._current_rms: float = 0.0
         self._rms_history: list[float] = []  # Rolling window for smoothed RMS
         self._rms_history_max_len = 10  # ~200ms at 50 chunks/sec
@@ -228,11 +235,13 @@ class SummaryClient:
                 "mic_id": self.mic_id,
             }
 
-    def _handle_vad_transcript(self, transcript: str) -> None:
+    def _handle_vad_transcript(
+        self, transcript: str, start_ts: Optional[float] = None
+    ) -> None:
         """Handle completed VAD transcript by calling all registered callbacks."""
         for callback in self._vad_transcript_callbacks:
             try:
-                callback(transcript)
+                callback(transcript, start_ts)
             except Exception as e:
                 log_print(
                     "ERROR",
@@ -262,8 +271,8 @@ class SummaryClient:
             except Exception:
                 pass
 
-        for text in pending:
-            self._handle_vad_transcript(text)
+        for text, start_ts in pending:
+            self._handle_vad_transcript(text, start_ts)
 
         self.logger.log(
             "vad_transcript_flush",
@@ -290,8 +299,11 @@ class SummaryClient:
 
     def _queue_vad_transcript(self, transcript: str) -> None:
         flush_now = False
+        # Capture start_ts before it gets overwritten by next speech
+        with self._vad_state_lock:
+            start_ts = self._last_speech_start_ts
         with self._vad_transcript_lock:
-            self._vad_pending_transcripts.append(transcript)
+            self._vad_pending_transcripts.append((transcript, start_ts))
             queued_count = len(self._vad_pending_transcripts)
             if queued_count >= _VAD_TRANSCRIPT_BATCH_TARGET:
                 flush_now = True
@@ -300,6 +312,7 @@ class SummaryClient:
             "vad_transcript_queued",
             queued_count=queued_count,
             segment_id=self.segment_id,
+            start_ts=start_ts,
         )
 
         if flush_now:
@@ -454,7 +467,7 @@ class SummaryClient:
                 self._queue_vad_transcript(transcript.strip())
                 self.logger.log(
                     "vad_transcript_completed",
-                    transcript=transcript.strip()[:100],
+                    transcript=transcript.strip(),
                     segment_id=self.segment_id,
                 )
             return
@@ -465,10 +478,10 @@ class SummaryClient:
                 self._is_speaking = True
                 self._speech_start_ts = received_at_ts
             log_print(
-                "DEBUG",
-                "Summary VAD speech_started at {:.2f}".format(received_at_ts),
+                "INFO",
+                "VAD speech_started ({})".format(self.mic_id or "unknown"),
                 session_id=self.session_id,
-                mic_id=self.mic_id,
+                received_at_ts=received_at_ts,
             )
             self.logger.log(
                 "summary_vad_boundary",
@@ -484,12 +497,14 @@ class SummaryClient:
             received_at_ts = time.time()
             with self._vad_state_lock:
                 self._is_speaking = False
+                # Preserve start_ts for transcript callback
+                self._last_speech_start_ts = self._speech_start_ts
                 self._speech_start_ts = None
             log_print(
-                "DEBUG",
-                "Summary VAD speech_stopped at {:.2f}".format(received_at_ts),
+                "INFO",
+                "VAD speech_stopped ({})".format(self.mic_id or "unknown"),
                 session_id=self.session_id,
-                mic_id=self.mic_id,
+                received_at_ts=received_at_ts,
             )
             self.logger.log(
                 "summary_vad_boundary",
