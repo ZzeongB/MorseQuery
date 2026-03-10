@@ -92,7 +92,9 @@ def handle_start(data: dict):
         _fast_catchup_window_mode_runtime, \
         _fast_catchup_chain_enabled_runtime, \
         _summary_followup_enabled_runtime, \
-        _missed_summary_latency_bridge_enabled_runtime
+        _missed_summary_latency_bridge_enabled_runtime, \
+        _diarization_enabled, \
+        _diarization_rms_ratio_threshold
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
 
@@ -133,10 +135,6 @@ def handle_start(data: dict):
         _reset_segment_tracking()
         _reset_dialogue_stores()
         _active_runtime_sid = session_id
-
-        # Initialize transcript filter for matching summary to realtime
-        if _transcript_filter_enabled:
-            _init_transcript_filter(session_id)
 
         source = data.get("source", "mic")
 
@@ -238,6 +236,22 @@ def handle_start(data: dict):
         _missed_summary_latency_bridge_enabled_runtime = bool(
             data.get("missed_summary_latency_bridge_enabled", False)
         )
+
+        # Diarization settings (RMS-based crosstalk filtering)
+        _diarization_enabled = bool(data.get("diarization_enabled", True))
+        try:
+            _diarization_rms_ratio_threshold = float(
+                data.get("diarization_rms_ratio_threshold", 1.5) or 1.5
+            )
+        except Exception:
+            _diarization_rms_ratio_threshold = 1.5
+        _diarization_rms_ratio_threshold = max(1.0, min(5.0, _diarization_rms_ratio_threshold))
+        if _diarization_enabled:
+            log_print(
+                "INFO",
+                f"Diarization enabled (RMS ratio threshold={_diarization_rms_ratio_threshold})",
+                session_id=session_id,
+            )
 
         # Noise gate settings
         noise_gate_data = data.get("noise_gate", {})

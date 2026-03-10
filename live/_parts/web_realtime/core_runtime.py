@@ -32,10 +32,8 @@ except Exception:
 from clients import (
     ConversationReconstructorClient,
     DialogueStore,
-    FilterConfig,
     RealtimeClient,
     SummaryClient,
-    TranscriptFilter,
     TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
@@ -211,9 +209,11 @@ _active_runtime_sid: Optional[str] = None
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
 _dialogue_segment_start_time: float = 0.0
 
-# Transcript filter for matching summary transcripts to realtime
-_transcript_filter: Optional[TranscriptFilter] = None
-_transcript_filter_enabled: bool = True  # Can be toggled via start event
+# Diarization: track which mic is the primary speaker when both are active
+_diarization_lock = threading.Lock()
+_diarization_enabled = True  # Can be toggled via start event
+_diarization_rms_ratio_threshold = 1.5  # Must be X times louder to win
+
 _DIALOGUE_BUFFER_RETENTION_SEC = 15 * 60  # always-on rolling buffer
 _MISS_PADDING_BEFORE_SEC = 1.0
 _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC = 1.0
@@ -351,10 +351,6 @@ def _on_vad_transcript(transcript: str) -> None:
                 "text": text,
             },
         )
-
-    # Feed to transcript filter for summary matching
-    if _transcript_filter_enabled and _transcript_filter:
-        _transcript_filter.add_realtime_transcript(text, now)
 
     with _segment_ctx_lock:
         _recent_vad_transcripts.append((now, text))
@@ -818,97 +814,87 @@ def _consume_next_sentence(segment_id: int) -> str:
 
 
 def _reset_dialogue_stores() -> None:
-    """Reset all dialogue stores and transcript filter."""
-    global _dialogue_segment_start_time, _transcript_filter
+    """Reset all dialogue stores."""
+    global _dialogue_segment_start_time
     for store in _dialogue_stores.values():
         store.clear()
     _dialogue_stores.clear()
     _dialogue_segment_start_time = 0.0
-    if _transcript_filter:
-        _transcript_filter.clear()
-        _transcript_filter = None
 
 
-def _add_filtered_transcript_to_store(
-    speaker_id: str, source_id: str, text: str, timestamp: float
-) -> None:
-    """Add a filtered (matched) transcript to DialogueStore.
+def _should_skip_transcript_diarization(source_id: str) -> bool:
+    """Check if this transcript should be skipped due to diarization.
 
-    Called by TranscriptFilter when a summary transcript matches realtime.
+    When multiple mics detect speech simultaneously, only the louder one
+    should produce transcripts. The quieter one is likely picking up
+    crosstalk and should be ignored.
+
+    Args:
+        source_id: Source identifier (e.g., "sum0", "sum1")
+
+    Returns:
+        True if this transcript should be skipped (quieter mic)
     """
-    session_id = _active_runtime_sid
-    if not session_id:
-        return
+    if not _diarization_enabled:
+        return False
 
-    # Get or create dialogue store for this speaker
-    if speaker_id not in _dialogue_stores:
-        _dialogue_stores[speaker_id] = DialogueStore()
+    with _clients_lock:
+        clients = list(summary_clients)
 
-    store = _dialogue_stores[speaker_id]
-    entry = store.add_entry(
-        speaker_id=speaker_id,
-        text=text,
-        source_id=source_id,
-        timestamp=timestamp,
-    )
-    _append_session_transcript_entry(
-        session_id=session_id,
-        record={
-            "type": "utterance",
-            "captured_at": datetime.now().isoformat(),
-            "timestamp": entry.timestamp,
-            "timestamp_iso_utc": datetime.fromtimestamp(
-                entry.timestamp, tz=timezone.utc
-            ).isoformat(),
-            "speaker": entry.speaker_id,
-            "source_id": entry.source_id,
-            "text": entry.text,
-            "filtered": True,  # Mark as filtered/matched
-        },
-    )
-    prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC
-    _ = store.prune_before(prune_cutoff)
+    if len(clients) < 2:
+        return False
 
-    # Trigger follow-up compression if needed
-    should_trigger_followup = False
-    with _segment_ctx_lock:
-        should_trigger_followup = (
-            _post_tts_followup_active
-            and _post_tts_followup_live_window_open
-            and (not _post_tts_followup_inflight)
-            and (len(_segment_compression_inflight) == 0)
-            and entry.timestamp >= float(_post_tts_followup_cursor_ts or 0.0)
-        )
-    if should_trigger_followup:
-        threading.Thread(
-            target=_trigger_post_tts_followup_if_needed,
-            args=(session_id, "vad_arrived"),
-            daemon=True,
-        ).start()
+    # Find this client and others
+    this_client = None
+    other_clients = []
+    for sc in clients:
+        sc_source_id = f"sum{clients.index(sc)}"
+        if sc_source_id == source_id:
+            this_client = sc
+        else:
+            other_clients.append(sc)
 
+    if not this_client or not other_clients:
+        return False
 
-def _init_transcript_filter(session_id: str) -> None:
-    """Initialize the transcript filter for a session."""
-    global _transcript_filter
-    if _transcript_filter:
-        _transcript_filter.clear()
-    _transcript_filter = TranscriptFilter(
-        session_id=session_id,
-        config=FilterConfig(
-            match_window_sec=3.0,
-            min_similarity=0.4,
-            ttl_sec=5.0,
-        ),
-        on_filtered_transcript=_add_filtered_transcript_to_store,
-    )
-    log_print("INFO", "TranscriptFilter initialized (zero-latency)", session_id=session_id)
+    # Get VAD states
+    this_state = this_client.get_vad_state()
+    if not this_state.get("is_speaking"):
+        # If this mic isn't speaking according to VAD, something's off - let it through
+        return False
+
+    this_rms = float(this_state.get("current_rms", 0.0))
+
+    # Check if any other mic is also speaking
+    for other in other_clients:
+        other_state = other.get_vad_state()
+        if not other_state.get("is_speaking"):
+            continue
+
+        other_rms = float(other_state.get("current_rms", 0.0))
+
+        # Both mics are speaking - compare RMS
+        if other_rms > 0 and this_rms > 0:
+            ratio = other_rms / this_rms
+            if ratio >= _diarization_rms_ratio_threshold:
+                # Other mic is significantly louder - skip this transcript
+                log_print(
+                    "INFO",
+                    f"Diarization: skipping {source_id} transcript (quieter mic)",
+                    source_id=source_id,
+                    this_rms=this_rms,
+                    other_rms=other_rms,
+                    ratio=ratio,
+                )
+                return True
+
+    return False
 
 
 def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: str):
     """Create a VAD transcript callback that adds entries to the DialogueStore.
 
-    When transcript filter is enabled, feeds to filter for matching.
-    When disabled, adds directly to DialogueStore.
+    Uses RMS-based diarization to filter crosstalk when multiple mics are active.
 
     Args:
         speaker_id: Speaker identifier ("A" or "B")
@@ -923,20 +909,13 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         if not transcript or not transcript.strip():
             return
 
-        text = transcript.strip()
-        now = time.time()
-
-        # If filter is enabled, feed to filter for matching
-        if _transcript_filter_enabled and _transcript_filter:
-            _transcript_filter.add_summary_transcript(
-                text=text,
-                source_id=source_id,
-                speaker_id=speaker_id,
-                timestamp=now,
-            )
+        # Diarization check: skip if this is the quieter mic
+        if _should_skip_transcript_diarization(source_id):
             return
 
-        # Direct mode (filter disabled) - add directly to DialogueStore
+        text = transcript.strip()
+
+        # Add directly to DialogueStore
         if speaker_id not in _dialogue_stores:
             _dialogue_stores[speaker_id] = DialogueStore()
 

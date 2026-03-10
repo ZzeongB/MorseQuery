@@ -129,6 +129,14 @@ class SummaryClient:
         self._vad_pending_transcripts: list[str] = []
         self._vad_flush_timer: Optional[threading.Timer] = None
 
+        # VAD state tracking for diarization
+        self._vad_state_lock = threading.Lock()
+        self._is_speaking = False
+        self._speech_start_ts: Optional[float] = None
+        self._current_rms: float = 0.0
+        self._rms_history: list[float] = []  # Rolling window for smoothed RMS
+        self._rms_history_max_len = 10  # ~200ms at 50 chunks/sec
+
         log_print(
             "INFO",
             "SummaryClient created",
@@ -201,6 +209,24 @@ class SummaryClient:
             "VAD transcript callback added",
             session_id=self.session_id,
         )
+
+    def get_vad_state(self) -> dict:
+        """Get current VAD state for diarization.
+
+        Returns:
+            dict with keys:
+                - is_speaking: bool
+                - speech_start_ts: float or None
+                - current_rms: float
+                - mic_id: str
+        """
+        with self._vad_state_lock:
+            return {
+                "is_speaking": self._is_speaking,
+                "speech_start_ts": self._speech_start_ts,
+                "current_rms": self._current_rms,
+                "mic_id": self.mic_id,
+            }
 
     def _handle_vad_transcript(self, transcript: str) -> None:
         """Handle completed VAD transcript by calling all registered callbacks."""
@@ -435,6 +461,9 @@ class SummaryClient:
 
         if etype == "input_audio_buffer.speech_started":
             received_at_ts = time.time()
+            with self._vad_state_lock:
+                self._is_speaking = True
+                self._speech_start_ts = received_at_ts
             log_print(
                 "DEBUG",
                 "Summary VAD speech_started at {:.2f}".format(received_at_ts),
@@ -453,6 +482,9 @@ class SummaryClient:
 
         if etype == "input_audio_buffer.speech_stopped":
             received_at_ts = time.time()
+            with self._vad_state_lock:
+                self._is_speaking = False
+                self._speech_start_ts = None
             log_print(
                 "DEBUG",
                 "Summary VAD speech_stopped at {:.2f}".format(received_at_ts),
@@ -601,6 +633,19 @@ class SummaryClient:
         self.recent_audio_buffer.append(data)
         if len(self.recent_audio_buffer) > self.chunks_for_3_seconds:
             self.recent_audio_buffer.pop(0)
+
+        # Calculate RMS for diarization
+        try:
+            arr = np.frombuffer(data, dtype=np.int16)
+            if len(arr) > 0:
+                rms = float(np.sqrt(np.mean(arr.astype(np.float32) ** 2)))
+                with self._vad_state_lock:
+                    self._rms_history.append(rms)
+                    if len(self._rms_history) > self._rms_history_max_len:
+                        self._rms_history.pop(0)
+                    self._current_rms = sum(self._rms_history) / len(self._rms_history)
+        except Exception:
+            pass
 
         audio_b64 = base64.b64encode(data).decode()
 

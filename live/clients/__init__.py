@@ -6,7 +6,6 @@ from clients.dialogue_store import DialogueEntry, DialogueStore
 from clients.realtime_client import RealtimeClient
 from clients.summary_client import SummaryClient
 from clients.streaming_tts_client import StreamingTTSClient
-from clients.transcript_filter import FilterConfig, TranscriptFilter
 from clients.transcript_reconstructor_client import TranscriptReconstructorClient
 
 __all__ = [
@@ -17,7 +16,5 @@ __all__ = [
     "ConversationReconstructorClient",
     "DialogueEntry",
     "DialogueStore",
-    "FilterConfig",
-    "TranscriptFilter",
     "TranscriptReconstructorClient",
 ]
