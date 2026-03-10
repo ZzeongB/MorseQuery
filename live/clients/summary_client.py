@@ -137,12 +137,16 @@ class SummaryClient:
         self._vad_state_lock = threading.Lock()
         self._is_speaking = False
         self._speech_start_ts: Optional[float] = None
+        self._speech_stop_ts: Optional[float] = None  # When last speech ended
         self._last_speech_start_ts: Optional[float] = (
             None  # Preserved until transcript arrives
         )
         self._current_rms: float = 0.0
         self._rms_history: list[float] = []  # Rolling window for smoothed RMS
         self._rms_history_max_len = 10  # ~200ms at 50 chunks/sec
+        # Track RMS during speech segment for diarization
+        self._speech_segment_rms_samples: list[float] = []
+        self._last_speech_segment_rms: float = 0.0  # Avg RMS of last speech segment
 
         log_print(
             "INFO",
@@ -224,14 +228,18 @@ class SummaryClient:
             dict with keys:
                 - is_speaking: bool
                 - speech_start_ts: float or None
+                - speech_stop_ts: float or None
                 - current_rms: float
+                - last_speech_segment_rms: float (avg RMS during last speech)
                 - mic_id: str
         """
         with self._vad_state_lock:
             return {
                 "is_speaking": self._is_speaking,
                 "speech_start_ts": self._speech_start_ts,
+                "speech_stop_ts": self._speech_stop_ts,
                 "current_rms": self._current_rms,
+                "last_speech_segment_rms": self._last_speech_segment_rms,
                 "mic_id": self.mic_id,
             }
 
@@ -477,6 +485,8 @@ class SummaryClient:
             with self._vad_state_lock:
                 self._is_speaking = True
                 self._speech_start_ts = received_at_ts
+                # Clear RMS samples for new speech segment
+                self._speech_segment_rms_samples.clear()
             log_print(
                 "INFO",
                 "VAD speech_started ({})".format(self.mic_id or "unknown"),
@@ -497,14 +507,24 @@ class SummaryClient:
             received_at_ts = time.time()
             with self._vad_state_lock:
                 self._is_speaking = False
+                self._speech_stop_ts = received_at_ts
                 # Preserve start_ts for transcript callback
                 self._last_speech_start_ts = self._speech_start_ts
                 self._speech_start_ts = None
+                # Calculate average RMS for this speech segment
+                if self._speech_segment_rms_samples:
+                    self._last_speech_segment_rms = sum(
+                        self._speech_segment_rms_samples
+                    ) / len(self._speech_segment_rms_samples)
+                else:
+                    self._last_speech_segment_rms = 0.0
+                segment_rms = self._last_speech_segment_rms
             log_print(
                 "INFO",
                 "VAD speech_stopped ({})".format(self.mic_id or "unknown"),
                 session_id=self.session_id,
                 received_at_ts=received_at_ts,
+                segment_rms=segment_rms,
             )
             self.logger.log(
                 "summary_vad_boundary",
@@ -513,6 +533,7 @@ class SummaryClient:
                 audio_end_ms=event.get("audio_end_ms"),
                 item_id=event.get("item_id"),
                 mic_id=self.mic_id,
+                segment_rms=segment_rms,
             )
             return
 
@@ -659,6 +680,9 @@ class SummaryClient:
                     if len(self._rms_history) > self._rms_history_max_len:
                         self._rms_history.pop(0)
                     self._current_rms = sum(self._rms_history) / len(self._rms_history)
+                    # Collect RMS samples during speech for accurate segment average
+                    if self._is_speaking:
+                        self._speech_segment_rms_samples.append(rms)
         except Exception:
             pass
 

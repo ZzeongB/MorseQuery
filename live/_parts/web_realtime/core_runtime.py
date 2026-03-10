@@ -826,6 +826,10 @@ def _should_skip_transcript_diarization(source_id: str) -> bool:
     should produce transcripts. The quieter one is likely picking up
     crosstalk and should be ignored.
 
+    This function uses speech segment RMS (average during the speech) and
+    timestamps to detect overlapping speech windows, rather than checking
+    instantaneous state which may have already changed by callback time.
+
     Args:
         source_id: Source identifier (e.g., "sum0", "sum1")
 
@@ -854,34 +858,54 @@ def _should_skip_transcript_diarization(source_id: str) -> bool:
     if not this_client or not other_clients:
         return False
 
-    # Get VAD states
+    # Get VAD states - use segment RMS and timestamps instead of instantaneous state
     this_state = this_client.get_vad_state()
-    if not this_state.get("is_speaking"):
-        # If this mic isn't speaking according to VAD, something's off - let it through
+    this_rms = float(this_state.get("last_speech_segment_rms", 0.0))
+    this_stop_ts = this_state.get("speech_stop_ts")
+
+    # If no valid RMS data, let it through
+    if this_rms <= 0:
         return False
 
-    this_rms = float(this_state.get("current_rms", 0.0))
+    now = time.time()
+    # Window to consider speech as "concurrent" (seconds)
+    overlap_window_sec = 3.0
 
-    # Check if any other mic is also speaking
+    # Check if any other mic had concurrent speech with higher RMS
     for other in other_clients:
         other_state = other.get_vad_state()
-        if not other_state.get("is_speaking"):
+        other_rms = float(other_state.get("last_speech_segment_rms", 0.0))
+        other_stop_ts = other_state.get("speech_stop_ts")
+
+        if other_rms <= 0:
             continue
 
-        other_rms = float(other_state.get("current_rms", 0.0))
+        # Check if other mic's speech was recent/concurrent
+        # Either currently speaking OR stopped within the overlap window
+        is_other_speaking = other_state.get("is_speaking", False)
+        is_other_recent = (
+            other_stop_ts is not None
+            and (now - float(other_stop_ts)) < overlap_window_sec
+        )
+        is_this_recent = (
+            this_stop_ts is not None
+            and (now - float(this_stop_ts)) < overlap_window_sec
+        )
 
-        # Both mics are speaking - compare RMS
-        if other_rms > 0 and this_rms > 0:
+        # If both had recent speech, compare their segment RMS
+        if (is_other_speaking or is_other_recent) and is_this_recent:
             ratio = other_rms / this_rms
             if ratio >= _diarization_rms_ratio_threshold:
-                # Other mic is significantly louder - skip this transcript
+                # Other mic was significantly louder - skip this transcript
                 log_print(
                     "INFO",
                     f"Diarization: skipping {source_id} transcript (quieter mic)",
                     source_id=source_id,
-                    this_rms=this_rms,
-                    other_rms=other_rms,
-                    ratio=ratio,
+                    this_rms=round(this_rms, 1),
+                    other_rms=round(other_rms, 1),
+                    ratio=round(ratio, 2),
+                    this_stop_ts=this_stop_ts,
+                    other_stop_ts=other_stop_ts,
                 )
                 return True
 
