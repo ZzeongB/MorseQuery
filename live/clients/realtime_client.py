@@ -6,7 +6,6 @@ import time
 from collections import deque
 from typing import Optional
 
-import openai
 import pyaudio
 import websocket
 from config import (
@@ -68,7 +67,7 @@ class RealtimeClient:
         self._vad_boundary_callbacks: list = []
         self._vad_transcript_history: deque[str] = deque(maxlen=120)
         self._keyword_retry_attempt = 0
-        self._max_keyword_retry_attempts = 1
+        self._max_keyword_retry_attempts = 2  # Retry up to 2 times with realtime API
         self.enable_noise_gate = enable_noise_gate
         self.noise_gate: AdaptiveNoiseGate | None = None
         if enable_noise_gate:
@@ -200,79 +199,6 @@ class RealtimeClient:
                     f"VAD boundary callback failed: {e}",
                     session_id=self.session_id,
                 )
-
-    def _get_transcript_so_far(self, max_chars: int = 6000) -> str:
-        parts = [t.strip() for t in self._vad_transcript_history if t and t.strip()]
-        if not parts:
-            return ""
-        text = " ".join(parts).strip()
-        if len(text) <= max_chars:
-            return text
-        return text[-max_chars:]
-
-    def _extract_keywords_with_gpt_mini_fallback(self) -> list[dict]:
-        transcript_text = self._get_transcript_so_far(max_chars=6000)
-        if not transcript_text:
-            self.logger.log("keywords_fallback_skipped_no_transcript")
-            return []
-        self.logger.log(
-            "keywords_fallback_started", transcript_length=len(transcript_text)
-        )
-        try:
-            response = openai.chat.completions.create(
-                model="gpt-4o-mini",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": (
-                            "You extract spoken technical keywords from transcript text.\n"
-                            "Output must contain at least 1 keyword.\n"
-                            "Never output zero keywords.\n"
-                            "Use only terms that appear in transcript.\n"
-                            "Output format per line: <keyword>: <exactly 30-word description>.\n"
-                            "English only. No bullets, no numbering, no extra text."
-                        ),
-                    },
-                    {
-                        "role": "user",
-                        "content": (
-                            "Extract 1-3 keywords from this transcript.\n"
-                            "At least 1 keyword is mandatory.\n\n"
-                            f"{transcript_text}"
-                        ),
-                    },
-                ],
-                temperature=0.2,
-            )
-            text = str((response.choices[0].message.content or "")).strip()
-            if text.startswith("```"):
-                text = re.sub(r"^```[a-zA-Z0-9_-]*\n?", "", text).strip()
-                if text.endswith("```"):
-                    text = text[:-3].strip()
-            parsed = []
-            if (text.startswith("{") and text.endswith("}")) or (
-                text.startswith("[") and text.endswith("]")
-            ):
-                parsed.extend(self._parse_json_format(text))
-            parsed.extend(self._parse_line_format(text))
-            parsed = self._sanitize_keywords(parsed)
-            if parsed:
-                self.logger.log(
-                    "keywords_fallback_success",
-                    keyword_count=len(parsed),
-                    raw_response=text,
-                )
-                return parsed
-            self.logger.log("keywords_fallback_empty_after_parse", raw_response=text)
-            return []
-        except Exception as e:
-            log_print(
-                "WARN",
-                f"gpt-mini fallback keyword extraction failed: {e}",
-                session_id=self.session_id,
-            )
-            self.logger.log("keywords_fallback_error", error=str(e))
-            return []
 
     def _parse_json_format(self, text: str) -> list[dict]:
         keywords = []

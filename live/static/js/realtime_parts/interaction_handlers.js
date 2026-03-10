@@ -788,7 +788,7 @@ document.addEventListener('keyup', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
         return;
     }
-    if (e.key === 'PageDown') {
+    if (e.key === 'PageDown' || e.key === 'Escape') {
         clearAllActiveUiAndAudio();
         return;
     }
