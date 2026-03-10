@@ -466,6 +466,11 @@ function createStreamingPlayer(queueItem) {
             if (!summaryCueSequenceActive) {
                 summaryCueSequenceActive = true;
                 playTtsStartFeedback('summary');
+                // Notify server that streaming summary playback started (for AirPods mode)
+                socket.emit('browser_tts_playback_start', {
+                    source: ttsType,
+                    segment_id: Number((meta && meta.segmentId) || 0),
+                });
             }
         }
     };
@@ -514,6 +519,8 @@ function createStreamingPlayer(queueItem) {
                 summaryInProgress = false;
                 hideSummaryText();
                 hideReconstructedTurns();
+                // Notify server that streaming summary playback ended (for AirPods transparency)
+                socket.emit('browser_tts_playback_done', { reason: 'streaming_summary_done' });
             }
         }
 
