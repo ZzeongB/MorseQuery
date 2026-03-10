@@ -793,7 +793,6 @@ def handle_grounding(data: dict):
 @sio.on("keyword_tts")
 def handle_keyword_tts(data: dict):
     """Synthesize keyword definition audio and play on server."""
-    global _keyword_tts_request_token
     session_id = request.sid
     if not _is_active_session(session_id):
         return
@@ -808,35 +807,43 @@ def handle_keyword_tts(data: dict):
 
     with _clients_lock:
         tts = keyword_tts_client
-        _keyword_tts_request_token += 1
-        request_token = _keyword_tts_request_token
+        stream_client = keyword_tts_stream_client
     if not tts:
         return
+    if not stream_client:
+        return
 
-    # Latest-only behavior: if a newer navigation request arrives while synthesis
-    # is in-flight, this request is dropped before playback.
+    # First request wins: while a keyword stream is already active, keep the
+    # current playback and ignore newer keyword-TTS requests.
+    with _clients_lock:
+        if stream_client.is_streaming:
+            log_print(
+                "INFO",
+                "keyword_tts ignored while previous keyword playback is active",
+                session_id=session_id,
+                keyword=keyword,
+            )
+            return
+
     def _synthesize_and_play():
-        stream_id = f"keyword_{session_id}_{request_token}"
+        stream_id = f"keyword_{session_id}_{int(time.time() * 1000)}"
 
         with _clients_lock:
-            if request_token != _keyword_tts_request_token:
+            local_stream_client = keyword_tts_stream_client
+            if not local_stream_client:
                 return
-            stream_client = keyword_tts_stream_client
-            if not stream_client:
+            if local_stream_client.is_streaming:
                 return
-            # Stop any previous stream on the same client
-            if stream_client.is_streaming:
-                stream_client.stop_stream()
             # Update event_extra for this request
-            stream_client.event_extra = {"stream_id": stream_id, "type": "keyword"}
+            local_stream_client.event_extra = {"stream_id": stream_id, "type": "keyword"}
 
         # Keep ANC hold active across keyword navigation/loading.
         _set_keyword_anc_hold(True, "keyword_tts_before_stream")
 
-        started = stream_client.start_stream()
-        pushed = started and stream_client.push_text(text)
+        started = local_stream_client.start_stream()
+        pushed = started and local_stream_client.push_text(text)
         if started and pushed:
-            stream_client.finish_input()
+            local_stream_client.finish_input()
             # Emit tts_playing to trigger keyword UI render on frontend
             sio.emit("tts_playing", {"reason": "keyword"}, to=session_id)
         else:
@@ -857,12 +864,7 @@ def handle_keyword_tts(data: dict):
         near_end_time = time.time() + estimated_duration_sec - near_end_lead_sec
         near_end_emitted = False
 
-        while stream_client.is_streaming:
-            with _clients_lock:
-                if request_token != _keyword_tts_request_token:
-                    stream_client.stop_stream()
-                    break
-
+        while local_stream_client.is_streaming:
             # Emit near_end event when approaching estimated end
             if not near_end_emitted and time.time() >= near_end_time:
                 near_end_emitted = True

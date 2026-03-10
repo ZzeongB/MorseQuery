@@ -160,6 +160,8 @@ function preloadKeywordTtsForItems(items) {
 
 function playCurrentKeywordTts() {
     if (options.length === 0) return;
+    if (isSummaryCycleActive() || summaryTriggeredForListeningSession) return;
+    if (isKeywordPlaybackBusy()) return;
     const item = options[currentIdx];
     if (!item) return;
     const word = (item.word || '').trim();
@@ -760,6 +762,7 @@ function startSummarizing(opts = {}) {
         if (summaryRequested) return;
         if (summaryTriggeredForListeningSession) return;
         if (!listeningActive) return;
+        ignoreIncomingSummaryEvents = false;
         clearKeywordAutoSummarizeTimer();
         hideReconstructedTurns();
         pendingSummaryTexts = [];
@@ -811,10 +814,12 @@ function clearAllActiveUiAndAudio() {
     awaitingJudgeDecision = false;
     listeningActive = false;
     summaryTriggeredForListeningSession = false;
+    ignoreIncomingSummaryEvents = true;
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
     pendingSummaryTexts = [];
     clearReconstructedState();
+    summaryCueSequenceActive = false;
     lastSpace = 0;
 
     document.getElementById('optionsList').innerHTML = '';

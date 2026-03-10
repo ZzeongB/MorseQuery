@@ -403,8 +403,8 @@ class RealtimeClient:
             return False
         retry_prompt = (
             f"{KEYWORD_EXTRACTION_PROMPT}\n\n"
-            "Your previous output was invalid or empty. "
-            "Retry now and return 1-3 lines in `<keyword>: <description>` format only."
+            "Your previous output was invalid or empty. Refer to previous context and try again. "
+            "You MUST give at least one `<keyword>: <description>` format."
         )
         try:
             ws.send(
@@ -414,7 +414,7 @@ class RealtimeClient:
                         "response": {
                             "modalities": ["text"],
                             "instructions": retry_prompt,
-                            "max_output_tokens": 700,
+                            "max_output_tokens": 500,
                         },
                     }
                 )

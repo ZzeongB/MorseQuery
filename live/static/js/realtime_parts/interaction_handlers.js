@@ -137,6 +137,7 @@ socket.on('session_ended', () => {
     streamingTtsBuffers.clear();
     recentlyFinishedStreamingTts.clear();
     awaitingJudgeDecision = false;
+    summaryCueSequenceActive = false;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
         summaryFinalizeTimer = null;
@@ -152,6 +153,7 @@ socket.on('session_ended', () => {
 });
 
 socket.on('summary_done', data => {
+    if (ignoreIncomingSummaryEvents) return;
     const segmentId = Number((data && data.segment_id) || 0);
     if (!isSummaryCycleActive()) {
         // Ignore stale/unsolicited summary events when user is not in a summary flow.
@@ -213,6 +215,9 @@ socket.on('fast_catchup_pending', data => {
 
 socket.on('tts_playing', data => {
     const reason = (data && data.reason) || '';
+    if (ignoreIncomingSummaryEvents && reason !== 'keyword') {
+        return;
+    }
     stopLoadingAudioFeedback();
 
     if (reason === 'keyword') {
@@ -305,6 +310,7 @@ socket.on('conversation_reconstruct_done', data => {
 });
 
 socket.on('conversation_reconstructed_turns', data => {
+    if (ignoreIncomingSummaryEvents) return;
     const turns = Array.isArray(data && data.turns) ? data.turns : [];
     const segId = Number((data && data.segment_id) || 0);
     pendingReconstructedTurns = turns;
@@ -324,6 +330,7 @@ socket.on('conversation_reconstructed_turns', data => {
 });
 
 socket.on('summary_tts', data => {
+    if (ignoreIncomingSummaryEvents) return;
     if (!data.audio) return;
     if (
         reconstructorEnabled &&
@@ -456,11 +463,8 @@ function createStreamingPlayer(queueItem) {
         } else if (ttsType === 'reconstruction' || ttsType === 'summary') {
             stopLoadingAudioFeedback();
             summaryInProgress = true;
-            // Only play start feedback for first summary stream
-            const isFirstSummary = streamingTtsQueue.findIndex(
-                item => item.ttsType === 'reconstruction' || item.ttsType === 'summary'
-            ) === streamingTtsQueue.indexOf(queueItem);
-            if (isFirstSummary) {
+            if (!summaryCueSequenceActive) {
+                summaryCueSequenceActive = true;
                 playTtsStartFeedback('summary');
             }
         }
@@ -505,6 +509,7 @@ function createStreamingPlayer(queueItem) {
                 item => item.ttsType === 'reconstruction' || item.ttsType === 'summary'
             );
             if (!hasMoreSummary) {
+                summaryCueSequenceActive = false;
                 playTtsEndFeedback('summary');
                 summaryInProgress = false;
                 hideSummaryText();
@@ -582,6 +587,11 @@ socket.on('streaming_tts_done', data => {
         streamingTtsPlayers.delete(streamId);
         if (currentStreamingPlayer === queueItem.player) {
             currentStreamingPlayer = null;
+            if (!streamingTtsQueue.some(
+                item => item.ttsType === 'reconstruction' || item.ttsType === 'summary'
+            )) {
+                summaryCueSequenceActive = false;
+            }
             playNextStreamingTts();
         }
         return;
@@ -603,6 +613,7 @@ socket.on('conversation_tts_done', data => {
 });
 
 socket.on('conversation_tts_merged', data => {
+    if (ignoreIncomingSummaryEvents) return;
     console.log(
         'conversation_tts_merged received',
         data.segment_id,
@@ -624,6 +635,7 @@ socket.on('conversation_tts_merged', data => {
 });
 
 socket.on('compressed_dialogue_tts', data => {
+    if (ignoreIncomingSummaryEvents) return;
     if (!data || !data.audio) return;
     const segId = Number((data && data.segment_id) || 0);
     const method = (data && data.method) || 'unknown';
@@ -700,6 +712,7 @@ socket.on('dialogue_transcript_ready', data => {
 });
 
 socket.on('conversation_tts', data => {
+    if (ignoreIncomingSummaryEvents) return;
     console.log('conversation_tts received', data.segment_id, data.turn_index, data.audio ? data.audio.length : 0);
     if (!data.audio) return;
     const segId = Number((data && data.segment_id) || 0);

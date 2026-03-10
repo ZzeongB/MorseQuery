@@ -48,6 +48,7 @@ let pendingEmptySummarySignal = null; // {segmentId}
 let pendingSkippedIndicator = null; // {message, opts}
 let listeningActive = false;
 let summaryTriggeredForListeningSession = false;
+let ignoreIncomingSummaryEvents = false;
 let inferencingTimer = null;
 const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
 const KEYWORD_SUMMARY_LEAD_MS = 2000;
@@ -105,6 +106,7 @@ let streamingTtsBuffers = new Map(); // stream_id -> { chunks: Uint8Array[], met
 let streamingTtsPlayers = new Map(); // stream_id -> StreamingTtsPlayer instance
 let streamingTtsQueue = []; // Queue for sequential playback: { streamId, player, chunks: [] }
 let currentStreamingPlayer = null; // Currently playing streaming TTS
+let summaryCueSequenceActive = false; // True while a summary/reconstruction stream chain is active
 let ttsPlaying = false;
 let currentTtsAudio = null;
 let currentTtsUrl = null;
@@ -1184,6 +1186,7 @@ function cancelSummaryPlayback() {
     allowPostFollowupTts = false;
     pendingSummarizeIndicatorAfterKeyword = false;
     awaitingJudgeDecision = false;
+    ignoreIncomingSummaryEvents = true;
     if (summaryFinalizeTimer) {
         clearTimeout(summaryFinalizeTimer);
         summaryFinalizeTimer = null;
