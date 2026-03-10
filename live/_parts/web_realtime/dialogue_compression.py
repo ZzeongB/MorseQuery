@@ -926,12 +926,15 @@ def _trigger_parallel_compression_for_dialogue(
         chosen_method = str((selected or {}).get("method", "") or "")
 
         if chosen_text:
+            with _clients_lock:
+                recon_off = transcript_reconstructor is None
             _synthesize_compressed_dialogue(
                 chosen_text,
                 segment_id,
                 session_id,
                 chosen_method,
                 trigger_source=trigger_source,
+                skip_logging=recon_off,
             )
             _register_pending_latency_bridge(
                 session_id=session_id,

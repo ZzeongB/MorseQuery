@@ -622,6 +622,6 @@ def build_dialogue_compression_user_prompt(
     - The most recent part of the dialogue must be preserved and included in the output.
 
     Limits:
-    - Each A:/B: line ≤ 8 words.
-    - Total dialogue ≤ 15 words.
+    - Each A:/B: line ≤ 10 words.
+    - Total dialogue ≤ 20 words.
     """

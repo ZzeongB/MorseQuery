@@ -42,6 +42,7 @@ class StreamingTTSClient:
         done_event: str = "tts_stream_done",
         emit_to: Optional[str] = None,
         event_extra: Optional[dict] = None,
+        skip_logging: bool = False,
     ):
         self.sio = socketio
         self.session_id = session_id
@@ -81,7 +82,7 @@ class StreamingTTSClient:
         self._stream_start_time: float = 0.0
 
         # Logging
-        self.logger = get_logger(session_id)
+        self.logger = None if skip_logging else get_logger(session_id)
         self._tts_counter = 0
         self._tts_counter_lock = threading.Lock()
 
@@ -227,7 +228,8 @@ class StreamingTTSClient:
                 "TTS stream started (reusing connection)",
                 session_id=self.session_id,
             )
-            self.logger.log("tts_stream_started")
+            if self.logger:
+                self.logger.log("tts_stream_started")
 
             # Push initial text if provided
             if initial_text:
@@ -478,14 +480,15 @@ class StreamingTTSClient:
                 tts_id=tts_id,
                 duration_sec=duration_sec,
             )
-            self.logger.log(
-                "streaming_tts_saved",
-                tts_id=tts_id,
-                tts_text=self._current_text[:200],
-                tts_audio_path=str(filepath.resolve()),
-                tts_size_bytes=len(raw_audio),
-                tts_duration_sec=duration_sec,
-            )
+            if self.logger:
+                self.logger.log(
+                    "streaming_tts_saved",
+                    tts_id=tts_id,
+                    tts_text=self._current_text[:200],
+                    tts_audio_path=str(filepath.resolve()),
+                    tts_size_bytes=len(raw_audio),
+                    tts_duration_sec=duration_sec,
+                )
             return str(filepath)
 
         except Exception as e:

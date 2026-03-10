@@ -368,6 +368,7 @@ def _synthesize_compressed_dialogue(
     session_id: str,
     method: str = "unknown",
     trigger_source: str = "segment",
+    skip_logging: bool = False,
 ) -> None:
     """Synthesize TTS for compressed dialogue and emit as merged audio.
 
@@ -375,6 +376,7 @@ def _synthesize_compressed_dialogue(
         compressed_text: The compressed dialogue text (A: ...\nB: ...)
         segment_id: The segment identifier
         method: The compression method used (for logging)
+        skip_logging: If True, skip creating JSON log files for recon streams
     """
     if not compressed_text or not compressed_text.strip():
         log_print(
@@ -434,6 +436,7 @@ def _synthesize_compressed_dialogue(
                 "turn_index": i,
                 "speaker": speaker,
             },
+            skip_logging=skip_logging,
         )
         started = stream_client.start_stream()
         pushed = started and stream_client.push_text(text)
