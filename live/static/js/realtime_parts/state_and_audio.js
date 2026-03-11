@@ -259,6 +259,19 @@ function initNoiseGateMetersClick() {
 }
 
 // ============================================================================
+// Options Collapse Toggle
+// ============================================================================
+
+function toggleOptionsCollapse() {
+    const content = document.getElementById('optionsCollapseContent');
+    const arrow = document.getElementById('optionsCollapseArrow');
+    const isOpen = content.style.display !== 'none';
+
+    content.style.display = isOpen ? 'none' : 'block';
+    arrow.classList.toggle('open', !isOpen);
+}
+
+// ============================================================================
 // Device/Mic Functions
 // ============================================================================
 

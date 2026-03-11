@@ -48,6 +48,16 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
 .noise-gate-threshold-control { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #333; }
 .noise-gate-threshold-control input[type="range"] { flex: 1; accent-color: #4ade80; }
 
+/* Options collapse section */
+.options-collapse-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #333; }
+.options-collapse-header { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px 0; user-select: none; }
+.options-collapse-header span:first-child { font-size: 14px; color: #888; font-weight: 500; }
+.options-collapse-arrow { font-size: 12px; color: #666; transition: transform 0.2s; }
+.options-collapse-arrow.open { transform: rotate(180deg); }
+.options-collapse-header:hover span:first-child { color: #ccc; }
+.options-collapse-content { padding-top: 15px; }
+.options-collapse-content .source-select { margin-bottom: 20px; }
+
 /* Main layout */
 #main-content { display: none; width: 100%; padding: 20px; padding-bottom: 50px; padding-right: 320px; }
 

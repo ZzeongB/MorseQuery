@@ -199,7 +199,7 @@ def handle_start(data: dict):
         except Exception:
             _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
         _fast_catchup_threshold_sec_runtime = max(
-            1.0, min(30.0, _fast_catchup_threshold_sec_runtime)
+            0.0, min(30.0, _fast_catchup_threshold_sec_runtime)  # 0 = disabled
         )
         try:
             _fast_catchup_speed_runtime = float(

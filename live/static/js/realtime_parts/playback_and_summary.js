@@ -699,7 +699,7 @@ function start(v) {
     if (!Number.isFinite(fastCatchupThresholdSec)) fastCatchupThresholdSec = 1;
     if (!Number.isFinite(fastCatchupSpeed)) fastCatchupSpeed = 1.5;
     if (!Number.isFinite(fastCatchupGapSec)) fastCatchupGapSec = 0.0;
-    fastCatchupThresholdSec = Math.min(30, Math.max(1, Math.round(fastCatchupThresholdSec)));
+    fastCatchupThresholdSec = Math.min(30, Math.max(0, Math.round(fastCatchupThresholdSec)));  // 0 = disabled
     fastCatchupSpeed = Math.min(3.0, Math.max(1.0, Math.round(fastCatchupSpeed * 10) / 10));
     fastCatchupGapSec = Math.min(2.0, Math.max(0.0, Math.round(fastCatchupGapSec * 10) / 10));
     if (fastCatchupThresholdEl) fastCatchupThresholdEl.value = String(fastCatchupThresholdSec);
