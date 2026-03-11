@@ -21,7 +21,11 @@ from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
 
 from .audio_filter import AdaptiveNoiseGate, NoiseGateConfig
-from .prompt import KEYWORD_EXTRACTION_PROMPT, KEYWORD_SESSION_INSTRUCTIONS
+from .prompt import (
+    KEYWORD_EXTRACTION_PROMPT,
+    KEYWORD_EXTRACTION_PROMPT_SINGLE,
+    KEYWORD_SESSION_INSTRUCTIONS,
+)
 
 
 class RealtimeClient:
@@ -68,6 +72,7 @@ class RealtimeClient:
         self._vad_transcript_history: deque[str] = deque(maxlen=120)
         self._keyword_retry_attempt = 0
         self._max_keyword_retry_attempts = 2  # Retry up to 2 times with realtime API
+        self.single_keyword_mode = False  # Extract only 1 keyword when True
         self.enable_noise_gate = enable_noise_gate
         self.noise_gate: AdaptiveNoiseGate | None = None
         if enable_noise_gate:
@@ -401,8 +406,13 @@ class RealtimeClient:
         if not ws:
             self.logger.log("keywords_retry_skipped_no_ws")
             return False
+        base_prompt = (
+            KEYWORD_EXTRACTION_PROMPT_SINGLE
+            if self.single_keyword_mode
+            else KEYWORD_EXTRACTION_PROMPT
+        )
         retry_prompt = (
-            f"{KEYWORD_EXTRACTION_PROMPT}\n\n"
+            f"{base_prompt}\n\n"
             "Your previous output was invalid or empty. Refer to previous context and try again. "
             "You MUST give at least one `<keyword>: <description>` format."
         )
@@ -738,7 +748,12 @@ class RealtimeClient:
         try:
             if has_new_audio:
                 ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
-            prompt = KEYWORD_EXTRACTION_PROMPT
+            base_prompt = (
+                KEYWORD_EXTRACTION_PROMPT_SINGLE
+                if self.single_keyword_mode
+                else KEYWORD_EXTRACTION_PROMPT
+            )
+            prompt = base_prompt
             excluded_keywords: list[str] = []
             excluded_keywords.extend(self.extracted_keywords[-20:])
             excluded_keywords.extend(self.completed_tts_keywords[-40:])
@@ -746,7 +761,7 @@ class RealtimeClient:
                 deduped_excluded = list(dict.fromkeys(excluded_keywords))
                 blocked = ", ".join(deduped_excluded)
                 prompt = (
-                    f"{KEYWORD_EXTRACTION_PROMPT}\n\n"
+                    f"{base_prompt}\n\n"
                     "Do NOT include any keyword from this history "
                     "(already extracted + keyword-tts playback completed): "
                     f"{blocked}"
@@ -888,6 +903,14 @@ class RealtimeClient:
                 return
             self._completed_tts_keyword_set.add(normalized)
             self.completed_tts_keywords.append(normalized)
+
+    def set_single_keyword_mode(self, enabled: bool) -> None:
+        self.single_keyword_mode = bool(enabled)
+        log_print(
+            "INFO",
+            f"Single keyword mode: {self.single_keyword_mode}",
+            session_id=self.session_id,
+        )
 
     def _save_audio(self) -> None:
         if not self.recording_buffer:

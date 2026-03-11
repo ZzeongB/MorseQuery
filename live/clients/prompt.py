@@ -87,6 +87,40 @@ INVALID EXAMPLES (DO NOT DO THIS):
 - "No keywords found" or empty output ❌ (ALWAYS output at least 1 keyword)
 """
 
+KEYWORD_EXTRACTION_PROMPT_SINGLE = """Extract exactly 1 keyword from the conversation.
+
+MANDATORY: You MUST output exactly 1 keyword. Output 0 or more than 1 keyword is FORBIDDEN.
+
+Prioritization:
+1. FIRST: The MOST important/difficult keyword from the MOST RECENT audio (last few seconds).
+2. FALLBACK: If recent audio has no clear keyword, use earlier conversation context.
+3. NEVER output nothing. Always find exactly 1 keyword from the entire conversation.
+
+Rules:
+- Output ONLY 1 keyword - the most important/difficult/technical term.
+- The keyword must be clearly spoken (no guessing).
+- English only. Noun phrase or technical term only.
+- Do not repeat keywords already output in this session.
+- The explanation MUST be 20–30 words.
+- Keep the definition minimal and direct.
+- Strictly output in the following format, with no extra text:
+
+Format (strict):
+<keyword>: <one sentence explanation>
+
+VALID Example:
+Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed.
+
+INVALID EXAMPLES (DO NOT DO THIS):
+- Multiple keywords ❌ (output ONLY 1)
+- "It sounds like they are talking about economics"  ❌ (inference)
+- "trade policy" without it being spoken ❌ (guessing)
+- "interesting point" ❌ (vague)
+- Keyword - description ❌ (wrong format)
+- AI: Artificial Intelligence ❌ (too short, needs full sentence)
+- "No keywords found" or empty output ❌ (ALWAYS output exactly 1 keyword)
+"""
+
 # Keep session instructions minimal; put strict rules in per-request prompts.
 SUMMARY_SESSION_INSTRUCTIONS = """# Role & Objective
 You are the USER, but in highly compressed mimic form.

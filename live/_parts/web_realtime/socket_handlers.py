@@ -1042,6 +1042,24 @@ def handle_set_airpods_mode_switch(data: dict):
     )
 
 
+@sio.on("set_single_keyword_mode")
+def handle_set_single_keyword_mode(data: dict):
+    """Update single keyword extraction mode."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    enabled = bool((data or {}).get("enabled", False))
+    with _clients_lock:
+        if client:
+            client.set_single_keyword_mode(enabled)
+    log_print(
+        "INFO",
+        "Single keyword mode updated",
+        session_id=session_id,
+        enabled=enabled,
+    )
+
+
 if __name__ == "__main__":
     log_print("INFO", "=" * 50)
     log_print("INFO", "Starting web_realtime server")

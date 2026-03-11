@@ -47,7 +47,8 @@ function handleTap() {
         lastSpace = now;
         setTimeout(() => {
             if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
-                if (options.length > 0) {
+                // Only navigate on single tap if singleClickNavEnabled is true
+                if (singleClickNavEnabled && options.length > 0) {
                     playTapFeedback();
                     recoverListeningForKeywordNavigation();
                     cancelKeywordTts();
