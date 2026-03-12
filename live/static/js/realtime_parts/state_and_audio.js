@@ -78,6 +78,7 @@ let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
 let airpodsModeSwitchEnabled = true;
 let singleClickNavEnabled = false; // Single-click navigate (default: off)
 let singleKeywordMode = false; // Extract only 1 keyword (default: off)
+let transcriptSyncMode = 'vad'; // 'vad' | 'commit' | 'speech_wait'
 let audioContext = null;
 let audioUnlocked = false;
 let loadingAudioInterval = null;
@@ -660,6 +661,14 @@ function setSingleKeywordMode(enabled) {
     document.getElementById('btn-single-keyword-on').classList.toggle('selected', enabled);
     document.getElementById('btn-single-keyword-off').classList.toggle('selected', !enabled);
     socket.emit('set_single_keyword_mode', { enabled });
+}
+
+function setTranscriptSyncMode(mode) {
+    const validModes = ['vad', 'commit', 'speech_wait'];
+    transcriptSyncMode = validModes.includes(mode) ? mode : 'vad';
+    document.getElementById('btn-transcript-sync-vad').classList.toggle('selected', transcriptSyncMode === 'vad');
+    document.getElementById('btn-transcript-sync-commit').classList.toggle('selected', transcriptSyncMode === 'commit');
+    document.getElementById('btn-transcript-sync-speech').classList.toggle('selected', transcriptSyncMode === 'speech_wait');
 }
 
 function setDescView(dv) {

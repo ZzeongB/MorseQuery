@@ -62,7 +62,7 @@ Rules:
 - Keywords must be clearly spoken (no guessing).
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
-- Each explanation MUST be 20–30 words.
+- Each explanation MUST be 40-50 words.
 - Keep definitions minimal and direct.
 - Strictly output in the following format, with no extra text:
 
@@ -101,7 +101,7 @@ Rules:
 - The keyword must be clearly spoken (no guessing).
 - English only. Noun phrase or technical term only.
 - Do not repeat keywords already output in this session.
-- The explanation MUST be 20–30 words.
+- The explanation MUST be 40-50 words.
 - Keep the definition minimal and direct.
 - Strictly output in the following format, with no extra text:
 
@@ -618,9 +618,9 @@ B: ...
 
 DIALOGUE_COMPRESSION_SYSTEM_PROMPT = (
     "You are a dialogue compressor. Compress the dialogue into a brief "
-    "catch-up (max 30 words total). Preserve speaker labels (A: and B:). "
+    "catch-up (max 20 words total). Preserve speaker labels (A: and B:). "
     "Remove filler and keep only core ideas. Output only dialogue lines. "
-    "Each speaker line must be 12 words or fewer. "
+    "Each speaker line must be 10 words or fewer. "
     "If a token/word is clearly odd or context-mismatched (likely transcript error), ignore it. "
     "Drop content that is unrelated to current context or user-viewed keywords. "
     "Treat isolated one-word utterances as likely transcription errors unless clearly meaningful. "

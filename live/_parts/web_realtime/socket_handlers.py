@@ -199,7 +199,8 @@ def handle_start(data: dict):
         except Exception:
             _fast_catchup_threshold_sec_runtime = _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
         _fast_catchup_threshold_sec_runtime = max(
-            0.0, min(30.0, _fast_catchup_threshold_sec_runtime)  # 0 = disabled
+            0.0,
+            min(30.0, _fast_catchup_threshold_sec_runtime),  # 0 = disabled
         )
         try:
             _fast_catchup_speed_runtime = float(
@@ -219,10 +220,14 @@ def handle_start(data: dict):
         _fast_catchup_gap_sec_runtime = max(
             0.0, min(2.0, _fast_catchup_gap_sec_runtime)
         )
-        requested_window_mode = str(
-            data.get("fast_catchup_window_mode", _FAST_CATCHUP_WINDOW_MODE_DEFAULT)
-            or _FAST_CATCHUP_WINDOW_MODE_DEFAULT
-        ).strip().lower()
+        requested_window_mode = (
+            str(
+                data.get("fast_catchup_window_mode", _FAST_CATCHUP_WINDOW_MODE_DEFAULT)
+                or _FAST_CATCHUP_WINDOW_MODE_DEFAULT
+            )
+            .strip()
+            .lower()
+        )
         if requested_window_mode in ("vad_utterance", "time_window"):
             _fast_catchup_window_mode_runtime = requested_window_mode
         else:
@@ -245,7 +250,9 @@ def handle_start(data: dict):
             )
         except Exception:
             _diarization_rms_ratio_threshold = 1.5
-        _diarization_rms_ratio_threshold = max(1.0, min(5.0, _diarization_rms_ratio_threshold))
+        _diarization_rms_ratio_threshold = max(
+            1.0, min(5.0, _diarization_rms_ratio_threshold)
+        )
         if _diarization_enabled:
             log_print(
                 "INFO",
@@ -462,7 +469,7 @@ def handle_start_listening():
 
 
 @sio.on("end_listening")
-def handle_end_listening():
+def handle_end_listening(data: dict = None):
     """End listening segment and request summary."""
     global \
         _post_tts_followup_active, \
@@ -478,6 +485,14 @@ def handle_end_listening():
             active_session_id=_active_runtime_sid,
         )
         return
+
+    # Parse transcript sync mode from client data
+    data = data or {}
+    mode_str = data.get("mode", "vad")
+    try:
+        sync_mode = TranscriptSyncMode(mode_str)
+    except ValueError:
+        sync_mode = TranscriptSyncMode.VAD
 
     with _clients_lock:
         if summary_clients:
@@ -498,7 +513,7 @@ def handle_end_listening():
                         _summary_followup_enabled_runtime
                     )
             for sc in summary_clients:
-                sc.end_listening()
+                sc.end_listening(mode=sync_mode)
             # Also notify context judge
             if context_judge:
                 context_judge.end_listening()
@@ -533,8 +548,13 @@ def handle_end_listening():
                 ).start()
             else:
                 with _segment_ctx_lock:
-                    if current_segment_id > 0 and current_segment_id in _segment_windows:
-                        _segment_windows[current_segment_id]["bridge_decision_ts"] = time.time()
+                    if (
+                        current_segment_id > 0
+                        and current_segment_id in _segment_windows
+                    ):
+                        _segment_windows[current_segment_id]["bridge_decision_ts"] = (
+                            time.time()
+                        )
                 threading.Thread(
                     target=_trigger_parallel_compression_after_delay,
                     args=(current_segment_id, session_id),
@@ -554,6 +574,7 @@ def handle_end_listening():
                 window_mode=_fast_catchup_window_mode_runtime,
                 catchup_chain_enabled=_fast_catchup_chain_enabled_runtime,
                 summary_followup_enabled=_summary_followup_enabled_runtime,
+                transcript_sync_mode=sync_mode.value,
             )
         else:
             # No summary clients - signal completion immediately
@@ -629,9 +650,7 @@ def handle_request_missed_summary(data: dict):
         )
     )
     fast_catchup_threshold_sec = float(
-        payload.get(
-            "fast_catchup_threshold_sec", _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
-        )
+        payload.get("fast_catchup_threshold_sec", _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC)
         or _FAST_CATCHUP_DEFAULT_THRESHOLD_SEC
     )
     fast_catchup_speed = float(
@@ -836,7 +855,10 @@ def handle_keyword_tts(data: dict):
             if local_stream_client.is_streaming:
                 return
             # Update event_extra for this request
-            local_stream_client.event_extra = {"stream_id": stream_id, "type": "keyword"}
+            local_stream_client.event_extra = {
+                "stream_id": stream_id,
+                "type": "keyword",
+            }
 
         # Keep ANC hold active across keyword navigation/loading.
         _set_keyword_anc_hold(True, "keyword_tts_before_stream")
@@ -1061,13 +1083,22 @@ def handle_set_single_keyword_mode(data: dict):
 
 
 if __name__ == "__main__":
+    import signal
+
+    def _force_exit(signum, frame):
+        log_print("INFO", "Received signal, forcing exit...")
+        os._exit(0)
+
+    signal.signal(signal.SIGINT, _force_exit)
+    signal.signal(signal.SIGTERM, _force_exit)
+
     log_print("INFO", "=" * 50)
     log_print("INFO", "Starting web_realtime server")
     log_print("INFO", "=" * 50)
     sio.run(
         app,
         host="0.0.0.0",
-        port=5002,
+        port=5001,
         debug=False,
         allow_unsafe_werkzeug=True,
     )

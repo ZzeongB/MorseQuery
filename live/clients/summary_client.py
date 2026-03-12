@@ -9,6 +9,7 @@ import json
 import re
 import threading
 import time
+from enum import Enum
 from typing import Callable, Optional
 
 import noisereduce as nr
@@ -28,6 +29,18 @@ from pydub import AudioSegment
 
 from .prompt import SUMMARY_SESSION_INSTRUCTIONS
 from .tts_client import TTSClient
+
+
+class TranscriptSyncMode(Enum):
+    """Transcription synchronization mode for summarization.
+
+    VAD: Use VAD transcription that has arrived up to the moment of summarizing (default)
+    COMMIT: Send input_audio_buffer.commit and wait for resulting transcription
+    SPEECH_WAIT: Wait for any speech that has started to complete its transcription
+    """
+    VAD = "vad"
+    COMMIT = "commit"
+    SPEECH_WAIT = "speech_wait"
 
 _VAD_TRANSCRIPT_BATCH_TARGET = 2
 _VAD_TRANSCRIPT_DEBOUNCE_SEC = 0.55
@@ -147,6 +160,18 @@ class SummaryClient:
         # Track RMS during speech segment for diarization
         self._speech_segment_rms_samples: list[float] = []
         self._last_speech_segment_rms: float = 0.0  # Avg RMS of last speech segment
+
+        # Transcript synchronization state for different modes
+        self._sync_lock = threading.Lock()
+        self._sync_mode: TranscriptSyncMode = TranscriptSyncMode.VAD
+        self._waiting_for_commit_transcript = False
+        self._commit_transcript_event = threading.Event()
+        self._commit_transcript_result: Optional[str] = None
+        self._waiting_for_speech_transcript = False
+        self._speech_transcript_event = threading.Event()
+        self._speech_transcript_result: Optional[str] = None
+        # Track speech_started that hasn't received transcript yet
+        self._pending_speech_count = 0
 
         log_print(
             "INFO",
@@ -403,15 +428,121 @@ class SummaryClient:
         self.logger.log("start_listening", segment_id=self.segment_id)
         self.sio.emit("listening_start", {"segment_id": self.segment_id})
 
-    def end_listening(self) -> None:
-        """End the segment (VAD transcript mode only; no summary generation)."""
+    def _send_commit_and_wait(self, timeout: float = 5.0) -> Optional[str]:
+        """Send input_audio_buffer.commit and wait for resulting transcription.
+
+        Args:
+            timeout: Maximum time to wait for transcript (default 5s)
+
+        Returns:
+            The transcript text if received, None if timeout or error
+        """
+        with self._sync_lock:
+            self._waiting_for_commit_transcript = True
+            self._commit_transcript_event.clear()
+            self._commit_transcript_result = None
+
+        # Send commit command
+        with self._lock:
+            ws = self.ws
+            if ws and not self._shutdown_event.is_set():
+                try:
+                    ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                    self.logger.log("input_audio_buffer_commit_sent")
+                except Exception as e:
+                    log_print(
+                        "ERROR",
+                        f"Failed to send commit: {e}",
+                        session_id=self.session_id,
+                    )
+                    with self._sync_lock:
+                        self._waiting_for_commit_transcript = False
+                    return None
+
+        # Wait for transcript
+        success = self._commit_transcript_event.wait(timeout=timeout)
+
+        with self._sync_lock:
+            self._waiting_for_commit_transcript = False
+            result = self._commit_transcript_result
+            self._commit_transcript_result = None
+
+        if not success:
+            self.logger.log(
+                "commit_transcript_timeout",
+                timeout=timeout,
+                segment_id=self.segment_id,
+            )
+            return None
+
+        return result
+
+    def _wait_for_pending_speech(self, timeout: float = 5.0) -> Optional[str]:
+        """Wait for any pending speech (speech_started) to complete transcription.
+
+        Args:
+            timeout: Maximum time to wait for transcript (default 5s)
+
+        Returns:
+            The last transcript text if received, None if timeout or no pending speech
+        """
+        with self._sync_lock:
+            if self._pending_speech_count == 0:
+                # No pending speech, return immediately
+                return None
+            self._waiting_for_speech_transcript = True
+            self._speech_transcript_event.clear()
+            self._speech_transcript_result = None
+
+        self.logger.log(
+            "waiting_for_pending_speech",
+            pending_count=self._pending_speech_count,
+            segment_id=self.segment_id,
+        )
+
+        # Wait for all pending speech transcripts
+        success = self._speech_transcript_event.wait(timeout=timeout)
+
+        with self._sync_lock:
+            self._waiting_for_speech_transcript = False
+            result = self._speech_transcript_result
+            self._speech_transcript_result = None
+
+        if not success:
+            self.logger.log(
+                "speech_transcript_timeout",
+                timeout=timeout,
+                segment_id=self.segment_id,
+            )
+            return None
+
+        return result
+
+    def end_listening(
+        self,
+        mode: TranscriptSyncMode = TranscriptSyncMode.VAD,
+        timeout: float = 5.0,
+    ) -> Optional[str]:
+        """End the segment and optionally wait for transcription based on mode.
+
+        Args:
+            mode: Transcription synchronization mode
+                - VAD: Return immediately (use whatever transcripts have arrived)
+                - COMMIT: Send commit and wait for resulting transcript
+                - SPEECH_WAIT: Wait for any pending speech to complete transcription
+            timeout: Maximum time to wait for sync modes (default 5s)
+
+        Returns:
+            The synchronized transcript if mode is COMMIT or SPEECH_WAIT,
+            None for VAD mode or if timeout/error
+        """
         if not self.running or not self.connected:
             log_print(
                 "WARN",
                 "end_listening ignored (not connected)",
                 session_id=self.session_id,
             )
-            return
+            return None
 
         if not self.listening:
             log_print(
@@ -419,17 +550,51 @@ class SummaryClient:
                 "end_listening ignored (not listening)",
                 session_id=self.session_id,
             )
-            return
+            return None
 
         self.listening = False
         self.response_buffer = ""
 
-        self.logger.log("end_listening", segment_id=self.segment_id)
-        self.sio.emit("listening_end", {"segment_id": self.segment_id})
         self.logger.log(
-            "summary_request_skipped_vad_only",
+            "end_listening",
             segment_id=self.segment_id,
+            mode=mode.value,
         )
+        self.sio.emit("listening_end", {"segment_id": self.segment_id, "mode": mode.value})
+
+        # Handle different synchronization modes
+        sync_transcript: Optional[str] = None
+
+        if mode == TranscriptSyncMode.COMMIT:
+            self.logger.log(
+                "end_listening_commit_mode",
+                segment_id=self.segment_id,
+            )
+            sync_transcript = self._send_commit_and_wait(timeout=timeout)
+            self.logger.log(
+                "end_listening_commit_result",
+                segment_id=self.segment_id,
+                transcript=sync_transcript,
+            )
+        elif mode == TranscriptSyncMode.SPEECH_WAIT:
+            self.logger.log(
+                "end_listening_speech_wait_mode",
+                segment_id=self.segment_id,
+            )
+            sync_transcript = self._wait_for_pending_speech(timeout=timeout)
+            self.logger.log(
+                "end_listening_speech_wait_result",
+                segment_id=self.segment_id,
+                transcript=sync_transcript,
+            )
+        else:
+            # VAD mode - no synchronization needed
+            self.logger.log(
+                "summary_request_skipped_vad_only",
+                segment_id=self.segment_id,
+            )
+
+        return sync_transcript
 
     # -------------------------
     # Websocket handlers
@@ -471,11 +636,29 @@ class SummaryClient:
 
         if etype == "conversation.item.input_audio_transcription.completed":
             transcript = event.get("transcript", "")
-            if transcript and transcript.strip():
-                self._queue_vad_transcript(transcript.strip())
+            transcript_text = transcript.strip() if transcript else ""
+
+            # Handle sync mode signaling
+            with self._sync_lock:
+                # Decrement pending speech count for SPEECH_WAIT mode
+                if self._pending_speech_count > 0:
+                    self._pending_speech_count -= 1
+
+                # Signal commit transcript if waiting
+                if self._waiting_for_commit_transcript:
+                    self._commit_transcript_result = transcript_text
+                    self._commit_transcript_event.set()
+
+                # Signal speech transcript if waiting and no more pending
+                if self._waiting_for_speech_transcript and self._pending_speech_count == 0:
+                    self._speech_transcript_result = transcript_text
+                    self._speech_transcript_event.set()
+
+            if transcript_text:
+                self._queue_vad_transcript(transcript_text)
                 self.logger.log(
                     "vad_transcript_completed",
-                    transcript=transcript.strip(),
+                    transcript=transcript_text,
                     segment_id=self.segment_id,
                 )
             return
@@ -487,6 +670,9 @@ class SummaryClient:
                 self._speech_start_ts = received_at_ts
                 # Clear RMS samples for new speech segment
                 self._speech_segment_rms_samples.clear()
+            # Track pending speech for SPEECH_WAIT mode
+            with self._sync_lock:
+                self._pending_speech_count += 1
             log_print(
                 "INFO",
                 "VAD speech_started ({})".format(self.mic_id or "unknown"),
@@ -539,6 +725,15 @@ class SummaryClient:
 
         if etype in {"response.text.delta", "response.done"}:
             # Summary generation path is disabled in VAD-only mode.
+            return
+
+        if etype == "input_audio_buffer.committed":
+            # Response to input_audio_buffer.commit - transcript will follow
+            self.logger.log(
+                "input_audio_buffer_committed",
+                item_id=event.get("item_id"),
+                previous_item_id=event.get("previous_item_id"),
+            )
             return
 
         if etype == "error":
@@ -1016,6 +1211,16 @@ class SummaryClient:
         self.noise_profile = None
         self.noise_profile_collected = False
         self.nr_buffer.clear()
+
+        # Reset sync state
+        with self._sync_lock:
+            self._waiting_for_commit_transcript = False
+            self._commit_transcript_event.set()  # Unblock any waiting threads
+            self._commit_transcript_result = None
+            self._waiting_for_speech_transcript = False
+            self._speech_transcript_event.set()  # Unblock any waiting threads
+            self._speech_transcript_result = None
+            self._pending_speech_count = 0
 
         self.logger.log("summary_client_stop")
 

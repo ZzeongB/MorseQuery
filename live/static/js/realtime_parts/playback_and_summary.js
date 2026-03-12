@@ -92,7 +92,7 @@ function startListeningIfNeeded() {
 
 function endListeningIfNeeded() {
     if (!listeningActive) return false;
-    socket.emit('end_listening');
+    socket.emit('end_listening', { mode: transcriptSyncMode });
     listeningActive = false;
     summaryTriggeredForListeningSession = true;
     return true;

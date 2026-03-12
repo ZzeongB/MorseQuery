@@ -35,6 +35,7 @@ from clients import (
     RealtimeClient,
     SummaryClient,
     TranscriptReconstructorClient,
+    TranscriptSyncMode,
 )
 from clients.context_judge_client import ContextJudgeClient
 from clients.streaming_tts_client import StreamingTTSClient, DEFAULT_VOICE_ID
