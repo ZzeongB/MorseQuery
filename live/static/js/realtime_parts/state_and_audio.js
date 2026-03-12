@@ -29,7 +29,7 @@ let awaitingJudgeDecision = false;
 let allowPostFollowupTts = false;
 let keywordOutputMode = 'audio'; // 'text' | 'audio'
 let judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
-let reconstructorEnabled = true; // Conversation reconstructor on/off
+let reconstructorEnabled = false; // Conversation reconstructor on/off
 let transcriptCompressionMode = 'api_mini'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
 let fastCatchupChainEnabled = false;
 let fastCatchupWindowMode = 'vad_utterance'; // 'vad_utterance' | 'time_window'
@@ -78,7 +78,7 @@ let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
 let airpodsModeSwitchEnabled = true;
 let singleClickNavEnabled = false; // Single-click navigate (default: off)
 let singleKeywordMode = false; // Extract only 1 keyword (default: off)
-let transcriptSyncMode = 'vad'; // 'vad' | 'commit' | 'speech_wait'
+let transcriptSyncMode = 'commit'; // 'vad' | 'commit' | 'speech_wait'
 let audioContext = null;
 let audioUnlocked = false;
 let loadingAudioInterval = null;
@@ -665,7 +665,7 @@ function setSingleKeywordMode(enabled) {
 
 function setTranscriptSyncMode(mode) {
     const validModes = ['vad', 'commit', 'speech_wait'];
-    transcriptSyncMode = validModes.includes(mode) ? mode : 'vad';
+    transcriptSyncMode = validModes.includes(mode) ? mode : 'commit';
     document.getElementById('btn-transcript-sync-vad').classList.toggle('selected', transcriptSyncMode === 'vad');
     document.getElementById('btn-transcript-sync-commit').classList.toggle('selected', transcriptSyncMode === 'commit');
     document.getElementById('btn-transcript-sync-speech').classList.toggle('selected', transcriptSyncMode === 'speech_wait');

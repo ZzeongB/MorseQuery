@@ -175,7 +175,7 @@ def handle_start(data: dict):
 
         # Keep the field for backward compatibility, but summary-generation path is disabled.
         judge_enabled = data.get("judge_enabled", False)
-        reconstructor_enabled = data.get("reconstructor_enabled", True)
+        reconstructor_enabled = data.get("reconstructor_enabled", False)
         requested_mode = str(data.get("transcript_compression_mode", "realtime"))
         if requested_mode in ("fastest", "realtime", "api_mini", "api_nano"):
             _transcript_compression_mode = requested_mode
@@ -481,11 +481,11 @@ def handle_end_listening(data: dict = None):
 
     # Parse transcript sync mode from client data
     data = data or {}
-    mode_str = data.get("mode", "vad")
+    mode_str = data.get("mode", "commit")
     try:
         sync_mode = TranscriptSyncMode(mode_str)
     except ValueError:
-        sync_mode = TranscriptSyncMode.VAD
+        sync_mode = TranscriptSyncMode.COMMIT
 
     with _clients_lock:
         if summary_clients:
