@@ -463,6 +463,8 @@ function createStreamingPlayer(queueItem) {
         if (ttsType === 'keyword') {
             keywordTtsPlaying = true;
             playTtsStartFeedback('keyword');
+            // Notify server that keyword TTS playback started
+            socket.emit('keyword_tts_playback_start', { keyword: queueItem.keyword || '' });
         } else if (ttsType === 'reconstruction' || ttsType === 'summary') {
             stopLoadingAudioFeedback();
             summaryInProgress = true;

@@ -991,6 +991,24 @@ def handle_browser_tts_playback_done(data: dict):
     return {"ok": True, "defer_finish": False}
 
 
+@sio.on("keyword_tts_playback_start")
+def handle_keyword_tts_playback_start(data: dict = None):
+    """Browser-side keyword TTS playback start (actual audio playback started)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    payload = data or {}
+    keyword = str(payload.get("keyword", "")).strip()
+    # Log keyword TTS playback start
+    get_logger(session_id).log("tts_play_start", reason="keyword_tts", keyword=keyword)
+    log_print(
+        "INFO",
+        "keyword_tts playback start (frontend)",
+        session_id=session_id,
+        keyword=keyword,
+    )
+
+
 @sio.on("keyword_tts_playback_done")
 def handle_keyword_tts_playback_done(data: dict = None):
     """Browser-side keyword TTS playback done (actual audio playback finished)."""
@@ -1000,7 +1018,7 @@ def handle_keyword_tts_playback_done(data: dict = None):
     payload = data or {}
     keyword = str(payload.get("keyword", "")).strip()
     # Log keyword TTS playback completion
-    get_logger(session_id).log("tts_play done", reason="keyword_tts", keyword=keyword)
+    get_logger(session_id).log("tts_play_done", reason="keyword_tts", keyword=keyword)
     log_print(
         "INFO",
         "keyword_tts playback done (frontend)",

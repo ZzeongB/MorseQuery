@@ -372,6 +372,15 @@ class RealtimeClient:
             if self._request_keyword_retry_in_realtime():
                 self.response_buffer = ""
                 return
+            # Empty follow-up response - don't log response_done or update latest_keywords
+            log_print(
+                "DEBUG",
+                "Ignoring empty follow-up response (not updating latest_keywords)",
+                session_id=self.session_id,
+            )
+            self.response_buffer = ""
+            return
+        # Only log and update state when we have actual keywords
         log_print(
             "INFO",
             "Response complete",
@@ -391,10 +400,7 @@ class RealtimeClient:
             self.latest_keywords = [dict(kw) for kw in keywords]
             if self.user_actions:
                 self.user_actions[-1]["keywords"] = keywords
-        if keywords:
-            self.sio.emit("keywords", keywords)
-        else:
-            self.logger.log("keywords_empty_ignored")
+        self.sio.emit("keywords", keywords)
         self.response_buffer = ""
 
     def _request_keyword_retry_in_realtime(self) -> bool:

@@ -155,7 +155,7 @@ def _on_tts_finished(reason: str) -> None:
         should_log_done = _airpods_active_tts_count == 0
     if should_log_done and _active_runtime_sid:
         logger = get_logger(_active_runtime_sid)
-        logger.log("tts_playing end", reason=reason)
+        logger.log("tts_playing_end", reason=reason)
         logger.log("tts_play_done", reason=reason)
     if should_switch:
         _set_airpods_mode("transparency", reason)
