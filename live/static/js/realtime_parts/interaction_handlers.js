@@ -389,6 +389,7 @@ socket.on('streaming_tts_chunk', data => {
 
     const sampleRate = Number(data.sample_rate || 24000);
     const ttsType = data.type || 'summary';
+    const keyword = data.keyword || '';
     const meta = {
         type: ttsType,
         segmentId: Number(data.segment_id || 0),
@@ -406,6 +407,7 @@ socket.on('streaming_tts_chunk', data => {
             sampleRate,
             meta,
             ttsType,
+            keyword,
             chunks: [],
             receivingDone: false,
             player: null,
@@ -493,7 +495,7 @@ function createStreamingPlayer(queueItem) {
             keywordTtsCurrentText = '';
             playTtsEndFeedback('keyword');
             hideInfo();
-            socket.emit('keyword_tts_done');
+            socket.emit('keyword_tts_playback_done', { keyword: queueItem.keyword || '' });
 
             // Show "Summarizing..." if it was deferred
             if (

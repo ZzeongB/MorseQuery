@@ -210,7 +210,7 @@ class StreamingTTSClient:
                         "sample_rate": STREAMING_SAMPLE_RATE,
                     },
                     language=self.language,
-                    generation_config={"volume": 1, "speed": 1.4, "emotion": "neutral"},
+                    generation_config={"volume": 1, "speed": 1, "emotion": "neutral"},
                 )
 
             self._is_streaming = True
@@ -444,26 +444,20 @@ class StreamingTTSClient:
                 self._tts_counter += 1
                 tts_id = self._tts_counter
 
-            # Combine all chunks
             raw_audio = b"".join(self._audio_chunks)
 
-            # Generate filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             tts_dir = get_session_subdir(self.session_id, "tts")
             filename = f"{timestamp}_{self.session_id}_stream_{tts_id:04d}.raw"
             filepath = tts_dir / filename
 
-            # Save raw PCM
             with open(filepath, "wb") as f:
                 f.write(raw_audio)
 
-            # Save metadata
             meta_filepath = (
                 tts_dir / f"{timestamp}_{self.session_id}_stream_{tts_id:04d}.txt"
             )
-            duration_sec = len(raw_audio) / (
-                STREAMING_SAMPLE_RATE * 2
-            )  # 16-bit = 2 bytes
+            duration_sec = len(raw_audio) / (STREAMING_SAMPLE_RATE * 2)
             with open(meta_filepath, "w", encoding="utf-8") as f:
                 f.write(f"Text: {self._current_text}\n")
                 f.write(f"Session: {self.session_id}\n")

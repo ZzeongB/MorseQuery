@@ -11,6 +11,19 @@ from config import LOG_DIR
 SESSIONS_DIR = LOG_DIR / "sessions"
 SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
 _session_root_dirs: dict[str, Path] = {}
+SESSION_LOG_FILENAME = "session_log.json"
+ALLOWED_EVENT_TYPES = {
+    "keyword_request",
+    "response_done",
+    "anc_on",
+    "anc_off",
+    "tts_play_start",
+    "tts_play_done",
+    "tts_playing_end",
+    "summarizing_start",
+    "api_compression_request",
+    "api_compression_result",
+}
 
 
 def _sanitize_name(value: str) -> str:
@@ -77,24 +90,27 @@ class JsonLogger:
     """JSON file logger for session events."""
 
     def __init__(self, session_id: str):
-        self.session_id = session_id
+        self.session_id = get_root_session_id(session_id)
         self.start_time = datetime.now()
-        safe_session = _sanitize_name(session_id)
-        json_dir = get_session_subdir(session_id, "json")
-        self.log_file = (
-            json_dir
-            / f"{self.start_time.strftime('%Y%m%d_%H%M%S')}_{safe_session}.json"
-        )
+        session_dir = get_session_dir(self.session_id)
+        self.log_file = session_dir / SESSION_LOG_FILENAME
         self.events: list[dict] = []
         log_print(
             "INFO",
             "JsonLogger initialized",
-            session_id=session_id,
+            session_id=self.session_id,
             log_file=str(self.log_file),
         )
 
     def log(self, event_type: str, **data: Any) -> None:
         """Log an event with timestamp and data."""
+        if event_type not in ALLOWED_EVENT_TYPES:
+            return
+        if (
+            event_type in {"api_compression_request", "api_compression_result"}
+            and str(data.get("key", "")) != "api_mini"
+        ):
+            return
         event = {
             "timestamp": get_timestamp(),
             "event_type": event_type,
@@ -125,6 +141,7 @@ _session_loggers: dict[str, JsonLogger] = {}
 
 def get_logger(session_id: str) -> JsonLogger:
     """Get or create a logger for a session."""
-    if session_id not in _session_loggers:
-        _session_loggers[session_id] = JsonLogger(session_id)
-    return _session_loggers[session_id]
+    root_session_id = get_root_session_id(session_id)
+    if root_session_id not in _session_loggers:
+        _session_loggers[root_session_id] = JsonLogger(root_session_id)
+    return _session_loggers[root_session_id]

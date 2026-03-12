@@ -13,7 +13,6 @@ import subprocess
 import sys
 import threading
 import time
-import json
 from collections import deque
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,9 +22,6 @@ import openai
 import pyaudio
 
 try:
-    from audiotsm import wsola as _audiotsm_wsola
-    from audiotsm.io.wav import WavReader as _AudioTSMWavReader
-    from audiotsm.io.wav import WavWriter as _AudioTSMWavWriter
     _AUDIO_TSM_AVAILABLE = True
 except Exception:
     _AUDIO_TSM_AVAILABLE = False
@@ -38,7 +34,7 @@ from clients import (
     TranscriptSyncMode,
 )
 from clients.context_judge_client import ContextJudgeClient
-from clients.streaming_tts_client import StreamingTTSClient, DEFAULT_VOICE_ID
+from clients.streaming_tts_client import StreamingTTSClient
 from clients.tts_client import TTSClient
 
 # Mic level monitoring
@@ -56,7 +52,7 @@ _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
 from flask import Flask
 from flask_socketio import SocketIO
-from logger import get_logger, get_session_dir, get_session_subdir, log_print
+from logger import get_logger, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
@@ -131,6 +127,9 @@ def _set_airpods_mode(mode: str, reason: str, wait: bool = False) -> None:
         if _airpods_last_mode == mode:
             return
         _airpods_last_mode = mode
+    if _active_runtime_sid:
+        event_type = "anc_on" if mode == "anc" else "anc_off"
+        get_logger(_active_runtime_sid).log(event_type, reason=reason)
     _run_airpods_mode(mode, reason, wait=wait)
 
 
@@ -140,6 +139,9 @@ def _on_tts_started(reason: str) -> None:
         _airpods_active_tts_count += 1
         should_switch = _airpods_active_tts_count == 1
     if should_switch:
+        if _active_runtime_sid:
+            logger = get_logger(_active_runtime_sid)
+            logger.log("tts_play_start", reason=reason)
         # Block TTS start briefly until ANC command is applied.
         _set_airpods_mode("anc", reason, wait=True)
 
@@ -150,6 +152,11 @@ def _on_tts_finished(reason: str) -> None:
         if _airpods_active_tts_count > 0:
             _airpods_active_tts_count -= 1
         should_switch = _airpods_active_tts_count == 0 and not _airpods_keyword_hold
+        should_log_done = _airpods_active_tts_count == 0
+    if should_log_done and _active_runtime_sid:
+        logger = get_logger(_active_runtime_sid)
+        logger.log("tts_playing end", reason=reason)
+        logger.log("tts_play_done", reason=reason)
     if should_switch:
         _set_airpods_mode("transparency", reason)
 
@@ -657,41 +664,8 @@ def _get_all_dialogue_entries() -> list[dict]:
 
 
 def _save_session_full_dialogue_json(session_id: str, reason: str) -> None:
-    """Append full session dialogue snapshots under dialogue/."""
-    try:
-        entries = _get_all_dialogue_entries()
-        formatted_dialogue = "\n".join(
-            f"{e['speaker']}: {e['text']}" for e in entries if e.get("text")
-        )
-        payload = {
-            "session_id": session_id,
-            "captured_at": datetime.now().isoformat(),
-            "reason": reason,
-            "entry_count": len(entries),
-            "formatted_dialogue": formatted_dialogue,
-            "entries": entries,
-        }
-
-        logs_dir = get_session_subdir(session_id, "dialogue")
-        logs_dir.mkdir(parents=True, exist_ok=True)
-        filepath = logs_dir / f"{session_id}_session_full_snapshots.json"
-        _append_json_list(filepath, payload)
-
-        log_print(
-            "INFO",
-            "Appended session full dialogue JSON",
-            session_id=session_id,
-            reason=reason,
-            path=str(filepath),
-            entry_count=len(entries),
-        )
-    except Exception as e:
-        log_print(
-            "ERROR",
-            f"Failed to save session full dialogue JSON: {e}",
-            session_id=session_id,
-            reason=reason,
-        )
+    """Disabled: do not persist redundant full-session dialogue JSON."""
+    return
 
 
 def _build_before_context_via_gpt_mini(

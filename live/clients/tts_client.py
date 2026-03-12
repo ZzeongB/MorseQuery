@@ -185,35 +185,20 @@ class TTSClient:
         text: str,
         generation_latency_ms: Optional[float] = None,
     ) -> Optional[str]:
-        """Save TTS audio to session-scoped tts directory.
-
-        Filename format: YYYYMMDD_HHMMSS_sessionid_ttsid.wav
-
-        Args:
-            audio_bytes: WAV format audio bytes
-            text: Original text that was synthesized
-            generation_latency_ms: Cartesia generation latency in milliseconds
-
-        Returns:
-            Path to saved file, or None if failed
-        """
+        """Save TTS audio to session-scoped tts directory."""
         try:
-            # Get next TTS ID
             with self._tts_counter_lock:
                 self._tts_counter += 1
                 tts_id = self._tts_counter
 
-            # Generate filename
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
             tts_dir = get_session_subdir(self.session_id, "tts")
             filename = f"{timestamp}_{self.session_id}_{tts_id:04d}.wav"
             filepath = tts_dir / filename
 
-            # Save audio file
             with open(filepath, "wb") as f:
                 f.write(audio_bytes)
 
-            # Save metadata alongside
             meta_filepath = tts_dir / f"{timestamp}_{self.session_id}_{tts_id:04d}.txt"
             with open(meta_filepath, "w", encoding="utf-8") as f:
                 f.write(f"Text: {text}\n")

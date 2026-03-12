@@ -159,14 +159,7 @@ def handle_start(data: dict):
         tts_output_device = data.get("tts_output_device")  # output device index for TTS
 
         # Create keyword TTS client (uses default voice if not specified)
-        keyword_tts_kwargs = {
-            "socketio": sio,
-            "session_id": f"{session_id}_keyword_tts",
-            "output_device_index": tts_output_device,
-        }
-        if keyword_voice_id:
-            keyword_tts_kwargs["voice_id"] = keyword_voice_id
-        keyword_tts_client = TTSClient(**keyword_tts_kwargs)
+        keyword_tts_client = None
 
         # Create persistent streaming TTS client for keywords
         if keyword_tts_stream_client:
@@ -827,8 +820,6 @@ def handle_keyword_tts(data: dict):
     with _clients_lock:
         tts = keyword_tts_client
         stream_client = keyword_tts_stream_client
-    if not tts:
-        return
     if not stream_client:
         return
 
@@ -858,6 +849,7 @@ def handle_keyword_tts(data: dict):
             local_stream_client.event_extra = {
                 "stream_id": stream_id,
                 "type": "keyword",
+                "keyword": keyword,
             }
 
         # Keep ANC hold active across keyword navigation/loading.
@@ -915,44 +907,11 @@ def handle_keyword_tts(data: dict):
 
 @sio.on("keyword_tts_preload")
 def handle_keyword_tts_preload(data: dict):
-    """Pre-synthesize keyword TTS and keep it in cache (no playback)."""
+    """Keyword TTS preload disabled: runtime uses streaming TTS only."""
     session_id = request.sid
     if not _is_active_session(session_id):
         return
-    payload = data or {}
-    texts = payload.get("texts", [])
-    if not isinstance(texts, list):
-        return
-
-    # Normalize + dedupe while preserving order.
-    unique_texts = []
-    seen = set()
-    for raw in texts:
-        text = str(raw or "").strip()
-        if not text or text in seen:
-            continue
-        seen.add(text)
-        unique_texts.append(text)
-
-    if not unique_texts:
-        return
-
-    with _clients_lock:
-        tts = keyword_tts_client
-    if not tts:
-        return
-
-    def _preload():
-        for text in unique_texts:
-            tts.synthesize(text, language="en")
-        log_print(
-            "INFO",
-            "keyword_tts preloaded",
-            session_id=session_id,
-            count=len(unique_texts),
-        )
-
-    threading.Thread(target=_preload, daemon=True).start()
+    log_print("INFO", "keyword_tts_preload ignored", session_id=session_id)
 
 
 @sio.on("cancel_keyword_tts")
@@ -1030,6 +989,24 @@ def handle_browser_tts_playback_done(data: dict):
         "transparency", f"browser_tts_playback_done_force:{reason}", wait=True
     )
     return {"ok": True, "defer_finish": False}
+
+
+@sio.on("keyword_tts_playback_done")
+def handle_keyword_tts_playback_done(data: dict = None):
+    """Browser-side keyword TTS playback done (actual audio playback finished)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    payload = data or {}
+    keyword = str(payload.get("keyword", "")).strip()
+    # Log keyword TTS playback completion
+    get_logger(session_id).log("tts_play done", reason="keyword_tts", keyword=keyword)
+    log_print(
+        "INFO",
+        "keyword_tts playback done (frontend)",
+        session_id=session_id,
+        keyword=keyword,
+    )
 
 
 @sio.on("browser_tts_near_end")

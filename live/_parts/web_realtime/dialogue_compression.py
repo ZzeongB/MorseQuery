@@ -1,3 +1,5 @@
+import json
+
 from clients.prompt import (
     DIALOGUE_COMPRESSION_SYSTEM_PROMPT,
     build_dialogue_compression_user_prompt,
@@ -86,24 +88,14 @@ def _append_json_list(filepath: Path, record: dict) -> None:
 def _append_session_transcript_entry(
     session_id: str, record: dict, source_id: str | None = None
 ) -> None:
-    """Append one utterance record to the session transcripts.
-
-    Saves to:
-    1. Full session transcript (all sources combined)
-    2. Source-specific transcript file (if source_id provided)
-    """
+    """Append one utterance record to the allowed source transcript only."""
     try:
+        if source_id not in {"realtime", "sum0", "sum1"}:
+            return
         logs_dir = get_session_subdir(session_id, "dialogue")
         logs_dir.mkdir(parents=True, exist_ok=True)
-
-        # Save to full transcript
-        full_filepath = logs_dir / f"{session_id}_session_full_transcript.json"
-        _append_json_list(full_filepath, record)
-
-        # Save to source-specific file if source_id provided
-        if source_id:
-            source_filepath = logs_dir / f"{session_id}_transcript_{source_id}.json"
-            _append_json_list(source_filepath, record)
+        source_filepath = logs_dir / f"{session_id}_transcript_{source_id}.json"
+        _append_json_list(source_filepath, record)
     except Exception as e:
         log_print(
             "ERROR",
@@ -114,16 +106,8 @@ def _append_session_transcript_entry(
 
 
 def _save_three_path_results_record(record: dict, session_id: str) -> None:
-    """Save (time,input,output) 3-path comparison record.
-
-    Writes both:
-    1) session-scoped file
-    2) all-sessions aggregate file
-    """
-    session_file = get_session_dir(session_id) / "three_path_results.json"
-    with _three_path_results_lock:
-        _append_json_list(session_file, record)
-        _append_json_list(_all_sessions_three_path_file, record)
+    """Disabled: do not persist redundant 3-path comparison JSON."""
+    return
 
 
 def _compress_dialogue_api(
@@ -232,85 +216,8 @@ def _save_dialogue_json(
     entries_override: list[dict] | None = None,
     window: dict | None = None,
 ) -> None:
-    """Save dialogue transcript to JSON file for debugging.
-
-    Args:
-        dialogue: The formatted dialogue string
-        segment_id: The segment identifier
-        session_id: Session ID for file naming
-    """
-    try:
-        # Get segment-scoped entries with timestamps (speaker + source + text).
-        all_entries = list(entries_override or [])
-        if not all_entries:
-            for store in _dialogue_stores.values():
-                entries = (
-                    store.get_entries_since(_dialogue_segment_start_time)
-                    if _dialogue_segment_start_time > 0
-                    else store.get_dialogue_chronological()
-                )
-                for entry in entries:
-                    all_entries.append(
-                        {
-                            "timestamp": entry.timestamp,
-                            "timestamp_iso_utc": datetime.fromtimestamp(
-                                entry.timestamp, tz=timezone.utc
-                            ).isoformat(),
-                            "speaker": entry.speaker_id,
-                            "source_id": entry.source_id,
-                            "text": entry.text,
-                        }
-                    )
-
-        # Sort by timestamp
-        all_entries.sort(key=lambda e: e["timestamp"])
-
-        # Create dialogue log
-        dialogue_log = {
-            "segment_id": segment_id,
-            "session_id": session_id,
-            "captured_at": datetime.now().isoformat(),
-            "segment_start_time": _dialogue_segment_start_time,
-            "window": window or {},
-            "entry_count": len(all_entries),
-            "formatted_dialogue": dialogue,
-            "entries": all_entries,
-        }
-
-        # Save to session-scoped dialogue directory
-        logs_dir = get_session_subdir(session_id, "dialogue")
-        logs_dir.mkdir(parents=True, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        filename = f"{timestamp}_seg{segment_id}_{session_id}_dialogue.json"
-        filepath = logs_dir / filename
-
-        with open(filepath, "w", encoding="utf-8") as f:
-            json.dump(dialogue_log, f, indent=2, ensure_ascii=False)
-
-        sio.emit(
-            "dialogue_transcript_ready",
-            {
-                "segment_id": segment_id,
-                "entry_count": len(all_entries),
-                "formatted_dialogue": dialogue,
-                "entries": all_entries,
-                "path": str(filepath),
-            },
-        )
-
-        log_print(
-            "INFO",
-            f"Dialogue saved to {filepath}",
-            segment_id=segment_id,
-            entry_count=len(all_entries),
-        )
-    except Exception as e:
-        log_print(
-            "ERROR",
-            f"Failed to save dialogue JSON: {e}",
-            segment_id=segment_id,
-        )
+    """Disabled: do not persist redundant dialogue debug JSON."""
+    return
 
 
 def _emit_missed_summary_latency_bridge(
@@ -635,6 +542,22 @@ def _trigger_parallel_compression_for_dialogue(
         with _segment_ctx_lock:
             _segment_compression_inflight.add(segment_id)
 
+    # Log summarizing_start event
+    session_logger.log(
+        "summarizing_start",
+        segment_id=segment_id,
+        trigger_source=trigger_source,
+        dialogue_chars=len(dialogue or ""),
+    )
+    log_print(
+        "INFO",
+        "summarizing_start",
+        session_id=session_id,
+        segment_id=segment_id,
+        trigger_source=trigger_source,
+        dialogue_chars=len(dialogue or ""),
+    )
+
     if not dialogue or not dialogue.strip():
         log_print(
             "INFO",
@@ -673,6 +596,11 @@ def _trigger_parallel_compression_for_dialogue(
         segment_id=segment_id,
         dialogue_chars=len(dialogue),
         before_context_chars=len(before_context or ""),
+        trigger_source=trigger_source,
+    )
+    session_logger.log(
+        "Summarizing.. start",
+        segment_id=segment_id,
         trigger_source=trigger_source,
     )
     keyword_items = _get_current_keywords_with_desc(limit=3)
@@ -720,6 +648,20 @@ def _trigger_parallel_compression_for_dialogue(
     def _run_api_path(
         model: str, key: str, fallback_models: list[str] | None = None
     ) -> None:
+        session_logger.log(
+            "api_compression_request",
+            segment_id=segment_id,
+            trigger_source=trigger_source,
+            key=key,
+            requested_model=model,
+            fallback_models=list(fallback_models or []),
+            transcript=dialogue,
+            transcript_chars=len(dialogue or ""),
+            before_context=before_context,
+            before_context_chars=len(before_context or ""),
+            keyword_context=keyword_context,
+            keyword_context_chars=len(keyword_context or ""),
+        )
         api_result = _compress_dialogue_api(
             dialogue,
             segment_id,
@@ -772,7 +714,8 @@ def _trigger_parallel_compression_for_dialogue(
                 results_ready.set()
 
         # Emit API result immediately
-        sio.emit("transcript_compressed_api", api_result)
+        if key == "api_mini":
+            sio.emit("transcript_compressed_api", api_result)
 
     # Path 1: Realtime API (if available)
     with _clients_lock:
