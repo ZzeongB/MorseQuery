@@ -15,6 +15,8 @@ SESSION_LOG_FILENAME = "session_log.json"
 ALLOWED_EVENT_TYPES = {
     "keyword_request",
     "response_done",
+    "input_audio_buffer_commit_sent",
+    "end_listening_commit_result",
     "anc_on",
     "anc_off",
     "tts_play_start",

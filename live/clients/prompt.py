@@ -625,6 +625,7 @@ DIALOGUE_COMPRESSION_SYSTEM_PROMPT = (
     "Drop content that is unrelated to current context or user-viewed keywords. "
     "Treat isolated one-word utterances as likely transcription errors unless clearly meaningful. "
     "Never invent claims/questions not in Dialogue. "
+    "If both speakers are present in Dialogue, include both speakers in output and do not omit either speaker's core point. "
     "If Dialogue has one speaker, output only that speaker."
 )
 
@@ -654,6 +655,9 @@ def build_dialogue_compression_user_prompt(
     - Treat one-word fragments as possible transcription errors and drop them when uncertain.
     - Transcript may contain typos; correct them using context and keywords when obvious.
     - The most recent part of the dialogue must be preserved and included in the output.
+    - Prioritize the most recent content over older content when deciding what to keep.
+    - If both A and B appear in Dialogue, summarize both speakers. Do not drop either speaker entirely.
+    - When both speakers are present, keep at least one line for A and one line for B.
 
     Limits:
     - Each A:/B: line ≤ 10 words.
