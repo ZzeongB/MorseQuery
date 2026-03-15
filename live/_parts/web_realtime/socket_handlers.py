@@ -958,6 +958,28 @@ def handle_cancel_tts():
     log_print("INFO", "cancel_tts handled", session_id=session_id)
 
 
+@sio.on("pause_tts")
+def handle_pause_tts():
+    """Pause TTS playback - switch to transparency mode (ANC off)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    # Switch to transparency mode (ANC off) when pausing
+    _set_airpods_mode("transparency", "pause_tts", wait=True)
+    log_print("INFO", "pause_tts handled (ANC off)", session_id=session_id)
+
+
+@sio.on("resume_tts")
+def handle_resume_tts():
+    """Resume TTS playback - switch to ANC mode (ANC on)."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return
+    # Switch to ANC mode (ANC on) when resuming
+    _set_airpods_mode("anc", "resume_tts", wait=True)
+    log_print("INFO", "resume_tts handled (ANC on)", session_id=session_id)
+
+
 @sio.on("browser_tts_playback_start")
 def handle_browser_tts_playback_start(data: dict):
     """Browser-side TTS playback start (summary/reconstruction)."""

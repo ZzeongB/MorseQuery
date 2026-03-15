@@ -225,6 +225,12 @@ function maybeStartSummarizingAfterKeyword() {
     if (!listeningActive) return;
     if (summaryRequested) return;
     if (isKeywordPlaybackBusy()) return;
+    // Skip auto-summarize if this was a resumed playback
+    if (ttsResumedPlayback) {
+        console.log('maybeStartSummarizingAfterKeyword: skipped (resumed playback)');
+        ttsResumedPlayback = false;
+        return;
+    }
     startSummarizing();
 }
 
@@ -788,7 +794,9 @@ function dismissKeywords() {
     currentIdx = 0;
     infoVisible = false;
     document.getElementById('optionsList').innerHTML = '';
-    startSummarizing();
+    // Clear resumed playback flag if set
+    ttsResumedPlayback = false;
+    // Don't auto-summarize when dismissing - just clear keywords
 }
 
 function clearAllActiveUiAndAudio() {
