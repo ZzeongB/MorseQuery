@@ -25,22 +25,24 @@ function handleTap() {
         lastSpace = now;
         setTimeout(async () => {
             if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
-                // Single tap confirmed - handle pause/resume for TTS
-                if (ttsPaused) {
-                    // Resume from beginning
-                    playTapFeedback();
-                    await resumeTtsPlayback();
-                    lastSpace = 0;
-                    return;
-                }
+                // Single tap confirmed - handle pause/resume for TTS (if enabled)
+                if (pauseResumeEnabled) {
+                    if (ttsPaused) {
+                        // Resume from beginning
+                        playTapFeedback();
+                        await resumeTtsPlayback();
+                        lastSpace = 0;
+                        return;
+                    }
 
-                // Check if TTS is playing (regular or streaming)
-                if (ttsPlaying || (currentStreamingPlayer && currentStreamingPlayer.isPlaying)) {
-                    // Pause the TTS
-                    playTapFeedback();
-                    pauseTtsPlayback();
-                    lastSpace = 0;
-                    return;
+                    // Check if TTS is playing (regular or streaming)
+                    if (ttsPlaying || (currentStreamingPlayer && currentStreamingPlayer.isPlaying)) {
+                        // Pause the TTS
+                        playTapFeedback();
+                        pauseTtsPlayback();
+                        lastSpace = 0;
+                        return;
+                    }
                 }
 
                 lastSpace = 0;

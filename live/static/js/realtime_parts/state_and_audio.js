@@ -77,6 +77,7 @@ const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
 let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
 let airpodsModeSwitchEnabled = true;
 let singleClickNavEnabled = false; // Single-click navigate (default: off)
+let pauseResumeEnabled = true; // Pause/Resume TTS on single tap (default: on)
 let singleKeywordMode = true; // Extract only 1 keyword (default: on)
 let transcriptSyncMode = 'commit'; // 'vad' | 'commit' | 'speech_wait'
 let audioContext = null;
@@ -802,6 +803,13 @@ function setSingleClickNavEnabled(enabled) {
     singleClickNavEnabled = enabled;
     document.getElementById('btn-single-click-nav-on').classList.toggle('selected', enabled);
     document.getElementById('btn-single-click-nav-off').classList.toggle('selected', !enabled);
+}
+
+function setPauseResumeEnabled(enabled) {
+    pauseResumeEnabled = enabled;
+    document.getElementById('btn-pause-resume-on').classList.toggle('selected', enabled);
+    document.getElementById('btn-pause-resume-off').classList.toggle('selected', !enabled);
+    console.log('Pause/Resume TTS:', enabled ? 'enabled' : 'disabled');
 }
 
 function setSingleKeywordMode(enabled) {
