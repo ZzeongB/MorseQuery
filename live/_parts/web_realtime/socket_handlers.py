@@ -282,6 +282,7 @@ def handle_start(data: dict):
             enable_noise_gate=enable_noise_gate,
             noise_gate_config=noise_gate_config,
         )
+        client.set_single_keyword_mode(data.get("single_keyword_mode", True))
 
         # If noise gate is enabled with fixed threshold, set it
         if enable_noise_gate and client.noise_gate:

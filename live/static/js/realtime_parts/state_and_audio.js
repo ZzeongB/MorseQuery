@@ -77,7 +77,7 @@ const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
 let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
 let airpodsModeSwitchEnabled = true;
 let singleClickNavEnabled = false; // Single-click navigate (default: off)
-let singleKeywordMode = false; // Extract only 1 keyword (default: off)
+let singleKeywordMode = true; // Extract only 1 keyword (default: on)
 let transcriptSyncMode = 'commit'; // 'vad' | 'commit' | 'speech_wait'
 let audioContext = null;
 let audioUnlocked = false;
@@ -311,10 +311,13 @@ function populateMicSelects() {
         availableDevices.forEach(d => {
             sel.innerHTML += `<option value="${d.index}">[${d.index}] ${d.name}</option>`;
         });
-        // Auto-select: keywordMic always uses Macbook mic
+        // Auto-select: keywordMic prefers Jabra, then falls back to MacBook.
         if (id === 'keywordMic') {
+            const jabraMic = availableDevices.find(d => d.name.toLowerCase().includes('jabra'));
             const macbookMic = availableDevices.find(d => d.name.toLowerCase().includes('macbook'));
-            if (macbookMic) {
+            if (jabraMic) {
+                sel.value = jabraMic.index;
+            } else if (macbookMic) {
                 sel.value = macbookMic.index;
             } else if (availableDevices.length > 0) {
                 sel.value = availableDevices[0].index;

@@ -748,6 +748,7 @@ function start(v) {
 
     params.judge_enabled = judgeEnabled;
     params.reconstructor_enabled = reconstructorEnabled;
+    params.single_keyword_mode = singleKeywordMode;
     params.transcript_compression_mode = transcriptCompressionMode;
     params.fast_catchup_chain_enabled = fastCatchupChainEnabled;
     params.summary_followup_enabled = summaryFollowupEnabled;
