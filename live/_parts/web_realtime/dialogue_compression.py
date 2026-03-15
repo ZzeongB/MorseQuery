@@ -510,6 +510,16 @@ def _trigger_parallel_compression_for_dialogue(
             )
             if window is not None:
                 window["slice_end_ts"] = refreshed_slice_end
+            # Update follow-up cursor to avoid duplicate content with segment
+            # Set cursor to after the last entry processed by segment compression
+            if entries:
+                global _post_tts_followup_cursor_ts
+                last_entry_ts = max(
+                    float(e.get("timestamp") or 0.0) for e in entries
+                )
+                with _segment_ctx_lock:
+                    if last_entry_ts > _post_tts_followup_cursor_ts:
+                        _post_tts_followup_cursor_ts = last_entry_ts + 0.001
 
     # Build enhanced before context with last 3 turns
     start_ts = float((window or {}).get("start_ts") or time.time())
@@ -869,6 +879,18 @@ def _trigger_parallel_compression_for_dialogue(
         chosen_method = str((selected or {}).get("method", "") or "")
 
         if chosen_text:
+            # Check if follow-up is still active before sending TTS
+            # (user may have dismissed summary / anc_off happened)
+            if trigger_source == "post_tts_followup":
+                with _segment_ctx_lock:
+                    if not _post_tts_followup_active:
+                        log_print(
+                            "INFO",
+                            "Skipping post_tts_followup TTS - no longer active",
+                            session_id=session_id,
+                            segment_id=segment_id,
+                        )
+                        return
             with _clients_lock:
                 recon_off = transcript_reconstructor is None
             _synthesize_compressed_dialogue(

@@ -558,6 +558,11 @@ function playNextStreamingTts() {
     if (streamingTtsQueue.length === 0) {
         currentStreamingPlayer = null;
         console.log('[StreamingTTS] Queue empty');
+        // Check if there are items in regular TTS queue (e.g., follow-up TTS)
+        if (ttsQueue.length > 0 && !ttsPlaying) {
+            console.log('[StreamingTTS] Playing queued regular TTS after streaming done');
+            playNextTts();
+        }
         return;
     }
 

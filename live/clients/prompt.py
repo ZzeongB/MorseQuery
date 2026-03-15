@@ -650,8 +650,7 @@ def build_dialogue_compression_user_prompt(
     Rules:
     - Context is hint-only. Do not import extra facts from context.
     - If dialogue is short/noisy, output short literal fragment only.
-    - Drop context-mismatched weird tokens rather than guessing replacements.
-    - Exclude lines/phrases unrelated to the active context or viewed keywords.
+    - Drop context-mismatched or irrelevant words and incomplete fragments instead of attempting to guess or reconstruct them.
     - Treat one-word fragments as possible transcription errors and drop them when uncertain.
     - Transcript may contain typos; correct them using context and keywords when obvious.
     - The most recent part of the dialogue must be preserved and included in the output.

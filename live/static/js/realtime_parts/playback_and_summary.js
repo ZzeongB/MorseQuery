@@ -1,5 +1,5 @@
 function enqueueTtsAudio(audioBase64, meta = null) {
-    console.log('enqueueTtsAudio called, ttsPlaying:', ttsPlaying, 'queueLen:', ttsQueue.length);
+    console.log('enqueueTtsAudio called, ttsPlaying:', ttsPlaying, 'queueLen:', ttsQueue.length, 'streamingPlayer:', !!currentStreamingPlayer);
     const audioData = atob(audioBase64);
     const audioArray = new Uint8Array(audioData.length);
     for (let i = 0; i < audioData.length; i++) {
@@ -10,10 +10,11 @@ function enqueueTtsAudio(audioBase64, meta = null) {
     const url = URL.createObjectURL(blob);
     ttsQueue.push({ audioData, url, meta });
 
-    if (!ttsPlaying && !isBlockedByKeywordPlayback(meta)) {
+    // Don't start playback if streaming TTS is playing - will be triggered when streaming finishes
+    if (!ttsPlaying && !currentStreamingPlayer && !isBlockedByKeywordPlayback(meta)) {
         playNextTts();
     } else {
-        console.log('enqueueTtsAudio: ttsPlaying=true, skipping playNextTts');
+        console.log('enqueueTtsAudio: blocked, ttsPlaying:', ttsPlaying, 'streaming:', !!currentStreamingPlayer);
     }
 }
 
@@ -23,7 +24,8 @@ function enqueueTtsBytes(audioBytes, mimeType = 'audio/wav', meta = null) {
     const url = URL.createObjectURL(blob);
     ttsQueue.push({ audioBytes, url, meta });
 
-    if (!ttsPlaying && !isBlockedByKeywordPlayback(meta)) {
+    // Don't start playback if streaming TTS is playing - will be triggered when streaming finishes
+    if (!ttsPlaying && !currentStreamingPlayer && !isBlockedByKeywordPlayback(meta)) {
         playNextTts();
     }
 }

@@ -995,6 +995,8 @@ def handle_browser_tts_playback_start(data: dict):
 @sio.on("browser_tts_playback_done")
 def handle_browser_tts_playback_done(data: dict):
     """Browser-side TTS playback done (summary/reconstruction)."""
+    global _post_tts_followup_active, _post_tts_followup_inflight
+    global _post_tts_followup_live_window_open
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
@@ -1002,6 +1004,20 @@ def handle_browser_tts_playback_done(data: dict):
     if reason == "user_cancel":
         with _segment_ctx_lock:
             _pending_latency_bridge_by_session.pop(session_id, None)
+    # Stop any pending follow-up TTS when summary playback ends
+    with _segment_ctx_lock:
+        if _post_tts_followup_active or _post_tts_followup_inflight:
+            log_print(
+                "INFO",
+                "Stopping post-TTS follow-up on playback done",
+                session_id=session_id,
+                reason=reason,
+                was_active=_post_tts_followup_active,
+                was_inflight=_post_tts_followup_inflight,
+            )
+        _post_tts_followup_active = False
+        _post_tts_followup_inflight = False
+        _post_tts_followup_live_window_open = False
     # Pending fast-catchup/latency-bridge deferral disabled:
     # always finalize TTS lifecycle immediately on playback completion.
     # Browser summary/reconstruction playback ended.
