@@ -2,62 +2,47 @@ function handleTap() {
     const now = Date.now();
     unlockAudioFeedback();
     if (now - lastSpace < 300) {
-        // Double tap
-        if (summaryRequested || summaryInProgress && !keywordTtsPlaying) {
-            playConfirmedFeedback();
-            cancelSummaryPlayback();
-            lastSpace = 0;
-            return;
+        // Double tap - keyword request
+        if (ttsPaused) {
+            clearTtsPausedState();
         }
-        if (infoVisible && options.length > 0) {
-            playConfirmedFeedback();
-            const wasKeywordPlaying = keywordTtsPlaying;
-            cancelKeywordTts();
-            options = [];
-            currentIdx = 0;
-            infoVisible = false;
-            document.getElementById('optionsList').innerHTML = '';
+        playConfirmedFeedback();
+        hideSummary();
+        startListeningIfNeeded();
+        socket.emit('request');
+        showLoadingIndicator('Inferring', 'inferring', 320);
 
-            if (wasKeywordPlaying) {
-                showSkippedIndicator('Keyword canceled');
-                setTimeout(() => {
-                    startSummarizing();
-                }, 500);
-            } else {
-                startSummarizing();
-            }
-        } else {
-            playConfirmedFeedback();
-            hideSummary();
-            startListeningIfNeeded();
-            socket.emit('request');
-            showLoadingIndicator('Inferring', 'inferring', 320);
-
-            if (inferencingTimer) clearTimeout(inferencingTimer);
-            inferencingTimer = setTimeout(() => {
-                hideLoadingIndicator();
-                showSkippedIndicator('No new keywords this round');
-                inferencingTimer = null;
-            }, INFERENCING_TIMEOUT_MS);
-        }
+        if (inferencingTimer) clearTimeout(inferencingTimer);
+        inferencingTimer = setTimeout(() => {
+            hideLoadingIndicator();
+            showSkippedIndicator('No new keywords this round');
+            inferencingTimer = null;
+        }, INFERENCING_TIMEOUT_MS);
         lastSpace = 0;
     } else {
         // Single tap - wait to see if double
         showTapIndicator();
         lastSpace = now;
-        setTimeout(() => {
+        setTimeout(async () => {
             if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
-                // Only navigate on single tap if singleClickNavEnabled is true
-                if (singleClickNavEnabled && options.length > 0) {
+                // Single tap confirmed - handle pause/resume for TTS
+                if (ttsPaused) {
+                    // Resume from beginning
                     playTapFeedback();
-                    recoverListeningForKeywordNavigation();
-                    cancelKeywordTts();
-                    currentIdx = (currentIdx + 1) % options.length;
-                    render();
-                    if (keywordOutputMode === 'audio') {
-                        playCurrentKeywordTts();
-                    }
+                    await resumeTtsPlayback();
+                    lastSpace = 0;
+                    return;
                 }
+
+                // Check if TTS is playing (regular or streaming)
+                if (ttsPlaying || (currentStreamingPlayer && currentStreamingPlayer.isPlaying)) {
+                    // Pause the TTS
+                    playTapFeedback();
+                    pauseTtsPlayback();
+                    lastSpace = 0;
+                    return;
+                }
+
                 lastSpace = 0;
             }
         }, 300);
@@ -499,6 +484,14 @@ function createStreamingPlayer(queueItem) {
             hideInfo();
             socket.emit('keyword_tts_playback_done', { keyword: queueItem.keyword || '' });
 
+            // If this was a resumed playback, switch to transparency mode (ANC off)
+            if (ttsResumedPlayback) {
+                socket.emit('pause_tts');
+                console.log('StreamingTTS keyword onEndCallback: ANC off (resumed playback)');
+                ttsResumedPlayback = false;
+                return;  // Skip summarizing for resumed playback
+            }
+
             // Show "Summarizing..." if it was deferred
             if (
                 pendingSummarizeIndicatorAfterKeyword &&
@@ -813,10 +806,12 @@ document.addEventListener('keyup', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
         return;
     }
+    // PageDown & Esc: dismiss (single click)
     if (e.key === 'PageDown' || e.key === 'Escape') {
-        clearAllActiveUiAndAudio();
+        handleDismissKey();
         return;
     }
+    // Other keys: pause/resume (single) & keyword request (double)
     handleTap();
 });
 
@@ -825,9 +820,37 @@ document.addEventListener('contextmenu', e => {
 });
 
 document.addEventListener('mouseup', e => {
-    if (e.button !== 2) return;
-    handleTap();
+    // Right-click (button 2): pause/resume (single) & keyword request (double)
+    if (e.button === 2) {
+        handleTap();
+        return;
+    }
 });
+
+// ============================================================================
+// Dismiss Key Handler (PageDown & Esc)
+// ============================================================================
+
+function handleDismissKey() {
+    unlockAudioFeedback();
+    playTapFeedback();
+
+    // If keywords are visible, dismiss them and start summarizing
+    if (infoVisible && options.length > 0) {
+        cancelKeywordTts();
+        dismissKeywords();
+        return;
+    }
+
+    // If summary is in progress, cancel it
+    if (summaryRequested || summaryInProgress) {
+        cancelSummaryPlayback();
+        return;
+    }
+
+    // Otherwise start summarizing
+    startSummarizing();
+}
 
 // ============================================================================
 // Initialization

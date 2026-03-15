@@ -114,6 +114,15 @@ let ttsPlaying = false;
 let currentTtsAudio = null;
 let currentTtsUrl = null;
 let currentTtsSource = null;  // Web Audio API source node
+
+// TTS pause/resume state
+let ttsPaused = false;
+let ttsPausing = false;  // Flag to prevent onended from firing during pause
+let ttsPausedOffset = 0;  // Playback offset in seconds when paused
+let ttsPlaybackStartTime = 0;  // AudioContext time when playback started
+let ttsPausedBuffer = null;  // AudioBuffer to resume from
+let ttsPausedMeta = null;  // Metadata of paused audio
+let ttsResumedPlayback = false;  // True if current playback was resumed (skip auto-summarize)
 let summaryTextAllowedThisPlayback = false;
 let currentSummaryNearEndTimer = null;
 let skippedIndicatorTimer = null;
@@ -470,11 +479,17 @@ class StreamingTtsPlayer {
         this.nextPlayTime = 0;
         this.isPlaying = false;
         this.isStopped = false;
+        this.isPaused = false;
         this.pendingChunks = [];
         this.scheduledSources = [];
         this.totalSamplesScheduled = 0;
         this.startedPlayback = false;
         this.onEndCallback = null;
+        this.allChunks = [];  // Store all chunks for replay on resume
+        this.playbackStartTime = 0;  // AudioContext time when playback started
+        this.samplesPlayedBeforePause = 0;  // Track how many samples were played before pause
+        this.finishPending = false;  // True if finish() was called while paused
+        this.pendingFinishTimer = null;  // Timer for delayed finish after resume
     }
 
     async start() {
@@ -496,12 +511,20 @@ class StreamingTtsPlayer {
         }
 
         this.nextPlayTime = this.audioContext.currentTime + 0.05; // Small buffer
+        this.playbackStartTime = this.audioContext.currentTime;
         this.isPlaying = true;
+        this.startedPlayback = true;
         console.log(`StreamingTtsPlayer[${this.streamId}]: Started, sampleRate=${this.sampleRate}`);
     }
 
     async pushChunk(pcmBytes) {
-        if (this.isStopped) return;
+        // Store chunk for replay on resume
+        this.allChunks.push(new Uint8Array(pcmBytes));
+        return this.pushChunkInternal(pcmBytes, true);
+    }
+
+    async pushChunkInternal(pcmBytes, triggerFirstChunk = true) {
+        if (this.isStopped || this.isPaused) return;
 
         if (!this.audioContext) {
             await this.start();
@@ -542,7 +565,7 @@ class StreamingTtsPlayer {
         this.totalSamplesScheduled += samples;
 
         // Trigger UI update on first chunk
-        if (!this.startedPlayback) {
+        if (triggerFirstChunk && !this.startedPlayback) {
             this.startedPlayback = true;
             this.onFirstChunk();
         }
@@ -555,6 +578,13 @@ class StreamingTtsPlayer {
     stop() {
         this.isStopped = true;
         this.isPlaying = false;
+        this.isPaused = false;
+
+        // Cancel any pending finish timer
+        if (this.pendingFinishTimer) {
+            clearTimeout(this.pendingFinishTimer);
+            this.pendingFinishTimer = null;
+        }
 
         for (const source of this.scheduledSources) {
             try {
@@ -571,8 +601,119 @@ class StreamingTtsPlayer {
         console.log(`StreamingTtsPlayer[${this.streamId}]: Stopped`);
     }
 
+    pause() {
+        if (this.isStopped || this.isPaused || !this.isPlaying) return false;
+
+        // Calculate how many samples have been played
+        if (this.audioContext && this.startedPlayback) {
+            const elapsedTime = this.audioContext.currentTime - this.playbackStartTime;
+            this.samplesPlayedBeforePause += Math.floor(elapsedTime * this.sampleRate);
+        }
+
+        // Stop all scheduled sources
+        for (const source of this.scheduledSources) {
+            try {
+                source.stop();
+            } catch (e) {}
+        }
+        this.scheduledSources = [];
+
+        this.isPaused = true;
+        this.isPlaying = false;
+        console.log(`StreamingTtsPlayer[${this.streamId}]: Paused at sample ${this.samplesPlayedBeforePause}`);
+        return true;
+    }
+
+    async resume() {
+        if (this.isStopped || !this.isPaused) return false;
+
+        if (this.allChunks.length === 0) {
+            this.isPaused = false;
+            return false;
+        }
+
+        // Reset playback state
+        this.nextPlayTime = 0;
+        this.totalSamplesScheduled = 0;
+        this.scheduledSources = [];
+
+        // Restart audio context if needed
+        if (!this.audioContext || this.audioContext.state === 'closed') {
+            const Ctx = window.AudioContext || window.webkitAudioContext;
+            if (!Ctx) {
+                this.isPaused = false;
+                return false;
+            }
+            this.audioContext = new Ctx({ sampleRate: this.sampleRate });
+        }
+
+        if (this.audioContext.state === 'suspended') {
+            try {
+                await this.audioContext.resume();
+            } catch (e) {
+                console.error('StreamingTtsPlayer resume failed:', e);
+                this.isPaused = false;
+                return false;
+            }
+        }
+
+        this.nextPlayTime = this.audioContext.currentTime + 0.05;
+        this.playbackStartTime = this.audioContext.currentTime;
+        this.isPaused = false;
+        this.isPlaying = true;
+
+        // Re-push chunks, skipping already-played samples
+        let samplesToSkip = this.samplesPlayedBeforePause;
+        let samplesScheduledInResume = 0;
+        for (const chunk of this.allChunks) {
+            const chunkSamples = chunk.length / 2;  // PCM16 = 2 bytes per sample
+            if (samplesToSkip >= chunkSamples) {
+                // Skip this entire chunk
+                samplesToSkip -= chunkSamples;
+                continue;
+            }
+            if (samplesToSkip > 0) {
+                // Partial chunk - skip some samples from the beginning
+                const bytesToSkip = samplesToSkip * 2;
+                const remainingChunk = chunk.slice(bytesToSkip);
+                samplesScheduledInResume += remainingChunk.length / 2;
+                await this.pushChunkInternal(remainingChunk, false);
+                samplesToSkip = 0;
+            } else {
+                // Full chunk
+                samplesScheduledInResume += chunkSamples;
+                await this.pushChunkInternal(chunk, false);
+            }
+        }
+
+        // Calculate remaining duration based on samples scheduled
+        const remainingDurationMs = (samplesScheduledInResume / this.sampleRate) * 1000;
+        console.log(`StreamingTtsPlayer[${this.streamId}]: Resumed from sample ${this.samplesPlayedBeforePause}, remaining duration: ${remainingDurationMs.toFixed(0)}ms`);
+
+        // If finish was called while paused, wait for actual playback to complete
+        if (this.finishPending) {
+            this.finishPending = false;
+            // Wait for the calculated remaining duration plus buffer, then finish
+            this.pendingFinishTimer = setTimeout(() => {
+                this.pendingFinishTimer = null;
+                if (!this.isStopped && !this.isPaused) {
+                    this.finish();
+                }
+            }, remainingDurationMs + 200);  // Add 200ms buffer for scheduling delays
+        }
+
+        return true;
+    }
+
     async finish() {
         if (this.isStopped) return;
+
+        // If paused, mark finish as pending and return
+        if (this.isPaused) {
+            this.finishPending = true;
+            console.log(`StreamingTtsPlayer[${this.streamId}]: finish() deferred (paused)`);
+            return;
+        }
 
         // Wait for all scheduled audio to finish
         if (this.audioContext && this.nextPlayTime > this.audioContext.currentTime) {
@@ -580,9 +721,13 @@ class StreamingTtsPlayer {
             await new Promise(resolve => setTimeout(resolve, remainingMs + 50));
         }
 
-        // If stream was cancelled while waiting, don't fire end callback.
-        if (this.isStopped) return;
+        // If stream was cancelled or paused while waiting, don't fire end callback.
+        if (this.isStopped || this.isPaused) {
+            if (this.isPaused) this.finishPending = true;
+            return;
+        }
 
+        this.finishPending = false;
         this.isPlaying = false;
         const totalDuration = this.totalSamplesScheduled / this.sampleRate;
         console.log(`StreamingTtsPlayer[${this.streamId}]: Finished, duration=${totalDuration.toFixed(2)}s`);
@@ -1136,17 +1281,27 @@ async function playNextTts() {
         }
 
         const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+        // Save audio buffer for pause/resume
+        ttsPausedBuffer = audioBuffer;
+        ttsPausedMeta = meta;
+
         const source = ctx.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(ctx.destination);
         currentTtsSource = source;
 
         source.onended = () => {
+            // Skip cleanup if we're pausing (not naturally ending)
+            if (ttsPausing || ttsPaused) {
+                console.log('playNextTts onended: skipped (pausing/paused)');
+                return;
+            }
             clearCurrentSummaryNearEndTimer();
             URL.revokeObjectURL(url);
             currentTtsAudio = null;
             currentTtsUrl = null;
             currentTtsSource = null;
+            clearTtsPausedState();
             playNextTts();
         };
 
@@ -1155,6 +1310,9 @@ async function playNextTts() {
             playTtsStartFeedback(ttsType);
             activeBrowserTtsType = ttsType;
         }
+        // Track playback start time for pause/resume
+        ttsPlaybackStartTime = ctx.currentTime;
+        ttsPausedOffset = 0;
         source.start(0);
         scheduleSummaryNearEndSignal(meta, audioBuffer.duration);
         console.log('playNextTts: Web Audio playback started');
@@ -1174,6 +1332,7 @@ function stopTtsPlayback() {
     socket.emit('cancel_tts');
     suppressNextBrowserTtsEndCue = true;
     clearCurrentSummaryNearEndTimer();
+    clearTtsPausedState();
 
     if (currentTtsAudio) {
         try {
@@ -1217,6 +1376,135 @@ function stopTtsPlayback() {
         socket.emit('browser_tts_playback_done', { reason: 'user_cancel' });
         browserSummaryPlaybackActive = false;
     }
+}
+
+// ============================================================================
+// TTS Pause/Resume Functions
+// ============================================================================
+
+function clearTtsPausedState() {
+    ttsPaused = false;
+    ttsPausing = false;
+    ttsPausedOffset = 0;
+    ttsPlaybackStartTime = 0;
+    ttsPausedBuffer = null;
+    ttsPausedMeta = null;
+    ttsResumedPlayback = false;
+}
+
+function isTtsPlayingOrPaused() {
+    return ttsPlaying || ttsPaused || currentStreamingPlayer !== null;
+}
+
+function pauseTtsPlayback() {
+    // Clear auto-summarize timer when pausing
+    clearKeywordAutoSummarizeTimer();
+
+    // Handle streaming TTS pause
+    if (currentStreamingPlayer && !currentStreamingPlayer.isStopped) {
+        currentStreamingPlayer.pause();
+        ttsPaused = true;
+        // Notify server to switch to transparency mode (ANC off)
+        socket.emit('pause_tts');
+        console.log('pauseTtsPlayback: streaming TTS paused');
+        return true;
+    }
+
+    // Handle regular TTS pause
+    if (!ttsPlaying || !currentTtsSource || !audioContext) {
+        return false;
+    }
+
+    try {
+        // Calculate how far into the audio we are
+        const currentTime = audioContext.currentTime;
+        ttsPausedOffset += (currentTime - ttsPlaybackStartTime);
+        // Set pausing flag to prevent onended from triggering
+        ttsPausing = true;
+        currentTtsSource.stop();
+        ttsPaused = true;
+        ttsPausing = false;
+        ttsPlaying = false;
+        // Notify server to switch to transparency mode (ANC off)
+        socket.emit('pause_tts');
+        console.log('pauseTtsPlayback: regular TTS paused at offset', ttsPausedOffset);
+        return true;
+    } catch (e) {
+        console.error('pauseTtsPlayback failed:', e);
+        ttsPausing = false;
+        return false;
+    }
+}
+
+async function resumeTtsPlayback() {
+    if (!ttsPaused) {
+        return false;
+    }
+
+    // Handle streaming TTS resume
+    if (currentStreamingPlayer && currentStreamingPlayer.isPaused) {
+        await currentStreamingPlayer.resume();
+        ttsPaused = false;
+        ttsResumedPlayback = true;  // Mark as resumed playback (skip auto-summarize)
+        // Notify server to switch to ANC mode (ANC on)
+        socket.emit('resume_tts');
+        console.log('resumeTtsPlayback: streaming TTS resumed');
+        return true;
+    }
+
+    // Handle regular TTS resume - continue from paused position
+    if (ttsPausedBuffer && audioContext) {
+        try {
+            if (audioContext.state === 'suspended') {
+                await audioContext.resume();
+            }
+
+            const source = audioContext.createBufferSource();
+            source.buffer = ttsPausedBuffer;
+            source.connect(audioContext.destination);
+            currentTtsSource = source;
+
+            // Calculate remaining duration for onended check
+            const remainingDuration = ttsPausedBuffer.duration - ttsPausedOffset;
+
+            source.onended = () => {
+                // Skip cleanup if we're pausing again
+                if (ttsPausing || ttsPaused) {
+                    console.log('resumeTtsPlayback onended: skipped (pausing/paused)');
+                    return;
+                }
+                clearCurrentSummaryNearEndTimer();
+                if (currentTtsUrl) {
+                    URL.revokeObjectURL(currentTtsUrl);
+                }
+                currentTtsAudio = null;
+                currentTtsUrl = null;
+                currentTtsSource = null;
+                // Switch to transparency mode (ANC off) after resumed playback ends
+                socket.emit('pause_tts');
+                console.log('resumeTtsPlayback onended: ANC off (transparency)');
+                clearTtsPausedState();
+                playNextTts();
+            };
+
+            // Start from the paused offset
+            ttsPlaybackStartTime = audioContext.currentTime;
+            source.start(0, ttsPausedOffset);
+            ttsPlaying = true;
+            ttsPaused = false;
+            ttsResumedPlayback = true;  // Mark as resumed playback (skip auto-summarize)
+            // Notify server to switch to ANC mode (ANC on)
+            socket.emit('resume_tts');
+            console.log('resumeTtsPlayback: regular TTS resumed from offset', ttsPausedOffset);
+            return true;
+        } catch (e) {
+            console.error('resumeTtsPlayback failed:', e);
+            clearTtsPausedState();
+            return false;
+        }
+    }
+
+    return false;
 }
 
 function cancelSummaryPlayback() {
