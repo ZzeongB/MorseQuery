@@ -154,3 +154,9 @@ def get_logger(session_id: str) -> JsonLogger:
     if root_session_id not in _session_loggers:
         _session_loggers[root_session_id] = JsonLogger(root_session_id)
     return _session_loggers[root_session_id]
+
+
+def get_existing_logger(session_id: str) -> JsonLogger | None:
+    """Return an existing logger without creating a new one."""
+    root_session_id = get_root_session_id(session_id)
+    return _session_loggers.get(root_session_id)

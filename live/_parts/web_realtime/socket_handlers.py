@@ -3,7 +3,6 @@ def handle_connect():
     """Handle client connection."""
     session_id = request.sid
     log_print("INFO", "Client connected", session_id=session_id)
-    get_logger(session_id).log("client_connected")
 
 
 @sio.on("disconnect")
@@ -20,8 +19,9 @@ def handle_disconnect():
         _active_runtime_sid
     session_id = request.sid
     log_print("INFO", "Client disconnected", session_id=session_id)
-    logger = get_logger(session_id)
-    logger.log("client_disconnected")
+    logger = get_existing_logger(session_id)
+    if logger:
+        logger.log("client_disconnected")
 
     # Stop mic monitors
     stop_mic_monitor()
@@ -97,6 +97,7 @@ def handle_start(data: dict):
         _diarization_rms_ratio_threshold
     session_id = request.sid
     log_print("INFO", "Start requested", session_id=session_id, data=data)
+    get_logger(session_id).log("session_started")
 
     # Stop mic monitor when session starts
     stop_mic_monitor()
