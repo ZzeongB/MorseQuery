@@ -52,7 +52,7 @@ _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
 from flask import Flask
 from flask_socketio import SocketIO
-from logger import get_logger, get_session_subdir, log_print
+from logger import get_existing_logger, get_logger, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
