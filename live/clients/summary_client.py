@@ -1302,6 +1302,22 @@ class SummaryClient:
 
         self.logger.log("summary_client_stop")
 
+        # Explicitly close audio stream to stop recording immediately
+        with self._lock:
+            if self.stream:
+                try:
+                    self.stream.stop_stream()
+                    self.stream.close()
+                except Exception:
+                    pass
+                self.stream = None
+            if self.pa:
+                try:
+                    self.pa.terminate()
+                except Exception:
+                    pass
+                self.pa = None
+
         # Wait briefly for audio thread to exit cleanly
         time.sleep(0.15)
 

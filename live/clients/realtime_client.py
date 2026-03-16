@@ -81,6 +81,10 @@ class RealtimeClient:
                 chunk_size=AUDIO_CHUNK,
             )
             self.noise_gate = AdaptiveNoiseGate(config=config, session_id=session_id)
+        # Audio stream instance variables for explicit cleanup on stop()
+        self._audio_stream_lock = threading.Lock()
+        self._audio_stream: Optional[pyaudio.Stream] = None
+        self._audio_pa: Optional[pyaudio.PyAudio] = None
         log_print(
             "INFO",
             "RealtimeClient created",
@@ -482,10 +486,10 @@ class RealtimeClient:
             self._stream_from_mp3()
 
     def _stream_from_mic(self) -> None:
-        pa = None
-        stream = None
         try:
-            pa = pyaudio.PyAudio()
+            with self._audio_stream_lock:
+                self._audio_pa = pyaudio.PyAudio()
+                pa = self._audio_pa
             device_name = "Default"
             if self.device_index is not None:
                 try:
@@ -493,14 +497,16 @@ class RealtimeClient:
                     device_name = info["name"]
                 except Exception:
                     pass
-            stream = pa.open(
-                format=pyaudio.paInt16,
-                channels=1,
-                rate=AUDIO_RATE,
-                input=True,
-                input_device_index=self.device_index,  # None = default device
-                frames_per_buffer=AUDIO_CHUNK,
-            )
+            with self._audio_stream_lock:
+                self._audio_stream = pa.open(
+                    format=pyaudio.paInt16,
+                    channels=1,
+                    rate=AUDIO_RATE,
+                    input=True,
+                    input_device_index=self.device_index,  # None = default device
+                    frames_per_buffer=AUDIO_CHUNK,
+                )
+                stream = self._audio_stream
             log_print(
                 "INFO",
                 "Mic recording started",
@@ -541,17 +547,20 @@ class RealtimeClient:
         except Exception as e:
             log_print("ERROR", f"Mic stream error: {e}", session_id=self.session_id)
         finally:
-            if stream:
-                try:
-                    stream.stop_stream()
-                    stream.close()
-                except Exception:
-                    pass
-            if pa:
-                try:
-                    pa.terminate()
-                except Exception:
-                    pass
+            with self._audio_stream_lock:
+                if self._audio_stream:
+                    try:
+                        self._audio_stream.stop_stream()
+                        self._audio_stream.close()
+                    except Exception:
+                        pass
+                    self._audio_stream = None
+                if self._audio_pa:
+                    try:
+                        self._audio_pa.terminate()
+                    except Exception:
+                        pass
+                    self._audio_pa = None
             log_print(
                 "INFO",
                 "Mic recording stopped",
@@ -564,8 +573,6 @@ class RealtimeClient:
                 self.sio.emit("session_ended")
 
     def _stream_from_mp3(self) -> None:
-        pa = None
-        stream = None
         try:
             target_file = self.mp3_file or DEFAULT_AUDIO_FILE
             log_print(
@@ -590,10 +597,12 @@ class RealtimeClient:
                 duration_sec=duration_sec,
                 bytes=len(raw),
             )
-            pa = pyaudio.PyAudio()
-            stream = pa.open(
-                format=pyaudio.paInt16, channels=1, rate=AUDIO_RATE, output=True
-            )
+            with self._audio_stream_lock:
+                self._audio_pa = pyaudio.PyAudio()
+                self._audio_stream = self._audio_pa.open(
+                    format=pyaudio.paInt16, channels=1, rate=AUDIO_RATE, output=True
+                )
+                stream = self._audio_stream
             self.sio.emit("status", "🎵 Playing MP3...")
             chunk_bytes = AUDIO_CHUNK * 2
             total_chunks = len(raw) // chunk_bytes
@@ -629,17 +638,20 @@ class RealtimeClient:
         except Exception as e:
             log_print("ERROR", f"MP3 stream error: {e}", session_id=self.session_id)
         finally:
-            if stream:
-                try:
-                    stream.stop_stream()
-                    stream.close()
-                except Exception:
-                    pass
-            if pa:
-                try:
-                    pa.terminate()
-                except Exception:
-                    pass
+            with self._audio_stream_lock:
+                if self._audio_stream:
+                    try:
+                        self._audio_stream.stop_stream()
+                        self._audio_stream.close()
+                    except Exception:
+                        pass
+                    self._audio_stream = None
+                if self._audio_pa:
+                    try:
+                        self._audio_pa.terminate()
+                    except Exception:
+                        pass
+                    self._audio_pa = None
             log_print(
                 "INFO",
                 "MP3 playback complete",
@@ -887,6 +899,21 @@ class RealtimeClient:
                 ws.close()
             except Exception:
                 pass
+        # Explicitly close audio stream to stop playback immediately
+        with self._audio_stream_lock:
+            if self._audio_stream:
+                try:
+                    self._audio_stream.stop_stream()
+                    self._audio_stream.close()
+                except Exception:
+                    pass
+                self._audio_stream = None
+            if self._audio_pa:
+                try:
+                    self._audio_pa.terminate()
+                except Exception:
+                    pass
+                self._audio_pa = None
         time.sleep(0.15)
         self._save_audio()
         if was_running:

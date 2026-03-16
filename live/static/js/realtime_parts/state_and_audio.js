@@ -158,6 +158,9 @@ function cleanupBeforePageExit() {
     pageExitCleanupSent = true;
 
     try {
+        navigator.sendBeacon('/api/cleanup', new Blob(['{}'], { type: 'application/json' }));
+    } catch (e) {}
+    try {
         stopTtsPlayback();
     } catch (e) {}
     try {

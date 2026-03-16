@@ -791,6 +791,65 @@ def api_output_devices():
     return jsonify(devices)
 
 
+@app.route("/api/cleanup", methods=["POST"])
+def api_cleanup():
+    """Best-effort runtime cleanup for page unload/reload."""
+    global \
+        client, \
+        summary_clients, \
+        context_judge, \
+        conversation_reconstructor, \
+        transcript_reconstructor, \
+        keyword_tts_client, \
+        keyword_tts_stream_client, \
+        _active_runtime_sid
+
+    session_id = _active_runtime_sid
+    log_print("INFO", "HTTP cleanup requested", session_id=session_id)
+
+    stop_mic_monitor()
+    stop_noise_gate_monitor()
+
+    with _clients_lock:
+        if client:
+            client.stop()
+            client = None
+        for sc in summary_clients:
+            sc.stop()
+        summary_clients = []
+        if context_judge:
+            context_judge.stop()
+            context_judge = None
+        if conversation_reconstructor:
+            conversation_reconstructor.stop()
+            conversation_reconstructor = None
+        if transcript_reconstructor:
+            transcript_reconstructor.stop()
+            transcript_reconstructor = None
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
+        keyword_tts_client = None
+        if keyword_tts_stream_client:
+            keyword_tts_stream_client.stop_stream(wait=True, timeout_sec=1.0)
+            keyword_tts_stream_client.close()
+        keyword_tts_stream_client = None
+        if session_id:
+            _save_session_full_dialogue_json(
+                session_id=session_id,
+                reason="http_cleanup",
+            )
+        _active_runtime_sid = None
+
+    _reset_tts_airpods_state("http_cleanup")
+    with _judge_batch_lock:
+        _judge_batch.clear()
+        _judge_completed_segments.clear()
+    _reset_segment_tracking()
+    _reset_dialogue_stores()
+
+    return jsonify({"ok": True})
+
+
 def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]):
     """Background thread to monitor mic levels using PyAudio."""
     global _mic_monitor_running, _mic_monitor_streams
