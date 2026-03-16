@@ -23,6 +23,8 @@ ALLOWED_EVENT_TYPES = {
     "tts_play_start",
     "tts_play_done",
     "tts_playing_end",
+    "summary_tts_playback_done",
+    "summary_tts_anc_off",
     "summarizing_start",
     "api_compression_request",
     "api_compression_result",

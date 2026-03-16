@@ -54,8 +54,11 @@ def handle_disconnect():
         if transcript_reconstructor:
             transcript_reconstructor.stop()
             transcript_reconstructor = None
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
         keyword_tts_client = None
         if keyword_tts_stream_client:
+            keyword_tts_stream_client.stop_stream(wait=True, timeout_sec=1.0)
             keyword_tts_stream_client.close()
         keyword_tts_stream_client = None
         target_session_id = _active_runtime_sid or session_id
@@ -125,6 +128,13 @@ def handle_start(data: dict):
         if transcript_reconstructor:
             transcript_reconstructor.stop()
             transcript_reconstructor = None
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
+        keyword_tts_client = None
+        if keyword_tts_stream_client:
+            keyword_tts_stream_client.stop_stream(wait=True, timeout_sec=1.0)
+            keyword_tts_stream_client.close()
+        keyword_tts_stream_client = None
         if previous_session_id:
             _save_session_full_dialogue_json(
                 session_id=previous_session_id,
@@ -359,7 +369,7 @@ def handle_start(data: dict):
 @sio.on("stop")
 def handle_stop():
     """Stop audio streaming."""
-    global client
+    global client, keyword_tts_client, keyword_tts_stream_client
     session_id = request.sid
     log_print("INFO", "Stop requested", session_id=session_id)
     if not _is_active_session(session_id):
@@ -374,6 +384,10 @@ def handle_stop():
     with _clients_lock:
         if client:
             client.stop()
+        if keyword_tts_client:
+            keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
+        if keyword_tts_stream_client:
+            keyword_tts_stream_client.stop_stream(wait=True, timeout_sec=1.0)
         target_session_id = _active_runtime_sid or session_id
         _save_session_full_dialogue_json(
             session_id=target_session_id,
@@ -1047,6 +1061,7 @@ def handle_browser_tts_playback_done(data: dict):
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     reason = str((data or {}).get("reason", "")).strip() or "browser_done"
+    get_logger(session_id).log("summary_tts_playback_done", reason=reason)
     if reason == "user_cancel":
         with _segment_ctx_lock:
             _pending_latency_bridge_by_session.pop(session_id, None)
@@ -1111,6 +1126,7 @@ def handle_browser_tts_playback_done(data: dict):
     # Browser summary/reconstruction playback ended.
     _set_keyword_anc_hold(False, f"browser_tts_done:{reason}")
     _on_tts_finished(f"browser_tts_playback_done:{reason}")
+    get_logger(session_id).log("summary_tts_anc_off", reason=reason)
     # Enforce transparency on summary completion even if counters drift.
     _set_airpods_mode(
         "transparency", f"browser_tts_playback_done_force:{reason}", wait=True

@@ -256,7 +256,7 @@ _SEGMENT_POST_END_WAIT_SEC = 0.0  # No delay - start summarization immediately
 # Early summarization: trigger compression this many seconds before keyword_tts ends
 # Note: This is approximate since streaming TTS duration is not known in advance
 _KEYWORD_TTS_EARLY_SUMMARIZATION_SEC = 1.0
-_POST_TTS_FOLLOWUP_WAIT_SEC = 0.3
+_POST_TTS_FOLLOWUP_WAIT_SEC = 0.0
 _BEFORE_CONTEXT_RECENT_WINDOW_SEC = 60.0
 
 # Persist 3-path compression results (time/input/output) for every segment/session.

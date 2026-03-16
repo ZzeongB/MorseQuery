@@ -27,8 +27,10 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
         _post_tts_followup_cursor_ts, \
         _post_tts_followup_active
     global _post_tts_followup_live_window_open
+    global _vad_then_commit_pending
 
-    if not _summary_followup_enabled_runtime:
+    # VAD_THEN_COMMIT uses the follow-up path even when general summary follow-up is off.
+    if not _summary_followup_enabled_runtime and not _vad_then_commit_pending:
         with _segment_ctx_lock:
             _post_tts_followup_active = False
             _post_tts_followup_inflight = False
@@ -63,6 +65,26 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
     dialogue, entries = _get_dialogue_by_time_window(start_ts, end_ts)
     entry_count = len(entries)
 
+    # Log follow-up check to session log
+    session_logger = get_logger(session_id)
+    session_logger.log(
+        "post_tts_followup_check",
+        reason=reason or "browser_tts_done",
+        start_ts=start_ts,
+        end_ts=end_ts,
+        window_sec=round(end_ts - start_ts, 3),
+        entry_count=entry_count,
+        has_new_transcript=entry_count > 0,
+        entries=[
+            {
+                "speaker": e.get("speaker"),
+                "text": e.get("text"),
+                "timestamp": e.get("timestamp"),
+            }
+            for e in entries
+        ] if entries else [],
+    )
+
     with _segment_ctx_lock:
         if entries:
             last_ts = float(entries[-1].get("timestamp") or end_ts)
@@ -71,6 +93,12 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
             _post_tts_followup_active = False
             _post_tts_followup_inflight = False
             _post_tts_followup_cursor_ts = end_ts
+            session_logger.log(
+                "post_tts_followup_skipped",
+                reason="no_new_transcript",
+                start_ts=start_ts,
+                end_ts=end_ts,
+            )
             return
 
         _segment_seq += 1
@@ -105,7 +133,21 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
                         session_id=session_id,
                         segment_id=segment_id,
                     )
+                    session_logger.log(
+                        "post_tts_followup_cancelled",
+                        segment_id=segment_id,
+                        reason="cancelled_before_compression",
+                    )
                     return
+            # Log follow-up compression start
+            session_logger.log(
+                "post_tts_followup_start",
+                segment_id=segment_id,
+                entry_count=entry_count,
+                dialogue=dialogue,
+                start_ts=start_ts,
+                end_ts=end_ts,
+            )
             _trigger_parallel_compression_for_dialogue(
                 dialogue=dialogue,
                 segment_id=segment_id,

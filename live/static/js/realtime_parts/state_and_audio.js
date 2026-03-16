@@ -53,7 +53,7 @@ let ignoreIncomingSummaryEvents = false;
 let inferencingTimer = null;
 const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
 const KEYWORD_SUMMARY_LEAD_MS = 2000;
-const SUMMARY_FOLLOWUP_LEAD_MS = 2000;
+const SUMMARY_FOLLOWUP_LEAD_MS = 500;
 let keywordSummaryLeadMs = KEYWORD_SUMMARY_LEAD_MS;
 const KEYWORD_ESTIMATED_WPS = 3.5; // Cartesia speed=1.2 approximation
 let pendingReconstructedTurns = [];
@@ -129,6 +129,7 @@ let summaryTextAllowedThisPlayback = false;
 let currentSummaryNearEndTimer = null;
 let skippedIndicatorTimer = null;
 let dismissTimer = null;
+let pageExitCleanupSent = false;
 
 // ============================================================================
 // Utility Functions
@@ -151,6 +152,24 @@ function emitWithAck(event, payload = {}, timeoutMs = 8000) {
         });
     });
 }
+
+function cleanupBeforePageExit() {
+    if (pageExitCleanupSent) return;
+    pageExitCleanupSent = true;
+
+    try {
+        stopTtsPlayback();
+    } catch (e) {}
+    try {
+        socket.emit('cancel_keyword_tts');
+        socket.emit('stop');
+        socket.emit('stop_mic_monitor');
+        socket.emit('stop_noise_gate_monitor');
+    } catch (e) {}
+}
+
+window.addEventListener('pagehide', cleanupBeforePageExit);
+window.addEventListener('beforeunload', cleanupBeforePageExit);
 
 async function waitForAncBeforeBrowserSummaryPlayback(meta) {
     if (!meta) return true;
