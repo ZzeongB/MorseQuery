@@ -491,11 +491,11 @@ def handle_end_listening(data: dict = None):
 
     # Parse transcript sync mode from client data
     data = data or {}
-    mode_str = data.get("mode", "commit")
+    mode_str = data.get("mode", "vad_then_commit")
     try:
         sync_mode = TranscriptSyncMode(mode_str)
     except ValueError:
-        sync_mode = TranscriptSyncMode.COMMIT
+        sync_mode = TranscriptSyncMode.VAD_THEN_COMMIT
 
     with _clients_lock:
         if summary_clients:
