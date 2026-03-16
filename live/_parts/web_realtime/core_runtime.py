@@ -668,8 +668,27 @@ def _get_all_dialogue_entries() -> list[dict]:
 
 
 def _save_session_full_dialogue_json(session_id: str, reason: str) -> None:
-    """Disabled: do not persist redundant full-session dialogue JSON."""
-    return
+    """Normalize the combined dialogue_full log on session end."""
+    try:
+        logs_dir = get_session_subdir(session_id, "dialogue")
+        full_filepath = logs_dir / FULL_DIALOGUE_FILENAME
+        if not full_filepath.exists():
+            _write_sorted_json_list(full_filepath, [])
+            return
+        with open(full_filepath, "r", encoding="utf-8") as f:
+            loaded = json.load(f)
+        records = loaded if isinstance(loaded, list) else []
+        for record in records:
+            if reason and "session_end_reason" not in record:
+                record["session_end_reason"] = reason
+        _write_sorted_json_list(full_filepath, records)
+    except Exception as e:
+        log_print(
+            "ERROR",
+            f"Failed to save dialogue_full.json: {e}",
+            session_id=session_id,
+            reason=reason,
+        )
 
 
 def _build_before_context_via_gpt_mini(
@@ -909,11 +928,39 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         if not transcript or not transcript.strip():
             return
 
+        text = transcript.strip()
+        record = {
+            "type": "utterance",
+            "captured_at": datetime.now().isoformat(),
+            "speaker": speaker_id,
+            "source_id": source_id,
+            "text": text,
+        }
+        if start_ts is not None:
+            record["start_time"] = start_ts
+            record["start_time_iso_utc"] = datetime.fromtimestamp(
+                start_ts, tz=timezone.utc
+            ).isoformat()
+
         # Diarization check: skip if this is the quieter mic
         if _should_skip_transcript_diarization(source_id):
+            skipped_ts = time.time()
+            skipped_record = {
+                **record,
+                "timestamp": skipped_ts,
+                "timestamp_iso_utc": datetime.fromtimestamp(
+                    skipped_ts, tz=timezone.utc
+                ).isoformat(),
+                "skipped": True,
+                "skip_reason": "diarization_quieter_mic",
+                "included_in_dialogue_store": False,
+            }
+            _append_session_transcript_entry(
+                session_id=session_id,
+                record=skipped_record,
+                source_id=source_id,
+            )
             return
-
-        text = transcript.strip()
 
         # Add directly to DialogueStore
         if speaker_id not in _dialogue_stores:
@@ -926,10 +973,8 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             source_id=source_id,
         )
 
-        # Build record with optional start_time
-        record = {
-            "type": "utterance",
-            "captured_at": datetime.now().isoformat(),
+        accepted_record = {
+            **record,
             "timestamp": entry.timestamp,
             "timestamp_iso_utc": datetime.fromtimestamp(
                 entry.timestamp, tz=timezone.utc
@@ -937,16 +982,13 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             "speaker": entry.speaker_id,
             "source_id": entry.source_id,
             "text": entry.text,
+            "skipped": False,
+            "included_in_dialogue_store": True,
         }
-        if start_ts is not None:
-            record["start_time"] = start_ts
-            record["start_time_iso_utc"] = datetime.fromtimestamp(
-                start_ts, tz=timezone.utc
-            ).isoformat()
 
         _append_session_transcript_entry(
             session_id=session_id,
-            record=record,
+            record=accepted_record,
             source_id=source_id,
         )
         prune_cutoff = time.time() - _DIALOGUE_BUFFER_RETENTION_SEC

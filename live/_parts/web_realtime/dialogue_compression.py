@@ -7,6 +7,7 @@ from clients.prompt import (
 
 # Minimum character threshold for transcript entries to be included in compression
 _MIN_TRANSCRIPT_CHARS_FOR_COMPRESSION = 20
+FULL_DIALOGUE_FILENAME = "dialogue_full.json"
 
 
 def _filter_short_entries_for_compression(
@@ -108,10 +109,41 @@ def _append_json_list(filepath: Path, record: dict) -> None:
         json.dump(existing, f, ensure_ascii=False, indent=2)
 
 
+def _write_sorted_json_list(filepath: Path, records: list[dict]) -> None:
+    """Write records sorted by timestamp for stable inspection."""
+    sorted_records = sorted(
+        records,
+        key=lambda item: (
+            float(item.get("timestamp", 0.0) or 0.0),
+            str(item.get("captured_at", "") or ""),
+        ),
+    )
+    filepath.parent.mkdir(parents=True, exist_ok=True)
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(sorted_records, f, ensure_ascii=False, indent=2)
+
+
+def _append_dialogue_full_entry(session_id: str, record: dict) -> None:
+    """Append one transcript record to the combined full dialogue log."""
+    logs_dir = get_session_subdir(session_id, "dialogue")
+    full_filepath = logs_dir / FULL_DIALOGUE_FILENAME
+    existing: list = []
+    if full_filepath.exists():
+        try:
+            with open(full_filepath, "r", encoding="utf-8") as f:
+                loaded = json.load(f)
+            if isinstance(loaded, list):
+                existing = loaded
+        except Exception:
+            existing = []
+    existing.append(record)
+    _write_sorted_json_list(full_filepath, existing)
+
+
 def _append_session_transcript_entry(
     session_id: str, record: dict, source_id: str | None = None
 ) -> None:
-    """Append one utterance record to the allowed source transcript only."""
+    """Append one utterance record to source transcript and dialogue_full."""
     try:
         if source_id not in {"realtime", "sum0", "sum1"}:
             return
@@ -119,6 +151,7 @@ def _append_session_transcript_entry(
         logs_dir.mkdir(parents=True, exist_ok=True)
         source_filepath = logs_dir / f"{session_id}_transcript_{source_id}.json"
         _append_json_list(source_filepath, record)
+        _append_dialogue_full_entry(session_id, record)
     except Exception as e:
         log_print(
             "ERROR",

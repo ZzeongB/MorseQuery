@@ -12,6 +12,7 @@ SESSIONS_DIR = LOG_DIR / "sessions"
 SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
 _session_root_dirs: dict[str, Path] = {}
 SESSION_LOG_FILENAME = "session_log.json"
+SESSION_FULL_LOG_FILENAME = "session_full_log.json"
 ALLOWED_EVENT_TYPES = {
     "keyword_request",
     "response_done",
@@ -96,16 +97,28 @@ class JsonLogger:
         self.start_time = datetime.now()
         session_dir = get_session_dir(self.session_id)
         self.log_file = session_dir / SESSION_LOG_FILENAME
+        self.full_log_file = session_dir / SESSION_FULL_LOG_FILENAME
         self.events: list[dict] = []
+        self.full_events: list[dict] = []
         log_print(
             "INFO",
             "JsonLogger initialized",
             session_id=self.session_id,
             log_file=str(self.log_file),
+            full_log_file=str(self.full_log_file),
         )
 
     def log(self, event_type: str, **data: Any) -> None:
         """Log an event with timestamp and data."""
+        event = {
+            "timestamp": get_timestamp(),
+            "event_type": event_type,
+            "session_id": self.session_id,
+            **data,
+        }
+        self.full_events.append(event)
+        self._save(self.full_log_file, self.full_events)
+
         if event_type not in ALLOWED_EVENT_TYPES:
             return
         if (
@@ -113,23 +126,17 @@ class JsonLogger:
             and str(data.get("key", "")) != "api_mini"
         ):
             return
-        event = {
-            "timestamp": get_timestamp(),
-            "event_type": event_type,
-            "session_id": self.session_id,
-            **data,
-        }
         self.events.append(event)
-        self._save()
+        self._save(self.log_file, self.events)
 
-    def _save(self) -> None:
-        """Save events to JSON file."""
-        with open(self.log_file, "w", encoding="utf-8") as f:
+    def _save(self, filepath: Path, events: list[dict]) -> None:
+        """Save events to a JSON file."""
+        with open(filepath, "w", encoding="utf-8") as f:
             json.dump(
                 {
                     "session_id": self.session_id,
                     "start_time": self.start_time.isoformat(),
-                    "events": self.events,
+                    "events": events,
                 },
                 f,
                 ensure_ascii=False,
