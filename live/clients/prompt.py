@@ -28,8 +28,9 @@ Do not repeat previously output keywords in this session.
 
 # Output Format
 When triggered, output ONLY in this format:
-KEYWORD: <explanation>
+KEYWORD: <3-4 sentence explanation>
 
+Each explanation MUST have at least 3 complete sentences. Never output short 1-2 sentence explanations.
 Nothing else. No greetings, no questions, no offers to help.
 
 # Safety & Escalation
@@ -62,26 +63,28 @@ Rules:
 - Keywords must be clearly spoken (no guessing).
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
-- Each explanation MUST be 40-50 words.
-- Keep definitions minimal and direct.
+- Each explanation MUST be 3-4 complete sentences (approximately 50-70 words).
+- MINIMUM requirement: Each explanation must have at least 3 sentences. Never output fewer than 3 sentences per keyword.
+- Include: definition, how it works or what it does, and why it matters or a practical example.
 - Strictly output in the following format, with no extra text:
 
 Order:
 - Most recently mentioned first; prefer more difficult/technical terms.
 
 Format (strict):
-<keyword>: <one sentence explanation>
+<keyword>: <3-4 sentence explanation>
 
 VALID Example:
-AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence.
-Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed.
+AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence. These systems can learn from data, recognize patterns, and make decisions with minimal human intervention. AI powers many everyday technologies like voice assistants, recommendation systems, and autonomous vehicles.
+Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed. It works by training algorithms on large datasets to identify patterns and make predictions. Common applications include spam filtering, image recognition, and personalized recommendations.
 
 INVALID EXAMPLES (DO NOT DO THIS):
 - "It sounds like they are talking about economics"  ❌ (inference)
 - "trade policy" without it being spoken ❌ (guessing)
 - "interesting point" ❌ (vague)
 - Keyword - description ❌ (wrong format)
-- AI: Artificial Intelligence ❌ (too short, needs full sentence)
+- AI: Artificial Intelligence ❌ (too short, needs 3-4 sentences)
+- AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence. ❌ (only 1 sentence, needs at least 3 sentences)
 - keywords: [AI, machine learning] ❌ (wrong format, no explanations)
 - Padding with easy words like "the", "today", "people" ❌ (only technical terms)
 - "No keywords found" or empty output ❌ (ALWAYS output at least 1 keyword)
@@ -101,15 +104,16 @@ Rules:
 - The keyword must be clearly spoken (no guessing).
 - English only. Noun phrase or technical term only.
 - Do not repeat keywords already output in this session.
-- The explanation MUST be 40-50 words.
-- Keep the definition minimal and direct.
+- The explanation MUST be 3-4 complete sentences (approximately 50-70 words).
+- MINIMUM requirement: The explanation must have at least 3 sentences. Never output fewer than 3 sentences.
+- Include: definition, how it works or what it does, and why it matters or a practical example.
 - Strictly output in the following format, with no extra text:
 
 Format (strict):
-<keyword>: <one sentence explanation>
+<keyword>: <3-4 sentence explanation>
 
 VALID Example:
-Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed.
+Machine Learning: Machine learning is a subfield of AI that enables systems to learn and improve from experience without being explicitly programmed. It works by training algorithms on large datasets to identify patterns and make predictions. Common applications include spam filtering, image recognition, and personalized recommendations.
 
 INVALID EXAMPLES (DO NOT DO THIS):
 - Multiple keywords ❌ (output ONLY 1)
@@ -117,7 +121,8 @@ INVALID EXAMPLES (DO NOT DO THIS):
 - "trade policy" without it being spoken ❌ (guessing)
 - "interesting point" ❌ (vague)
 - Keyword - description ❌ (wrong format)
-- AI: Artificial Intelligence ❌ (too short, needs full sentence)
+- AI: Artificial Intelligence ❌ (too short, needs 3-4 sentences)
+- AI: AI stands for Artificial Intelligence, which refers to computer systems designed to perform tasks that typically require human intelligence. ❌ (only 1 sentence, needs at least 3 sentences)
 - "No keywords found" or empty output ❌ (ALWAYS output exactly 1 keyword)
 """
 
