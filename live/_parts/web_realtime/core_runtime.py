@@ -244,7 +244,9 @@ _fast_catchup_window_mode_runtime = _FAST_CATCHUP_WINDOW_MODE_DEFAULT
 _fast_catchup_chain_enabled_runtime = False
 _summary_followup_enabled_runtime = False
 _missed_summary_latency_bridge_enabled_runtime = False
-_skip_first_transcript_enabled_runtime = True  # Skip first transcript in summary (default: on)
+_skip_first_transcript_enabled_runtime = (
+    True  # Skip first transcript in summary (default: on)
+)
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.0  # No delay - start summarization immediately
 # To trigger summarization X seconds before keyword_tts ends, set this > 0
@@ -282,7 +284,9 @@ _before_context_lock = threading.Lock()
 _before_context_summary = ""
 _post_tts_followup_active = False
 _post_tts_followup_inflight = False
-_post_tts_followup_allow_last_inflight = False  # Allow last inflight request to play after playback_done
+_post_tts_followup_allow_last_inflight = (
+    False  # Allow last inflight request to play after playback_done
+)
 _post_tts_followup_cursor_ts = 0.0
 _post_tts_followup_live_window_open = False
 _segment_compression_inflight: set[int] = set()
@@ -290,6 +294,9 @@ _pending_fast_catchup_segments: dict[int, str] = {}
 _pending_fast_catchup_inflight: set[int] = set()
 _pending_latency_bridge_by_session: dict[str, dict] = {}
 _transcript_compression_mode = "realtime"
+# VAD_THEN_COMMIT mode: track if we're waiting for commit follow-up TTS
+_vad_then_commit_pending = False
+_vad_then_commit_main_tts_done = False
 
 
 def _has_pending_fast_catchup(session_id: Optional[str] = None) -> bool:
@@ -710,7 +717,7 @@ def _build_before_context_via_gpt_mini(
 
     try:
         response = openai.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4.1-mini",
             messages=[
                 {
                     "role": "system",
@@ -1013,14 +1020,40 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         # Trigger follow-up compression if needed
         should_trigger_followup = False
         with _segment_ctx_lock:
+            followup_active = _post_tts_followup_active
+            followup_window_open = _post_tts_followup_live_window_open
+            followup_inflight = _post_tts_followup_inflight
+            compression_inflight_count = len(_segment_compression_inflight)
+            cursor_ts = float(_post_tts_followup_cursor_ts or 0.0)
+            timestamp_check = entry.timestamp >= cursor_ts
             should_trigger_followup = (
-                _post_tts_followup_active
-                and _post_tts_followup_live_window_open
-                and (not _post_tts_followup_inflight)
-                and (len(_segment_compression_inflight) == 0)
-                and entry.timestamp >= float(_post_tts_followup_cursor_ts or 0.0)
+                followup_active
+                and followup_window_open
+                and (not followup_inflight)
+                and (compression_inflight_count == 0)
+                and timestamp_check
             )
+            if followup_active and not should_trigger_followup:
+                log_print(
+                    "DEBUG",
+                    "VAD callback followup check failed",
+                    session_id=session_id,
+                    followup_active=followup_active,
+                    followup_window_open=followup_window_open,
+                    followup_inflight=followup_inflight,
+                    compression_inflight_count=compression_inflight_count,
+                    entry_timestamp=entry.timestamp,
+                    cursor_ts=cursor_ts,
+                    timestamp_check=timestamp_check,
+                )
         if should_trigger_followup:
+            log_print(
+                "INFO",
+                "Triggering followup from VAD callback",
+                session_id=session_id,
+                entry_timestamp=entry.timestamp,
+                cursor_ts=cursor_ts,
+            )
             threading.Thread(
                 target=_trigger_post_tts_followup_if_needed,
                 args=(session_id, "vad_arrived"),
@@ -1035,12 +1068,27 @@ def _on_segment_compression_finished(segment_id: int, session_id: str) -> None:
     should_trigger_followup = False
     with _segment_ctx_lock:
         _segment_compression_inflight.discard(segment_id)
+        followup_active = _post_tts_followup_active
+        followup_window_open = _post_tts_followup_live_window_open
+        followup_inflight = _post_tts_followup_inflight
+        compression_inflight_count = len(_segment_compression_inflight)
         should_trigger_followup = (
-            _post_tts_followup_active
-            and _post_tts_followup_live_window_open
-            and (not _post_tts_followup_inflight)
-            and (len(_segment_compression_inflight) == 0)
+            followup_active
+            and followup_window_open
+            and (not followup_inflight)
+            and (compression_inflight_count == 0)
         )
+    log_print(
+        "DEBUG",
+        "Segment compression finished",
+        session_id=session_id,
+        segment_id=segment_id,
+        followup_active=followup_active,
+        followup_window_open=followup_window_open,
+        followup_inflight=followup_inflight,
+        compression_inflight_count=compression_inflight_count,
+        should_trigger_followup=should_trigger_followup,
+    )
     if should_trigger_followup:
         threading.Thread(
             target=_trigger_post_tts_followup_if_needed,

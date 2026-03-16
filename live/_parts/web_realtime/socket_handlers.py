@@ -477,6 +477,7 @@ def handle_end_listening(data: dict = None):
         _post_tts_followup_inflight, \
         _post_tts_followup_cursor_ts
     global _post_tts_followup_live_window_open
+    global _vad_then_commit_pending, _vad_then_commit_main_tts_done
     session_id = request.sid
     if not _is_active_session(session_id):
         log_print(
@@ -507,14 +508,48 @@ def handle_end_listening(data: dict = None):
                     )
                     _segment_windows[_segment_seq]["end_ts"] = ended_at
                     current_segment_duration_sec = max(0.0, ended_at - started_at)
-                    _post_tts_followup_active = bool(_summary_followup_enabled_runtime)
+                    # VAD_THEN_COMMIT mode: always enable follow-up to process COMMIT result
+                    followup_enabled = bool(_summary_followup_enabled_runtime) or (
+                        sync_mode == TranscriptSyncMode.VAD_THEN_COMMIT
+                    )
+                    _post_tts_followup_active = followup_enabled
                     _post_tts_followup_inflight = False
                     _post_tts_followup_cursor_ts = ended_at
-                    _post_tts_followup_live_window_open = bool(
-                        _summary_followup_enabled_runtime
-                    )
+                    _post_tts_followup_live_window_open = followup_enabled
+
+            # VAD_THEN_COMMIT: Capture dialogue snapshot BEFORE sending COMMIT
+            # so that main compression uses only pre-COMMIT transcripts
+            pre_commit_entries = None
+            if sync_mode == TranscriptSyncMode.VAD_THEN_COMMIT and current_segment_id > 0:
+                pre_commit_dialogue, pre_commit_entries = _get_dialogue_by_time_window(
+                    started_at, ended_at
+                )
+                with _segment_ctx_lock:
+                    if current_segment_id in _segment_windows:
+                        _segment_windows[current_segment_id]["pre_commit_dialogue"] = pre_commit_dialogue
+                        _segment_windows[current_segment_id]["pre_commit_entries"] = pre_commit_entries
+                log_print(
+                    "INFO",
+                    "VAD_THEN_COMMIT: captured pre-commit dialogue",
+                    session_id=session_id,
+                    segment_id=current_segment_id,
+                    entry_count=len(pre_commit_entries),
+                )
+
             for sc in summary_clients:
                 sc.end_listening(mode=sync_mode)
+
+            # Log commit sent for VAD_THEN_COMMIT mode and set pending flag
+            if sync_mode == TranscriptSyncMode.VAD_THEN_COMMIT:
+                with _segment_ctx_lock:
+                    _vad_then_commit_pending = True
+                    _vad_then_commit_main_tts_done = False
+                get_logger(session_id).log(
+                    "vad_then_commit_sent",
+                    segment_id=current_segment_id,
+                    pre_commit_entry_count=len(pre_commit_entries) if pre_commit_entries else 0,
+                )
+
             # Also notify context judge
             if context_judge:
                 context_judge.end_listening()
@@ -530,10 +565,12 @@ def handle_end_listening(data: dict = None):
             )
             if should_fast_catchup:
                 with _segment_ctx_lock:
-                    # Fast catch-up path should not trigger post-TTS follow-up compression.
-                    _post_tts_followup_active = False
-                    _post_tts_followup_inflight = False
-                    _post_tts_followup_live_window_open = False
+                    # Fast catch-up path should not trigger post-TTS follow-up compression,
+                    # UNLESS we're in VAD_THEN_COMMIT mode where we need follow-up for COMMIT result
+                    if sync_mode != TranscriptSyncMode.VAD_THEN_COMMIT:
+                        _post_tts_followup_active = False
+                        _post_tts_followup_inflight = False
+                        _post_tts_followup_live_window_open = False
 
                 def _run_fast_catchup_or_fallback():
                     ok = _try_fast_catchup_for_segment(current_segment_id, session_id)
@@ -1004,6 +1041,7 @@ def handle_browser_tts_playback_done(data: dict):
     """Browser-side TTS playback done (summary/reconstruction)."""
     global _post_tts_followup_active, _post_tts_followup_inflight
     global _post_tts_followup_live_window_open, _post_tts_followup_allow_last_inflight
+    global _vad_then_commit_pending, _vad_then_commit_main_tts_done
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
@@ -1011,6 +1049,34 @@ def handle_browser_tts_playback_done(data: dict):
     if reason == "user_cancel":
         with _segment_ctx_lock:
             _pending_latency_bridge_by_session.pop(session_id, None)
+            # Also cancel VAD_THEN_COMMIT waiting
+            _vad_then_commit_pending = False
+            _vad_then_commit_main_tts_done = False
+
+    # Check if we're in VAD_THEN_COMMIT mode and should delay ANC off
+    should_delay_anc_off = False
+    with _segment_ctx_lock:
+        if _vad_then_commit_pending and not _vad_then_commit_main_tts_done:
+            # Main TTS just finished, mark it and wait for follow-up
+            _vad_then_commit_main_tts_done = True
+            should_delay_anc_off = True
+            log_print(
+                "INFO",
+                "VAD_THEN_COMMIT: main TTS done, waiting for commit follow-up",
+                session_id=session_id,
+                reason=reason,
+            )
+        elif _vad_then_commit_pending and _vad_then_commit_main_tts_done:
+            # Follow-up TTS just finished, clear the flags
+            _vad_then_commit_pending = False
+            _vad_then_commit_main_tts_done = False
+            log_print(
+                "INFO",
+                "VAD_THEN_COMMIT: follow-up TTS done, proceeding with ANC off",
+                session_id=session_id,
+                reason=reason,
+            )
+
     # Stop any pending follow-up TTS when summary playback ends
     # But allow the last inflight request to complete and play
     with _segment_ctx_lock:
@@ -1027,10 +1093,18 @@ def handle_browser_tts_playback_done(data: dict):
         # If there's an inflight request, allow it to complete
         if _post_tts_followup_inflight:
             _post_tts_followup_allow_last_inflight = True
-        _post_tts_followup_active = False
+        if not should_delay_anc_off:
+            # Only clear these if we're not waiting for VAD_THEN_COMMIT follow-up
+            _post_tts_followup_active = False
+            _post_tts_followup_live_window_open = False
         # Keep inflight=True so the compression result handler knows there's one pending
         # It will be cleared when the result arrives
-        _post_tts_followup_live_window_open = False
+
+    if should_delay_anc_off:
+        # Don't turn off ANC yet - wait for commit follow-up TTS
+        _on_tts_finished(f"browser_tts_playback_done:{reason}")
+        return {"ok": True, "defer_finish": True, "waiting_for_commit_followup": True}
+
     # Pending fast-catchup/latency-bridge deferral disabled:
     # always finalize TTS lifecycle immediately on playback completion.
     # Browser summary/reconstruction playback ended.

@@ -144,7 +144,7 @@ The `search_request` handler supports multiple modes (`handlers/search.py`):
 |------|-------------|----------------|
 | `instant` | Use keyword provided by client | Direct passthrough |
 | `recent` | OpenLexicon filtering on recent words | `session.get_top_keyword_with_time_threshold()` |
-| `gpt` | GPT-4o-mini predicts top 3 keywords | `session.get_top_keyword_gpt()` |
+| `gpt` | GPT-4.1-mini predicts top 3 keywords | `session.get_top_keyword_gpt()` |
 | `gemini` | Use terms extracted by Gemini Live | `session.get_gemini_terms_for_search()` |
 | (default) | OpenLexicon filtering on context window | `session.get_top_keyword()` |
 
@@ -156,7 +156,7 @@ The `search_request` handler supports multiple modes (`handlers/search.py`):
 
 **GPT Logic** (`src/core/session.py:get_top_keyword_gpt`):
 1. Gets words from last N seconds
-2. Sends context to GPT-4o-mini with few-shot prompt
+2. Sends context to GPT-4.1-mini with few-shot prompt
 3. Returns top 3 keyword-description pairs
 4. Supports double-spacebar navigation through keywords
 

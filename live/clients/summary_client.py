@@ -37,10 +37,12 @@ class TranscriptSyncMode(Enum):
     VAD: Use VAD transcription that has arrived up to the moment of summarizing (default)
     COMMIT: Send input_audio_buffer.commit and wait for resulting transcription
     SPEECH_WAIT: Wait for any speech that has started to complete its transcription
+    VAD_THEN_COMMIT: Process already-arrived VAD transcripts first, then send COMMIT for remaining
     """
     VAD = "vad"
     COMMIT = "commit"
     SPEECH_WAIT = "speech_wait"
+    VAD_THEN_COMMIT = "vad_then_commit"
 
 _VAD_TRANSCRIPT_BATCH_TARGET = 2
 _VAD_TRANSCRIPT_DEBOUNCE_SEC = 0.55
@@ -175,6 +177,9 @@ class SummaryClient:
         self._speech_transcript_result: Optional[str] = None
         # Track speech_started that hasn't received transcript yet
         self._pending_speech_count = 0
+        # Track pending commit for VAD_THEN_COMMIT mode (sent but not waiting)
+        self._pending_commit_no_wait = False
+        self._pending_commit_no_wait_ts: Optional[float] = None
 
         log_print(
             "INFO",
@@ -487,6 +492,34 @@ class SummaryClient:
 
         return result
 
+    def _send_commit_no_wait(self) -> bool:
+        """Send input_audio_buffer.commit without waiting for result.
+
+        The transcript will arrive later via VAD transcript callback.
+
+        Returns:
+            True if commit was sent successfully, False otherwise
+        """
+        with self._lock:
+            ws = self.ws
+            if ws and not self._shutdown_event.is_set():
+                try:
+                    ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                    # Mark that we're expecting a commit transcript
+                    with self._sync_lock:
+                        self._pending_commit_no_wait = True
+                        self._pending_commit_no_wait_ts = time.time()
+                    self.logger.log("input_audio_buffer_commit_sent_no_wait")
+                    return True
+                except Exception as e:
+                    log_print(
+                        "ERROR",
+                        f"Failed to send commit (no wait): {e}",
+                        session_id=self.session_id,
+                    )
+                    return False
+        return False
+
     def _wait_for_pending_speech(self, timeout: float = 5.0) -> Optional[str]:
         """Wait for any pending speech (speech_started) to complete transcription.
 
@@ -597,6 +630,21 @@ class SummaryClient:
                 segment_id=self.segment_id,
                 transcript=sync_transcript,
             )
+        elif mode == TranscriptSyncMode.VAD_THEN_COMMIT:
+            # Send COMMIT but don't wait - process current VAD transcripts first,
+            # the COMMIT result will arrive later via VAD callback and be handled
+            # by the follow-up mechanism
+            self.logger.log(
+                "end_listening_vad_then_commit_mode",
+                segment_id=self.segment_id,
+            )
+            commit_sent = self._send_commit_no_wait()
+            self.logger.log(
+                "end_listening_vad_then_commit_sent",
+                segment_id=self.segment_id,
+                commit_sent=commit_sent,
+            )
+            # Return None to proceed with current VAD transcripts immediately
         else:
             # VAD mode - no synchronization needed
             self.logger.log(
@@ -648,7 +696,9 @@ class SummaryClient:
             transcript = event.get("transcript", "")
             transcript_text = transcript.strip() if transcript else ""
 
-            # Handle sync mode signaling
+            # Check if this is a commit transcript (from VAD_THEN_COMMIT mode)
+            is_commit_transcript = False
+            commit_sent_ts: Optional[float] = None
             with self._sync_lock:
                 # Decrement pending speech count for SPEECH_WAIT mode
                 if self._pending_speech_count > 0:
@@ -664,13 +714,30 @@ class SummaryClient:
                     self._speech_transcript_result = transcript_text
                     self._speech_transcript_event.set()
 
+                # Check for pending commit (VAD_THEN_COMMIT mode)
+                if self._pending_commit_no_wait:
+                    is_commit_transcript = True
+                    commit_sent_ts = self._pending_commit_no_wait_ts
+                    self._pending_commit_no_wait = False
+                    self._pending_commit_no_wait_ts = None
+
             if transcript_text:
                 self._queue_vad_transcript(transcript_text)
-                self.logger.log(
-                    "vad_transcript_completed",
-                    transcript=transcript_text,
-                    segment_id=self.segment_id,
-                )
+                if is_commit_transcript:
+                    latency_ms = (time.time() - commit_sent_ts) * 1000 if commit_sent_ts else None
+                    self.logger.log(
+                        "commit_transcript_arrived",
+                        transcript=transcript_text,
+                        segment_id=self.segment_id,
+                        latency_ms=latency_ms,
+                        mic_id=self.mic_id,
+                    )
+                else:
+                    self.logger.log(
+                        "vad_transcript_completed",
+                        transcript=transcript_text,
+                        segment_id=self.segment_id,
+                    )
             return
 
         if etype == "input_audio_buffer.speech_started":

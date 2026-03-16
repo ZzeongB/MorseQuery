@@ -596,9 +596,7 @@ def _trigger_parallel_compression_for_dialogue(
             # Set cursor to after the last entry processed by segment compression
             if entries:
                 global _post_tts_followup_cursor_ts
-                last_entry_ts = max(
-                    float(e.get("timestamp") or 0.0) for e in entries
-                )
+                last_entry_ts = max(float(e.get("timestamp") or 0.0) for e in entries)
                 with _segment_ctx_lock:
                     if last_entry_ts > _post_tts_followup_cursor_ts:
                         _post_tts_followup_cursor_ts = last_entry_ts + 0.001
@@ -634,8 +632,7 @@ def _trigger_parallel_compression_for_dialogue(
                 )
             entries = filtered_by_keyword
             dialogue = "\n".join(
-                f"{e.get('speaker', 'unknown')}: {e.get('text', '')}"
-                for e in entries
+                f"{e.get('speaker', 'unknown')}: {e.get('text', '')}" for e in entries
             )
 
         filtered_entries, skipped_entries = _filter_short_entries_for_compression(
@@ -660,8 +657,7 @@ def _trigger_parallel_compression_for_dialogue(
         entries = filtered_entries
         # Rebuild dialogue from filtered entries
         dialogue = "\n".join(
-            f"{e.get('speaker', 'unknown')}: {e.get('text', '')}"
-            for e in entries
+            f"{e.get('speaker', 'unknown')}: {e.get('text', '')}" for e in entries
         )
 
     # Build enhanced before context with last 3 turns
@@ -909,7 +905,7 @@ def _trigger_parallel_compression_for_dialogue(
     # Path 2/3: API calls (background threads)
     threading.Thread(
         target=_run_api_path,
-        args=("gpt-4o-mini", "api_mini", ["gpt-4.1-mini"]),
+        args=("gpt-4.1-mini", "api_mini", ["gpt-4.1-mini"]),
         daemon=True,
     ).start()
     threading.Thread(
@@ -1027,7 +1023,9 @@ def _trigger_parallel_compression_for_dialogue(
             # (user may have dismissed summary / anc_off happened)
             if trigger_source == "post_tts_followup":
                 with _segment_ctx_lock:
-                    global _post_tts_followup_allow_last_inflight, _post_tts_followup_inflight
+                    global \
+                        _post_tts_followup_allow_last_inflight, \
+                        _post_tts_followup_inflight
                     if _post_tts_followup_active:
                         # Normal active follow-up, proceed
                         pass
@@ -1226,6 +1224,11 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
     start_ts = float(segment_window.get("start_ts") or 0.0)
     end_ts = float(segment_window.get("end_ts") or 0.0)
 
+    # Check for pre-captured dialogue (VAD_THEN_COMMIT mode)
+    pre_commit_dialogue = segment_window.get("pre_commit_dialogue")
+    pre_commit_entries = segment_window.get("pre_commit_entries")
+    use_pre_commit = pre_commit_dialogue is not None and pre_commit_entries is not None
+
     if start_ts > 0:
         if end_ts <= 0:
             end_ts = time.time()
@@ -1240,8 +1243,22 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
         if bridge_decision_ts > 0:
             window_payload["bridge_decision_ts"] = bridge_decision_ts
 
-        # Get dialogue immediately without waiting for watermark stabilization
-        dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
+        # Use pre-commit snapshot if available (VAD_THEN_COMMIT mode),
+        # otherwise fetch dialogue normally
+        if use_pre_commit:
+            dialogue = pre_commit_dialogue
+            entries = pre_commit_entries
+            window_payload["pre_commit_snapshot"] = True
+            log_print(
+                "INFO",
+                "Using pre-commit dialogue snapshot",
+                session_id=session_id,
+                segment_id=segment_id,
+                entry_count=len(entries),
+            )
+        else:
+            # Get dialogue immediately without waiting for watermark stabilization
+            dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
 
         # Skip first transcript option: user already heard the first one
         if _skip_first_transcript_enabled_runtime and entries:

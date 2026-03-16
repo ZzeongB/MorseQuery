@@ -827,11 +827,12 @@ function setSingleKeywordMode(enabled) {
 }
 
 function setTranscriptSyncMode(mode) {
-    const validModes = ['vad', 'commit', 'speech_wait'];
+    const validModes = ['vad', 'commit', 'speech_wait', 'vad_then_commit'];
     transcriptSyncMode = validModes.includes(mode) ? mode : 'commit';
     document.getElementById('btn-transcript-sync-vad').classList.toggle('selected', transcriptSyncMode === 'vad');
     document.getElementById('btn-transcript-sync-commit').classList.toggle('selected', transcriptSyncMode === 'commit');
     document.getElementById('btn-transcript-sync-speech').classList.toggle('selected', transcriptSyncMode === 'speech_wait');
+    document.getElementById('btn-transcript-sync-vad-then-commit').classList.toggle('selected', transcriptSyncMode === 'vad_then_commit');
 }
 
 function setDescView(dv) {
