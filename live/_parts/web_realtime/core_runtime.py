@@ -273,6 +273,7 @@ _JUDGE_BATCH_TIMEOUT_SEC = 0.7
 _segment_ctx_lock = threading.Lock()
 _segment_seq = 0
 _segment_windows: dict[int, dict] = {}
+_latest_keyword_tts_playback_start_ts = 0.0
 _recent_vad_transcripts = deque(maxlen=80)  # (ts, text)
 _recent_vad_boundaries = deque(maxlen=200)  # (ts, event_type)
 _recent_vad_utterances = deque(maxlen=200)  # (speech_started_ts, speech_stopped_ts)
@@ -314,6 +315,7 @@ def _emit_fast_catchup_pending(session_id: str, pending: bool, segment_id: int) 
 def _reset_segment_tracking() -> None:
     global _segment_seq, _before_context_summary
     global _vad_open_speech_start_ts
+    global _latest_keyword_tts_playback_start_ts
     global \
         _post_tts_followup_active, \
         _post_tts_followup_inflight, \
@@ -341,6 +343,7 @@ def _reset_segment_tracking() -> None:
         _pending_fast_catchup_segments.clear()
         _pending_fast_catchup_inflight.clear()
         _pending_latency_bridge_by_session.clear()
+        _latest_keyword_tts_playback_start_ts = 0.0
     with _before_context_lock:
         _before_context_summary = ""
 
@@ -924,7 +927,11 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
         Callback function taking (transcript: str, start_ts: Optional[float])
     """
 
-    def _callback(transcript: str, start_ts: Optional[float] = None) -> None:
+    def _callback(
+        transcript: str,
+        start_ts: Optional[float] = None,
+        end_ts: Optional[float] = None,
+    ) -> None:
         if not transcript or not transcript.strip():
             return
 
@@ -940,6 +947,11 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             record["start_time"] = start_ts
             record["start_time_iso_utc"] = datetime.fromtimestamp(
                 start_ts, tz=timezone.utc
+            ).isoformat()
+        if end_ts is not None:
+            record["end_time"] = end_ts
+            record["end_time_iso_utc"] = datetime.fromtimestamp(
+                end_ts, tz=timezone.utc
             ).isoformat()
 
         # Diarization check: skip if this is the quieter mic
@@ -971,6 +983,8 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             speaker_id=speaker_id,
             text=text,
             source_id=source_id,
+            start_time=start_ts,
+            end_time=end_ts,
         )
 
         accepted_record = {
@@ -982,6 +996,8 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
             "speaker": entry.speaker_id,
             "source_id": entry.source_id,
             "text": entry.text,
+            "start_time": entry.start_time,
+            "end_time": entry.end_time,
             "skipped": False,
             "included_in_dialogue_store": True,
         }

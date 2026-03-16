@@ -96,6 +96,16 @@ def _trigger_post_tts_followup_if_needed(session_id: str, reason: str = "") -> N
     def _run_followup():
         global _post_tts_followup_inflight
         try:
+            # Re-check if follow-up is still active (may have been cancelled by anc_off)
+            with _segment_ctx_lock:
+                if not _post_tts_followup_active:
+                    log_print(
+                        "INFO",
+                        "Skipping post_tts_followup - cancelled before compression",
+                        session_id=session_id,
+                        segment_id=segment_id,
+                    )
+                    return
             _trigger_parallel_compression_for_dialogue(
                 dialogue=dialogue,
                 segment_id=segment_id,

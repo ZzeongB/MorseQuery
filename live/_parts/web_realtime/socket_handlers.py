@@ -412,7 +412,7 @@ def handle_start_listening():
         _post_tts_followup_active, \
         _post_tts_followup_inflight, \
         _post_tts_followup_cursor_ts
-    global _post_tts_followup_live_window_open
+    global _post_tts_followup_live_window_open, _latest_keyword_tts_playback_start_ts
     session_id = request.sid
     if not _is_active_session(session_id):
         log_print(
@@ -435,6 +435,9 @@ def handle_start_listening():
                     "end_ts": None,
                     "next_sentence": "",
                     "fast_catchup_cursor_ts": time.time(),
+                    "keyword_tts_playback_start_ts": float(
+                        _latest_keyword_tts_playback_start_ts or 0.0
+                    ),
                 }
                 _post_tts_followup_active = False
                 _post_tts_followup_inflight = False
@@ -1043,11 +1046,19 @@ def handle_browser_tts_playback_done(data: dict):
 @sio.on("keyword_tts_playback_start")
 def handle_keyword_tts_playback_start(data: dict = None):
     """Browser-side keyword TTS playback start (actual audio playback started)."""
+    global _latest_keyword_tts_playback_start_ts
     session_id = request.sid
     if not _is_active_session(session_id):
         return
     payload = data or {}
     keyword = str(payload.get("keyword", "")).strip()
+    started_at_ts = time.time()
+    _latest_keyword_tts_playback_start_ts = started_at_ts
+    with _segment_ctx_lock:
+        if _segment_seq > 0 and _segment_seq in _segment_windows:
+            _segment_windows[_segment_seq]["keyword_tts_playback_start_ts"] = (
+                started_at_ts
+            )
     # Log keyword TTS playback start
     get_logger(session_id).log("tts_play_start", reason="keyword_tts", keyword=keyword)
     log_print(
@@ -1055,6 +1066,7 @@ def handle_keyword_tts_playback_start(data: dict = None):
         "keyword_tts playback start (frontend)",
         session_id=session_id,
         keyword=keyword,
+        started_at_ts=started_at_ts,
     )
 
 

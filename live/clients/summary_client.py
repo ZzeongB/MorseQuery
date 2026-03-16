@@ -137,13 +137,15 @@ class SummaryClient:
         self.on_tts_ready_callback: Optional[Callable[[bool], None]] = None
 
         # VAD transcript callbacks (called when input audio transcription completes)
-        # Callback signature: (transcript: str, start_ts: Optional[float]) -> None
+        # Callback signature: (transcript, start_ts, end_ts) -> None
         self._vad_transcript_callbacks: list[
-            Callable[[str, Optional[float]], None]
+            Callable[[str, Optional[float], Optional[float]], None]
         ] = []
         self._vad_transcript_lock = threading.Lock()
-        # Store tuples of (transcript, start_ts)
-        self._vad_pending_transcripts: list[tuple[str, Optional[float]]] = []
+        # Store tuples of (transcript, start_ts, end_ts)
+        self._vad_pending_transcripts: list[
+            tuple[str, Optional[float], Optional[float]]
+        ] = []
         self._vad_flush_timer: Optional[threading.Timer] = None
 
         # VAD state tracking for diarization
@@ -154,6 +156,7 @@ class SummaryClient:
         self._last_speech_start_ts: Optional[float] = (
             None  # Preserved until transcript arrives
         )
+        self._last_speech_stop_ts: Optional[float] = None
         self._current_rms: float = 0.0
         self._rms_history: list[float] = []  # Rolling window for smoothed RMS
         self._rms_history_max_len = 10  # ~200ms at 50 chunks/sec
@@ -233,11 +236,13 @@ class SummaryClient:
             session_id=self.session_id,
         )
 
-    def add_vad_transcript_callback(self, callback: Callable[[str], None]) -> None:
+    def add_vad_transcript_callback(
+        self, callback: Callable[[str, Optional[float], Optional[float]], None]
+    ) -> None:
         """Add callback to be called when VAD transcript is completed.
 
         Args:
-            callback: Function taking (transcript: str)
+            callback: Function taking (transcript: str, start_ts, end_ts)
         """
         self._vad_transcript_callbacks.append(callback)
         log_print(
@@ -269,12 +274,15 @@ class SummaryClient:
             }
 
     def _handle_vad_transcript(
-        self, transcript: str, start_ts: Optional[float] = None
+        self,
+        transcript: str,
+        start_ts: Optional[float] = None,
+        end_ts: Optional[float] = None,
     ) -> None:
         """Handle completed VAD transcript by calling all registered callbacks."""
         for callback in self._vad_transcript_callbacks:
             try:
-                callback(transcript, start_ts)
+                callback(transcript, start_ts, end_ts)
             except Exception as e:
                 log_print(
                     "ERROR",
@@ -304,8 +312,8 @@ class SummaryClient:
             except Exception:
                 pass
 
-        for text, start_ts in pending:
-            self._handle_vad_transcript(text, start_ts)
+        for text, start_ts, end_ts in pending:
+            self._handle_vad_transcript(text, start_ts, end_ts)
 
         self.logger.log(
             "vad_transcript_flush",
@@ -332,11 +340,12 @@ class SummaryClient:
 
     def _queue_vad_transcript(self, transcript: str) -> None:
         flush_now = False
-        # Capture start_ts before it gets overwritten by next speech
+        # Capture utterance timing before it gets overwritten by next speech.
         with self._vad_state_lock:
             start_ts = self._last_speech_start_ts
+            end_ts = self._last_speech_stop_ts
         with self._vad_transcript_lock:
-            self._vad_pending_transcripts.append((transcript, start_ts))
+            self._vad_pending_transcripts.append((transcript, start_ts, end_ts))
             queued_count = len(self._vad_pending_transcripts)
             if queued_count >= _VAD_TRANSCRIPT_BATCH_TARGET:
                 flush_now = True
@@ -346,6 +355,7 @@ class SummaryClient:
             queued_count=queued_count,
             segment_id=self.segment_id,
             start_ts=start_ts,
+            end_ts=end_ts,
         )
 
         if flush_now:
@@ -696,6 +706,7 @@ class SummaryClient:
                 self._speech_stop_ts = received_at_ts
                 # Preserve start_ts for transcript callback
                 self._last_speech_start_ts = self._speech_start_ts
+                self._last_speech_stop_ts = received_at_ts
                 self._speech_start_ts = None
                 # Calculate average RMS for this speech segment
                 if self._speech_segment_rms_samples:

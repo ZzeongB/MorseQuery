@@ -14,6 +14,8 @@ class DialogueEntry:
     speaker_id: str  # "A" or "B"
     text: str
     source_id: Optional[str] = None  # e.g. "sum0", "sum1"
+    start_time: Optional[float] = None
+    end_time: Optional[float] = None
 
 
 class DialogueStore:
@@ -33,6 +35,8 @@ class DialogueStore:
         text: str,
         timestamp: Optional[float] = None,
         source_id: Optional[str] = None,
+        start_time: Optional[float] = None,
+        end_time: Optional[float] = None,
     ) -> DialogueEntry:
         """Add a dialogue entry.
 
@@ -52,6 +56,8 @@ class DialogueStore:
             speaker_id=speaker_id.upper(),
             text=text.strip(),
             source_id=source_id,
+            start_time=start_time,
+            end_time=end_time,
         )
 
         with self._lock:

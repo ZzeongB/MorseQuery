@@ -30,6 +30,30 @@ def _filter_short_entries_for_compression(
     return filtered, skipped
 
 
+def _filter_entries_after_keyword_tts_start(
+    entries: list[dict],
+    keyword_tts_start_ts: float,
+) -> tuple[list[dict], list[dict]]:
+    """Exclude utterances that fully ended before keyword TTS playback started."""
+    if keyword_tts_start_ts <= 0:
+        return entries, []
+
+    filtered = []
+    skipped = []
+    for entry in entries:
+        end_time = float(
+            entry.get("end_time")
+            or entry.get("timestamp")
+            or entry.get("start_time")
+            or 0.0
+        )
+        if end_time > 0 and end_time <= keyword_tts_start_ts:
+            skipped.append(entry)
+            continue
+        filtered.append(entry)
+    return filtered, skipped
+
+
 def _get_combined_dialogue() -> str:
     """Get combined dialogue from all stores, sorted chronologically."""
     all_entries = []
@@ -86,6 +110,8 @@ def _get_dialogue_by_time_window(
             "speaker": e.speaker_id,
             "source_id": e.source_id,
             "text": e.text,
+            "start_time": e.start_time,
+            "end_time": e.end_time,
         }
         for e in all_entries
     ]
@@ -581,6 +607,37 @@ def _trigger_parallel_compression_for_dialogue(
     # Keep original entries for transcript logging, filter for compression API
     original_entries = entries  # Keep for logging
     if entries:
+        keyword_tts_start_ts = float(
+            (window or {}).get("keyword_tts_playback_start_ts") or 0.0
+        )
+        if keyword_tts_start_ts > 0:
+            filtered_by_keyword, skipped_by_keyword = (
+                _filter_entries_after_keyword_tts_start(entries, keyword_tts_start_ts)
+            )
+            if skipped_by_keyword:
+                log_print(
+                    "INFO",
+                    "Filtered pre-keyword utterances for compression",
+                    session_id=session_id,
+                    segment_id=segment_id,
+                    trigger_source=trigger_source,
+                    skipped_count=len(skipped_by_keyword),
+                    keyword_tts_start_ts=keyword_tts_start_ts,
+                )
+                session_logger.log(
+                    "compression_pre_keyword_filtered",
+                    segment_id=segment_id,
+                    trigger_source=trigger_source,
+                    skipped_count=len(skipped_by_keyword),
+                    skipped_entries=skipped_by_keyword,
+                    keyword_tts_start_ts=keyword_tts_start_ts,
+                )
+            entries = filtered_by_keyword
+            dialogue = "\n".join(
+                f"{e.get('speaker', 'unknown')}: {e.get('text', '')}"
+                for e in entries
+            )
+
         filtered_entries, skipped_entries = _filter_short_entries_for_compression(
             entries
         )
