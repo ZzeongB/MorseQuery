@@ -234,6 +234,10 @@ def handle_start(data: dict):
         _missed_summary_latency_bridge_enabled_runtime = bool(
             data.get("missed_summary_latency_bridge_enabled", False)
         )
+        global _skip_first_transcript_enabled_runtime
+        _skip_first_transcript_enabled_runtime = bool(
+            data.get("skip_first_transcript_enabled", True)  # default: on
+        )
 
         # Diarization settings (RMS-based crosstalk filtering)
         _diarization_enabled = bool(data.get("diarization_enabled", True))
@@ -996,7 +1000,7 @@ def handle_browser_tts_playback_start(data: dict):
 def handle_browser_tts_playback_done(data: dict):
     """Browser-side TTS playback done (summary/reconstruction)."""
     global _post_tts_followup_active, _post_tts_followup_inflight
-    global _post_tts_followup_live_window_open
+    global _post_tts_followup_live_window_open, _post_tts_followup_allow_last_inflight
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
@@ -1005,6 +1009,7 @@ def handle_browser_tts_playback_done(data: dict):
         with _segment_ctx_lock:
             _pending_latency_bridge_by_session.pop(session_id, None)
     # Stop any pending follow-up TTS when summary playback ends
+    # But allow the last inflight request to complete and play
     with _segment_ctx_lock:
         if _post_tts_followup_active or _post_tts_followup_inflight:
             log_print(
@@ -1014,9 +1019,14 @@ def handle_browser_tts_playback_done(data: dict):
                 reason=reason,
                 was_active=_post_tts_followup_active,
                 was_inflight=_post_tts_followup_inflight,
+                allow_last_inflight=_post_tts_followup_inflight,
             )
+        # If there's an inflight request, allow it to complete
+        if _post_tts_followup_inflight:
+            _post_tts_followup_allow_last_inflight = True
         _post_tts_followup_active = False
-        _post_tts_followup_inflight = False
+        # Keep inflight=True so the compression result handler knows there's one pending
+        # It will be cleared when the result arrives
         _post_tts_followup_live_window_open = False
     # Pending fast-catchup/latency-bridge deferral disabled:
     # always finalize TTS lifecycle immediately on playback completion.

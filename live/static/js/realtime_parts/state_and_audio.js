@@ -34,6 +34,7 @@ let transcriptCompressionMode = 'api_mini'; // 'fastest' | 'realtime' | 'api_min
 let fastCatchupChainEnabled = false;
 let fastCatchupWindowMode = 'vad_utterance'; // 'vad_utterance' | 'time_window'
 let summaryFollowupEnabled = false;
+let skipFirstTranscriptEnabled = true; // Skip first transcript in summary (default: on)
 let missedSummaryLatencyBridgeEnabled = false;
 let fastCatchupPending = false;
 let keywordTtsPlaying = false; // Track if keyword TTS is playing
@@ -459,6 +460,12 @@ function setSummaryFollowupEnabled(enabled) {
     summaryFollowupEnabled = !!enabled;
     document.getElementById('btn-summary-followup-on').classList.toggle('selected', summaryFollowupEnabled);
     document.getElementById('btn-summary-followup-off').classList.toggle('selected', !summaryFollowupEnabled);
+}
+
+function setSkipFirstTranscriptEnabled(enabled) {
+    skipFirstTranscriptEnabled = !!enabled;
+    document.getElementById('btn-skip-first-transcript-on').classList.toggle('selected', skipFirstTranscriptEnabled);
+    document.getElementById('btn-skip-first-transcript-off').classList.toggle('selected', !skipFirstTranscriptEnabled);
 }
 
 function setMissedSummaryLatencyBridgeEnabled(enabled) {

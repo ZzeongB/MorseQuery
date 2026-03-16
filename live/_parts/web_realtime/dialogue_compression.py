@@ -5,6 +5,29 @@ from clients.prompt import (
     build_dialogue_compression_user_prompt,
 )
 
+# Minimum character threshold for transcript entries to be included in compression
+_MIN_TRANSCRIPT_CHARS_FOR_COMPRESSION = 20
+
+
+def _filter_short_entries_for_compression(
+    entries: list[dict],
+    min_chars: int = _MIN_TRANSCRIPT_CHARS_FOR_COMPRESSION,
+) -> tuple[list[dict], list[dict]]:
+    """Filter out entries with text shorter than min_chars for compression.
+
+    Returns:
+        (filtered_entries, skipped_entries) - entries to compress, entries that were skipped
+    """
+    filtered = []
+    skipped = []
+    for e in entries:
+        text = str(e.get("text", "") or "").strip()
+        if len(text) >= min_chars:
+            filtered.append(e)
+        else:
+            skipped.append(e)
+    return filtered, skipped
+
 
 def _get_combined_dialogue() -> str:
     """Get combined dialogue from all stores, sorted chronologically."""
@@ -521,6 +544,36 @@ def _trigger_parallel_compression_for_dialogue(
                     if last_entry_ts > _post_tts_followup_cursor_ts:
                         _post_tts_followup_cursor_ts = last_entry_ts + 0.001
 
+    # Filter short entries (< 20 chars) for compression only
+    # Keep original entries for transcript logging, filter for compression API
+    original_entries = entries  # Keep for logging
+    if entries:
+        filtered_entries, skipped_entries = _filter_short_entries_for_compression(
+            entries
+        )
+        if skipped_entries:
+            log_print(
+                "INFO",
+                f"Filtered {len(skipped_entries)} short entries for compression",
+                session_id=session_id,
+                segment_id=segment_id,
+                trigger_source=trigger_source,
+                skipped_texts=[e.get("text", "") for e in skipped_entries],
+            )
+            session_logger.log(
+                "compression_short_entries_filtered",
+                segment_id=segment_id,
+                trigger_source=trigger_source,
+                skipped_count=len(skipped_entries),
+                skipped_entries=skipped_entries,
+            )
+        entries = filtered_entries
+        # Rebuild dialogue from filtered entries
+        dialogue = "\n".join(
+            f"{e.get('speaker', 'unknown')}: {e.get('text', '')}"
+            for e in entries
+        )
+
     # Build enhanced before context with last 3 turns
     start_ts = float((window or {}).get("start_ts") or time.time())
     last_3_turns = _get_last_n_turns_before(start_ts, n_turns=2)
@@ -591,11 +644,12 @@ def _trigger_parallel_compression_for_dialogue(
         return
 
     # Save dialogue to JSON for debugging
+    # Use original_entries (before filtering) to preserve full transcript
     _save_dialogue_json(
         dialogue,
         segment_id,
         session_id,
-        entries_override=entries,
+        entries_override=original_entries if original_entries else entries,
         window=window_payload,
     )
 
@@ -883,7 +937,21 @@ def _trigger_parallel_compression_for_dialogue(
             # (user may have dismissed summary / anc_off happened)
             if trigger_source == "post_tts_followup":
                 with _segment_ctx_lock:
-                    if not _post_tts_followup_active:
+                    global _post_tts_followup_allow_last_inflight, _post_tts_followup_inflight
+                    if _post_tts_followup_active:
+                        # Normal active follow-up, proceed
+                        pass
+                    elif _post_tts_followup_allow_last_inflight:
+                        # This is the last inflight request allowed after playback_done
+                        log_print(
+                            "INFO",
+                            "Allowing last inflight post_tts_followup TTS",
+                            session_id=session_id,
+                            segment_id=segment_id,
+                        )
+                        _post_tts_followup_allow_last_inflight = False
+                        _post_tts_followup_inflight = False
+                    else:
                         log_print(
                             "INFO",
                             "Skipping post_tts_followup TTS - no longer active",
@@ -928,11 +996,139 @@ def _trigger_parallel_compression_for_dialogue(
     threading.Thread(target=_emit_comparison, daemon=True).start()
 
 
+_WAIT_FOR_TRANSCRIPT_SEC = 1.0  # Wait time for transcript to arrive
+_WAIT_FOR_TRANSCRIPT_POLL_SEC = 0.1  # Poll interval during wait
+
+
+def _wait_for_transcript_and_compress(
+    segment_id: int,
+    session_id: str,
+    start_ts: float,
+    end_ts: float,
+    window_payload: dict,
+) -> None:
+    """Wait up to 1 second for new transcript, then compress based on entry count.
+
+    - 0 entries: all caught up
+    - 1 entry: compress with that 1 entry (don't skip)
+    - 2+ entries: skip first, compress with rest
+    """
+    # Mark segment as inflight to block follow-up from starting
+    with _segment_ctx_lock:
+        _segment_compression_inflight.add(segment_id)
+
+    waited = 0.0
+
+    # Poll for new transcript arrival (proceed immediately if > 1 entry)
+    while waited < _WAIT_FOR_TRANSCRIPT_SEC:
+        time.sleep(_WAIT_FOR_TRANSCRIPT_POLL_SEC)
+        waited += _WAIT_FOR_TRANSCRIPT_POLL_SEC
+
+        current_slice_end = time.time() + _SEGMENT_TAIL_GRACE_SEC
+        dialogue, entries = _get_dialogue_by_time_window(start_ts, current_slice_end)
+
+        if len(entries) > 1:
+            # Got more transcripts - skip first and compress immediately
+            entries = entries[1:]
+            dialogue = "\n".join(
+                f"{e.get('speaker', '?')}: {e.get('text', '')}" for e in entries
+            )
+            new_start_ts = float(entries[0].get("timestamp") or start_ts)
+            window_payload["start_ts"] = new_start_ts
+            window_payload["slice_end_ts"] = current_slice_end
+
+            log_print(
+                "INFO",
+                "Got new transcript during wait, skipping first",
+                session_id=session_id,
+                segment_id=segment_id,
+                waited_sec=waited,
+                entry_count=len(entries),
+            )
+
+            before_context = _collect_context_before(segment_id)
+            _trigger_parallel_compression_for_dialogue(
+                dialogue=dialogue,
+                segment_id=segment_id,
+                session_id=session_id,
+                before_context=before_context,
+                trigger_source="segment",
+                window=window_payload,
+                entries=entries,
+            )
+            return
+
+    # After 1 second wait - check final count
+    current_slice_end = time.time() + _SEGMENT_TAIL_GRACE_SEC
+    dialogue, entries = _get_dialogue_by_time_window(start_ts, current_slice_end)
+    window_payload["slice_end_ts"] = current_slice_end
+
+    if len(entries) == 0:
+        # No entries at all - all caught up
+        log_print(
+            "INFO",
+            "No transcript after 1s wait, emitting all_caught_up",
+            session_id=session_id,
+            segment_id=segment_id,
+        )
+        sio.emit(
+            "judge_rejected",
+            {
+                "reason": "All caught up",
+                "segment_id": segment_id,
+                "summary": "",
+                "no_dialogue": True,
+            },
+            to=session_id,
+        )
+        _on_segment_compression_finished(segment_id, session_id)
+        return
+
+    if len(entries) == 1:
+        # Only 1 entry - use it as is (don't skip)
+        log_print(
+            "INFO",
+            "Only 1 transcript after wait, using it",
+            session_id=session_id,
+            segment_id=segment_id,
+        )
+    else:
+        # 2+ entries - skip first
+        entries = entries[1:]
+        dialogue = "\n".join(
+            f"{e.get('speaker', '?')}: {e.get('text', '')}" for e in entries
+        )
+        new_start_ts = float(entries[0].get("timestamp") or start_ts)
+        window_payload["start_ts"] = new_start_ts
+        log_print(
+            "INFO",
+            "Multiple transcripts after wait, skipping first",
+            session_id=session_id,
+            segment_id=segment_id,
+            entry_count=len(entries),
+        )
+
+    before_context = _collect_context_before(segment_id)
+    _trigger_parallel_compression_for_dialogue(
+        dialogue=dialogue,
+        segment_id=segment_id,
+        session_id=session_id,
+        before_context=before_context,
+        trigger_source="segment",
+        window=window_payload,
+        entries=entries,
+    )
+
+
 def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
     """Compatibility path: use last listening-segment dialogue."""
     dialogue = ""
     entries: list[dict] = []
     window_payload: dict = {}
+
+    # Mark segment as inflight IMMEDIATELY to block post-TTS follow-up from starting
+    with _segment_ctx_lock:
+        _segment_compression_inflight.add(segment_id)
 
     # Prefer segment-window slicing to avoid races with subsequent listening sessions.
     with _segment_ctx_lock:
@@ -956,6 +1152,44 @@ def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
 
         # Get dialogue immediately without waiting for watermark stabilization
         dialogue, entries = _get_dialogue_by_time_window(start_ts, slice_end_ts)
+
+        # Skip first transcript option: user already heard the first one
+        if _skip_first_transcript_enabled_runtime and entries:
+            original_count = len(entries)
+            entries = entries[1:]  # Skip the first entry
+            if entries:
+                # Rebuild dialogue from remaining entries
+                dialogue = "\n".join(
+                    f"{e.get('speaker', '?')}: {e.get('text', '')}" for e in entries
+                )
+                # Update start_ts to first remaining entry's timestamp
+                new_start_ts = float(entries[0].get("timestamp") or start_ts)
+                window_payload["start_ts"] = new_start_ts
+                log_print(
+                    "INFO",
+                    "Skipped first transcript entry",
+                    session_id=session_id,
+                    segment_id=segment_id,
+                    original_count=original_count,
+                    remaining_count=len(entries),
+                )
+            else:
+                # No entries left after skipping first - wait for more
+                log_print(
+                    "INFO",
+                    "No entries after skipping first, waiting for transcript",
+                    session_id=session_id,
+                    segment_id=segment_id,
+                )
+                _wait_for_transcript_and_compress(
+                    segment_id=segment_id,
+                    session_id=session_id,
+                    start_ts=start_ts,
+                    end_ts=end_ts,
+                    window_payload=window_payload,
+                )
+                return
+
         log_print(
             "INFO",
             "Segment dialogue sliced (no wait)",

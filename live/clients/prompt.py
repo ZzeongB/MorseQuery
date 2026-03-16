@@ -626,7 +626,8 @@ DIALOGUE_COMPRESSION_SYSTEM_PROMPT = (
     "Treat isolated one-word utterances as likely transcription errors unless clearly meaningful. "
     "Never invent claims/questions not in Dialogue. "
     "If both speakers are present in Dialogue, include both speakers in output and do not omit either speaker's core point. "
-    "If Dialogue has one speaker, output only that speaker."
+    "If Dialogue has one speaker, output only that speaker. "
+    "If the entire dialogue is nonsensical, incomplete fragments, or transcription garbage, output exactly empty string."
 )
 
 
@@ -649,7 +650,7 @@ def build_dialogue_compression_user_prompt(
 
     Rules:
     - Context is hint-only. Do not import extra facts from context.
-    - If dialogue is short/noisy, output short literal fragment only.
+    - If the dialogue is unrelated to the provided context or keywords, output exactly "".
     - Drop context-mismatched or irrelevant words and incomplete fragments instead of attempting to guess or reconstruct them.
     - Treat one-word fragments as possible transcription errors and drop them when uncertain.
     - Transcript may contain typos; correct them using context and keywords when obvious.

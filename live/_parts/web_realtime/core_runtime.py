@@ -244,6 +244,7 @@ _fast_catchup_window_mode_runtime = _FAST_CATCHUP_WINDOW_MODE_DEFAULT
 _fast_catchup_chain_enabled_runtime = False
 _summary_followup_enabled_runtime = False
 _missed_summary_latency_bridge_enabled_runtime = False
+_skip_first_transcript_enabled_runtime = True  # Skip first transcript in summary (default: on)
 _SEGMENT_TAIL_GRACE_SEC = 1.4
 _SEGMENT_POST_END_WAIT_SEC = 0.0  # No delay - start summarization immediately
 # To trigger summarization X seconds before keyword_tts ends, set this > 0
@@ -280,6 +281,7 @@ _before_context_lock = threading.Lock()
 _before_context_summary = ""
 _post_tts_followup_active = False
 _post_tts_followup_inflight = False
+_post_tts_followup_allow_last_inflight = False  # Allow last inflight request to play after playback_done
 _post_tts_followup_cursor_ts = 0.0
 _post_tts_followup_live_window_open = False
 _segment_compression_inflight: set[int] = set()
@@ -315,6 +317,7 @@ def _reset_segment_tracking() -> None:
     global \
         _post_tts_followup_active, \
         _post_tts_followup_inflight, \
+        _post_tts_followup_allow_last_inflight, \
         _post_tts_followup_cursor_ts
     global \
         _post_tts_followup_live_window_open, \
@@ -331,6 +334,7 @@ def _reset_segment_tracking() -> None:
         _vad_open_speech_start_ts = None
         _post_tts_followup_active = False
         _post_tts_followup_inflight = False
+        _post_tts_followup_allow_last_inflight = False
         _post_tts_followup_cursor_ts = 0.0
         _post_tts_followup_live_window_open = False
         _segment_compression_inflight.clear()
