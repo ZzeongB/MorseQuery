@@ -22,9 +22,11 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import struct
+
 import numpy as np
 import pyaudio
-from flask import Flask, render_template_string
+from flask import Flask, render_template_string, request
 from flask_socketio import SocketIO
 from pydub import AudioSegment
 
@@ -160,6 +162,10 @@ _session: Optional[RecordingSession] = None
 _session_lock = threading.Lock()
 _status_thread: Optional[threading.Thread] = None
 
+# Mic level monitor state
+_mic_monitor_running = False
+_mic_monitor_thread: Optional[threading.Thread] = None
+
 
 def _emit_status_loop(sid: str) -> None:
     """Periodically emit recording status."""
@@ -209,6 +215,102 @@ def list_input_devices() -> list[dict]:
     return devices
 
 
+def _mic_monitor_loop(device_indices: list[int], select_ids: list[str]) -> None:
+    """Background thread to monitor mic levels."""
+    global _mic_monitor_running
+
+    CHUNK = 1024
+    RATE = 24000
+    FORMAT = pyaudio.paInt16
+
+    # Build mapping: device_idx -> list of select_ids
+    device_to_selects: dict[int, list[str]] = {}
+    for device_idx, select_id in zip(device_indices, select_ids):
+        if device_idx not in device_to_selects:
+            device_to_selects[device_idx] = []
+        device_to_selects[device_idx].append(select_id)
+
+    streams = []
+
+    try:
+        # Open streams for each unique device
+        for device_idx in device_to_selects.keys():
+            try:
+                pa = pyaudio.PyAudio()
+                stream = pa.open(
+                    format=FORMAT,
+                    channels=1,
+                    rate=RATE,
+                    input=True,
+                    input_device_index=device_idx,
+                    frames_per_buffer=CHUNK,
+                )
+                streams.append((device_idx, stream, pa))
+            except Exception as e:
+                print(f"[ERROR] Failed to open mic monitor for device {device_idx}: {e}")
+
+        while _mic_monitor_running and streams:
+            levels = {}
+            for device_idx, stream, pa in streams:
+                try:
+                    data = stream.read(CHUNK, exception_on_overflow=False)
+                    # Calculate RMS level
+                    samples = struct.unpack(f"<{CHUNK}h", data)
+                    rms = (sum(s * s for s in samples) / CHUNK) ** 0.5
+                    # Normalize to 0-100 (max 32768 for 16-bit audio)
+                    level = min(100, int((rms / 8000) * 100))
+                    # Apply level to all select_ids that use this device
+                    for select_id in device_to_selects.get(device_idx, []):
+                        levels[select_id] = level
+                except Exception as e:
+                    print(f"[WARN] Mic monitor read error: {e}")
+
+            if levels:
+                sio.emit("mic_levels", levels)
+
+            sio.sleep(0.05)  # 50ms interval
+
+    finally:
+        # Cleanup
+        for device_idx, stream, pa in streams:
+            try:
+                stream.stop_stream()
+                stream.close()
+                pa.terminate()
+            except:
+                pass
+
+    print("[INFO] Mic monitor stopped")
+
+
+def start_mic_monitor(device_indices: list[int], select_ids: list[str]) -> None:
+    """Start monitoring mic levels for given device indices."""
+    global _mic_monitor_running, _mic_monitor_thread
+
+    stop_mic_monitor()
+
+    if not device_indices:
+        return
+
+    # Small delay to ensure old thread has stopped
+    time.sleep(0.1)
+
+    _mic_monitor_running = True
+    _mic_monitor_thread = sio.start_background_task(
+        _mic_monitor_loop, device_indices, select_ids
+    )
+    print(f"[INFO] Starting mic monitor for devices: {device_indices}")
+
+
+def stop_mic_monitor() -> None:
+    """Stop mic level monitoring."""
+    global _mic_monitor_running, _mic_monitor_thread
+
+    _mic_monitor_running = False
+    if _mic_monitor_thread:
+        _mic_monitor_thread = None
+
+
 # HTML template for the web interface
 HTML_TEMPLATE = """
 <!DOCTYPE html>
@@ -218,9 +320,11 @@ HTML_TEMPLATE = """
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; max-width: 800px; margin: 50px auto; padding: 20px; }
         h1 { color: #333; }
-        .device-select { margin: 10px 0; }
+        .device-select { margin: 10px 0; display: flex; align-items: center; gap: 10px; }
         .device-select label { display: inline-block; width: 100px; }
         .device-select select { width: 300px; padding: 5px; }
+        .mic-level { width: 80px; height: 10px; background: #333; border-radius: 5px; overflow: hidden; }
+        .mic-level-bar { height: 100%; background: linear-gradient(90deg, #4CAF50 0%, #8BC34A 50%, #FFC107 75%, #f44336 100%); width: 0%; transition: width 0.05s; }
         .controls { margin: 20px 0; }
         button { padding: 10px 30px; font-size: 16px; margin-right: 10px; cursor: pointer; }
         #startBtn { background: #4CAF50; color: white; border: none; border-radius: 5px; }
@@ -241,14 +345,17 @@ HTML_TEMPLATE = """
     <div class="device-select">
         <label>Mic 0:</label>
         <select id="mic0"></select>
+        <div class="mic-level"><div class="mic-level-bar" id="mic0Level"></div></div>
     </div>
     <div class="device-select">
         <label>Mic 1:</label>
         <select id="mic1"></select>
+        <div class="mic-level"><div class="mic-level-bar" id="mic1Level"></div></div>
     </div>
     <div class="device-select">
         <label>Mic 2:</label>
         <select id="mic2"></select>
+        <div class="mic-level"><div class="mic-level-bar" id="mic2Level"></div></div>
     </div>
 
     <div class="settings">
@@ -281,11 +388,39 @@ HTML_TEMPLATE = """
     <script>
         const socket = io();
         let recording = false;
+        const micSelectIds = ['mic0', 'mic1', 'mic2'];
 
         socket.on('connect', () => {
             console.log('Connected');
             socket.emit('list_devices');
         });
+
+        // Handle mic level updates
+        socket.on('mic_levels', data => {
+            for (const [selectId, level] of Object.entries(data)) {
+                const levelBar = document.getElementById(selectId + 'Level');
+                if (levelBar) {
+                    levelBar.style.width = level + '%';
+                }
+            }
+        });
+
+        function updateMicMonitor() {
+            const deviceIndices = [];
+            const selectIds = [];
+            micSelectIds.forEach(id => {
+                const sel = document.getElementById(id);
+                if (sel && sel.value && parseInt(sel.value) >= 0) {
+                    deviceIndices.push(parseInt(sel.value));
+                    selectIds.push(id);
+                }
+            });
+            if (deviceIndices.length > 0) {
+                socket.emit('start_mic_monitor', { device_indices: deviceIndices, select_ids: selectIds });
+            } else {
+                socket.emit('stop_mic_monitor');
+            }
+        }
 
         socket.on('devices', (devices) => {
             const selects = ['mic0', 'mic1', 'mic2'];
@@ -300,18 +435,18 @@ HTML_TEMPLATE = """
                 });
             });
 
-            // Auto-select defaults: mic0=1, mic1=2, mic2=Jabra or MacBook
+            // Auto-select defaults: mic0=0, mic1=1, mic2=Jabra or MacBook
             const mic0Select = document.getElementById('mic0');
             const mic1Select = document.getElementById('mic1');
             const mic2Select = document.getElementById('mic2');
 
-            // mic0: index 1
-            if (devices.some(d => d.index === 1)) {
-                mic0Select.value = '1';
+            // mic0: index 0
+            if (devices.some(d => d.index === 0)) {
+                mic0Select.value = '0';
             }
-            // mic1: index 2
-            if (devices.some(d => d.index === 2)) {
-                mic1Select.value = '2';
+            // mic1: index 1
+            if (devices.some(d => d.index === 1)) {
+                mic1Select.value = '1';
             }
             // mic2: Jabra if exists, else MacBook
             const jabra = devices.find(d => d.name.toLowerCase().includes('jabra'));
@@ -321,6 +456,15 @@ HTML_TEMPLATE = """
             } else if (macbook) {
                 mic2Select.value = macbook.index.toString();
             }
+
+            // Add change listeners for mic level monitoring
+            micSelectIds.forEach(id => {
+                const sel = document.getElementById(id);
+                sel.addEventListener('change', updateMicMonitor);
+            });
+
+            // Start mic monitoring
+            updateMicMonitor();
         });
 
         socket.on('status', (data) => {
@@ -414,6 +558,22 @@ def handle_disconnect():
 def handle_list_devices():
     devices = list_input_devices()
     sio.emit("devices", devices)
+
+
+@sio.on("start_mic_monitor")
+def handle_start_mic_monitor(data: dict):
+    """Start mic level monitoring for selected devices."""
+    device_indices = data.get("device_indices", [])
+    select_ids = data.get("select_ids", [])
+    print(f"[INFO] Start mic monitor: devices={device_indices}, ids={select_ids}")
+    start_mic_monitor(device_indices, select_ids)
+
+
+@sio.on("stop_mic_monitor")
+def handle_stop_mic_monitor():
+    """Stop mic level monitoring."""
+    print("[INFO] Stop mic monitor")
+    stop_mic_monitor()
 
 
 @sio.on("start")
