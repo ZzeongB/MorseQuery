@@ -80,7 +80,7 @@ let airpodsModeSwitchEnabled = true;
 let singleClickNavEnabled = false; // Single-click navigate (default: off)
 let pauseResumeEnabled = true; // Pause/Resume TTS on single tap (default: on)
 let singleKeywordMode = true; // Extract only 1 keyword (default: on)
-let transcriptSyncMode = 'vad_then_commit'; // 'vad' | 'commit' | 'speech_wait' | 'vad_then_commit'
+let transcriptSyncMode = 'vad'; // 'vad' | 'commit' | 'speech_wait' | 'vad_then_commit'
 let audioContext = null;
 let audioUnlocked = false;
 let loadingAudioInterval = null;
@@ -850,7 +850,7 @@ function setSingleKeywordMode(enabled) {
 
 function setTranscriptSyncMode(mode) {
     const validModes = ['vad', 'commit', 'speech_wait', 'vad_then_commit'];
-    transcriptSyncMode = validModes.includes(mode) ? mode : 'vad_then_commit';
+    transcriptSyncMode = validModes.includes(mode) ? mode : 'vad';
     document.getElementById('btn-transcript-sync-vad').classList.toggle('selected', transcriptSyncMode === 'vad');
     document.getElementById('btn-transcript-sync-commit').classList.toggle('selected', transcriptSyncMode === 'commit');
     document.getElementById('btn-transcript-sync-speech').classList.toggle('selected', transcriptSyncMode === 'speech_wait');
