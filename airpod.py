@@ -22,8 +22,8 @@ import pyautogui as pg
 
 
 POS = {
-    "transparency": (2153, 357),
-    "anc": (2170, 407),  # -270 / 2237 / 4777
+    "transparency": (2228, 356),
+    "anc": (2189, 401),  # -270 / 2237 / 4777
 }
 
 

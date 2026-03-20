@@ -9,88 +9,90 @@ const socket = io();
 // State Variables
 // ============================================================================
 
-let view = 'single';
-let descView = 'single';
-let source = 'mic';
-let options = [];
-let currentIdx = 0;
-let summaryBuffer = '';
-let summaryTimer = null;
-let lastSpace = 0;
-let infoVisible = false;
-let dismissMode = 'summary'; // 'summary' or 'none'
-let summaryRequested = false; // Track if we actually requested a summary
-let summaryInProgress = false; // summarizing or tts playback in progress
-let showSummaryTextEnabled = true;
-let autoPreSummarizeEnabled = true;
-let pendingSummaryTexts = [];
-let summaryFinalizeTimer = null;
-let awaitingJudgeDecision = false;
-let allowPostFollowupTts = false;
-let keywordOutputMode = 'audio'; // 'text' | 'audio'
-let judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
-let reconstructorEnabled = false; // Conversation reconstructor on/off
-let transcriptCompressionMode = 'api_mini'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
-let fastCatchupChainEnabled = false;
-let fastCatchupWindowMode = 'vad_utterance'; // 'vad_utterance' | 'time_window'
-let summaryFollowupEnabled = false;
-let skipFirstTranscriptEnabled = true; // Skip first transcript in summary (default: on)
-let missedSummaryLatencyBridgeEnabled = false;
-let fastCatchupPending = false;
-let keywordTtsPlaying = false; // Track if keyword TTS is playing
-let keywordTtsCurrentText = '';
-let keywordAutoSummarizeTimer = null;
-let keywordPlaybackToken = 0;
-let pendingSummarizeIndicatorAfterKeyword = false;
-let keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
-let configuredSummaryClientCount = 2;
-let summarySegmentState = new Map(); // segmentId -> {received, nonEmpty}
-let pendingEmptySummarySignal = null; // {segmentId}
-let pendingSkippedIndicator = null; // {message, opts}
-let listeningActive = false;
-let summaryTriggeredForListeningSession = false;
-let ignoreIncomingSummaryEvents = false;
-let inferencingTimer = null;
+var view = 'single';
+var descView = 'single';
+var source = 'mic';
+var options = [];
+var currentIdx = 0;
+var summaryBuffer = '';
+var summaryTimer = null;
+var lastSpace = 0;
+var infoVisible = false;
+var dismissMode = 'summary'; // 'summary' or 'none'
+var summaryRequested = false; // Track if we actually requested a summary
+var summaryInProgress = false; // summarizing or tts playback in progress
+var showSummaryTextEnabled = true;
+var autoPreSummarizeEnabled = true;
+var pendingSummaryTexts = [];
+var summaryFinalizeTimer = null;
+var awaitingJudgeDecision = false;
+var allowPostFollowupTts = false;
+var keywordOutputMode = 'audio'; // 'text' | 'audio'
+var judgeEnabled = false; // Judge agent on/off (when off, summaries play without judgment)
+var reconstructorEnabled = false; // Conversation reconstructor on/off
+var transcriptCompressionMode = 'api_mini'; // 'fastest' | 'realtime' | 'api_mini' | 'api_nano'
+var fastCatchupChainEnabled = false;
+var fastCatchupWindowMode = 'vad_utterance'; // 'vad_utterance' | 'time_window'
+var summaryFollowupEnabled = false;
+var skipFirstTranscriptEnabled = true; // Skip first transcript in summary (default: on)
+var missedSummaryLatencyBridgeEnabled = false;
+var fastCatchupPending = false;
+var keywordTtsPlaying = false; // Track if keyword TTS is playing
+var keywordTtsCurrentText = '';
+var keywordAutoSummarizeTimer = null;
+var keywordPlaybackToken = 0;
+var pendingSummarizeIndicatorAfterKeyword = false;
+var keywordTtsPreloadedTexts = new Set(); // Track preloaded keyword TTS texts
+var configuredSummaryClientCount = 2;
+var summarySegmentState = new Map(); // segmentId -> {received, nonEmpty}
+var pendingEmptySummarySignal = null; // {segmentId}
+var pendingSkippedIndicator = null; // {message, opts}
+var listeningActive = false;
+var summaryTriggeredForListeningSession = false;
+var ignoreIncomingSummaryEvents = false;
+var ignoreIncomingKeywordEvents = false;
+var inferencingTimer = null;
+var keywordRequestToken = 0; // Token to track keyword request validity
 const INFERENCING_TIMEOUT_MS = 5000; // 5 seconds timeout
 const KEYWORD_SUMMARY_LEAD_MS = 2000;
 const SUMMARY_FOLLOWUP_LEAD_MS = 500;
-let keywordSummaryLeadMs = KEYWORD_SUMMARY_LEAD_MS;
+var keywordSummaryLeadMs = KEYWORD_SUMMARY_LEAD_MS;
 const KEYWORD_ESTIMATED_WPS = 3.5; // Cartesia speed=1.2 approximation
-let pendingReconstructedTurns = [];
-let pendingReconstructedSegmentId = 0;
-let renderedReconstructedSegmentId = 0;
-let baseReconstructedTurns = [];
-let baseReconstructedSegmentId = 0;
-let followupReconstructedGroups = []; // [{segmentId, turns}]
-let widgetHeight = 0; // 0 = bottom, 100 = top
-let isDragging = false;
-let availableDevices = [];
-let availableOutputDevices = [];
+var pendingReconstructedTurns = [];
+var pendingReconstructedSegmentId = 0;
+var renderedReconstructedSegmentId = 0;
+var baseReconstructedTurns = [];
+var baseReconstructedSegmentId = 0;
+var followupReconstructedGroups = []; // [{segmentId, turns}]
+var widgetHeight = 0; // 0 = bottom, 100 = top
+var isDragging = false;
+var availableDevices = [];
+var availableOutputDevices = [];
 const micSelectIds = ['summaryMic1', 'summaryMic2', 'keywordMic'];
 
 // Noise gate calibration
-let noiseGateEnabled = false;
-let noiseGateThreshold = 500;  // RMS value (0-32768 scale)
-let noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
+var noiseGateEnabled = false;
+var noiseGateThreshold = 500;  // RMS value (0-32768 scale)
+var noiseGateCurrentRMS = { sum1: 0, sum2: 0 };
 const NOISE_GATE_MAX_RMS = 5000;  // Max display scale
 
 // Audio feedback
-let audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
-let airpodsModeSwitchEnabled = true;
-let singleClickNavEnabled = false; // Single-click navigate (default: off)
-let pauseResumeEnabled = true; // Pause/Resume TTS on single tap (default: on)
-let singleKeywordMode = true; // Extract only 1 keyword (default: on)
-let transcriptSyncMode = 'vad'; // 'vad' | 'commit' | 'speech_wait' | 'vad_then_commit'
-let audioContext = null;
-let audioUnlocked = false;
-let loadingAudioInterval = null;
-let loadingAudioToken = 0;
-let loadingAudioStartTimer = null;
-let verbalCueLastAt = {};
-let browserSummaryPlaybackActive = false;
-let activeBrowserTtsType = null;
-let suppressNextBrowserTtsEndCue = false;
-let ttsCueLastPlayedAt = {
+var audioFeedbackMode = 'on'; // 'on' | 'verbal' | 'off'
+var airpodsModeSwitchEnabled = true;
+var singleClickNavEnabled = false; // Single-click navigate (default: off)
+var pauseResumeEnabled = true; // Pause/Resume TTS on single tap (default: on)
+var singleKeywordMode = true; // Extract only 1 keyword (default: on)
+var transcriptSyncMode = 'vad'; // 'vad' | 'commit' | 'speech_wait' | 'vad_then_commit'
+var audioContext = null;
+var audioUnlocked = false;
+var loadingAudioInterval = null;
+var loadingAudioToken = 0;
+var loadingAudioStartTimer = null;
+var verbalCueLastAt = {};
+var browserSummaryPlaybackActive = false;
+var activeBrowserTtsType = null;
+var suppressNextBrowserTtsEndCue = false;
+var ttsCueLastPlayedAt = {
     keyword_start: 0,
     keyword_end: 0,
     summary_start: 0,
@@ -106,30 +108,30 @@ const AUDIO_CUE_DEDUP_WINDOWS = {
 };
 
 // TTS playback
-let ttsQueue = [];
-let streamingTtsBuffers = new Map(); // stream_id -> { chunks: Uint8Array[], meta }
-let streamingTtsPlayers = new Map(); // stream_id -> StreamingTtsPlayer instance
-let streamingTtsQueue = []; // Queue for sequential playback: { streamId, player, chunks: [] }
-let currentStreamingPlayer = null; // Currently playing streaming TTS
-let summaryCueSequenceActive = false; // True while a summary/reconstruction stream chain is active
-let ttsPlaying = false;
-let currentTtsAudio = null;
-let currentTtsUrl = null;
-let currentTtsSource = null;  // Web Audio API source node
+var ttsQueue = [];
+var streamingTtsBuffers = new Map(); // stream_id -> { chunks: Uint8Array[], meta }
+var streamingTtsPlayers = new Map(); // stream_id -> StreamingTtsPlayer instance
+var streamingTtsQueue = []; // Queue for sequential playback: { streamId, player, chunks: [] }
+var currentStreamingPlayer = null; // Currently playing streaming TTS
+var summaryCueSequenceActive = false; // True while a summary/reconstruction stream chain is active
+var ttsPlaying = false;
+var currentTtsAudio = null;
+var currentTtsUrl = null;
+var currentTtsSource = null;  // Web Audio API source node
 
 // TTS pause/resume state
-let ttsPaused = false;
-let ttsPausing = false;  // Flag to prevent onended from firing during pause
-let ttsPausedOffset = 0;  // Playback offset in seconds when paused
-let ttsPlaybackStartTime = 0;  // AudioContext time when playback started
-let ttsPausedBuffer = null;  // AudioBuffer to resume from
-let ttsPausedMeta = null;  // Metadata of paused audio
-let ttsResumedPlayback = false;  // True if current playback was resumed (skip auto-summarize)
-let summaryTextAllowedThisPlayback = false;
-let currentSummaryNearEndTimer = null;
-let skippedIndicatorTimer = null;
-let dismissTimer = null;
-let pageExitCleanupSent = false;
+var ttsPaused = false;
+var ttsPausing = false;  // Flag to prevent onended from firing during pause
+var ttsPausedOffset = 0;  // Playback offset in seconds when paused
+var ttsPlaybackStartTime = 0;  // AudioContext time when playback started
+var ttsPausedBuffer = null;  // AudioBuffer to resume from
+var ttsPausedMeta = null;  // Metadata of paused audio
+var ttsResumedPlayback = false;  // True if current playback was resumed (skip auto-summarize)
+var summaryTextAllowedThisPlayback = false;
+var currentSummaryNearEndTimer = null;
+var skippedIndicatorTimer = null;
+var dismissTimer = null;
+var pageExitCleanupSent = false;
 
 // ============================================================================
 // Utility Functions

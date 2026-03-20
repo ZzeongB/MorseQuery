@@ -397,10 +397,11 @@ def handle_stop():
 
 
 @sio.on("request")
-def handle_request():
+def handle_request(data: dict = None):
     """Handle manual keyword extraction request."""
     session_id = request.sid
-    log_print("INFO", "Manual request triggered", session_id=session_id)
+    request_id = (data or {}).get("requestId", 0)
+    log_print("INFO", "Manual request triggered", session_id=session_id, request_id=request_id)
     if not _is_active_session(session_id):
         log_print(
             "INFO",
@@ -412,7 +413,7 @@ def handle_request():
 
     with _clients_lock:
         if client and client.running:
-            client.request()
+            client.request(request_id=request_id)
         else:
             log_print(
                 "WARN", "Request ignored - no running client", session_id=session_id

@@ -73,6 +73,7 @@ class RealtimeClient:
         self._keyword_retry_attempt = 0
         self._max_keyword_retry_attempts = 2  # Retry up to 2 times with realtime API
         self.single_keyword_mode = False  # Extract only 1 keyword when True
+        self._current_request_id = 0  # Request ID for keyword request tracking
         self.enable_noise_gate = enable_noise_gate
         self.noise_gate: AdaptiveNoiseGate | None = None
         if enable_noise_gate:
@@ -404,7 +405,8 @@ class RealtimeClient:
             self.latest_keywords = [dict(kw) for kw in keywords]
             if self.user_actions:
                 self.user_actions[-1]["keywords"] = keywords
-        self.sio.emit("keywords", keywords)
+        # Include requestId for client-side staleness check
+        self.sio.emit("keywords", {"keywords": keywords, "requestId": self._current_request_id})
         self.response_buffer = ""
 
     def _request_keyword_retry_in_realtime(self) -> bool:
@@ -725,8 +727,9 @@ class RealtimeClient:
             return b""
         return b"".join(out_parts)
 
-    def request(self) -> None:
+    def request(self, request_id: int = 0) -> None:
         self._keyword_retry_attempt = 0
+        self._current_request_id = request_id
         elapsed_sec = (
             time.time() - self.stream_start_time if self.stream_start_time else 0.0
         )

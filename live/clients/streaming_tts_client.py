@@ -1,6 +1,7 @@
 """Streaming Cartesia TTS client using WebSocket for real-time text-to-speech."""
 
 import base64
+import logging
 import threading
 import time
 from collections import deque
@@ -11,6 +12,9 @@ from cartesia import Cartesia
 from config import CARTESIA_API_KEY
 from flask_socketio import SocketIO
 from logger import get_logger, get_session_subdir, log_print
+
+# Enable websockets library debug logging for ping/pong visibility
+logging.getLogger("websockets").setLevel(logging.DEBUG)
 
 # Default voice settings
 DEFAULT_MODEL_ID = "sonic-3"
@@ -127,9 +131,14 @@ class StreamingTTSClient:
                     # Connection is broken, close and reconnect
                     self._close_connection_unsafe()
 
-            # Create new connection
+            # Create new connection with keepalive settings
             try:
-                self._connection_manager = self.client.tts.websocket_connect()
+                self._connection_manager = self.client.tts.websocket_connect(
+                    websocket_connection_options={
+                        "ping_interval": 10,  # Send ping every 10 seconds
+                        "ping_timeout": 60,   # Wait 60 seconds for pong response
+                    }
+                )
                 self._connection = self._connection_manager.__enter__()
                 log_print(
                     "INFO",

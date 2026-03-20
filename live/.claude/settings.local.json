@@ -9,7 +9,10 @@
       "mcp__ide__getDiagnostics",
       "Bash(git checkout:*)",
       "Bash(git fetch:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(python3:*)",
+      "Bash(find:*)"
     ]
   }
 }

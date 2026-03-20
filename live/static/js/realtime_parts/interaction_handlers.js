@@ -9,7 +9,9 @@ function handleTap() {
         playConfirmedFeedback();
         hideSummary();
         startListeningIfNeeded();
-        socket.emit('request');
+        keywordRequestToken += 1;
+        ignoreIncomingKeywordEvents = false;
+        socket.emit('request', { requestId: keywordRequestToken });
         showLoadingIndicator('Inferring', 'inferring', 320);
 
         if (inferencingTimer) clearTimeout(inferencingTimer);
@@ -77,12 +79,24 @@ socket.on('keywords', data => {
         clearTimeout(inferencingTimer);
         inferencingTimer = null;
     }
-    if (!Array.isArray(data) || data.length === 0) {
+    // Ignore keywords received after dismiss
+    if (ignoreIncomingKeywordEvents) {
+        return;
+    }
+    // Check if response is from a stale request (requestId mismatch)
+    const responseRequestId = (data && data.requestId) || 0;
+    if (responseRequestId > 0 && responseRequestId !== keywordRequestToken) {
+        console.log('Ignoring stale keyword response', responseRequestId, keywordRequestToken);
+        return;
+    }
+    // Extract keywords array from response
+    const keywords = (data && data.keywords) || data;
+    if (!Array.isArray(keywords) || keywords.length === 0) {
         hideLoadingIndicator();
         return;
     }
     hideSummary();
-    options = options.concat(data);
+    options = options.concat(keywords);
     const MAX_KEYWORDS = 3;
     if (options.length > MAX_KEYWORDS) {
         options = options.slice(-MAX_KEYWORDS);
@@ -90,7 +104,7 @@ socket.on('keywords', data => {
     currentIdx = options.length - 1;
     infoVisible = true;
 
-    preloadKeywordTtsForItems(data);
+    preloadKeywordTtsForItems(keywords);
 
     if (keywordOutputMode === 'audio') {
         playCurrentKeywordTts();
@@ -119,6 +133,7 @@ socket.on('session_ended', () => {
     summaryTriggeredForListeningSession = false;
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
+    ignoreIncomingKeywordEvents = false;
     clearKeywordAutoSummarizeTimer();
     keywordTtsPreloadedTexts.clear();
     pendingSummaryTexts = [];
@@ -287,6 +302,8 @@ socket.on('judge_rejected', data => {
     pendingSummaryTexts = [];
     const reason = data.reason || 'All caught up';
     showSkippedIndicator(reason);
+    // Notify server to turn off ANC
+    socket.emit('browser_tts_playback_done', { reason: 'judge_rejected' });
 });
 
 socket.on('conversation_reconstructed', data => {
@@ -359,6 +376,7 @@ socket.on('summary_tts_error', data => {
 });
 
 socket.on('keyword_tts', data => {
+    if (ignoreIncomingKeywordEvents) return;
     if (!data.audio) return;
     enqueueTtsAudio(data.audio, { type: 'keyword' });
 });
@@ -369,6 +387,10 @@ socket.on('streaming_tts_chunk', data => {
     if (!streamId) return;
 
     const ttsType = data.type || 'summary';
+    // Ignore keyword streams after keyword dismiss
+    if (ignoreIncomingKeywordEvents && ttsType === 'keyword') {
+        return;
+    }
     // Ignore summary/reconstruction streams after dismiss
     if (ignoreIncomingSummaryEvents && ttsType !== 'keyword') {
         return;
@@ -856,6 +878,15 @@ function dismissAllTtsAndUi() {
     keywordTtsPlaying = false;
     keywordTtsCurrentText = '';
 
+    // Clear keyword loading state
+    if (inferencingTimer) {
+        clearTimeout(inferencingTimer);
+        inferencingTimer = null;
+    }
+    // Invalidate pending keyword requests and ignore responses
+    keywordRequestToken += 1;
+    ignoreIncomingKeywordEvents = true;
+
     // Clear summary state
     summaryRequested = false;
     summaryInProgress = false;
@@ -890,11 +921,12 @@ function handleDismissKey() {
     unlockAudioFeedback();
     playTapFeedback();
 
-    // Check if any TTS is playing (keyword or summary)
+    // Check if any TTS is playing (keyword or summary) or keyword loading is in progress
     const keywordPlaying = isKeywordPlaybackBusy();
+    const keywordLoading = inferencingTimer !== null;
     const summaryPlaying = summaryRequested || summaryInProgress || isTtsPlayingOrPaused();
 
-    if (keywordPlaying || summaryPlaying) {
+    if (keywordPlaying || keywordLoading || summaryPlaying) {
         // Unconditionally stop all TTS and anc_off
         dismissAllTtsAndUi();
     }
