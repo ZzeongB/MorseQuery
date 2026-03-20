@@ -11,12 +11,48 @@ from difflib import SequenceMatcher
 from pathlib import Path
 
 
+TRANSCRIPT_SOURCE_IDS = ("realtime", "sum0", "sum1")
+
+
 def load_json_list(path: Path) -> list[dict]:
     with path.open("r", encoding="utf-8") as f:
         data = json.load(f)
     if not isinstance(data, list):
         raise ValueError(f"{path} must contain a JSON list")
     return data
+
+
+def filter_skipped_entries(entries: list[dict]) -> list[dict]:
+    return [entry for entry in entries if not bool(entry.get("skipped"))]
+
+
+def resolve_transcript_paths(
+    realtime: Path | None,
+    sum0: Path | None,
+    sum1: Path | None,
+    session_dir: Path | None,
+) -> tuple[Path, Path, Path]:
+    if session_dir is None:
+        if realtime is None or sum0 is None or sum1 is None:
+            raise ValueError("Provide either --session-dir or all of: realtime sum0 sum1")
+        return realtime, sum0, sum1
+
+    dialogue_dir = session_dir / "dialogue" if session_dir.name != "dialogue" else session_dir
+    if not dialogue_dir.exists():
+        raise ValueError(f"Dialogue directory not found: {dialogue_dir}")
+
+    source_paths: dict[str, Path] = {}
+    for source_id in TRANSCRIPT_SOURCE_IDS:
+        matches = sorted(dialogue_dir.glob(f"*_transcript_{source_id}.json"))
+        if not matches:
+            raise ValueError(f"Missing transcript for {source_id} under {dialogue_dir}")
+        source_paths[source_id] = matches[0]
+
+    return (
+        source_paths["realtime"],
+        source_paths["sum0"],
+        source_paths["sum1"],
+    )
 
 
 def normalize_text(text: str) -> str:
@@ -228,9 +264,15 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Extract a third speaker from realtime transcript by removing high-confidence sum0/sum1 matches."
     )
-    parser.add_argument("realtime", type=Path)
-    parser.add_argument("sum0", type=Path)
-    parser.add_argument("sum1", type=Path)
+    parser.add_argument("realtime", type=Path, nargs="?")
+    parser.add_argument("sum0", type=Path, nargs="?")
+    parser.add_argument("sum1", type=Path, nargs="?")
+    parser.add_argument(
+        "--session-dir",
+        type=Path,
+        default=None,
+        help="Session directory or dialogue directory containing *_transcript_realtime/sum0/sum1.json",
+    )
     parser.add_argument(
         "--output-prefix",
         type=Path,
@@ -239,9 +281,16 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    realtime_entries = load_json_list(args.realtime)
-    sum0_entries = load_json_list(args.sum0)
-    sum1_entries = load_json_list(args.sum1)
+    realtime_path, sum0_path, sum1_path = resolve_transcript_paths(
+        args.realtime,
+        args.sum0,
+        args.sum1,
+        args.session_dir,
+    )
+
+    realtime_entries = filter_skipped_entries(load_json_list(realtime_path))
+    sum0_entries = filter_skipped_entries(load_json_list(sum0_path))
+    sum1_entries = filter_skipped_entries(load_json_list(sum1_path))
 
     diarized_by_source = {"sum0": sum0_entries, "sum1": sum1_entries}
     speaker_c_entries, match_report = build_speaker_c_entries(realtime_entries, diarized_by_source)
@@ -257,7 +306,9 @@ def main() -> None:
 
     prefix = args.output_prefix
     if prefix is None:
-        prefix = args.realtime.with_name(args.realtime.stem.replace("_transcript_realtime", "_transcript_3speaker"))
+        prefix = realtime_path.with_name(
+            realtime_path.stem.replace("_transcript_realtime", "_transcript_3speaker")
+        )
 
     transcript_output = Path(f"{prefix}.json")
     stats_output = Path(f"{prefix}_stats.json")

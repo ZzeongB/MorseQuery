@@ -368,6 +368,12 @@ socket.on('streaming_tts_chunk', data => {
     const streamId = String(data.stream_id || '').trim();
     if (!streamId) return;
 
+    const ttsType = data.type || 'summary';
+    // Ignore summary/reconstruction streams after dismiss
+    if (ignoreIncomingSummaryEvents && ttsType !== 'keyword') {
+        return;
+    }
+
     const audioData = atob(data.audio);
     const chunk = new Uint8Array(audioData.length);
     for (let i = 0; i < audioData.length; i++) {
@@ -375,7 +381,6 @@ socket.on('streaming_tts_chunk', data => {
     }
 
     const sampleRate = Number(data.sample_rate || 24000);
-    const ttsType = data.type || 'summary';
     const keyword = data.keyword || '';
     const meta = {
         type: ttsType,
@@ -838,25 +843,62 @@ document.addEventListener('mouseup', e => {
 // Dismiss Key Handler (PageDown & Esc)
 // ============================================================================
 
+function dismissAllTtsAndUi() {
+    // Stop all TTS playback (keyword + summary) and trigger anc_off on server
+    // This emits 'cancel_tts' which handles both keyword and summary TTS server-side
+    stopTtsPlayback();
+
+    // Local keyword TTS cleanup (don't emit cancel_keyword_tts since cancel_tts already handles it)
+    keywordPlaybackToken += 1;
+    clearKeywordAutoSummarizeTimer();
+    stopKeywordStreamingPlaybackLocally();
+    removeQueuedKeywordBrowserTts();
+    keywordTtsPlaying = false;
+    keywordTtsCurrentText = '';
+
+    // Clear summary state
+    summaryRequested = false;
+    summaryInProgress = false;
+    allowPostFollowupTts = false;
+    pendingSummarizeIndicatorAfterKeyword = false;
+    awaitingJudgeDecision = false;
+    ignoreIncomingSummaryEvents = true;
+    listeningActive = false;
+    summaryTriggeredForListeningSession = false;
+    summaryCueSequenceActive = false;
+    if (summaryFinalizeTimer) {
+        clearTimeout(summaryFinalizeTimer);
+        summaryFinalizeTimer = null;
+    }
+
+    // Clear UI
+    options = [];
+    currentIdx = 0;
+    infoVisible = false;
+    document.getElementById('optionsList').innerHTML = '';
+    ttsResumedPlayback = false;
+    hideLoadingIndicator();
+    hideSummaryText();
+    hideReconstructedTurns();
+    clearReconstructedState();
+    pendingSummaryTexts = [];
+
+    showDismissIndicator();
+}
+
 function handleDismissKey() {
     unlockAudioFeedback();
     playTapFeedback();
 
-    // If keywords are visible, dismiss them and start summarizing
-    if (infoVisible && options.length > 0) {
-        cancelKeywordTts();
-        dismissKeywords();
-        return;
-    }
+    // Check if any TTS is playing (keyword or summary)
+    const keywordPlaying = isKeywordPlaybackBusy();
+    const summaryPlaying = summaryRequested || summaryInProgress || isTtsPlayingOrPaused();
 
-    // If summary is in progress, cancel it
-    if (summaryRequested || summaryInProgress) {
-        cancelSummaryPlayback();
-        return;
+    if (keywordPlaying || summaryPlaying) {
+        // Unconditionally stop all TTS and anc_off
+        dismissAllTtsAndUi();
     }
-
-    // Otherwise start summarizing
-    startSummarizing();
+    // Dismiss only - do nothing if nothing is playing
 }
 
 // ============================================================================

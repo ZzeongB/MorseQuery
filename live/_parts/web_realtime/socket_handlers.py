@@ -987,6 +987,9 @@ def handle_cancel_keyword_tts():
             keyword_tts_client.stop_playback(wait=True, timeout_sec=1.2)
         if keyword_tts_stream_client:
             keyword_tts_stream_client.stop_stream()
+    # Decrement TTS count since we're cancelling keyword TTS playback
+    _on_tts_finished("cancel_keyword_tts")
+    _set_keyword_anc_hold(False, "cancel_keyword_tts")
     log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
 
 
