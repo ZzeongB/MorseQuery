@@ -282,6 +282,9 @@ _recent_vad_utterances = deque(maxlen=200)  # (speech_started_ts, speech_stopped
 _vad_open_speech_start_ts: Optional[float] = None
 _before_context_lock = threading.Lock()
 _before_context_summary = ""
+_precomputed_before_context: Optional[str] = None
+_precomputed_before_context_segment_id: Optional[int] = None
+_precomputed_before_context_computing = False
 _post_tts_followup_active = False
 _post_tts_followup_inflight = False
 _post_tts_followup_allow_last_inflight = (
@@ -786,6 +789,36 @@ def _build_highlevel_before_context(start_ts: float) -> str:
 
 
 def _collect_context_before(segment_id: int) -> str:
+    global _precomputed_before_context, _precomputed_before_context_segment_id
+
+    session_id = _active_runtime_sid
+    session_logger = get_logger(session_id) if session_id else None
+
+    # Check for precomputed cache first
+    with _before_context_lock:
+        if (
+            _precomputed_before_context is not None
+            and _precomputed_before_context_segment_id == segment_id
+        ):
+            cached = _precomputed_before_context
+            # Clear cache after use
+            _precomputed_before_context = None
+            _precomputed_before_context_segment_id = None
+            log_print(
+                "INFO",
+                "Using precomputed before_context",
+                segment_id=segment_id,
+                chars=len(cached),
+            )
+            if session_logger:
+                session_logger.log(
+                    "before_context_cache_hit",
+                    segment_id=segment_id,
+                    chars=len(cached),
+                )
+            return cached
+
+    # Fallback: compute synchronously
     with _segment_ctx_lock:
         window = _segment_windows.get(segment_id, {})
         start_ts = window.get("start_ts")
@@ -793,11 +826,65 @@ def _collect_context_before(segment_id: int) -> str:
             return ""
 
         start_ts_value = float(start_ts)
+    log_print(
+        "INFO",
+        "Computing before_context synchronously (cache miss)",
+        segment_id=segment_id,
+    )
+    if session_logger:
+        session_logger.log(
+            "before_context_cache_miss",
+            segment_id=segment_id,
+        )
     return _collect_context_before_start_ts(start_ts_value)
 
 
 def _collect_context_before_start_ts(start_ts: float) -> str:
     return _build_highlevel_before_context(start_ts)
+
+
+def precompute_before_context_async(segment_id: int) -> None:
+    """Precompute before_context in background thread during keyword TTS playback."""
+    global _precomputed_before_context, _precomputed_before_context_segment_id
+    global _precomputed_before_context_computing
+
+    with _before_context_lock:
+        if _precomputed_before_context_computing:
+            return
+        _precomputed_before_context_computing = True
+
+    def _compute():
+        global _precomputed_before_context, _precomputed_before_context_segment_id
+        global _precomputed_before_context_computing
+        try:
+            with _segment_ctx_lock:
+                window = _segment_windows.get(segment_id, {})
+                start_ts = window.get("start_ts")
+            if start_ts is None:
+                return
+
+            start_ts_value = float(start_ts)
+            log_print(
+                "INFO",
+                "Precomputing before_context started",
+                segment_id=segment_id,
+            )
+            result = _build_highlevel_before_context(start_ts_value)
+
+            with _before_context_lock:
+                _precomputed_before_context = result
+                _precomputed_before_context_segment_id = segment_id
+            log_print(
+                "INFO",
+                "Precomputing before_context done",
+                segment_id=segment_id,
+                chars=len(result),
+            )
+        finally:
+            with _before_context_lock:
+                _precomputed_before_context_computing = False
+
+    threading.Thread(target=_compute, daemon=True).start()
 
 
 def _consume_next_sentence(segment_id: int) -> str:

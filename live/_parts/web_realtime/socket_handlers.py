@@ -922,6 +922,11 @@ def handle_keyword_tts(data: dict):
             local_stream_client.finish_input()
             # Emit tts_playing to trigger keyword UI render on frontend
             sio.emit("tts_playing", {"reason": "keyword"}, to=session_id)
+            # Precompute before_context while TTS is playing
+            with _segment_ctx_lock:
+                current_seg_id = _segment_seq
+            if current_seg_id > 0:
+                precompute_before_context_async(current_seg_id)
         else:
             sio.emit(
                 "keyword_tts_error",
@@ -1051,6 +1056,7 @@ def handle_browser_tts_playback_start(data: dict):
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     source = str((data or {}).get("source", "")).strip() or "browser"
+    get_logger(session_id).log("summary_tts_playback_start", source=source)
     _on_tts_started(f"browser_tts_playback_start:{source}")
     return {"ok": True}
 

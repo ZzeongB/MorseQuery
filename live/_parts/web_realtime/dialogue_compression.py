@@ -1107,6 +1107,23 @@ def _wait_for_transcript_and_compress(
 
     waited = 0.0
 
+    # Log wait start
+    session_logger = get_logger(session_id)
+    session_logger.log(
+        "wait_for_transcript_start",
+        segment_id=segment_id,
+        start_ts=start_ts,
+        end_ts=end_ts,
+        max_wait_sec=_WAIT_FOR_TRANSCRIPT_SEC,
+    )
+    log_print(
+        "INFO",
+        "wait_for_transcript_start",
+        session_id=session_id,
+        segment_id=segment_id,
+        max_wait_sec=_WAIT_FOR_TRANSCRIPT_SEC,
+    )
+
     # Poll for new transcript arrival (proceed immediately if > 1 entry)
     while waited < _WAIT_FOR_TRANSCRIPT_SEC:
         time.sleep(_WAIT_FOR_TRANSCRIPT_POLL_SEC)
@@ -1210,6 +1227,19 @@ def _wait_for_transcript_and_compress(
 
 def _trigger_parallel_compression(segment_id: int, session_id: str) -> None:
     """Compatibility path: use last listening-segment dialogue."""
+    # Log compression trigger start
+    session_logger = get_logger(session_id)
+    session_logger.log(
+        "compression_trigger_start",
+        segment_id=segment_id,
+    )
+    log_print(
+        "INFO",
+        "compression_trigger_start",
+        session_id=session_id,
+        segment_id=segment_id,
+    )
+
     dialogue = ""
     entries: list[dict] = []
     window_payload: dict = {}
@@ -1326,6 +1356,19 @@ def _trigger_parallel_compression_after_delay(
     delay_sec: float = _SEGMENT_POST_END_WAIT_SEC,
 ) -> None:
     """Delay compression start to allow late VAD transcripts to arrive."""
+    session_logger = get_logger(session_id)
+    session_logger.log(
+        "compression_after_delay_start",
+        segment_id=segment_id,
+        delay_sec=delay_sec,
+    )
+    log_print(
+        "INFO",
+        "compression_after_delay_start",
+        session_id=session_id,
+        segment_id=segment_id,
+        delay_sec=delay_sec,
+    )
     _clear_fast_catchup_pending_for_segment(segment_id, session_id)
     if delay_sec > 0:
         time.sleep(delay_sec)
