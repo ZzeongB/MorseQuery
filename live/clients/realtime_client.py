@@ -377,11 +377,16 @@ class RealtimeClient:
             if self._request_keyword_retry_in_realtime():
                 self.response_buffer = ""
                 return
-            # Empty follow-up response - don't log response_done or update latest_keywords
+            # Log empty response with raw output for debugging
             log_print(
                 "DEBUG",
-                "Ignoring empty follow-up response (not updating latest_keywords)",
+                "No keywords after retry - logging empty response",
                 session_id=self.session_id,
+            )
+            self.logger.log(
+                "response_done_empty",
+                raw_output=self.response_buffer,
+                retry_attempts=self._keyword_retry_attempt,
             )
             self.response_buffer = ""
             return

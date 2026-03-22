@@ -38,6 +38,7 @@ var skipFirstTranscriptEnabled = true; // Skip first transcript in summary (defa
 var missedSummaryLatencyBridgeEnabled = false;
 var fastCatchupPending = false;
 var keywordTtsPlaying = false; // Track if keyword TTS is playing
+var keywordTtsPlaybackStartTime = 0; // Timestamp when keyword TTS playback started
 var keywordTtsCurrentText = '';
 var keywordAutoSummarizeTimer = null;
 var keywordPlaybackToken = 0;
@@ -48,6 +49,8 @@ var summarySegmentState = new Map(); // segmentId -> {received, nonEmpty}
 var pendingEmptySummarySignal = null; // {segmentId}
 var pendingSkippedIndicator = null; // {message, opts}
 var listeningActive = false;
+var listeningStartTime = 0; // Timestamp when listening started (for duration tracking)
+var hasTranscriptDuringListening = false; // Whether conversation transcript came in during listening
 var summaryTriggeredForListeningSession = false;
 var ignoreIncomingSummaryEvents = false;
 var ignoreIncomingKeywordEvents = false;
@@ -1250,6 +1253,7 @@ async function playNextTts() {
         activeBrowserTtsType = null;
         if (finishedKeywordPlayback) {
             keywordTtsPlaying = false;
+            keywordTtsPlaybackStartTime = 0;
             keywordTtsCurrentText = '';
             if (
                 pendingSummarizeIndicatorAfterKeyword &&

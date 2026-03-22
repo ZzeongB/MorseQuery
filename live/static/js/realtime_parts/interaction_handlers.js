@@ -132,6 +132,7 @@ socket.on('session_ended', () => {
     listeningActive = false;
     summaryTriggeredForListeningSession = false;
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
     ignoreIncomingKeywordEvents = false;
     clearKeywordAutoSummarizeTimer();
@@ -225,6 +226,8 @@ socket.on('tts_playing', data => {
 
     if (reason === 'keyword') {
         keywordTtsPlaying = true;
+        keywordTtsPlaybackStartTime = Date.now();
+        console.log('[KeywordTTS] tts_playing received, keywordTtsPlaybackStartTime:', keywordTtsPlaybackStartTime);
         // Don't schedule auto-summarize here - wait until keyword TTS is done
         if (keywordOutputMode === 'audio' && options.length > 0) {
             hideLoadingIndicator();
@@ -476,6 +479,8 @@ function createStreamingPlayer(queueItem) {
         hideLoadingIndicator();
         if (ttsType === 'keyword') {
             keywordTtsPlaying = true;
+            keywordTtsPlaybackStartTime = Date.now();
+            console.log('[KeywordTTS] Started, keywordTtsPlaybackStartTime:', keywordTtsPlaybackStartTime);
             playTtsStartFeedback('keyword');
             // Notify server that keyword TTS playback started
             socket.emit('keyword_tts_playback_start', { keyword: queueItem.keyword || '' });
@@ -508,6 +513,7 @@ function createStreamingPlayer(queueItem) {
 
         if (ttsType === 'keyword') {
             keywordTtsPlaying = false;
+            keywordTtsPlaybackStartTime = 0;
             keywordTtsCurrentText = '';
             playTtsEndFeedback('keyword');
             hideInfo();
@@ -748,6 +754,10 @@ socket.on('dialogue_transcript_ready', data => {
         Number(data.entry_count || 0),
         data.path || ''
     );
+    // Track that transcript came in during listening (for dismiss-with-summary logic)
+    if (listeningActive && Number(data.entry_count || 0) > 0) {
+        hasTranscriptDuringListening = true;
+    }
 });
 
 socket.on('conversation_tts', data => {
@@ -770,6 +780,7 @@ socket.on('conversation_tts', data => {
 socket.on('keyword_tts_error', data => {
     console.error('Keyword TTS error:', data.error);
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
     keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
@@ -793,6 +804,7 @@ socket.on('keyword_tts_done', () => {
     }
 
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
     keywordPlaybackToken += 1;
     clearKeywordAutoSummarizeTimer();
@@ -876,6 +888,7 @@ function dismissAllTtsAndUi() {
     stopKeywordStreamingPlaybackLocally();
     removeQueuedKeywordBrowserTts();
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
 
     // Clear keyword loading state
@@ -927,8 +940,57 @@ function handleDismissKey() {
     const summaryPlaying = summaryRequested || summaryInProgress || isTtsPlayingOrPaused();
 
     if (keywordPlaying || keywordLoading || summaryPlaying) {
-        // Unconditionally stop all TTS and anc_off
-        dismissAllTtsAndUi();
+        // Check if we should still run summarizing logic
+        // (missed conversation since keyword TTS start >= 5 seconds OR transcript came in during listening)
+        const durationMs = keywordTtsPlaybackStartTime > 0 ? (Date.now() - keywordTtsPlaybackStartTime) : 0;
+        const shouldSummarize = listeningActive &&
+            !summaryTriggeredForListeningSession &&
+            !summaryRequested &&
+            (durationMs >= 5000 || hasTranscriptDuringListening);
+
+        console.log('[Dismiss] keywordTtsPlaybackStartTime:', keywordTtsPlaybackStartTime,
+            'durationMs:', durationMs, 'listeningActive:', listeningActive,
+            'summaryTriggeredForListeningSession:', summaryTriggeredForListeningSession,
+            'summaryRequested:', summaryRequested,
+            'hasTranscriptDuringListening:', hasTranscriptDuringListening,
+            'shouldSummarize:', shouldSummarize);
+
+        if (shouldSummarize) {
+            // Stop keyword TTS only, then trigger summarizing
+            // Cancel keyword TTS on server (not summary TTS)
+            socket.emit('cancel_keyword_tts');
+
+            // Local keyword TTS cleanup
+            keywordPlaybackToken += 1;
+            clearKeywordAutoSummarizeTimer();
+            stopKeywordStreamingPlaybackLocally();
+            removeQueuedKeywordBrowserTts();
+            keywordTtsPlaying = false;
+            keywordTtsPlaybackStartTime = 0;
+            keywordTtsCurrentText = '';
+
+            // Clear keyword loading state
+            if (inferencingTimer) {
+                clearTimeout(inferencingTimer);
+                inferencingTimer = null;
+            }
+            keywordRequestToken += 1;
+            ignoreIncomingKeywordEvents = true;
+
+            // Clear keyword UI
+            options = [];
+            currentIdx = 0;
+            infoVisible = false;
+            document.getElementById('optionsList').innerHTML = '';
+            ttsResumedPlayback = false;
+
+            // Trigger summarizing (force: bypass dismissMode check)
+            startSummarizing({ force: true });
+            showDismissIndicator();
+        } else {
+            // Normal dismiss - stop everything
+            dismissAllTtsAndUi();
+        }
     }
     // Dismiss only - do nothing if nothing is playing
 }

@@ -16,6 +16,11 @@ SESSION_FULL_LOG_FILENAME = "session_full_log.json"
 ALLOWED_EVENT_TYPES = {
     "keyword_request",
     "response_done",
+    "response_done_empty",
+    "keywords_retry_requested",
+    "keywords_retry_exhausted",
+    "keywords_retry_skipped_no_ws",
+    "keywords_retry_request_failed",
     "input_audio_buffer_commit_sent",
     "end_listening_commit_result",
     "anc_on",

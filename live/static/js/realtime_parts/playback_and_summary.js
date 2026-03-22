@@ -89,6 +89,8 @@ function startListeningIfNeeded() {
     if (listeningActive) return;
     socket.emit('start_listening');
     listeningActive = true;
+    listeningStartTime = Date.now();
+    hasTranscriptDuringListening = false;
     summaryTriggeredForListeningSession = false;
 }
 
@@ -243,6 +245,7 @@ function cancelKeywordTts() {
     removeQueuedKeywordBrowserTts();
     socket.emit('cancel_keyword_tts');
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
 }
 
@@ -768,7 +771,9 @@ function start(v) {
 }
 
 function startSummarizing(opts = {}) {
-    if (dismissMode === 'summary') {
+    // force: bypass dismissMode check (used when dismiss triggers summarizing due to duration/transcript conditions)
+    const force = !!opts.force;
+    if (force || dismissMode === 'summary') {
         if (summaryRequested) return;
         if (summaryTriggeredForListeningSession) return;
         if (!listeningActive) return;
@@ -828,6 +833,7 @@ function clearAllActiveUiAndAudio() {
     summaryTriggeredForListeningSession = false;
     ignoreIncomingSummaryEvents = true;
     keywordTtsPlaying = false;
+    keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
     pendingSummaryTexts = [];
     clearReconstructedState();
