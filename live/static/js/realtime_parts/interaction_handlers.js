@@ -957,8 +957,8 @@ function handleDismissKey() {
 
         if (shouldSummarize) {
             // Stop keyword TTS only, then trigger summarizing
-            // Cancel keyword TTS on server (not summary TTS)
-            socket.emit('cancel_keyword_tts');
+            // Cancel keyword TTS on server (not summary TTS), keep ANC on for summarizing
+            socket.emit('cancel_keyword_tts', { keep_anc: true });
 
             // Local keyword TTS cleanup
             keywordPlaybackToken += 1;

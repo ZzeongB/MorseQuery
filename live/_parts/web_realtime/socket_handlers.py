@@ -981,12 +981,14 @@ def handle_keyword_tts_preload(data: dict):
 
 
 @sio.on("cancel_keyword_tts")
-def handle_cancel_keyword_tts():
+def handle_cancel_keyword_tts(data: dict = None):
     """Cancel keyword TTS only (do not affect summary flow)."""
     global _keyword_tts_request_token
     session_id = request.sid
     if not _is_active_session(session_id):
         return
+    payload = data or {}
+    keep_anc = bool(payload.get("keep_anc", False))
     with _clients_lock:
         _keyword_tts_request_token += 1
         if keyword_tts_client:
@@ -995,8 +997,9 @@ def handle_cancel_keyword_tts():
             keyword_tts_stream_client.stop_stream()
     # Decrement TTS count since we're cancelling keyword TTS playback
     _on_tts_finished("cancel_keyword_tts")
-    _set_keyword_anc_hold(False, "cancel_keyword_tts")
-    log_print("INFO", "cancel_keyword_tts handled", session_id=session_id)
+    if not keep_anc:
+        _set_keyword_anc_hold(False, "cancel_keyword_tts")
+    log_print("INFO", "cancel_keyword_tts handled", session_id=session_id, keep_anc=keep_anc)
 
 
 @sio.on("cancel_tts")
