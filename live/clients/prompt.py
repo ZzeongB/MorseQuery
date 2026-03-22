@@ -51,10 +51,25 @@ KEYWORD_EXTRACTION_PROMPT = """Extract 1–3 keywords from the conversation.
 
 MANDATORY: You MUST output at least 1 keyword. Output 0 keywords is FORBIDDEN.
 
+# Priority Keywords (HIGHEST PRIORITY)
+If any of these terms were spoken, you MUST select them FIRST:
+- DMA (Digital Markets Act)
+- Multihoming
+- P2B (Platform-to-Business)
+- Ex Ante Regulation
+- Brussels Effect
+- ETS (Emissions Trading System)
+- Carbon leakage
+- CBAM (Carbon Border Adjustment Mechanism)
+- Command-and-control regulation
+- California Effect
+
 Prioritization:
-1. FIRST: Keywords from the MOST RECENT audio (last few seconds) - highest priority.
-2. FALLBACK: If recent audio has no clear keywords, use earlier conversation context.
-3. NEVER output nothing. Always find at least 1 keyword from the entire conversation.
+1. HIGHEST: If any Priority Keyword was spoken recently (last few seconds), select it FIRST.
+2. SECOND: If any Priority Keyword was spoken earlier in conversation (last 30 seconds), select it.
+3. THIRD: Other keywords from the MOST RECENT audio (last few seconds).
+4. FALLBACK: If recent audio has no clear keywords, use earlier conversation context.
+5. NEVER output nothing. Always find at least 1 keyword from the entire conversation.
 
 Rules:
 - Output 1-3 keywords based on what was actually spoken.
@@ -68,7 +83,7 @@ Rules:
 - Strictly output in the following format, with no extra text:
 
 Order:
-- Most recently mentioned first; prefer more difficult/technical terms.
+- Priority Keywords first (if spoken), then most recently mentioned; prefer more difficult/technical terms.
 
 Format (strict):
 <keyword>: <2-3 sentence explanation>
@@ -92,13 +107,28 @@ KEYWORD_EXTRACTION_PROMPT_SINGLE = """Extract exactly 1 keyword from the convers
 
 MANDATORY: You MUST output exactly 1 keyword. Output 0 or more than 1 keyword is FORBIDDEN.
 
+# Priority Keywords (HIGHEST PRIORITY)
+If any of these terms were spoken in the conversation, you MUST select one of them FIRST:
+- DMA (Digital Markets Act)
+- Multihoming
+- P2B (Platform-to-Business)
+- Ex Ante Regulation
+- Brussels Effect
+- ETS (Emissions Trading System)
+- Carbon leakage
+- CBAM (Carbon Border Adjustment Mechanism)
+- Command-and-control regulation
+- California Effect
+
 Prioritization:
-1. FIRST: The MOST important/difficult keyword from the MOST RECENT audio (last few seconds).
-2. FALLBACK: If recent audio has no clear keyword, use earlier conversation context.
-3. NEVER output nothing. Always find exactly 1 keyword from the entire conversation.
+1. HIGHEST: If any Priority Keyword was spoken recently (last few seconds), select it.
+2. SECOND: If any Priority Keyword was spoken earlier in conversation, select it.
+3. THIRD: The MOST important/difficult keyword from the MOST RECENT audio (last few seconds).
+4. FALLBACK: If recent audio has no clear keyword, use earlier conversation context.
+5. NEVER output nothing. Always find exactly 1 keyword from the entire conversation.
 
 Rules:
-- Output ONLY 1 keyword - the most important/difficult/technical term.
+- Output ONLY 1 keyword - prioritize Priority Keywords, then most important/difficult/technical term.
 - The keyword must be clearly spoken (no guessing).
 - English only. Noun phrase or technical term only.
 - Do not repeat keywords already output in this session.
