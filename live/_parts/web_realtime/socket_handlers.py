@@ -6,7 +6,7 @@ def handle_connect():
 
 
 @sio.on("disconnect")
-def handle_disconnect():
+def handle_disconnect(reason=None):
     """Handle client disconnection."""
     global \
         client, \
@@ -1044,11 +1044,12 @@ def handle_browser_tts_playback_start(data: dict):
 
 
 @sio.on("quiz_session_start")
-def handle_quiz_session_start():
+def handle_quiz_session_start(data=None):
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     _set_keyword_anc_hold(True, "quiz_session_start")
+    _start_white_noise()
     get_logger(session_id).log("anc_on", reason="quiz_session_start")
     return {"ok": True}
 
@@ -1058,6 +1059,7 @@ def handle_quiz_session_done():
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
+    _stop_white_noise()  # Ensure white noise stops even if summarizing doesn't happen
     _set_keyword_anc_hold(False, "quiz_session_done")
     get_logger(session_id).log("anc_off", reason="quiz_session_done")
     return {"ok": True}

@@ -723,6 +723,9 @@ def _trigger_parallel_compression_for_dialogue(
         with _segment_ctx_lock:
             _segment_compression_inflight.add(segment_id)
 
+    # Stop quiz white noise before summarizing
+    _stop_white_noise()
+
     # Log summarizing_start event
     session_logger.log(
         "summarizing_start",

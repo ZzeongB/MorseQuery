@@ -20,6 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+import numpy as np
 import openai
 import pyaudio
 
@@ -32,7 +33,6 @@ from clients import (
     DialogueStore,
     RealtimeClient,
     SummaryClient,
-    TranscriptSyncMode,
     TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
@@ -49,12 +49,21 @@ _mic_monitor_thread: Optional[threading.Thread] = None
 _noise_gate_monitor_running = False
 _noise_gate_monitor_thread: Optional[threading.Thread] = None
 
+# Quiz white noise playback
+_white_noise_lock = threading.Lock()
+_white_noise_running = False
+_white_noise_thread: Optional[threading.Thread] = None
+_white_noise_stream: Optional[pyaudio.Stream] = None
+_white_noise_pyaudio: Optional[pyaudio.PyAudio] = None
+_WHITE_NOISE_VOLUME = 0.005  # Very quiet (0.0 to 1.0)
+_WHITE_NOISE_SAMPLE_RATE = 44100
+
 # Global PyAudio lock to prevent segfaults from concurrent access
 _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
 from flask import Flask
 from flask_socketio import SocketIO
-from logger import get_existing_logger, get_logger, get_session_subdir, log_print
+from logger import get_logger, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
@@ -86,7 +95,7 @@ def _run_airpods_mode(mode: str, reason: str, wait: bool = False) -> None:
 
     def _apply() -> None:
         try:
-            cmd = [sys.executable, str(_airpods_script_path), mode]
+            cmd = [sys.executable, str(_airpods_script_path), mode, "--no-return-click"]
             env = os.environ.copy()
             env.setdefault("PYTHONUNBUFFERED", "1")
             result = subprocess.run(
@@ -186,6 +195,77 @@ def _reset_tts_airpods_state(reason: str) -> None:
     _set_airpods_mode("transparency", reason)
 
 
+def _start_white_noise() -> None:
+    """Start playing quiet white noise in background."""
+    global _white_noise_running, _white_noise_thread
+    global _white_noise_stream, _white_noise_pyaudio
+
+    with _white_noise_lock:
+        if _white_noise_running:
+            return
+        _white_noise_running = True
+
+    def _play_white_noise():
+        global _white_noise_stream, _white_noise_pyaudio, _white_noise_running
+        try:
+            with _pyaudio_lock:
+                _white_noise_pyaudio = pyaudio.PyAudio()
+                _white_noise_stream = _white_noise_pyaudio.open(
+                    format=pyaudio.paFloat32,
+                    channels=1,
+                    rate=_WHITE_NOISE_SAMPLE_RATE,
+                    output=True,
+                    frames_per_buffer=1024,
+                )
+
+            chunk_size = 1024
+            while True:
+                with _white_noise_lock:
+                    if not _white_noise_running:
+                        break
+                # Generate white noise
+                noise = np.random.uniform(-1, 1, chunk_size).astype(np.float32)
+                noise *= _WHITE_NOISE_VOLUME
+                _white_noise_stream.write(noise.tobytes())
+
+        except Exception as e:
+            log_print("WARN", f"White noise playback error: {e}")
+        finally:
+            with _pyaudio_lock:
+                if _white_noise_stream:
+                    try:
+                        _white_noise_stream.stop_stream()
+                        _white_noise_stream.close()
+                    except Exception:
+                        pass
+                    _white_noise_stream = None
+                if _white_noise_pyaudio:
+                    try:
+                        _white_noise_pyaudio.terminate()
+                    except Exception:
+                        pass
+                    _white_noise_pyaudio = None
+
+    _white_noise_thread = threading.Thread(target=_play_white_noise, daemon=True)
+    _white_noise_thread.start()
+    log_print("INFO", "White noise started")
+
+
+def _stop_white_noise() -> None:
+    """Stop white noise playback."""
+    global _white_noise_running, _white_noise_thread
+
+    with _white_noise_lock:
+        if not _white_noise_running:
+            return
+        _white_noise_running = False
+
+    if _white_noise_thread and _white_noise_thread.is_alive():
+        _white_noise_thread.join(timeout=1.0)
+    _white_noise_thread = None
+    log_print("INFO", "White noise stopped")
+
+
 _original_sio_emit = sio.emit
 
 
@@ -218,7 +298,7 @@ _QUIZ_FILES = {
     "A": "../quiz/sat_quiz_set_a.json",
     "B": "../quiz/sat_quiz_set_b.json",
 }
-_QUIZ_DURATION_SEC = 60
+_QUIZ_DURATION_SEC = 90
 
 # Dialogue stores for VAD transcripts (one per summary speaker)
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"

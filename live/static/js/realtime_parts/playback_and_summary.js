@@ -376,7 +376,7 @@ function renderQuizRoundComplete(message = 'Summarizing the last minute...') {
                 <div>
                     <div class="quiz-label">Quiz Round ${quizRoundNumber}</div>
                 </div>
-                <div class="quiz-timer">0:00</div>
+                <div class="quiz-timer" style="display: none;">0:00</div>
             </div>
             <div class="quiz-question">${message}</div>
         </div>
@@ -401,7 +401,7 @@ function renderQuizQuestion() {
                 <div>
                     <div class="quiz-label">Quiz Set ${quizSetSelection} · Round ${quizRoundNumber}</div>
                 </div>
-                <div class="quiz-timer" id="quizTimer">${formatQuizRemaining()}</div>
+                <div class="quiz-timer" id="quizTimer" style="display: none;">${formatQuizRemaining()}</div>
             </div>
             <div class="quiz-question">${item.text}</div>
             <div class="quiz-options">${optionsHtml}</div>
@@ -439,33 +439,44 @@ function startNextQuizRound(expectedIndex = quizScheduleIndex) {
     quizRoundNumber += 1;
     quizScheduleIndex += 1;
     scheduleNextQuizRound();
-    quizRoundActive = true;
-    quizRoundEndsAt = Date.now() + (quizRoundDurationSec * 1000);
 
     hideSummary();
-    if (!quizAncActive) {
-        socket.emit('quiz_session_start');
-        quizAncActive = true;
-    }
-    startListeningIfNeeded();
-    socket.emit('quiz_round_start', {
-        quiz_set: quizSetSelection,
-        round_number: quizRoundNumber,
-        question_ids: sessionQuizOrder.map(item => item.id),
-        duration_sec: quizRoundDurationSec,
-    });
-    renderQuizQuestion();
-    updateQuizTimerUi();
 
-    quizCountdownTimer = setInterval(() => {
+    function startQuizUi() {
+        quizRoundActive = true;
+        quizRoundEndsAt = Date.now() + (quizRoundDurationSec * 1000);
+
+        socket.emit('quiz_round_start', {
+            quiz_set: quizSetSelection,
+            round_number: quizRoundNumber,
+            question_ids: sessionQuizOrder.map(item => item.id),
+            duration_sec: quizRoundDurationSec,
+        });
+        renderQuizQuestion();
         updateQuizTimerUi();
-        if (Date.now() >= quizRoundEndsAt) {
+
+        quizCountdownTimer = setInterval(() => {
+            updateQuizTimerUi();
+            if (Date.now() >= quizRoundEndsAt) {
+                finishQuizRound();
+            }
+        }, 250);
+        quizRoundTimer = setTimeout(() => {
             finishQuizRound();
-        }
-    }, 250);
-    quizRoundTimer = setTimeout(() => {
-        finishQuizRound();
-    }, quizRoundDurationSec * 1000);
+        }, quizRoundDurationSec * 1000);
+    }
+
+    if (!quizAncActive) {
+        // First quiz round: wait for ANC on, then 500ms delay before showing quiz
+        socket.emit('quiz_session_start', {}, () => {
+            quizAncActive = true;
+            startListeningIfNeeded();
+            setTimeout(startQuizUi, 500);
+        });
+    } else {
+        startListeningIfNeeded();
+        startQuizUi();
+    }
 }
 
 function finishQuizRound() {
