@@ -878,9 +878,24 @@ document.addEventListener('mouseup', e => {
 // ============================================================================
 
 function dismissAllTtsAndUi() {
+    // FIRST: Invalidate pending keyword requests and ignore responses
+    // This must happen BEFORE cancel_tts to prevent race conditions where
+    // keywords event arrives and triggers keyword_tts (which would turn ANC back on)
+    keywordRequestToken += 1;
+    ignoreIncomingKeywordEvents = true;
+
+    // Clear keyword loading state
+    if (inferencingTimer) {
+        clearTimeout(inferencingTimer);
+        inferencingTimer = null;
+    }
+
     // Stop all TTS playback (keyword + summary) and trigger anc_off on server
     // This emits 'cancel_tts' which handles both keyword and summary TTS server-side
     stopTtsPlayback();
+
+    // Explicitly turn off ANC (covers inferring cancel case where no TTS has started yet)
+    socket.emit('browser_tts_playback_done', { reason: 'dismiss_all' });
 
     // Local keyword TTS cleanup (don't emit cancel_keyword_tts since cancel_tts already handles it)
     keywordPlaybackToken += 1;
@@ -890,15 +905,6 @@ function dismissAllTtsAndUi() {
     keywordTtsPlaying = false;
     keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
-
-    // Clear keyword loading state
-    if (inferencingTimer) {
-        clearTimeout(inferencingTimer);
-        inferencingTimer = null;
-    }
-    // Invalidate pending keyword requests and ignore responses
-    keywordRequestToken += 1;
-    ignoreIncomingKeywordEvents = true;
 
     // Clear summary state
     summaryRequested = false;
@@ -956,6 +962,17 @@ function handleDismissKey() {
             'shouldSummarize:', shouldSummarize);
 
         if (shouldSummarize) {
+            // FIRST: Invalidate pending keyword requests and ignore responses
+            // This prevents keywords event from triggering keyword_tts during summarizing
+            keywordRequestToken += 1;
+            ignoreIncomingKeywordEvents = true;
+
+            // Clear keyword loading state
+            if (inferencingTimer) {
+                clearTimeout(inferencingTimer);
+                inferencingTimer = null;
+            }
+
             // Stop keyword TTS only, then trigger summarizing
             // Cancel keyword TTS on server (not summary TTS), keep ANC on for summarizing
             socket.emit('cancel_keyword_tts', { keep_anc: true });
@@ -968,14 +985,6 @@ function handleDismissKey() {
             keywordTtsPlaying = false;
             keywordTtsPlaybackStartTime = 0;
             keywordTtsCurrentText = '';
-
-            // Clear keyword loading state
-            if (inferencingTimer) {
-                clearTimeout(inferencingTimer);
-                inferencingTimer = null;
-            }
-            keywordRequestToken += 1;
-            ignoreIncomingKeywordEvents = true;
 
             // Clear keyword UI
             options = [];

@@ -63,6 +63,9 @@ If any of these terms were spoken, you MUST select them FIRST:
 - CBAM (Carbon Border Adjustment Mechanism)
 - Command-and-control regulation
 - California Effect
+- Filter bubble
+- Echo chamber
+- Splinternet
 
 Prioritization:
 1. HIGHEST: If any Priority Keyword was spoken recently (last few seconds), select it FIRST.
@@ -119,6 +122,9 @@ If any of these terms were spoken in the conversation, you MUST select one of th
 - CBAM (Carbon Border Adjustment Mechanism)
 - Command-and-control regulation
 - California Effect
+- Filter bubble
+- Echo chamber
+- Splinternet
 
 Prioritization:
 1. HIGHEST: If any Priority Keyword was spoken recently (last few seconds), select it.
