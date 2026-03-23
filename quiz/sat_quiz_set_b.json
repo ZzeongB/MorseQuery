@@ -1,0 +1,258 @@
+{
+  "title": "SAT Quiz - Set B",
+  "description": "Improved parsing",
+  "questions": [
+    {
+      "text": "For painter Jacob Lawrence, being _______ was an important part of the artistic process. Because he paid close attention to all the details of his Harlem neighborhood, Lawrence\u2019s artwork captured nuances in the beauty and vitality of the Black experience during the Harlem Renaissance and the Great Migration.",
+      "options": [
+        {
+          "text": "skeptical"
+        },
+        {
+          "text": "observant"
+        },
+        {
+          "text": "critical"
+        },
+        {
+          "text": "confident"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "M\u00f4nica Lopes-Ferreira and others at Brazil\u2019s Butantan Institute are studying the freshwater stingray species Potamotrygon rex to determine whether biological characteristics such as the rays\u2019 age and sex have _______ effect on the toxicity of their venom\u2014that is, to see if differences in these traits are associated with considerable variations in venom potency.",
+      "options": [
+        {
+          "text": "a disconcerting"
+        },
+        {
+          "text": "an acceptable"
+        },
+        {
+          "text": "an imperceptible"
+        },
+        {
+          "text": "a substantial"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Researchers have struggled to pinpoint specific causes for hiccups, which happen when a person\u2019s diaphragm contracts _______ . However, neuroscientist Kimberley Whitehead has found that these uncontrollable contractions may play an important role in helping infants regulate their breathing.",
+      "options": [
+        {
+          "text": "involuntarily"
+        },
+        {
+          "text": "beneficially"
+        },
+        {
+          "text": "strenuously"
+        },
+        {
+          "text": "smoothly"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Critics have asserted that fine art and fashion rarely _______ in a world where artists create timeless works for exhibition and designers periodically produce new styles for the public to buy. Luise\u00f1o/ Shoshone-Bannock beadwork artist and designer Jamie Okuma challenges this view: her work can be seen in the Metropolitan Museum of Art and purchased through her online boutique.",
+      "options": [
+        {
+          "text": "prevail"
+        },
+        {
+          "text": "succumb"
+        },
+        {
+          "text": "diverge"
+        },
+        {
+          "text": "intersect"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Scholarly discussions of gender in Shakespeare\u2019s comedies often celebrate the rebellion of the playwright\u2019s characters against the rigid expectations _______ by Elizabethan society. Most of the comedies end in marriage, with characters returning to their socially dictated gender roles after previously defying them, but there are some notable exceptions.",
+      "options": [
+        {
+          "text": "interjected"
+        },
+        {
+          "text": "committed"
+        },
+        {
+          "text": "illustrated"
+        },
+        {
+          "text": "prescribed"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "In studying the use of external stimuli to reduce the itching sensation caused by an allergic histamine response, Louise Ward and colleagues found that while harmless applications of vibration or warming can provide a temporary distraction, such _______ stimuli actually offer less relief than a stimulus that seems less benign, like a mild electric shock.",
+      "options": [
+        {
+          "text": "deceptive"
+        },
+        {
+          "text": "innocuous"
+        },
+        {
+          "text": "novel"
+        },
+        {
+          "text": "impractical"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "The province of Xoconochco was situated on the Pacific coast, hundreds of kilometers southeast of Tenochtitlan, the capital of the Aztec Empire. Because Xoconochco\u2019s location within the empire was so _______ , cacao and other trade goods produced there could reach the capital only after a long overland journey.",
+      "options": [
+        {
+          "text": "unobtrusive"
+        },
+        {
+          "text": "concealed"
+        },
+        {
+          "text": "approximate"
+        },
+        {
+          "text": "peripheral"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "The following text is from Charlotte Bront\u00eb\u2019s 1847 novel Jane Eyre. Jane works as a governess at Thornfield Hall. \n\nI went on with my day\u2019s business tranquilly; but ever and anon vague suggestions kept wandering across my brain of reasons why I should quit Thornfield; and I kept involuntarily framing advertisements and pondering conjectures about new situations: these thoughts I did not think to check; they might germinate and bear fruit if they could.",
+      "options": [
+        {
+          "text": "To convey a contrast between Jane\u2019s outward calmness and internal restlessness"
+        },
+        {
+          "text": "To emphasize Jane\u2019s loyalty to the people she works for at Thornfield Hall"
+        },
+        {
+          "text": "To demonstrate that Jane finds her situation both challenging and deeply fulfilling"
+        },
+        {
+          "text": "To describe Jane\u2019s determination to secure employment outside of Thornfield Hall"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "The following text is adapted from Lewis Carroll\u2019s 1889 satirical novel Sylvie and Bruno. A crowd has gathered outside a room belonging to the Warden, an official who reports to the Lord Chancellor. \n\nOne man, who was more excited than the rest, flung his hat high into the air, and shouted (as well as I could make out) \u201cWho roar for the Sub-Warden?\u201d Everybody roared, but whether it was for the Sub-Warden, or not, did not clearly appear: some were shouting \u201cBread!\u201d and some \u201cTaxes!\u201d, but no one seemed to know what it was they really wanted. All this I saw from the open window of the Warden\u2019s breakfast-saloon, looking across the shoulder of the Lord Chancellor. \u201cWhat can it all mean?\u201d he kept repeating to himself. \u201cI never heard such shouting before\u2014and at this time of the morning, too! And with such unanimity!\u201d \n\nBased on the text, how does the Lord Chancellor respond to the crowd?",
+      "options": [
+        {
+          "text": "He asks about the meaning of the crowd\u2019s shouting, even though he claims to know what the crowd wants."
+        },
+        {
+          "text": "He indicates a desire to speak to the crowd, even though the crowd has asked to speak to the Sub-Warden."
+        },
+        {
+          "text": "He expresses sympathy for the crowd\u2019s demands, even though the crowd\u2019s shouting annoys him."
+        },
+        {
+          "text": "He describes the crowd as being united, even though the crowd clearly appears otherwise."
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "O Pioneers! is a 1913 novel by Willa Cather. In the novel, Cather portrays Alexandra Bergson as having a deep emotional connection to her natural surroundings: _______ \n\nWhich quotation from O Pioneers! most effectively illustrates the claim?",
+      "options": [
+        {
+          "text": "\u201cShe had never known before how much the country meant to her. The chirping of the insects down in the long grass had been like the sweetest music. She had felt as if her heart were hiding down there, somewhere, with the quail and the plover and all the little wild things that crooned or buzzed in the sun. Under the long shaggy ridges, she felt the future stirring.\u201d"
+        },
+        {
+          "text": "\u201cAlexandra talked to the men about their crops and to the women about their poultry. She spent a whole day with one young farmer who had been away at school, and who was experimenting with a new kind of clover hay. She learned a great deal.\u201d"
+        },
+        {
+          "text": "\u201cAlexandra drove off alone. The rattle of her wagon was lost in the howling of the wind, but her lantern, held firmly between her feet, made a moving point of light along the highway, going deeper and deeper into the dark country.\u201d"
+        },
+        {
+          "text": "\u201cIt was Alexandra who read the papers and followed the markets, and who learned by the mistakes of their neighbors. It was Alexandra who could always tell about what it had cost to fatten each steer, and who could guess the weight of a hog before it went on the scales closer than John Bergson [her father] himself.\u201d"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Psychologists Dacher Keltner and Jonathan Haidt have argued that experiencing awe\u2014a sensation of reverence and wonder typically brought on by perceiving something grand or powerful\u2014can enable us to feel more connected to others and thereby inspire us to act more altruistically. Keltner, along with Paul K. Piff, Pia Dietze, and colleagues, claims to have found evidence for this effect in a recent study where participants were asked to either gaze up at exceptionally tall trees in a nearby grove (reported to be a universally awe-inspiring experience) or stare at the exterior of a nearby, nondescript building. After one minute, an experimenter deliberately spilled a box of pens nearby. \n\nWhich finding from the researchers\u2019 study, if true, would most strongly support their claim?",
+      "options": [
+        {
+          "text": "Participants who had been looking at the trees helped the experimenter pick up significantly more pens than did participants who had been looking at the building."
+        },
+        {
+          "text": "Participants who helped the experimenter pick up the pens used a greater number of positive words to describe the trees and the building in a postexperiment survey than did participants who did not help the experimenter."
+        },
+        {
+          "text": "Participants who did not help the experimenter pick up the pens were significantly more likely to report having experienced a feeling of awe, regardless of whether they looked at the building or the trees."
+        },
+        {
+          "text": "Participants who had been looking at the building were significantly more likely to notice that the experimenter had dropped the pens than were participants who had been looking at the trees."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Many archaeologists will tell you that categorizing excavated fragments of pottery by style, period, and what objects they belong to relies not only on standard criteria, but also on instinct developed over years of practice. In a recent study, however, researchers trained a deep-learning computer model on thousands of images of pottery fragments and found that it could categorize them as accurately as a team of expert archaeologists. Some archaeologists have expressed concern that they might be replaced by such computer models, but the researchers claim that outcome is highly unlikely. \n\nWhich finding, if true, would most directly support the researchers\u2019 claim?",
+      "options": [
+        {
+          "text": "In the researchers\u2019 study, the model was able to categorize the pottery fragments much more quickly than the archaeologists could."
+        },
+        {
+          "text": "In the researchers\u2019 study, neither the model nor the archaeologists were able to accurately categorize all the pottery fragments that were presented."
+        },
+        {
+          "text": "A survey of archaeologists showed that categorizing pottery fragments limits the amount of time they can dedicate to other important tasks that only human experts can do."
+        },
+        {
+          "text": "A survey of archaeologists showed that few of them received dedicated training in how to properly categorize pottery fragments."
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "Although military veterans make up a small proportion of the total population of the United States, they occupy a significantly higher proportion of the jobs in the civilian government. One possible explanation for this disproportionate representation is that military service familiarizes people with certain organizational structures that are also reflected in the civilian government bureaucracy, and this familiarity thus _______",
+      "options": [
+        {
+          "text": "makes civilian government jobs especially appealing to military veterans."
+        },
+        {
+          "text": "alters the typical relationship between military service and subsequent career preferences."
+        },
+        {
+          "text": "encourages nonveterans applying for civilian government jobs to consider military service instead."
+        },
+        {
+          "text": "increases the number of civilian government jobs that require some amount of military experience to perform."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Birds of many species ingest foods containing carotenoids, pigmented molecules that are converted into feather coloration. Coloration tends to be especially saturated in male birds\u2019 feathers, and because carotenoids also confer health benefits, the deeply saturated colors generally serve to communicate what is known as an honest signal of a bird\u2019s overall fitness to potential mates. However, ornithologist Allison J. Shultz and others have found that males in several species of the tanager genus Ramphocelus use microstructures in their feathers to manipulate light, creating the appearance of deeper saturation without the birds necessarily having to maintain a carotenoid-rich diet. These findings suggest that _______",
+      "options": [
+        {
+          "text": "individual male tanagers can engage in honest signaling without relying on carotenoid consumption."
+        },
+        {
+          "text": "feather microstructures may be less effective than deeply saturated feathers for signaling overall fitness."
+        },
+        {
+          "text": "scientists have yet to determine why tanagers have a preference for mates with colorful appearances."
+        },
+        {
+          "text": "a male tanager\u2019s appearance may function as a dishonest signal of the individual\u2019s overall fitness."
+        }
+      ],
+      "correct_answer": 3
+    }
+  ]
+}

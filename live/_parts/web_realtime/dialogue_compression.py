@@ -10,6 +10,40 @@ _MIN_TRANSCRIPT_CHARS_FOR_COMPRESSION = 20
 FULL_DIALOGUE_FILENAME = "dialogue_full.json"
 
 
+def _format_dialogue_lines(entries: list) -> str:
+    """Format dialogue entries, merging consecutive utterances by the same speaker."""
+    merged: list[tuple[str, str]] = []
+    for entry in entries:
+        speaker = str(getattr(entry, "speaker_id", "") or "").strip()
+        text = str(getattr(entry, "text", "") or "").strip()
+        if not speaker or not text:
+            continue
+        if merged and merged[-1][0] == speaker:
+            merged[-1] = (speaker, f"{merged[-1][1]} {text}".strip())
+        else:
+            merged.append((speaker, text))
+    return "\n".join(f"{speaker}: {text}" for speaker, text in merged)
+
+
+def _extract_last_sentence(dialogue: str) -> str:
+    """Extract the last speaker's sentence from dialogue.
+
+    Args:
+        dialogue: Formatted dialogue string (A: ...\nB: ...)
+
+    Returns:
+        Last line in format "X: text" or empty string
+    """
+    lines = [line.strip() for line in dialogue.strip().splitlines() if line.strip()]
+    if not lines:
+        return ""
+    last_line = lines[-1]
+    # Ensure it's a valid speaker line
+    if last_line.startswith("A:") or last_line.startswith("B:"):
+        return last_line
+    return ""
+
+
 def _filter_short_entries_for_compression(
     entries: list[dict],
     min_chars: int = _MIN_TRANSCRIPT_CHARS_FOR_COMPRESSION,
@@ -66,8 +100,7 @@ def _get_combined_dialogue() -> str:
     if not all_entries:
         return ""
 
-    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
-    return "\n".join(lines)
+    return _format_dialogue_lines(all_entries)
 
 
 def _get_dialogue_since_segment_start() -> str:
@@ -84,8 +117,7 @@ def _get_dialogue_since_segment_start() -> str:
     if not all_entries:
         return ""
 
-    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
-    return "\n".join(lines)
+    return _format_dialogue_lines(all_entries)
 
 
 def _get_dialogue_by_time_window(
@@ -100,7 +132,6 @@ def _get_dialogue_by_time_window(
     if not all_entries:
         return "", []
 
-    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
     entries_payload = [
         {
             "timestamp": e.timestamp,
@@ -115,7 +146,7 @@ def _get_dialogue_by_time_window(
         }
         for e in all_entries
     ]
-    return "\n".join(lines), entries_payload
+    return _format_dialogue_lines(all_entries), entries_payload
 
 
 def _append_json_list(filepath: Path, record: dict) -> None:
@@ -228,6 +259,7 @@ def _compress_dialogue_api(
                             dialogue=dialogue,
                             before_context=before_context,
                             keyword_context=keyword_context,
+                            last_sentence=_extract_last_sentence(dialogue),
                         ),
                     },
                 ],
@@ -798,6 +830,7 @@ def _trigger_parallel_compression_for_dialogue(
     def _run_api_path(
         model: str, key: str, fallback_models: list[str] | None = None
     ) -> None:
+        last_sentence = _extract_last_sentence(dialogue)
         session_logger.log(
             "api_compression_request",
             segment_id=segment_id,
@@ -811,6 +844,7 @@ def _trigger_parallel_compression_for_dialogue(
             before_context_chars=len(before_context or ""),
             keyword_context=keyword_context,
             keyword_context_chars=len(keyword_context or ""),
+            last_sentence=last_sentence,
         )
         api_result = _compress_dialogue_api(
             dialogue,

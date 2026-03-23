@@ -39,6 +39,9 @@ ALLOWED_EVENT_TYPES = {
     "wait_for_transcript_start",
     "api_compression_request",
     "api_compression_result",
+    "quiz_round_start",
+    "quiz_question_answered",
+    "quiz_round_end",
 }
 
 

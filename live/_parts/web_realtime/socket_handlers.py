@@ -166,23 +166,13 @@ def handle_start(data: dict):
             ).strip()
             summary_sources = [x for x in [fallback_sum0, fallback_sum1] if x]
         voice_ids = data.get("voice_ids", [])  # list of voice IDs for each summary mic
-        keyword_voice_id = data.get("keyword_voice_id")  # voice ID for keyword TTS
         tts_output_device = data.get("tts_output_device")  # output device index for TTS
 
-        # Create keyword TTS client (uses default voice if not specified)
+        # Quiz mode does not use keyword TTS clients.
         keyword_tts_client = None
-
-        # Create persistent streaming TTS client for keywords
         if keyword_tts_stream_client:
             keyword_tts_stream_client.close()
-        keyword_tts_stream_client = StreamingTTSClient(
-            socketio=sio,
-            session_id=f"{session_id}_keyword_stream",
-            voice_id=keyword_voice_id or DEFAULT_VOICE_ID,
-            chunk_event="streaming_tts_chunk",
-            done_event="streaming_tts_done",
-            emit_to=session_id,
-        )
+        keyword_tts_stream_client = None
 
         # Keep the field for backward compatibility, but summary-generation path is disabled.
         judge_enabled = data.get("judge_enabled", False)
@@ -364,6 +354,8 @@ def handle_start(data: dict):
         client.set_summary_clients(summary_clients)
 
         client.start()
+        quiz_set = str((data or {}).get("quiz_set", "A")).strip().upper() or "A"
+        sio.emit("quiz_ready", _build_quiz_payload(quiz_set), to=session_id)
 
 
 @sio.on("stop")
@@ -398,26 +390,9 @@ def handle_stop():
 
 @sio.on("request")
 def handle_request(data: dict = None):
-    """Handle manual keyword extraction request."""
+    """Keyword request path is disabled in quiz mode."""
     session_id = request.sid
-    request_id = (data or {}).get("requestId", 0)
-    log_print("INFO", "Manual request triggered", session_id=session_id, request_id=request_id)
-    if not _is_active_session(session_id):
-        log_print(
-            "INFO",
-            "Ignoring request from non-active session",
-            session_id=session_id,
-            active_session_id=_active_runtime_sid,
-        )
-        return
-
-    with _clients_lock:
-        if client and client.running:
-            client.request(request_id=request_id)
-        else:
-            log_print(
-                "WARN", "Request ignored - no running client", session_id=session_id
-            )
+    log_print("INFO", "Ignoring disabled keyword request", session_id=session_id)
 
 
 @sio.on("start_listening")
@@ -461,7 +436,9 @@ def handle_start_listening():
                 _post_tts_followup_live_window_open = False
                 _pending_fast_catchup_segments.clear()
                 _pending_fast_catchup_inflight.clear()
+                current_segment_id = _segment_seq
             _emit_fast_catchup_pending(session_id, False, _segment_seq)
+            precompute_before_context_async(current_segment_id)
             for sc in summary_clients:
                 sc.start_listening()
             # Also notify context judge
@@ -488,6 +465,8 @@ def handle_start_listening():
 @sio.on("end_listening")
 def handle_end_listening(data: dict = None):
     """End listening segment and request summary."""
+    from clients.summary_client import TranscriptSyncMode
+
     global \
         _post_tts_followup_active, \
         _post_tts_followup_inflight, \
@@ -1061,6 +1040,86 @@ def handle_browser_tts_playback_start(data: dict):
     source = str((data or {}).get("source", "")).strip() or "browser"
     get_logger(session_id).log("summary_tts_playback_start", source=source)
     _on_tts_started(f"browser_tts_playback_start:{source}")
+    return {"ok": True}
+
+
+@sio.on("quiz_session_start")
+def handle_quiz_session_start():
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    _set_keyword_anc_hold(True, "quiz_session_start")
+    get_logger(session_id).log("anc_on", reason="quiz_session_start")
+    return {"ok": True}
+
+
+@sio.on("quiz_session_done")
+def handle_quiz_session_done():
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    _set_keyword_anc_hold(False, "quiz_session_done")
+    get_logger(session_id).log("anc_off", reason="quiz_session_done")
+    return {"ok": True}
+
+
+@sio.on("quiz_round_start")
+def handle_quiz_round_start(data: dict = None):
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    get_logger(session_id).log(
+        "quiz_round_start",
+        quiz_set=str(payload.get("quiz_set", "") or "").strip(),
+        round_number=int(payload.get("round_number") or 0),
+        question_ids=list(payload.get("question_ids") or []),
+        duration_sec=int(payload.get("duration_sec") or 0),
+    )
+    return {"ok": True}
+
+
+@sio.on("quiz_question_answered")
+def handle_quiz_question_answered(data: dict = None):
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    try:
+        selected_index = int(payload.get("selected_index"))
+    except Exception:
+        selected_index = -1
+    try:
+        correct_index = int(payload.get("correct_index"))
+    except Exception:
+        correct_index = -1
+    get_logger(session_id).log(
+        "quiz_question_answered",
+        quiz_set=str(payload.get("quiz_set", "") or "").strip(),
+        round_number=int(payload.get("round_number") or 0),
+        question_id=int(payload.get("question_id") or -1),
+        question_position=int(payload.get("question_position") or 0),
+        selected_index=selected_index,
+        correct_index=correct_index,
+        is_correct=selected_index >= 0 and selected_index == correct_index,
+    )
+    return {"ok": True}
+
+
+@sio.on("quiz_round_end")
+def handle_quiz_round_end(data: dict = None):
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    get_logger(session_id).log(
+        "quiz_round_end",
+        quiz_set=str(payload.get("quiz_set", "") or "").strip(),
+        round_number=int(payload.get("round_number") or 0),
+        answered_count=int(payload.get("answered_count") or 0),
+        shown_count=int(payload.get("shown_count") or 0),
+        total_available=int(payload.get("total_available") or 0),
+    )
     return {"ok": True}
 
 

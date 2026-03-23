@@ -1,0 +1,258 @@
+{
+  "title": "SAT Quiz - Set A",
+  "description": "Improved parsing",
+  "questions": [
+    {
+      "text": "Former astronaut Ellen Ochoa says that although she doesn\u2019t have a definite idea of when it might happen, she _______ that humans will someday need to be able to live in other environments than those found on Earth. This conjecture informs her interest in future research missions to the moon.",
+      "options": [
+        {
+          "text": "demands"
+        },
+        {
+          "text": "speculates"
+        },
+        {
+          "text": "doubts"
+        },
+        {
+          "text": "establishes"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Beginning in the 1950s, Navajo Nation legislator Annie Dodge Wauneka continuously worked to promote public health; this _______ effort involved traveling throughout the vast Navajo homeland and writing a medical dictionary for speakers of Din\u00e9 bizaad, the Navajo language.",
+      "options": [
+        {
+          "text": "impartial"
+        },
+        {
+          "text": "offhand"
+        },
+        {
+          "text": "persistent"
+        },
+        {
+          "text": "mandatory"
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "Following the principles of community-based participatory research, tribal nations and research institutions are equal partners in health studies conducted on reservations. A collaboration between the Crow Tribe and Montana State University _______ this model: tribal citizens worked alongside scientists to design the methodology and continue to assist in data collection.",
+      "options": [
+        {
+          "text": "circumvents"
+        },
+        {
+          "text": "eclipses"
+        },
+        {
+          "text": "fabricates"
+        },
+        {
+          "text": "exemplifies"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "The parasitic dodder plant increases its reproductive success by flowering at the same time as the host plant it has latched onto. In 2020, Jianqiang Wu and his colleagues determined that the tiny dodder achieves this _______ with its host by absorbing and utilizing a protein the host produces when it is about to flower.",
+      "options": [
+        {
+          "text": "synchronization"
+        },
+        {
+          "text": "hibernation"
+        },
+        {
+          "text": "prediction"
+        },
+        {
+          "text": "moderation"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Given that the conditions in binary star systems should make planetary formation nearly impossible, it\u2019s not surprising that the existence of planets in such systems has lacked _______ explanation. Roman Rafikov and Kedron Silsbee shed light on the subject when they used modeling to determine a complex set of factors that could support planets\u2019 development.",
+      "options": [
+        {
+          "text": "a discernible"
+        },
+        {
+          "text": "a straightforward"
+        },
+        {
+          "text": "an inconclusive"
+        },
+        {
+          "text": "an unbiased"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Seminole/Muscogee director Sterlin Harjo _______ television\u2019s tendency to situate Native characters in the distant past: this rejection is evident in his series Reservation Dogs, which revolves around teenagers who dress in contemporary styles and whose dialogue is laced with current slang.",
+      "options": [
+        {
+          "text": "repudiates"
+        },
+        {
+          "text": "proclaims"
+        },
+        {
+          "text": "foretells"
+        },
+        {
+          "text": "recants"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "In 2007, computer scientist Luis von Ahn was working on converting printed books into a digital format. He found that some words were distorted enough that digital scanners couldn\u2019t recognize them, but most humans could easily read them. Based on that finding, von Ahn invented a simple security test to keep automated \u201cbots\u201d out of websites. The first version of the reCAPTCHA test asked users to type one known word and one of the many words scanners couldn\u2019t recognize. Correct answers proved the users were humans and added data to the book-digitizing project.",
+      "options": [
+        {
+          "text": "To discuss von Ahn\u2019s invention of reCAPTCHA"
+        },
+        {
+          "text": "To explain how digital scanners work"
+        },
+        {
+          "text": "To call attention to von Ahn\u2019s book-digitizing project"
+        },
+        {
+          "text": "To indicate how popular reCAPTCHA is"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "The following text is from Edith Wharton\u2019s 1905 novel The House of Mirth. Lily Bart and a companion are walking through a park. \n\nLily had no real intimacy with nature, but she had a passion for the appropriate and could be keenly sensitive to a scene which was the fitting background of her own sensations. The landscape outspread below her seemed an enlargement of her present mood, and she found something of herself in its calmness, its breadth, its long free reaches. On the nearer slopes the sugar-maples wavered like pyres of light; lower down was a massing of grey orchards, and here and there the lingering green of an oak-grove.",
+      "options": [
+        {
+          "text": "It creates a detailed image of the physical setting of the scene."
+        },
+        {
+          "text": "It establishes that a character is experiencing an internal conflict."
+        },
+        {
+          "text": "It makes an assertion that the next sentence then expands on."
+        },
+        {
+          "text": "It illustrates an idea that is introduced in the previous sentence."
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Born in 1891 to a Quechua-speaking family in the Andes Mountains of Peru, Mart\u00edn Chambi is today considered to be one of the most renowned figures of Latin American photography. In a paper for an art history class, a student claims that Chambi\u2019s photographs have considerable ethnographic value\u2014in his work, Chambi was able to capture diverse elements of Peruvian society, representing his subjects with both dignity and authenticity. \n\nWhich finding, if true, would most directly support the student\u2019s claim?",
+      "options": [
+        {
+          "text": "Chambi took many commissioned portraits of wealthy Peruvians, but he also produced hundreds of images carefully documenting the peoples, sites, and customs of Indigenous communities of the Andes."
+        },
+        {
+          "text": "Chambi\u2019s photographs demonstrate a high level of technical skill, as seen in his strategic use of illumination to create dramatic light and shadow contrasts."
+        },
+        {
+          "text": "During his lifetime, Chambi was known and celebrated both within and outside his native Peru, as his work was published in places like Argentina, Spain, and Mexico."
+        },
+        {
+          "text": "Some of the peoples and places Chambi photographed had long been popular subjects for Peruvian photographers."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "A study by a team including finance professor Madhu Veeraraghavan suggests that exposure to sunshine during the workday can lead to overly optimistic behavior. Using data spanning from 1994 to 2010 for a set of US companies, the team compared over 29,000 annual earnings forecasts to the actual earnings later reported by those companies\t. The team found that the greater the exposure to sunshine at work in the two weeks before a manager submitted an earnings forecast, the more the manager\u2019s forecast exceeded what the company actually earned that year.",
+      "options": [
+        {
+          "text": "To summarize the results of the team\u2019s analysis"
+        },
+        {
+          "text": "To present a specific example that illustrates the study\u2019s findings"
+        },
+        {
+          "text": "To explain part of the methodology used in the team\u2019s study"
+        },
+        {
+          "text": "To call out a challenge the team faced in conducting its analysis"
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "The following text is adapted from Edith Nesbit\u2019s 1906 novel The Railway Children. \n\nMother did not spend all her time in paying dull [visits] to dull ladies, and sitting dully at home waiting for dull ladies to pay [visits] to her. She was almost always there, ready to play with the children, and read to them, and help them to do their home-lessons. Besides this she used to write stories for them while they were at school, and read them aloud after tea, and she always made up funny pieces of poetry for their birthdays and for other great occasions. \n\nAccording to the text, what is true about Mother?",
+      "options": [
+        {
+          "text": "She wishes that more ladies would visit her."
+        },
+        {
+          "text": "Birthdays are her favorite special occasion."
+        },
+        {
+          "text": "She creates stories and poems for her children."
+        },
+        {
+          "text": "Reading to her children is her favorite activity."
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "Herbivorous sauropod dinosaurs could grow more than 100 feet long and weigh up to 80 tons, and some researchers have attributed the evolution of sauropods to such massive sizes to increased plant production resulting from high levels of atmospheric carbon dioxide during the Mesozoic era. However, there is no evidence of significant spikes in carbon dioxide levels coinciding with relevant periods in sauropod evolution, such as when the first large sauropods appeared, when several sauropod lineages underwent further evolution toward gigantism, or when sauropods reached their maximum known sizes, suggesting that _______",
+      "options": [
+        {
+          "text": "fluctuations in atmospheric carbon dioxide affected different sauropod lineages differently."
+        },
+        {
+          "text": "the evolution of larger body sizes in sauropods did not depend on increased atmospheric carbon dioxide."
+        },
+        {
+          "text": "atmospheric carbon dioxide was higher when the largest known sauropods lived than it was when the first sauropods appeared."
+        },
+        {
+          "text": "sauropods probably would not have evolved to such immense sizes if atmospheric carbon dioxide had been even slightly higher."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "In the mountains of Brazil, Barbacenia tomentosa and Barbacenia macrantha\u2014two plants in the Velloziaceae family\u2014establish themselves on soilless, nutrient-poor patches of quartzite rock. Plant ecologists Anna Abrah\u00e3o and Patricia de Britto Costa used microscopic analysis to determine that the roots of B. tomentosa and B. macrantha, which grow directly into the quartzite, have clusters of fine hairs near the root tip; further analysis indicated that these hairs secrete both malic and citric acids. The researchers hypothesize that the plants depend on dissolving underlying rock with these acids, as the process not only creates channels for continued growth but also releases phosphates that provide the vital nutrient phosphorus. \n\nWhich finding, if true, would most directly support the researchers\u2019 hypothesis?",
+      "options": [
+        {
+          "text": "Other species in the Velloziaceae family are found in terrains with more soil but have root structures similar to those of B. tomentosa and B. macrantha."
+        },
+        {
+          "text": "Though B. tomentosa and B. macrantha both secrete citric and malic acids, each species produces the acids in different proportions."
+        },
+        {
+          "text": "The roots of B. tomentosa and B. macrantha carve new entry points into rocks even when cracks in the surface are readily available."
+        },
+        {
+          "text": "B. tomentosa and B. macrantha thrive even when transferred to the surfaces of rocks that do not contain phosphates."
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "In documents called judicial opinions, judges explain the reasoning behind their legal rulings, and in those explanations they sometimes cite and discuss historical and contemporary philosophers. Legal scholar and philosopher Anita L. Allen argues that while judges are naturally inclined to mention philosophers whose views align with their own positions, the strongest judicial opinions consider and rebut potential objections; discussing philosophers whose views conflict with judges\u2019 views could therefore _______",
+      "options": [
+        {
+          "text": "allow judges to craft judicial opinions without needing to consult philosophical works."
+        },
+        {
+          "text": "help judges improve the arguments they put forward in their judicial opinions."
+        },
+        {
+          "text": "make judicial opinions more comprehensible to readers without legal or philosophical training."
+        },
+        {
+          "text": "bring judicial opinions in line with views that are broadly held among philosophers."
+        }
+      ],
+      "correct_answer": 1
+    }
+  ]
+}

@@ -28,9 +28,9 @@ Do not repeat previously output keywords in this session.
 
 # Output Format
 When triggered, output ONLY in this format:
-KEYWORD: <2-3 sentence explanation>
+KEYWORD: <5-6 sentence explanation>
 
-Each explanation MUST be 2-3 complete sentences. Keep explanations concise but informative.
+Each explanation MUST be 5-6 complete sentences. Keep explanations concise but informative.
 Nothing else. No greetings, no questions, no offers to help.
 
 # Safety & Escalation
@@ -81,7 +81,7 @@ Rules:
 - Keywords must be clearly spoken (no guessing).
 - English only. Noun phrases or technical terms only.
 - Do not repeat keywords already output in this session.
-- Each explanation MUST be 2-3 complete sentences (approximately 40-55 words).
+- Each explanation MUST be 5-6 complete sentences (approximately 90-100 words).
 - Include: definition, how it works or why it matters.
 - Strictly output in the following format, with no extra text:
 
@@ -90,10 +90,6 @@ Order:
 
 Format (strict):
 <keyword>: <2-3 sentence explanation>
-
-VALID Example:
-AI: AI stands for Artificial Intelligence, referring to computer systems that perform tasks requiring human intelligence. These systems learn from data, recognize patterns, and make decisions with minimal human intervention. AI powers everyday technologies like voice assistants and autonomous vehicles.
-Machine Learning: Machine learning is a subfield of AI that enables systems to learn from experience without explicit programming. It trains algorithms on large datasets to identify patterns and make predictions in applications like spam filtering and image recognition.
 
 INVALID EXAMPLES (DO NOT DO THIS):
 - "It sounds like they are talking about economics"  ❌ (inference)
@@ -186,6 +182,7 @@ You do NOT participate in or respond to the conversation.
 # Instructions / Rules
 Only summarize when a start–end signal is provided.
 Summarize only the speech between those signals.
+Use the full captured span as context, but prioritize the most recently spoken content.
 Do nothing else.
 English only.
 
@@ -228,10 +225,13 @@ def build_summary_prompt(pre_context: str) -> str:
 Mimic ONLY the speaker's utterance from the recently committed audio in a much more compressed form.
 If the captured content is already short and meaningful, keep it nearly as-is.
 Do NOT summarize anything outside those signals.
+Use the full captured content as context, but prioritize the MOST RECENTLY spoken content when deciding what to keep.
+Do not ignore earlier parts; keep them only when they are necessary to preserve the meaning of the latest utterance.
 
 # Requirements (ALL must be satisfied)
 - Length: Maximum 14 words and exactly one sentence.
 - Meaning: Preserve only the speaker's core idea without changing intent.
+- Coverage: Consider the entire captured span, but weight the ending/latest portion most heavily.
 - Mimic style: Keep original wording when possible; prefer deleting words over rewriting.
 - Compression mode: extractive-first (delete words), paraphrase only when unavoidable.
 - Lexical fidelity: do not replace key nouns/entities with different words.
@@ -672,31 +672,65 @@ def build_dialogue_compression_user_prompt(
     dialogue: str,
     before_context: str = "",
     keyword_context: str = "",
+    last_sentence: str = "",
 ) -> str:
-    """Build user prompt for API-based dialogue compression."""
-    return f"""Compress this dialogue.
+    last_sentence_section = ""
+    if last_sentence.strip():
+        last_sentence_section = f"""
+Last sentence (MUST include in output):
+{last_sentence.strip()}
+"""
+    return f"""Compress this dialogue into a short, easy-to-understand exchange.
 
-    Before context (hints only):
-    {before_context.strip() or "(none)"}
+Before context (hints only):
+{before_context.strip() or "(none)"}
 
-    Current viewed keywords (hints only):
-    {keyword_context.strip() or "(none)"}
+Current viewed keywords (hints only):
+{keyword_context.strip() or "(none)"}
 
-    Dialogue:
-    {dialogue}
+Dialogue:
+{dialogue}
 
-    Rules:
-    - Context is hint-only. Do not import extra facts from context.
-    - If the dialogue is unrelated to the provided context or keywords, output exactly "".
-    - Drop context-mismatched or irrelevant words and incomplete fragments instead of attempting to guess or reconstruct them.
-    - Treat one-word fragments as possible transcription errors and drop them when uncertain.
-    - Transcript may contain typos; correct them using context and keywords when obvious.
-    - The most recent part of the dialogue must be preserved and included in the output.
-    - Prioritize the most recent content over older content when deciding what to keep.
-    - If both A and B appear in Dialogue, summarize both speakers. Do not drop either speaker entirely.
-    - When both speakers are present, keep at least one line for A and one line for B.
+Must-include content:
+{last_sentence_section}
 
-    Limits:
-    - Each A:/B: line ≤ 10 words.
-    - Total dialogue ≤ 20 words.
-    """
+Absolute priority:
+1. The final utterance in Dialogue must be represented in the output without fail.
+2. The final utterance may be shortened, but its core meaning, intent, and conversational role must be preserved.
+3. Do not drop or replace the latest utterance with older content.
+4. If any instruction conflicts with preserving the latest utterance's meaning, preserve the latest utterance's meaning first.
+
+Rules:
+- Context is hint-only. Do not import extra facts from context.
+- If the dialogue is unrelated to the provided context or keywords, output exactly: ""
+- Remove irrelevant, broken, or uncertain fragments.
+- Drop incomplete words or likely transcription errors when uncertain.
+- Correct obvious typos only when highly confident.
+- Prioritize recent content over older content.
+- Summarize the dialogue as one short exchange that captures the main point.
+- Preserve the original speaker labels A and B.
+- Do not assume A is always asking questions or B is always answering.
+- Reflect the actual role of each speaker in this dialogue.
+- If both A and B appear in Dialogue, include both speakers in the output.
+- The output should sound natural when read aloud.
+
+Output format:
+A: <compressed content for A>
+B: <compressed content for B>
+
+Limits:
+- Each line should be concise.
+- Prefer each line to be 5-12 words.
+- Total output should be under 25 words when possible.
+
+Example:
+Original dialogue
+B: If I regard the movie those kind of things also as it hurts.
+A: I can ask you another question here. Do you think who influences culture more today? Is it artists, celebrities, or social media creators?
+B: If I limit the meaning of art as drawings, then those influencers have more influence than the artist,
+B: People usually don't know what the artist do. They acknowledge when those influencers post their opinions online on social media and then artists and comedians
+
+Valid output
+A: Who influences culture more today—artists or influencers?
+B: Influencers, since people engage more with social media opinions.
+"""

@@ -7,7 +7,9 @@ Dependencies:
     pip install flask flask-socketio websocket-client pydub pyaudio
 """
 
+import json
 import os
+import random
 import re
 import subprocess
 import sys
@@ -30,8 +32,8 @@ from clients import (
     DialogueStore,
     RealtimeClient,
     SummaryClient,
-    TranscriptReconstructorClient,
     TranscriptSyncMode,
+    TranscriptReconstructorClient,
 )
 from clients.context_judge_client import ContextJudgeClient
 from clients.streaming_tts_client import StreamingTTSClient
@@ -212,6 +214,11 @@ keyword_tts_client: Optional[TTSClient] = None
 keyword_tts_stream_client: Optional[StreamingTTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
+_QUIZ_FILES = {
+    "A": "../quiz/sat_quiz_set_a.json",
+    "B": "../quiz/sat_quiz_set_b.json",
+}
+_QUIZ_DURATION_SEC = 60
 
 # Dialogue stores for VAD transcripts (one per summary speaker)
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
@@ -300,6 +307,69 @@ _transcript_compression_mode = "realtime"
 # VAD_THEN_COMMIT mode: track if we're waiting for commit follow-up TTS
 _vad_then_commit_pending = False
 _vad_then_commit_main_tts_done = False
+
+
+def _load_quiz_bank(quiz_set: str = "A") -> list[dict]:
+    quiz_file = _QUIZ_FILES.get(quiz_set.upper(), _QUIZ_FILES["A"])
+    quiz_path = Path(str(quiz_file)).expanduser().resolve()
+    try:
+        payload = json.loads(quiz_path.read_text())
+        questions = payload.get("questions") or []
+        cleaned = []
+        for idx, item in enumerate(questions):
+            text = str((item or {}).get("text") or "").strip()
+            options = [
+                str((opt or {}).get("text") or "").strip()
+                for opt in ((item or {}).get("options") or [])
+            ]
+            try:
+                correct_answer = int((item or {}).get("correct_answer"))
+            except Exception:
+                correct_answer = -1
+            if not text or len(options) < 2 or not (0 <= correct_answer < len(options)):
+                continue
+            cleaned.append(
+                {
+                    "id": idx,
+                    "text": text,
+                    "options": options,
+                    "correct_answer": correct_answer,
+                }
+            )
+        return cleaned
+    except Exception as e:
+        log_print("WARN", f"Failed to load quiz bank: {e}", path=str(quiz_path))
+        return []
+
+
+def _build_quiz_payload(quiz_set: str = "A") -> dict:
+    questions = _load_quiz_bank(quiz_set)
+    randomized = []
+    for item in questions:
+        option_pairs = list(enumerate(item["options"]))
+        random.shuffle(option_pairs)
+        shuffled_options = [text for _, text in option_pairs]
+        shuffled_correct = next(
+            (
+                idx
+                for idx, (original_idx, _) in enumerate(option_pairs)
+                if original_idx == item["correct_answer"]
+            ),
+            -1,
+        )
+        randomized.append(
+            {
+                "id": item["id"],
+                "text": item["text"],
+                "options": shuffled_options,
+                "correct_answer": shuffled_correct,
+            }
+        )
+    random.shuffle(randomized)
+    return {
+        "duration_sec": _QUIZ_DURATION_SEC,
+        "questions": randomized,
+    }
 
 
 def _has_pending_fast_catchup(session_id: Optional[str] = None) -> bool:
@@ -590,6 +660,21 @@ def _get_current_keywords_with_desc(limit: int = 3) -> list[dict]:
         return []
 
 
+def _format_dialogue_lines(entries: list) -> str:
+    """Format dialogue entries, merging consecutive utterances by the same speaker."""
+    merged: list[tuple[str, str]] = []
+    for entry in entries:
+        speaker = str(getattr(entry, "speaker_id", "") or "").strip()
+        text = str(getattr(entry, "text", "") or "").strip()
+        if not speaker or not text:
+            continue
+        if merged and merged[-1][0] == speaker:
+            merged[-1] = (speaker, f"{merged[-1][1]} {text}".strip())
+        else:
+            merged.append((speaker, text))
+    return "\n".join(f"{speaker}: {text}" for speaker, text in merged)
+
+
 def _get_dialogue_before_start_ts(start_ts: float) -> str:
     """Get full speaker-labeled dialogue before a given timestamp."""
     all_entries = []
@@ -599,8 +684,7 @@ def _get_dialogue_before_start_ts(start_ts: float) -> str:
     all_entries.sort(key=lambda e: e.timestamp)
     if not all_entries:
         return ""
-    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
-    return "\n".join(lines)
+    return _format_dialogue_lines(all_entries)
 
 
 def _get_recent_dialogue_before_start_ts(
@@ -615,8 +699,7 @@ def _get_recent_dialogue_before_start_ts(
     all_entries.sort(key=lambda e: e.timestamp)
     if not all_entries:
         return ""
-    lines = [f"{e.speaker_id}: {e.text}" for e in all_entries]
-    return "\n".join(lines)
+    return _format_dialogue_lines(all_entries)
 
 
 def _get_last_n_turns_before(start_ts: float, n_turns: int = 3) -> str:
@@ -645,8 +728,7 @@ def _get_last_n_turns_before(start_ts: float, n_turns: int = 3) -> str:
     if not last_n:
         return ""
 
-    lines = [f"{e.speaker_id}: {e.text}" for e in last_n]
-    return "\n".join(lines)
+    return _format_dialogue_lines(last_n)
 
 
 def _get_before_context_summary() -> str:

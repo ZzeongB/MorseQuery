@@ -1,55 +1,15 @@
 function handleTap() {
-    const now = Date.now();
     unlockAudioFeedback();
-    if (now - lastSpace < 300) {
-        // Double tap - keyword request
-        if (ttsPaused) {
-            clearTtsPausedState();
-        }
-        playConfirmedFeedback();
-        hideSummary();
-        startListeningIfNeeded();
-        keywordRequestToken += 1;
-        ignoreIncomingKeywordEvents = false;
-        socket.emit('request', { requestId: keywordRequestToken });
-        showLoadingIndicator('Inferring', 'inferring', 320);
-
-        if (inferencingTimer) clearTimeout(inferencingTimer);
-        inferencingTimer = setTimeout(() => {
-            hideLoadingIndicator();
-            showSkippedIndicator('No new keywords this round');
-            inferencingTimer = null;
-        }, INFERENCING_TIMEOUT_MS);
-        lastSpace = 0;
-    } else {
-        // Single tap - wait to see if double
-        showTapIndicator();
-        lastSpace = now;
-        setTimeout(async () => {
-            if (lastSpace !== 0 && Date.now() - lastSpace >= 280) {
-                // Single tap confirmed - handle pause/resume for TTS (if enabled)
-                if (pauseResumeEnabled) {
-                    if (ttsPaused) {
-                        // Resume from beginning
-                        playTapFeedback();
-                        await resumeTtsPlayback();
-                        lastSpace = 0;
-                        return;
-                    }
-
-                    // Check if TTS is playing (regular or streaming)
-                    if (ttsPlaying || (currentStreamingPlayer && currentStreamingPlayer.isPlaying)) {
-                        // Pause the TTS
-                        playTapFeedback();
-                        pauseTtsPlayback();
-                        lastSpace = 0;
-                        return;
-                    }
-                }
-
-                lastSpace = 0;
-            }
-        }, 300);
+    showTapIndicator();
+    if (!pauseResumeEnabled) return;
+    if (ttsPaused) {
+        playTapFeedback();
+        resumeTtsPlayback();
+        return;
+    }
+    if (ttsPlaying || (currentStreamingPlayer && currentStreamingPlayer.isPlaying)) {
+        playTapFeedback();
+        pauseTtsPlayback();
     }
 }
 
@@ -119,7 +79,7 @@ socket.on('summary_chunk', data => {
 });
 
 socket.on('clear', () => {
-    // Don't clear keywords - keep last 3 visible
+    // Quiz UI is session-scoped; ignore generic clear events.
 });
 
 socket.on('session_ended', () => {
@@ -137,6 +97,17 @@ socket.on('session_ended', () => {
     ignoreIncomingKeywordEvents = false;
     clearKeywordAutoSummarizeTimer();
     keywordTtsPreloadedTexts.clear();
+    clearQuizTimers();
+    clearQueuedQuizRound();
+    quizBank = [];
+    sessionQuizOrder = [];
+    quizRoundNumber = 0;
+    quizScheduleIndex = 0;
+    quizCurrentIndex = 0;
+    quizRoundActive = false;
+    quizRoundEndsAt = 0;
+    quizSessionStartAt = 0;
+    quizAncActive = false;
     pendingSummaryTexts = [];
     streamingTtsBuffers.clear();
     recentlyFinishedStreamingTts.clear();
@@ -154,6 +125,24 @@ socket.on('session_ended', () => {
     summarySegmentState.clear();
     pendingEmptySummarySignal = null;
     pendingSkippedIndicator = null;
+});
+
+socket.on('quiz_ready', data => {
+    const questions = Array.isArray(data && data.questions) ? data.questions : [];
+    if (questions.length === 0) {
+        console.warn('quiz_ready received without questions');
+        return;
+    }
+    quizBank = questions;
+    quizRoundDurationSec = Math.max(1, Number((data && data.duration_sec) || 60));
+    sessionQuizOrder = buildSessionQuizOrder();
+    quizRoundNumber = 0;
+    quizScheduleIndex = 0;
+    quizCurrentIndex = 0;
+    if (!quizSessionStartAt) {
+        quizSessionStartAt = Date.now();
+    }
+    scheduleNextQuizRound();
 });
 
 socket.on('summary_done', data => {
@@ -184,6 +173,8 @@ socket.on('summary_done', data => {
                 hideSummaryText();
                 pendingSummaryTexts = [];
                 showSkippedIndicator('Summary unavailable');
+                endQuizAncSession();
+                scheduleNextQuizRound();
             }
         }, 8000);
         return;
@@ -210,6 +201,8 @@ socket.on('summary_done', data => {
         pendingSummaryTexts = [];
         showSkippedIndicator('No summary detected');
         if (segmentId > 0) summarySegmentState.delete(segmentId);
+        endQuizAncSession();
+        scheduleNextQuizRound();
     }, 1500);
 });
 
@@ -267,10 +260,6 @@ socket.on('tts_playing', data => {
         summaryFinalizeTimer = null;
     }
     hideLoadingIndicator();
-    setTimeout(() => {
-        if (ttsPlaying || ttsQueue.length > 0) return;
-        playTtsStartFeedback('summary');
-    }, 260);
 });
 
 socket.on('tts_done', () => {
@@ -287,6 +276,8 @@ socket.on('tts_done', () => {
     hideLoadingIndicator();
     hideSummaryText();
     pendingSummaryTexts = [];
+    endQuizAncSession();
+    scheduleNextQuizRound();
 });
 
 socket.on('judge_rejected', data => {
@@ -307,6 +298,8 @@ socket.on('judge_rejected', data => {
     showSkippedIndicator(reason);
     // Notify server to turn off ANC
     socket.emit('browser_tts_playback_done', { reason: 'judge_rejected' });
+    endQuizAncSession();
+    scheduleNextQuizRound();
 });
 
 socket.on('conversation_reconstructed', data => {
@@ -376,6 +369,8 @@ socket.on('summary_tts_error', data => {
     hideSummaryText();
     pendingSummaryTexts = [];
     showSkippedIndicator('Summary audio failed');
+    endQuizAncSession();
+    scheduleNextQuizRound();
 });
 
 socket.on('keyword_tts', data => {
@@ -489,7 +484,6 @@ function createStreamingPlayer(queueItem) {
             summaryInProgress = true;
             if (!summaryCueSequenceActive) {
                 summaryCueSequenceActive = true;
-                playTtsStartFeedback('summary');
                 // Notify server that streaming summary playback started (for AirPods mode)
                 socket.emit('browser_tts_playback_start', {
                     source: ttsType,
@@ -554,6 +548,8 @@ function createStreamingPlayer(queueItem) {
                 hideReconstructedTurns();
                 // Notify server that streaming summary playback ended (for AirPods transparency)
                 socket.emit('browser_tts_playback_done', { reason: 'streaming_summary_done' });
+                endQuizAncSession();
+                scheduleNextQuizRound();
             }
         }
 
@@ -934,6 +930,7 @@ function dismissAllTtsAndUi() {
     pendingSummaryTexts = [];
 
     showDismissIndicator();
+    endQuizAncSession();
 }
 
 function handleDismissKey() {

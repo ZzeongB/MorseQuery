@@ -135,6 +135,21 @@ var currentSummaryNearEndTimer = null;
 var skippedIndicatorTimer = null;
 var dismissTimer = null;
 var pageExitCleanupSent = false;
+var quizBank = [];
+var sessionQuizOrder = [];
+var quizRoundDurationSec = 60;
+var quizRoundNumber = 0;
+var quizCurrentIndex = 0;
+var quizRoundActive = false;
+var quizRoundEndsAt = 0;
+var quizRoundTimer = null;
+var quizCountdownTimer = null;
+var quizLaunchTimer = null;
+var quizSessionStartAt = 0;
+var quizPlannedOffsetsSec = [60, 240, 420];
+var quizScheduleIndex = 0;
+var quizAncActive = false;
+var quizSetSelection = 'A';
 
 // ============================================================================
 // Utility Functions
@@ -428,9 +443,25 @@ function setSummaryTextMode(enabled) {
     document.getElementById('btn-summary-text-off').classList.toggle('selected', !enabled);
     if (!enabled) {
         hideSummaryText();
+        hideReconstructedTurns();
     } else if (summaryInProgress && pendingSummaryTexts.length > 0) {
         showSummaryText();
+    } else if (summaryInProgress) {
+        if (baseReconstructedTurns.length > 0 || followupReconstructedGroups.length > 0) {
+            renderReconstructedStack(baseReconstructedTurns, followupReconstructedGroups);
+        } else if (pendingReconstructedTurns.length > 0) {
+            renderReconstructedTurns(pendingReconstructedTurns);
+        }
     }
+}
+
+function setQuizSetSelection(setName) {
+    const normalized = setName === 'B' ? 'B' : 'A';
+    quizSetSelection = normalized;
+    const btnA = document.getElementById('btn-quiz-set-a');
+    const btnB = document.getElementById('btn-quiz-set-b');
+    if (btnA) btnA.classList.toggle('selected', normalized === 'A');
+    if (btnB) btnB.classList.toggle('selected', normalized === 'B');
 }
 
 function setAutoPreSummarizeEnabled(enabled) {
@@ -1284,6 +1315,8 @@ async function playNextTts() {
         clearReconstructedState();
         if (finishedSummaryPlayback) {
             hideInfo();
+            endQuizAncSession();
+            scheduleNextQuizRound();
         }
         maybeEmitPendingEmptySummarySignal();
         maybeEmitPendingSkippedIndicator();

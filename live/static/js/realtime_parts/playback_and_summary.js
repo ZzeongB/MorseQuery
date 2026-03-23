@@ -310,6 +310,209 @@ function hideInfo() {
     infoVisible = false;
 }
 
+function clearQuizTimers() {
+    if (quizRoundTimer) {
+        clearTimeout(quizRoundTimer);
+        quizRoundTimer = null;
+    }
+    if (quizCountdownTimer) {
+        clearInterval(quizCountdownTimer);
+        quizCountdownTimer = null;
+    }
+}
+
+function clearQueuedQuizRound() {
+    if (quizLaunchTimer) {
+        clearTimeout(quizLaunchTimer);
+        quizLaunchTimer = null;
+    }
+}
+
+function formatQuizRemaining() {
+    const remainMs = Math.max(0, quizRoundEndsAt - Date.now());
+    const totalSec = Math.ceil(remainMs / 1000);
+    const minutes = Math.floor(totalSec / 60);
+    const seconds = totalSec % 60;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function buildSessionQuizOrder() {
+    // Server already sends the correct quiz set (A or B) based on quiz_set parameter
+    const base = Array.isArray(quizBank) ? quizBank : [];
+    if (base.length === 0) return [];
+    const cloned = base.map(item => {
+        const options = Array.isArray(item.options) ? item.options.slice() : [];
+        const indexed = options.map((text, idx) => ({ text, idx }));
+        for (let i = indexed.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indexed[i], indexed[j]] = [indexed[j], indexed[i]];
+        }
+        return {
+            id: item.id,
+            text: item.text,
+            options: indexed.map(entry => entry.text),
+            correct_answer: indexed.findIndex(entry => entry.idx === Number(item.correct_answer)),
+        };
+    });
+    for (let i = cloned.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+    }
+    return cloned;
+}
+
+function updateQuizTimerUi() {
+    const timerEl = document.getElementById('quizTimer');
+    if (timerEl) {
+        timerEl.textContent = formatQuizRemaining();
+    }
+}
+
+function renderQuizRoundComplete(message = 'Summarizing the last minute...') {
+    const list = document.getElementById('optionsList');
+    list.innerHTML = `
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <div>
+                    <div class="quiz-label">Quiz Round ${quizRoundNumber}</div>
+                </div>
+                <div class="quiz-timer">0:00</div>
+            </div>
+            <div class="quiz-question">${message}</div>
+        </div>
+    `;
+}
+
+function renderQuizQuestion() {
+    const list = document.getElementById('optionsList');
+    if (!quizRoundActive || quizCurrentIndex >= sessionQuizOrder.length) {
+        hideInfo();
+        return;
+    }
+
+    const item = sessionQuizOrder[quizCurrentIndex];
+    const optionsHtml = item.options.map((option, idx) => `
+        <button class="quiz-option" onclick="submitQuizAnswer(${idx})">${option}</button>
+    `).join('');
+
+    list.innerHTML = `
+        <div class="quiz-card">
+            <div class="quiz-header">
+                <div>
+                    <div class="quiz-label">Quiz Set ${quizSetSelection} · Round ${quizRoundNumber}</div>
+                </div>
+                <div class="quiz-timer" id="quizTimer">${formatQuizRemaining()}</div>
+            </div>
+            <div class="quiz-question">${item.text}</div>
+            <div class="quiz-options">${optionsHtml}</div>
+        </div>
+    `;
+}
+
+function scheduleNextQuizRound() {
+    clearQueuedQuizRound();
+    if (!Array.isArray(sessionQuizOrder) || sessionQuizOrder.length === 0) return;
+    if (quizScheduleIndex >= quizPlannedOffsetsSec.length) return;
+    const targetAt = quizSessionStartAt + (quizPlannedOffsetsSec[quizScheduleIndex] * 1000);
+    const delayMs = Math.max(0, targetAt - Date.now());
+    quizLaunchTimer = setTimeout(() => {
+        quizLaunchTimer = null;
+        startNextQuizRound(quizScheduleIndex);
+    }, delayMs);
+}
+
+function startNextQuizRound(expectedIndex = quizScheduleIndex) {
+    clearQueuedQuizRound();
+    clearQuizTimers();
+    if (!Array.isArray(sessionQuizOrder) || sessionQuizOrder.length === 0) return;
+    if (expectedIndex !== quizScheduleIndex) return;
+    if (quizScheduleIndex >= quizPlannedOffsetsSec.length) return;
+    if (quizRoundActive) return;
+    if (summaryRequested || summaryInProgress || awaitingJudgeDecision) {
+        quizLaunchTimer = setTimeout(() => {
+            quizLaunchTimer = null;
+            startNextQuizRound(expectedIndex);
+        }, 1000);
+        return;
+    }
+
+    quizRoundNumber += 1;
+    quizScheduleIndex += 1;
+    scheduleNextQuizRound();
+    quizRoundActive = true;
+    quizRoundEndsAt = Date.now() + (quizRoundDurationSec * 1000);
+
+    hideSummary();
+    if (!quizAncActive) {
+        socket.emit('quiz_session_start');
+        quizAncActive = true;
+    }
+    startListeningIfNeeded();
+    socket.emit('quiz_round_start', {
+        quiz_set: quizSetSelection,
+        round_number: quizRoundNumber,
+        question_ids: sessionQuizOrder.map(item => item.id),
+        duration_sec: quizRoundDurationSec,
+    });
+    renderQuizQuestion();
+    updateQuizTimerUi();
+
+    quizCountdownTimer = setInterval(() => {
+        updateQuizTimerUi();
+        if (Date.now() >= quizRoundEndsAt) {
+            finishQuizRound();
+        }
+    }, 250);
+    quizRoundTimer = setTimeout(() => {
+        finishQuizRound();
+    }, quizRoundDurationSec * 1000);
+}
+
+function finishQuizRound() {
+    if (!quizRoundActive) return;
+    const answeredCount = Math.min(quizCurrentIndex, sessionQuizOrder.length);
+    socket.emit('quiz_round_end', {
+        quiz_set: quizSetSelection,
+        round_number: quizRoundNumber,
+        answered_count: answeredCount,
+        shown_count: answeredCount,
+        total_available: sessionQuizOrder.length,
+    });
+    quizRoundActive = false;
+    clearQuizTimers();
+    hideInfo();
+    startSummarizing({ force: true });
+}
+
+function submitQuizAnswer(selectedIdx) {
+    if (!quizRoundActive) return;
+    const item = sessionQuizOrder[quizCurrentIndex];
+    if (!item) return;
+    socket.emit('quiz_question_answered', {
+        quiz_set: quizSetSelection,
+        round_number: quizRoundNumber,
+        question_id: item.id,
+        question_position: quizCurrentIndex + 1,
+        selected_index: selectedIdx,
+        correct_index: Number(item.correct_answer),
+    });
+    const buttons = document.querySelectorAll('.quiz-option');
+    buttons.forEach((button) => {
+        button.disabled = true;
+    });
+    setTimeout(() => {
+        if (!quizRoundActive) return;
+        quizCurrentIndex += 1;
+        renderQuizQuestion();
+    }, 400);
+}
+
+function endQuizAncSession() {
+    if (!quizAncActive) return;
+    socket.emit('quiz_session_done');
+    quizAncActive = false;
+}
+
 // ============================================================================
 // Loading/Indicator Functions
 // ============================================================================
@@ -457,7 +660,9 @@ function emitAllCaughtUpForEmptySummary(segmentId) {
     playTtsStartFeedback('summary');
     setTimeout(() => playTtsEndFeedback('summary'), 320);
     socket.emit('browser_tts_playback_done', { reason: 'all_caught_up' });
+    endQuizAncSession();
     summarySegmentState.delete(segmentId);
+    scheduleNextQuizRound();
 }
 
 function maybeEmitPendingEmptySummarySignal() {
@@ -556,6 +761,14 @@ function hideSummaryText(resetPlaybackFlag = true) {
 }
 
 function renderReconstructedTurns(turns) {
+    if (!showSummaryTextEnabled) {
+        const container = document.getElementById('reconstructedTurns');
+        if (container) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+        }
+        return;
+    }
     // Keep UI text hidden unless explicitly allowed for summary text mode.
     if (!summaryTextAllowedThisPlayback) {
         const container = document.getElementById('reconstructedTurns');
@@ -590,6 +803,14 @@ function buildReconstructedTurnsHtml(turns) {
 }
 
 function renderReconstructedStack(baseTurns, groups) {
+    if (!showSummaryTextEnabled) {
+        const container = document.getElementById('reconstructedTurns');
+        if (container) {
+            container.classList.remove('active');
+            container.innerHTML = '';
+        }
+        return;
+    }
     if (!summaryTextAllowedThisPlayback) {
         const container = document.getElementById('reconstructedTurns');
         if (container) {
@@ -699,6 +920,17 @@ function start(v) {
     pendingEmptySummarySignal = null;
     pendingSkippedIndicator = null;
     fastCatchupPending = false;
+    clearQuizTimers();
+    clearQueuedQuizRound();
+    quizBank = [];
+    sessionQuizOrder = [];
+    quizRoundNumber = 0;
+    quizScheduleIndex = 0;
+    quizCurrentIndex = 0;
+    quizRoundActive = false;
+    quizRoundEndsAt = 0;
+    quizSessionStartAt = Date.now();
+    quizAncActive = false;
 
     const params = { source: source };
     const fastCatchupThresholdEl = document.getElementById('fastCatchupThresholdSec');
@@ -766,6 +998,7 @@ function start(v) {
     params.skip_first_transcript_enabled = skipFirstTranscriptEnabled;
     params.missed_summary_latency_bridge_enabled = missedSummaryLatencyBridgeEnabled;
     params.airpods_mode_switch_enabled = airpodsModeSwitchEnabled;
+    params.quiz_set = quizSetSelection || 'A';
 
     socket.emit('start', params);
 }
@@ -836,6 +1069,11 @@ function clearAllActiveUiAndAudio() {
     keywordTtsPlaybackStartTime = 0;
     keywordTtsCurrentText = '';
     pendingSummaryTexts = [];
+    clearQuizTimers();
+    clearQueuedQuizRound();
+    quizRoundActive = false;
+    quizRoundEndsAt = 0;
+    endQuizAncSession();
     clearReconstructedState();
     summaryCueSequenceActive = false;
     lastSpace = 0;

@@ -15,16 +15,16 @@ import pyautogui as pg
 #     "anc": (4680, 437),  # -270 / 2237 / 4777
 # }
 
-# POS = {
-#     "transparency": (1174, 321),
-#     "anc": (1132, 378),  # -270 / 2237 / 4777
-# }
-
-
 POS = {
-    "transparency": (2228, 356),
-    "anc": (2189, 401),  # -270 / 2237 / 4777
+    "transparency": (1172, 358),
+    "anc": (1172, 400),  # -270 / 2237 / 4777
 }
+
+
+# POS = {
+#     "transparency": (2228, 356),
+#     "anc": (2189, 401),  # -270 / 2237 / 4777
+# }
 
 
 GET_FRONT_APP = textwrap.dedent(
