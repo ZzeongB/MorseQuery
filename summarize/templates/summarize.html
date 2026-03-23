@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Summarize with Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.4/socket.io.min.js"></script>
+    <link rel="stylesheet" href="/static/css/summarize.css">
+</head>
+<body>
+    <div id="menu">
+        <div class="source-select" id="micSelectSection">
+            <span>Mics:</span>
+            <div class="mic-select-group">
+                <div class="mic-select-item">
+                    <label>Mic 0 (Speaker A)</label>
+                    <select id="summaryMic1"></select>
+                </div>
+                <div class="mic-select-item">
+                    <label>Mic 1 (Speaker B)</label>
+                    <select id="summaryMic2"></select>
+                </div>
+            </div>
+        </div>
+
+        <div class="source-select">
+            <span>Quiz File:</span>
+            <input type="text" id="quizFile" class="quiz-input" placeholder="sat_quiz_with_answers.json" value="sat_quiz_with_answers.json">
+        </div>
+
+        <div class="source-select">
+            <span>TTS Voice ID:</span>
+            <input type="text" id="ttsVoiceId" class="quiz-input" value="f786b574-daa5-4673-aa0c-cbe3e8534c02">
+        </div>
+
+        <div class="source-select">
+            <span>Noise Threshold:</span>
+            <input type="number" id="noiseThreshold" min="0" max="5000" step="100" value="0" style="width: 72px;">
+        </div>
+
+        <div class="button-group">
+            <button id="startBtn" onclick="start()">Start</button>
+            <button id="stopBtn" onclick="stop()" disabled>Stop</button>
+        </div>
+    </div>
+
+    <div id="main-content">
+        <!-- Status indicator -->
+        <div class="status-indicator" id="statusIndicator">
+            <span class="status-dot"></span>
+            <span class="status-text">Not Started</span>
+        </div>
+
+        <!-- ANC indicator -->
+        <div class="anc-indicator" id="ancIndicator">
+            <span class="anc-icon">🎧</span>
+            <span class="anc-text">Transparency</span>
+        </div>
+
+        <div class="status-indicator" id="summaryIndicator" style="display: none;">
+            <span class="status-text" id="summaryText"></span>
+        </div>
+
+        <!-- Quiz countdown -->
+        <div class="quiz-countdown" id="quizCountdown" style="display: none;">
+            <span>Next question in: </span>
+            <span class="countdown-time" id="countdownTime">--:--</span>
+        </div>
+
+        <!-- Quiz question display -->
+        <div class="quiz-container" id="quizContainer" style="display: none;">
+            <div class="quiz-header">
+                <span class="quiz-number" id="quizNumber">Question 1/5</span>
+                <span class="quiz-status listening" id="quizListeningStatus">🎙️ Listening...</span>
+            </div>
+            <div class="quiz-question" id="quizQuestion"></div>
+            <div class="quiz-options" id="quizOptions"></div>
+            <button class="quiz-submit" id="quizSubmit" onclick="submitAnswer()">Submit Answer</button>
+        </div>
+
+        <!-- Transcripts display -->
+        <div class="transcripts-container" id="transcriptsContainer">
+            <h3>Transcripts</h3>
+            <div class="transcript-list" id="transcriptList"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/summarize.js"></script>
+</body>
+</html>
