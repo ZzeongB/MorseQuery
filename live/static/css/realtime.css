@@ -224,7 +224,7 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     max-width: fit-content;
 }
 .loading-indicator.active {
-    display: flex;
+    display: none; /* Hidden - audio feedback only */
 }
 /* Summarizing state - different color */
 .loading-indicator.summarizing {

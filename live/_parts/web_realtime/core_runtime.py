@@ -63,7 +63,7 @@ _pyaudio_lock = threading.Lock()
 from config import LOG_DIR, TEMPLATES_DIR
 from flask import Flask
 from flask_socketio import SocketIO
-from logger import get_logger, get_session_subdir, log_print
+from logger import get_existing_logger, get_logger, get_session_subdir, log_print
 
 STATIC_DIR = Path(__file__).parent / "static"
 app = Flask(__name__, template_folder=str(TEMPLATES_DIR), static_folder=str(STATIC_DIR))
@@ -295,8 +295,8 @@ keyword_tts_stream_client: Optional[StreamingTTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
 _QUIZ_FILES = {
-    "A": "../quiz/sat_quiz_set_a.json",
-    "B": "../quiz/sat_quiz_set_b.json",
+    "A": "../quiz/psat_quiz_set_a.json",
+    "B": "../quiz/psat_quiz_set_b.json",
 }
 _QUIZ_DURATION_SEC = 90
 
