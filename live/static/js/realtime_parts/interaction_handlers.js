@@ -128,13 +128,7 @@ socket.on('session_ended', () => {
 });
 
 socket.on('quiz_ready', data => {
-    const questions = Array.isArray(data && data.questions) ? data.questions : [];
-    if (questions.length === 0) {
-        console.warn('quiz_ready received without questions');
-        return;
-    }
-    quizBank = questions;
-    quizRoundDurationSec = Math.max(1, Number((data && data.duration_sec) || 60));
+    // N-back test: we don't need quiz questions, just schedule the rounds
     // Sync tutorial mode from server response
     if (data && data.is_tutorial) {
         quizIsTutorial = true;
@@ -143,10 +137,10 @@ socket.on('quiz_ready', data => {
         quizIsTutorial = false;
         quizPlannedOffsetsSec = quizPlannedOffsetsRegular;
     }
-    sessionQuizOrder = buildSessionQuizOrder();
     quizRoundNumber = 0;
     quizScheduleIndex = 0;
-    quizCurrentIndex = 0;
+    nbackCurrentIndex = 0;
+    nbackResults = [];
     if (!quizSessionStartAt) {
         quizSessionStartAt = Date.now();
     }
@@ -848,6 +842,20 @@ document.addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
         return;
     }
+
+    // Handle arrow keys for n-back test
+    if (nbackRoundActive) {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            handleNbackKeyPress('left');
+            return;
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            handleNbackKeyPress('right');
+            return;
+        }
+    }
+
     unlockAudioFeedback();
     e.preventDefault();
 });
@@ -856,6 +864,12 @@ document.addEventListener('keyup', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.isContentEditable) {
         return;
     }
+
+    // Skip other key handlers during n-back test (arrow keys handled in keydown)
+    if (nbackRoundActive && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        return;
+    }
+
     // PageDown & Esc: dismiss (single click)
     if (e.key === 'PageDown' || e.key === 'Escape') {
         handleDismissKey();

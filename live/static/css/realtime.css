@@ -185,6 +185,63 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     cursor: default;
 }
 
+/* N-back test styles */
+.nback-card {
+    width: min(600px, 100%);
+    padding: 24px 32px;
+    background: #111827;
+    border-radius: 12px;
+    margin: 0 auto;
+    text-align: center;
+}
+.nback-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+.nback-label {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #60a5fa;
+}
+.nback-progress {
+    font-size: 14px;
+    color: #9ca3af;
+}
+.nback-letter {
+    font-size: 120px;
+    font-weight: 700;
+    color: #f8fafc;
+    line-height: 1.2;
+    margin: 32px 0;
+    font-family: 'Courier New', Courier, monospace;
+}
+.nback-letter.nback-blank {
+    color: #4b5563;
+}
+.nback-instructions {
+    font-size: 14px;
+    color: #9ca3af;
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+.key-hint {
+    background: #1f2937;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #374151;
+}
+.nback-complete {
+    font-size: 24px;
+    color: #4ade80;
+    padding: 40px 0;
+}
+
 
 /* Tap/Progress indicator (top of main-content) */
 .tap-indicator {

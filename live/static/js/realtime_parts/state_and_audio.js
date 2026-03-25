@@ -154,6 +154,21 @@ var quizAncActive = false;
 var quizSetSelection = 'A';
 var quizIsTutorial = false;
 
+// N-back test state variables
+var nbackN = 2;                        // N for n-back test (2-back)
+var nbackTotalLetters = 32;            // Total letters in sequence
+var nbackDisplayMs = 500;              // Letter display duration (ms)
+var nbackIntervalMs = 2500;            // Interval between letters (ms)
+var nbackSequence = [];                // Array of letters for current round
+var nbackCurrentIndex = 0;             // Current letter index
+var nbackRoundActive = false;          // Whether n-back round is active
+var nbackDisplayTimer = null;          // Timer for letter display
+var nbackIntervalTimer = null;         // Timer for interval between letters
+var nbackLetterShownAt = 0;            // Timestamp when current letter was shown
+var nbackResponseMade = false;         // Whether response was made for current letter
+var nbackKeysPressed = [];             // Keys pressed during current trial
+var nbackResults = [];                 // Results for each trial: {letter, isMatch, response, correct, responseTime}
+
 // ============================================================================
 // Utility Functions
 // ============================================================================

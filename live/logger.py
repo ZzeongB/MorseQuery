@@ -42,6 +42,9 @@ ALLOWED_EVENT_TYPES = {
     "quiz_round_start",
     "quiz_question_answered",
     "quiz_round_end",
+    "nback_round_start",
+    "nback_trial_result",
+    "nback_round_end",
 }
 
 
