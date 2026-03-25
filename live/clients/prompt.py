@@ -720,8 +720,8 @@ B: <compressed content for B>
 
 Limits:
 - Each line should be concise.
-- Prefer each line to be 5-12 words.
-- Total output should be under 25 words when possible.
+- Prefer each line to be 10-15 words.
+- Total output should be under 30 words when possible.
 
 Example:
 Original dialogue

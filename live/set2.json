@@ -1,0 +1,504 @@
+{
+  "pairs": [
+    {
+      "word1": "game",
+      "word2": "fowl",
+      "related": false
+    },
+    {
+      "word1": "ache",
+      "word2": "pane",
+      "related": false
+    },
+    {
+      "word1": "riding",
+      "word2": "house",
+      "related": false
+    },
+    {
+      "word1": "gaze",
+      "word2": "start",
+      "related": false
+    },
+    {
+      "word1": "price",
+      "word2": "seal",
+      "related": false
+    },
+    {
+      "word1": "deer",
+      "word2": "doom",
+      "related": false
+    },
+    {
+      "word1": "tissue",
+      "word2": "mussel",
+      "related": false
+    },
+    {
+      "word1": "trash",
+      "word2": "waist",
+      "related": false
+    },
+    {
+      "word1": "door",
+      "word2": "gait",
+      "related": false
+    },
+    {
+      "word1": "left",
+      "word2": "rote",
+      "related": false
+    },
+    {
+      "word1": "sugar",
+      "word2": "suite",
+      "related": false
+    },
+    {
+      "word1": "major",
+      "word2": "miner",
+      "related": false
+    },
+    {
+      "word1": "tissue",
+      "word2": "missile",
+      "related": false
+    },
+    {
+      "word1": "coat",
+      "word2": "far",
+      "related": false
+    },
+    {
+      "word1": "gaze",
+      "word2": "stair",
+      "related": false
+    },
+    {
+      "word1": "ocean",
+      "word2": "wheel",
+      "related": false
+    },
+    {
+      "word1": "two",
+      "word2": "won",
+      "related": false
+    },
+    {
+      "word1": "strong",
+      "word2": "week",
+      "related": false
+    },
+    {
+      "word1": "couple",
+      "word2": "pear",
+      "related": false
+    },
+    {
+      "word1": "sky",
+      "word2": "blew",
+      "related": false
+    },
+    {
+      "word1": "vote",
+      "word2": "pole",
+      "related": false
+    },
+    {
+      "word1": "left",
+      "word2": "rite",
+      "related": false
+    },
+    {
+      "word1": "theft",
+      "word2": "stead",
+      "related": false
+    },
+    {
+      "word1": "war",
+      "word2": "peach",
+      "related": false
+    },
+    {
+      "word1": "head",
+      "word2": "tale",
+      "related": false
+    },
+    {
+      "word1": "horse",
+      "word2": "mean",
+      "related": false
+    },
+    {
+      "word1": "riding",
+      "word2": "hoarse",
+      "related": false
+    },
+    {
+      "word1": "sugar",
+      "word2": "sweat",
+      "related": false
+    },
+    {
+      "word1": "money",
+      "word2": "lute",
+      "related": false
+    },
+    {
+      "word1": "sand",
+      "word2": "beech",
+      "related": false
+    },
+    {
+      "word1": "water",
+      "word2": "ruin",
+      "related": false
+    },
+    {
+      "word1": "door",
+      "word2": "gasp",
+      "related": false
+    },
+    {
+      "word1": "heart",
+      "word2": "soil",
+      "related": false
+    },
+    {
+      "word1": "moon",
+      "word2": "son",
+      "related": false
+    },
+    {
+      "word1": "river",
+      "word2": "creak",
+      "related": false
+    },
+    {
+      "word1": "taxi",
+      "word2": "fear",
+      "related": false
+    },
+    {
+      "word1": "coat",
+      "word2": "fir",
+      "related": false
+    },
+    {
+      "word1": "beef",
+      "word2": "stark",
+      "related": false
+    },
+    {
+      "word1": "horse",
+      "word2": "main",
+      "related": false
+    },
+    {
+      "word1": "major",
+      "word2": "mirror",
+      "related": false
+    },
+    {
+      "word1": "piece",
+      "word2": "poe",
+      "related": false
+    },
+    {
+      "word1": "oats",
+      "word2": "rie",
+      "related": false
+    },
+    {
+      "word1": "boy",
+      "word2": "surl",
+      "related": false
+    },
+    {
+      "word1": "early",
+      "word2": "lart",
+      "related": false
+    },
+    {
+      "word1": "sneeze",
+      "word2": "coch",
+      "related": false
+    },
+    {
+      "word1": "wet",
+      "word2": "drie",
+      "related": false
+    },
+    {
+      "word1": "boy",
+      "word2": "gurl",
+      "related": false
+    },
+    {
+      "word1": "spider",
+      "word2": "wheb",
+      "related": false
+    },
+    {
+      "word1": "your",
+      "word2": "mene",
+      "related": false
+    },
+    {
+      "word1": "file",
+      "word2": "payper",
+      "related": false
+    },
+    {
+      "word1": "cloud",
+      "word2": "rand",
+      "related": false
+    },
+    {
+      "word1": "ton",
+      "word2": "wrat",
+      "related": false
+    },
+    {
+      "word1": "war",
+      "word2": "peece",
+      "related": false
+    },
+    {
+      "word1": "road",
+      "word2": "lain",
+      "related": false
+    },
+    {
+      "word1": "herd",
+      "word2": "sheap",
+      "related": false
+    },
+    {
+      "word1": "bite",
+      "word2": "teath",
+      "related": false
+    },
+    {
+      "word1": "house",
+      "word2": "horm",
+      "related": false
+    },
+    {
+      "word1": "oats",
+      "word2": "ree",
+      "related": false
+    },
+    {
+      "word1": "bake",
+      "word2": "cawk",
+      "related": false
+    },
+    {
+      "word1": "dream",
+      "word2": "sleap",
+      "related": false
+    },
+    {
+      "word1": "bread",
+      "word2": "budder",
+      "related": false
+    },
+    {
+      "word1": "war",
+      "word2": "perce",
+      "related": false
+    },
+    {
+      "word1": "lion",
+      "word2": "rore",
+      "related": false
+    },
+    {
+      "word1": "tight",
+      "word2": "luse",
+      "related": false
+    },
+    {
+      "word1": "deep",
+      "word2": "ruted",
+      "related": false
+    },
+    {
+      "word1": "bite",
+      "word2": "terth",
+      "related": false
+    },
+    {
+      "word1": "eat",
+      "word2": "supl",
+      "related": false
+    },
+    {
+      "word1": "gone",
+      "word2": "aweigh",
+      "related": false
+    },
+    {
+      "word1": "cold",
+      "word2": "maht",
+      "related": false
+    },
+    {
+      "word1": "doctor",
+      "word2": "derse",
+      "related": false
+    },
+    {
+      "word1": "group",
+      "word2": "peeple",
+      "related": false
+    },
+    {
+      "word1": "group",
+      "word2": "perple",
+      "related": false
+    },
+    {
+      "word1": "sole",
+      "word2": "shorn",
+      "related": false
+    },
+    {
+      "word1": "blade",
+      "word2": "nofe",
+      "related": false
+    },
+    {
+      "word1": "cloud",
+      "word2": "rane",
+      "related": false
+    },
+    {
+      "word1": "moan",
+      "word2": "gront",
+      "related": false
+    },
+    {
+      "word1": "train",
+      "word2": "traw",
+      "related": false
+    },
+    {
+      "word1": "bible",
+      "word2": "gahd",
+      "related": false
+    },
+    {
+      "word1": "moan",
+      "word2": "grone",
+      "related": false
+    },
+    {
+      "word1": "wear",
+      "word2": "clome",
+      "related": false
+    },
+    {
+      "word1": "lion",
+      "word2": "rotr",
+      "related": false
+    },
+    {
+      "word1": "bread",
+      "word2": "busher",
+      "related": false
+    },
+    {
+      "word1": "weep",
+      "word2": "crit",
+      "related": false
+    },
+    {
+      "word1": "open",
+      "word2": "clozed",
+      "related": false
+    },
+    {
+      "word1": "house",
+      "word2": "hoam",
+      "related": false
+    },
+    {
+      "word1": "grape",
+      "word2": "frust",
+      "related": false
+    },
+    {
+      "word1": "file",
+      "word2": "parper",
+      "related": false
+    },
+    {
+      "word1": "fake",
+      "word2": "fraid",
+      "related": false
+    },
+    {
+      "word1": "four",
+      "word2": "fyve",
+      "related": false
+    },
+    {
+      "word1": "eat",
+      "word2": "supe",
+      "related": false
+    },
+    {
+      "word1": "cold",
+      "word2": "haht",
+      "related": false
+    },
+    {
+      "word1": "most",
+      "word2": "lerst",
+      "related": false
+    },
+    {
+      "word1": "grave",
+      "word2": "toom",
+      "related": false
+    },
+    {
+      "word1": "near",
+      "word2": "phaer",
+      "related": false
+    },
+    {
+      "word1": "roast",
+      "word2": "belf",
+      "related": false
+    },
+    {
+      "word1": "flour",
+      "word2": "wheet",
+      "related": false
+    },
+    {
+      "word1": "spider",
+      "word2": "werb",
+      "related": false
+    },
+    {
+      "word1": "fleet",
+      "word2": "narvy",
+      "related": false
+    },
+    {
+      "word1": "four",
+      "word2": "fove",
+      "related": false
+    },
+    {
+      "word1": "near",
+      "word2": "pharr",
+      "related": false
+    }
+  ]
+}

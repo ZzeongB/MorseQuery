@@ -148,26 +148,23 @@ var quizLaunchTimer = null;
 var quizSessionStartAt = 0;
 var quizPlannedOffsetsSec = [60, 240, 420];
 var quizPlannedOffsetsRegular = [60, 240, 420];
-var quizPlannedOffsetsTutorial = [30];
+var quizPlannedOffsetsTutorial = [20];
 var quizScheduleIndex = 0;
 var quizAncActive = false;
 var quizSetSelection = 'A';
 var quizIsTutorial = false;
 
-// N-back test state variables
-var nbackN = 2;                        // N for n-back test (2-back)
-var nbackTotalLetters = 32;            // Total letters in sequence
-var nbackDisplayMs = 500;              // Letter display duration (ms)
-var nbackIntervalMs = 2500;            // Interval between letters (ms)
-var nbackSequence = [];                // Array of letters for current round
-var nbackCurrentIndex = 0;             // Current letter index
-var nbackRoundActive = false;          // Whether n-back round is active
-var nbackDisplayTimer = null;          // Timer for letter display
-var nbackIntervalTimer = null;         // Timer for interval between letters
-var nbackLetterShownAt = 0;            // Timestamp when current letter was shown
-var nbackResponseMade = false;         // Whether response was made for current letter
-var nbackKeysPressed = [];             // Keys pressed during current trial
-var nbackResults = [];                 // Results for each trial: {letter, isMatch, response, correct, responseTime}
+// Semantic relatedness test state variables
+var wordPairs = [];                     // Array of word pair objects from JSON
+var wordPairOrder = [];                 // Shuffled order for entire session (not per round)
+var wordPairSessionIndex = 0;           // Current position in session (persists across rounds)
+var wordPairRoundActive = false;        // Whether word pair round is active
+var wordPairRoundEndsAt = 0;            // Timestamp when current round should end
+var wordPairRoundTimer = null;          // Timer for round duration check
+var wordPairShownAt = 0;                // Timestamp when current pair was shown
+var wordPairResponseMade = false;       // Whether response was made for current pair
+var wordPairResults = [];               // Results for current round
+var wordPairRoundDurationSec = 90;      // Round duration in seconds
 
 // ============================================================================
 // Utility Functions

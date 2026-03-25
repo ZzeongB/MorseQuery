@@ -60,7 +60,7 @@ _WHITE_NOISE_SAMPLE_RATE = 44100
 
 # Global PyAudio lock to prevent segfaults from concurrent access
 _pyaudio_lock = threading.Lock()
-from config import LOG_DIR, TEMPLATES_DIR
+from config import LIVE_DIR, LOG_DIR, TEMPLATES_DIR
 from flask import Flask
 from flask_socketio import SocketIO
 from logger import get_existing_logger, get_logger, get_session_subdir, log_print
@@ -332,8 +332,13 @@ _QUIZ_FILES = {
     "B": "../quiz/sat_quiz_set_b.json",
     "T": "../quiz/psat_quiz_set_a.json",  # Tutorial uses set A
 }
-_QUIZ_DURATION_SEC = 90
-_QUIZ_DURATION_TUTORIAL_SEC = 60
+_QUIZ_DURATION_SEC = 60
+_QUIZ_DURATION_TUTORIAL_SEC = 30
+_WORD_PAIRS_FILES = {
+    "A": "word_pairs_set_a.json",
+    "B": "word_pairs_set_b.json",
+    "T": "word_pairs_tutorial.json",
+}
 
 # Dialogue stores for VAD transcripts (one per summary speaker)
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
@@ -457,38 +462,32 @@ def _load_quiz_bank(quiz_set: str = "A") -> list[dict]:
         return []
 
 
+def _load_word_pairs(quiz_set: str = "A") -> list[dict]:
+    """Load word pairs from JSON file for semantic relatedness test."""
+    word_pairs_file = _WORD_PAIRS_FILES.get(quiz_set.upper(), _WORD_PAIRS_FILES["A"])
+    word_pairs_path = LIVE_DIR / word_pairs_file
+    try:
+        payload = json.loads(word_pairs_path.read_text())
+        pairs = payload.get("pairs") or []
+        return [
+            {"word1": p["word1"], "word2": p["word2"], "related": p["related"]}
+            for p in pairs
+            if "word1" in p and "word2" in p and "related" in p
+        ]
+    except Exception as e:
+        log_print("WARN", f"Failed to load word pairs: {e}", path=str(word_pairs_path))
+        return []
+
+
 def _build_quiz_payload(quiz_set: str = "A") -> dict:
-    questions = _load_quiz_bank(quiz_set)
-    randomized = []
-    for item in questions:
-        option_pairs = list(enumerate(item["options"]))
-        random.shuffle(option_pairs)
-        shuffled_options = [text for _, text in option_pairs]
-        shuffled_correct = next(
-            (
-                idx
-                for idx, (original_idx, _) in enumerate(option_pairs)
-                if original_idx == item["correct_answer"]
-            ),
-            -1,
-        )
-        randomized.append(
-            {
-                "id": item["id"],
-                "text": item["text"],
-                "options": shuffled_options,
-                "correct_answer": shuffled_correct,
-            }
-        )
-    random.shuffle(randomized)
-    # Tutorial mode uses shorter duration
-    duration = (
-        _QUIZ_DURATION_TUTORIAL_SEC if quiz_set.upper() == "T" else _QUIZ_DURATION_SEC
-    )
+    """Build payload with word pairs for semantic relatedness test."""
+    word_pairs = _load_word_pairs(quiz_set)
+    is_tutorial = quiz_set.upper() == "T"
+    duration = _QUIZ_DURATION_TUTORIAL_SEC if is_tutorial else _QUIZ_DURATION_SEC
     return {
+        "word_pairs": word_pairs,
+        "is_tutorial": is_tutorial,
         "duration_sec": duration,
-        "questions": randomized,
-        "is_tutorial": quiz_set.upper() == "T",
     }
 
 

@@ -1,0 +1,1324 @@
+{
+  "pairs": [
+    {
+      "word1": "tiger",
+      "word2": "cat",
+      "related": true,
+      "id": 0
+    },
+    {
+      "word1": "tiger",
+      "word2": "tiger",
+      "related": true,
+      "id": 1
+    },
+    {
+      "word1": "book",
+      "word2": "paper",
+      "related": true,
+      "id": 2
+    },
+    {
+      "word1": "computer",
+      "word2": "keyboard",
+      "related": true,
+      "id": 3
+    },
+    {
+      "word1": "computer",
+      "word2": "internet",
+      "related": true,
+      "id": 4
+    },
+    {
+      "word1": "telephone",
+      "word2": "communication",
+      "related": true,
+      "id": 5
+    },
+    {
+      "word1": "media",
+      "word2": "radio",
+      "related": true,
+      "id": 6
+    },
+    {
+      "word1": "doctor",
+      "word2": "nurse",
+      "related": true,
+      "id": 7
+    },
+    {
+      "word1": "smart",
+      "word2": "student",
+      "related": false,
+      "id": 8
+    },
+    {
+      "word1": "company",
+      "word2": "stock",
+      "related": true,
+      "id": 9
+    },
+    {
+      "word1": "stock",
+      "word2": "market",
+      "related": true,
+      "id": 10
+    },
+    {
+      "word1": "stock",
+      "word2": "phone",
+      "related": false,
+      "id": 11
+    },
+    {
+      "word1": "stock",
+      "word2": "CD",
+      "related": false,
+      "id": 12
+    },
+    {
+      "word1": "stock",
+      "word2": "jaguar",
+      "related": false,
+      "id": 13
+    },
+    {
+      "word1": "stock",
+      "word2": "egg",
+      "related": false,
+      "id": 14
+    },
+    {
+      "word1": "stock",
+      "word2": "live",
+      "related": false,
+      "id": 15
+    },
+    {
+      "word1": "stock",
+      "word2": "life",
+      "related": false,
+      "id": 16
+    },
+    {
+      "word1": "book",
+      "word2": "library",
+      "related": true,
+      "id": 17
+    },
+    {
+      "word1": "bank",
+      "word2": "money",
+      "related": true,
+      "id": 18
+    },
+    {
+      "word1": "wood",
+      "word2": "forest",
+      "related": true,
+      "id": 19
+    },
+    {
+      "word1": "money",
+      "word2": "cash",
+      "related": true,
+      "id": 20
+    },
+    {
+      "word1": "professor",
+      "word2": "cucumber",
+      "related": false,
+      "id": 21
+    },
+    {
+      "word1": "king",
+      "word2": "cabbage",
+      "related": false,
+      "id": 22
+    },
+    {
+      "word1": "king",
+      "word2": "queen",
+      "related": true,
+      "id": 23
+    },
+    {
+      "word1": "Jerusalem",
+      "word2": "Israel",
+      "related": true,
+      "id": 24
+    },
+    {
+      "word1": "Jerusalem",
+      "word2": "Palestinian",
+      "related": true,
+      "id": 25
+    },
+    {
+      "word1": "holy",
+      "word2": "sex",
+      "related": false,
+      "id": 26
+    },
+    {
+      "word1": "fuck",
+      "word2": "sex",
+      "related": true,
+      "id": 27
+    },
+    {
+      "word1": "Maradona",
+      "word2": "football",
+      "related": true,
+      "id": 28
+    },
+    {
+      "word1": "football",
+      "word2": "soccer",
+      "related": true,
+      "id": 29
+    },
+    {
+      "word1": "tennis",
+      "word2": "racket",
+      "related": true,
+      "id": 30
+    },
+    {
+      "word1": "Arafat",
+      "word2": "terror",
+      "related": true,
+      "id": 31
+    },
+    {
+      "word1": "Arafat",
+      "word2": "Jackson",
+      "related": false,
+      "id": 32
+    },
+    {
+      "word1": "law",
+      "word2": "lawyer",
+      "related": true,
+      "id": 33
+    },
+    {
+      "word1": "movie",
+      "word2": "star",
+      "related": true,
+      "id": 34
+    },
+    {
+      "word1": "movie",
+      "word2": "theater",
+      "related": true,
+      "id": 35
+    },
+    {
+      "word1": "physics",
+      "word2": "proton",
+      "related": true,
+      "id": 36
+    },
+    {
+      "word1": "physics",
+      "word2": "chemistry",
+      "related": true,
+      "id": 37
+    },
+    {
+      "word1": "space",
+      "word2": "chemistry",
+      "related": false,
+      "id": 38
+    },
+    {
+      "word1": "vodka",
+      "word2": "gin",
+      "related": true,
+      "id": 39
+    },
+    {
+      "word1": "vodka",
+      "word2": "brandy",
+      "related": true,
+      "id": 40
+    },
+    {
+      "word1": "drink",
+      "word2": "car",
+      "related": false,
+      "id": 41
+    },
+    {
+      "word1": "drink",
+      "word2": "ear",
+      "related": false,
+      "id": 42
+    },
+    {
+      "word1": "baby",
+      "word2": "mother",
+      "related": true,
+      "id": 43
+    },
+    {
+      "word1": "drink",
+      "word2": "mother",
+      "related": false,
+      "id": 44
+    },
+    {
+      "word1": "car",
+      "word2": "automobile",
+      "related": true,
+      "id": 45
+    },
+    {
+      "word1": "gem",
+      "word2": "jewel",
+      "related": true,
+      "id": 46
+    },
+    {
+      "word1": "journey",
+      "word2": "voyage",
+      "related": true,
+      "id": 47
+    },
+    {
+      "word1": "boy",
+      "word2": "lad",
+      "related": true,
+      "id": 48
+    },
+    {
+      "word1": "coast",
+      "word2": "shore",
+      "related": true,
+      "id": 49
+    },
+    {
+      "word1": "asylum",
+      "word2": "madhouse",
+      "related": true,
+      "id": 50
+    },
+    {
+      "word1": "magician",
+      "word2": "wizard",
+      "related": true,
+      "id": 51
+    },
+    {
+      "word1": "midday",
+      "word2": "noon",
+      "related": true,
+      "id": 52
+    },
+    {
+      "word1": "furnace",
+      "word2": "stove",
+      "related": true,
+      "id": 53
+    },
+    {
+      "word1": "food",
+      "word2": "fruit",
+      "related": true,
+      "id": 54
+    },
+    {
+      "word1": "bird",
+      "word2": "cock",
+      "related": true,
+      "id": 55
+    },
+    {
+      "word1": "bird",
+      "word2": "crane",
+      "related": true,
+      "id": 56
+    },
+    {
+      "word1": "crane",
+      "word2": "implement",
+      "related": false,
+      "id": 57
+    },
+    {
+      "word1": "lad",
+      "word2": "brother",
+      "related": false,
+      "id": 58
+    },
+    {
+      "word1": "monk",
+      "word2": "oracle",
+      "related": false,
+      "id": 59
+    },
+    {
+      "word1": "cemetery",
+      "word2": "woodland",
+      "related": false,
+      "id": 60
+    },
+    {
+      "word1": "food",
+      "word2": "rooster",
+      "related": false,
+      "id": 61
+    },
+    {
+      "word1": "coast",
+      "word2": "hill",
+      "related": false,
+      "id": 62
+    },
+    {
+      "word1": "forest",
+      "word2": "graveyard",
+      "related": false,
+      "id": 63
+    },
+    {
+      "word1": "shore",
+      "word2": "woodland",
+      "related": false,
+      "id": 64
+    },
+    {
+      "word1": "monk",
+      "word2": "slave",
+      "related": false,
+      "id": 65
+    },
+    {
+      "word1": "coast",
+      "word2": "forest",
+      "related": false,
+      "id": 66
+    },
+    {
+      "word1": "lad",
+      "word2": "wizard",
+      "related": false,
+      "id": 67
+    },
+    {
+      "word1": "chord",
+      "word2": "smile",
+      "related": false,
+      "id": 68
+    },
+    {
+      "word1": "glass",
+      "word2": "magician",
+      "related": false,
+      "id": 69
+    },
+    {
+      "word1": "noon",
+      "word2": "string",
+      "related": false,
+      "id": 70
+    },
+    {
+      "word1": "rooster",
+      "word2": "voyage",
+      "related": false,
+      "id": 71
+    },
+    {
+      "word1": "money",
+      "word2": "dollar",
+      "related": true,
+      "id": 72
+    },
+    {
+      "word1": "money",
+      "word2": "cash",
+      "related": true,
+      "id": 73
+    },
+    {
+      "word1": "money",
+      "word2": "currency",
+      "related": true,
+      "id": 74
+    },
+    {
+      "word1": "money",
+      "word2": "wealth",
+      "related": true,
+      "id": 75
+    },
+    {
+      "word1": "money",
+      "word2": "property",
+      "related": true,
+      "id": 76
+    },
+    {
+      "word1": "money",
+      "word2": "possession",
+      "related": true,
+      "id": 77
+    },
+    {
+      "word1": "money",
+      "word2": "bank",
+      "related": true,
+      "id": 78
+    },
+    {
+      "word1": "money",
+      "word2": "deposit",
+      "related": true,
+      "id": 79
+    },
+    {
+      "word1": "money",
+      "word2": "operation",
+      "related": false,
+      "id": 80
+    },
+    {
+      "word1": "tiger",
+      "word2": "jaguar",
+      "related": true,
+      "id": 81
+    },
+    {
+      "word1": "tiger",
+      "word2": "feline",
+      "related": true,
+      "id": 82
+    },
+    {
+      "word1": "tiger",
+      "word2": "carnivore",
+      "related": true,
+      "id": 83
+    },
+    {
+      "word1": "tiger",
+      "word2": "animal",
+      "related": true,
+      "id": 84
+    },
+    {
+      "word1": "tiger",
+      "word2": "organism",
+      "related": false,
+      "id": 85
+    },
+    {
+      "word1": "psychology",
+      "word2": "psychiatry",
+      "related": true,
+      "id": 86
+    },
+    {
+      "word1": "psychology",
+      "word2": "anxiety",
+      "related": true,
+      "id": 87
+    },
+    {
+      "word1": "psychology",
+      "word2": "depression",
+      "related": true,
+      "id": 88
+    },
+    {
+      "word1": "psychology",
+      "word2": "Freud",
+      "related": true,
+      "id": 89
+    },
+    {
+      "word1": "psychology",
+      "word2": "mind",
+      "related": true,
+      "id": 90
+    },
+    {
+      "word1": "psychology",
+      "word2": "health",
+      "related": true,
+      "id": 91
+    },
+    {
+      "word1": "psychology",
+      "word2": "cognition",
+      "related": true,
+      "id": 92
+    },
+    {
+      "word1": "planet",
+      "word2": "star",
+      "related": true,
+      "id": 93
+    },
+    {
+      "word1": "planet",
+      "word2": "constellation",
+      "related": true,
+      "id": 94
+    },
+    {
+      "word1": "planet",
+      "word2": "moon",
+      "related": true,
+      "id": 95
+    },
+    {
+      "word1": "planet",
+      "word2": "sun",
+      "related": true,
+      "id": 96
+    },
+    {
+      "word1": "planet",
+      "word2": "galaxy",
+      "related": true,
+      "id": 97
+    },
+    {
+      "word1": "planet",
+      "word2": "space",
+      "related": true,
+      "id": 98
+    },
+    {
+      "word1": "planet",
+      "word2": "astronomer",
+      "related": true,
+      "id": 99
+    },
+    {
+      "word1": "precedent",
+      "word2": "information",
+      "related": false,
+      "id": 100
+    },
+    {
+      "word1": "precedent",
+      "word2": "cognition",
+      "related": false,
+      "id": 101
+    },
+    {
+      "word1": "precedent",
+      "word2": "collection",
+      "related": false,
+      "id": 102
+    },
+    {
+      "word1": "precedent",
+      "word2": "group",
+      "related": false,
+      "id": 103
+    },
+    {
+      "word1": "cup",
+      "word2": "article",
+      "related": false,
+      "id": 104
+    },
+    {
+      "word1": "cup",
+      "word2": "artifact",
+      "related": false,
+      "id": 105
+    },
+    {
+      "word1": "cup",
+      "word2": "object",
+      "related": false,
+      "id": 106
+    },
+    {
+      "word1": "cup",
+      "word2": "entity",
+      "related": false,
+      "id": 107
+    },
+    {
+      "word1": "cup",
+      "word2": "drink",
+      "related": true,
+      "id": 108
+    },
+    {
+      "word1": "cup",
+      "word2": "food",
+      "related": false,
+      "id": 109
+    },
+    {
+      "word1": "cup",
+      "word2": "substance",
+      "related": false,
+      "id": 110
+    },
+    {
+      "word1": "jaguar",
+      "word2": "cat",
+      "related": true,
+      "id": 111
+    },
+    {
+      "word1": "jaguar",
+      "word2": "car",
+      "related": true,
+      "id": 112
+    },
+    {
+      "word1": "chance",
+      "word2": "credibility",
+      "related": false,
+      "id": 113
+    },
+    {
+      "word1": "rock",
+      "word2": "jazz",
+      "related": true,
+      "id": 114
+    },
+    {
+      "word1": "museum",
+      "word2": "theater",
+      "related": true,
+      "id": 115
+    },
+    {
+      "word1": "observation",
+      "word2": "architecture",
+      "related": false,
+      "id": 116
+    },
+    {
+      "word1": "admission",
+      "word2": "ticket",
+      "related": true,
+      "id": 117
+    },
+    {
+      "word1": "weather",
+      "word2": "forecast",
+      "related": true,
+      "id": 118
+    },
+    {
+      "word1": "architecture",
+      "word2": "century",
+      "related": false,
+      "id": 119
+    },
+    {
+      "word1": "quote",
+      "word2": "fight",
+      "related": false,
+      "id": 120
+    },
+    {
+      "word1": "model",
+      "word2": "roll",
+      "related": false,
+      "id": 121
+    },
+    {
+      "word1": "female",
+      "word2": "mile",
+      "related": false,
+      "id": 122
+    },
+    {
+      "word1": "rose",
+      "word2": "floor",
+      "related": false,
+      "id": 123
+    },
+    {
+      "word1": "quote",
+      "word2": "sight",
+      "related": false,
+      "id": 124
+    },
+    {
+      "word1": "couple",
+      "word2": "pier",
+      "related": false,
+      "id": 125
+    },
+    {
+      "word1": "jail",
+      "word2": "ball",
+      "related": false,
+      "id": 126
+    },
+    {
+      "word1": "trash",
+      "word2": "warts",
+      "related": false,
+      "id": 127
+    },
+    {
+      "word1": "two",
+      "word2": "gone",
+      "related": false,
+      "id": 128
+    },
+    {
+      "word1": "stop",
+      "word2": "peas",
+      "related": false,
+      "id": 129
+    },
+    {
+      "word1": "money",
+      "word2": "list",
+      "related": false,
+      "id": 130
+    },
+    {
+      "word1": "heart",
+      "word2": "sole",
+      "related": false,
+      "id": 131
+    },
+    {
+      "word1": "model",
+      "word2": "rule",
+      "related": false,
+      "id": 132
+    },
+    {
+      "word1": "sand",
+      "word2": "bench",
+      "related": false,
+      "id": 133
+    },
+    {
+      "word1": "river",
+      "word2": "creed",
+      "related": false,
+      "id": 134
+    },
+    {
+      "word1": "ocean",
+      "word2": "wail",
+      "related": false,
+      "id": 135
+    },
+    {
+      "word1": "deer",
+      "word2": "dough",
+      "related": false,
+      "id": 136
+    },
+    {
+      "word1": "strong",
+      "word2": "wear",
+      "related": false,
+      "id": 137
+    },
+    {
+      "word1": "price",
+      "word2": "sail",
+      "related": false,
+      "id": 138
+    },
+    {
+      "word1": "taxi",
+      "word2": "fair",
+      "related": false,
+      "id": 139
+    },
+    {
+      "word1": "sky",
+      "word2": "bled",
+      "related": false,
+      "id": 140
+    },
+    {
+      "word1": "rose",
+      "word2": "flour",
+      "related": false,
+      "id": 141
+    },
+    {
+      "word1": "blood",
+      "word2": "vane",
+      "related": false,
+      "id": 142
+    },
+    {
+      "word1": "bald",
+      "word2": "harm",
+      "related": false,
+      "id": 143
+    },
+    {
+      "word1": "theft",
+      "word2": "steel",
+      "related": false,
+      "id": 144
+    },
+    {
+      "word1": "all",
+      "word2": "nun",
+      "related": false,
+      "id": 145
+    },
+    {
+      "word1": "moon",
+      "word2": "sin",
+      "related": false,
+      "id": 146
+    },
+    {
+      "word1": "all",
+      "word2": "noon",
+      "related": false,
+      "id": 147
+    },
+    {
+      "word1": "war",
+      "word2": "piece",
+      "related": false,
+      "id": 148
+    },
+    {
+      "word1": "jail",
+      "word2": "bale",
+      "related": false,
+      "id": 149
+    },
+    {
+      "word1": "water",
+      "word2": "rein",
+      "related": false,
+      "id": 150
+    },
+    {
+      "word1": "bald",
+      "word2": "hare",
+      "related": false,
+      "id": 151
+    },
+    {
+      "word1": "game",
+      "word2": "foal",
+      "related": false,
+      "id": 152
+    },
+    {
+      "word1": "female",
+      "word2": "mail",
+      "related": false,
+      "id": 153
+    },
+    {
+      "word1": "ache",
+      "word2": "pans",
+      "related": false,
+      "id": 154
+    },
+    {
+      "word1": "stop",
+      "word2": "paws",
+      "related": false,
+      "id": 155
+    },
+    {
+      "word1": "beef",
+      "word2": "stake",
+      "related": false,
+      "id": 156
+    },
+    {
+      "word1": "blood",
+      "word2": "vine",
+      "related": false,
+      "id": 157
+    },
+    {
+      "word1": "vote",
+      "word2": "pool",
+      "related": false,
+      "id": 158
+    },
+    {
+      "word1": "head",
+      "word2": "tile",
+      "related": false,
+      "id": 159
+    },
+    {
+      "word1": "hammer",
+      "word2": "narl",
+      "related": false,
+      "id": 160
+    },
+    {
+      "word1": "wear",
+      "word2": "cloze",
+      "related": false,
+      "id": 161
+    },
+    {
+      "word1": "stove",
+      "word2": "pupe",
+      "related": false,
+      "id": 162
+    },
+    {
+      "word1": "flour",
+      "word2": "whest",
+      "related": false,
+      "id": 163
+    },
+    {
+      "word1": "obey",
+      "word2": "sarve",
+      "related": false,
+      "id": 164
+    },
+    {
+      "word1": "road",
+      "word2": "larn",
+      "related": false,
+      "id": 165
+    },
+    {
+      "word1": "smoke",
+      "word2": "fyer",
+      "related": false,
+      "id": 166
+    },
+    {
+      "word1": "hammer",
+      "word2": "nale",
+      "related": false,
+      "id": 167
+    },
+    {
+      "word1": "eight",
+      "word2": "nune",
+      "related": false,
+      "id": 168
+    },
+    {
+      "word1": "dream",
+      "word2": "slemp",
+      "related": false,
+      "id": 169
+    },
+    {
+      "word1": "doctor",
+      "word2": "nerse",
+      "related": false,
+      "id": 170
+    },
+    {
+      "word1": "most",
+      "word2": "leest",
+      "related": false,
+      "id": 171
+    },
+    {
+      "word1": "cider",
+      "word2": "jooce",
+      "related": false,
+      "id": 172
+    },
+    {
+      "word1": "sole",
+      "word2": "shooh",
+      "related": false,
+      "id": 173
+    },
+    {
+      "word1": "cider",
+      "word2": "jorce",
+      "related": false,
+      "id": 174
+    },
+    {
+      "word1": "hate",
+      "word2": "liv",
+      "related": false,
+      "id": 175
+    },
+    {
+      "word1": "tight",
+      "word2": "lese",
+      "related": false,
+      "id": 176
+    },
+    {
+      "word1": "deaf",
+      "word2": "mert",
+      "related": false,
+      "id": 177
+    },
+    {
+      "word1": "bible",
+      "word2": "gerd",
+      "related": false,
+      "id": 178
+    },
+    {
+      "word1": "your",
+      "word2": "myne",
+      "related": false,
+      "id": 179
+    },
+    {
+      "word1": "pine",
+      "word2": "trea",
+      "related": false,
+      "id": 180
+    },
+    {
+      "word1": "open",
+      "word2": "clooed",
+      "related": false,
+      "id": 181
+    },
+    {
+      "word1": "grape",
+      "word2": "frute",
+      "related": false,
+      "id": 182
+    },
+    {
+      "word1": "deep",
+      "word2": "reted",
+      "related": false,
+      "id": 183
+    },
+    {
+      "word1": "green",
+      "word2": "lite",
+      "related": false,
+      "id": 184
+    },
+    {
+      "word1": "truth",
+      "word2": "lize",
+      "related": false,
+      "id": 185
+    },
+    {
+      "word1": "floor",
+      "word2": "tirl",
+      "related": false,
+      "id": 186
+    },
+    {
+      "word1": "stove",
+      "word2": "pype",
+      "related": false,
+      "id": 187
+    },
+    {
+      "word1": "hate",
+      "word2": "luv",
+      "related": false,
+      "id": 188
+    },
+    {
+      "word1": "one",
+      "word2": "twok",
+      "related": false,
+      "id": 189
+    },
+    {
+      "word1": "suds",
+      "word2": "sope",
+      "related": false,
+      "id": 190
+    },
+    {
+      "word1": "sneeze",
+      "word2": "coph",
+      "related": false,
+      "id": 191
+    },
+    {
+      "word1": "green",
+      "word2": "lith",
+      "related": false,
+      "id": 192
+    },
+    {
+      "word1": "hawk",
+      "word2": "bord",
+      "related": false,
+      "id": 193
+    },
+    {
+      "word1": "gone",
+      "word2": "awelth",
+      "related": false,
+      "id": 194
+    },
+    {
+      "word1": "weep",
+      "word2": "crie",
+      "related": false,
+      "id": 195
+    },
+    {
+      "word1": "roast",
+      "word2": "beaf",
+      "related": false,
+      "id": 196
+    },
+    {
+      "word1": "truth",
+      "word2": "lide",
+      "related": false,
+      "id": 197
+    },
+    {
+      "word1": "ton",
+      "word2": "wate",
+      "related": false,
+      "id": 198
+    },
+    {
+      "word1": "eight",
+      "word2": "nyne",
+      "related": false,
+      "id": 199
+    },
+    {
+      "word1": "table",
+      "word2": "chare",
+      "related": false,
+      "id": 200
+    },
+    {
+      "word1": "bake",
+      "word2": "caik",
+      "related": false,
+      "id": 201
+    },
+    {
+      "word1": "blade",
+      "word2": "nyfe",
+      "related": false,
+      "id": 202
+    },
+    {
+      "word1": "fake",
+      "word2": "frawd",
+      "related": false,
+      "id": 203
+    },
+    {
+      "word1": "fleet",
+      "word2": "navvy",
+      "related": false,
+      "id": 204
+    },
+    {
+      "word1": "wet",
+      "word2": "droe",
+      "related": false,
+      "id": 205
+    },
+    {
+      "word1": "obey",
+      "word2": "surve",
+      "related": false,
+      "id": 206
+    },
+    {
+      "word1": "herd",
+      "word2": "shemp",
+      "related": false,
+      "id": 207
+    },
+    {
+      "word1": "piece",
+      "word2": "pye",
+      "related": false,
+      "id": 208
+    },
+    {
+      "word1": "smoke",
+      "word2": "fler",
+      "related": false,
+      "id": 209
+    },
+    {
+      "word1": "hawk",
+      "word2": "burd",
+      "related": false,
+      "id": 210
+    },
+    {
+      "word1": "table",
+      "word2": "chark",
+      "related": false,
+      "id": 211
+    },
+    {
+      "word1": "grave",
+      "word2": "torm",
+      "related": false,
+      "id": 212
+    },
+    {
+      "word1": "floor",
+      "word2": "tial",
+      "related": false,
+      "id": 213
+    },
+    {
+      "word1": "train",
+      "word2": "trax",
+      "related": false,
+      "id": 214
+    },
+    {
+      "word1": "one",
+      "word2": "twoo",
+      "related": false,
+      "id": 215
+    },
+    {
+      "word1": "early",
+      "word2": "lait",
+      "related": false,
+      "id": 216
+    },
+    {
+      "word1": "pine",
+      "word2": "trem",
+      "related": false,
+      "id": 217
+    },
+    {
+      "word1": "suds",
+      "word2": "sorp",
+      "related": false,
+      "id": 218
+    },
+    {
+      "word1": "deaf",
+      "word2": "mewt",
+      "related": false,
+      "id": 219
+    }
+  ]
+}

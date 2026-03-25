@@ -1,0 +1,504 @@
+{
+  "pairs": [
+    {
+      "word1": "quote",
+      "word2": "fight",
+      "related": false
+    },
+    {
+      "word1": "model",
+      "word2": "roll",
+      "related": false
+    },
+    {
+      "word1": "female",
+      "word2": "mile",
+      "related": false
+    },
+    {
+      "word1": "rose",
+      "word2": "floor",
+      "related": false
+    },
+    {
+      "word1": "quote",
+      "word2": "sight",
+      "related": false
+    },
+    {
+      "word1": "couple",
+      "word2": "pier",
+      "related": false
+    },
+    {
+      "word1": "jail",
+      "word2": "ball",
+      "related": false
+    },
+    {
+      "word1": "trash",
+      "word2": "warts",
+      "related": false
+    },
+    {
+      "word1": "two",
+      "word2": "gone",
+      "related": false
+    },
+    {
+      "word1": "stop",
+      "word2": "peas",
+      "related": false
+    },
+    {
+      "word1": "money",
+      "word2": "list",
+      "related": false
+    },
+    {
+      "word1": "heart",
+      "word2": "sole",
+      "related": false
+    },
+    {
+      "word1": "model",
+      "word2": "rule",
+      "related": false
+    },
+    {
+      "word1": "sand",
+      "word2": "bench",
+      "related": false
+    },
+    {
+      "word1": "river",
+      "word2": "creed",
+      "related": false
+    },
+    {
+      "word1": "ocean",
+      "word2": "wail",
+      "related": false
+    },
+    {
+      "word1": "deer",
+      "word2": "dough",
+      "related": false
+    },
+    {
+      "word1": "strong",
+      "word2": "wear",
+      "related": false
+    },
+    {
+      "word1": "price",
+      "word2": "sail",
+      "related": false
+    },
+    {
+      "word1": "taxi",
+      "word2": "fair",
+      "related": false
+    },
+    {
+      "word1": "sky",
+      "word2": "bled",
+      "related": false
+    },
+    {
+      "word1": "rose",
+      "word2": "flour",
+      "related": false
+    },
+    {
+      "word1": "blood",
+      "word2": "vane",
+      "related": false
+    },
+    {
+      "word1": "bald",
+      "word2": "harm",
+      "related": false
+    },
+    {
+      "word1": "theft",
+      "word2": "steel",
+      "related": false
+    },
+    {
+      "word1": "all",
+      "word2": "nun",
+      "related": false
+    },
+    {
+      "word1": "moon",
+      "word2": "sin",
+      "related": false
+    },
+    {
+      "word1": "all",
+      "word2": "noon",
+      "related": false
+    },
+    {
+      "word1": "war",
+      "word2": "piece",
+      "related": false
+    },
+    {
+      "word1": "jail",
+      "word2": "bale",
+      "related": false
+    },
+    {
+      "word1": "water",
+      "word2": "rein",
+      "related": false
+    },
+    {
+      "word1": "bald",
+      "word2": "hare",
+      "related": false
+    },
+    {
+      "word1": "game",
+      "word2": "foal",
+      "related": false
+    },
+    {
+      "word1": "female",
+      "word2": "mail",
+      "related": false
+    },
+    {
+      "word1": "ache",
+      "word2": "pans",
+      "related": false
+    },
+    {
+      "word1": "stop",
+      "word2": "paws",
+      "related": false
+    },
+    {
+      "word1": "beef",
+      "word2": "stake",
+      "related": false
+    },
+    {
+      "word1": "blood",
+      "word2": "vine",
+      "related": false
+    },
+    {
+      "word1": "vote",
+      "word2": "pool",
+      "related": false
+    },
+    {
+      "word1": "head",
+      "word2": "tile",
+      "related": false
+    },
+    {
+      "word1": "hammer",
+      "word2": "narl",
+      "related": false
+    },
+    {
+      "word1": "wear",
+      "word2": "cloze",
+      "related": false
+    },
+    {
+      "word1": "stove",
+      "word2": "pupe",
+      "related": false
+    },
+    {
+      "word1": "flour",
+      "word2": "whest",
+      "related": false
+    },
+    {
+      "word1": "obey",
+      "word2": "sarve",
+      "related": false
+    },
+    {
+      "word1": "road",
+      "word2": "larn",
+      "related": false
+    },
+    {
+      "word1": "smoke",
+      "word2": "fyer",
+      "related": false
+    },
+    {
+      "word1": "hammer",
+      "word2": "nale",
+      "related": false
+    },
+    {
+      "word1": "eight",
+      "word2": "nune",
+      "related": false
+    },
+    {
+      "word1": "dream",
+      "word2": "slemp",
+      "related": false
+    },
+    {
+      "word1": "doctor",
+      "word2": "nerse",
+      "related": false
+    },
+    {
+      "word1": "most",
+      "word2": "leest",
+      "related": false
+    },
+    {
+      "word1": "cider",
+      "word2": "jooce",
+      "related": false
+    },
+    {
+      "word1": "sole",
+      "word2": "shooh",
+      "related": false
+    },
+    {
+      "word1": "cider",
+      "word2": "jorce",
+      "related": false
+    },
+    {
+      "word1": "hate",
+      "word2": "liv",
+      "related": false
+    },
+    {
+      "word1": "tight",
+      "word2": "lese",
+      "related": false
+    },
+    {
+      "word1": "deaf",
+      "word2": "mert",
+      "related": false
+    },
+    {
+      "word1": "bible",
+      "word2": "gerd",
+      "related": false
+    },
+    {
+      "word1": "your",
+      "word2": "myne",
+      "related": false
+    },
+    {
+      "word1": "pine",
+      "word2": "trea",
+      "related": false
+    },
+    {
+      "word1": "open",
+      "word2": "clooed",
+      "related": false
+    },
+    {
+      "word1": "grape",
+      "word2": "frute",
+      "related": false
+    },
+    {
+      "word1": "deep",
+      "word2": "reted",
+      "related": false
+    },
+    {
+      "word1": "green",
+      "word2": "lite",
+      "related": false
+    },
+    {
+      "word1": "truth",
+      "word2": "lize",
+      "related": false
+    },
+    {
+      "word1": "floor",
+      "word2": "tirl",
+      "related": false
+    },
+    {
+      "word1": "stove",
+      "word2": "pype",
+      "related": false
+    },
+    {
+      "word1": "hate",
+      "word2": "luv",
+      "related": false
+    },
+    {
+      "word1": "one",
+      "word2": "twok",
+      "related": false
+    },
+    {
+      "word1": "suds",
+      "word2": "sope",
+      "related": false
+    },
+    {
+      "word1": "sneeze",
+      "word2": "coph",
+      "related": false
+    },
+    {
+      "word1": "green",
+      "word2": "lith",
+      "related": false
+    },
+    {
+      "word1": "hawk",
+      "word2": "bord",
+      "related": false
+    },
+    {
+      "word1": "gone",
+      "word2": "awelth",
+      "related": false
+    },
+    {
+      "word1": "weep",
+      "word2": "crie",
+      "related": false
+    },
+    {
+      "word1": "roast",
+      "word2": "beaf",
+      "related": false
+    },
+    {
+      "word1": "truth",
+      "word2": "lide",
+      "related": false
+    },
+    {
+      "word1": "ton",
+      "word2": "wate",
+      "related": false
+    },
+    {
+      "word1": "eight",
+      "word2": "nyne",
+      "related": false
+    },
+    {
+      "word1": "table",
+      "word2": "chare",
+      "related": false
+    },
+    {
+      "word1": "bake",
+      "word2": "caik",
+      "related": false
+    },
+    {
+      "word1": "blade",
+      "word2": "nyfe",
+      "related": false
+    },
+    {
+      "word1": "fake",
+      "word2": "frawd",
+      "related": false
+    },
+    {
+      "word1": "fleet",
+      "word2": "navvy",
+      "related": false
+    },
+    {
+      "word1": "wet",
+      "word2": "droe",
+      "related": false
+    },
+    {
+      "word1": "obey",
+      "word2": "surve",
+      "related": false
+    },
+    {
+      "word1": "herd",
+      "word2": "shemp",
+      "related": false
+    },
+    {
+      "word1": "piece",
+      "word2": "pye",
+      "related": false
+    },
+    {
+      "word1": "smoke",
+      "word2": "fler",
+      "related": false
+    },
+    {
+      "word1": "hawk",
+      "word2": "burd",
+      "related": false
+    },
+    {
+      "word1": "table",
+      "word2": "chark",
+      "related": false
+    },
+    {
+      "word1": "grave",
+      "word2": "torm",
+      "related": false
+    },
+    {
+      "word1": "floor",
+      "word2": "tial",
+      "related": false
+    },
+    {
+      "word1": "train",
+      "word2": "trax",
+      "related": false
+    },
+    {
+      "word1": "one",
+      "word2": "twoo",
+      "related": false
+    },
+    {
+      "word1": "early",
+      "word2": "lait",
+      "related": false
+    },
+    {
+      "word1": "pine",
+      "word2": "trem",
+      "related": false
+    },
+    {
+      "word1": "suds",
+      "word2": "sorp",
+      "related": false
+    },
+    {
+      "word1": "deaf",
+      "word2": "mewt",
+      "related": false
+    }
+  ]
+}

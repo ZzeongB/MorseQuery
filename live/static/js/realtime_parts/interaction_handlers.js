@@ -128,22 +128,38 @@ socket.on('session_ended', () => {
 });
 
 socket.on('quiz_ready', data => {
-    // N-back test: we don't need quiz questions, just schedule the rounds
-    // Sync tutorial mode from server response
+    // Word pair semantic relatedness test
+    const pairs = Array.isArray(data && data.word_pairs) ? data.word_pairs : [];
+    if (pairs.length === 0) {
+        console.warn('quiz_ready received without word_pairs');
+        return;
+    }
+    wordPairs = pairs;
+    // Shuffle once per session (not per round)
+    wordPairOrder = shuffleWordPairs(wordPairs);
+    wordPairSessionIndex = 0;
+    // Sync tutorial mode and duration from server response
     if (data && data.is_tutorial) {
         quizIsTutorial = true;
         quizPlannedOffsetsSec = quizPlannedOffsetsTutorial;
+        wordPairRoundDurationSec = data.duration_sec || 60;
     } else {
         quizIsTutorial = false;
         quizPlannedOffsetsSec = quizPlannedOffsetsRegular;
+        wordPairRoundDurationSec = data.duration_sec || 90;
     }
     quizRoundNumber = 0;
     quizScheduleIndex = 0;
-    nbackCurrentIndex = 0;
-    nbackResults = [];
+    wordPairResults = [];
     if (!quizSessionStartAt) {
         quizSessionStartAt = Date.now();
     }
+    // Log shuffled order for this session (only indices)
+    socket.emit('wordpair_session_order', {
+        quiz_set: quizSetSelection,
+        total_pairs: wordPairOrder.length,
+        shuffled_indices: wordPairOrder.map(p => p.id),
+    });
     scheduleNextQuizRound();
 });
 
@@ -843,15 +859,15 @@ document.addEventListener('keydown', e => {
         return;
     }
 
-    // Handle arrow keys for n-back test
-    if (nbackRoundActive) {
+    // Handle arrow keys for word pair test
+    if (wordPairRoundActive) {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
-            handleNbackKeyPress('left');
+            handleWordPairKeyPress('left');
             return;
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
-            handleNbackKeyPress('right');
+            handleWordPairKeyPress('right');
             return;
         }
     }
@@ -865,8 +881,8 @@ document.addEventListener('keyup', e => {
         return;
     }
 
-    // Skip other key handlers during n-back test (arrow keys handled in keydown)
-    if (nbackRoundActive && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+    // Skip other key handlers during word pair test (arrow keys handled in keydown)
+    if (wordPairRoundActive && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
         return;
     }
 

@@ -6,7 +6,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # Always prefer project-root .env over live/.env
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
+LIVE_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = LIVE_DIR.parent
 load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=False)
 
 # API Keys

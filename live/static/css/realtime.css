@@ -185,44 +185,49 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     cursor: default;
 }
 
-/* N-back test styles */
-.nback-card {
-    width: min(600px, 100%);
+/* Word pair semantic relatedness test styles */
+.wordpair-card {
+    width: min(700px, 100%);
     padding: 24px 32px;
     background: #111827;
     border-radius: 12px;
     margin: 0 auto;
     text-align: center;
 }
-.nback-header {
+.wordpair-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
 }
-.nback-label {
+.wordpair-label {
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: #60a5fa;
 }
-.nback-progress {
+.wordpair-progress {
     font-size: 14px;
     color: #9ca3af;
 }
-.nback-letter {
-    font-size: 120px;
-    font-weight: 700;
-    color: #f8fafc;
-    line-height: 1.2;
-    margin: 32px 0;
-    font-family: 'Courier New', Courier, monospace;
+.wordpair-words {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    margin: 40px 0;
 }
-.nback-letter.nback-blank {
+.wordpair-word {
+    font-size: 48px;
+    font-weight: 600;
+    color: #f8fafc;
+}
+.wordpair-separator {
+    font-size: 36px;
     color: #4b5563;
 }
-.nback-instructions {
+.wordpair-instructions {
     font-size: 14px;
     color: #9ca3af;
     margin-top: 24px;
@@ -236,7 +241,7 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     border-radius: 6px;
     border: 1px solid #374151;
 }
-.nback-complete {
+.wordpair-complete {
     font-size: 24px;
     color: #4ade80;
     padding: 40px 0;

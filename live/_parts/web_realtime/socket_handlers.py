@@ -1125,37 +1125,52 @@ def handle_quiz_round_end(data: dict = None):
     return {"ok": True}
 
 
-@sio.on("nback_round_start")
-def handle_nback_round_start(data: dict = None):
+@sio.on("wordpair_session_order")
+def handle_wordpair_session_order(data: dict = None):
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     payload = data or {}
     get_logger(session_id).log(
-        "nback_round_start",
+        "wordpair_session_order",
         quiz_set=str(payload.get("quiz_set", "") or "").strip(),
-        round_number=int(payload.get("round_number") or 0),
-        n=int(payload.get("n") or 2),
-        total_letters=int(payload.get("total_letters") or 32),
-        sequence=list(payload.get("sequence") or []),
+        total_pairs=int(payload.get("total_pairs") or 0),
+        shuffled_indices=list(payload.get("shuffled_indices") or []),
     )
     return {"ok": True}
 
 
-@sio.on("nback_trial_result")
-def handle_nback_trial_result(data: dict = None):
+@sio.on("wordpair_round_start")
+def handle_wordpair_round_start(data: dict = None):
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    get_logger(session_id).log(
+        "wordpair_round_start",
+        quiz_set=str(payload.get("quiz_set", "") or "").strip(),
+        round_number=int(payload.get("round_number") or 0),
+        total_pairs=int(payload.get("total_pairs") or 0),
+        session_start_index=int(payload.get("session_start_index") or 0),
+    )
+    return {"ok": True}
+
+
+@sio.on("wordpair_trial_result")
+def handle_wordpair_trial_result(data: dict = None):
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     payload = data or {}
     response_time_ms = payload.get("response_time_ms")
     get_logger(session_id).log(
-        "nback_trial_result",
+        "wordpair_trial_result",
         quiz_set=str(payload.get("quiz_set", "") or "").strip(),
         round_number=int(payload.get("round_number") or 0),
         trial_index=int(payload.get("trial_index") or 0),
-        letter=str(payload.get("letter", "") or "").strip(),
-        is_match=payload.get("is_match"),
+        word1=str(payload.get("word1", "") or "").strip(),
+        word2=str(payload.get("word2", "") or "").strip(),
+        is_related=bool(payload.get("is_related")),
         response=str(payload.get("response", "") or "").strip(),
         is_correct=bool(payload.get("is_correct")),
         response_time_ms=int(response_time_ms) if response_time_ms is not None else None,
@@ -1163,20 +1178,20 @@ def handle_nback_trial_result(data: dict = None):
     return {"ok": True}
 
 
-@sio.on("nback_round_end")
-def handle_nback_round_end(data: dict = None):
+@sio.on("wordpair_round_end")
+def handle_wordpair_round_end(data: dict = None):
     session_id = request.sid
     if not _is_active_session(session_id):
         return {"ok": False, "active": False}
     payload = data or {}
     get_logger(session_id).log(
-        "nback_round_end",
+        "wordpair_round_end",
         quiz_set=str(payload.get("quiz_set", "") or "").strip(),
         round_number=int(payload.get("round_number") or 0),
-        total_trials=int(payload.get("total_trials") or 0),
-        valid_trials=int(payload.get("valid_trials") or 0),
+        total_pairs=int(payload.get("total_pairs") or 0),
         correct_count=int(payload.get("correct_count") or 0),
         accuracy=float(payload.get("accuracy") or 0.0),
+        session_end_index=int(payload.get("session_end_index") or 0),
     )
     return {"ok": True}
 
