@@ -135,6 +135,14 @@ socket.on('quiz_ready', data => {
     }
     quizBank = questions;
     quizRoundDurationSec = Math.max(1, Number((data && data.duration_sec) || 60));
+    // Sync tutorial mode from server response
+    if (data && data.is_tutorial) {
+        quizIsTutorial = true;
+        quizPlannedOffsetsSec = quizPlannedOffsetsTutorial;
+    } else {
+        quizIsTutorial = false;
+        quizPlannedOffsetsSec = quizPlannedOffsetsRegular;
+    }
     sessionQuizOrder = buildSessionQuizOrder();
     quizRoundNumber = 0;
     quizScheduleIndex = 0;

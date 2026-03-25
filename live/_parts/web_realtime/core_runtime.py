@@ -55,7 +55,7 @@ _white_noise_running = False
 _white_noise_thread: Optional[threading.Thread] = None
 _white_noise_stream: Optional[pyaudio.Stream] = None
 _white_noise_pyaudio: Optional[pyaudio.PyAudio] = None
-_WHITE_NOISE_VOLUME = 0.005  # Very quiet (0.0 to 1.0)
+_WHITE_NOISE_VOLUME = 0.08  # Quiet (0.0 to 1.0)
 _WHITE_NOISE_SAMPLE_RATE = 44100
 
 # Global PyAudio lock to prevent segfaults from concurrent access
@@ -195,8 +195,41 @@ def _reset_tts_airpods_state(reason: str) -> None:
     _set_airpods_mode("transparency", reason)
 
 
+def _generate_pink_noise(num_samples: int, num_rows: int = 16) -> np.ndarray:
+    """Generate pink noise using Voss-McCartney algorithm.
+
+    Pink noise has 1/f spectrum - more bass, sounds more natural than white noise.
+    """
+    # Initialize state for Voss algorithm
+    rows = np.random.uniform(-1, 1, num_rows)
+    running_sum = np.sum(rows)
+    max_val = num_rows
+
+    samples = np.zeros(num_samples, dtype=np.float32)
+
+    for i in range(num_samples):
+        # Find which row to update (based on trailing zeros in binary)
+        # This creates the 1/f characteristic
+        idx = i
+        row_idx = 0
+        while idx > 0 and (idx & 1) == 0 and row_idx < num_rows - 1:
+            idx >>= 1
+            row_idx += 1
+
+        # Update that row
+        running_sum -= rows[row_idx]
+        rows[row_idx] = np.random.uniform(-1, 1)
+        running_sum += rows[row_idx]
+
+        # Add white noise for high frequencies
+        white = np.random.uniform(-1, 1)
+        samples[i] = (running_sum + white) / (max_val + 1)
+
+    return samples
+
+
 def _start_white_noise() -> None:
-    """Start playing quiet white noise in background."""
+    """Start playing quiet pink noise in background."""
     global _white_noise_running, _white_noise_thread
     global _white_noise_stream, _white_noise_pyaudio
 
@@ -223,8 +256,8 @@ def _start_white_noise() -> None:
                 with _white_noise_lock:
                     if not _white_noise_running:
                         break
-                # Generate white noise
-                noise = np.random.uniform(-1, 1, chunk_size).astype(np.float32)
+                # Generate pink noise (1/f spectrum - more natural sounding)
+                noise = _generate_pink_noise(chunk_size)
                 noise *= _WHITE_NOISE_VOLUME
                 _white_noise_stream.write(noise.tobytes())
 
@@ -295,10 +328,12 @@ keyword_tts_stream_client: Optional[StreamingTTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
 _QUIZ_FILES = {
-    "A": "../quiz/psat_quiz_set_a.json",
-    "B": "../quiz/psat_quiz_set_b.json",
+    "A": "../quiz/sat_quiz_set_a.json",
+    "B": "../quiz/sat_quiz_set_b.json",
+    "T": "../quiz/psat_quiz_set_a.json",  # Tutorial uses set A
 }
 _QUIZ_DURATION_SEC = 90
+_QUIZ_DURATION_TUTORIAL_SEC = 60
 
 # Dialogue stores for VAD transcripts (one per summary speaker)
 _dialogue_stores: dict[str, DialogueStore] = {}  # key: "A" or "B"
@@ -446,9 +481,14 @@ def _build_quiz_payload(quiz_set: str = "A") -> dict:
             }
         )
     random.shuffle(randomized)
+    # Tutorial mode uses shorter duration
+    duration = (
+        _QUIZ_DURATION_TUTORIAL_SEC if quiz_set.upper() == "T" else _QUIZ_DURATION_SEC
+    )
     return {
-        "duration_sec": _QUIZ_DURATION_SEC,
+        "duration_sec": duration,
         "questions": randomized,
+        "is_tutorial": quiz_set.upper() == "T",
     }
 
 

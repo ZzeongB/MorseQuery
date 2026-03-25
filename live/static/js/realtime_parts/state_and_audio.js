@@ -147,9 +147,12 @@ var quizCountdownTimer = null;
 var quizLaunchTimer = null;
 var quizSessionStartAt = 0;
 var quizPlannedOffsetsSec = [60, 240, 420];
+var quizPlannedOffsetsRegular = [60, 240, 420];
+var quizPlannedOffsetsTutorial = [30];
 var quizScheduleIndex = 0;
 var quizAncActive = false;
 var quizSetSelection = 'A';
+var quizIsTutorial = false;
 
 // ============================================================================
 // Utility Functions
@@ -456,12 +459,17 @@ function setSummaryTextMode(enabled) {
 }
 
 function setQuizSetSelection(setName) {
-    const normalized = setName === 'B' ? 'B' : 'A';
+    const upper = (setName || 'A').toUpperCase();
+    const normalized = upper === 'T' ? 'T' : (upper === 'B' ? 'B' : 'A');
     quizSetSelection = normalized;
+    quizIsTutorial = normalized === 'T';
+    quizPlannedOffsetsSec = quizIsTutorial ? quizPlannedOffsetsTutorial : quizPlannedOffsetsRegular;
     const btnA = document.getElementById('btn-quiz-set-a');
     const btnB = document.getElementById('btn-quiz-set-b');
+    const btnT = document.getElementById('btn-quiz-set-t');
     if (btnA) btnA.classList.toggle('selected', normalized === 'A');
     if (btnB) btnB.classList.toggle('selected', normalized === 'B');
+    if (btnT) btnT.classList.toggle('selected', normalized === 'T');
 }
 
 function setAutoPreSummarizeEnabled(enabled) {

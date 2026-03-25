@@ -1,153 +1,81 @@
 {
   "title": "SAT Quiz - Set B",
-  "description": "Improved parsing",
+  "description": "",
   "questions": [
     {
-      "text": "For painter Jacob Lawrence, being _______ was an important part of the artistic process. Because he paid close attention to all the details of his Harlem neighborhood, Lawrence\u2019s artwork captured nuances in the beauty and vitality of the Black experience during the Harlem Renaissance and the Great Migration.",
+      "text": "Many of William Shakespeare\u2019s tragedies address broad themes that still appeal to today\u2019s audiences. For instance, Romeo and Juliet, which is set in the Italy of Shakespeare\u2019s time, tackles the themes of parents versus children and love versus hate, and the play continues to be read and produced widely around the world. But understanding Shakespeare\u2019s so-called history plays can require a knowledge of several centuries of English history. Consequently, ______\nWhich choice most logically completes the text?",
       "options": [
         {
-          "text": "skeptical"
+          "text": "many theatergoers and readers today are likely to find Shakespeare\u2019s history plays less engaging than the tragedies."
         },
         {
-          "text": "observant"
+          "text": "some of Shakespeare\u2019s tragedies are more relevant to today\u2019s audiences than twentieth-century plays."
         },
         {
-          "text": "critical"
+          "text": "Romeo and Juliet is the most thematically accessible of all Shakespeare\u2019s tragedies."
         },
         {
-          "text": "confident"
-        }
-      ],
-      "correct_answer": 1
-    },
-    {
-      "text": "M\u00f4nica Lopes-Ferreira and others at Brazil\u2019s Butantan Institute are studying the freshwater stingray species Potamotrygon rex to determine whether biological characteristics such as the rays\u2019 age and sex have _______ effect on the toxicity of their venom\u2014that is, to see if differences in these traits are associated with considerable variations in venom potency.",
-      "options": [
-        {
-          "text": "a disconcerting"
-        },
-        {
-          "text": "an acceptable"
-        },
-        {
-          "text": "an imperceptible"
-        },
-        {
-          "text": "a substantial"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "Researchers have struggled to pinpoint specific causes for hiccups, which happen when a person\u2019s diaphragm contracts _______ . However, neuroscientist Kimberley Whitehead has found that these uncontrollable contractions may play an important role in helping infants regulate their breathing.",
-      "options": [
-        {
-          "text": "involuntarily"
-        },
-        {
-          "text": "beneficially"
-        },
-        {
-          "text": "strenuously"
-        },
-        {
-          "text": "smoothly"
+          "text": "experts in English history tend to prefer Shakespeare\u2019s history plays to his other works."
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "Critics have asserted that fine art and fashion rarely _______ in a world where artists create timeless works for exhibition and designers periodically produce new styles for the public to buy. Luise\u00f1o/ Shoshone-Bannock beadwork artist and designer Jamie Okuma challenges this view: her work can be seen in the Metropolitan Museum of Art and purchased through her online boutique.",
+      "text": "In 2007, computer scientist Luis von Ahn was working on converting printed books into a digital format. He found that some words were distorted enough that digital scanners couldn\u2019t recognize them, but most humans could easily read them. Based on that finding, von Ahn invented a simple security test to keep automated \u201cbots\u201d out of websites. The first version of the reCAPTCHA test asked users to type one known word and one of the many words scanners couldn\u2019t recognize. Correct answers proved the users were humans and added data to the book-digitizing project. \nWhich choice best states the main purpose of the text?",
       "options": [
         {
-          "text": "prevail"
+          "text": "To discuss von Ahn\u2019s invention of reCAPTCHA"
         },
         {
-          "text": "succumb"
+          "text": "To explain how digital scanners work"
         },
         {
-          "text": "diverge"
+          "text": "To call attention to von Ahn\u2019s book-digitizing project"
         },
         {
-          "text": "intersect"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "Scholarly discussions of gender in Shakespeare\u2019s comedies often celebrate the rebellion of the playwright\u2019s characters against the rigid expectations _______ by Elizabethan society. Most of the comedies end in marriage, with characters returning to their socially dictated gender roles after previously defying them, but there are some notable exceptions.",
-      "options": [
-        {
-          "text": "interjected"
-        },
-        {
-          "text": "committed"
-        },
-        {
-          "text": "illustrated"
-        },
-        {
-          "text": "prescribed"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "In studying the use of external stimuli to reduce the itching sensation caused by an allergic histamine response, Louise Ward and colleagues found that while harmless applications of vibration or warming can provide a temporary distraction, such _______ stimuli actually offer less relief than a stimulus that seems less benign, like a mild electric shock.",
-      "options": [
-        {
-          "text": "deceptive"
-        },
-        {
-          "text": "innocuous"
-        },
-        {
-          "text": "novel"
-        },
-        {
-          "text": "impractical"
-        }
-      ],
-      "correct_answer": 1
-    },
-    {
-      "text": "The province of Xoconochco was situated on the Pacific coast, hundreds of kilometers southeast of Tenochtitlan, the capital of the Aztec Empire. Because Xoconochco\u2019s location within the empire was so _______ , cacao and other trade goods produced there could reach the capital only after a long overland journey.",
-      "options": [
-        {
-          "text": "unobtrusive"
-        },
-        {
-          "text": "concealed"
-        },
-        {
-          "text": "approximate"
-        },
-        {
-          "text": "peripheral"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "The following text is from Charlotte Bront\u00eb\u2019s 1847 novel Jane Eyre. Jane works as a governess at Thornfield Hall. \n\nI went on with my day\u2019s business tranquilly; but ever and anon vague suggestions kept wandering across my brain of reasons why I should quit Thornfield; and I kept involuntarily framing advertisements and pondering conjectures about new situations: these thoughts I did not think to check; they might germinate and bear fruit if they could.",
-      "options": [
-        {
-          "text": "To convey a contrast between Jane\u2019s outward calmness and internal restlessness"
-        },
-        {
-          "text": "To emphasize Jane\u2019s loyalty to the people she works for at Thornfield Hall"
-        },
-        {
-          "text": "To demonstrate that Jane finds her situation both challenging and deeply fulfilling"
-        },
-        {
-          "text": "To describe Jane\u2019s determination to secure employment outside of Thornfield Hall"
+          "text": "To indicate how popular reCAPTCHA is"
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "The following text is adapted from Lewis Carroll\u2019s 1889 satirical novel Sylvie and Bruno. A crowd has gathered outside a room belonging to the Warden, an official who reports to the Lord Chancellor. \n\nOne man, who was more excited than the rest, flung his hat high into the air, and shouted (as well as I could make out) \u201cWho roar for the Sub-Warden?\u201d Everybody roared, but whether it was for the Sub-Warden, or not, did not clearly appear: some were shouting \u201cBread!\u201d and some \u201cTaxes!\u201d, but no one seemed to know what it was they really wanted. All this I saw from the open window of the Warden\u2019s breakfast-saloon, looking across the shoulder of the Lord Chancellor. \u201cWhat can it all mean?\u201d he kept repeating to himself. \u201cI never heard such shouting before\u2014and at this time of the morning, too! And with such unanimity!\u201d \n\nBased on the text, how does the Lord Chancellor respond to the crowd?",
+      "text": "In a study by Mika R. Moran, Daniel A. Rodriguez, and colleagues, residents of Quito, Ecuador, and Lima, Peru, were surveyed about parks in their cities. Of the 618 respondents from Quito, 82.9% indicated that they use the city\u2019s parks, and of the 663 respondents from Lima, 72.7% indicated using city parks. Given that the percentage of Quito respondents who reported living within a 10-minute walk of a park was much lower than that reported by Lima respondents, greater proximity alone can\u2019t explain the difference in park use.\nThe text makes which point about the difference between the proportions of Quito residents and Lima residents using parks?",
+      "options": [
+        {
+          "text": "It was much larger than the researchers conducting the study expected."
+        },
+        {
+          "text": "It is caused by something other than the parks\u2019 proximity to city residents."
+        },
+        {
+          "text": "It could be due to inaccuracies in the survey results."
+        },
+        {
+          "text": "It was calculated using sources that predate the survey."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "The Land of Enchantment is a 1906 travel book by Lilian Whiting. In the book, which describes the experience of traveling through the southwestern United States by train, Whiting reflects on the escape from everyday life that such a journey provides: ______\nWhich quotation from The Land of Enchantment most effectively illustrates the claim?",
+      "options": [
+        {
+          "text": "\u201cThe opportunities and advantages already offered and constantly increasing are greater than would at first be considered possible.\u201d"
+        },
+        {
+          "text": "\u201cThe social and the picturesque charm of the long journey is singularly enhanced by the leisurely stops made for refreshment.\u201d"
+        },
+        {
+          "text": "\u201cThe real journey begins, of course, at Chicago, and as these trains leave in the evening the traveller fares forth in the seclusion of his berth.\u201d"
+        },
+        {
+          "text": "\u201cOne experiences a certain sense of detachment from ordinary day and daylight duties that is exhilarating.\u201d"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "The following text is adapted from Lewis Carroll\u2019s 1889 satirical novel Sylvie and Bruno. A crowd has gathered outside a room belonging to the Warden, an official who reports to the Lord Chancellor. \nOne man, who was more excited than the rest, flung his hat high into the air, and shouted (as well as I could make out) \u201cWho roar for the Sub-Warden?\u201d Everybody roared, but whether it was for the Sub-Warden, or not, did not clearly appear: some were shouting \u201cBread!\u201d and some \u201cTaxes!\u201d, but no one seemed to know what it was they really wanted. All this I saw from the open window of the Warden\u2019s breakfast-saloon, looking across the shoulder of the Lord Chancellor. \u201cWhat can it all mean?\u201d he kept repeating to himself. \u201cI never heard such shouting before\u2014and at this time of the morning, too! And with such unanimity!\u201d \nBased on the text, how does the Lord Chancellor respond to the crowd?",
       "options": [
         {
           "text": "He asks about the meaning of the crowd\u2019s shouting, even though he claims to know what the crowd wants."
@@ -165,25 +93,97 @@
       "correct_answer": 3
     },
     {
-      "text": "O Pioneers! is a 1913 novel by Willa Cather. In the novel, Cather portrays Alexandra Bergson as having a deep emotional connection to her natural surroundings: _______ \n\nWhich quotation from O Pioneers! most effectively illustrates the claim?",
+      "text": "The following text is from Charlotte Bront\u00eb\u2019s 1847 novel Jane Eyre. Jane works as a governess at Thornfield Hall. \nI went on with my day\u2019s business tranquilly; but ever and anon vague suggestions kept wandering across my brain of reasons why I should quit Thornfield; and I kept involuntarily framing advertisements and pondering conjectures about new situations: these thoughts I did not think to check; they might germinate and bear fruit if they could. \nWhich choice best states the main purpose of the text?",
       "options": [
         {
-          "text": "\u201cShe had never known before how much the country meant to her. The chirping of the insects down in the long grass had been like the sweetest music. She had felt as if her heart were hiding down there, somewhere, with the quail and the plover and all the little wild things that crooned or buzzed in the sun. Under the long shaggy ridges, she felt the future stirring.\u201d"
+          "text": "To convey a contrast between Jane\u2019s outward calmness and internal restlessness"
         },
         {
-          "text": "\u201cAlexandra talked to the men about their crops and to the women about their poultry. She spent a whole day with one young farmer who had been away at school, and who was experimenting with a new kind of clover hay. She learned a great deal.\u201d"
+          "text": "To emphasize Jane\u2019s loyalty to the people she works for at Thornfield Hall"
         },
         {
-          "text": "\u201cAlexandra drove off alone. The rattle of her wagon was lost in the howling of the wind, but her lantern, held firmly between her feet, made a moving point of light along the highway, going deeper and deeper into the dark country.\u201d"
+          "text": "To demonstrate that Jane finds her situation both challenging and deeply fulfilling"
         },
         {
-          "text": "\u201cIt was Alexandra who read the papers and followed the markets, and who learned by the mistakes of their neighbors. It was Alexandra who could always tell about what it had cost to fatten each steer, and who could guess the weight of a hog before it went on the scales closer than John Bergson [her father] himself.\u201d"
+          "text": "To describe Jane\u2019s determination to secure employment outside of Thornfield Hall"
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "Psychologists Dacher Keltner and Jonathan Haidt have argued that experiencing awe\u2014a sensation of reverence and wonder typically brought on by perceiving something grand or powerful\u2014can enable us to feel more connected to others and thereby inspire us to act more altruistically. Keltner, along with Paul K. Piff, Pia Dietze, and colleagues, claims to have found evidence for this effect in a recent study where participants were asked to either gaze up at exceptionally tall trees in a nearby grove (reported to be a universally awe-inspiring experience) or stare at the exterior of a nearby, nondescript building. After one minute, an experimenter deliberately spilled a box of pens nearby. \n\nWhich finding from the researchers\u2019 study, if true, would most strongly support their claim?",
+      "text": "Critics have asserted that fine art and fashion rarely _______ in a world where artists create timeless works for exhibition and designers periodically produce new styles for the public to buy. Luise\u00f1o/ Shoshone-Bannock beadwork artist and designer Jamie Okuma challenges this view: her work can be seen in the Metropolitan Museum of Art and purchased through her online boutique. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "prevail"
+        },
+        {
+          "text": "succumb"
+        },
+        {
+          "text": "diverge"
+        },
+        {
+          "text": "intersect"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "The province of Xoconochco was situated on the Pacific coast, hundreds of kilometers southeast of Tenochtitlan, the capital of the Aztec Empire. Because Xoconochco\u2019s location within the empire was so _______ , cacao and other trade goods produced there could reach the capital only after a long overland journey. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "unobtrusive"
+        },
+        {
+          "text": "concealed"
+        },
+        {
+          "text": "approximate"
+        },
+        {
+          "text": "peripheral"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Birds of many species ingest foods containing carotenoids, pigmented molecules that are converted into feather coloration. Coloration tends to be especially saturated in male birds\u2019 feathers, and because carotenoids also confer health benefits, the deeply saturated colors generally serve to communicate what is known as an honest signal of a bird\u2019s overall fitness to potential mates. However, ornithologist Allison J. Shultz and others have found that males in several species of the tanager genus Ramphocelus use microstructures in their feathers to manipulate light, creating the appearance of deeper saturation without the birds necessarily having to maintain a carotenoid-rich diet. These findings suggest that _______ \nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "individual male tanagers can engage in honest signaling without relying on carotenoid consumption."
+        },
+        {
+          "text": "feather microstructures may be less effective than deeply saturated feathers for signaling overall fitness."
+        },
+        {
+          "text": "scientists have yet to determine why tanagers have a preference for mates with colorful appearances."
+        },
+        {
+          "text": "a male tanager\u2019s appearance may function as a dishonest signal of the individual\u2019s overall fitness."
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Given that the conditions in binary star systems should make planetary formation nearly impossible, it\u2019s not surprising that the existence of planets in such systems has lacked _______ explanation. Roman Rafikov and Kedron Silsbee shed light on the subject when they used modeling to determine a complex set of factors that could support planets\u2019 development. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "a discernible"
+        },
+        {
+          "text": "a straightforward"
+        },
+        {
+          "text": "an inconclusive"
+        },
+        {
+          "text": "an unbiased"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Psychologists Dacher Keltner and Jonathan Haidt have argued that experiencing awe\u2014a sensation of reverence and wonder typically brought on by perceiving something grand or powerful\u2014can enable us to feel more connected to others and thereby inspire us to act more altruistically. Keltner, along with Paul K. Piff, Pia Dietze, and colleagues, claims to have found evidence for this effect in a recent study where participants were asked to either gaze up at exceptionally tall trees in a nearby grove (reported to be a universally awe-inspiring experience) or stare at the exterior of a nearby, nondescript building. After one minute, an experimenter deliberately spilled a box of pens nearby. \nWhich finding from the researchers\u2019 study, if true, would most strongly support their claim?",
       "options": [
         {
           "text": "Participants who had been looking at the trees helped the experimenter pick up significantly more pens than did participants who had been looking at the building."
@@ -201,7 +201,79 @@
       "correct_answer": 0
     },
     {
-      "text": "Many archaeologists will tell you that categorizing excavated fragments of pottery by style, period, and what objects they belong to relies not only on standard criteria, but also on instinct developed over years of practice. In a recent study, however, researchers trained a deep-learning computer model on thousands of images of pottery fragments and found that it could categorize them as accurately as a team of expert archaeologists. Some archaeologists have expressed concern that they might be replaced by such computer models, but the researchers claim that outcome is highly unlikely. \n\nWhich finding, if true, would most directly support the researchers\u2019 claim?",
+      "text": "Some businesses believe that when employees are interrupted while doing their work, they experience a decrease in energy and productivity. However, a team led by Harshad Puranik, who studies management, has found that interruptions by colleagues can have a social component that increases employees\u2019 sense of belonging, resulting in greater job satisfaction that benefits employees and employers. Therefore, businesses should recognize that ______\nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "the interpersonal benefits of some interruptions in the workplace may offset the perceived negative effects."
+        },
+        {
+          "text": "in order to maximize productivity, employers should be willing to interrupt employees frequently throughout the day."
+        },
+        {
+          "text": "most employees avoid interrupting colleagues because they don\u2019t appreciate being interrupted themselves."
+        },
+        {
+          "text": "in order to cultivate an ideal workplace environment, interruptions of work should be discouraged."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Former astronaut Ellen Ochoa says that although she doesn\u2019t have a definite idea of when it might happen, she _______ that humans will someday need to be able to live in other environments than those found on Earth. This conjecture informs her interest in future research missions to the moon. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "demands"
+        },
+        {
+          "text": "speculates"
+        },
+        {
+          "text": "doubts"
+        },
+        {
+          "text": "establishes"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Paleontologist Alan Tennyson and colleagues studied fossil bones found in New Zealand that are more than 55 million years old. The researchers determined that the fossil bones belonged to two previously unknown species of prehistoric penguins. Moreover, they estimated that one of the two penguin species was more than three times the size of the emperor penguin, which is the largest penguin species that exists today.\nBased on the text, which choice best describes the two previously unknown penguin species?",
+      "options": [
+        {
+          "text": "They are frequently studied by paleontologists."
+        },
+        {
+          "text": "They are no longer living species."
+        },
+        {
+          "text": "They were smaller than penguin species that exist today."
+        },
+        {
+          "text": "They spent little of their lives in water."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "In superfluorescence, electrical charges known as dipoles emit light in synchronized bursts so intense that they are visible to the eye. Until recently, this phenomenon has only been observed at extremely cold temperatures because dipoles cannot synchronize at higher temperatures. But in a study, Melike Biliroglu and colleagues observed superfluorescence at room temperature in thin films made of perovskite and other similarly crystalline materials; the researchers propose that the formation of shock-absorbing quasiparticles called polarons in the material protects dipoles from thermal interference.\nBased on the text, how are polarons believed to be involved in the superfluorescence observed in Biliroglu and colleagues\u2019 study?",
+      "options": [
+        {
+          "text": "Polarons enable superfluorescent bursts to cross from one crystalline material to another."
+        },
+        {
+          "text": "Polarons allow for the dipoles to synchronize despite higher temperatures."
+        },
+        {
+          "text": "Polarons accelerate the dipoles\u2019 release of superfluorescent bursts."
+        },
+        {
+          "text": "Polarons decrease the intensity of the superfluorescent burst."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Many archaeologists will tell you that categorizing excavated fragments of pottery by style, period, and what objects they belong to relies not only on standard criteria, but also on instinct developed over years of practice. In a recent study, however, researchers trained a deep-learning computer model on thousands of images of pottery fragments and found that it could categorize them as accurately as a team of expert archaeologists. Some archaeologists have expressed concern that they might be replaced by such computer models, but the researchers claim that outcome is highly unlikely. \nWhich finding, if true, would most directly support the researchers\u2019 claim?",
       "options": [
         {
           "text": "In the researchers\u2019 study, the model was able to categorize the pottery fragments much more quickly than the archaeologists could."
@@ -219,40 +291,166 @@
       "correct_answer": 2
     },
     {
-      "text": "Although military veterans make up a small proportion of the total population of the United States, they occupy a significantly higher proportion of the jobs in the civilian government. One possible explanation for this disproportionate representation is that military service familiarizes people with certain organizational structures that are also reflected in the civilian government bureaucracy, and this familiarity thus _______",
+      "text": "Scholars have noted that F. Scott Fitzgerald\u2019s writings were likely influenced in part by his marriage to Zelda Fitzgerald, but many don\u2019t recognize Zelda as a writer in her own right. Indeed, Zelda authored several works herself, such as the novel Save Me the Waltz and numerous short stories. Thus, those who primarily view Zelda as an inspiration for F. Scott\u2019s writings ______\nWhich choice most logically completes the text?",
       "options": [
         {
-          "text": "makes civilian government jobs especially appealing to military veterans."
+          "text": "overlook the many other factors that motivated F. Scott to write."
         },
         {
-          "text": "alters the typical relationship between military service and subsequent career preferences."
+          "text": "risk misrepresenting the full range of Zelda\u2019s contributions to literature."
         },
         {
-          "text": "encourages nonveterans applying for civilian government jobs to consider military service instead."
+          "text": "may draw inaccurate conclusions about how F. Scott and Zelda viewed each other\u2019s works."
         },
         {
-          "text": "increases the number of civilian government jobs that require some amount of military experience to perform."
+          "text": "tend to read the works of F. Scott and Zelda in an overly autobiographical light."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Herbivorous sauropod dinosaurs could grow more than 100 feet long and weigh up to 80 tons, and some researchers have attributed the evolution of sauropods to such massive sizes to increased plant production resulting from high levels of atmospheric carbon dioxide during the Mesozoic era. However, there is no evidence of significant spikes in carbon dioxide levels coinciding with relevant periods in sauropod evolution, such as when the first large sauropods appeared, when several sauropod lineages underwent further evolution toward gigantism, or when sauropods reached their maximum known sizes, suggesting that _______ \nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "fluctuations in atmospheric carbon dioxide affected different sauropod lineages differently."
+        },
+        {
+          "text": "the evolution of larger body sizes in sauropods did not depend on increased atmospheric carbon dioxide."
+        },
+        {
+          "text": "atmospheric carbon dioxide was higher when the largest known sauropods lived than it was when the first sauropods appeared."
+        },
+        {
+          "text": "sauropods probably would not have evolved to such immense sizes if atmospheric carbon dioxide had been even slightly higher."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Beginning in the 1950s, Navajo Nation legislator Annie Dodge Wauneka continuously worked to promote public health; this _______ effort involved traveling throughout the vast Navajo homeland and writing a medical dictionary for speakers of Din\u00e9 bizaad, the Navajo language. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "impartial"
+        },
+        {
+          "text": "offhand"
+        },
+        {
+          "text": "persistent"
+        },
+        {
+          "text": "mandatory"
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "The parasitic dodder plant increases its reproductive success by flowering at the same time as the host plant it has latched onto. In 2020, Jianqiang Wu and his colleagues determined that the tiny dodder achieves this _______ with its host by absorbing and utilizing a protein the host produces when it is about to flower. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "synchronization"
+        },
+        {
+          "text": "hibernation"
+        },
+        {
+          "text": "prediction"
+        },
+        {
+          "text": "moderation"
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "Birds of many species ingest foods containing carotenoids, pigmented molecules that are converted into feather coloration. Coloration tends to be especially saturated in male birds\u2019 feathers, and because carotenoids also confer health benefits, the deeply saturated colors generally serve to communicate what is known as an honest signal of a bird\u2019s overall fitness to potential mates. However, ornithologist Allison J. Shultz and others have found that males in several species of the tanager genus Ramphocelus use microstructures in their feathers to manipulate light, creating the appearance of deeper saturation without the birds necessarily having to maintain a carotenoid-rich diet. These findings suggest that _______",
+      "text": "In the mountains of Brazil, Barbacenia tomentosa and Barbacenia macrantha\u2014two plants in the Velloziaceae family\u2014establish themselves on soilless, nutrient-poor patches of quartzite rock. Plant ecologists Anna Abrah\u00e3o and Patricia de Britto Costa used microscopic analysis to determine that the roots of B. tomentosa and B. macrantha, which grow directly into the quartzite, have clusters of fine hairs near the root tip; further analysis indicated that these hairs secrete both malic and citric acids. The researchers hypothesize that the plants depend on dissolving underlying rock with these acids, as the process not only creates channels for continued growth but also releases phosphates that provide the vital nutrient phosphorus. \nWhich finding, if true, would most directly support the researchers\u2019 hypothesis?",
       "options": [
         {
-          "text": "individual male tanagers can engage in honest signaling without relying on carotenoid consumption."
+          "text": "Other species in the Velloziaceae family are found in terrains with more soil but have root structures similar to those of B. tomentosa and B. macrantha."
         },
         {
-          "text": "feather microstructures may be less effective than deeply saturated feathers for signaling overall fitness."
+          "text": "Though B. tomentosa and B. macrantha both secrete citric and malic acids, each species produces the acids in different proportions."
         },
         {
-          "text": "scientists have yet to determine why tanagers have a preference for mates with colorful appearances."
+          "text": "The roots of B. tomentosa and B. macrantha carve new entry points into rocks even when cracks in the surface are readily available."
         },
         {
-          "text": "a male tanager\u2019s appearance may function as a dishonest signal of the individual\u2019s overall fitness."
+          "text": "B. tomentosa and B. macrantha thrive even when transferred to the surfaces of rocks that do not contain phosphates."
         }
       ],
-      "correct_answer": 3
+      "correct_answer": 2
+    },
+    {
+      "text": "In studying the use of external stimuli to reduce the itching sensation caused by an allergic histamine response, Louise Ward and colleagues found that while harmless applications of vibration or warming can provide a temporary distraction, such _______ stimuli actually offer less relief than a stimulus that seems less benign, like a mild electric shock. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "deceptive"
+        },
+        {
+          "text": "innocuous"
+        },
+        {
+          "text": "novel"
+        },
+        {
+          "text": "impractical"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Biologists have predicted that birds\u2019 feather structures vary with habitat temperature, but this hadn\u2019t been tested in mountain environments. Ornithologist Sahas Barve studied feathers from 249 songbird species inhabiting different elevations\u2014and thus experiencing different temperatures\u2014in the Himalaya Mountains. He found that feathers of high-elevation species not only have a greater proportion of warming downy sections to flat and smooth sections than do feathers of low-elevation species, but high-elevation species\u2019 feathers also tend to be longer, providing a thicker layer of insulation.\nWhich choice best states the main idea of the text?",
+      "options": [
+        {
+          "text": "Barve\u2019s investigation shows that some species of Himalayan songbirds have evolved feathers that better regulate body temperature than do the feathers of other species, contradicting previous predictions."
+        },
+        {
+          "text": "Barve found an association between habitat temperature and feather structure among Himalayan songbirds, lending new support to a general prediction."
+        },
+        {
+          "text": "Barve discovered that songbirds have adapted to their environment by growing feathers without flat and smooth sections, complicating an earlier hypothesis."
+        },
+        {
+          "text": "The results of Barve\u2019s study suggest that the ability of birds to withstand cold temperatures is determined more strongly by feather length than feather structure, challenging an established belief."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "When fashion designer Lloyd Henri Kiva New opened his store in Scottsdale, Arizona, in 1945, he quickly became known for creating delicately crafted leather goods, like belts and hats. He was perhaps most renowned for his colorful handbags, which he made by hand using a long and painstaking process. As he gained more customers, New began using sewing machines and other tools to help him produce bags more efficiently, though he continued to handcraft the crucial details that made each bag unique.\nBased on the text, what would have been the most likely consequence if New had not begun using sewing machines?",
+      "options": [
+        {
+          "text": "He would have been unable to ensure that each bag included unique, handcrafted details."
+        },
+        {
+          "text": "He would have struggled to meet the increasing demand for his bags."
+        },
+        {
+          "text": "He would have had to individually design each bag he produced."
+        },
+        {
+          "text": "He would not have been able to generate as much interest in his bags."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "O Pioneers! is a 1913 novel by Willa Cather. In the novel, Cather portrays Alexandra Bergson as having a deep emotional connection to her natural surroundings: _______ \nWhich quotation from O Pioneers! most effectively illustrates the claim?",
+      "options": [
+        {
+          "text": "\u201cShe had never known before how much the country meant to her. The chirping of the insects down in the long grass had been like the sweetest music. She had felt as if her heart were hiding down there, somewhere, with the quail and the plover and all the little wild things that crooned or buzzed in the sun. Under the long shaggy ridges, she felt the future stirring.\u201d"
+        },
+        {
+          "text": "\u201cAlexandra talked to the men about their crops and to the women about their poultry. She spent a whole day with one young farmer who had been away at school, and who was experimenting with a new kind of clover hay. She learned a great deal.\u201d"
+        },
+        {
+          "text": "\u201cAlexandra drove off alone. The rattle of her wagon was lost in the howling of the wind, but her lantern, held firmly between her feet, made a moving point of light along the highway, going deeper and deeper into the dark country.\u201d"
+        },
+        {
+          "text": "\u201cIt was Alexandra who read the papers and followed the markets, and who learned by the mistakes of their neighbors. It was Alexandra who could always tell about what it had cost to fatten each steer, and who could guess the weight of a hog before it went on the scales closer than John Bergson [her father] himself.\u201d"
+        }
+      ],
+      "correct_answer": 0
     }
   ]
 }

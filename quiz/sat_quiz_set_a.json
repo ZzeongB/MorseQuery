@@ -1,99 +1,117 @@
 {
   "title": "SAT Quiz - Set A",
-  "description": "Improved parsing",
+  "description": "",
   "questions": [
     {
-      "text": "Former astronaut Ellen Ochoa says that although she doesn\u2019t have a definite idea of when it might happen, she _______ that humans will someday need to be able to live in other environments than those found on Earth. This conjecture informs her interest in future research missions to the moon.",
+      "text": "The following text is from Jane Austen\u2019s 1811 novel Sense and Sensibility. Elinor lives with her younger sisters and her mother, Mrs. Dashwood.\nElinor, this eldest daughter, whose advice was so effectual, possessed a strength of understanding, and coolness of judgment, which qualified her, though only nineteen, to be the counsellor of her mother, and enabled her frequently to counteract, to the advantage of them all, that eagerness of mind in Mrs. Dashwood which must generally have led to imprudence. She had an excellent heart;\u2014her disposition was affectionate, and her feelings were strong; but she knew how to govern them: it was a knowledge which her mother had yet to learn; and which one of her sisters had resolved never to be taught.\nAccording to the text, what is true about Elinor?",
       "options": [
         {
-          "text": "demands"
+          "text": "Elinor often argues with her mother but fails to change her mind."
         },
         {
-          "text": "speculates"
+          "text": "Elinor can be overly sensitive with regard to family matters."
         },
         {
-          "text": "doubts"
+          "text": "Elinor thinks her mother is a bad role model."
         },
         {
-          "text": "establishes"
-        }
-      ],
-      "correct_answer": 1
-    },
-    {
-      "text": "Beginning in the 1950s, Navajo Nation legislator Annie Dodge Wauneka continuously worked to promote public health; this _______ effort involved traveling throughout the vast Navajo homeland and writing a medical dictionary for speakers of Din\u00e9 bizaad, the Navajo language.",
-      "options": [
-        {
-          "text": "impartial"
-        },
-        {
-          "text": "offhand"
-        },
-        {
-          "text": "persistent"
-        },
-        {
-          "text": "mandatory"
-        }
-      ],
-      "correct_answer": 2
-    },
-    {
-      "text": "Following the principles of community-based participatory research, tribal nations and research institutions are equal partners in health studies conducted on reservations. A collaboration between the Crow Tribe and Montana State University _______ this model: tribal citizens worked alongside scientists to design the methodology and continue to assist in data collection.",
-      "options": [
-        {
-          "text": "circumvents"
-        },
-        {
-          "text": "eclipses"
-        },
-        {
-          "text": "fabricates"
-        },
-        {
-          "text": "exemplifies"
+          "text": "Elinor is remarkably mature for her age."
         }
       ],
       "correct_answer": 3
     },
     {
-      "text": "The parasitic dodder plant increases its reproductive success by flowering at the same time as the host plant it has latched onto. In 2020, Jianqiang Wu and his colleagues determined that the tiny dodder achieves this _______ with its host by absorbing and utilizing a protein the host produces when it is about to flower.",
+      "text": "Researchers have struggled to pinpoint specific causes for hiccups, which happen when a person\u2019s diaphragm contracts _______ . However, neuroscientist Kimberley Whitehead has found that these uncontrollable contractions may play an important role in helping infants regulate their breathing. \nWhich choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
-          "text": "synchronization"
+          "text": "involuntarily"
         },
         {
-          "text": "hibernation"
+          "text": "beneficially"
         },
         {
-          "text": "prediction"
+          "text": "strenuously"
         },
         {
-          "text": "moderation"
+          "text": "smoothly"
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "Given that the conditions in binary star systems should make planetary formation nearly impossible, it\u2019s not surprising that the existence of planets in such systems has lacked _______ explanation. Roman Rafikov and Kedron Silsbee shed light on the subject when they used modeling to determine a complex set of factors that could support planets\u2019 development.",
+      "text": "Researchers recently found that disruptions to an enjoyable experience, like a short series of advertisements during a television show, often increase viewers\u2019 reported enjoyment. Suspecting that disruptions to an unpleasant experience would have the opposite effect, the researchers had participants listen to construction noise for 30 minutes and anticipated that those whose listening experience was frequently interrupted with short breaks of silence would thus ______\nWhich choice most logically completes the text?",
       "options": [
         {
-          "text": "a discernible"
+          "text": "find the disruptions more irritating as time went on."
         },
         {
-          "text": "a straightforward"
+          "text": "rate the listening experience as more negative than those whose listening experience was uninterrupted."
         },
         {
-          "text": "an inconclusive"
+          "text": "rate the experience of listening to construction noise as lasting for less time than it actually lasted."
         },
         {
-          "text": "an unbiased"
+          "text": "perceive the volume of the construction noise as growing softer over time."
         }
       ],
       "correct_answer": 1
     },
     {
-      "text": "Seminole/Muscogee director Sterlin Harjo _______ television\u2019s tendency to situate Native characters in the distant past: this rejection is evident in his series Reservation Dogs, which revolves around teenagers who dress in contemporary styles and whose dialogue is laced with current slang.",
+      "text": "A student is examining a long, challenging poem that was initially published in a quarterly journal without explanatory notes, then later republished in a stand-alone volume containing only that poem and accompanying explanatory notes written by the poet. The student asserts that the explanatory notes were included in the republication primarily as a marketing device to help sell the stand-alone volume.\nWhich statement, if true, would most directly support the student\u2019s claim?",
+      "options": [
+        {
+          "text": "The text of the poem as published in the quarterly journal is not identical to the text of the poem published in the stand-alone volume."
+        },
+        {
+          "text": "Many critics believe that the poet\u2019s explanatory notes remove certain ambiguities of the poem and make it less interesting as a result."
+        },
+        {
+          "text": "The publishers of the stand-alone volume requested the explanatory notes from the poet in order to make the book attractive to readers who already had a copy of the poem in a journal issue."
+        },
+        {
+          "text": "Correspondence between the poet and the publisher reveals that the poet\u2019s explanatory notes went through several drafts."
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "The following text is adapted from Edgar Allan Poe\u2019s 1849 story \u201cLandor\u2019s Cottage.\u201d\nDuring a pedestrian trip last summer, through one or two of the river counties of New York, I found myself, as the day declined, somewhat embarrassed about the road I was pursuing. The land undulated very remarkably; and my path, for the last hour, had wound about and about so confusedly, in its effort to keep in the valleys, that I no longer knew in what direction lay the sweet village of B\u2014\u2014, where I had determined to stop for the night.\nWhich choice best states the main idea of the text?",
+      "options": [
+        {
+          "text": "The narrator remembers a trip he took and admits to getting lost."
+        },
+        {
+          "text": "The narrator recalls fond memories of a journey that he took through some beautiful river counties."
+        },
+        {
+          "text": "The narrator describes what he saw during a long trip through a frequently visited location."
+        },
+        {
+          "text": "The narrator explains the difficulties he encountered on a trip and how he overcame them."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "M\u00f4nica Lopes-Ferreira and others at Brazil\u2019s Butantan Institute are studying the freshwater stingray species Potamotrygon rex to determine whether biological characteristics such as the rays\u2019 age and sex have _______ effect on the toxicity of their venom\u2014that is, to see if differences in these traits are associated with considerable variations in venom potency. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "a disconcerting"
+        },
+        {
+          "text": "an acceptable"
+        },
+        {
+          "text": "an imperceptible"
+        },
+        {
+          "text": "a substantial"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Seminole/Muscogee director Sterlin Harjo _______ television\u2019s tendency to situate Native characters in the distant past: this rejection is evident in his series Reservation Dogs, which revolves around teenagers who dress in contemporary styles and whose dialogue is laced with current slang. \nWhich choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
           "text": "repudiates"
@@ -111,79 +129,61 @@
       "correct_answer": 0
     },
     {
-      "text": "In 2007, computer scientist Luis von Ahn was working on converting printed books into a digital format. He found that some words were distorted enough that digital scanners couldn\u2019t recognize them, but most humans could easily read them. Based on that finding, von Ahn invented a simple security test to keep automated \u201cbots\u201d out of websites. The first version of the reCAPTCHA test asked users to type one known word and one of the many words scanners couldn\u2019t recognize. Correct answers proved the users were humans and added data to the book-digitizing project.",
+      "text": "The following text is adapted from Johanna Spyri\u2019s 1881 novel Heidi (translated by Elisabeth Stork in 1915). Eight-year-old Heidi and her friend\u2019s grandmother are looking at some illustrated books.\nHeidi had come and was looking with wondering eyes at the splendid pictures in the large books, that Grandmama was showing her. Suddenly she screamed aloud, for there on the picture she saw a peaceful flock grazing on a green pasture. In the middle a shepherd was standing, leaning on his crook. The setting sun was shedding a golden light over everything. With glowing eyes Heidi devoured the scene.\nWhich choice best states the main idea of the text?",
       "options": [
         {
-          "text": "To discuss von Ahn\u2019s invention of reCAPTCHA"
+          "text": "Heidi is upset until she sees a serene image of a pasture in one of Grandmama\u2019s books."
         },
         {
-          "text": "To explain how digital scanners work"
+          "text": "Heidi is delighted and fascinated by an image she sees in one of Grandmama\u2019s books."
         },
         {
-          "text": "To call attention to von Ahn\u2019s book-digitizing project"
+          "text": "Heidi is initially frightened by an image in one of Grandmama\u2019s books but quickly comes to appreciate its beauty."
         },
         {
-          "text": "To indicate how popular reCAPTCHA is"
+          "text": "Heidi is inspecting an image in one of Grandmama\u2019s books because she has never seen a shepherd with his sheep before."
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "A contraction of \u201cyou all,\u201d the pronoun \u201cy\u2019all\u201d has long been used as a plural version of \u201cyou\u201d in the South and in Black communities around the US. In recent decades, most other English-speaking communities in the US have begun to use \u201cy\u2019all.\u201d What explains its rise in popularity? Many varieties of English have no pronoun that specifically addresses more than one person and instead must use \u201cyou\u201d to address both one person and more than one. But \u201cy\u2019all\u201d always refers to two or more people. As a result, it conveys the speaker\u2019s meaning more precisely than \u201cyou\u201d can.\nWhich question does the text most directly attempt to answer?",
+      "options": [
+        {
+          "text": "How many other plural versions of the pronoun \u201cyou\u201d are there in English, besides \u201cy\u2019all\u201d?"
+        },
+        {
+          "text": "Why has the pronoun \u201cy\u2019all\u201d become more widely used in the US?"
+        },
+        {
+          "text": "When was the first recorded use of the pronoun \u201cy\u2019all\u201d in the English language?"
+        },
+        {
+          "text": "Is \u201cy\u2019all\u201d commonly used in English-speaking regions of the world besides the US?"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "In their book Smart Pricing, Jagmohan Raju and Z. John Zhang consider musicians\u2019 use of the nontraditional \u201cpay as you wish\u201d pricing model. This model generally offers listeners the choice to pay more or less than a suggested price for a song or album\u2014or even to pay nothing at all. As the authors note, that\u2019s the option most listeners chose for an album by the band Harvey Danger. Only about 1% opted to pay for the album, resulting in earnings below the band\u2019s expectations. But the authors also discuss musician Jane Siberry, who saw significant earnings from her \u201cpay as you wish\u201d online music store as a result of many listeners choosing to pay more than the store\u2019s suggested prices. Hence, the \u201cpay as you wish\u201d model may ______\nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "prove financially successful for some musicians but disappointing for others."
+        },
+        {
+          "text": "hold greater financial appeal for bands than for individual musicians."
+        },
+        {
+          "text": "cause most musicians who use the model to lower the suggested prices of their songs and albums over time."
+        },
+        {
+          "text": "more strongly reflect differences in certain musicians\u2019 popularity than traditional pricing models do."
         }
       ],
       "correct_answer": 0
     },
     {
-      "text": "The following text is from Edith Wharton\u2019s 1905 novel The House of Mirth. Lily Bart and a companion are walking through a park. \n\nLily had no real intimacy with nature, but she had a passion for the appropriate and could be keenly sensitive to a scene which was the fitting background of her own sensations. The landscape outspread below her seemed an enlargement of her present mood, and she found something of herself in its calmness, its breadth, its long free reaches. On the nearer slopes the sugar-maples wavered like pyres of light; lower down was a massing of grey orchards, and here and there the lingering green of an oak-grove.",
-      "options": [
-        {
-          "text": "It creates a detailed image of the physical setting of the scene."
-        },
-        {
-          "text": "It establishes that a character is experiencing an internal conflict."
-        },
-        {
-          "text": "It makes an assertion that the next sentence then expands on."
-        },
-        {
-          "text": "It illustrates an idea that is introduced in the previous sentence."
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "Born in 1891 to a Quechua-speaking family in the Andes Mountains of Peru, Mart\u00edn Chambi is today considered to be one of the most renowned figures of Latin American photography. In a paper for an art history class, a student claims that Chambi\u2019s photographs have considerable ethnographic value\u2014in his work, Chambi was able to capture diverse elements of Peruvian society, representing his subjects with both dignity and authenticity. \n\nWhich finding, if true, would most directly support the student\u2019s claim?",
-      "options": [
-        {
-          "text": "Chambi took many commissioned portraits of wealthy Peruvians, but he also produced hundreds of images carefully documenting the peoples, sites, and customs of Indigenous communities of the Andes."
-        },
-        {
-          "text": "Chambi\u2019s photographs demonstrate a high level of technical skill, as seen in his strategic use of illumination to create dramatic light and shadow contrasts."
-        },
-        {
-          "text": "During his lifetime, Chambi was known and celebrated both within and outside his native Peru, as his work was published in places like Argentina, Spain, and Mexico."
-        },
-        {
-          "text": "Some of the peoples and places Chambi photographed had long been popular subjects for Peruvian photographers."
-        }
-      ],
-      "correct_answer": 0
-    },
-    {
-      "text": "A study by a team including finance professor Madhu Veeraraghavan suggests that exposure to sunshine during the workday can lead to overly optimistic behavior. Using data spanning from 1994 to 2010 for a set of US companies, the team compared over 29,000 annual earnings forecasts to the actual earnings later reported by those companies\t. The team found that the greater the exposure to sunshine at work in the two weeks before a manager submitted an earnings forecast, the more the manager\u2019s forecast exceeded what the company actually earned that year.",
-      "options": [
-        {
-          "text": "To summarize the results of the team\u2019s analysis"
-        },
-        {
-          "text": "To present a specific example that illustrates the study\u2019s findings"
-        },
-        {
-          "text": "To explain part of the methodology used in the team\u2019s study"
-        },
-        {
-          "text": "To call out a challenge the team faced in conducting its analysis"
-        }
-      ],
-      "correct_answer": 2
-    },
-    {
-      "text": "The following text is adapted from Edith Nesbit\u2019s 1906 novel The Railway Children. \n\nMother did not spend all her time in paying dull [visits] to dull ladies, and sitting dully at home waiting for dull ladies to pay [visits] to her. She was almost always there, ready to play with the children, and read to them, and help them to do their home-lessons. Besides this she used to write stories for them while they were at school, and read them aloud after tea, and she always made up funny pieces of poetry for their birthdays and for other great occasions. \n\nAccording to the text, what is true about Mother?",
+      "text": "The following text is adapted from Edith Nesbit\u2019s 1906 novel The Railway Children. \nMother did not spend all her time in paying dull [visits] to dull ladies, and sitting dully at home waiting for dull ladies to pay [visits] to her. She was almost always there, ready to play with the children, and read to them, and help them to do their home-lessons. Besides this she used to write stories for them while they were at school, and read them aloud after tea, and she always made up funny pieces of poetry for their birthdays and for other great occasions. \nAccording to the text, what is true about Mother?",
       "options": [
         {
           "text": "She wishes that more ladies would visit her."
@@ -201,43 +201,169 @@
       "correct_answer": 2
     },
     {
-      "text": "Herbivorous sauropod dinosaurs could grow more than 100 feet long and weigh up to 80 tons, and some researchers have attributed the evolution of sauropods to such massive sizes to increased plant production resulting from high levels of atmospheric carbon dioxide during the Mesozoic era. However, there is no evidence of significant spikes in carbon dioxide levels coinciding with relevant periods in sauropod evolution, such as when the first large sauropods appeared, when several sauropod lineages underwent further evolution toward gigantism, or when sauropods reached their maximum known sizes, suggesting that _______",
+      "text": "Scholarly discussions of gender in Shakespeare\u2019s comedies often celebrate the rebellion of the playwright\u2019s characters against the rigid expectations _______ by Elizabethan society. Most of the comedies end in marriage, with characters returning to their socially dictated gender roles after previously defying them, but there are some notable exceptions. \nWhich choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
-          "text": "fluctuations in atmospheric carbon dioxide affected different sauropod lineages differently."
+          "text": "interjected"
         },
         {
-          "text": "the evolution of larger body sizes in sauropods did not depend on increased atmospheric carbon dioxide."
+          "text": "committed"
         },
         {
-          "text": "atmospheric carbon dioxide was higher when the largest known sauropods lived than it was when the first sauropods appeared."
+          "text": "illustrated"
         },
         {
-          "text": "sauropods probably would not have evolved to such immense sizes if atmospheric carbon dioxide had been even slightly higher."
+          "text": "prescribed"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Although many transposons, DNA sequences that move within an organism\u2019s genome through shuffling or duplication, have become corrupted and inactive over time, those from the long interspersed nuclear elements (LINE) family appear to remain active in the genomes of some species. In humans, they are functionally important within the hippocampus, a brain structure that supports complex cognitive processes. When the results of molecular analysis of two species of octopus\u2014an animal known for its intelligence\u2014were announced in 2022, the confirmation of a LINE transposon in Octopus vulgaris and Octopus bimaculoides genomes prompted researchers to hypothesize that that transposon family is tied to a species\u2019 capacity for advanced cognition.\nWhich finding, if true, would most directly support the researchers\u2019 hypothesis?",
+      "options": [
+        {
+          "text": "The LINE transposon in O. vulgaris and O. bimaculoides genomes is active in an octopus brain structure that functions similarly to the human hippocampus."
+        },
+        {
+          "text": "The human genome contains multiple transposons from the LINE family that are all primarily active in the hippocampus."
+        },
+        {
+          "text": "A consistent number of copies of LINE transposons is present across the genomes of most octopus species, with few known corruptions."
+        },
+        {
+          "text": "O. vulgaris and O. bimaculoides have smaller brains than humans do relative to body size, but their genomes contain sequences from a wider variety of transposon families."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "After winning the 1860 presidential election, Abraham Lincoln appointed Edward Bates, Salmon P. Chase, and William H. Seward to his cabinet. Lincoln\u2019s decision was surprising, since each of these men had run against him, but historians have praised it, noting that Lincoln ______blank his rivals\u2019 diverse talents to strengthen his administration.\nWhich choice completes the text so that it conforms to the conventions of Standard English?",
+      "options": [
+        {
+          "text": "has leveraged"
+        },
+        {
+          "text": "is leveraging"
+        },
+        {
+          "text": "will leverage"
+        },
+        {
+          "text": "leveraged"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Although military veterans make up a small proportion of the total population of the United States, they occupy a significantly higher proportion of the jobs in the civilian government. One possible explanation for this disproportionate representation is that military service familiarizes people with certain organizational structures that are also reflected in the civilian government bureaucracy, and this familiarity thus _______ \nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "makes civilian government jobs especially appealing to military veterans."
+        },
+        {
+          "text": "alters the typical relationship between military service and subsequent career preferences."
+        },
+        {
+          "text": "encourages nonveterans applying for civilian government jobs to consider military service instead."
+        },
+        {
+          "text": "increases the number of civilian government jobs that require some amount of military experience to perform."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "\u201cLoon Point\u201d is a 1912 poem by Amy Lowell. In the poem, which presents a nighttime scene on a body of water, Lowell describes an element of nature as an active participant in the experience, writing, ______\nWhich quotation from \u201cLoon Point\u201d most effectively illustrates the claim?",
+      "options": [
+        {
+          "text": "\u201cThrough the water the moon writes her legends / In light, on the smooth, wet sand.\u201d"
+        },
+        {
+          "text": "\u201cSoftly the water ripples / Against the canoe\u2019s curving side.\u201d"
+        },
+        {
+          "text": "\u201cOr like the snow-white petals / Which drop from an overblown rose.\u201d"
+        },
+        {
+          "text": "\u201cBut the moon in her wayward beauty / Is ever and always the same.\u201d"
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "For painter Jacob Lawrence, being _______ was an important part of the artistic process. Because he paid close attention to all the details of his Harlem neighborhood, Lawrence\u2019s artwork captured nuances in the beauty and vitality of the Black experience during the Harlem Renaissance and the Great Migration. \nWhich choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "skeptical"
+        },
+        {
+          "text": "observant"
+        },
+        {
+          "text": "critical"
+        },
+        {
+          "text": "confident"
         }
       ],
       "correct_answer": 1
     },
     {
-      "text": "In the mountains of Brazil, Barbacenia tomentosa and Barbacenia macrantha\u2014two plants in the Velloziaceae family\u2014establish themselves on soilless, nutrient-poor patches of quartzite rock. Plant ecologists Anna Abrah\u00e3o and Patricia de Britto Costa used microscopic analysis to determine that the roots of B. tomentosa and B. macrantha, which grow directly into the quartzite, have clusters of fine hairs near the root tip; further analysis indicated that these hairs secrete both malic and citric acids. The researchers hypothesize that the plants depend on dissolving underlying rock with these acids, as the process not only creates channels for continued growth but also releases phosphates that provide the vital nutrient phosphorus. \n\nWhich finding, if true, would most directly support the researchers\u2019 hypothesis?",
+      "text": "Following the principles of community-based participatory research, tribal nations and research institutions are equal partners in health studies conducted on reservations. A collaboration between the Crow Tribe and Montana State University _______ this model: tribal citizens worked alongside scientists to design the methodology and continue to assist in data collection. \nWhich choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
-          "text": "Other species in the Velloziaceae family are found in terrains with more soil but have root structures similar to those of B. tomentosa and B. macrantha."
+          "text": "circumvents"
         },
         {
-          "text": "Though B. tomentosa and B. macrantha both secrete citric and malic acids, each species produces the acids in different proportions."
+          "text": "eclipses"
         },
         {
-          "text": "The roots of B. tomentosa and B. macrantha carve new entry points into rocks even when cracks in the surface are readily available."
+          "text": "fabricates"
         },
         {
-          "text": "B. tomentosa and B. macrantha thrive even when transferred to the surfaces of rocks that do not contain phosphates."
+          "text": "exemplifies"
         }
       ],
-      "correct_answer": 2
+      "correct_answer": 3
     },
     {
-      "text": "In documents called judicial opinions, judges explain the reasoning behind their legal rulings, and in those explanations they sometimes cite and discuss historical and contemporary philosophers. Legal scholar and philosopher Anita L. Allen argues that while judges are naturally inclined to mention philosophers whose views align with their own positions, the strongest judicial opinions consider and rebut potential objections; discussing philosophers whose views conflict with judges\u2019 views could therefore _______",
+      "text": "Utah is home to Pando, a colony of about 47,000 quaking aspen trees that all share a single root system. Pando is one of the largest single organisms by mass on Earth, but ecologists are worried that its growth is declining in part because of grazing by animals. The ecologists say that strong fences could prevent deer from eating young trees and help Pando start thriving again.\nAccording to the text, why are ecologists worried about Pando?",
+      "options": [
+        {
+          "text": "It isn\u2019t growing at the same rate it used to."
+        },
+        {
+          "text": "It isn\u2019t producing young trees anymore."
+        },
+        {
+          "text": "It can\u2019t grow into new areas because it is blocked by fences."
+        },
+        {
+          "text": "Its root system can\u2019t support many more new trees."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Paleontologists searching for signs of ancient life have found many fossilized specimens of prehistoric human ancestors, including several from the Pleistocene era discovered in a geological formation in the Minatogawa quarry in Japan. However, to study the emergence of the earliest multicellular organisms to appear on Earth, researchers must turn elsewhere, such as to the Ediacaran geological formation at Mistaken Point in Canada. A UNESCO World Heritage Site, the 146-hectare reserve contains more than 10,000 fossils that together document a critical moment in evolutionary history.\nWhat does the text indicate about the geological formation at Mistaken Point?",
+      "options": [
+        {
+          "text": "It holds a greater number of fossils but from a smaller variety of species than the formation in the Minatogawa quarry does."
+        },
+        {
+          "text": "It has provided evidence that the earliest human species may have emerged before the Pleistocene era."
+        },
+        {
+          "text": "It is widely considered by paleontologists to be the most valuable source of information about prehistoric life forms."
+        },
+        {
+          "text": "It contains specimens from an older time period than those found in the formation in the Minatogawa quarry."
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "In documents called judicial opinions, judges explain the reasoning behind their legal rulings, and in those explanations they sometimes cite and discuss historical and contemporary philosophers. Legal scholar and philosopher Anita L. Allen argues that while judges are naturally inclined to mention philosophers whose views align with their own positions, the strongest judicial opinions consider and rebut potential objections; discussing philosophers whose views conflict with judges\u2019 views could therefore _______ \nWhich choice most logically completes the text?",
       "options": [
         {
           "text": "allow judges to craft judicial opinions without needing to consult philosophical works."
@@ -253,6 +379,78 @@
         }
       ],
       "correct_answer": 1
+    },
+    {
+      "text": "In 1934 physicist Eugene Wigner posited the existence of a crystal consisting entirely of electrons in a honeycomb-like structure. The so-called Wigner crystal remained largely conjecture, however, until Feng Wang and colleagues announced in 2021 that they had captured an image of one. The researchers trapped electrons between two semiconductors and then cooled the apparatus, causing the electrons to settle into a crystalline structure. By inserting an ultrathin sheet of graphene above the crystal, the researchers obtained an impression\u2014the first visual confirmation of the Wigner crystal.\nWhich choice best states the main idea of the text?",
+      "options": [
+        {
+          "text": "Researchers have obtained the most definitive evidence to date of the existence of the Wigner crystal."
+        },
+        {
+          "text": "Researchers have identified an innovative new method for working with unusual crystalline structures."
+        },
+        {
+          "text": "Graphene is the most important of the components required to capture an image of a Wigner crystal."
+        },
+        {
+          "text": "It\u2019s difficult to acquire an image of a Wigner crystal because of the crystal\u2019s honeycomb structure."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "To understand how temperature change affects microorganism-mediated cycling of soil nutrients in alpine ecosystems, Eva Ka\u0161tovsk\u00e1 et al. collected plant-soil cores in the Tatra Mountains at elevations around 2,100 meters and transplanted them to elevations of 1,700\u20131,800 meters, where the mean air temperature was warmer by 2\u00b0C. Microorganism-mediated nutrient cycling was accelerated in the transplanted cores; crucially, microorganism community composition was unchanged, allowing Ka\u0161tovsk\u00e1 et al. to attribute the acceleration to temperature-induced increases in microorganism activity. \nIt can most reasonably be inferred from the text that the finding about the microorganism community composition was important for which reason?",
+      "options": [
+        {
+          "text": "It provided preliminary evidence that microorganism-mediated nutrient cycling was accelerated in the transplanted cores."
+        },
+        {
+          "text": "It suggested that temperature-induced changes in microorganism activity may be occurring at increasingly high elevations."
+        },
+        {
+          "text": "It ruled out a potential alternative explanation for the acceleration in microorganism-mediated nutrient cycling."
+        },
+        {
+          "text": "It clarified that microorganism activity levels in the plant-soil cores varied depending on which microorganisms comprised the community."
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "The practice of logging (cutting down trees for commercial and other uses) is often thought to be at odds with forest conservation (the work of preserving forests). However, a massive study in forest management and preservation spanning 700,000 hectares in Oregon\u2019s Malheur National Forest calls that view into question. So far, results of the study suggest that forest plots that have undergone limited logging (the careful removal of a controlled number of trees) may be more robust than plots that haven\u2019t been logged at all. These results, in turn, suggest that ______\nWhich choice most logically completes the text?",
+      "options": [
+        {
+          "text": "logging may be useful for maintaining healthy forests, provided it is limited."
+        },
+        {
+          "text": "other forest management strategies are more effective than limited logging."
+        },
+        {
+          "text": "as time passes, it will be difficult to know whether limited logging has any benefits."
+        },
+        {
+          "text": "the best way to support forest health may be to leave large forests entirely untouched."
+        }
+      ],
+      "correct_answer": 0
+    },
+    {
+      "text": "Born in 1891 to a Quechua-speaking family in the Andes Mountains of Peru, Mart\u00edn Chambi is today considered to be one of the most renowned figures of Latin American photography. In a paper for an art history class, a student claims that Chambi\u2019s photographs have considerable ethnographic value\u2014in his work, Chambi was able to capture diverse elements of Peruvian society, representing his subjects with both dignity and authenticity. \nWhich finding, if true, would most directly support the student\u2019s claim?",
+      "options": [
+        {
+          "text": "Chambi took many commissioned portraits of wealthy Peruvians, but he also produced hundreds of images carefully documenting the peoples, sites, and customs of Indigenous communities of the Andes."
+        },
+        {
+          "text": "Chambi\u2019s photographs demonstrate a high level of technical skill, as seen in his strategic use of illumination to create dramatic light and shadow contrasts."
+        },
+        {
+          "text": "During his lifetime, Chambi was known and celebrated both within and outside his native Peru, as his work was published in places like Argentina, Spain, and Mexico."
+        },
+        {
+          "text": "Some of the peoples and places Chambi photographed had long been popular subjects for Peruvian photographers."
+        }
+      ],
+      "correct_answer": 0
     }
   ]
 }
