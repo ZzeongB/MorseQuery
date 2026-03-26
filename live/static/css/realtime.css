@@ -294,6 +294,11 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
 .nback-letter.nback-blank {
     color: #4b5563;
 }
+.nback-letter.responded,
+.nback-letter.nback-blank.responded {
+    color: #4ade80;
+    transition: color 0.15s ease;
+}
 .nback-instructions {
     font-size: 14px;
     color: #9ca3af;
@@ -308,11 +313,6 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     border-radius: 6px;
     border: 1px solid #374151;
     transition: all 0.1s ease;
-}
-.key-hint.pressed {
-    background: #6366f1;
-    border-color: #818cf8;
-    color: #fff;
 }
 .nback-complete {
     font-size: 24px;

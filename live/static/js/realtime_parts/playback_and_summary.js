@@ -794,6 +794,12 @@ function handleNbackKeyPress(key) {
 
         nbackResponseMade = true;
 
+        // Show visual feedback that response was recorded
+        const letterEl = document.querySelector('.nback-letter');
+        if (letterEl) {
+            letterEl.classList.add('responded');
+        }
+
         const result = {
             index: nbackCurrentIndex,
             letter: letter,
