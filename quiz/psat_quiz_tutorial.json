@@ -1,0 +1,96 @@
+{
+  "title": "PSAT Quiz - Tutorial",
+  "description": "Tutorial questions (2 from Set A, 3 from Set B)",
+  "questions": [
+    {
+      "text": "Bioluminescent beetles called fireflies may seem to create flashes of light randomly, but each species of firefly actually has its own special series of repeated flashes and pauses. These unique _______ allow fireflies of the same species to find each other. Which choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "quantities"
+        },
+        {
+          "text": "decorations"
+        },
+        {
+          "text": "patterns"
+        },
+        {
+          "text": "agreements"
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "Each year in the fall, when the weather starts to cool in the northern hemisphere, millions of North American monarch butterflies journey south. Searching for food and warmer habitats, they _______ thousands of miles—from as far north as Canada all the way down to Mexico—on this annual migration. Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "options": [
+        {
+          "text": "flew"
+        },
+        {
+          "text": "were flying"
+        },
+        {
+          "text": "had flown"
+        },
+        {
+          "text": "fly"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "In June, female loggerhead sea turtles will swim back to the sandy beaches where they were born to lay eggs of their own. First, the turtle will dig her nest in the sand. _______ she will lay up to 100 eggs in the nest. Finally, she will cover it all with sand, before returning to the ocean. Which choice completes the text with the most logical transition?",
+      "options": [
+        {
+          "text": "By contrast,"
+        },
+        {
+          "text": "Similarly,"
+        },
+        {
+          "text": "Next,"
+        },
+        {
+          "text": "For example,"
+        }
+      ],
+      "correct_answer": 2
+    },
+    {
+      "text": "Preston Singletary is a Tlingit glass artist who often collaborates with other artists. _______ he has worked with Tewa pottery artist Jody Naranjo several times. Together, Singletary and Naranjo have created pottery-inspired glass pieces such as Sunset Stampede and Kiva Steps.",
+      "options": [
+        {
+          "text": "In conclusion,"
+        },
+        {
+          "text": "For example,"
+        },
+        {
+          "text": "However,"
+        },
+        {
+          "text": "In comparison,"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "In the 1950s, novel audio technologies allowed the addition of another instrument to jazz and swing _______ relatively quiet instrument, its full range of sound was finally audible alongside the blaring brass instruments of the time, allowing flautists like Bennie Maupin and Bobbi Humphrey to perform with other jazz greats.",
+      "options": [
+        {
+          "text": "music, the flute, a"
+        },
+        {
+          "text": "music. The flute, a"
+        },
+        {
+          "text": "music; the flute, a"
+        },
+        {
+          "text": "music: the flute. A"
+        }
+      ],
+      "correct_answer": 1
+    }
+  ]
+}

@@ -328,9 +328,9 @@ keyword_tts_stream_client: Optional[StreamingTTSClient] = None
 _keyword_tts_request_token = 0
 _active_runtime_sid: Optional[str] = None
 _QUIZ_FILES = {
-    "A": "../quiz/sat_quiz_set_a.json",
-    "B": "../quiz/sat_quiz_set_b.json",
-    "T": "../quiz/psat_quiz_set_a.json",  # Tutorial uses set A
+    "A": "../quiz/psat_quiz_set_a.json",
+    "B": "../quiz/psat_quiz_set_b.json",
+    "T": "../quiz/psat_quiz_tutorial.json",
 }
 _QUIZ_DURATION_SEC = 90
 _QUIZ_DURATION_TUTORIAL_SEC = 60

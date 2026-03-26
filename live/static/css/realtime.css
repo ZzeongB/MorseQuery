@@ -142,6 +142,16 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     font-weight: 700;
     color: #f8fafc;
 }
+.quiz-question-timer {
+    min-width: 48px;
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+    color: #f8fafc;
+    background: #374151;
+    padding: 4px 12px;
+    border-radius: 8px;
+}
 .quiz-question {
     font-size: 20px;
     line-height: 1.55;
@@ -171,6 +181,11 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     background: #273449;
     border-color: #60a5fa;
 }
+.quiz-option.selected {
+    background: #1e3a5f;
+    border-color: #3b82f6;
+    color: #dbeafe;
+}
 .quiz-option.correct {
     background: rgba(34, 197, 94, 0.18);
     border-color: #22c55e;
@@ -183,6 +198,24 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
 }
 .quiz-option:disabled {
     cursor: default;
+}
+.quiz-countdown {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+.quiz-countdown-number {
+    font-size: 72px;
+    font-weight: 700;
+    color: #60a5fa;
+    line-height: 1;
+}
+.quiz-countdown-label {
+    font-size: 18px;
+    color: #9ca3af;
+    margin-top: 12px;
 }
 
 

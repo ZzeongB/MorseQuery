@@ -108,6 +108,12 @@ socket.on('session_ended', () => {
     quizRoundEndsAt = 0;
     quizSessionStartAt = 0;
     quizAncActive = false;
+    quizQuestionEndsAt = 0;
+    quizQuestionAnswered = false;
+    quizSelectedAnswer = -1;
+    quizRoundStartIndex = 0;
+    quizRoundCorrectCount = 0;
+    quizRoundAnsweredCount = 0;
     pendingSummaryTexts = [];
     streamingTtsBuffers.clear();
     recentlyFinishedStreamingTts.clear();

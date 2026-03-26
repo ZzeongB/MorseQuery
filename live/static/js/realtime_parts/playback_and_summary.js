@@ -319,6 +319,14 @@ function clearQuizTimers() {
         clearInterval(quizCountdownTimer);
         quizCountdownTimer = null;
     }
+    if (quizQuestionTimer) {
+        clearTimeout(quizQuestionTimer);
+        quizQuestionTimer = null;
+    }
+    if (quizQuestionCountdownTimer) {
+        clearInterval(quizQuestionCountdownTimer);
+        quizQuestionCountdownTimer = null;
+    }
 }
 
 function clearQueuedQuizRound() {
@@ -334,6 +342,12 @@ function formatQuizRemaining() {
     const minutes = Math.floor(totalSec / 60);
     const seconds = totalSec % 60;
     return `${minutes}:${String(seconds).padStart(2, '0')}`;
+}
+
+function formatQuestionRemaining() {
+    const remainMs = Math.max(0, quizQuestionEndsAt - Date.now());
+    const totalSec = Math.ceil(remainMs / 1000);
+    return `${totalSec}`;
 }
 
 function buildSessionQuizOrder() {
@@ -368,6 +382,72 @@ function updateQuizTimerUi() {
     }
 }
 
+function updateQuestionTimerUi() {
+    const timerEl = document.getElementById('quizQuestionTimer');
+    if (timerEl) {
+        timerEl.textContent = formatQuestionRemaining();
+    }
+}
+
+function startQuestionTimer() {
+    // 이전 타이머 정리
+    if (quizQuestionTimer) {
+        clearTimeout(quizQuestionTimer);
+        quizQuestionTimer = null;
+    }
+    if (quizQuestionCountdownTimer) {
+        clearInterval(quizQuestionCountdownTimer);
+        quizQuestionCountdownTimer = null;
+    }
+
+    quizQuestionAnswered = false;
+    quizSelectedAnswer = -1;  // 새 문제 시작 시 선택 초기화
+    quizQuestionEndsAt = Date.now() + (quizQuestionTimeoutSec * 1000);
+
+    // 카운트다운 UI 업데이트
+    updateQuestionTimerUi();
+    quizQuestionCountdownTimer = setInterval(() => {
+        updateQuestionTimerUi();
+    }, 250);
+
+    // 타임아웃 시 다음 문제로 이동
+    quizQuestionTimer = setTimeout(() => {
+        advanceToNextQuestion();
+    }, quizQuestionTimeoutSec * 1000);
+}
+
+function advanceToNextQuestion() {
+    // 타이머 정리
+    if (quizQuestionTimer) {
+        clearTimeout(quizQuestionTimer);
+        quizQuestionTimer = null;
+    }
+    if (quizQuestionCountdownTimer) {
+        clearInterval(quizQuestionCountdownTimer);
+        quizQuestionCountdownTimer = null;
+    }
+
+    if (!quizRoundActive) return;
+
+    // 현재 선택된 답을 서버에 전송
+    submitCurrentQuizAnswer();
+
+    // 다음 문제로 이동
+    quizCurrentIndex += 1;
+    quizSelectedAnswer = -1;  // 선택 초기화
+
+    // 라운드 내 문제를 다 풀었거나 전체 문제를 다 풀었으면 라운드 종료
+    const roundEndIndex = quizRoundStartIndex + quizQuestionsPerRound;
+    if (quizCurrentIndex >= sessionQuizOrder.length || quizCurrentIndex >= roundEndIndex) {
+        finishQuizRound();
+        return;
+    }
+
+    // 다음 문제 렌더링 및 타이머 시작
+    renderQuizQuestion();
+    startQuestionTimer();
+}
+
 function renderQuizRoundComplete(message = 'Summarizing the last minute...') {
     const list = document.getElementById('optionsList');
     list.innerHTML = `
@@ -383,25 +463,57 @@ function renderQuizRoundComplete(message = 'Summarizing the last minute...') {
     `;
 }
 
+function showQuizCountdown(seconds, onComplete) {
+    const list = document.getElementById('optionsList');
+    let remaining = seconds;
+
+    function renderCountdown() {
+        list.innerHTML = `
+            <div class="quiz-card quiz-countdown">
+                <div class="quiz-countdown-number">${remaining}</div>
+                <div class="quiz-countdown-label">Quiz Starting...</div>
+            </div>
+        `;
+    }
+
+    renderCountdown();
+
+    const countdownInterval = setInterval(() => {
+        remaining -= 1;
+        if (remaining <= 0) {
+            clearInterval(countdownInterval);
+            onComplete();
+        } else {
+            renderCountdown();
+        }
+    }, 1000);
+}
+
 function renderQuizQuestion() {
     const list = document.getElementById('optionsList');
-    if (!quizRoundActive || quizCurrentIndex >= sessionQuizOrder.length) {
+    const roundEndIndex = quizRoundStartIndex + quizQuestionsPerRound;
+    if (!quizRoundActive || quizCurrentIndex >= sessionQuizOrder.length || quizCurrentIndex >= roundEndIndex) {
         hideInfo();
         return;
     }
 
     const item = sessionQuizOrder[quizCurrentIndex];
-    const optionsHtml = item.options.map((option, idx) => `
-        <button class="quiz-option" onclick="submitQuizAnswer(${idx})">${option}</button>
-    `).join('');
+    const optionsHtml = item.options.map((option, idx) => {
+        // 선택된 답에 selected 클래스 추가
+        const isSelected = idx === quizSelectedAnswer;
+        const buttonClass = isSelected ? 'quiz-option selected' : 'quiz-option';
+        return `<button class="${buttonClass}" onclick="selectQuizAnswer(${idx})">${option}</button>`;
+    }).join('');
+
+    const questionNumber = (quizCurrentIndex - quizRoundStartIndex) + 1;
+    const totalQuestions = Math.min(quizQuestionsPerRound, sessionQuizOrder.length - quizRoundStartIndex);
 
     list.innerHTML = `
         <div class="quiz-card">
             <div class="quiz-header">
                 <div>
-                    <div class="quiz-label">Quiz Set ${quizSetSelection} · Round ${quizRoundNumber}</div>
+                    <div class="quiz-label">Quiz ${quizSetSelection} · Q${questionNumber}/${totalQuestions}</div>
                 </div>
-                <div class="quiz-timer" id="quizTimer" style="display: none;">${formatQuizRemaining()}</div>
             </div>
             <div class="quiz-question">${item.text}</div>
             <div class="quiz-options">${optionsHtml}</div>
@@ -444,26 +556,31 @@ function startNextQuizRound(expectedIndex = quizScheduleIndex) {
 
     function startQuizUi() {
         quizRoundActive = true;
-        quizRoundEndsAt = Date.now() + (quizRoundDurationSec * 1000);
+        // 라운드 전체 타이머는 사용하지 않음 (문제별 타이머 사용)
+        quizRoundEndsAt = 0;
+
+        // 라운드 시작 인덱스 설정 (이전 라운드에서 이어서)
+        quizRoundStartIndex = quizCurrentIndex;
+        quizSelectedAnswer = -1;
+        quizRoundCorrectCount = 0;
+        quizRoundAnsweredCount = 0;
+
+        // 이번 라운드에서 보여줄 문제 ID들
+        const roundEndIndex = Math.min(quizRoundStartIndex + quizQuestionsPerRound, sessionQuizOrder.length);
+        const roundQuestionIds = sessionQuizOrder.slice(quizRoundStartIndex, roundEndIndex).map(item => item.id);
 
         socket.emit('quiz_round_start', {
             quiz_set: quizSetSelection,
             round_number: quizRoundNumber,
-            question_ids: sessionQuizOrder.map(item => item.id),
-            duration_sec: quizRoundDurationSec,
+            question_ids: roundQuestionIds,
+            duration_sec: quizQuestionTimeoutSec * quizQuestionsPerRound,
         });
-        renderQuizQuestion();
-        updateQuizTimerUi();
 
-        quizCountdownTimer = setInterval(() => {
-            updateQuizTimerUi();
-            if (Date.now() >= quizRoundEndsAt) {
-                finishQuizRound();
-            }
-        }, 250);
-        quizRoundTimer = setTimeout(() => {
-            finishQuizRound();
-        }, quizRoundDurationSec * 1000);
+        // 3초 카운트다운 후 첫 번째 문제 시작
+        showQuizCountdown(3, () => {
+            renderQuizQuestion();
+            startQuestionTimer();
+        });
     }
 
     if (!quizAncActive) {
@@ -481,41 +598,68 @@ function startNextQuizRound(expectedIndex = quizScheduleIndex) {
 
 function finishQuizRound() {
     if (!quizRoundActive) return;
-    const answeredCount = Math.min(quizCurrentIndex, sessionQuizOrder.length);
+    const questionsInRound = Math.min(quizQuestionsPerRound, sessionQuizOrder.length - quizRoundStartIndex);
+    const accuracy = quizRoundAnsweredCount > 0
+        ? Math.round((quizRoundCorrectCount / quizRoundAnsweredCount))
+        : 0;
     socket.emit('quiz_round_end', {
         quiz_set: quizSetSelection,
         round_number: quizRoundNumber,
-        answered_count: answeredCount,
-        shown_count: answeredCount,
+        shown_count: questionsInRound,
+        answered_count: quizRoundAnsweredCount,
+        correct_count: quizRoundCorrectCount,
+        accuracy: accuracy,
         total_available: sessionQuizOrder.length,
     });
     quizRoundActive = false;
+    quizSelectedAnswer = -1;
+    quizRoundCorrectCount = 0;
+    quizRoundAnsweredCount = 0;
     clearQuizTimers();
     hideInfo();
     startSummarizing({ force: true });
 }
 
-function submitQuizAnswer(selectedIdx) {
+function selectQuizAnswer(selectedIdx) {
     if (!quizRoundActive) return;
+
+    // 선택 변경 가능 (같은 답을 다시 누르면 선택 취소)
+    if (quizSelectedAnswer === selectedIdx) {
+        quizSelectedAnswer = -1;
+    } else {
+        quizSelectedAnswer = selectedIdx;
+    }
+
+    // UI를 다시 렌더링하여 선택 표시 (타이머는 계속 진행)
+    renderQuizQuestion();
+}
+
+function submitCurrentQuizAnswer() {
     const item = sessionQuizOrder[quizCurrentIndex];
     if (!item) return;
+
+    const correctIndex = Number(item.correct_answer);
+    const isCorrect = quizSelectedAnswer === correctIndex;
+    const isAnswered = quizSelectedAnswer >= 0;
+
+    // 정답/응답 수 카운트
+    if (isAnswered) {
+        quizRoundAnsweredCount += 1;
+        if (isCorrect) {
+            quizRoundCorrectCount += 1;
+        }
+    }
+
+    // 서버에 전송
     socket.emit('quiz_question_answered', {
         quiz_set: quizSetSelection,
         round_number: quizRoundNumber,
         question_id: item.id,
-        question_position: quizCurrentIndex + 1,
-        selected_index: selectedIdx,
-        correct_index: Number(item.correct_answer),
+        question_position: (quizCurrentIndex - quizRoundStartIndex) + 1,
+        selected_index: quizSelectedAnswer,  // -1이면 미응답
+        correct_index: correctIndex,
+        is_correct: isCorrect,
     });
-    const buttons = document.querySelectorAll('.quiz-option');
-    buttons.forEach((button) => {
-        button.disabled = true;
-    });
-    setTimeout(() => {
-        if (!quizRoundActive) return;
-        quizCurrentIndex += 1;
-        renderQuizQuestion();
-    }, 400);
 }
 
 function endQuizAncSession() {
@@ -942,6 +1086,12 @@ function start(v) {
     quizRoundEndsAt = 0;
     quizSessionStartAt = Date.now();
     quizAncActive = false;
+    quizQuestionEndsAt = 0;
+    quizQuestionAnswered = false;
+    quizSelectedAnswer = -1;
+    quizRoundStartIndex = 0;
+    quizRoundCorrectCount = 0;
+    quizRoundAnsweredCount = 0;
 
     const params = { source: source };
     const fastCatchupThresholdEl = document.getElementById('fastCatchupThresholdSec');
@@ -1084,6 +1234,11 @@ function clearAllActiveUiAndAudio() {
     clearQueuedQuizRound();
     quizRoundActive = false;
     quizRoundEndsAt = 0;
+    quizQuestionEndsAt = 0;
+    quizQuestionAnswered = false;
+    quizSelectedAnswer = -1;
+    quizRoundCorrectCount = 0;
+    quizRoundAnsweredCount = 0;
     endQuizAncSession();
     clearReconstructedState();
     summaryCueSequenceActive = false;

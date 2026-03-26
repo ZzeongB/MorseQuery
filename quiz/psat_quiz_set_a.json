@@ -3,24 +3,6 @@
   "description": "PSAT questions (1-16)",
   "questions": [
     {
-      "text": "Bioluminescent beetles called fireflies may seem to create flashes of light randomly, but each species of firefly actually has its own special series of repeated flashes and pauses. These unique _______ allow fireflies of the same species to find each other. Which choice completes the text with the most logical and precise word or phrase?",
-      "options": [
-        {
-          "text": "quantities"
-        },
-        {
-          "text": "decorations"
-        },
-        {
-          "text": "patterns"
-        },
-        {
-          "text": "agreements"
-        }
-      ],
-      "correct_answer": 2
-    },
-    {
       "text": "As an architect in Los Angeles in the 1950s, Helen Liu Fong became known for avoiding _______ designs in her buildings. Instead of using standard shapes and colors, she typically explored innovative forms and daring hues. Which choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
@@ -39,7 +21,7 @@
       "correct_answer": 2
     },
     {
-      "text": "The printing of Virginia Woolf’s novels featured a creative _______ between Woolf and her sister Vanessa Bell: a talented painter, Bell worked closely with Woolf to create original cover art for most of the novels. Which choice completes the text with the most logical and precise word or phrase?",
+      "text": "The printing of Virginia Woolf\u2019s novels featured a creative _______ between Woolf and her sister Vanessa Bell: a talented painter, Bell worked closely with Woolf to create original cover art for most of the novels. Which choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
           "text": "rebellion"
@@ -57,7 +39,7 @@
       "correct_answer": 1
     },
     {
-      "text": "A brief book review cannot fully convey the _______ of Olga Tokarczuk’s novel The Books of Jacob, with its enormous cast of characters, its complicated, wandering plot, and its page numbers that count backward (beginning at 965 and ending at 1). Which choice completes the text with the most logical and precise word or phrase?",
+      "text": "A brief book review cannot fully convey the _______ of Olga Tokarczuk\u2019s novel The Books of Jacob, with its enormous cast of characters, its complicated, wandering plot, and its page numbers that count backward (beginning at 965 and ending at 1). Which choice completes the text with the most logical and precise word or phrase?",
       "options": [
         {
           "text": "accuracy"
@@ -93,7 +75,7 @@
       "correct_answer": 1
     },
     {
-      "text": "Obsidian is a kind of volcanic glass formed when lava cools so quickly that the atoms inside it cannot arrange themselves in a crystalline structure. You _______ more about obsidian’s structure, which is classified as amorphous, in a later chapter. Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "text": "Obsidian is a kind of volcanic glass formed when lava cools so quickly that the atoms inside it cannot arrange themselves in a crystalline structure. You _______ more about obsidian\u2019s structure, which is classified as amorphous, in a later chapter. Which choice completes the text so that it conforms to the conventions of Standard English?",
       "options": [
         {
           "text": "had learned"
@@ -129,60 +111,6 @@
       "correct_answer": 0
     },
     {
-      "text": "Human-made (synthetic) fibers used in clothes and many other consumer products are more durable than most natural plant _______ the manufacture of synthetic fibers requires toxic chemical solvents that can pollute air and water. Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "options": [
-        {
-          "text": "fibers,"
-        },
-        {
-          "text": "fibers but"
-        },
-        {
-          "text": "fibers"
-        },
-        {
-          "text": "fibers, but"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
-      "text": "The fine, powdery substance that covers the Moon’s surface is called regolith. Because regolith is both readily available and high in oxygen _______ scientists have wondered whether it could be used as a potential source of oxygen for future lunar settlements. Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "options": [
-        {
-          "text": "content and"
-        },
-        {
-          "text": "content,"
-        },
-        {
-          "text": "content"
-        },
-        {
-          "text": "content, and"
-        }
-      ],
-      "correct_answer": 1
-    },
-    {
-      "text": "Each year in the fall, when the weather starts to cool in the northern hemisphere, millions of North American monarch butterflies journey south. Searching for food and warmer habitats, they _______ thousands of miles—from as far north as Canada all the way down to Mexico—on this annual migration. Which choice completes the text so that it conforms to the conventions of Standard English?",
-      "options": [
-        {
-          "text": "flew"
-        },
-        {
-          "text": "were flying"
-        },
-        {
-          "text": "had flown"
-        },
-        {
-          "text": "fly"
-        }
-      ],
-      "correct_answer": 3
-    },
-    {
       "text": "Objects ranging from the Kikkoman soy sauce bottle to the Yamaha VMAX motorcycle to the Komachi bullet train _______ designed by twentieth-century industrial designer Kenji Ekuan. Which choice completes the text so that it conforms to the conventions of Standard English?",
       "options": [
         {
@@ -201,7 +129,7 @@
       "correct_answer": 3
     },
     {
-      "text": "“Praise Song for the Day,” Elizabeth Alexander’s 2009 inaugural poem, asserts that “We cross dirt roads and highways…to see what’s on the other side.” Alexander’s use of “we” _______ Americans’ collective efforts and shared desire to seek new opportunity. Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "text": "\u201cPraise Song for the Day,\u201d Elizabeth Alexander\u2019s 2009 inaugural poem, asserts that \u201cWe cross dirt roads and highways\u2026to see what\u2019s on the other side.\u201d Alexander\u2019s use of \u201cwe\u201d _______ Americans\u2019 collective efforts and shared desire to seek new opportunity. Which choice completes the text so that it conforms to the conventions of Standard English?",
       "options": [
         {
           "text": "evokes"
@@ -219,58 +147,130 @@
       "correct_answer": 0
     },
     {
-      "text": "Author Madeline L’Engle, _______ to create a suspenseful tone that draws the reader in, begins her novel A Wrinkle in Time with descriptions of “wraithlike shadows” and “the frenzied lashing of the wind.” Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "text": "Researcher Lucy Salazar is using radiocarbon dating to study Machu Picchu, an ancient Incan fortress in the Andes Mountains. She and her colleagues have found that the site\u2019s age differs from the _______ estimate: it is approximately 20 years older than scholars thought when first encountering Machu Picchu in 1911.",
       "options": [
         {
-          "text": "looked"
+          "text": "genuine"
         },
         {
-          "text": "looks"
+          "text": "intentional"
         },
         {
-          "text": "is looking"
+          "text": "independent"
         },
         {
-          "text": "looking"
+          "text": "original"
         }
       ],
       "correct_answer": 3
     },
     {
-      "text": "In 1955, Indian Bengali filmmaker Satyajit Ray released his first movie, Pather _______ quiet black-and-white drama about a family in rural India, Ray’s film was quite different from the loud, colorful action-romance movies that were popular at the time. Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "text": "The 435 state districts in the US House of Representatives are designed to be roughly equal in population. These districts average around 760,000 people in size. However, only about 730,000 people live in the state of Alaska. _______ Alaska has just one House district, encompassing the entire state.",
       "options": [
         {
-          "text": "Panchali a"
+          "text": "As a result,"
         },
         {
-          "text": "Panchali, which was a"
+          "text": "Instead,"
         },
         {
-          "text": "Panchali, a"
+          "text": "Finally,"
         },
         {
-          "text": "Panchali. A"
+          "text": "For instance,"
         }
       ],
-      "correct_answer": 2
+      "correct_answer": 0
     },
     {
-      "text": "A recent study tracked the number of bee species present in twenty-seven New York apple orchards over a ten-year period. _______ found that when wild growth near an orchard was cleared, the number of different bee species visiting the orchard decreased. Which choice completes the text so that it conforms to the conventions of Standard English?",
+      "text": "When marine biologist Brittany Williams played different ocean recordings to groups of oyster larvae, groups that heard sounds of a healthy oyster reef were the most _______. They were twice as likely as other groups to show signs of making a permanent home. This suggests that playing recordings of a healthy ocean reef may encourage oysters to create such a reef.",
       "options": [
         {
-          "text": "Entomologist Heather Grab:"
+          "text": "responsive"
         },
         {
-          "text": "Entomologist, Heather Grab,"
+          "text": "inactive"
         },
         {
-          "text": "Entomologist Heather Grab"
+          "text": "liked"
         },
         {
-          "text": "Entomologist Heather Grab,"
+          "text": "distressed"
         }
       ],
-      "correct_answer": 2
+      "correct_answer": 0
+    },
+    {
+      "text": "Following the Mata Ortiz pottery technique, Mexican sculptor Juan Quezada Celado starts by creating the base of the pot with a slab of clay. _______ he builds the pot walls by layering coils of clay around the perimeter of the base. Celado then smooths out the pot\u2019s walls with a hacksaw blade. At last, the pot is ready to be painted.",
+      "options": [
+        {
+          "text": "For example,"
+        },
+        {
+          "text": "However,"
+        },
+        {
+          "text": "By contrast,"
+        },
+        {
+          "text": "Next,"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Many butterfly species have bold, brightly colored wings. _______ some butterfly species have wings that are almost completely colorless and transparent. Glasswing butterflies, for example, have see-through wings that make them nearly invisible.",
+      "options": [
+        {
+          "text": "Similarly,"
+        },
+        {
+          "text": "Previously,"
+        },
+        {
+          "text": "In other words,"
+        },
+        {
+          "text": "However,"
+        }
+      ],
+      "correct_answer": 3
+    },
+    {
+      "text": "Ballet dancer Misty Copeland has accomplished a lot. She has appeared on Broadway, toured with Prince, and even served on the President\u2019s Council on Sports, Fitness & Nutrition. _______ according to Copeland, nothing in her career matches the honor of being the first African American woman named principal dancer at the prestigious American Ballet Theatre.",
+      "options": [
+        {
+          "text": "Thus,"
+        },
+        {
+          "text": "However,"
+        },
+        {
+          "text": "For example,"
+        },
+        {
+          "text": "Second of all,"
+        }
+      ],
+      "correct_answer": 1
+    },
+    {
+      "text": "Sueño de Familia is an exhibition of drawings, paintings, and ceramics that explores the artistic heritage of US-based artist Yolanda González. The exhibition _______ five generations, featuring works by González's great-grandfather, grandmother, mother, and niece as well as González herself. Which choice completes the text with the most logical and precise word or phrase?",
+      "options": [
+        {
+          "text": "borrows"
+        },
+        {
+          "text": "spans"
+        },
+        {
+          "text": "judges"
+        },
+        {
+          "text": "neglects"
+        }
+      ],
+      "correct_answer": 1
     }
   ]
 }
