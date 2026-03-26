@@ -27,3 +27,6 @@ logs/
 study_data/
 data/
 srt/
+
+prev_log/
+quiz_sessions/
