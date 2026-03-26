@@ -470,8 +470,8 @@ def _load_word_pairs(quiz_set: str = "A") -> list[dict]:
         payload = json.loads(word_pairs_path.read_text())
         pairs = payload.get("pairs") or []
         return [
-            {"word1": p["word1"], "word2": p["word2"], "related": p["related"]}
-            for p in pairs
+            {"id": p.get("id", i), "word1": p["word1"], "word2": p["word2"], "related": p["related"]}
+            for i, p in enumerate(pairs)
             if "word1" in p and "word2" in p and "related" in p
         ]
     except Exception as e:
