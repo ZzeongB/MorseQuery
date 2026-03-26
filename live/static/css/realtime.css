@@ -48,6 +48,78 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
 .noise-gate-threshold-control { display: flex; align-items: center; gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid #333; }
 .noise-gate-threshold-control input[type="range"] { flex: 1; accent-color: #4ade80; }
 
+/* Brown noise control */
+.brown-noise-section { margin-top: 10px; padding-top: 15px; border-top: 1px solid #333; }
+.brown-noise-controls { display: flex; align-items: center; gap: 15px; }
+.brown-noise-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #222;
+    border: 1px solid #444;
+    color: #888;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.brown-noise-btn:hover { background: #2a2a2a; border-color: #555; color: #aaa; }
+.brown-noise-btn.active {
+    background: linear-gradient(135deg, #8b4513 0%, #a0522d 50%, #cd853f 100%);
+    border-color: #cd853f;
+    color: #fff;
+}
+.brown-noise-btn .noise-icon { font-size: 16px; }
+.brown-noise-volume-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+.brown-noise-volume-wrapper.active { opacity: 1; }
+.brown-noise-slider {
+    width: 120px;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #333;
+    border-radius: 3px;
+    outline: none;
+}
+.brown-noise-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #cd853f;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+.brown-noise-slider::-webkit-slider-thumb:hover { transform: scale(1.1); }
+.brown-noise-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #cd853f;
+    cursor: pointer;
+    border: none;
+}
+.brown-noise-volume-wrapper .volume-value {
+    font-size: 12px;
+    color: #888;
+    min-width: 36px;
+}
+
+/* AirPods toggle (always visible) */
+.airpods-toggle-section {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
 /* Options collapse section */
 .options-collapse-section { margin-top: 20px; padding-top: 20px; border-top: 1px solid #333; }
 .options-collapse-header { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 10px 0; user-select: none; }
@@ -235,11 +307,28 @@ body { background: #000; color: #fff; font-family: -apple-system, BlinkMacSystem
     padding: 6px 12px;
     border-radius: 6px;
     border: 1px solid #374151;
+    transition: all 0.1s ease;
+}
+.key-hint.pressed {
+    background: #6366f1;
+    border-color: #818cf8;
+    color: #fff;
 }
 .nback-complete {
     font-size: 24px;
     color: #4ade80;
     padding: 40px 0;
+}
+.nback-countdown {
+    font-size: 28px;
+    color: #fbbf24;
+    padding: 50px 0;
+    font-weight: 500;
+    animation: countdownPulse 1s ease-in-out infinite;
+}
+@keyframes countdownPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
 }
 
 

@@ -49,13 +49,13 @@ _mic_monitor_thread: Optional[threading.Thread] = None
 _noise_gate_monitor_running = False
 _noise_gate_monitor_thread: Optional[threading.Thread] = None
 
-# Quiz white noise playback
+# Quiz brown noise playback
 _white_noise_lock = threading.Lock()
 _white_noise_running = False
 _white_noise_thread: Optional[threading.Thread] = None
 _white_noise_stream: Optional[pyaudio.Stream] = None
 _white_noise_pyaudio: Optional[pyaudio.PyAudio] = None
-_WHITE_NOISE_VOLUME = 0.08  # Quiet (0.0 to 1.0)
+_WHITE_NOISE_VOLUME = 0.5  # Quiet (0.0 to 1.0)
 _WHITE_NOISE_SAMPLE_RATE = 44100
 
 # Global PyAudio lock to prevent segfaults from concurrent access
@@ -195,41 +195,36 @@ def _reset_tts_airpods_state(reason: str) -> None:
     _set_airpods_mode("transparency", reason)
 
 
-def _generate_pink_noise(num_samples: int, num_rows: int = 16) -> np.ndarray:
-    """Generate pink noise using Voss-McCartney algorithm.
+def _generate_brown_noise(num_samples: int) -> np.ndarray:
+    """Generate brown noise (Brownian/red noise) via integrated white noise.
 
-    Pink noise has 1/f spectrum - more bass, sounds more natural than white noise.
+    Brown noise has 1/f² spectrum - deeper bass than pink noise, very soothing.
     """
-    # Initialize state for Voss algorithm
-    rows = np.random.uniform(-1, 1, num_rows)
-    running_sum = np.sum(rows)
-    max_val = num_rows
+    # Generate white noise
+    white = np.random.uniform(-1, 1, num_samples)
 
+    # Integrate (cumulative sum) to create brown noise
+    brown = np.cumsum(white)
+
+    # Apply leaky integration to prevent drift
+    # This keeps the signal bounded while maintaining brown noise characteristics
+    leak = 0.998
     samples = np.zeros(num_samples, dtype=np.float32)
-
+    state = 0.0
     for i in range(num_samples):
-        # Find which row to update (based on trailing zeros in binary)
-        # This creates the 1/f characteristic
-        idx = i
-        row_idx = 0
-        while idx > 0 and (idx & 1) == 0 and row_idx < num_rows - 1:
-            idx >>= 1
-            row_idx += 1
+        state = state * leak + white[i] * 0.02
+        samples[i] = state
 
-        # Update that row
-        running_sum -= rows[row_idx]
-        rows[row_idx] = np.random.uniform(-1, 1)
-        running_sum += rows[row_idx]
-
-        # Add white noise for high frequencies
-        white = np.random.uniform(-1, 1)
-        samples[i] = (running_sum + white) / (max_val + 1)
+    # Normalize to [-1, 1] range
+    max_abs = np.max(np.abs(samples))
+    if max_abs > 0:
+        samples = samples / max_abs
 
     return samples
 
 
 def _start_white_noise() -> None:
-    """Start playing quiet pink noise in background."""
+    """Start playing quiet brown noise in background."""
     global _white_noise_running, _white_noise_thread
     global _white_noise_stream, _white_noise_pyaudio
 
@@ -256,13 +251,13 @@ def _start_white_noise() -> None:
                 with _white_noise_lock:
                     if not _white_noise_running:
                         break
-                # Generate pink noise (1/f spectrum - more natural sounding)
-                noise = _generate_pink_noise(chunk_size)
+                # Generate brown noise (1/f² spectrum - deeper bass, soothing)
+                noise = _generate_brown_noise(chunk_size)
                 noise *= _WHITE_NOISE_VOLUME
                 _white_noise_stream.write(noise.tobytes())
 
         except Exception as e:
-            log_print("WARN", f"White noise playback error: {e}")
+            log_print("WARN", f"Brown noise playback error: {e}")
         finally:
             with _pyaudio_lock:
                 if _white_noise_stream:
@@ -281,11 +276,11 @@ def _start_white_noise() -> None:
 
     _white_noise_thread = threading.Thread(target=_play_white_noise, daemon=True)
     _white_noise_thread.start()
-    log_print("INFO", "White noise started")
+    log_print("INFO", "Brown noise started")
 
 
 def _stop_white_noise() -> None:
-    """Stop white noise playback."""
+    """Stop brown noise playback."""
     global _white_noise_running, _white_noise_thread
 
     with _white_noise_lock:
@@ -296,7 +291,24 @@ def _stop_white_noise() -> None:
     if _white_noise_thread and _white_noise_thread.is_alive():
         _white_noise_thread.join(timeout=1.0)
     _white_noise_thread = None
-    log_print("INFO", "White noise stopped")
+    log_print("INFO", "Brown noise stopped")
+
+
+def _set_white_noise_volume(volume: float) -> None:
+    """Set brown noise volume (0.0 to 1.0)."""
+    global _WHITE_NOISE_VOLUME
+    _WHITE_NOISE_VOLUME = max(0.0, min(1.0, float(volume)))
+    log_print("INFO", f"Brown noise volume set to {_WHITE_NOISE_VOLUME:.2f}")
+
+
+def _get_white_noise_status() -> dict:
+    """Get current brown noise status."""
+    with _white_noise_lock:
+        running = _white_noise_running
+    return {
+        "running": running,
+        "volume": _WHITE_NOISE_VOLUME,
+    }
 
 
 _original_sio_emit = sio.emit

@@ -444,11 +444,16 @@ function startNextQuizRound(expectedIndex = quizScheduleIndex) {
 
     function startNbackUi() {
         quizRoundActive = true; // Keep this for compatibility with ANC session
-        startNbackRound();
+        startNbackWithCountdown(() => {
+            startNbackRound();
+        });
     }
 
     if (!quizAncActive) {
-        // First round: wait for ANC on, then 500ms delay before showing n-back
+        // First round: initialize set with shuffled order, wait for ANC on
+        nbackIsTutorial = quizIsTutorial;
+        nbackTutorialRoundIndex = 0;
+        initializeNbackSet(quizSetSelection);
         socket.emit('quiz_session_start', {}, () => {
             quizAncActive = true;
             startListeningIfNeeded();
@@ -562,8 +567,8 @@ function renderNbackLetter(letter) {
             </div>
             <div class="nback-letter">${letter}</div>
             <div class="nback-instructions">
-                <span class="key-hint">← Left</span> = Match
-                <span class="key-hint">→ Right</span> = No Match
+                <span class="key-hint" id="nback-key-left">← Left</span> = Match
+                <span class="key-hint" id="nback-key-right">→ Right</span> = No Match
             </div>
         </div>
     `;
@@ -579,8 +584,8 @@ function renderNbackBlank() {
             </div>
             <div class="nback-letter nback-blank">+</div>
             <div class="nback-instructions">
-                <span class="key-hint">← Left</span> = Match
-                <span class="key-hint">→ Right</span> = No Match
+                <span class="key-hint" id="nback-key-left">← Left</span> = Match
+                <span class="key-hint" id="nback-key-right">→ Right</span> = No Match
             </div>
         </div>
     `;
@@ -598,19 +603,74 @@ function renderNbackComplete(message = 'Summarizing the last minute...') {
     `;
 }
 
+function renderNbackCountdown(seconds) {
+    const list = document.getElementById('optionsList');
+    list.innerHTML = `
+        <div class="nback-card">
+            <div class="nback-header">
+                <div class="nback-label">N-back Test · Round ${quizRoundNumber}</div>
+            </div>
+            <div class="nback-countdown">N-back task starts in ${seconds}</div>
+        </div>
+    `;
+}
+
+function startNbackWithCountdown(callback) {
+    let count = 3;
+    renderNbackCountdown(count);
+
+    const countdownInterval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            renderNbackCountdown(count);
+        } else {
+            clearInterval(countdownInterval);
+            callback();
+        }
+    }, 1000);
+}
+
+function initializeNbackSet(setName) {
+    // Initialize a new set and shuffle the round order
+    nbackCurrentSet = setName;
+    nbackShuffledOrder = [0, 1, 2];
+    // Fisher-Yates shuffle
+    for (let i = nbackShuffledOrder.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [nbackShuffledOrder[i], nbackShuffledOrder[j]] = [nbackShuffledOrder[j], nbackShuffledOrder[i]];
+    }
+    nbackSetRoundIndex = 0;
+    console.log(`[N-back] Initialized Set ${setName}, shuffled order: ${nbackShuffledOrder}`);
+}
+
 function startNbackRound() {
     clearNbackTimers();
 
-    // Generate new sequence
-    nbackSequence = generateNbackSequence(nbackN, nbackTotalLetters);
+    let roundIdx = null;
+    if (nbackIsTutorial) {
+        // Use tutorial sequence
+        nbackSequence = nbackTutorialSequences[nbackTutorialRoundIndex].slice();
+        console.log(`[N-back] Tutorial round ${nbackTutorialRoundIndex + 1}`);
+    } else {
+        // Use predefined sequence from current set
+        roundIdx = nbackShuffledOrder[nbackSetRoundIndex];
+        nbackSequence = nbackPredefinedSets[nbackCurrentSet][roundIdx].slice();
+        console.log(`[N-back] Set ${nbackCurrentSet}, Round ${nbackSetRoundIndex + 1} (predefined index ${roundIdx})`);
+    }
+
+    nbackTotalLetters = nbackSequence.length;
     nbackCurrentIndex = 0;
     nbackRoundActive = true;
     nbackResults = [];
 
     // Emit round start event
     socket.emit('nback_round_start', {
-        quiz_set: quizSetSelection,
+        quiz_set: nbackIsTutorial ? 'tutorial' : quizSetSelection,
         round_number: quizRoundNumber,
+        predefined_round_index: roundIdx,
+        shuffled_order: nbackIsTutorial ? null : nbackShuffledOrder.slice(),
+        is_tutorial: nbackIsTutorial,
+        tutorial_round_index: nbackIsTutorial ? nbackTutorialRoundIndex : null,
         n: nbackN,
         total_letters: nbackTotalLetters,
         sequence: nbackSequence,
@@ -636,6 +696,7 @@ function showNextNbackLetter() {
 
     // Show the letter
     renderNbackLetter(letter);
+    updateNbackKeyVisuals();
 
     // After displayMs, hide the letter and wait for response
     nbackDisplayTimer = setTimeout(() => {
@@ -643,6 +704,7 @@ function showNextNbackLetter() {
 
         // Show blank/fixation
         renderNbackBlank();
+        updateNbackKeyVisuals();
 
         // Calculate remaining time for response (intervalMs - displayMs)
         const responseWindow = nbackIntervalMs - nbackDisplayMs;
@@ -702,6 +764,17 @@ function showNextNbackLetter() {
             showNextNbackLetter();
         }, responseWindow);
     }, nbackDisplayMs);
+}
+
+function updateNbackKeyVisuals() {
+    const leftEl = document.getElementById('nback-key-left');
+    const rightEl = document.getElementById('nback-key-right');
+    if (leftEl) {
+        leftEl.classList.toggle('pressed', nbackLeftHeld);
+    }
+    if (rightEl) {
+        rightEl.classList.toggle('pressed', nbackRightHeld);
+    }
 }
 
 function handleNbackKeyPress(key) {
@@ -770,6 +843,8 @@ function finishNbackRound() {
     nbackRoundActive = false;
     quizRoundActive = false; // Reset for compatibility
     clearNbackTimers();
+    nbackLeftHeld = false;
+    nbackRightHeld = false;
 
     // Calculate statistics
     const validTrials = nbackResults.filter(r => r.isMatch !== null);
@@ -777,10 +852,15 @@ function finishNbackRound() {
     const totalValid = validTrials.length;
     const accuracy = totalValid > 0 ? (correctCount / totalValid * 100).toFixed(1) : 0;
 
+    // Get the actual predefined round index used
+    const predefinedRoundIdx = nbackIsTutorial ? nbackTutorialRoundIndex : nbackShuffledOrder[nbackSetRoundIndex];
+
     // Emit round end
     socket.emit('nback_round_end', {
-        quiz_set: quizSetSelection,
+        quiz_set: nbackIsTutorial ? 'tutorial' : quizSetSelection,
         round_number: quizRoundNumber,
+        predefined_round_index: predefinedRoundIdx,
+        is_tutorial: nbackIsTutorial,
         total_trials: nbackTotalLetters,
         valid_trials: totalValid,
         correct_count: correctCount,
@@ -788,14 +868,18 @@ function finishNbackRound() {
         results: nbackResults,
     });
 
-    // Show completion message
-    renderNbackComplete(`Round complete! Accuracy: ${accuracy}%`);
+    // Advance to next round
+    if (nbackIsTutorial) {
+        nbackTutorialRoundIndex++;
+    } else {
+        nbackSetRoundIndex++;
+    }
 
-    // Trigger summarization after a brief delay
+    // Hide the n-back display and trigger summarization
+    hideInfo();
     setTimeout(() => {
-        hideInfo();
         startSummarizing({ force: true });
-    }, 1500);
+    }, 500);
 }
 
 // ============================================================================

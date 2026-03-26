@@ -847,10 +847,14 @@ document.addEventListener('keydown', e => {
     if (nbackRoundActive) {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
+            nbackLeftHeld = true;
+            updateNbackKeyVisuals();
             handleNbackKeyPress('left');
             return;
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
+            nbackRightHeld = true;
+            updateNbackKeyVisuals();
             handleNbackKeyPress('right');
             return;
         }
@@ -865,7 +869,16 @@ document.addEventListener('keyup', e => {
         return;
     }
 
-    // Skip other key handlers during n-back test (arrow keys handled in keydown)
+    // Handle arrow key release for n-back test
+    if (e.key === 'ArrowLeft') {
+        nbackLeftHeld = false;
+        updateNbackKeyVisuals();
+    } else if (e.key === 'ArrowRight') {
+        nbackRightHeld = false;
+        updateNbackKeyVisuals();
+    }
+
+    // Skip other key handlers during n-back test
     if (nbackRoundActive && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
         return;
     }
@@ -1031,6 +1044,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeightSlider();
     fetchDevices();
     fetchOutputDevices();
+    fetchBrownNoiseStatus();
 });
 
 window.addEventListener('resize', applyWidgetHeight);

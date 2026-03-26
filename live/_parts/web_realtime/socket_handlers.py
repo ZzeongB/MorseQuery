@@ -1043,6 +1043,54 @@ def handle_browser_tts_playback_start(data: dict):
     return {"ok": True}
 
 
+@sio.on("brown_noise_start")
+def handle_brown_noise_start(data=None):
+    """Start brown noise playback from frontend."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    volume = float(payload.get("volume", 0.5))
+    _set_white_noise_volume(volume)
+    _start_white_noise()
+    get_logger(session_id).log("brown_noise_start", volume=volume)
+    return {"ok": True, "volume": volume}
+
+
+@sio.on("brown_noise_stop")
+def handle_brown_noise_stop(data=None):
+    """Stop brown noise playback from frontend."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    _stop_white_noise()
+    get_logger(session_id).log("brown_noise_stop")
+    return {"ok": True}
+
+
+@sio.on("brown_noise_volume")
+def handle_brown_noise_volume(data=None):
+    """Update brown noise volume from frontend."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    payload = data or {}
+    volume = float(payload.get("volume", 0.5))
+    _set_white_noise_volume(volume)
+    get_logger(session_id).log("brown_noise_volume", volume=volume)
+    return {"ok": True, "volume": volume}
+
+
+@sio.on("brown_noise_status")
+def handle_brown_noise_status(data=None):
+    """Get current brown noise status."""
+    session_id = request.sid
+    if not _is_active_session(session_id):
+        return {"ok": False, "active": False}
+    status = _get_white_noise_status()
+    return {"ok": True, **status}
+
+
 @sio.on("quiz_session_start")
 def handle_quiz_session_start(data=None):
     session_id = request.sid

@@ -148,7 +148,7 @@ var quizLaunchTimer = null;
 var quizSessionStartAt = 0;
 var quizPlannedOffsetsSec = [60, 240, 420];
 var quizPlannedOffsetsRegular = [60, 240, 420];
-var quizPlannedOffsetsTutorial = [30];
+var quizPlannedOffsetsTutorial = [30, 180];
 var quizScheduleIndex = 0;
 var quizAncActive = false;
 var quizSetSelection = 'A';
@@ -168,6 +168,40 @@ var nbackLetterShownAt = 0;            // Timestamp when current letter was show
 var nbackResponseMade = false;         // Whether response was made for current letter
 var nbackKeysPressed = [];             // Keys pressed during current trial
 var nbackResults = [];                 // Results for each trial: {letter, isMatch, response, correct, responseTime}
+var nbackLeftHeld = false;             // Whether left arrow is currently held down
+var nbackRightHeld = false;            // Whether right arrow is currently held down
+
+// Predefined n-back sequences (Set A and Set B, each with 3 rounds)
+// Each sequence: 32 letters, ~8 matches (25%), matches marked with * in comments
+var nbackPredefinedSets = {
+    A: [
+        // Set A, Round 1 (8 matches at indices: 4, 8, 12, 16, 20, 24, 27, 30)
+        ["M", "N", "M", "L", "P", "R", "S", "R", "S", "K", "Q", "T", "V", "T", "W", "T", "J", "F", "G", "H", "G", "D"],
+        // Set A, Round 2 (8 matches at indices: 5, 9, 13, 17, 21, 25, 28, 31)
+        ["B", "D", "B", "C", "B", "F", "G", "H", "J", "H", "K", "L", "P", "Q", "P", "Q", "R", "S", "X", "Z", "X", "Y"],
+        // Set A, Round 3 (8 matches at indices: 3, 7, 11, 15, 19, 23, 26, 29)
+        ["K", "L", "M", "N", "P", "N", "R", "S", "T", "U", "T", "U", "V", "W", "X", "W", "Y", "W", "G", "B", "C", "B"]
+    ],
+    B: [
+        // Set B, Round 1 (8 matches at indices: 6, 10, 14, 18, 22, 25, 28, 31)
+        ["F", "G", "F", "G", "H", "J", "K", "L", "K", "M", "N", "P", "R", "P", "S", "P", "Q", "T", "V", "W", "V", "X"],
+        // Set B, Round 2 (8 matches at indices: 2, 6, 10, 14, 18, 22, 26, 30)
+        ["S", "T", "V", "X", "V", "Y", "V", "R", "Q", "P", "Q", "L", "M", "N", "O", "N", "O", "G", "H", "J", "K", "J"],
+        // Set B, Round 3 (8 matches at indices: 4, 8, 12, 16, 20, 24, 28, 31)
+        ["L", "M", "L", "N", "P", "Q", "R", "Q", "R", "S", "T", "V", "W", "V", "X", "V", "B", "C", "D", "F", "D", "Z"]
+    ]
+};
+// Tutorial sequences (2 rounds for practice)
+var nbackTutorialSequences = [
+    ["G", "H", "J", "K", "L", "N", "L", "M", "P", "Q", "P", "Q", "R", "S", "T", "S", "U", "S", "V", "W", "X", "W"],
+    ["X", "Z", "X", "Y", "X", "B", "C", "D", "F", "D", "G", "H", "J", "K", "L", "K", "L", "M", "N", "P", "R", "P"]
+];
+
+var nbackCurrentSet = 'A';             // Current set ('A' or 'B')
+var nbackShuffledOrder = [0, 1, 2];    // Shuffled order of rounds within set
+var nbackSetRoundIndex = 0;            // Current index in shuffledOrder (0, 1, or 2)
+var nbackIsTutorial = false;           // Whether current round is tutorial
+var nbackTutorialRoundIndex = 0;       // Current tutorial round (0 or 1)
 
 // ============================================================================
 // Utility Functions
@@ -328,6 +362,77 @@ function initNoiseGateMetersClick() {
     });
 
     updateNoiseGateThresholdUI();
+}
+
+// ============================================================================
+// Brown Noise Control Functions
+// ============================================================================
+
+var brownNoiseRunning = false;
+var brownNoiseVolume = 50; // 0-100
+
+function toggleBrownNoise() {
+    if (brownNoiseRunning) {
+        stopBrownNoise();
+    } else {
+        startBrownNoise();
+    }
+}
+
+function startBrownNoise() {
+    const volume = brownNoiseVolume / 100;
+    socket.emit('brown_noise_start', { volume: volume }, function(response) {
+        if (response && response.ok) {
+            brownNoiseRunning = true;
+            updateBrownNoiseUI();
+        }
+    });
+}
+
+function stopBrownNoise() {
+    socket.emit('brown_noise_stop', {}, function(response) {
+        if (response && response.ok) {
+            brownNoiseRunning = false;
+            updateBrownNoiseUI();
+        }
+    });
+}
+
+function updateBrownNoiseVolume() {
+    const slider = document.getElementById('brownNoiseVolume');
+    brownNoiseVolume = parseInt(slider.value);
+    document.getElementById('brownNoiseVolumeValue').textContent = brownNoiseVolume + '%';
+
+    // Only update server if noise is running
+    if (brownNoiseRunning) {
+        const volume = brownNoiseVolume / 100;
+        socket.emit('brown_noise_volume', { volume: volume });
+    }
+}
+
+function updateBrownNoiseUI() {
+    const btn = document.getElementById('brownNoiseToggle');
+    const volumeWrapper = document.getElementById('brownNoiseVolumeWrapper');
+
+    if (brownNoiseRunning) {
+        btn.classList.add('active');
+        volumeWrapper.classList.add('active');
+    } else {
+        btn.classList.remove('active');
+        volumeWrapper.classList.remove('active');
+    }
+}
+
+function fetchBrownNoiseStatus() {
+    socket.emit('brown_noise_status', {}, function(response) {
+        if (response && response.ok) {
+            brownNoiseRunning = response.running;
+            brownNoiseVolume = Math.round((response.volume || 0.5) * 100);
+            document.getElementById('brownNoiseVolume').value = brownNoiseVolume;
+            document.getElementById('brownNoiseVolumeValue').textContent = brownNoiseVolume + '%';
+            updateBrownNoiseUI();
+        }
+    });
 }
 
 // ============================================================================

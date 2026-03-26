@@ -64,6 +64,20 @@
             </div>
         </div>
 
+        <!-- Brown Noise Control -->
+        <div class="source-select brown-noise-section" id="brownNoiseSection">
+            <div class="brown-noise-controls">
+                <button id="brownNoiseToggle" class="brown-noise-btn" onclick="toggleBrownNoise()">
+                    <span class="noise-icon">&#9835;</span>
+                    <span class="noise-label">Brown Noise</span>
+                </button>
+                <div class="brown-noise-volume-wrapper" id="brownNoiseVolumeWrapper">
+                    <input type="range" id="brownNoiseVolume" class="brown-noise-slider" min="0" max="100" value="50" oninput="updateBrownNoiseVolume()">
+                    <span class="volume-value" id="brownNoiseVolumeValue">50%</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Noise Gate Calibration (always visible) -->
         <div class="source-select noise-gate-section" id="noiseGateSection">
             <div class="noise-gate-toggle">
@@ -108,6 +122,13 @@
                     Drag slider or click meter to set threshold. Audio below threshold will be filtered.
                 </div>
             </div>
+        </div>
+
+        <!-- AirPods Mode Toggle (always visible) -->
+        <div class="source-select airpods-toggle-section">
+            <span>AirPods Mode Auto:</span>
+            <button id="btn-airpods-mode-on" class="selected" onclick="setAirpodsModeSwitchEnabled(true)">On</button>
+            <button id="btn-airpods-mode-off" onclick="setAirpodsModeSwitchEnabled(false)">Off</button>
         </div>
 
         <!-- Options (collapsible) -->
@@ -190,11 +211,6 @@
                     <button id="btn-audio-feedback-on" class="selected" onclick="setAudioFeedbackMode('on')">On</button>
                     <button id="btn-audio-feedback-verbal" onclick="setAudioFeedbackMode('verbal')">On-Verbal</button>
                     <button id="btn-audio-feedback-off" onclick="setAudioFeedbackMode('off')">Off</button>
-                </div>
-                <div class="source-select">
-                    <span>AirPods Mode Auto:</span>
-                    <button id="btn-airpods-mode-on" class="selected" onclick="setAirpodsModeSwitchEnabled(true)">On</button>
-                    <button id="btn-airpods-mode-off" onclick="setAirpodsModeSwitchEnabled(false)">Off</button>
                 </div>
                 <div class="source-select">
                     <span>Single-click Nav:</span>
