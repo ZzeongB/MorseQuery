@@ -335,6 +335,14 @@ def handle_start(data: dict):
                     source_id=f"sum{i}",
                 )
             )
+            sc.add_commit_transcript_callback(
+                _make_bridge_commit_transcript_callback(
+                    session_id=session_id,
+                    segment_id_getter=(lambda summary_client=sc: summary_client.segment_id),
+                    speaker_id=speaker_id,
+                    source_id=f"sum{i}",
+                )
+            )
             summary_clients.append(sc)
             sc.start()
 

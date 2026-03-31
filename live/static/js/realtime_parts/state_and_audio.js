@@ -148,7 +148,7 @@ var quizLaunchTimer = null;
 var quizQuestionTimeoutSec = 10;  // 각 문제당 시간 (초)
 var quizQuestionTimer = null;     // 현재 문제 타이머
 var quizQuestionEndsAt = 0;       // 현재 문제 종료 시간
-var quizQuestionAnswered = false; // 현재 문제에 답변했는지 여부
+var quizQuestionAnswered = false; // 현재 문제에 답변했는지 여
 var quizQuestionCountdownTimer = null;  // 문제별 카운트다운 타이머
 var quizSelectedAnswer = -1;      // 현재 선택된 답 (-1 = 미선택)
 var quizQuestionsPerRound = 5;    // 라운드당 문제 수
@@ -158,7 +158,7 @@ var quizRoundAnsweredCount = 0;   // 현재 라운드에서 응답한 문제 수
 var quizSessionStartAt = 0;
 var quizPlannedOffsetsSec = [60, 240, 420];
 var quizPlannedOffsetsRegular = [60, 240, 420];
-var quizPlannedOffsetsTutorial = [10];
+var quizPlannedOffsetsTutorial = [30];
 var quizScheduleIndex = 0;
 var quizAncActive = false;
 var quizSetSelection = 'A';

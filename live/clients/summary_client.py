@@ -143,6 +143,7 @@ class SummaryClient:
         self._vad_transcript_callbacks: list[
             Callable[[str, Optional[float], Optional[float]], None]
         ] = []
+        self._commit_transcript_callbacks: list[Callable[[str], None]] = []
         self._vad_transcript_lock = threading.Lock()
         # Store tuples of (transcript, start_ts, end_ts)
         self._vad_pending_transcripts: list[
@@ -256,6 +257,15 @@ class SummaryClient:
             session_id=self.session_id,
         )
 
+    def add_commit_transcript_callback(self, callback: Callable[[str], None]) -> None:
+        """Add callback for explicit COMMIT transcript arrivals."""
+        self._commit_transcript_callbacks.append(callback)
+        log_print(
+            "INFO",
+            "Commit transcript callback added",
+            session_id=self.session_id,
+        )
+
     def get_vad_state(self) -> dict:
         """Get current VAD state for diarization.
 
@@ -296,16 +306,33 @@ class SummaryClient:
                 )
                 self.logger.log("vad_transcript_callback_failed", error=str(e))
 
-    def _flush_pending_vad_transcripts(self, force: bool = False) -> None:
-        """Flush queued VAD transcripts to callbacks."""
+    def _handle_commit_transcript(self, transcript: str) -> None:
+        """Handle explicit COMMIT transcript arrivals."""
+        for callback in self._commit_transcript_callbacks:
+            try:
+                callback(transcript)
+            except Exception as e:
+                log_print(
+                    "ERROR",
+                    f"Commit transcript callback failed: {e}",
+                    session_id=self.session_id,
+                )
+                self.logger.log("commit_transcript_callback_failed", error=str(e))
+
+    def _flush_pending_vad_transcripts(self, force: bool = False) -> int:
+        """Flush queued VAD transcripts to callbacks.
+
+        Returns:
+            Number of flushed transcript entries.
+        """
         with self._vad_transcript_lock:
             if not self._vad_pending_transcripts:
-                return
+                return 0
             if (
                 not force
                 and len(self._vad_pending_transcripts) < _VAD_TRANSCRIPT_BATCH_TARGET
             ):
-                return
+                return 0
             pending = self._vad_pending_transcripts[:]
             self._vad_pending_transcripts.clear()
             timer = self._vad_flush_timer
@@ -326,6 +353,22 @@ class SummaryClient:
             force=force,
             segment_id=self.segment_id,
         )
+        return len(pending)
+
+    def flush_pending_vad_transcripts(self, reason: str = "") -> int:
+        """Force-flush queued VAD transcripts through the normal callback path.
+
+        This preserves diarization behavior because callbacks still route through
+        the same transcript handler used by debounce-based flushes.
+        """
+        flushed = self._flush_pending_vad_transcripts(force=True)
+        self.logger.log(
+            "vad_transcript_force_flush",
+            count=flushed,
+            segment_id=self.segment_id,
+            reason=reason,
+        )
+        return flushed
 
     def _schedule_vad_transcript_flush(self) -> None:
         with self._vad_transcript_lock:
@@ -732,6 +775,7 @@ class SummaryClient:
                         latency_ms=latency_ms,
                         mic_id=self.mic_id,
                     )
+                    self._handle_commit_transcript(transcript_text)
                 else:
                     self.logger.log(
                         "vad_transcript_completed",

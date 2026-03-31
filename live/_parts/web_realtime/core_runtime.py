@@ -428,6 +428,12 @@ _bridge_compression_lock = threading.Lock()
 _bridge_compression_start_ts: float = 0.0  # When api_compression_request was sent
 _bridge_compression_segment_id: int = 0
 _bridge_compression_enabled_runtime: bool = True
+_bridge_commit_append_lock = threading.Lock()
+_bridge_commit_append_active = False
+_bridge_commit_append_session_id = ""
+_bridge_commit_append_segment_id = 0
+_bridge_commit_append_turns: list[tuple[str, str]] = []
+_bridge_commit_append_start_ts: float = 0.0
 
 
 def _load_quiz_bank(quiz_set: str = "A") -> list[dict]:

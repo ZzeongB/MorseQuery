@@ -151,6 +151,152 @@ def _get_dialogue_by_time_window(
     return _format_dialogue_lines(all_entries), entries_payload
 
 
+def _flush_summary_client_vad_transcripts(session_id: str, reason: str = "") -> int:
+    """Force summary-client VAD queues through normal callbacks before slicing."""
+    with _clients_lock:
+        clients_to_flush = list(summary_clients)
+
+    flushed_total = 0
+    for sc in clients_to_flush:
+        try:
+            flushed_total += int(sc.flush_pending_vad_transcripts(reason=reason) or 0)
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"Pending VAD flush failed: {e}",
+                session_id=session_id,
+                reason=reason,
+            )
+
+    if flushed_total > 0:
+        get_logger(session_id).log(
+            "vad_transcript_force_flush_all",
+            count=flushed_total,
+            client_count=len(clients_to_flush),
+            reason=reason,
+        )
+        log_print(
+            "INFO",
+            "Forced pending VAD transcripts flush",
+            session_id=session_id,
+            reason=reason,
+            count=flushed_total,
+            client_count=len(clients_to_flush),
+        )
+
+    return flushed_total
+
+
+def _begin_bridge_commit_append_window(session_id: str, segment_id: int) -> None:
+    """Collect raw COMMIT transcripts that arrive while bridge TTS is streaming."""
+    global _bridge_commit_append_active
+    global _bridge_commit_append_session_id, _bridge_commit_append_segment_id
+    global _bridge_commit_append_turns, _bridge_commit_append_start_ts
+    with _bridge_commit_append_lock:
+        _bridge_commit_append_active = True
+        _bridge_commit_append_session_id = session_id
+        _bridge_commit_append_segment_id = segment_id
+        _bridge_commit_append_turns = []
+        _bridge_commit_append_start_ts = time.time()
+
+
+def _collect_bridge_commit_transcript(
+    session_id: str,
+    segment_id: int,
+    speaker_id: str,
+    transcript: str,
+) -> bool:
+    """Queue a raw commit transcript for playback after bridge TTS."""
+    text = str(transcript or "").strip()
+    if not text:
+        return False
+
+    with _bridge_commit_append_lock:
+        if (
+            not _bridge_commit_append_active
+            or _bridge_commit_append_session_id != session_id
+            or _bridge_commit_append_segment_id != segment_id
+        ):
+            return False
+        _bridge_commit_append_turns.append((speaker_id, text))
+    return True
+
+
+def _finish_bridge_commit_append_window(
+    session_id: str, segment_id: int
+) -> tuple[list[tuple[str, str]], float, float]:
+    """Close bridge append window and return collected raw turns."""
+    global _bridge_commit_append_active
+    global _bridge_commit_append_session_id, _bridge_commit_append_segment_id
+    global _bridge_commit_append_turns, _bridge_commit_append_start_ts
+    with _bridge_commit_append_lock:
+        turns = list(_bridge_commit_append_turns)
+        start_ts = float(_bridge_commit_append_start_ts or 0.0)
+        end_ts = time.time()
+        if (
+            _bridge_commit_append_session_id == session_id
+            and _bridge_commit_append_segment_id == segment_id
+        ):
+            _bridge_commit_append_active = False
+            _bridge_commit_append_session_id = ""
+            _bridge_commit_append_segment_id = 0
+            _bridge_commit_append_turns = []
+            _bridge_commit_append_start_ts = 0.0
+    return turns, start_ts, end_ts
+
+
+def _trigger_bridge_append_commit(session_id: str, segment_id: int) -> int:
+    """Send COMMIT without waiting while bridge TTS is streaming."""
+    with _clients_lock:
+        clients_to_commit = list(summary_clients)
+
+    sent_count = 0
+    for sc in clients_to_commit:
+        try:
+            if sc._send_commit_no_wait():
+                sent_count += 1
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"Bridge append COMMIT failed: {e}",
+                session_id=session_id,
+                segment_id=segment_id,
+            )
+
+    get_logger(session_id).log(
+        "bridge_append_commit_sent",
+        segment_id=segment_id,
+        client_count=len(clients_to_commit),
+        sent_count=sent_count,
+    )
+    return sent_count
+
+
+def _make_bridge_commit_transcript_callback(
+    session_id: str, segment_id_getter, speaker_id: str, source_id: str
+):
+    """Capture COMMIT transcript for raw playback after bridge TTS."""
+
+    def _callback(transcript: str) -> None:
+        segment_id = int(segment_id_getter() or 0)
+        captured = _collect_bridge_commit_transcript(
+            session_id=session_id,
+            segment_id=segment_id,
+            speaker_id=speaker_id,
+            transcript=transcript,
+        )
+        if captured:
+            get_logger(session_id).log(
+                "bridge_commit_transcript_buffered",
+                segment_id=segment_id,
+                speaker_id=speaker_id,
+                source_id=source_id,
+                transcript=transcript,
+            )
+
+    return _callback
+
+
 def _append_json_list(filepath: Path, record: dict) -> None:
     """Append one record into a JSON list file."""
     existing: list = []
@@ -611,6 +757,11 @@ def _trigger_parallel_compression_for_dialogue(
 ) -> None:
     """Run 3-path compression for provided dialogue and auto-select output."""
     session_logger = get_logger(session_id)
+
+    if trigger_source == "segment":
+        _flush_summary_client_vad_transcripts(
+            session_id, reason=f"summarization_start:segment:{segment_id}"
+        )
 
     # For segment-triggered summaries, re-slice so late-arriving
     # final transcript chunks are not dropped by an earlier slice_end_ts.
@@ -1633,6 +1784,10 @@ def _trigger_bridge_compression(session_id: str, reason: str = "") -> bool:
         )
         return False
 
+    _flush_summary_client_vad_transcripts(
+        session_id, reason=f"bridge_pre_commit:{reason or 'unknown'}"
+    )
+
     # Send COMMIT to all summary clients and wait for pending audio to be transcribed
     with _clients_lock:
         clients_to_commit = list(summary_clients)
@@ -1707,6 +1862,10 @@ def _trigger_bridge_compression(session_id: str, reason: str = "") -> bool:
         elapsed_ms=round(commit_elapsed_ms, 1),
         commit_results=[len(r) for r in commit_results],
         fallback=commit_failed,
+    )
+
+    _flush_summary_client_vad_transcripts(
+        session_id, reason=f"bridge_post_commit:{reason or 'unknown'}"
     )
 
     # Get transcript from start_ts to now (COMMIT should have flushed pending audio)
@@ -1819,15 +1978,69 @@ def _trigger_bridge_compression(session_id: str, reason: str = "") -> bool:
             compressed_preview=compressed_text[:100],
         )
 
-        # Synthesize TTS and play
-        _synthesize_compressed_dialogue(
-            compressed_text,
-            segment_id=segment_id,
-            session_id=session_id,
-            method="bridge_compression",
-            trigger_source="bridge_catchup",
-            skip_logging=True,
+        # Synthesize TTS and, if a COMMIT transcript arrives while bridge audio
+        # is streaming, queue that raw transcript immediately after the bridge TTS.
+        _begin_bridge_commit_append_window(session_id=session_id, segment_id=segment_id)
+        bridge_append_commit_sent = _trigger_bridge_append_commit(
+            session_id=session_id, segment_id=segment_id
         )
+        try:
+            _synthesize_compressed_dialogue(
+                compressed_text,
+                segment_id=segment_id,
+                session_id=session_id,
+                method="bridge_compression",
+                trigger_source="bridge_catchup",
+                skip_logging=True,
+            )
+        finally:
+            _flush_summary_client_vad_transcripts(
+                session_id, reason=f"bridge_append_post_tts:{reason or 'unknown'}"
+            )
+            append_turns, append_start_ts, append_end_ts = _finish_bridge_commit_append_window(
+                session_id=session_id, segment_id=segment_id
+            )
+
+        append_source = "commit_transcript"
+        append_entries: list[dict] = []
+        raw_append_dialogue = "\n".join(
+            f"{speaker}: {text}" for speaker, text in append_turns if text.strip()
+        ).strip()
+
+        if not raw_append_dialogue and append_start_ts > 0 and append_end_ts > append_start_ts:
+            raw_append_dialogue, append_entries = _get_dialogue_by_time_window(
+                append_start_ts, append_end_ts
+            )
+            append_source = "time_window_fallback"
+
+        session_logger.log(
+            "bridge_append_window_closed",
+            segment_id=segment_id,
+            reason=reason,
+            commit_sent_count=bridge_append_commit_sent,
+            append_source=append_source if raw_append_dialogue else "empty",
+            start_ts=append_start_ts,
+            end_ts=append_end_ts,
+            entry_count=len(append_turns) if append_turns else len(append_entries),
+        )
+
+        if raw_append_dialogue:
+            session_logger.log(
+                "bridge_commit_transcript_appended",
+                segment_id=segment_id,
+                reason=reason,
+                append_source=append_source,
+                turn_count=len(append_turns) if append_turns else len(append_entries),
+                dialogue=raw_append_dialogue,
+            )
+            _synthesize_compressed_dialogue(
+                raw_append_dialogue,
+                segment_id=segment_id,
+                session_id=session_id,
+                method="bridge_commit_append",
+                trigger_source="bridge_catchup_append",
+                skip_logging=True,
+            )
 
         session_logger.log(
             "bridge_compression_tts_done",
