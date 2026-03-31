@@ -42,6 +42,13 @@ ALLOWED_EVENT_TYPES = {
     "quiz_round_start",
     "quiz_question_answered",
     "quiz_round_end",
+    "bridge_compression_start",
+    "bridge_compression_result",
+    "bridge_compression_empty",
+    "bridge_compression_tts_done",
+    "bridge_compression_error",
+    "bridge_compression_commit_start",
+    "bridge_compression_commit_done",
 }
 
 
@@ -101,6 +108,13 @@ def log_print(level: str, message: str, **kwargs: Any) -> None:
         yellow = "\033[33m"
         reset = "\033[0m"
         print(f"{yellow}{text}{reset}")
+        return
+    # Bridge compression COMMIT messages in red
+    msg_lower = str(message).lower()
+    if "bridge compression commit" in msg_lower or "bridge_compression_commit" in msg_lower:
+        red = "\033[31m"
+        reset = "\033[0m"
+        print(f"{red}{text}{reset}")
         return
     print(text)
 

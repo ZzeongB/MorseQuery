@@ -823,6 +823,11 @@ class SummaryClient:
             )
             self.logger.log("summary_openai_error", error=err)
             self.sio.emit("summary_error", {"error": err})
+            # If waiting for COMMIT transcript, signal error to unblock immediately
+            with self._sync_lock:
+                if self._waiting_for_commit_transcript:
+                    self._commit_transcript_result = None
+                    self._commit_transcript_event.set()
             return
 
     def on_error(self, _ws: websocket.WebSocketApp, error: Exception) -> None:

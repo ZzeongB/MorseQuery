@@ -235,6 +235,10 @@ def handle_start(data: dict):
         _missed_summary_latency_bridge_enabled_runtime = bool(
             data.get("missed_summary_latency_bridge_enabled", False)
         )
+        global _bridge_compression_enabled_runtime
+        _bridge_compression_enabled_runtime = bool(
+            data.get("bridge_compression_enabled", True)  # default: on
+        )
         global _skip_first_transcript_enabled_runtime
         _skip_first_transcript_enabled_runtime = bool(
             data.get("skip_first_transcript_enabled", True)  # default: on
@@ -1194,6 +1198,20 @@ def handle_browser_tts_playback_done(data: dict):
         # Don't turn off ANC yet - wait for commit follow-up TTS
         _on_tts_finished(f"browser_tts_playback_done:{reason}")
         return {"ok": True, "defer_finish": True, "waiting_for_commit_followup": True}
+
+    # Trigger bridge compression to catch up transcript that arrived during summary TTS
+    # This runs in background and will play its own TTS if there's new transcript
+    if reason != "user_cancel" and _bridge_compression_enabled_runtime:
+        def _run_bridge():
+            triggered = _trigger_bridge_compression(session_id, reason)
+            if triggered:
+                log_print(
+                    "INFO",
+                    "Bridge compression triggered on playback done",
+                    session_id=session_id,
+                    reason=reason,
+                )
+        threading.Thread(target=_run_bridge, daemon=True).start()
 
     # Pending fast-catchup/latency-bridge deferral disabled:
     # always finalize TTS lifecycle immediately on playback completion.

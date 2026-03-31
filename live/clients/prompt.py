@@ -734,3 +734,47 @@ Valid output
 A: Who influences culture more today—artists or influencers?
 B: Influencers, since people engage more with social media opinions.
 """
+
+
+# -------------------------
+# Bridge Compression Prompt (for post-summary catchup)
+# -------------------------
+
+BRIDGE_COMPRESSION_SYSTEM_PROMPT = (
+    "You are an aggressive transcript compressor. "
+    "Reduce to 1/5 length. Keep ONLY the core point. "
+    "Delete all filler, hedging, repetition, and redundancy. "
+    "The LAST FEW WORDS must stay exactly as-is to connect to live speech. "
+    "Output speaker labels (A:/B:) if present."
+)
+
+
+def build_bridge_compression_prompt(
+    transcript: str,
+    target_ratio: float = 0.2,
+) -> str:
+    """Build prompt for bridge compression (post-summary catchup).
+
+    Args:
+        transcript: The transcript to compress
+        target_ratio: Target length ratio (default 0.2 = 1/5)
+
+    Returns:
+        The user prompt for bridge compression
+    """
+    word_count = len(transcript.split())
+    target_words = max(3, int(word_count * target_ratio))
+
+    return f"""Compress to {target_words} words MAX.
+
+AGGRESSIVE RULES:
+1. DELETE all filler words, hedging, repetition, examples.
+2. Keep ONLY the single core point per speaker.
+3. MUST preserve the LAST 3-5 words EXACTLY (they connect to ongoing speech).
+4. Keep speaker labels (A:/B:) if present.
+
+Transcript:
+{transcript}
+
+Output ONLY the compressed text. No explanation.
+"""

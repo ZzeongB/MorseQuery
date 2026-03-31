@@ -423,6 +423,12 @@ _transcript_compression_mode = "realtime"
 _vad_then_commit_pending = False
 _vad_then_commit_main_tts_done = False
 
+# Bridge compression: catchup playback after summary TTS ends
+_bridge_compression_lock = threading.Lock()
+_bridge_compression_start_ts: float = 0.0  # When api_compression_request was sent
+_bridge_compression_segment_id: int = 0
+_bridge_compression_enabled_runtime: bool = True
+
 
 def _load_quiz_bank(quiz_set: str = "A") -> list[dict]:
     quiz_file = _QUIZ_FILES.get(quiz_set.upper(), _QUIZ_FILES["A"])
@@ -527,6 +533,7 @@ def _reset_segment_tracking() -> None:
         _pending_fast_catchup_segments, \
         _pending_fast_catchup_inflight, \
         _pending_latency_bridge_by_session
+    global _bridge_compression_start_ts, _bridge_compression_segment_id
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
@@ -546,6 +553,9 @@ def _reset_segment_tracking() -> None:
         _latest_keyword_tts_playback_start_ts = 0.0
     with _before_context_lock:
         _before_context_summary = ""
+    with _bridge_compression_lock:
+        _bridge_compression_start_ts = 0.0
+        _bridge_compression_segment_id = 0
 
 
 def _on_vad_transcript(transcript: str) -> None:
