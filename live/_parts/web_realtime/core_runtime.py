@@ -428,6 +428,9 @@ _bridge_compression_lock = threading.Lock()
 _bridge_compression_start_ts: float = 0.0  # When api_compression_request was sent
 _bridge_compression_segment_id: int = 0
 _bridge_compression_enabled_runtime: bool = True
+_bridge_prepared_lock = threading.Lock()
+_bridge_prepared_inflight = False
+_bridge_prepared_payload: dict | None = None
 _bridge_commit_append_lock = threading.Lock()
 _bridge_commit_append_active = False
 _bridge_commit_append_session_id = ""
@@ -540,6 +543,7 @@ def _reset_segment_tracking() -> None:
         _pending_fast_catchup_inflight, \
         _pending_latency_bridge_by_session
     global _bridge_compression_start_ts, _bridge_compression_segment_id
+    global _bridge_prepared_inflight, _bridge_prepared_payload
     with _segment_ctx_lock:
         _segment_seq = 0
         _segment_windows.clear()
@@ -562,6 +566,9 @@ def _reset_segment_tracking() -> None:
     with _bridge_compression_lock:
         _bridge_compression_start_ts = 0.0
         _bridge_compression_segment_id = 0
+    with _bridge_prepared_lock:
+        _bridge_prepared_inflight = False
+        _bridge_prepared_payload = None
 
 
 def _on_vad_transcript(transcript: str) -> None:

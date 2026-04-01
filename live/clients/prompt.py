@@ -656,6 +656,7 @@ B: ...
 DIALOGUE_COMPRESSION_SYSTEM_PROMPT = (
     "You are a dialogue compressor. Compress the dialogue into a brief "
     "catch-up (max 20 words total). Preserve speaker labels (A: and B:). "
+    "Preserve the original turn structure as much as possible: keep the same speaker order, and do not merge two different speakers into one turn. "
     "Remove filler and keep only core ideas. Output only dialogue lines. "
     "Each speaker line must be 10 words or fewer. "
     "If a token/word is clearly odd or context-mismatched (likely transcript error), ignore it. "
@@ -707,8 +708,10 @@ Rules:
 - Drop incomplete words or likely transcription errors when uncertain.
 - Correct obvious typos only when highly confident.
 - Prioritize recent content over older content.
-- Summarize the dialogue as one short exchange that captures the main point.
+- Keep the exchange short, but preserve the original turn flow.
 - Preserve the original speaker labels A and B.
+- Preserve speaker order from Dialogue.
+- Do not collapse two speakers into one line.
 - Do not assume A is always asking questions or B is always answering.
 - Reflect the actual role of each speaker in this dialogue.
 - If both A and B appear in Dialogue, include both speakers in the output.
@@ -743,6 +746,7 @@ B: Influencers, since people engage more with social media opinions.
 BRIDGE_COMPRESSION_SYSTEM_PROMPT = (
     "You are an aggressive transcript compressor. "
     "Reduce to 1/5 length. Keep ONLY the core point. "
+    "Keep the original turn structure as much as possible: preserve speaker order and keep one short line per speaker turn when feasible. "
     "Delete all filler, hedging, repetition, and redundancy. "
     "The LAST FEW WORDS must stay exactly as-is to connect to live speech. "
     "Output speaker labels (A:/B:) if present."
@@ -770,8 +774,10 @@ def build_bridge_compression_prompt(
 AGGRESSIVE RULES:
 1. DELETE all filler words, hedging, repetition, examples.
 2. Keep ONLY the single core point per speaker.
-3. MUST preserve the LAST 3-5 words EXACTLY (they connect to ongoing speech).
-4. Keep speaker labels (A:/B:) if present.
+3. Keep the original speaker order and turn flow when possible.
+4. If both speakers appear, do not drop one speaker unless their line is pure noise.
+5. MUST preserve the LAST 3-5 words EXACTLY (they connect to ongoing speech).
+6. Keep speaker labels (A:/B:) if present.
 
 Transcript:
 {transcript}

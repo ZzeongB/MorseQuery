@@ -1294,6 +1294,12 @@ def handle_browser_tts_near_end(data: dict):
         args=(session_id, reason),
         daemon=True,
     ).start()
+    if reason != "user_cancel" and _bridge_compression_enabled_runtime:
+        threading.Thread(
+            target=_precompute_bridge_compression,
+            args=(session_id, reason),
+            daemon=True,
+        ).start()
 
 
 @sio.on("set_airpods_mode_switch")

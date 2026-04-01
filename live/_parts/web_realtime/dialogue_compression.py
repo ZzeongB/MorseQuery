@@ -272,6 +272,271 @@ def _trigger_bridge_append_commit(session_id: str, segment_id: int) -> int:
     return sent_count
 
 
+def _get_and_clear_bridge_window() -> tuple[float, int]:
+    """Take current bridge compression window."""
+    global _bridge_compression_start_ts, _bridge_compression_segment_id
+    with _bridge_compression_lock:
+        start_ts = _bridge_compression_start_ts
+        segment_id = _bridge_compression_segment_id
+        _bridge_compression_start_ts = 0.0
+        _bridge_compression_segment_id = 0
+    return start_ts, segment_id
+
+
+def _prepare_bridge_compression_payload(
+    session_id: str,
+    reason: str = "",
+    *,
+    consume_window: bool = True,
+) -> dict | None:
+    """Prepare bridge compression text without playing it."""
+    global _bridge_prepared_inflight, _bridge_prepared_payload
+
+    if not _bridge_compression_enabled_runtime:
+        return None
+
+    if consume_window:
+        start_ts, segment_id = _get_and_clear_bridge_window()
+    else:
+        with _bridge_compression_lock:
+            start_ts = _bridge_compression_start_ts
+            segment_id = _bridge_compression_segment_id
+
+    if start_ts <= 0:
+        log_print(
+            "INFO",
+            "Bridge compression skipped: no compression start timestamp",
+            session_id=session_id,
+            reason=reason,
+        )
+        return None
+
+    _flush_summary_client_vad_transcripts(
+        session_id, reason=f"bridge_pre_commit:{reason or 'unknown'}"
+    )
+
+    with _clients_lock:
+        clients_to_commit = list(summary_clients)
+
+    session_logger = get_logger(session_id)
+    commit_start_ts = time.time()
+    session_logger.log(
+        "bridge_compression_commit_start",
+        segment_id=segment_id,
+        reason=reason,
+        client_count=len(clients_to_commit),
+        compression_start_ts=start_ts,
+    )
+
+    commit_results = []
+    for sc in clients_to_commit:
+        try:
+            result = sc._send_commit_and_wait(timeout=_BRIDGE_COMPRESSION_COMMIT_TIMEOUT_SEC)
+            if result:
+                commit_results.append(result)
+        except Exception as e:
+            log_print(
+                "WARN",
+                f"Bridge compression COMMIT failed for client: {e}",
+                session_id=session_id,
+            )
+
+    commit_elapsed_ms = (time.time() - commit_start_ts) * 1000
+    commit_failed = len(commit_results) == 0 and len(clients_to_commit) > 0
+    session_logger.log(
+        "bridge_compression_commit_done",
+        segment_id=segment_id,
+        reason=reason,
+        result_count=len(commit_results),
+        elapsed_ms=round(commit_elapsed_ms, 1),
+        commit_results=[len(r) for r in commit_results],
+        fallback=commit_failed,
+    )
+
+    _flush_summary_client_vad_transcripts(
+        session_id, reason=f"bridge_post_commit:{reason or 'unknown'}"
+    )
+
+    end_ts = time.time() - _BRIDGE_COMPRESSION_LOOKBACK_SEC
+    if end_ts <= start_ts:
+        return None
+
+    dialogue, entries = _get_dialogue_by_time_window(start_ts, end_ts)
+    if not dialogue or not dialogue.strip():
+        return None
+
+    word_count = len(dialogue.split())
+    if word_count < 10:
+        return None
+
+    session_logger.log(
+        "bridge_compression_start",
+        segment_id=segment_id,
+        reason=reason,
+        start_ts=start_ts,
+        end_ts=end_ts,
+        window_sec=round(end_ts - start_ts, 3),
+        entry_count=len(entries),
+        word_count=word_count,
+        dialogue=dialogue,
+    )
+
+    try:
+        import openai
+
+        client = openai.OpenAI()
+        user_prompt = build_bridge_compression_prompt(dialogue)
+        response = client.chat.completions.create(
+            model="gpt-4.1-mini",
+            messages=[
+                {"role": "system", "content": BRIDGE_COMPRESSION_SYSTEM_PROMPT},
+                {"role": "user", "content": user_prompt},
+            ],
+            max_tokens=200,
+            temperature=0.3,
+        )
+        compressed_text = (response.choices[0].message.content or "").strip()
+        if not compressed_text:
+            session_logger.log(
+                "bridge_compression_empty",
+                segment_id=segment_id,
+                reason=reason,
+            )
+            return None
+
+        session_logger.log(
+            "bridge_compression_result",
+            segment_id=segment_id,
+            reason=reason,
+            original_words=word_count,
+            compressed_text=compressed_text,
+            compressed_words=len(compressed_text.split()),
+        )
+        return {
+            "segment_id": segment_id,
+            "reason": reason,
+            "compressed_text": compressed_text,
+            "word_count": word_count,
+            "start_ts": start_ts,
+            "end_ts": end_ts,
+        }
+    except Exception as e:
+        session_logger.log(
+            "bridge_compression_error",
+            segment_id=segment_id,
+            reason=reason,
+            error=str(e),
+        )
+        return None
+
+
+def _play_bridge_payload(session_id: str, payload: dict) -> bool:
+    """Play a prepared bridge payload and append trailing commit transcript."""
+    session_logger = get_logger(session_id)
+    segment_id = int(payload.get("segment_id") or 0)
+    reason = str(payload.get("reason") or "")
+    compressed_text = str(payload.get("compressed_text") or "").strip()
+    if not compressed_text:
+        return False
+
+    _begin_bridge_commit_append_window(session_id=session_id, segment_id=segment_id)
+    bridge_append_commit_sent = _trigger_bridge_append_commit(
+        session_id=session_id, segment_id=segment_id
+    )
+    try:
+        _synthesize_compressed_dialogue(
+            compressed_text,
+            segment_id=segment_id,
+            session_id=session_id,
+            method="bridge_compression",
+            trigger_source="bridge_catchup",
+            skip_logging=True,
+        )
+    finally:
+        _flush_summary_client_vad_transcripts(
+            session_id, reason=f"bridge_append_post_tts:{reason or 'unknown'}"
+        )
+        append_turns, append_start_ts, append_end_ts = _finish_bridge_commit_append_window(
+            session_id=session_id, segment_id=segment_id
+        )
+
+    append_source = "commit_transcript"
+    append_entries: list[dict] = []
+    raw_append_dialogue = "\n".join(
+        f"{speaker}: {text}" for speaker, text in append_turns if text.strip()
+    ).strip()
+    if not raw_append_dialogue and append_start_ts > 0 and append_end_ts > append_start_ts:
+        raw_append_dialogue, append_entries = _get_dialogue_by_time_window(
+            append_start_ts, append_end_ts
+        )
+        append_source = "time_window_fallback"
+
+    session_logger.log(
+        "bridge_append_window_closed",
+        segment_id=segment_id,
+        reason=reason,
+        commit_sent_count=bridge_append_commit_sent,
+        append_source=append_source if raw_append_dialogue else "empty",
+        start_ts=append_start_ts,
+        end_ts=append_end_ts,
+        entry_count=len(append_turns) if append_turns else len(append_entries),
+    )
+
+    if raw_append_dialogue:
+        session_logger.log(
+            "bridge_commit_transcript_appended",
+            segment_id=segment_id,
+            reason=reason,
+            append_source=append_source,
+            turn_count=len(append_turns) if append_turns else len(append_entries),
+            dialogue=raw_append_dialogue,
+        )
+        _synthesize_compressed_dialogue(
+            raw_append_dialogue,
+            segment_id=segment_id,
+            session_id=session_id,
+            method="bridge_commit_append",
+            trigger_source="bridge_catchup_append",
+            skip_logging=True,
+        )
+
+    session_logger.log(
+        "bridge_compression_tts_done",
+        segment_id=segment_id,
+        reason=reason,
+    )
+    return True
+
+
+def _precompute_bridge_compression(session_id: str, reason: str = "") -> bool:
+    """Prepare bridge compression before summary TTS fully ends."""
+    global _bridge_prepared_inflight, _bridge_prepared_payload
+    with _bridge_prepared_lock:
+        if _bridge_prepared_inflight or _bridge_prepared_payload is not None:
+            return False
+        _bridge_prepared_inflight = True
+
+    try:
+        payload = _prepare_bridge_compression_payload(
+            session_id=session_id,
+            reason=reason,
+            consume_window=False,
+        )
+        with _bridge_prepared_lock:
+            _bridge_prepared_payload = payload
+        if payload:
+            get_logger(session_id).log(
+                "bridge_compression_precomputed",
+                segment_id=int(payload.get("segment_id") or 0),
+                reason=reason,
+            )
+            return True
+        return False
+    finally:
+        with _bridge_prepared_lock:
+            _bridge_prepared_inflight = False
+
+
 def _make_bridge_commit_transcript_callback(
     session_id: str, segment_id_getter, speaker_id: str, source_id: str
 ):
@@ -1753,315 +2018,24 @@ _BRIDGE_COMPRESSION_COMMIT_TIMEOUT_SEC = 2.0  # Timeout for COMMIT response
 
 
 def _trigger_bridge_compression(session_id: str, reason: str = "") -> bool:
-    """Compress transcript that arrived during summary TTS and play as catchup.
+    """Play prepared bridge compression if available, otherwise generate and play."""
+    global _bridge_prepared_payload
 
-    Sends COMMIT to get pending audio transcribed, then compresses to ~1/5 length
-    preserving the last words, then plays via TTS.
+    payload = None
+    with _bridge_prepared_lock:
+        if _bridge_prepared_payload is not None:
+            payload = dict(_bridge_prepared_payload)
+            _bridge_prepared_payload = None
+            _ = _get_and_clear_bridge_window()
 
-    Returns:
-        True if bridge compression was triggered, False otherwise.
-    """
-    global _bridge_compression_start_ts, _bridge_compression_segment_id
+    if payload is None:
+        payload = _prepare_bridge_compression_payload(
+            session_id=session_id,
+            reason=reason,
+            consume_window=True,
+        )
 
-    # Check if enabled
-    if not _bridge_compression_enabled_runtime:
+    if not payload:
         return False
 
-    # Get the compression start timestamp
-    with _bridge_compression_lock:
-        start_ts = _bridge_compression_start_ts
-        segment_id = _bridge_compression_segment_id
-        # Reset for next cycle
-        _bridge_compression_start_ts = 0.0
-        _bridge_compression_segment_id = 0
-
-    if start_ts <= 0:
-        log_print(
-            "INFO",
-            "Bridge compression skipped: no compression start timestamp",
-            session_id=session_id,
-            reason=reason,
-        )
-        return False
-
-    _flush_summary_client_vad_transcripts(
-        session_id, reason=f"bridge_pre_commit:{reason or 'unknown'}"
-    )
-
-    # Send COMMIT to all summary clients and wait for pending audio to be transcribed
-    with _clients_lock:
-        clients_to_commit = list(summary_clients)
-
-    session_logger = get_logger(session_id)
-    commit_start_ts = time.time()
-
-    log_print(
-        "INFO",
-        "Bridge compression COMMIT start",
-        session_id=session_id,
-        segment_id=segment_id,
-        client_count=len(clients_to_commit),
-        reason=reason,
-    )
-    session_logger.log(
-        "bridge_compression_commit_start",
-        segment_id=segment_id,
-        reason=reason,
-        client_count=len(clients_to_commit),
-        compression_start_ts=start_ts,
-    )
-
-    commit_results = []
-    for sc in clients_to_commit:
-        try:
-            # Use the private method to send COMMIT and wait for transcript
-            result = sc._send_commit_and_wait(timeout=_BRIDGE_COMPRESSION_COMMIT_TIMEOUT_SEC)
-            if result:
-                commit_results.append(result)
-                log_print(
-                    "INFO",
-                    "Bridge compression COMMIT result received",
-                    session_id=session_id,
-                    client_id=sc.session_id,
-                    transcript_len=len(result),
-                )
-        except Exception as e:
-            log_print(
-                "WARN",
-                f"Bridge compression COMMIT failed for client: {e}",
-                session_id=session_id,
-            )
-
-    commit_elapsed_ms = (time.time() - commit_start_ts) * 1000
-    commit_failed = len(commit_results) == 0 and len(clients_to_commit) > 0
-
-    if commit_failed:
-        log_print(
-            "WARN",
-            "Bridge compression COMMIT failed, falling back to existing transcript",
-            session_id=session_id,
-            segment_id=segment_id,
-            client_count=len(clients_to_commit),
-            elapsed_ms=round(commit_elapsed_ms, 1),
-        )
-    else:
-        log_print(
-            "INFO",
-            "Bridge compression COMMIT done",
-            session_id=session_id,
-            segment_id=segment_id,
-            result_count=len(commit_results),
-            elapsed_ms=round(commit_elapsed_ms, 1),
-        )
-
-    session_logger.log(
-        "bridge_compression_commit_done",
-        segment_id=segment_id,
-        reason=reason,
-        result_count=len(commit_results),
-        elapsed_ms=round(commit_elapsed_ms, 1),
-        commit_results=[len(r) for r in commit_results],
-        fallback=commit_failed,
-    )
-
-    _flush_summary_client_vad_transcripts(
-        session_id, reason=f"bridge_post_commit:{reason or 'unknown'}"
-    )
-
-    # Get transcript from start_ts to now (COMMIT should have flushed pending audio)
-    # If COMMIT failed, we still try with existing transcript (fallback)
-    end_ts = time.time() - _BRIDGE_COMPRESSION_LOOKBACK_SEC
-    if end_ts <= start_ts:
-        log_print(
-            "INFO",
-            "Bridge compression skipped: end_ts <= start_ts",
-            session_id=session_id,
-            reason=reason,
-            start_ts=start_ts,
-            end_ts=end_ts,
-        )
-        return False
-
-    dialogue, entries = _get_dialogue_by_time_window(start_ts, end_ts)
-
-    if not dialogue or not dialogue.strip():
-        log_print(
-            "INFO",
-            "Bridge compression skipped: no new transcript",
-            session_id=session_id,
-            reason=reason,
-            start_ts=start_ts,
-            end_ts=end_ts,
-            entry_count=len(entries),
-        )
-        return False
-
-    word_count = len(dialogue.split())
-    if word_count < 10:
-        log_print(
-            "INFO",
-            "Bridge compression skipped: too short",
-            session_id=session_id,
-            reason=reason,
-            word_count=word_count,
-            start_ts=start_ts,
-            end_ts=end_ts,
-        )
-        return False
-
-    session_logger.log(
-        "bridge_compression_start",
-        segment_id=segment_id,
-        reason=reason,
-        start_ts=start_ts,
-        end_ts=end_ts,
-        window_sec=round(end_ts - start_ts, 3),
-        entry_count=len(entries),
-        word_count=word_count,
-        dialogue=dialogue,
-    )
-
-    log_print(
-        "INFO",
-        "Triggering bridge compression",
-        session_id=session_id,
-        segment_id=segment_id,
-        reason=reason,
-        word_count=word_count,
-        start_ts=start_ts,
-        end_ts=end_ts,
-    )
-
-    # Call OpenAI API for bridge compression
-    try:
-        import openai
-
-        client = openai.OpenAI()
-        user_prompt = build_bridge_compression_prompt(dialogue)
-
-        response = client.chat.completions.create(
-            model="gpt-4.1-mini",
-            messages=[
-                {"role": "system", "content": BRIDGE_COMPRESSION_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
-            ],
-            max_tokens=200,
-            temperature=0.3,
-        )
-
-        compressed_text = (response.choices[0].message.content or "").strip()
-
-        if not compressed_text:
-            session_logger.log(
-                "bridge_compression_empty",
-                segment_id=segment_id,
-                reason=reason,
-            )
-            return False
-
-        session_logger.log(
-            "bridge_compression_result",
-            segment_id=segment_id,
-            reason=reason,
-            original_words=word_count,
-            compressed_text=compressed_text,
-            compressed_words=len(compressed_text.split()),
-        )
-
-        log_print(
-            "INFO",
-            "Bridge compression result",
-            session_id=session_id,
-            segment_id=segment_id,
-            original_words=word_count,
-            compressed_words=len(compressed_text.split()),
-            compressed_preview=compressed_text[:100],
-        )
-
-        # Synthesize TTS and, if a COMMIT transcript arrives while bridge audio
-        # is streaming, queue that raw transcript immediately after the bridge TTS.
-        _begin_bridge_commit_append_window(session_id=session_id, segment_id=segment_id)
-        bridge_append_commit_sent = _trigger_bridge_append_commit(
-            session_id=session_id, segment_id=segment_id
-        )
-        try:
-            _synthesize_compressed_dialogue(
-                compressed_text,
-                segment_id=segment_id,
-                session_id=session_id,
-                method="bridge_compression",
-                trigger_source="bridge_catchup",
-                skip_logging=True,
-            )
-        finally:
-            _flush_summary_client_vad_transcripts(
-                session_id, reason=f"bridge_append_post_tts:{reason or 'unknown'}"
-            )
-            append_turns, append_start_ts, append_end_ts = _finish_bridge_commit_append_window(
-                session_id=session_id, segment_id=segment_id
-            )
-
-        append_source = "commit_transcript"
-        append_entries: list[dict] = []
-        raw_append_dialogue = "\n".join(
-            f"{speaker}: {text}" for speaker, text in append_turns if text.strip()
-        ).strip()
-
-        if not raw_append_dialogue and append_start_ts > 0 and append_end_ts > append_start_ts:
-            raw_append_dialogue, append_entries = _get_dialogue_by_time_window(
-                append_start_ts, append_end_ts
-            )
-            append_source = "time_window_fallback"
-
-        session_logger.log(
-            "bridge_append_window_closed",
-            segment_id=segment_id,
-            reason=reason,
-            commit_sent_count=bridge_append_commit_sent,
-            append_source=append_source if raw_append_dialogue else "empty",
-            start_ts=append_start_ts,
-            end_ts=append_end_ts,
-            entry_count=len(append_turns) if append_turns else len(append_entries),
-        )
-
-        if raw_append_dialogue:
-            session_logger.log(
-                "bridge_commit_transcript_appended",
-                segment_id=segment_id,
-                reason=reason,
-                append_source=append_source,
-                turn_count=len(append_turns) if append_turns else len(append_entries),
-                dialogue=raw_append_dialogue,
-            )
-            _synthesize_compressed_dialogue(
-                raw_append_dialogue,
-                segment_id=segment_id,
-                session_id=session_id,
-                method="bridge_commit_append",
-                trigger_source="bridge_catchup_append",
-                skip_logging=True,
-            )
-
-        session_logger.log(
-            "bridge_compression_tts_done",
-            segment_id=segment_id,
-            reason=reason,
-        )
-
-        return True
-
-    except Exception as e:
-        log_print(
-            "WARN",
-            f"Bridge compression failed: {e}",
-            session_id=session_id,
-            segment_id=segment_id,
-            reason=reason,
-        )
-        session_logger.log(
-            "bridge_compression_error",
-            segment_id=segment_id,
-            reason=reason,
-            error=str(e),
-        )
-        return False
+    return _play_bridge_payload(session_id=session_id, payload=payload)
