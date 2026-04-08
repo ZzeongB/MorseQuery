@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playback Search</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: monospace; padding: 20px; max-width: 900px; margin: 0 auto; }
+
+        .section { margin-bottom: 20px; }
+        label { font-weight: bold; }
+        select, input, button { font-family: monospace; font-size: 14px; padding: 5px 10px; }
+        button { cursor: pointer; border: 1px solid black; background: white; }
+        button:hover { background: #eee; }
+        button.active { background: black; color: white; }
+        button:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #audio-player { width: 100%; margin: 10px 0; }
+        #time-display { font-size: 18px; margin: 10px 0; }
+
+        .mode-buttons button { margin-right: 10px; }
+
+        #jump-back-setting { margin-top: 10px; }
+        #jump-back-setting input { width: 60px; }
+
+        #transcript {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            line-height: 1.6;
+        }
+        #transcript .segment { padding: 5px 0; border-bottom: 1px solid #eee; }
+        #transcript .segment.continuous { border-bottom: none; }
+        #transcript .segment.current { background: #ffffcc; }
+        #transcript .segment .time { color: #666; font-size: 12px; margin-right: 8px; }
+        #transcript .segment .kw { background: #ffeb3b; padding: 0 2px; }
+
+        #instructions {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f5f5f5;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Playback Search</h2>
+
+    <div class="section">
+        <label>File: </label>
+        <select id="file-select">
+            <option value="">-- Select --</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <audio id="audio-player" controls></audio>
+        <div id="time-display">0:00 / 0:00</div>
+    </div>
+
+    <div class="section mode-buttons">
+        <label>Mode: </label>
+        <button id="mode-continuous">Continuous</button>
+        <button id="mode-discontinuous" class="active">Discontinuous</button>
+        <button id="mode-speedup">Speed-up</button>
+        <button id="mode-semantic">Semantic</button>
+
+        <div id="jump-back-setting" style="display:none;">
+            <label>Jump: </label>
+            <input type="number" id="jump-seconds" value="15" min="1" max="60"> sec
+        </div>
+        <div id="speedup-setting" style="display:none;">
+            <label>Jump back: </label>
+            <input type="number" id="speedup-jump" value="15" min="1" max="60"> sec |
+            <label>Speed: </label>
+            <input type="number" id="speedup-rate" value="2.0" min="1.1" max="4.0" step="0.1">x |
+            <input type="checkbox" id="speedup-preserve-pitch" checked>
+            <label for="speedup-preserve-pitch">Preserve pitch</label>
+        </div>
+    </div>
+
+    <div class="section">
+        <button id="toggle-transcript">Show Transcript</button>
+    </div>
+
+    <div id="transcript" style="display:none;"></div>
+
+    <div id="instructions">
+        <b>← Left Arrow:</b> Backward / <b>→ Right Arrow:</b> Forward<br>
+        <hr style="margin: 5px 0; border: none; border-top: 1px solid #ccc;">
+        - Continuous: ← Reverse playback / → Resume normal<br>
+        - Discontinuous: ← Jump back X sec / → Jump forward X sec<br>
+        - Speed-up: ← Jump back + fast play / → Resume normal<br>
+        - Semantic: ← Previous keyword / → Next keyword
+    </div>
+
+<script>
+const audio = document.getElementById('audio-player');
+const fileSelect = document.getElementById('file-select');
+const timeDisplay = document.getElementById('time-display');
+const transcriptDiv = document.getElementById('transcript');
+const jumpSecondsInput = document.getElementById('jump-seconds');
+const speedupJumpInput = document.getElementById('speedup-jump');
+const speedupRateInput = document.getElementById('speedup-rate');
+const speedupPreservePitchInput = document.getElementById('speedup-preserve-pitch');
+const toggleTranscriptBtn = document.getElementById('toggle-transcript');
+
+const modeButtons = {
+    continuous: document.getElementById('mode-continuous'),
+    discontinuous: document.getElementById('mode-discontinuous'),
+    speedup: document.getElementById('mode-speedup'),
+    semantic: document.getElementById('mode-semantic'),
+};
+
+let currentMode = 'discontinuous';
+let transcript = null;
+let customKeywords = []; // {word, time}[] from data/keywords/
+let currentFilename = null;
+let reverseAudio = null; // Audio element for reversed playback
+let isReversing = false;
+let reverseDuration = 0; // Duration of the reversed segment (to calculate position)
+let speedupAudio = null; // Audio element for speedup playback
+let speedupNextAudio = null; // Preloaded next segment
+let speedupNextData = null; // Preloaded next segment data
+let isSpeedingUp = false;
+let speedupStartTime = 0; // Original audio time when speedup started
+let speedupRate = 2.0; // Current speedup rate
+let speedupOriginalDuration = 0; // Original audio duration covered by speedup segment
+let speedupIsLast = false; // Whether this is the last segment
+let speedupPreloadStarted = false; // Whether preload has started for current segment
+const SPEEDUP_SEGMENT_DURATION = 15; // Process 30 seconds at a time
+const SPEEDUP_PRELOAD_AT = 5; // Preload next segment 5 seconds before end
+let semanticKeywordIndex = -1; // Track current keyword index for semantic mode
+
+// Format seconds to mm:ss
+function formatTime(sec) {
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
+// Load file list
+async function loadFiles() {
+    const res = await fetch('/api/files');
+    const files = await res.json();
+    files.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = JSON.stringify(f);
+        opt.textContent = f.filename;
+        fileSelect.appendChild(opt);
+    });
+}
+
+// Load transcript for video
+async function loadTranscript(videoId) {
+    const res = await fetch(`/api/transcript/${videoId}`);
+    transcript = await res.json();
+    customKeywords = transcript.custom_keywords || [];
+    renderTranscript();
+}
+
+// Render transcript based on current mode
+function renderTranscript() {
+    if (!transcript) return;
+
+    const jumpSeconds = parseInt(jumpSecondsInput.value) || 15;
+
+    if (currentMode === 'discontinuous') {
+        // Discontinuous: divide into X-second blocks
+        const blocks = [];
+        let currentBlock = { start: 0, texts: [] };
+
+        transcript.segments.forEach(seg => {
+            const blockIndex = Math.floor(seg.start / jumpSeconds);
+            const blockStart = blockIndex * jumpSeconds;
+
+            if (blocks.length === 0 || blocks[blocks.length - 1].start !== blockStart) {
+                blocks.push({ start: blockStart, end: blockStart + jumpSeconds, texts: [seg.text] });
+            } else {
+                blocks[blocks.length - 1].texts.push(seg.text);
+            }
+        });
+
+        transcriptDiv.innerHTML = blocks.map((block, i) => {
+            return `<div class="segment" data-idx="${i}" data-start="${block.start}" data-end="${block.end}">
+                <span class="time">[${formatTime(block.start)}]</span> ${block.texts.join(' ')}
+            </div>`;
+        }).join('');
+
+    } else if (currentMode === 'semantic') {
+        // Semantic: continuous text with keyword highlighting
+        let fullText = transcript.segments.map(seg => seg.text).join(' ');
+
+        // Highlight keywords from customKeywords
+        customKeywords.forEach(kw => {
+            const regex = new RegExp(`\\b(${kw.word})\\b`, 'gi');
+            fullText = fullText.replace(regex, '<span class="kw">$1</span>');
+        });
+
+        transcriptDiv.innerHTML = `<div class="segment continuous">${fullText}</div>`;
+
+    } else {
+        // Continuous / Speed-up: just continuous text, no highlighting
+        const fullText = transcript.segments.map(seg => seg.text).join(' ');
+        transcriptDiv.innerHTML = `<div class="segment continuous">${fullText}</div>`;
+    }
+}
+
+// Update current segment highlight
+function updateCurrentSegment() {
+    const currentTime = audio.currentTime;
+
+    // Only highlight segments in discontinuous mode
+    if (currentMode === 'discontinuous') {
+        document.querySelectorAll('#transcript .segment').forEach(el => {
+            const start = parseFloat(el.dataset.start);
+            const end = parseFloat(el.dataset.end);
+            if (currentTime >= start && currentTime < end) {
+                el.classList.add('current');
+                el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                el.classList.remove('current');
+            }
+        });
+    }
+
+    // Update time display
+    timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(audio.duration || 0)}`;
+}
+
+// Mode switching
+function setMode(mode) {
+    currentMode = mode;
+    Object.keys(modeButtons).forEach(m => {
+        modeButtons[m].classList.toggle('active', m === mode);
+    });
+
+    // Show/hide relevant UI
+    document.getElementById('jump-back-setting').style.display =
+        mode === 'discontinuous' ? 'block' : 'none';
+    document.getElementById('speedup-setting').style.display =
+        mode === 'speedup' ? 'block' : 'none';
+
+    // Stop any special playback if switching away
+    stopReverse();
+    stopSpeedup();
+    resetSemanticIndex();
+
+    // Re-render transcript for the new mode
+    renderTranscript();
+}
+
+// Reverse playback (continuous mode) - uses pydub reversed audio
+async function startReverse() {
+    if (isReversing || !currentFilename) return;
+
+    const endTime = audio.currentTime;
+    if (endTime <= 0) return;
+
+    isReversing = true;
+    audio.pause();
+    timeDisplay.textContent = `Reversing... (loading)`;
+
+    try {
+        const res = await fetch(`/api/reverse/${currentFilename}?end=${endTime}`);
+        const data = await res.json();
+
+        if (data.error) {
+            console.error(data.error);
+            isReversing = false;
+            return;
+        }
+
+        // Create audio from base64
+        reverseAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+        reverseAudio.playbackRate = 1.0;
+        reverseDuration = data.duration;
+
+        // Track position during reverse playback
+        reverseAudio.addEventListener('timeupdate', () => {
+            if (isReversing) {
+                // Map reverse audio time to original time (going backwards)
+                const reverseTime = reverseAudio.currentTime;
+                const originalTime = reverseDuration - reverseTime;
+                timeDisplay.textContent = `${formatTime(originalTime)} / ${formatTime(audio.duration)} [REV]`;
+            }
+        });
+
+        reverseAudio.addEventListener('ended', () => {
+            stopReverse();
+        });
+
+        reverseAudio.play();
+    } catch (err) {
+        console.error(err);
+        isReversing = false;
+    }
+}
+
+function stopReverse() {
+    if (reverseAudio && isReversing) {
+        // Calculate current position in original audio
+        const reverseTime = reverseAudio.currentTime;
+        const originalTime = reverseDuration - reverseTime;
+        audio.currentTime = Math.max(0, originalTime);
+        reverseAudio.pause();
+        reverseAudio = null;
+    }
+    isReversing = false;
+    reverseDuration = 0;
+}
+
+// Preload next speedup segment
+async function preloadNextSpeedup() {
+    if (speedupIsLast || speedupNextAudio) return; // Already last or already preloading
+
+    const nextStartTime = speedupStartTime + speedupOriginalDuration;
+    if (nextStartTime >= audio.duration) return;
+
+    const preservePitch = speedupPreservePitchInput.checked;
+
+    try {
+        const res = await fetch(`/api/speedup/${currentFilename}?start=${nextStartTime}&duration=${SPEEDUP_SEGMENT_DURATION}&rate=${speedupRate}&preserve_pitch=${preservePitch}`);
+        const data = await res.json();
+
+        if (data.error) return;
+
+        // Store preloaded data
+        speedupNextData = data;
+        speedupNextAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+        // Preload the audio
+        speedupNextAudio.preload = 'auto';
+        speedupNextAudio.load();
+    } catch (err) {
+        console.error('Preload failed:', err);
+    }
+}
+
+// Switch to preloaded segment
+function switchToPreloadedSpeedup() {
+    if (!speedupNextAudio || !speedupNextData) {
+        // Preload not ready, load normally
+        startSpeedup(true);
+        return;
+    }
+
+    // Update state with preloaded data
+    speedupStartTime = speedupStartTime + speedupOriginalDuration;
+    speedupOriginalDuration = speedupNextData.original_duration;
+    speedupIsLast = speedupNextData.is_last;
+    speedupPreloadStarted = false;
+
+    // Switch audio
+    speedupAudio = speedupNextAudio;
+    speedupNextAudio = null;
+    speedupNextData = null;
+
+    // Setup event listeners
+    speedupAudio.addEventListener('timeupdate', onSpeedupTimeUpdate);
+    speedupAudio.addEventListener('ended', onSpeedupEnded);
+
+    speedupAudio.play();
+}
+
+// Timeupdate handler for speedup
+function onSpeedupTimeUpdate() {
+    if (!isSpeedingUp) return;
+
+    const speedupTime = speedupAudio.currentTime;
+    const speedupDuration = speedupAudio.duration;
+    const originalTime = speedupStartTime + (speedupTime * speedupRate);
+    timeDisplay.textContent = `${formatTime(originalTime)} / ${formatTime(audio.duration)} [${speedupRate}x]`;
+
+    // Preload next segment when approaching end
+    const timeRemaining = speedupDuration - speedupTime;
+    if (!speedupPreloadStarted && !speedupIsLast && timeRemaining < SPEEDUP_PRELOAD_AT) {
+        speedupPreloadStarted = true;
+        preloadNextSpeedup();
+    }
+}
+
+// Ended handler for speedup
+function onSpeedupEnded() {
+    if (speedupIsLast) {
+        audio.currentTime = audio.duration;
+        stopSpeedup();
+    } else {
+        switchToPreloadedSpeedup();
+    }
+}
+
+// Speed-up playback - uses pydub to speed up audio
+async function startSpeedup(fromContinuation = false) {
+    if (!currentFilename) return;
+
+    // Clear any preloaded audio
+    speedupNextAudio = null;
+    speedupNextData = null;
+    speedupPreloadStarted = false;
+
+    let startTime;
+    if (fromContinuation) {
+        // Continue from where we left off
+        startTime = speedupStartTime + speedupOriginalDuration;
+    } else {
+        // Jump back X seconds first
+        const jumpBack = parseInt(speedupJumpInput.value) || 15;
+        startTime = Math.max(0, audio.currentTime - jumpBack);
+    }
+
+    const endTime = audio.duration;
+    if (startTime >= endTime) {
+        // Reached end, switch to normal playback
+        audio.currentTime = endTime;
+        stopSpeedup();
+        return;
+    }
+
+    isSpeedingUp = true;
+    speedupStartTime = startTime;
+    speedupRate = parseFloat(speedupRateInput.value) || 2.0;
+    const preservePitch = speedupPreservePitchInput.checked;
+    audio.pause();
+    timeDisplay.textContent = `Speeding up... (loading)`;
+
+    try {
+        const res = await fetch(`/api/speedup/${currentFilename}?start=${startTime}&duration=${SPEEDUP_SEGMENT_DURATION}&rate=${speedupRate}&preserve_pitch=${preservePitch}`);
+        const data = await res.json();
+
+        if (data.error) {
+            console.error(data.error);
+            isSpeedingUp = false;
+            return;
+        }
+
+        // Store segment info
+        speedupOriginalDuration = data.original_duration;
+        speedupIsLast = data.is_last;
+
+        // Create audio from base64
+        speedupAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
+
+        // Setup event listeners
+        speedupAudio.addEventListener('timeupdate', onSpeedupTimeUpdate);
+        speedupAudio.addEventListener('ended', onSpeedupEnded);
+
+        speedupAudio.play();
+    } catch (err) {
+        console.error(err);
+        isSpeedingUp = false;
+    }
+}
+
+function stopSpeedup() {
+    if (speedupAudio && isSpeedingUp) {
+        // Calculate current position in original audio
+        const speedupTime = speedupAudio.currentTime;
+        const originalTime = speedupStartTime + (speedupTime * speedupRate);
+        audio.currentTime = Math.min(audio.duration, originalTime);
+        speedupAudio.pause();
+        speedupAudio = null;
+    }
+    // Clear preloaded audio
+    speedupNextAudio = null;
+    speedupNextData = null;
+    speedupPreloadStarted = false;
+    isSpeedingUp = false;
+}
+
+// Jump back (discontinuous mode)
+function jumpBack() {
+    const seconds = parseInt(jumpSecondsInput.value) || 15;
+    audio.currentTime = Math.max(0, audio.currentTime - seconds);
+    audio.play();
+}
+
+// Jump to previous keyword (semantic mode)
+function jumpToPreviousKeyword() {
+    if (customKeywords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+
+    // First press: find the keyword just before current time
+    if (semanticKeywordIndex === -1) {
+        // Find the last keyword before current time
+        for (let i = customKeywords.length - 1; i >= 0; i--) {
+            if (customKeywords[i].time < currentTime - 0.3) {
+                semanticKeywordIndex = i;
+                break;
+            }
+        }
+    } else {
+        // Subsequent presses: go to the previous keyword
+        semanticKeywordIndex--;
+    }
+
+    // Clamp to valid range
+    if (semanticKeywordIndex < 0) {
+        semanticKeywordIndex = 0;
+    }
+
+    // Jump to keyword time - 0.5 seconds
+    const target = customKeywords[semanticKeywordIndex];
+    audio.currentTime = Math.max(0, target.time - 0.3);
+}
+
+// Reset semantic keyword index (called when resuming forward playback)
+function resetSemanticIndex() {
+    semanticKeywordIndex = -1;
+}
+
+// Jump forward (discontinuous mode)
+function jumpForward() {
+    const seconds = parseInt(jumpSecondsInput.value) || 15;
+    audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + seconds);
+    audio.play();
+}
+
+// Jump to next keyword (semantic mode)
+function jumpToNextKeyword() {
+    if (customKeywords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+
+    // Find the first keyword after current time
+    for (let i = 0; i < customKeywords.length; i++) {
+        if (customKeywords[i].time > currentTime + 0.1) {
+            audio.currentTime = Math.max(0, customKeywords[i].time - 0.3);
+            resetSemanticIndex();
+            audio.play();
+            return;
+        }
+    }
+}
+
+// Arrow key handler
+document.addEventListener('keydown', async (e) => {
+    if (e.target.tagName === 'INPUT') return;
+
+    // Left Arrow: Backward (mode-dependent)
+    if (e.code === 'ArrowLeft') {
+        e.preventDefault();
+
+        switch (currentMode) {
+            case 'continuous':
+                if (!isReversing) {
+                    await startReverse();
+                }
+                break;
+            case 'discontinuous':
+                jumpBack();
+                break;
+            case 'speedup':
+                // If already speeding up, restart from current speedup position
+                if (isSpeedingUp) {
+                    // Calculate current position and update audio.currentTime
+                    const currentSpeedupTime = speedupAudio ? speedupAudio.currentTime : 0;
+                    const currentOriginalTime = speedupStartTime + (currentSpeedupTime * speedupRate);
+                    audio.currentTime = currentOriginalTime;
+                    stopSpeedup();
+                }
+                await startSpeedup();
+                break;
+            case 'semantic':
+                jumpToPreviousKeyword();
+                break;
+        }
+    }
+
+    // Right Arrow: Forward (mode-dependent)
+    if (e.code === 'ArrowRight') {
+        e.preventDefault();
+        stopReverse();
+        stopSpeedup();
+
+        switch (currentMode) {
+            case 'continuous':
+            case 'speedup':
+                resetSemanticIndex();
+                audio.play();
+                break;
+            case 'discontinuous':
+                jumpForward();
+                break;
+            case 'semantic':
+                jumpToNextKeyword();
+                break;
+        }
+    }
+});
+
+// Event listeners
+fileSelect.addEventListener('change', async () => {
+    if (!fileSelect.value) return;
+    const file = JSON.parse(fileSelect.value);
+    currentFilename = file.filename;
+    audio.src = `/mp3/${file.filename}`;
+    resetSemanticIndex();
+    await loadTranscript(file.video_id);
+});
+
+audio.addEventListener('timeupdate', updateCurrentSegment);
+
+Object.keys(modeButtons).forEach(mode => {
+    modeButtons[mode].addEventListener('click', () => setMode(mode));
+});
+
+toggleTranscriptBtn.addEventListener('click', () => {
+    const isHidden = transcriptDiv.style.display === 'none';
+    transcriptDiv.style.display = isHidden ? 'block' : 'none';
+    toggleTranscriptBtn.textContent = isHidden ? 'Hide Transcript' : 'Show Transcript';
+});
+
+// Re-render transcript when jump seconds changes (for discontinuous mode)
+jumpSecondsInput.addEventListener('change', () => {
+    if (currentMode === 'discontinuous') {
+        renderTranscript();
+    }
+});
+
+// Initialize
+loadFiles();
+setMode('discontinuous');
+</script>
+</body>
+</html>
