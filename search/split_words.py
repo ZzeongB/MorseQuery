@@ -2,15 +2,17 @@
 
 import json
 import re
-from pathlib import Path
 from pydub import AudioSegment
 import pandas as pd
 
-BASE_DIR = Path(__file__).parent.parent
-MP3_PATH = BASE_DIR / "mp3" / "bAkuNXtgrLA_clip_680_1010.mp3"
-TRANSCRIPT_PATH = BASE_DIR / "data" / "transcripts" / "bAkuNXtgrLA.json"
-LEXICON_PATH = BASE_DIR / "data" / "lexicon" / "OpenLexicon.xlsx"
-OUTPUT_DIR = BASE_DIR / "data" / "word_clips" / "bAkuNXtgrLA"
+from config import LEXICON_PATH, MP3_DIR, TRANSCRIPT_DIR, WORD_CLIPS_DIR
+
+VIDEO_ID = "bAkuNXtgrLA"
+MP3_FILENAME = f"{VIDEO_ID}_clip_680_1010.mp3"
+
+MP3_PATH = MP3_DIR / MP3_FILENAME
+TRANSCRIPT_PATH = TRANSCRIPT_DIR / f"{VIDEO_ID}.json"
+OUTPUT_DIR = WORD_CLIPS_DIR / VIDEO_ID
 
 FREQ_SKIP_THRESHOLD = 4.0
 

@@ -5,22 +5,22 @@ import io
 import json
 import re
 from datetime import datetime
-from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
 from pydub import AudioSegment
 
-app = Flask(__name__)
+from config import (
+    INTERRUPTIONS_DIR,
+    KEYWORDS2_DIR,
+    KEYWORDS_DIR,
+    LEXICON_PATH,
+    LOGS_DIR,
+    MP3_DIR,
+    STUDY_DIR,
+    TRANSCRIPT_DIR,
+)
 
-BASE_DIR = Path(__file__).parent.parent
-MP3_DIR = BASE_DIR / "mp3"
-TRANSCRIPT_DIR = BASE_DIR / "data" / "transcripts"
-KEYWORDS_DIR = BASE_DIR / "data" / "keywords"
-KEYWORDS2_DIR = BASE_DIR / "data" / "keywords2"
-LEXICON_PATH = BASE_DIR / "data" / "lexicon" / "OpenLexicon.xlsx"
-STUDY_DIR = BASE_DIR / "data" / "study"
-STUDY_LOGS_DIR = STUDY_DIR / "logs"
-STUDY_INTERRUPTIONS_DIR = STUDY_DIR / "interruptions"
+app = Flask(__name__)
 
 # Stopwords for keyword extraction
 STOPWORDS = {
@@ -520,7 +520,7 @@ def get_study_config():
 @app.route("/api/study/interruptions/<video_id>")
 def get_study_interruptions(video_id: str):
     """Return interruption config for a specific video."""
-    interruptions_path = STUDY_INTERRUPTIONS_DIR / f"{video_id}.json"
+    interruptions_path = INTERRUPTIONS_DIR / f"{video_id}.json"
     if not interruptions_path.exists():
         return jsonify({"error": f"Interruptions for {video_id} not found"}), 404
 
@@ -540,16 +540,16 @@ def log_study_event():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Create logs directory if not exists
-    STUDY_LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Find or create log file for this participant
-    log_files = list(STUDY_LOGS_DIR.glob(f"{participant}_*.jsonl"))
+    log_files = list(LOGS_DIR.glob(f"{participant}_*.jsonl"))
     if log_files:
         # Use most recent log file
         log_path = sorted(log_files)[-1]
     else:
         # Create new log file
-        log_path = STUDY_LOGS_DIR / f"{participant}_{timestamp}.jsonl"
+        log_path = LOGS_DIR / f"{participant}_{timestamp}.jsonl"
 
     # Append event to log file
     with open(log_path, "a") as f:
@@ -570,10 +570,10 @@ def save_study_session():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Create logs directory if not exists
-    STUDY_LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Save session summary
-    session_path = STUDY_LOGS_DIR / f"session_{participant}_{timestamp}.json"
+    session_path = LOGS_DIR / f"session_{participant}_{timestamp}.json"
     with open(session_path, "w") as f:
         json.dump(data, f, indent=2)
 
