@@ -4,6 +4,7 @@ import base64
 import io
 import json
 import re
+from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
@@ -15,7 +16,11 @@ BASE_DIR = Path(__file__).parent.parent
 MP3_DIR = BASE_DIR / "mp3"
 TRANSCRIPT_DIR = BASE_DIR / "data" / "transcripts"
 KEYWORDS_DIR = BASE_DIR / "data" / "keywords"
+KEYWORDS2_DIR = BASE_DIR / "data" / "keywords2"
 LEXICON_PATH = BASE_DIR / "data" / "lexicon" / "OpenLexicon.xlsx"
+STUDY_DIR = BASE_DIR / "data" / "study"
+STUDY_LOGS_DIR = STUDY_DIR / "logs"
+STUDY_INTERRUPTIONS_DIR = STUDY_DIR / "interruptions"
 
 # Stopwords for keyword extraction
 STOPWORDS = {
@@ -309,14 +314,20 @@ def get_transcript(video_id: str):
 
         keywords = extract_keywords(seg["text"])
 
-        # Process words with timestamps
+        # Process words with timestamps and lexicon frequency
+        lexicon = load_lexicon()
         words = []
         for w in seg.get("words", []):
+            word_text = w["word"].strip().lower()
+            # Clean word for lexicon lookup (remove punctuation)
+            word_clean = re.sub(r"[^a-z]", "", word_text)
+            freq = lexicon.get(word_clean, -1)  # -1 means not in lexicon (rare)
             words.append(
                 {
                     "word": w["word"].strip(),
                     "start": w["start"] - clip_start,
                     "end": w["end"] - clip_start,
+                    "freq": freq,
                 }
             )
 
@@ -337,12 +348,20 @@ def get_transcript(video_id: str):
         with open(keywords_path) as f:
             custom_keywords = json.load(f)
 
+    # Load custom keywords2 if exists
+    keywords2_path = KEYWORDS2_DIR / f"{video_id}.json"
+    custom_keywords2 = []
+    if keywords2_path.exists():
+        with open(keywords2_path) as f:
+            custom_keywords2 = json.load(f)
+
     return jsonify(
         {
             "video_id": video_id,
             "clip_start": clip_start,
             "segments": segments,
             "custom_keywords": custom_keywords,
+            "custom_keywords2": custom_keywords2,
         }
     )
 
@@ -481,6 +500,84 @@ def get_speedup_audio(filename: str):
             "is_last": is_last,
         }
     )
+
+
+# ============== Study API Endpoints ==============
+
+
+@app.route("/api/study/config")
+def get_study_config():
+    """Return study configuration."""
+    config_path = STUDY_DIR / "study_config.json"
+    if not config_path.exists():
+        return jsonify({"error": "Study config not found"}), 404
+
+    with open(config_path) as f:
+        config = json.load(f)
+    return jsonify(config)
+
+
+@app.route("/api/study/interruptions/<video_id>")
+def get_study_interruptions(video_id: str):
+    """Return interruption config for a specific video."""
+    interruptions_path = STUDY_INTERRUPTIONS_DIR / f"{video_id}.json"
+    if not interruptions_path.exists():
+        return jsonify({"error": f"Interruptions for {video_id} not found"}), 404
+
+    with open(interruptions_path) as f:
+        data = json.load(f)
+    return jsonify(data)
+
+
+@app.route("/api/study/log", methods=["POST"])
+def log_study_event():
+    """Log a single study event to JSONL file."""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    participant = data.get("participant", "unknown")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Create logs directory if not exists
+    STUDY_LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Find or create log file for this participant
+    log_files = list(STUDY_LOGS_DIR.glob(f"{participant}_*.jsonl"))
+    if log_files:
+        # Use most recent log file
+        log_path = sorted(log_files)[-1]
+    else:
+        # Create new log file
+        log_path = STUDY_LOGS_DIR / f"{participant}_{timestamp}.jsonl"
+
+    # Append event to log file
+    with open(log_path, "a") as f:
+        event = {"ts": datetime.now().isoformat(), **data}
+        f.write(json.dumps(event) + "\n")
+
+    return jsonify({"status": "logged", "file": log_path.name})
+
+
+@app.route("/api/study/session", methods=["POST"])
+def save_study_session():
+    """Save complete study session data."""
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+
+    participant = data.get("participant", "unknown")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # Create logs directory if not exists
+    STUDY_LOGS_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Save session summary
+    session_path = STUDY_LOGS_DIR / f"session_{participant}_{timestamp}.json"
+    with open(session_path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    return jsonify({"status": "saved", "file": session_path.name})
 
 
 if __name__ == "__main__":

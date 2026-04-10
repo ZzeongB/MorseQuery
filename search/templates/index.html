@@ -44,10 +44,126 @@
             background: #f5f5f5;
             font-size: 12px;
         }
+
+        /* Study Mode Styles */
+        #study-panel {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 2px solid #2196F3;
+            background: #e3f2fd;
+        }
+        #study-panel h3 { margin-bottom: 10px; color: #1565C0; }
+        #study-panel .form-row { margin-bottom: 10px; }
+        #study-panel label { display: inline-block; width: 100px; }
+        #study-panel input, #study-panel select { width: 200px; }
+        #study-panel button { margin-top: 10px; padding: 10px 20px; font-size: 16px; }
+        #btn-start-study { background: #4CAF50; color: white; border: none; }
+        #btn-start-study:hover { background: #388E3C; }
+        #btn-stop-study { background: #f44336; color: white; border: none; display: none; }
+        #btn-stop-study:hover { background: #d32f2f; }
+
+        .study-active #study-panel { border-color: #4CAF50; background: #e8f5e9; }
+        .study-active .mode-buttons button { pointer-events: none; opacity: 0.5; }
+        .study-active #file-select { pointer-events: none; opacity: 0.5; }
+
+        /* Interruption Overlay */
+        #interruption-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #interruption-overlay.active { display: flex; }
+        #interruption-content {
+            text-align: center;
+            color: white;
+            padding: 40px;
+        }
+        #interruption-content .task-label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+        #interruption-content .target-word {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #FFD700;
+        }
+        #interruption-content .instruction {
+            font-size: 16px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        #interruption-content .timer {
+            font-size: 36px;
+            color: #ff5722;
+        }
+
+        /* Feedback Overlay */
+        #feedback-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+        #feedback-overlay.active { display: flex; }
+        #feedback-overlay.success { background: rgba(76, 175, 80, 0.9); }
+        #feedback-overlay.failure { background: rgba(244, 67, 54, 0.9); }
+        #feedback-content {
+            font-size: 64px;
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
 <body>
     <h2>Playback Search</h2>
+
+    <!-- Study Mode Panel -->
+    <div id="study-panel">
+        <h3>User Study Mode</h3>
+        <div class="form-row">
+            <label>Participant:</label>
+            <input type="text" id="study-participant" placeholder="e.g., P01">
+        </div>
+        <div class="form-row">
+            <label>Feature:</label>
+            <select id="study-feature">
+                <option value="">-- Select Feature --</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Audio:</label>
+            <select id="study-audio">
+                <option value="">-- Select Audio --</option>
+            </select>
+        </div>
+        <button id="btn-start-study">Start Study</button>
+        <button id="btn-stop-study">Stop Study</button>
+    </div>
+
+    <!-- Interruption Overlay -->
+    <div id="interruption-overlay">
+        <div id="interruption-content">
+            <div class="task-label">Task <span id="task-number">1</span> / <span id="task-total">7</span></div>
+            <div class="instruction">Find this word:</div>
+            <div class="target-word" id="target-word-display">TARGET</div>
+            <div class="instruction">Press SPACEBAR when you find it</div>
+            <div class="timer"><span id="task-timer">90</span>s</div>
+        </div>
+    </div>
+
+    <!-- Feedback Overlay -->
+    <div id="feedback-overlay">
+        <div id="feedback-content">Good!</div>
+    </div>
 
     <div class="section">
         <label>File: </label>
@@ -63,23 +179,22 @@
 
     <div class="section mode-buttons">
         <label>Mode: </label>
-        <button id="mode-continuous">Continuous</button>
         <button id="mode-discontinuous" class="active">Discontinuous</button>
-        <button id="mode-speedup">Speed-up</button>
-        <button id="mode-semantic">Semantic</button>
+        <button id="mode-keyword">Keyword</button>
+        <button id="mode-keyword2">Keyword2</button>
+        <button id="mode-word">Word</button>
+        <button id="mode-sentence">Sentence</button>
 
         <div id="jump-back-setting" style="display:none;">
             <label>Jump: </label>
             <input type="number" id="jump-seconds" value="15" min="1" max="60"> sec
         </div>
-        <div id="speedup-setting" style="display:none;">
-            <label>Jump back: </label>
-            <input type="number" id="speedup-jump" value="15" min="1" max="60"> sec |
-            <label>Speed: </label>
-            <input type="number" id="speedup-rate" value="2.0" min="1.1" max="4.0" step="0.1">x |
-            <input type="checkbox" id="speedup-preserve-pitch" checked>
-            <label for="speedup-preserve-pitch">Preserve pitch</label>
-        </div>
+    </div>
+
+    <div class="section" id="global-speedup-setting">
+        <input type="checkbox" id="replay-speedup-enabled">
+        <label for="replay-speedup-enabled">Speed-up on replay:</label>
+        <input type="number" id="replay-speedup-rate" value="1.5" min="1.1" max="3.0" step="0.1">x
     </div>
 
     <div class="section">
@@ -91,10 +206,10 @@
     <div id="instructions">
         <b>← Left Arrow:</b> Backward / <b>→ Right Arrow:</b> Forward<br>
         <hr style="margin: 5px 0; border: none; border-top: 1px solid #ccc;">
-        - Continuous: ← Reverse playback / → Resume normal<br>
         - Discontinuous: ← Jump back X sec / → Jump forward X sec<br>
-        - Speed-up: ← Jump back + fast play / → Resume normal<br>
-        - Semantic: ← Previous keyword / → Next keyword
+        - Keyword/Keyword2: ← Previous keyword / → Next keyword<br>
+        - Word: ← Previous word (then forward play) / → Next word<br>
+        - Sentence: ← Previous sentence / → Next sentence
     </div>
 
 <script>
@@ -103,37 +218,70 @@ const fileSelect = document.getElementById('file-select');
 const timeDisplay = document.getElementById('time-display');
 const transcriptDiv = document.getElementById('transcript');
 const jumpSecondsInput = document.getElementById('jump-seconds');
-const speedupJumpInput = document.getElementById('speedup-jump');
-const speedupRateInput = document.getElementById('speedup-rate');
-const speedupPreservePitchInput = document.getElementById('speedup-preserve-pitch');
 const toggleTranscriptBtn = document.getElementById('toggle-transcript');
+const replaySpeedupEnabled = document.getElementById('replay-speedup-enabled');
+const replaySpeedupRate = document.getElementById('replay-speedup-rate');
+
+// Study Mode DOM elements
+const studyPanel = document.getElementById('study-panel');
+const studyParticipant = document.getElementById('study-participant');
+const studyFeature = document.getElementById('study-feature');
+const studyAudio = document.getElementById('study-audio');
+const btnStartStudy = document.getElementById('btn-start-study');
+const btnStopStudy = document.getElementById('btn-stop-study');
+const interruptionOverlay = document.getElementById('interruption-overlay');
+const targetWordDisplay = document.getElementById('target-word-display');
+const taskNumberDisplay = document.getElementById('task-number');
+const taskTotalDisplay = document.getElementById('task-total');
+const taskTimerDisplay = document.getElementById('task-timer');
+const feedbackOverlay = document.getElementById('feedback-overlay');
+const feedbackContent = document.getElementById('feedback-content');
 
 const modeButtons = {
-    continuous: document.getElementById('mode-continuous'),
     discontinuous: document.getElementById('mode-discontinuous'),
-    speedup: document.getElementById('mode-speedup'),
-    semantic: document.getElementById('mode-semantic'),
+    keyword: document.getElementById('mode-keyword'),
+    keyword2: document.getElementById('mode-keyword2'),
+    word: document.getElementById('mode-word'),
+    sentence: document.getElementById('mode-sentence'),
 };
 
 let currentMode = 'discontinuous';
 let transcript = null;
 let customKeywords = []; // {word, time}[] from data/keywords/
+let customKeywords2 = []; // {word, time}[] from data/keywords2/
+let allWords = []; // {word, start, end}[] extracted from transcript segments
 let currentFilename = null;
-let reverseAudio = null; // Audio element for reversed playback
-let isReversing = false;
-let reverseDuration = 0; // Duration of the reversed segment (to calculate position)
-let speedupAudio = null; // Audio element for speedup playback
-let speedupNextAudio = null; // Preloaded next segment
-let speedupNextData = null; // Preloaded next segment data
-let isSpeedingUp = false;
-let speedupStartTime = 0; // Original audio time when speedup started
-let speedupRate = 2.0; // Current speedup rate
-let speedupOriginalDuration = 0; // Original audio duration covered by speedup segment
-let speedupIsLast = false; // Whether this is the last segment
-let speedupPreloadStarted = false; // Whether preload has started for current segment
-const SPEEDUP_SEGMENT_DURATION = 15; // Process 30 seconds at a time
-const SPEEDUP_PRELOAD_AT = 5; // Preload next segment 5 seconds before end
-let semanticKeywordIndex = -1; // Track current keyword index for semantic mode
+let currentVideoId = null;
+
+// Navigation indices
+let keywordIndex = -1;
+let keyword2Index = -1;
+let wordIndex = -1;
+let sentenceIndex = -1;
+
+// Speedup replay state
+let isSpeedupReplay = false;
+let speedupReplayAudio = null;
+
+// Word backward mode - auto-play previous words continuously
+let isWordBackwardMode = false;
+let currentWordEndTime = 0;
+
+// ============== Study Mode State ==============
+let studyMode = false;
+let studyConfig = null;
+let studyInterruptions = null;
+let currentTaskIndex = 0;
+let taskActive = false;
+let taskStartTime = null;
+let taskTimerInterval = null;
+let sessionStartTime = null;
+let sessionTasks = []; // Store task results for session summary
+
+// Frequency threshold for skipping common words (OpenLexicon)
+// Words with freq >= this value will be skipped
+// -1 = not in lexicon (rare), 0-3 = uncommon, 4+ = common
+const FREQ_SKIP_THRESHOLD = 4.0;
 
 // Format seconds to mm:ss
 function formatTime(sec) {
@@ -156,10 +304,54 @@ async function loadFiles() {
 
 // Load transcript for video
 async function loadTranscript(videoId) {
+    currentVideoId = videoId;
     const res = await fetch(`/api/transcript/${videoId}`);
     transcript = await res.json();
     customKeywords = transcript.custom_keywords || [];
+    customKeywords2 = transcript.custom_keywords2 || [];
+
+    // Extract all words from segments for word-by-word mode (with frequency)
+    allWords = [];
+    if (transcript.segments) {
+        transcript.segments.forEach(seg => {
+            if (seg.words) {
+                seg.words.forEach(w => {
+                    allWords.push({
+                        word: w.word.trim(),
+                        start: w.start,
+                        end: w.end,
+                        freq: w.freq !== undefined ? w.freq : -1
+                    });
+                });
+            }
+        });
+    }
+
+    // Reset all navigation indices
+    resetAllIndices();
     renderTranscript();
+}
+
+// Reset all navigation indices
+function resetAllIndices() {
+    keywordIndex = -1;
+    keyword2Index = -1;
+    wordIndex = -1;
+    sentenceIndex = -1;
+}
+
+// Check if word should be skipped (high frequency = common word)
+function shouldSkipWord(wordObj) {
+    // Skip if word is too short (1-2 chars)
+    const normalized = wordObj.word.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (normalized.length <= 2) return true;
+
+    // Skip if frequency is high (common word)
+    // freq >= FREQ_SKIP_THRESHOLD means common word -> skip
+    // freq < FREQ_SKIP_THRESHOLD or freq == -1 (not in lexicon) means rare -> keep
+    if (wordObj.freq >= FREQ_SKIP_THRESHOLD) return true;
+
+    return false;
 }
 
 // Render transcript based on current mode
@@ -171,7 +363,6 @@ function renderTranscript() {
     if (currentMode === 'discontinuous') {
         // Discontinuous: divide into X-second blocks
         const blocks = [];
-        let currentBlock = { start: 0, texts: [] };
 
         transcript.segments.forEach(seg => {
             const blockIndex = Math.floor(seg.start / jumpSeconds);
@@ -190,22 +381,37 @@ function renderTranscript() {
             </div>`;
         }).join('');
 
-    } else if (currentMode === 'semantic') {
-        // Semantic: continuous text with keyword highlighting
+    } else if (currentMode === 'keyword' || currentMode === 'keyword2') {
+        // Keyword modes: continuous text with keyword highlighting
         let fullText = transcript.segments.map(seg => seg.text).join(' ');
+        const keywords = currentMode === 'keyword' ? customKeywords : customKeywords2;
 
-        // Highlight keywords from customKeywords
-        customKeywords.forEach(kw => {
-            const regex = new RegExp(`\\b(${kw.word})\\b`, 'gi');
+        keywords.forEach(kw => {
+            const escaped = kw.word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`\\b(${escaped})\\b`, 'gi');
             fullText = fullText.replace(regex, '<span class="kw">$1</span>');
         });
 
         transcriptDiv.innerHTML = `<div class="segment continuous">${fullText}</div>`;
 
-    } else {
-        // Continuous / Speed-up: just continuous text, no highlighting
-        const fullText = transcript.segments.map(seg => seg.text).join(' ');
-        transcriptDiv.innerHTML = `<div class="segment continuous">${fullText}</div>`;
+    } else if (currentMode === 'word') {
+        // Word mode: show each word, highlight important words (low freq)
+        let html = '<div class="segment continuous">';
+        allWords.forEach((w, i) => {
+            const skip = shouldSkipWord(w);
+            const cls = skip ? '' : 'class="kw"';
+            html += `<span ${cls} data-word-idx="${i}" data-start="${w.start}">${w.word} </span>`;
+        });
+        html += '</div>';
+        transcriptDiv.innerHTML = html;
+
+    } else if (currentMode === 'sentence') {
+        // Sentence mode: show each segment as a separate block
+        transcriptDiv.innerHTML = transcript.segments.map((seg, i) => {
+            return `<div class="segment" data-seg-idx="${i}" data-start="${seg.start}" data-end="${seg.end}">
+                <span class="time">[${formatTime(seg.start)}]</span> ${seg.text}
+            </div>`;
+        }).join('');
     }
 }
 
@@ -213,8 +419,8 @@ function renderTranscript() {
 function updateCurrentSegment() {
     const currentTime = audio.currentTime;
 
-    // Only highlight segments in discontinuous mode
-    if (currentMode === 'discontinuous') {
+    // Highlight segments based on mode
+    if (currentMode === 'discontinuous' || currentMode === 'sentence') {
         document.querySelectorAll('#transcript .segment').forEach(el => {
             const start = parseFloat(el.dataset.start);
             const end = parseFloat(el.dataset.end);
@@ -228,7 +434,9 @@ function updateCurrentSegment() {
     }
 
     // Update time display
-    timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(audio.duration || 0)}`;
+    let suffix = '';
+    if (isSpeedupReplay) suffix = ` [${replaySpeedupRate.value}x]`;
+    timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(audio.duration || 0)}${suffix}`;
 }
 
 // Mode switching
@@ -241,331 +449,618 @@ function setMode(mode) {
     // Show/hide relevant UI
     document.getElementById('jump-back-setting').style.display =
         mode === 'discontinuous' ? 'block' : 'none';
-    document.getElementById('speedup-setting').style.display =
-        mode === 'speedup' ? 'block' : 'none';
 
-    // Stop any special playback if switching away
-    stopReverse();
-    stopSpeedup();
-    resetSemanticIndex();
+    // Stop any special playback and reset indices
+    stopSpeedupReplay();
+    stopWordBackwardMode();
+    resetAllIndices();
 
     // Re-render transcript for the new mode
     renderTranscript();
 }
 
-// Reverse playback (continuous mode) - uses pydub reversed audio
-async function startReverse() {
-    if (isReversing || !currentFilename) return;
-
-    const endTime = audio.currentTime;
-    if (endTime <= 0) return;
-
-    isReversing = true;
-    audio.pause();
-    timeDisplay.textContent = `Reversing... (loading)`;
-
-    try {
-        const res = await fetch(`/api/reverse/${currentFilename}?end=${endTime}`);
-        const data = await res.json();
-
-        if (data.error) {
-            console.error(data.error);
-            isReversing = false;
-            return;
-        }
-
-        // Create audio from base64
-        reverseAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
-        reverseAudio.playbackRate = 1.0;
-        reverseDuration = data.duration;
-
-        // Track position during reverse playback
-        reverseAudio.addEventListener('timeupdate', () => {
-            if (isReversing) {
-                // Map reverse audio time to original time (going backwards)
-                const reverseTime = reverseAudio.currentTime;
-                const originalTime = reverseDuration - reverseTime;
-                timeDisplay.textContent = `${formatTime(originalTime)} / ${formatTime(audio.duration)} [REV]`;
-            }
-        });
-
-        reverseAudio.addEventListener('ended', () => {
-            stopReverse();
-        });
-
-        reverseAudio.play();
-    } catch (err) {
-        console.error(err);
-        isReversing = false;
-    }
+// Stop word backward mode
+function stopWordBackwardMode() {
+    isWordBackwardMode = false;
+    currentWordEndTime = 0;
 }
 
-function stopReverse() {
-    if (reverseAudio && isReversing) {
-        // Calculate current position in original audio
-        const reverseTime = reverseAudio.currentTime;
-        const originalTime = reverseDuration - reverseTime;
-        audio.currentTime = Math.max(0, originalTime);
-        reverseAudio.pause();
-        reverseAudio = null;
-    }
-    isReversing = false;
-    reverseDuration = 0;
+// Speed-up replay (global option for all modes)
+function startSpeedupReplay() {
+    if (!replaySpeedupEnabled.checked) return;
+    const rate = parseFloat(replaySpeedupRate.value) || 1.5;
+    audio.playbackRate = rate;
+    isSpeedupReplay = true;
 }
 
-// Preload next speedup segment
-async function preloadNextSpeedup() {
-    if (speedupIsLast || speedupNextAudio) return; // Already last or already preloading
-
-    const nextStartTime = speedupStartTime + speedupOriginalDuration;
-    if (nextStartTime >= audio.duration) return;
-
-    const preservePitch = speedupPreservePitchInput.checked;
-
-    try {
-        const res = await fetch(`/api/speedup/${currentFilename}?start=${nextStartTime}&duration=${SPEEDUP_SEGMENT_DURATION}&rate=${speedupRate}&preserve_pitch=${preservePitch}`);
-        const data = await res.json();
-
-        if (data.error) return;
-
-        // Store preloaded data
-        speedupNextData = data;
-        speedupNextAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
-        // Preload the audio
-        speedupNextAudio.preload = 'auto';
-        speedupNextAudio.load();
-    } catch (err) {
-        console.error('Preload failed:', err);
-    }
-}
-
-// Switch to preloaded segment
-function switchToPreloadedSpeedup() {
-    if (!speedupNextAudio || !speedupNextData) {
-        // Preload not ready, load normally
-        startSpeedup(true);
-        return;
-    }
-
-    // Update state with preloaded data
-    speedupStartTime = speedupStartTime + speedupOriginalDuration;
-    speedupOriginalDuration = speedupNextData.original_duration;
-    speedupIsLast = speedupNextData.is_last;
-    speedupPreloadStarted = false;
-
-    // Switch audio
-    speedupAudio = speedupNextAudio;
-    speedupNextAudio = null;
-    speedupNextData = null;
-
-    // Setup event listeners
-    speedupAudio.addEventListener('timeupdate', onSpeedupTimeUpdate);
-    speedupAudio.addEventListener('ended', onSpeedupEnded);
-
-    speedupAudio.play();
-}
-
-// Timeupdate handler for speedup
-function onSpeedupTimeUpdate() {
-    if (!isSpeedingUp) return;
-
-    const speedupTime = speedupAudio.currentTime;
-    const speedupDuration = speedupAudio.duration;
-    const originalTime = speedupStartTime + (speedupTime * speedupRate);
-    timeDisplay.textContent = `${formatTime(originalTime)} / ${formatTime(audio.duration)} [${speedupRate}x]`;
-
-    // Preload next segment when approaching end
-    const timeRemaining = speedupDuration - speedupTime;
-    if (!speedupPreloadStarted && !speedupIsLast && timeRemaining < SPEEDUP_PRELOAD_AT) {
-        speedupPreloadStarted = true;
-        preloadNextSpeedup();
-    }
-}
-
-// Ended handler for speedup
-function onSpeedupEnded() {
-    if (speedupIsLast) {
-        audio.currentTime = audio.duration;
-        stopSpeedup();
-    } else {
-        switchToPreloadedSpeedup();
-    }
-}
-
-// Speed-up playback - uses pydub to speed up audio
-async function startSpeedup(fromContinuation = false) {
-    if (!currentFilename) return;
-
-    // Clear any preloaded audio
-    speedupNextAudio = null;
-    speedupNextData = null;
-    speedupPreloadStarted = false;
-
-    let startTime;
-    if (fromContinuation) {
-        // Continue from where we left off
-        startTime = speedupStartTime + speedupOriginalDuration;
-    } else {
-        // Jump back X seconds first
-        const jumpBack = parseInt(speedupJumpInput.value) || 15;
-        startTime = Math.max(0, audio.currentTime - jumpBack);
-    }
-
-    const endTime = audio.duration;
-    if (startTime >= endTime) {
-        // Reached end, switch to normal playback
-        audio.currentTime = endTime;
-        stopSpeedup();
-        return;
-    }
-
-    isSpeedingUp = true;
-    speedupStartTime = startTime;
-    speedupRate = parseFloat(speedupRateInput.value) || 2.0;
-    const preservePitch = speedupPreservePitchInput.checked;
-    audio.pause();
-    timeDisplay.textContent = `Speeding up... (loading)`;
-
-    try {
-        const res = await fetch(`/api/speedup/${currentFilename}?start=${startTime}&duration=${SPEEDUP_SEGMENT_DURATION}&rate=${speedupRate}&preserve_pitch=${preservePitch}`);
-        const data = await res.json();
-
-        if (data.error) {
-            console.error(data.error);
-            isSpeedingUp = false;
-            return;
-        }
-
-        // Store segment info
-        speedupOriginalDuration = data.original_duration;
-        speedupIsLast = data.is_last;
-
-        // Create audio from base64
-        speedupAudio = new Audio(`data:audio/mp3;base64,${data.audio}`);
-
-        // Setup event listeners
-        speedupAudio.addEventListener('timeupdate', onSpeedupTimeUpdate);
-        speedupAudio.addEventListener('ended', onSpeedupEnded);
-
-        speedupAudio.play();
-    } catch (err) {
-        console.error(err);
-        isSpeedingUp = false;
-    }
-}
-
-function stopSpeedup() {
-    if (speedupAudio && isSpeedingUp) {
-        // Calculate current position in original audio
-        const speedupTime = speedupAudio.currentTime;
-        const originalTime = speedupStartTime + (speedupTime * speedupRate);
-        audio.currentTime = Math.min(audio.duration, originalTime);
-        speedupAudio.pause();
-        speedupAudio = null;
-    }
-    // Clear preloaded audio
-    speedupNextAudio = null;
-    speedupNextData = null;
-    speedupPreloadStarted = false;
-    isSpeedingUp = false;
+function stopSpeedupReplay() {
+    audio.playbackRate = 1.0;
+    isSpeedupReplay = false;
 }
 
 // Jump back (discontinuous mode)
 function jumpBack() {
     const seconds = parseInt(jumpSecondsInput.value) || 15;
     audio.currentTime = Math.max(0, audio.currentTime - seconds);
+    startSpeedupReplay();
     audio.play();
-}
-
-// Jump to previous keyword (semantic mode)
-function jumpToPreviousKeyword() {
-    if (customKeywords.length === 0) return;
-
-    const currentTime = audio.currentTime;
-
-    // First press: find the keyword just before current time
-    if (semanticKeywordIndex === -1) {
-        // Find the last keyword before current time
-        for (let i = customKeywords.length - 1; i >= 0; i--) {
-            if (customKeywords[i].time < currentTime - 0.3) {
-                semanticKeywordIndex = i;
-                break;
-            }
-        }
-    } else {
-        // Subsequent presses: go to the previous keyword
-        semanticKeywordIndex--;
-    }
-
-    // Clamp to valid range
-    if (semanticKeywordIndex < 0) {
-        semanticKeywordIndex = 0;
-    }
-
-    // Jump to keyword time - 0.5 seconds
-    const target = customKeywords[semanticKeywordIndex];
-    audio.currentTime = Math.max(0, target.time - 0.3);
-}
-
-// Reset semantic keyword index (called when resuming forward playback)
-function resetSemanticIndex() {
-    semanticKeywordIndex = -1;
 }
 
 // Jump forward (discontinuous mode)
 function jumpForward() {
     const seconds = parseInt(jumpSecondsInput.value) || 15;
     audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + seconds);
+    stopSpeedupReplay();
     audio.play();
 }
 
-// Jump to next keyword (semantic mode)
-function jumpToNextKeyword() {
-    if (customKeywords.length === 0) return;
+// Jump to previous keyword (keyword/keyword2 mode)
+function jumpToPreviousKeyword(useKeyword2 = false) {
+    const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+    const indexRef = useKeyword2 ? 'keyword2Index' : 'keywordIndex';
+
+    if (keywords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    let currentIdx = useKeyword2 ? keyword2Index : keywordIndex;
+
+    // First press: find the keyword just before current time
+    if (currentIdx === -1) {
+        for (let i = keywords.length - 1; i >= 0; i--) {
+            if (keywords[i].time < currentTime - 0.5) {
+                currentIdx = i;
+                break;
+            }
+        }
+        if (currentIdx === -1) currentIdx = 0;
+    } else {
+        currentIdx--;
+    }
+
+    // Clamp to valid range
+    if (currentIdx < 0) currentIdx = 0;
+
+    // Update index
+    if (useKeyword2) keyword2Index = currentIdx;
+    else keywordIndex = currentIdx;
+
+    // Jump to keyword time
+    const target = keywords[currentIdx];
+    audio.currentTime = Math.max(0, target.time - 0.3);
+    startSpeedupReplay();
+    audio.play();
+}
+
+// Jump to next keyword (keyword/keyword2 mode)
+function jumpToNextKeyword(useKeyword2 = false) {
+    const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+
+    if (keywords.length === 0) return;
 
     const currentTime = audio.currentTime;
 
     // Find the first keyword after current time
-    for (let i = 0; i < customKeywords.length; i++) {
-        if (customKeywords[i].time > currentTime + 0.1) {
-            audio.currentTime = Math.max(0, customKeywords[i].time - 0.3);
-            resetSemanticIndex();
+    for (let i = 0; i < keywords.length; i++) {
+        if (keywords[i].time > currentTime + 0.1) {
+            audio.currentTime = Math.max(0, keywords[i].time - 0.3);
+            // Reset index
+            if (useKeyword2) keyword2Index = -1;
+            else keywordIndex = -1;
+            stopSpeedupReplay();
             audio.play();
             return;
         }
     }
 }
 
+// Jump to previous word (word mode - skip common words) - then forward playback
+function jumpToPreviousWord() {
+    if (allWords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+
+    // First press: find the word just before current time
+    if (wordIndex === -1) {
+        for (let i = allWords.length - 1; i >= 0; i--) {
+            if (allWords[i].start < currentTime - 0.3) {
+                wordIndex = i;
+                break;
+            }
+        }
+        if (wordIndex === -1) wordIndex = 0;
+    } else {
+        // Subsequent presses: go to previous important word
+        let newIndex = wordIndex - 1;
+        while (newIndex > 0 && shouldSkipWord(allWords[newIndex])) {
+            newIndex--;
+        }
+        if (newIndex >= 0) wordIndex = newIndex;
+    }
+
+    // Jump to word time and play forward (no backward mode)
+    const target = allWords[wordIndex];
+    audio.currentTime = Math.max(0, target.start);
+    startSpeedupReplay();
+    audio.play();
+}
+
+// Auto-jump to previous word (called by timeupdate in backward mode)
+function jumpToPreviousWordAuto() {
+    if (allWords.length === 0 || wordIndex <= 0) {
+        stopWordBackwardMode();
+        return;
+    }
+
+    // Find previous important word (low frequency)
+    let newIndex = wordIndex - 1;
+    while (newIndex > 0 && shouldSkipWord(allWords[newIndex])) {
+        newIndex--;
+    }
+
+    if (newIndex < 0) {
+        stopWordBackwardMode();
+        return;
+    }
+
+    wordIndex = newIndex;
+    const target = allWords[wordIndex];
+    audio.currentTime = Math.max(0, target.start);
+    currentWordEndTime = target.end;
+}
+
+// Jump to next word (word mode - skip common words) - stops backward mode
+function jumpToNextWord() {
+    if (allWords.length === 0) return;
+
+    // Stop backward mode
+    stopWordBackwardMode();
+
+    const currentTime = audio.currentTime;
+
+    // Find the first important word after current time (low frequency)
+    for (let i = 0; i < allWords.length; i++) {
+        if (allWords[i].start > currentTime + 0.1 && !shouldSkipWord(allWords[i])) {
+            audio.currentTime = Math.max(0, allWords[i].start);
+            wordIndex = -1;
+            stopSpeedupReplay();
+            audio.play();
+            return;
+        }
+    }
+}
+
+// Jump to previous sentence (sentence mode)
+function jumpToPreviousSentence() {
+    if (!transcript || !transcript.segments || transcript.segments.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    const segments = transcript.segments;
+
+    // First press: find the segment just before current time
+    if (sentenceIndex === -1) {
+        for (let i = segments.length - 1; i >= 0; i--) {
+            if (segments[i].start < currentTime - 0.5) {
+                sentenceIndex = i;
+                break;
+            }
+        }
+        if (sentenceIndex === -1) sentenceIndex = 0;
+    } else {
+        sentenceIndex--;
+    }
+
+    // Clamp to valid range
+    if (sentenceIndex < 0) sentenceIndex = 0;
+
+    // Jump to segment start
+    const target = segments[sentenceIndex];
+    audio.currentTime = Math.max(0, target.start);
+    startSpeedupReplay();
+    audio.play();
+}
+
+// Jump to next sentence (sentence mode)
+function jumpToNextSentence() {
+    if (!transcript || !transcript.segments || transcript.segments.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    const segments = transcript.segments;
+
+    // Find the first segment after current time
+    for (let i = 0; i < segments.length; i++) {
+        if (segments[i].start > currentTime + 0.1) {
+            audio.currentTime = Math.max(0, segments[i].start);
+            sentenceIndex = -1;
+            stopSpeedupReplay();
+            audio.play();
+            return;
+        }
+    }
+}
+
+// ============== Study Mode Functions ==============
+
+// Load study configuration
+async function loadStudyConfig() {
+    try {
+        const res = await fetch('/api/study/config');
+        if (!res.ok) {
+            console.error('Study config not found');
+            return;
+        }
+        studyConfig = await res.json();
+
+        // Populate feature dropdown
+        studyFeature.innerHTML = '<option value="">-- Select Feature --</option>';
+        studyConfig.features.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f;
+            opt.textContent = f.charAt(0).toUpperCase() + f.slice(1);
+            studyFeature.appendChild(opt);
+        });
+
+        // Populate audio dropdown
+        studyAudio.innerHTML = '<option value="">-- Select Audio --</option>';
+        studyConfig.audio_files.forEach(f => {
+            const opt = document.createElement('option');
+            opt.value = f;
+            opt.textContent = f;
+            studyAudio.appendChild(opt);
+        });
+    } catch (err) {
+        console.error('Failed to load study config:', err);
+    }
+}
+
+// Log study event to server
+async function logStudyEvent(event, data = {}) {
+    try {
+        await fetch('/api/study/log', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                participant: studyParticipant.value,
+                event,
+                ...data
+            })
+        });
+    } catch (err) {
+        console.error('Failed to log event:', err);
+    }
+}
+
+// Start study session
+async function startStudySession() {
+    const participant = studyParticipant.value.trim();
+    const feature = studyFeature.value;
+    const audioFile = studyAudio.value;
+
+    if (!participant || !feature || !audioFile) {
+        alert('Please fill in all fields (Participant, Feature, Audio)');
+        return;
+    }
+
+    // Extract video_id from filename (e.g., "xxx_clip_123_456.mp3" -> "xxx")
+    const videoId = audioFile.split('_clip_')[0];
+
+    // Load interruptions for this video
+    try {
+        const res = await fetch(`/api/study/interruptions/${videoId}`);
+        if (!res.ok) {
+            alert(`Interruptions config not found for ${videoId}`);
+            return;
+        }
+        studyInterruptions = await res.json();
+    } catch (err) {
+        alert('Failed to load interruptions config');
+        return;
+    }
+
+    // Set up the study session
+    studyMode = true;
+    currentTaskIndex = 0;
+    taskActive = false;
+    sessionTasks = [];
+    sessionStartTime = Date.now();
+
+    // Set the mode based on feature selection
+    setMode(feature);
+
+    // Load the audio file
+    currentFilename = audioFile;
+    audio.src = `/mp3/${audioFile}`;
+    await loadTranscript(videoId);
+
+    // Update UI
+    document.body.classList.add('study-active');
+    btnStartStudy.style.display = 'none';
+    btnStopStudy.style.display = 'inline-block';
+    taskTotalDisplay.textContent = studyInterruptions.interruptions.length;
+
+    // Log session start
+    await logStudyEvent('session_start', {
+        feature,
+        audio: audioFile,
+        videoId,
+        totalTasks: studyInterruptions.interruptions.length
+    });
+
+    // Start audio playback
+    audio.play();
+}
+
+// Stop study session
+async function stopStudySession() {
+    // Clear any active timer
+    if (taskTimerInterval) {
+        clearInterval(taskTimerInterval);
+        taskTimerInterval = null;
+    }
+
+    // Hide overlays
+    interruptionOverlay.classList.remove('active');
+    feedbackOverlay.classList.remove('active', 'success', 'failure');
+
+    // Pause audio
+    audio.pause();
+
+    // Log session end
+    const completed = sessionTasks.filter(t => t.outcome === 'spacebar').length;
+    const timeouts = sessionTasks.filter(t => t.outcome === 'timeout').length;
+
+    await logStudyEvent('session_complete', {
+        totalTasks: studyInterruptions ? studyInterruptions.interruptions.length : 0,
+        completed,
+        timeouts,
+        duration: Date.now() - sessionStartTime
+    });
+
+    // Save session summary
+    await fetch('/api/study/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            participant: studyParticipant.value,
+            feature: studyFeature.value,
+            audio: studyAudio.value,
+            sessionStartTime: new Date(sessionStartTime).toISOString(),
+            sessionEndTime: new Date().toISOString(),
+            totalTasks: studyInterruptions ? studyInterruptions.interruptions.length : 0,
+            completed,
+            timeouts,
+            tasks: sessionTasks
+        })
+    });
+
+    // Reset state
+    studyMode = false;
+    taskActive = false;
+    studyInterruptions = null;
+
+    // Update UI
+    document.body.classList.remove('study-active');
+    btnStartStudy.style.display = 'inline-block';
+    btnStopStudy.style.display = 'none';
+}
+
+// Check for interruption trigger during playback
+function checkForInterruption() {
+    if (!studyMode || taskActive || !studyInterruptions) return;
+    if (currentTaskIndex >= studyInterruptions.interruptions.length) return;
+
+    const currentInterruption = studyInterruptions.interruptions[currentTaskIndex];
+    const triggerTime = currentInterruption.target_word_time + currentInterruption.delay_seconds;
+
+    if (audio.currentTime >= triggerTime) {
+        triggerInterruption(currentInterruption, triggerTime);
+    }
+}
+
+// Trigger an interruption
+async function triggerInterruption(interruption, triggerTime) {
+    taskActive = true;
+    taskStartTime = Date.now();
+
+    // Pause audio
+    audio.pause();
+
+    // Update overlay
+    taskNumberDisplay.textContent = currentTaskIndex + 1;
+    targetWordDisplay.textContent = interruption.target_word;
+    taskTimerDisplay.textContent = studyConfig.task_timeout_seconds;
+
+    // Show overlay
+    interruptionOverlay.classList.add('active');
+
+    // Log interruption triggered
+    await logStudyEvent('interruption_triggered', {
+        taskIndex: currentTaskIndex + 1,
+        targetWord: interruption.target_word,
+        targetWordTime: interruption.target_word_time,
+        triggerTime
+    });
+
+    // Start countdown timer
+    let remaining = studyConfig.task_timeout_seconds;
+    taskTimerInterval = setInterval(() => {
+        remaining--;
+        taskTimerDisplay.textContent = remaining;
+
+        if (remaining <= 0) {
+            clearInterval(taskTimerInterval);
+            taskTimerInterval = null;
+            handleTaskTimeout(interruption, triggerTime);
+        }
+    }, 1000);
+}
+
+// Handle spacebar confirmation during task
+async function handleSpacebarConfirmation() {
+    if (!taskActive || !studyInterruptions) return;
+
+    // Stop timer
+    if (taskTimerInterval) {
+        clearInterval(taskTimerInterval);
+        taskTimerInterval = null;
+    }
+
+    const interruption = studyInterruptions.interruptions[currentTaskIndex];
+    const responseTimeMs = Date.now() - taskStartTime;
+    const userPosition = audio.currentTime;
+    const targetTime = interruption.target_word_time;
+    const distanceSeconds = userPosition - targetTime;
+
+    // Log task completed
+    const taskResult = {
+        taskIndex: currentTaskIndex + 1,
+        targetWord: interruption.target_word,
+        targetTime,
+        userPosition,
+        distanceSeconds,
+        responseTimeMs,
+        outcome: 'spacebar'
+    };
+    sessionTasks.push(taskResult);
+
+    await logStudyEvent('task_completed', taskResult);
+
+    // Hide interruption overlay
+    interruptionOverlay.classList.remove('active');
+
+    // Show feedback
+    showFeedback(true, interruption, taskResult);
+}
+
+// Handle task timeout
+async function handleTaskTimeout(interruption, triggerTime) {
+    const taskResult = {
+        taskIndex: currentTaskIndex + 1,
+        targetWord: interruption.target_word,
+        targetTime: interruption.target_word_time,
+        triggerTime,
+        outcome: 'timeout'
+    };
+    sessionTasks.push(taskResult);
+
+    await logStudyEvent('task_timeout', taskResult);
+
+    // Hide interruption overlay
+    interruptionOverlay.classList.remove('active');
+
+    // Show feedback
+    showFeedback(false, interruption, taskResult, true);
+}
+
+// Show feedback overlay
+function showFeedback(success, interruption, taskResult, isTimeout = false) {
+    feedbackOverlay.classList.remove('success', 'failure');
+
+    if (success) {
+        feedbackContent.textContent = 'Good!';
+        feedbackOverlay.classList.add('success');
+    } else {
+        feedbackContent.textContent = isTimeout ? 'Time Up!' : 'Try Again';
+        feedbackOverlay.classList.add('failure');
+    }
+
+    feedbackOverlay.classList.add('active');
+
+    // Hide after feedback_display_ms and resume
+    setTimeout(() => {
+        feedbackOverlay.classList.remove('active', 'success', 'failure');
+        resumeAfterTask(interruption);
+    }, studyConfig.feedback_display_ms);
+}
+
+// Resume playback after task
+function resumeAfterTask(interruption) {
+    taskActive = false;
+    currentTaskIndex++;
+
+    // Check if all tasks completed
+    if (currentTaskIndex >= studyInterruptions.interruptions.length) {
+        completeStudySession();
+        return;
+    }
+
+    // Resume from resume_offset_seconds before trigger time
+    const triggerTime = interruption.target_word_time + interruption.delay_seconds;
+    const resumeTime = Math.max(0, triggerTime - studyConfig.resume_offset_seconds);
+    audio.currentTime = resumeTime;
+    audio.play();
+}
+
+// Complete study session (all tasks done)
+async function completeStudySession() {
+    const completed = sessionTasks.filter(t => t.outcome === 'spacebar').length;
+    const timeouts = sessionTasks.filter(t => t.outcome === 'timeout').length;
+
+    await logStudyEvent('session_complete', {
+        totalTasks: studyInterruptions.interruptions.length,
+        completed,
+        timeouts,
+        duration: Date.now() - sessionStartTime
+    });
+
+    // Save session summary
+    await fetch('/api/study/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            participant: studyParticipant.value,
+            feature: studyFeature.value,
+            audio: studyAudio.value,
+            sessionStartTime: new Date(sessionStartTime).toISOString(),
+            sessionEndTime: new Date().toISOString(),
+            totalTasks: studyInterruptions.interruptions.length,
+            completed,
+            timeouts,
+            tasks: sessionTasks
+        })
+    });
+
+    alert(`Study session complete!\n\nCompleted: ${completed}\nTimeouts: ${timeouts}`);
+
+    // Reset state
+    studyMode = false;
+    taskActive = false;
+
+    // Update UI
+    document.body.classList.remove('study-active');
+    btnStartStudy.style.display = 'inline-block';
+    btnStopStudy.style.display = 'none';
+}
+
 // Arrow key handler
-document.addEventListener('keydown', async (e) => {
+document.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT') return;
+
+    // Spacebar handling for study mode
+    if (e.code === 'Space' && studyMode && taskActive) {
+        e.preventDefault();
+        handleSpacebarConfirmation();
+        return;
+    }
 
     // Left Arrow: Backward (mode-dependent)
     if (e.code === 'ArrowLeft') {
         e.preventDefault();
 
         switch (currentMode) {
-            case 'continuous':
-                if (!isReversing) {
-                    await startReverse();
-                }
-                break;
             case 'discontinuous':
                 jumpBack();
                 break;
-            case 'speedup':
-                // If already speeding up, restart from current speedup position
-                if (isSpeedingUp) {
-                    // Calculate current position and update audio.currentTime
-                    const currentSpeedupTime = speedupAudio ? speedupAudio.currentTime : 0;
-                    const currentOriginalTime = speedupStartTime + (currentSpeedupTime * speedupRate);
-                    audio.currentTime = currentOriginalTime;
-                    stopSpeedup();
-                }
-                await startSpeedup();
+            case 'keyword':
+                jumpToPreviousKeyword(false);
                 break;
-            case 'semantic':
-                jumpToPreviousKeyword();
+            case 'keyword2':
+                jumpToPreviousKeyword(true);
+                break;
+            case 'word':
+                jumpToPreviousWord();
+                break;
+            case 'sentence':
+                jumpToPreviousSentence();
                 break;
         }
     }
@@ -573,20 +1068,22 @@ document.addEventListener('keydown', async (e) => {
     // Right Arrow: Forward (mode-dependent)
     if (e.code === 'ArrowRight') {
         e.preventDefault();
-        stopReverse();
-        stopSpeedup();
 
         switch (currentMode) {
-            case 'continuous':
-            case 'speedup':
-                resetSemanticIndex();
-                audio.play();
-                break;
             case 'discontinuous':
                 jumpForward();
                 break;
-            case 'semantic':
-                jumpToNextKeyword();
+            case 'keyword':
+                jumpToNextKeyword(false);
+                break;
+            case 'keyword2':
+                jumpToNextKeyword(true);
+                break;
+            case 'word':
+                jumpToNextWord();
+                break;
+            case 'sentence':
+                jumpToNextSentence();
                 break;
         }
     }
@@ -598,11 +1095,16 @@ fileSelect.addEventListener('change', async () => {
     const file = JSON.parse(fileSelect.value);
     currentFilename = file.filename;
     audio.src = `/mp3/${file.filename}`;
-    resetSemanticIndex();
+    resetAllIndices();
+    stopSpeedupReplay();
+    stopWordBackwardMode();
     await loadTranscript(file.video_id);
 });
 
-audio.addEventListener('timeupdate', updateCurrentSegment);
+audio.addEventListener('timeupdate', () => {
+    updateCurrentSegment();
+    checkForInterruption();
+});
 
 Object.keys(modeButtons).forEach(mode => {
     modeButtons[mode].addEventListener('click', () => setMode(mode));
@@ -621,8 +1123,13 @@ jumpSecondsInput.addEventListener('change', () => {
     }
 });
 
+// Study mode event listeners
+btnStartStudy.addEventListener('click', startStudySession);
+btnStopStudy.addEventListener('click', stopStudySession);
+
 // Initialize
 loadFiles();
+loadStudyConfig();
 setMode('discontinuous');
 </script>
 </body>
