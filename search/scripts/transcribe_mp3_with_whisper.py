@@ -22,8 +22,14 @@ def build_parser() -> argparse.ArgumentParser:
         type=Path,
         help="Optional path to write the raw Whisper response as JSON.",
     )
-    parser.add_argument("--model", default="tiny", help="Whisper model name. Default: tiny")
+    parser.add_argument("--model", default="small", help="Whisper model name. Default: small")
     parser.add_argument("--language", default="en", help="Language code. Use empty string for auto.")
+    parser.add_argument(
+        "--beam-size",
+        type=int,
+        default=5,
+        help="Beam size for deterministic decoding. Default: 5",
+    )
     return parser
 
 
@@ -34,7 +40,12 @@ def main() -> None:
         raise SystemExit(f"Audio file not found: {args.input}")
 
     language = args.language or None
-    result = transcribe_file(args.input, model_name=args.model, language=language)
+    result = transcribe_file(
+        args.input,
+        model_name=args.model,
+        language=language,
+        beam_size=args.beam_size,
+    )
 
     print(result.get("text", "").strip())
 

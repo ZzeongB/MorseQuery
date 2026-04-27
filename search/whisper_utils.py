@@ -17,9 +17,10 @@ def load_audio_file(audio_path: str | Path) -> tuple[list[float], int]:
 def transcribe_file(
     audio_path: str | Path,
     *,
-    model_name: str = "tiny",
+    model_name: str = "small",
     language: str | None = "en",
     word_timestamps: bool = True,
+    beam_size: int = 5,
 ) -> dict[str, Any]:
     """Transcribe an audio file and return the raw Whisper result."""
     model = whisper.load_model(model_name)
@@ -28,6 +29,7 @@ def transcribe_file(
         language=language,
         word_timestamps=word_timestamps,
         verbose=False,
+        beam_size=beam_size,
         condition_on_previous_text=False,
         temperature=0.0,
     )

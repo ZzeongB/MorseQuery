@@ -86,6 +86,29 @@ def normalize_tokens(text: str) -> list[str]:
     return TERM_RE.findall(text.lower())
 
 
+def canonicalize_token(token: str) -> str:
+    if token.endswith("'s") and len(token) > 2:
+        token = token[:-2]
+    elif token.endswith("s'") and len(token) > 2:
+        token = token[:-1]
+
+    if len(token) <= 3:
+        return token
+    if token.endswith("ies") and len(token) > 4:
+        return f"{token[:-3]}y"
+    if token.endswith("sses") or token.endswith("ss"):
+        return token
+    if token.endswith(("us", "is")):
+        return token
+    if token.endswith("s"):
+        return token[:-1]
+    return token
+
+
+def normalize_canonical_tokens(text: str) -> list[str]:
+    return [canonicalize_token(token) for token in normalize_tokens(text)]
+
+
 def read_transcript(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -101,7 +124,7 @@ def transcript_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
             words.append(
                 {
                     "raw": raw_word,
-                    "normalized": tokens[0],
+                    "normalized": canonicalize_token(tokens[0]),
                     "start": word.get("start"),
                 }
             )
@@ -120,7 +143,7 @@ def iter_segment_batches(
 
 
 def find_term_start(term: str, words: list[dict[str, Any]]) -> float | None:
-    term_tokens = normalize_tokens(term)
+    term_tokens = normalize_canonical_tokens(term)
     if not term_tokens:
         return None
 
@@ -211,7 +234,7 @@ def extract_semantic_words(
         )
 
         for term in candidate_terms:
-            normalized_term = " ".join(normalize_tokens(term))
+            normalized_term = " ".join(normalize_canonical_tokens(term))
             if not normalized_term or normalized_term in seen_terms:
                 continue
             if " " in normalized_term:
