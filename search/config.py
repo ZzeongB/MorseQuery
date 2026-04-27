@@ -17,12 +17,14 @@ def _prefer_search_dir(relative_path: str) -> Path:
     return LEGACY_DATA_DIR / relative_path
 
 
-MP3_DIR = SEARCH_DATA_DIR / "mp3" if (SEARCH_DATA_DIR / "mp3").exists() else REPO_ROOT / "mp3"
+MP3_DIR = (
+    SEARCH_DATA_DIR / "mp3" if (SEARCH_DATA_DIR / "mp3").exists() else REPO_ROOT / "mp3"
+)
 TRANSCRIPT_DIR = _prefer_search_dir("transcripts")
-KEYWORDS_DIR = _prefer_search_dir("keywords")
-KEYWORDS2_DIR = _prefer_search_dir("keywords2")
+KEYWORDS_DIR = _prefer_search_dir("semantic_words")
+KEYWORDS2_DIR = _prefer_search_dir("semantic_words")
 LEXICON_PATH = _prefer_search_dir("lexicon/OpenLexicon.xlsx")
-STUDY_DIR = _prefer_search_dir("study")
-INTERRUPTIONS_DIR = _prefer_search_dir("interruptions")
+STUDY_DIR = SEARCH_DATA_DIR / "study"
+INTERRUPTIONS_DIR = STUDY_DIR / "target_words"
 LOGS_DIR = SEARCH_DIR / "logs" / "study"
 WORD_CLIPS_DIR = _prefer_search_dir("word_clips")

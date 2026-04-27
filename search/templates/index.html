@@ -49,50 +49,14 @@
     </div>
 
     <div class="section">
-        <label>File: </label>
-        <select id="file-select">
-            <option value="">-- Select --</option>
-        </select>
-    </div>
-
-    <div class="section">
         <audio id="audio-player" controls></audio>
         <div id="time-display">0:00 / 0:00</div>
-    </div>
-
-    <div class="section mode-buttons">
-        <label>Mode: </label>
-        <button id="mode-discontinuous" class="active">Discontinuous</button>
-        <button id="mode-keyword">Keyword</button>
-        <button id="mode-keyword2">Keyword2</button>
-        <button id="mode-word">Word</button>
-        <button id="mode-sentence">Sentence</button>
-
-        <div id="jump-back-setting" style="display:none;">
-            <label>Jump: </label>
-            <input type="number" id="jump-seconds" value="15" min="1" max="60"> sec
-        </div>
-    </div>
-
-    <div class="section" id="global-speedup-setting">
-        <input type="checkbox" id="replay-speedup-enabled">
-        <label for="replay-speedup-enabled">Speed-up on replay:</label>
-        <input type="number" id="replay-speedup-rate" value="1.5" min="1.1" max="3.0" step="0.1">x
-    </div>
-
-    <div class="section">
-        <button id="toggle-transcript">Show Transcript</button>
     </div>
 
     <div id="transcript" style="display:none;"></div>
 
     <div id="instructions">
         <b>← Left Arrow:</b> Backward / <b>→ Right Arrow:</b> Forward<br>
-        <hr style="margin: 5px 0; border: none; border-top: 1px solid #ccc;">
-        - Discontinuous: ← Jump back X sec / → Jump forward X sec<br>
-        - Keyword/Keyword2: ← Previous keyword / → Next keyword<br>
-        - Word: ← Previous word (then forward play) / → Next word<br>
-        - Sentence: ← Previous sentence / → Next sentence
     </div>
 
 <script src="{{ url_for('static', filename='js/index.js') }}"></script>
