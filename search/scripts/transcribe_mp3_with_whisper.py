@@ -15,15 +15,23 @@ from whisper_utils import transcribe_file
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Transcribe an audio file with openai-whisper.")
-    parser.add_argument("--input", type=Path, required=True, help="Path to the input audio file.")
+    parser = argparse.ArgumentParser(
+        description="Transcribe an audio file with openai-whisper."
+    )
+    parser.add_argument(
+        "--input", type=Path, required=True, help="Path to the input audio file."
+    )
     parser.add_argument(
         "--output-json",
         type=Path,
         help="Optional path to write the raw Whisper response as JSON.",
     )
-    parser.add_argument("--model", default="small", help="Whisper model name. Default: small")
-    parser.add_argument("--language", default="en", help="Language code. Use empty string for auto.")
+    parser.add_argument(
+        "--model", default="turbo", help="Whisper model name. Default: small"
+    )
+    parser.add_argument(
+        "--language", default="en", help="Language code. Use empty string for auto."
+    )
     parser.add_argument(
         "--beam-size",
         type=int,

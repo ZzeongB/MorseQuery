@@ -21,6 +21,7 @@ MP3_DIR = (
     SEARCH_DATA_DIR / "mp3" if (SEARCH_DATA_DIR / "mp3").exists() else REPO_ROOT / "mp3"
 )
 TRANSCRIPT_DIR = _prefer_search_dir("transcripts")
+SENTENCES_DIR = SEARCH_DATA_DIR / "sentences"
 KEYWORDS_DIR = _prefer_search_dir("semantic_words")
 KEYWORDS2_DIR = _prefer_search_dir("semantic_words")
 LEXICON_PATH = _prefer_search_dir("lexicon/OpenLexicon.xlsx")

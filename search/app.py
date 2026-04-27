@@ -16,6 +16,7 @@ from config import (
     LEXICON_PATH,
     LOGS_DIR,
     MP3_DIR,
+    SENTENCES_DIR,
     STUDY_DIR,
     TRANSCRIPT_DIR,
 )
@@ -260,6 +261,77 @@ def extract_keywords(text: str, top_k: int = 3) -> list[str]:
     return result
 
 
+def build_sentence_units(segments: list[dict]) -> list[dict]:
+    """Build sentence-wise units using period-delimited word timestamps."""
+    units = []
+    current_words = []
+    current_start = None
+    fallback_segment_start = None
+    fallback_segment_end = None
+
+    def flush_sentence():
+        nonlocal current_words, current_start, fallback_segment_start, fallback_segment_end
+        if not current_words:
+            return
+
+        last_word = current_words[-1]
+        units.append(
+            {
+                "text": " ".join(word["word"] for word in current_words).strip(),
+                "start": current_start if current_start is not None else fallback_segment_start or 0,
+                "end": last_word.get("end", fallback_segment_end or current_start or 0),
+            }
+        )
+
+        current_words = []
+        current_start = None
+        fallback_segment_start = None
+        fallback_segment_end = None
+
+    for seg in segments:
+        words = seg.get("words", [])
+        if not words:
+            flush_sentence()
+            units.append(
+                {
+                    "text": seg["text"],
+                    "start": seg["start"],
+                    "end": seg["end"],
+                }
+            )
+            continue
+
+        for word in words:
+            if not current_words:
+                current_start = word["start"]
+                fallback_segment_start = seg["start"]
+
+            fallback_segment_end = seg["end"]
+            current_words.append(word)
+
+            if "." in word["word"]:
+                flush_sentence()
+
+    flush_sentence()
+    return units
+
+
+def load_or_create_sentences(video_id: str, segments: list[dict]) -> list[dict]:
+    """Load sentence cache or create it from transcript segments."""
+    SENTENCES_DIR.mkdir(parents=True, exist_ok=True)
+    sentence_path = SENTENCES_DIR / f"{video_id}.json"
+
+    if sentence_path.exists():
+        with open(sentence_path) as f:
+            return json.load(f)
+
+    sentences = build_sentence_units(segments)
+    with open(sentence_path, "w") as f:
+        json.dump(sentences, f, indent=2)
+
+    return sentences
+
+
 def parse_clip_times(filename: str) -> tuple[float, float]:
     """Parse clip start/end times from filename like 'xxx_clip_680_1010.mp3'."""
     match = re.search(r"_clip_(\d+)_(\d+)", filename)
@@ -355,11 +427,14 @@ def get_transcript(video_id: str):
         with open(keywords2_path) as f:
             custom_keywords2 = json.load(f)
 
+    sentences = load_or_create_sentences(video_id, segments)
+
     return jsonify(
         {
             "video_id": video_id,
             "clip_start": clip_start,
             "segments": segments,
+            "sentences": sentences,
             "custom_keywords": custom_keywords,
             "custom_keywords2": custom_keywords2,
         }

@@ -20,6 +20,8 @@ const taskTotalDisplay = document.getElementById('task-total');
 const taskTimerDisplay = document.getElementById('task-timer');
 const feedbackOverlay = document.getElementById('feedback-overlay');
 const feedbackContent = document.getElementById('feedback-content');
+const prepOverlay = document.getElementById('prep-overlay');
+const prepCountDisplay = document.getElementById('prep-count-display');
 
 const modeButtons = {
     discontinuous: document.getElementById('mode-discontinuous'),
@@ -34,6 +36,8 @@ let transcript = null;
 let customKeywords = [];
 let customKeywords2 = [];
 let allWords = [];
+let navigableWords = [];
+let sentenceUnits = [];
 let currentFilename = null;
 let currentVideoId = null;
 
@@ -41,6 +45,12 @@ let keywordIndex = -1;
 let keyword2Index = -1;
 let wordIndex = -1;
 let sentenceIndex = -1;
+let navigationAnchorPending = {
+    keyword: false,
+    keyword2: false,
+    word: false,
+    sentence: false,
+};
 
 let isSpeedupReplay = false;
 let speedupReplayAudio = null;
@@ -57,9 +67,12 @@ let taskStartTime = null;
 let taskTimerInterval = null;
 let sessionStartTime = null;
 let sessionTasks = [];
+let activeTargetTime = null;
 let maxPlayedTime = 0;
 let suppressNextSeekLog = false;
 let lastLoggedAudioTime = 0;
+let prepCountdownInterval = null;
+let prepCountdownTimeout = null;
 
 const FREQ_SKIP_THRESHOLD = 4.0;
 
@@ -121,8 +134,11 @@ async function loadTranscript(videoId) {
             }
         });
     }
+    navigableWords = allWords.filter((w) => !shouldSkipWord(w));
+    sentenceUnits = transcript.sentences || buildSentenceUnits();
 
     resetAllIndices();
+    syncNavigationIndices(audio.currentTime || 0);
     renderTranscript();
 }
 
@@ -131,6 +147,12 @@ function resetAllIndices() {
     keyword2Index = -1;
     wordIndex = -1;
     sentenceIndex = -1;
+    navigationAnchorPending = {
+        keyword: false,
+        keyword2: false,
+        word: false,
+        sentence: false,
+    };
 }
 
 function shouldSkipWord(wordObj) {
@@ -138,6 +160,114 @@ function shouldSkipWord(wordObj) {
     if (normalized.length <= 2) return true;
     if (wordObj.freq >= FREQ_SKIP_THRESHOLD) return true;
     return false;
+}
+
+function buildSentenceUnits() {
+    if (!transcript || !transcript.segments) return [];
+
+    const units = [];
+    let currentWords = [];
+    let currentStart = null;
+    let fallbackSegmentStart = null;
+    let fallbackSegmentEnd = null;
+
+    const flushSentence = () => {
+        if (currentWords.length === 0) return;
+
+        const lastWord = currentWords[currentWords.length - 1];
+        units.push({
+            text: currentWords.map((w) => w.word).join(' ').trim(),
+            start: currentStart ?? fallbackSegmentStart ?? 0,
+            end: lastWord.end ?? fallbackSegmentEnd ?? currentStart ?? 0,
+        });
+
+        currentWords = [];
+        currentStart = null;
+        fallbackSegmentStart = null;
+        fallbackSegmentEnd = null;
+    };
+
+    transcript.segments.forEach((seg) => {
+        const segmentWords = seg.words || [];
+
+        if (segmentWords.length === 0) {
+            flushSentence();
+            units.push({
+                text: seg.text,
+                start: seg.start,
+                end: seg.end,
+            });
+            return;
+        }
+
+        segmentWords.forEach((word) => {
+            if (currentWords.length === 0) {
+                currentStart = word.start;
+                fallbackSegmentStart = seg.start;
+            }
+
+            fallbackSegmentEnd = seg.end;
+            currentWords.push(word);
+
+            if (word.word.includes('.')) {
+                flushSentence();
+            }
+        });
+    });
+
+    flushSentence();
+    return units;
+}
+
+function findNearestIndex(items, targetTime, getTime) {
+    if (!items || items.length === 0) return -1;
+
+    let bestIndex = 0;
+    let bestDistance = Math.abs(getTime(items[0]) - targetTime);
+
+    for (let i = 1; i < items.length; i += 1) {
+        const distance = Math.abs(getTime(items[i]) - targetTime);
+        if (distance < bestDistance) {
+            bestDistance = distance;
+            bestIndex = i;
+        }
+    }
+
+    return bestIndex;
+}
+
+function syncNavigationIndices(targetTime = audio.currentTime) {
+    keywordIndex = findNearestIndex(customKeywords, targetTime, (item) => item.time);
+    keyword2Index = findNearestIndex(customKeywords2, targetTime, (item) => item.time);
+    wordIndex = findNearestIndex(navigableWords, targetTime, (item) => item.start);
+    sentenceIndex = findNearestIndex(sentenceUnits, targetTime, (item) => item.start);
+    navigationAnchorPending = {
+        keyword: keywordIndex >= 0,
+        keyword2: keyword2Index >= 0,
+        word: wordIndex >= 0,
+        sentence: sentenceIndex >= 0,
+    };
+}
+
+function getIndexedTarget(items, currentIndex, currentTime, getTime, direction, useAnchor = false) {
+    if (!items || items.length === 0) return { targetIndex: -1, target: null };
+
+    const safeIndex = currentIndex >= 0 ? currentIndex : findNearestIndex(items, currentTime, getTime);
+    if (safeIndex < 0) return { targetIndex: -1, target: null };
+
+    let targetIndex = safeIndex;
+    if (!useAnchor) {
+        if (direction < 0) {
+            targetIndex = Math.max(0, safeIndex - 1);
+        } else if (direction > 0) {
+            targetIndex = Math.min(items.length - 1, safeIndex + 1);
+        }
+    }
+
+    return {
+        targetIndex,
+        target: items[targetIndex],
+    };
 }
 
 function renderTranscript() {
@@ -185,9 +315,9 @@ function renderTranscript() {
         html += '</div>';
         transcriptDiv.innerHTML = html;
     } else if (currentMode === 'sentence') {
-        transcriptDiv.innerHTML = transcript.segments.map((seg, i) => (
-            `<div class="segment" data-seg-idx="${i}" data-start="${seg.start}" data-end="${seg.end}">
-                <span class="time">[${formatTime(seg.start)}]</span> ${seg.text}
+        transcriptDiv.innerHTML = sentenceUnits.map((sentence, i) => (
+            `<div class="segment" data-seg-idx="${i}" data-start="${sentence.start}" data-end="${sentence.end}">
+                <span class="time">[${formatTime(sentence.start)}]</span> ${sentence.text}
             </div>`
         )).join('');
     }
@@ -233,6 +363,7 @@ function setMode(mode) {
     stopSpeedupReplay();
     stopWordBackwardMode();
     resetAllIndices();
+    syncNavigationIndices(activeTargetTime ?? audio.currentTime ?? 0);
     renderTranscript();
 }
 
@@ -277,31 +408,30 @@ function jumpForward() {
 
 function jumpToPreviousKeyword(useKeyword2 = false) {
     const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+    const anchorKey = useKeyword2 ? 'keyword2' : 'keyword';
 
     if (keywords.length === 0) return;
 
     const currentTime = audio.currentTime;
-    let currentIdx = -1;
+    const activeIndex = useKeyword2 ? keyword2Index : keywordIndex;
+    const { targetIndex, target } = getIndexedTarget(
+        keywords,
+        activeIndex,
+        currentTime,
+        (item) => item.time,
+        -1,
+        navigationAnchorPending[anchorKey],
+    );
+    if (!target) return;
 
-    for (let i = keywords.length - 1; i >= 0; i -= 1) {
-        if (keywords[i].time < currentTime - 0.1) {
-            currentIdx = i;
-            break;
-        }
-    }
+    navigationAnchorPending[anchorKey] = false;
+    if (useKeyword2) keyword2Index = targetIndex;
+    else keywordIndex = targetIndex;
 
-    if (currentIdx === -1) currentIdx = 0;
-
-    if (currentIdx < 0) currentIdx = 0;
-
-    if (useKeyword2) keyword2Index = currentIdx;
-    else keywordIndex = currentIdx;
-
-    const target = keywords[currentIdx];
-    setAudioTime(target.time - 0.3, useKeyword2 ? 'keyword2_prev' : 'keyword_prev', {
+    setAudioTime(target.time - 0.5, useKeyword2 ? 'keyword2_prev' : 'keyword_prev', {
         keyword: target.word,
         keywordTime: target.time,
-        keywordIndex: currentIdx,
+        keywordIndex: targetIndex,
     });
     applySearchPlaybackRate();
     audio.play();
@@ -309,76 +439,66 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
 
 function jumpToNextKeyword(useKeyword2 = false) {
     const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+    const anchorKey = useKeyword2 ? 'keyword2' : 'keyword';
 
     if (keywords.length === 0) return;
 
     const currentTime = audio.currentTime;
+    const activeIndex = useKeyword2 ? keyword2Index : keywordIndex;
+    const { targetIndex, target } = getIndexedTarget(
+        keywords,
+        activeIndex,
+        currentTime,
+        (item) => item.time,
+        1,
+        navigationAnchorPending[anchorKey],
+    );
+    if (!target || target.time > getMaxSeekTime() + 0.5) return;
 
-    for (let i = 0; i < keywords.length; i += 1) {
-        if (keywords[i].time > currentTime + 0.1 && keywords[i].time <= getMaxSeekTime() + 0.3) {
-            setAudioTime(keywords[i].time - 0.3, useKeyword2 ? 'keyword2_next' : 'keyword_next', {
-                keyword: keywords[i].word,
-                keywordTime: keywords[i].time,
-                keywordIndex: i,
-            });
-            if (useKeyword2) keyword2Index = i;
-            else keywordIndex = i;
-            applySearchPlaybackRate();
-            audio.play();
-            return;
-        }
-    }
+    navigationAnchorPending[anchorKey] = false;
+    setAudioTime(target.time - 0.5, useKeyword2 ? 'keyword2_next' : 'keyword_next', {
+        keyword: target.word,
+        keywordTime: target.time,
+        keywordIndex: targetIndex,
+    });
+    if (useKeyword2) keyword2Index = targetIndex;
+    else keywordIndex = targetIndex;
+    applySearchPlaybackRate();
+    audio.play();
 }
 
 function jumpToPreviousWord() {
-    if (allWords.length === 0) return;
+    if (navigableWords.length === 0) return;
 
-    const currentTime = audio.currentTime;
+    const { targetIndex, target } = getIndexedTarget(
+        navigableWords,
+        wordIndex,
+        audio.currentTime,
+        (item) => item.start,
+        -1,
+        navigationAnchorPending.word,
+    );
+    if (!target) return;
 
-    if (wordIndex === -1) {
-        for (let i = allWords.length - 1; i >= 0; i -= 1) {
-            if (allWords[i].start < currentTime - 0.3) {
-                wordIndex = i;
-                break;
-            }
-        }
-        if (wordIndex === -1) wordIndex = 0;
-    } else {
-        let newIndex = wordIndex - 1;
-        while (newIndex > 0 && shouldSkipWord(allWords[newIndex])) {
-            newIndex -= 1;
-        }
-        if (newIndex >= 0) wordIndex = newIndex;
-    }
-
-    const target = allWords[wordIndex];
+    navigationAnchorPending.word = false;
+    wordIndex = targetIndex;
     setAudioTime(target.start, 'word_prev', {
         word: target.word,
         wordStart: target.start,
-        wordIndex,
+        wordIndex: targetIndex,
     });
     applySearchPlaybackRate();
     audio.play();
 }
 
 function jumpToPreviousWordAuto() {
-    if (allWords.length === 0 || wordIndex <= 0) {
+    if (navigableWords.length === 0 || wordIndex <= 0) {
         stopWordBackwardMode();
         return;
     }
 
-    let newIndex = wordIndex - 1;
-    while (newIndex > 0 && shouldSkipWord(allWords[newIndex])) {
-        newIndex -= 1;
-    }
-
-    if (newIndex < 0) {
-        stopWordBackwardMode();
-        return;
-    }
-
-    wordIndex = newIndex;
-    const target = allWords[wordIndex];
+    wordIndex -= 1;
+    const target = navigableWords[wordIndex];
     setAudioTime(target.start, 'word_prev_auto', {
         word: target.word,
         wordStart: target.start,
@@ -388,54 +508,48 @@ function jumpToPreviousWordAuto() {
 }
 
 function jumpToNextWord() {
-    if (allWords.length === 0) return;
+    if (navigableWords.length === 0) return;
 
     stopWordBackwardMode();
 
-    const currentTime = audio.currentTime;
+    const { targetIndex, target } = getIndexedTarget(
+        navigableWords,
+        wordIndex,
+        audio.currentTime,
+        (item) => item.start,
+        1,
+        navigationAnchorPending.word,
+    );
+    if (!target || target.start > getMaxSeekTime()) return;
 
-    for (let i = 0; i < allWords.length; i += 1) {
-        if (
-            allWords[i].start > currentTime + 0.1
-            && allWords[i].start <= getMaxSeekTime()
-            && !shouldSkipWord(allWords[i])
-        ) {
-            setAudioTime(allWords[i].start, 'word_next', {
-                word: allWords[i].word,
-                wordStart: allWords[i].start,
-                wordIndex: i,
-            });
-            wordIndex = -1;
-            applySearchPlaybackRate();
-            audio.play();
-            return;
-        }
-    }
+    navigationAnchorPending.word = false;
+    setAudioTime(target.start, 'word_next', {
+        word: target.word,
+        wordStart: target.start,
+        wordIndex: targetIndex,
+    });
+    wordIndex = targetIndex;
+    applySearchPlaybackRate();
+    audio.play();
 }
 
 function jumpToPreviousSentence() {
-    if (!transcript || !transcript.segments || transcript.segments.length === 0) return;
+    if (sentenceUnits.length === 0) return;
 
-    const currentTime = audio.currentTime;
-    const { segments } = transcript;
-
-    if (sentenceIndex === -1) {
-        for (let i = segments.length - 1; i >= 0; i -= 1) {
-            if (segments[i].start < currentTime - 0.5) {
-                sentenceIndex = i;
-                break;
-            }
-        }
-        if (sentenceIndex === -1) sentenceIndex = 0;
-    } else {
-        sentenceIndex -= 1;
-    }
-
-    if (sentenceIndex < 0) sentenceIndex = 0;
-
-    const target = segments[sentenceIndex];
-    setAudioTime(target.start, 'sentence_prev', {
+    const { targetIndex, target } = getIndexedTarget(
+        sentenceUnits,
         sentenceIndex,
+        audio.currentTime,
+        (item) => item.start,
+        -1,
+        navigationAnchorPending.sentence,
+    );
+    if (!target) return;
+
+    navigationAnchorPending.sentence = false;
+    sentenceIndex = targetIndex;
+    setAudioTime(target.start, 'sentence_prev', {
+        sentenceIndex: targetIndex,
         sentenceStart: target.start,
     });
     applySearchPlaybackRate();
@@ -443,23 +557,26 @@ function jumpToPreviousSentence() {
 }
 
 function jumpToNextSentence() {
-    if (!transcript || !transcript.segments || transcript.segments.length === 0) return;
+    if (sentenceUnits.length === 0) return;
 
-    const currentTime = audio.currentTime;
-    const { segments } = transcript;
+    const { targetIndex, target } = getIndexedTarget(
+        sentenceUnits,
+        sentenceIndex,
+        audio.currentTime,
+        (item) => item.start,
+        1,
+        navigationAnchorPending.sentence,
+    );
+    if (!target || target.start > getMaxSeekTime()) return;
 
-    for (let i = 0; i < segments.length; i += 1) {
-        if (segments[i].start > currentTime + 0.1 && segments[i].start <= getMaxSeekTime()) {
-            setAudioTime(segments[i].start, 'sentence_next', {
-                sentenceIndex: i,
-                sentenceStart: segments[i].start,
-            });
-            sentenceIndex = -1;
-            applySearchPlaybackRate();
-            audio.play();
-            return;
-        }
-    }
+    navigationAnchorPending.sentence = false;
+    setAudioTime(target.start, 'sentence_next', {
+        sentenceIndex: targetIndex,
+        sentenceStart: target.start,
+    });
+    sentenceIndex = targetIndex;
+    applySearchPlaybackRate();
+    audio.play();
 }
 
 async function loadStudyConfig() {
@@ -582,13 +699,23 @@ async function startStudySession() {
 }
 
 async function stopStudySession() {
+    activeTargetTime = null;
     if (taskTimerInterval) {
         clearInterval(taskTimerInterval);
         taskTimerInterval = null;
     }
+    if (prepCountdownInterval) {
+        clearInterval(prepCountdownInterval);
+        prepCountdownInterval = null;
+    }
+    if (prepCountdownTimeout) {
+        clearTimeout(prepCountdownTimeout);
+        prepCountdownTimeout = null;
+    }
 
     interruptionOverlay.classList.remove('active');
     feedbackOverlay.classList.remove('active', 'success', 'failure');
+    prepOverlay.classList.remove('active');
     audio.pause();
 
     const completed = sessionTasks.filter((t) => t.outcome === 'spacebar').length;
@@ -641,9 +768,11 @@ function checkForInterruption() {
 async function triggerInterruption(interruption, triggerTime) {
     taskActive = true;
     taskStartTime = Date.now();
+    activeTargetTime = audio.currentTime;
 
     stopSpeedupReplay();
     audio.pause();
+    syncNavigationIndices(activeTargetTime);
 
     taskNumberDisplay.textContent = currentTaskIndex + 1;
     targetWordDisplay.textContent = interruption.target_word;
@@ -679,6 +808,9 @@ async function handleSpacebarConfirmation() {
         taskTimerInterval = null;
     }
 
+    stopSpeedupReplay();
+    audio.pause();
+
     const interruption = studyInterruptions.interruptions[currentTaskIndex];
     const responseTimeMs = Date.now() - taskStartTime;
     const userPosition = audio.currentTime;
@@ -698,9 +830,9 @@ async function handleSpacebarConfirmation() {
 
     await logStudyEvent('task_completed', taskResult);
 
-    stopSpeedupReplay();
     interruptionOverlay.classList.remove('active');
-    showFeedback(true, interruption, taskResult);
+    feedbackOverlay.classList.remove('active', 'success', 'failure');
+    resumeAfterTask(interruption);
 }
 
 async function handleTaskTimeout(interruption, triggerTime) {
@@ -742,6 +874,7 @@ function showFeedback(success, interruption, taskResult, isTimeout = false) {
 function resumeAfterTask(interruption) {
     stopSpeedupReplay();
     taskActive = false;
+    activeTargetTime = null;
     currentTaskIndex += 1;
 
     if (currentTaskIndex >= studyInterruptions.interruptions.length) {
@@ -751,19 +884,52 @@ function resumeAfterTask(interruption) {
 
     const triggerTime = interruption.target_word_time + interruption.delay_seconds;
     const resumeTime = Math.max(0, triggerTime - studyConfig.resume_offset_seconds);
-    setAudioTime(resumeTime, 'task_resume', {
+    const actualResumeTime = setAudioTime(resumeTime, 'task_resume', {
         targetWord: interruption.target_word,
         triggerTime,
     });
-    const prepDelayMs = (studyConfig.prep_delay_seconds ?? 3) * 1000;
-    setTimeout(() => {
+    syncNavigationIndices(actualResumeTime);
+    audio.pause();
+
+    const prepDelaySeconds = studyConfig.prep_delay_seconds ?? 3;
+    let remaining = prepDelaySeconds;
+    prepCountDisplay.textContent = remaining;
+    prepOverlay.classList.add('active');
+
+    if (prepCountdownInterval) clearInterval(prepCountdownInterval);
+    if (prepCountdownTimeout) clearTimeout(prepCountdownTimeout);
+
+    prepCountdownInterval = setInterval(() => {
+        remaining -= 1;
+        if (remaining > 0) {
+            prepCountDisplay.textContent = remaining;
+        }
+    }, 1000);
+
+    prepCountdownTimeout = setTimeout(() => {
+        if (prepCountdownInterval) {
+            clearInterval(prepCountdownInterval);
+            prepCountdownInterval = null;
+        }
+        prepCountdownTimeout = null;
+        prepOverlay.classList.remove('active');
         if (!studyMode || taskActive) return;
         audio.play();
-    }, prepDelayMs);
+    }, prepDelaySeconds * 1000);
 }
 
 async function completeStudySession() {
     stopSpeedupReplay();
+    activeTargetTime = null;
+    if (prepCountdownInterval) {
+        clearInterval(prepCountdownInterval);
+        prepCountdownInterval = null;
+    }
+    if (prepCountdownTimeout) {
+        clearTimeout(prepCountdownTimeout);
+        prepCountdownTimeout = null;
+    }
+    prepOverlay.classList.remove('active');
     const completed = sessionTasks.filter((t) => t.outcome === 'spacebar').length;
     const timeouts = sessionTasks.filter((t) => t.outcome === 'timeout').length;
 
@@ -794,6 +960,7 @@ async function completeStudySession() {
 
     studyMode = false;
     taskActive = false;
+    activeTargetTime = null;
 
     document.body.classList.remove('study-active');
     btnStartStudy.style.display = 'inline-block';
@@ -887,11 +1054,12 @@ audio.addEventListener('seeking', () => {
 });
 
 audio.addEventListener('seeked', () => {
-    if (!studyMode) return;
     if (suppressNextSeekLog) {
         suppressNextSeekLog = false;
         return;
     }
+    syncNavigationIndices(audio.currentTime);
+    if (!studyMode) return;
     logNavigationEvent('manual_seek', lastLoggedAudioTime, audio.currentTime);
 });
 
