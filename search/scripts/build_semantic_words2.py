@@ -69,6 +69,12 @@ def main():
         default=None,
         help="Optional random seed for reproducible output",
     )
+    parser.add_argument(
+        "--stems",
+        nargs="*",
+        default=None,
+        help="Optional list of file stems to process",
+    )
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
@@ -77,7 +83,12 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    for target_path in sorted(target_dir.glob("*.json")):
+    target_paths = sorted(target_dir.glob("*.json"))
+    if args.stems:
+        allowed_stems = set(args.stems)
+        target_paths = [path for path in target_paths if path.stem in allowed_stems]
+
+    for target_path in target_paths:
         stem = target_path.stem
         semantic_path = semantic_dir / f"{stem}.json"
         if not semantic_path.exists():

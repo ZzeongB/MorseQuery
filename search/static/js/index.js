@@ -22,8 +22,6 @@ const feedbackOverlay = document.getElementById('feedback-overlay');
 const feedbackContent = document.getElementById('feedback-content');
 const prepOverlay = document.getElementById('prep-overlay');
 const prepCountDisplay = document.getElementById('prep-count-display');
-const blockedNavCue = document.getElementById('blocked-nav-cue');
-
 const modeButtons = {
     discontinuous: document.getElementById('mode-discontinuous'),
     keyword: document.getElementById('mode-keyword'),
@@ -77,7 +75,6 @@ let prepCountdownInterval = null;
 let prepCountdownTimeout = null;
 let blockedSeekAudioContext = null;
 let lastBlockedSeekCueAt = 0;
-let blockedNavCueTimeout = null;
 let lastListeningStartedAt = null;
 let lastListeningAudioTime = 0;
 
@@ -172,31 +169,39 @@ function playBlockedSeekCue() {
 
     const context = blockedSeekAudioContext;
     const startAt = context.currentTime;
-    const oscillator = context.createOscillator();
-    const gain = context.createGain();
+    const notes = [
+        { frequency: 1568, duration: 0.1, delay: 0 },
+        { frequency: 2093, duration: 0.16, delay: 0.11 },
+    ];
+    const voices = [
+        { type: 'triangle', detune: 0, gain: 0.26 },
+        { type: 'sawtooth', detune: -8, gain: 0.08 },
+        { type: 'sine', detune: 7, gain: 0.06 },
+    ];
 
-    oscillator.type = 'triangle';
-    oscillator.frequency.setValueAtTime(1800, startAt);
-    gain.gain.setValueAtTime(0.0001, startAt);
-    gain.gain.linearRampToValueAtTime(0.12, startAt + 0.002);
-    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.03);
+    notes.forEach(({ frequency, duration, delay }) => {
+        const noteStart = startAt + delay;
+        voices.forEach(({ type, detune, gain: peakGain }) => {
+            const oscillator = context.createOscillator();
+            const gain = context.createGain();
 
-    oscillator.connect(gain);
-    gain.connect(context.destination);
-    oscillator.start(startAt);
-    oscillator.stop(startAt + 0.03);
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, noteStart);
+            oscillator.detune.setValueAtTime(detune, noteStart);
+            gain.gain.setValueAtTime(0.0001, noteStart);
+            gain.gain.linearRampToValueAtTime(peakGain, noteStart + 0.01);
+            gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + duration);
+
+            oscillator.connect(gain);
+            gain.connect(context.destination);
+            oscillator.start(noteStart);
+            oscillator.stop(noteStart + duration);
+        });
+    });
 }
 
 function showBlockedNavigationCue() {
-    if (!blockedNavCue) return;
-    blockedNavCue.classList.add('active');
-    if (blockedNavCueTimeout) {
-        clearTimeout(blockedNavCueTimeout);
-    }
-    blockedNavCueTimeout = setTimeout(() => {
-        blockedNavCue.classList.remove('active');
-        blockedNavCueTimeout = null;
-    }, 240);
+    playBlockedSeekCue();
 }
 
 function blockForwardNavigation(action, extra = {}) {
@@ -525,7 +530,12 @@ function applySearchPlaybackRate() {
 function jumpBack() {
     const seconds = jumpSecondsInput ? (parseInt(jumpSecondsInput.value, 10) || 15) : 15;
     if (setAudioTimeFromArrow(audio.currentTime - seconds, 'jump_back', 'jump_back_blocked', { seconds }) === null) {
-        return;
+        const interval = getActiveSearchInterval();
+        if (!interval) return;
+        setAudioTime(interval.min, 'jump_back_to_interval_start', {
+            seconds,
+            intervalStart: interval.min,
+        });
     }
     applySearchPlaybackRate();
     audio.play();
