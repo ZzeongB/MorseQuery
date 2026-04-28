@@ -527,15 +527,20 @@ function applySearchPlaybackRate() {
     }
 }
 
+function moveToSearchIntervalStart(action, extra = {}) {
+    const interval = getActiveSearchInterval();
+    if (!interval) return false;
+    setAudioTime(interval.min, action, {
+        intervalStart: interval.min,
+        ...extra,
+    });
+    return true;
+}
+
 function jumpBack() {
     const seconds = jumpSecondsInput ? (parseInt(jumpSecondsInput.value, 10) || 15) : 15;
     if (setAudioTimeFromArrow(audio.currentTime - seconds, 'jump_back', 'jump_back_blocked', { seconds }) === null) {
-        const interval = getActiveSearchInterval();
-        if (!interval) return;
-        setAudioTime(interval.min, 'jump_back_to_interval_start', {
-            seconds,
-            intervalStart: interval.min,
-        });
+        if (!moveToSearchIntervalStart('jump_back_to_interval_start', { seconds })) return;
     }
     applySearchPlaybackRate();
     audio.play();
@@ -574,9 +579,17 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
         navigationAnchorPending[anchorKey],
     );
     if (blocked) {
-        blockNavigation(useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked', currentTime, {
-            keywordIndex: activeIndex,
-        });
+        if (!moveToSearchIntervalStart(
+            useKeyword2 ? 'keyword2_prev_to_interval_start' : 'keyword_prev_to_interval_start',
+            { keywordIndex: activeIndex },
+        )) {
+            blockNavigation(useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked', currentTime, {
+                keywordIndex: activeIndex,
+            });
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
         return;
     }
     if (!target) return;
@@ -586,7 +599,7 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
     else keywordIndex = targetIndex;
 
     if (setAudioTimeFromArrow(
-        target.time - 0.5,
+        target.time - 0.2,
         useKeyword2 ? 'keyword2_prev' : 'keyword_prev',
         useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked',
         {
@@ -663,7 +676,12 @@ function jumpToPreviousWord() {
         navigationAnchorPending.word,
     );
     if (blocked) {
-        blockNavigation('word_prev_blocked', audio.currentTime, { wordIndex });
+        if (!moveToSearchIntervalStart('word_prev_to_interval_start', { wordIndex })) {
+            blockNavigation('word_prev_blocked', audio.currentTime, { wordIndex });
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
         return;
     }
     if (!target) return;
@@ -749,7 +767,12 @@ function jumpToPreviousSentence() {
         navigationAnchorPending.sentence,
     );
     if (blocked) {
-        blockNavigation('sentence_prev_blocked', audio.currentTime, { sentenceIndex });
+        if (!moveToSearchIntervalStart('sentence_prev_to_interval_start', { sentenceIndex })) {
+            blockNavigation('sentence_prev_blocked', audio.currentTime, { sentenceIndex });
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
         return;
     }
     if (!target) return;
