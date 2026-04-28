@@ -22,6 +22,7 @@ const feedbackOverlay = document.getElementById('feedback-overlay');
 const feedbackContent = document.getElementById('feedback-content');
 const prepOverlay = document.getElementById('prep-overlay');
 const prepCountDisplay = document.getElementById('prep-count-display');
+const blockedNavCue = document.getElementById('blocked-nav-cue');
 
 const modeButtons = {
     discontinuous: document.getElementById('mode-discontinuous'),
@@ -76,6 +77,7 @@ let prepCountdownInterval = null;
 let prepCountdownTimeout = null;
 let blockedSeekAudioContext = null;
 let lastBlockedSeekCueAt = 0;
+let blockedNavCueTimeout = null;
 let lastListeningStartedAt = null;
 let lastListeningAudioTime = 0;
 
@@ -147,9 +149,15 @@ function getSearchableItems(items, getTime) {
     });
 }
 
+function getClampedNavigationTime(targetTime) {
+    return clampToPlayedTime(
+        clampToActiveSearchInterval(clampToStudyPlaybackBounds(targetTime)),
+    );
+}
+
 function playBlockedSeekCue() {
     const now = performance.now();
-    if (now - lastBlockedSeekCueAt < 120) return;
+    if (now - lastBlockedSeekCueAt < 80) return;
     lastBlockedSeekCueAt = now;
 
     const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
@@ -167,22 +175,44 @@ function playBlockedSeekCue() {
     const oscillator = context.createOscillator();
     const gain = context.createGain();
 
-    oscillator.type = 'square';
-    oscillator.frequency.setValueAtTime(1200, startAt);
+    oscillator.type = 'triangle';
+    oscillator.frequency.setValueAtTime(1800, startAt);
     gain.gain.setValueAtTime(0.0001, startAt);
-    gain.gain.exponentialRampToValueAtTime(0.05, startAt + 0.005);
-    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.06);
+    gain.gain.linearRampToValueAtTime(0.12, startAt + 0.002);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.03);
 
     oscillator.connect(gain);
     gain.connect(context.destination);
     oscillator.start(startAt);
-    oscillator.stop(startAt + 0.06);
+    oscillator.stop(startAt + 0.03);
+}
+
+function showBlockedNavigationCue() {
+    if (!blockedNavCue) return;
+    blockedNavCue.classList.add('active');
+    if (blockedNavCueTimeout) {
+        clearTimeout(blockedNavCueTimeout);
+    }
+    blockedNavCueTimeout = setTimeout(() => {
+        blockedNavCue.classList.remove('active');
+        blockedNavCueTimeout = null;
+    }, 240);
 }
 
 function blockForwardNavigation(action, extra = {}) {
-    playBlockedSeekCue();
+    showBlockedNavigationCue();
     logNavigationEvent(action, audio.currentTime, audio.currentTime, {
         blocked: true,
+        maxSeekTime: getMaxSeekTime(),
+        ...extra,
+    });
+}
+
+function blockNavigation(action, targetTime, extra = {}) {
+    showBlockedNavigationCue();
+    logNavigationEvent(action, audio.currentTime, audio.currentTime, {
+        blocked: true,
+        requestedTime: targetTime,
         maxSeekTime: getMaxSeekTime(),
         ...extra,
     });
@@ -343,10 +373,14 @@ function syncNavigationIndices(targetTime = audio.currentTime) {
 }
 
 function getIndexedTarget(items, currentIndex, currentTime, getTime, direction, useAnchor = false) {
-    if (!items || items.length === 0) return { targetIndex: -1, target: null };
+    if (!items || items.length === 0) return { targetIndex: -1, target: null, blocked: false };
 
     const safeIndex = currentIndex >= 0 ? currentIndex : findNearestIndex(items, currentTime, getTime);
-    if (safeIndex < 0) return { targetIndex: -1, target: null };
+    if (safeIndex < 0) return { targetIndex: -1, target: null, blocked: false };
+
+    const blocked =
+        !useAnchor &&
+        ((direction < 0 && safeIndex === 0) || (direction > 0 && safeIndex === items.length - 1));
 
     let targetIndex = safeIndex;
     if (!useAnchor) {
@@ -360,6 +394,7 @@ function getIndexedTarget(items, currentIndex, currentTime, getTime, direction, 
     return {
         targetIndex,
         target: items[targetIndex],
+        blocked,
     };
 }
 
@@ -489,7 +524,9 @@ function applySearchPlaybackRate() {
 
 function jumpBack() {
     const seconds = jumpSecondsInput ? (parseInt(jumpSecondsInput.value, 10) || 15) : 15;
-    setAudioTime(audio.currentTime - seconds, 'jump_back', { seconds });
+    if (setAudioTimeFromArrow(audio.currentTime - seconds, 'jump_back', 'jump_back_blocked', { seconds }) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -500,7 +537,9 @@ function jumpForward() {
         blockForwardNavigation('jump_forward_blocked', { seconds });
         return;
     }
-    setAudioTime(audio.currentTime + seconds, 'jump_forward', { seconds });
+    if (setAudioTimeFromArrow(audio.currentTime + seconds, 'jump_forward', 'jump_forward_blocked', { seconds }) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -516,7 +555,7 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
 
     const currentTime = audio.currentTime;
     const activeIndex = useKeyword2 ? keyword2Index : keywordIndex;
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         keywords,
         activeIndex,
         currentTime,
@@ -524,17 +563,30 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
         -1,
         navigationAnchorPending[anchorKey],
     );
+    if (blocked) {
+        blockNavigation(useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked', currentTime, {
+            keywordIndex: activeIndex,
+        });
+        return;
+    }
     if (!target) return;
 
     navigationAnchorPending[anchorKey] = false;
     if (useKeyword2) keyword2Index = targetIndex;
     else keywordIndex = targetIndex;
 
-    setAudioTime(target.time - 0.5, useKeyword2 ? 'keyword2_prev' : 'keyword_prev', {
+    if (setAudioTimeFromArrow(
+        target.time - 0.5,
+        useKeyword2 ? 'keyword2_prev' : 'keyword_prev',
+        useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked',
+        {
         keyword: target.word,
         keywordTime: target.time,
         keywordIndex: targetIndex,
-    });
+        },
+    ) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -550,7 +602,7 @@ function jumpToNextKeyword(useKeyword2 = false) {
 
     const currentTime = audio.currentTime;
     const activeIndex = useKeyword2 ? keyword2Index : keywordIndex;
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         keywords,
         activeIndex,
         currentTime,
@@ -558,6 +610,12 @@ function jumpToNextKeyword(useKeyword2 = false) {
         1,
         navigationAnchorPending[anchorKey],
     );
+    if (blocked) {
+        blockNavigation(useKeyword2 ? 'keyword2_next_blocked' : 'keyword_next_blocked', currentTime, {
+            keywordIndex: activeIndex,
+        });
+        return;
+    }
     if (!target) return;
 
     const seekTime = target.time - 0.5;
@@ -586,7 +644,7 @@ function jumpToPreviousWord() {
     const searchableWords = getSearchableItems(navigableWords, (item) => item.start);
     if (searchableWords.length === 0) return;
 
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         searchableWords,
         wordIndex,
         audio.currentTime,
@@ -594,15 +652,21 @@ function jumpToPreviousWord() {
         -1,
         navigationAnchorPending.word,
     );
+    if (blocked) {
+        blockNavigation('word_prev_blocked', audio.currentTime, { wordIndex });
+        return;
+    }
     if (!target) return;
 
     navigationAnchorPending.word = false;
     wordIndex = targetIndex;
-    setAudioTime(target.start, 'word_prev', {
+    if (setAudioTimeFromArrow(target.start, 'word_prev', 'word_prev_blocked', {
         word: target.word,
         wordStart: target.start,
         wordIndex: targetIndex,
-    });
+    }) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -629,7 +693,7 @@ function jumpToNextWord() {
 
     stopWordBackwardMode();
 
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         searchableWords,
         wordIndex,
         audio.currentTime,
@@ -637,6 +701,10 @@ function jumpToNextWord() {
         1,
         navigationAnchorPending.word,
     );
+    if (blocked) {
+        blockNavigation('word_next_blocked', audio.currentTime, { wordIndex });
+        return;
+    }
     if (!target) return;
     if (target.start > getMaxSeekTime()) {
         blockForwardNavigation('word_next_blocked', {
@@ -662,7 +730,7 @@ function jumpToPreviousSentence() {
     const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
     if (searchableSentences.length === 0) return;
 
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         searchableSentences,
         sentenceIndex,
         audio.currentTime,
@@ -670,14 +738,20 @@ function jumpToPreviousSentence() {
         -1,
         navigationAnchorPending.sentence,
     );
+    if (blocked) {
+        blockNavigation('sentence_prev_blocked', audio.currentTime, { sentenceIndex });
+        return;
+    }
     if (!target) return;
 
     navigationAnchorPending.sentence = false;
     sentenceIndex = targetIndex;
-    setAudioTime(target.start, 'sentence_prev', {
+    if (setAudioTimeFromArrow(target.start, 'sentence_prev', 'sentence_prev_blocked', {
         sentenceIndex: targetIndex,
         sentenceStart: target.start,
-    });
+    }) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -686,7 +760,7 @@ function jumpToNextSentence() {
     const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
     if (searchableSentences.length === 0) return;
 
-    const { targetIndex, target } = getIndexedTarget(
+    const { targetIndex, target, blocked } = getIndexedTarget(
         searchableSentences,
         sentenceIndex,
         audio.currentTime,
@@ -694,6 +768,10 @@ function jumpToNextSentence() {
         1,
         navigationAnchorPending.sentence,
     );
+    if (blocked) {
+        blockNavigation('sentence_next_blocked', audio.currentTime, { sentenceIndex });
+        return;
+    }
     if (!target) return;
     if (target.start > getMaxSeekTime()) {
         blockForwardNavigation('sentence_next_blocked', {
@@ -821,13 +899,20 @@ function logNavigationEvent(action, fromTime, toTime, extra = {}) {
 
 function setAudioTime(targetTime, action, extra = {}) {
     const fromTime = audio.currentTime;
-    const toTime = clampToPlayedTime(
-        clampToActiveSearchInterval(clampToStudyPlaybackBounds(targetTime)),
-    );
+    const toTime = getClampedNavigationTime(targetTime);
     suppressNextSeekLog = true;
     audio.currentTime = toTime;
     logNavigationEvent(action, fromTime, toTime, extra);
     return toTime;
+}
+
+function setAudioTimeFromArrow(targetTime, action, blockedAction, extra = {}) {
+    const toTime = getClampedNavigationTime(targetTime);
+    if (Math.abs(toTime - targetTime) > 0.01) {
+        blockNavigation(blockedAction, targetTime, extra);
+        return null;
+    }
+    return setAudioTime(targetTime, action, extra);
 }
 
 async function startStudySession() {

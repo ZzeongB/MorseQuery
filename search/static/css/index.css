@@ -185,6 +185,26 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
     color: #512da8;
 }
 
+#blocked-nav-cue {
+    margin-top: 8px;
+    padding: 10px 14px;
+    border: 1px solid #ef9a9a;
+    border-left: 6px solid #c62828;
+    border-radius: 12px;
+    background: rgba(255, 235, 238, 0.97);
+    color: #8e0000;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.16);
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#blocked-nav-cue.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 @media (max-width: 640px) {
     #interruption-overlay,
     #feedback-overlay,

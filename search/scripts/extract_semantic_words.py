@@ -21,19 +21,14 @@ SYSTEM_PROMPT = """Your job is to help users navigate and search within an audio
 
 You will be given a transcript of a speech.
 
-Your task is to identify single words that can serve as effective anchors for locating specific moments in the audio.
+Your task is to identify words that can serve as effective anchors for locating specific moments in the audio.
 
 Selection criteria:
 - Distinct and specific (not generic words)
 - Likely to be remembered or searched by users
-- Occur only once or a few times in the transcript
-- Clearly spoken and recognizable in audio
-- Return single-word anchors only
 
 Avoid:
 - Very common or generic words
-- Frequently repeated terms
-- Ambiguous or short words
 
 Return only valid JSON in the format:
 {"terms": ["term1", "term2"]}"""
