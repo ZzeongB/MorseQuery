@@ -17,6 +17,7 @@ from config import (
     LOGS_DIR,
     MP3_DIR,
     SENTENCES_DIR,
+    STUDY_AUDIO_WINDOWS_PATH,
     STUDY_DIR,
     TRANSCRIPT_DIR,
 )
@@ -259,6 +260,17 @@ def extract_keywords(text: str, top_k: int = 3) -> list[str]:
                 break
 
     return result
+
+
+def load_json_file(path):
+    with open(path) as f:
+        return json.load(f)
+
+
+def load_study_audio_windows() -> dict:
+    if not STUDY_AUDIO_WINDOWS_PATH.exists():
+        return {"default_target_window_seconds": 300, "default_max_interruptions": 10, "videos": {}}
+    return load_json_file(STUDY_AUDIO_WINDOWS_PATH)
 
 
 def build_sentence_units(segments: list[dict]) -> list[dict]:
@@ -599,8 +611,35 @@ def get_study_interruptions(video_id: str):
     if not interruptions_path.exists():
         return jsonify({"error": f"Interruptions for {video_id} not found"}), 404
 
-    with open(interruptions_path) as f:
-        data = json.load(f)
+    data = load_json_file(interruptions_path)
+    interruptions = data.get("interruptions", [])
+    if not interruptions:
+        return jsonify({"error": f"No interruptions configured for {video_id}"}), 400
+
+    study_windows = load_study_audio_windows()
+    video_config = study_windows.get("videos", {}).get(video_id, {})
+    audio_start_time = float(data.get("audio_start_time", video_config.get("audio_start_time", 0)))
+    target_window_seconds = float(
+        data.get(
+            "target_window_seconds",
+            video_config.get(
+                "target_window_seconds",
+                study_windows.get("default_target_window_seconds", 300),
+            ),
+        )
+    )
+    search_window_end_time = float(
+        data.get("search_window_end_time", audio_start_time + target_window_seconds)
+    )
+    playback_end_time = max(
+        float(item.get("target_word_time", 0)) + float(item.get("delay_seconds", 0))
+        for item in interruptions
+    )
+
+    data["audio_start_time"] = audio_start_time
+    data["target_window_seconds"] = target_window_seconds
+    data["search_window_end_time"] = search_window_end_time
+    data["playback_end_time"] = playback_end_time
     return jsonify(data)
 
 
@@ -612,19 +651,21 @@ def log_study_event():
         return jsonify({"error": "No data provided"}), 400
 
     participant = data.get("participant", "unknown")
+    session_id = data.get("sessionId")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
     # Create logs directory if not exists
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Find or create log file for this participant
-    log_files = list(LOGS_DIR.glob(f"{participant}_*.jsonl"))
-    if log_files:
-        # Use most recent log file
-        log_path = sorted(log_files)[-1]
+    if session_id:
+        log_path = LOGS_DIR / f"{participant}_{session_id}.jsonl"
     else:
-        # Create new log file
-        log_path = LOGS_DIR / f"{participant}_{timestamp}.jsonl"
+        # Fallback for older clients without sessionId.
+        log_files = list(LOGS_DIR.glob(f"{participant}_*.jsonl"))
+        if log_files:
+            log_path = sorted(log_files)[-1]
+        else:
+            log_path = LOGS_DIR / f"{participant}_{timestamp}.jsonl"
 
     # Append event to log file
     with open(log_path, "a") as f:

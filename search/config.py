@@ -27,5 +27,6 @@ KEYWORDS2_DIR = _prefer_search_dir("semantic_words2")
 LEXICON_PATH = _prefer_search_dir("lexicon/OpenLexicon.xlsx")
 STUDY_DIR = SEARCH_DATA_DIR / "study"
 INTERRUPTIONS_DIR = STUDY_DIR / "target_words"
+STUDY_AUDIO_WINDOWS_PATH = STUDY_DIR / "audio_windows.json"
 LOGS_DIR = SEARCH_DIR / "logs" / "study"
 WORD_CLIPS_DIR = _prefer_search_dir("word_clips")

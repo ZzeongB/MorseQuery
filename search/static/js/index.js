@@ -66,6 +66,7 @@ let taskActive = false;
 let taskStartTime = null;
 let taskTimerInterval = null;
 let sessionStartTime = null;
+let studySessionId = null;
 let sessionTasks = [];
 let activeTargetTime = null;
 let maxPlayedTime = 0;
@@ -75,8 +76,11 @@ let prepCountdownInterval = null;
 let prepCountdownTimeout = null;
 let blockedSeekAudioContext = null;
 let lastBlockedSeekCueAt = 0;
+let lastListeningStartedAt = null;
+let lastListeningAudioTime = 0;
 
 const FREQ_SKIP_THRESHOLD = 4.0;
+const TASK_SEARCH_WINDOW_SECONDS = 120;
 
 function formatTime(sec) {
     const m = Math.floor(sec / 60);
@@ -90,8 +94,8 @@ function getVideoIdFromAudioFilename(audioFile) {
     return dotIdx >= 0 ? audioFile.slice(0, dotIdx) : audioFile;
 }
 
-function resetPlaybackProgressLock() {
-    maxPlayedTime = 0;
+function resetPlaybackProgressLock(initialTime = 0) {
+    maxPlayedTime = initialTime;
 }
 
 function getMaxSeekTime() {
@@ -100,6 +104,47 @@ function getMaxSeekTime() {
 
 function clampToPlayedTime(targetTime) {
     return Math.max(0, Math.min(targetTime, getMaxSeekTime()));
+}
+
+function getStudyPlaybackBounds() {
+    if (!studyMode || !studyInterruptions) return null;
+
+    return {
+        min: studyInterruptions.audio_start_time ?? 0,
+        max: studyInterruptions.playback_end_time ?? Infinity,
+    };
+}
+
+function clampToStudyPlaybackBounds(targetTime) {
+    const bounds = getStudyPlaybackBounds();
+    if (!bounds) return targetTime;
+    return Math.max(bounds.min, Math.min(targetTime, bounds.max));
+}
+
+function getActiveSearchInterval() {
+    if (!studyMode || !taskActive || activeTargetTime === null) return null;
+    const playbackBounds = getStudyPlaybackBounds();
+    const minTime = playbackBounds ? playbackBounds.min : 0;
+
+    return {
+        min: Math.max(minTime, activeTargetTime - TASK_SEARCH_WINDOW_SECONDS),
+        max: activeTargetTime,
+    };
+}
+
+function clampToActiveSearchInterval(targetTime) {
+    const interval = getActiveSearchInterval();
+    if (!interval) return targetTime;
+    return Math.max(interval.min, Math.min(targetTime, interval.max));
+}
+
+function getSearchableItems(items, getTime) {
+    const interval = getActiveSearchInterval();
+    if (!interval) return items;
+    return items.filter((item) => {
+        const time = getTime(item);
+        return time >= interval.min && time <= interval.max;
+    });
 }
 
 function playBlockedSeekCue() {
@@ -280,10 +325,15 @@ function findNearestIndex(items, targetTime, getTime) {
 }
 
 function syncNavigationIndices(targetTime = audio.currentTime) {
-    keywordIndex = findNearestIndex(customKeywords, targetTime, (item) => item.time);
-    keyword2Index = findNearestIndex(customKeywords2, targetTime, (item) => item.time);
-    wordIndex = findNearestIndex(navigableWords, targetTime, (item) => item.start);
-    sentenceIndex = findNearestIndex(sentenceUnits, targetTime, (item) => item.start);
+    const searchableKeywords = getSearchableItems(customKeywords, (item) => item.time);
+    const searchableKeywords2 = getSearchableItems(customKeywords2, (item) => item.time);
+    const searchableWords = getSearchableItems(navigableWords, (item) => item.start);
+    const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
+
+    keywordIndex = findNearestIndex(searchableKeywords, targetTime, (item) => item.time);
+    keyword2Index = findNearestIndex(searchableKeywords2, targetTime, (item) => item.time);
+    wordIndex = findNearestIndex(searchableWords, targetTime, (item) => item.start);
+    sentenceIndex = findNearestIndex(searchableSentences, targetTime, (item) => item.start);
     navigationAnchorPending = {
         keyword: keywordIndex >= 0,
         keyword2: keyword2Index >= 0,
@@ -456,7 +506,10 @@ function jumpForward() {
 }
 
 function jumpToPreviousKeyword(useKeyword2 = false) {
-    const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+    const keywords = getSearchableItems(
+        useKeyword2 ? customKeywords2 : customKeywords,
+        (item) => item.time,
+    );
     const anchorKey = useKeyword2 ? 'keyword2' : 'keyword';
 
     if (keywords.length === 0) return;
@@ -487,7 +540,10 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
 }
 
 function jumpToNextKeyword(useKeyword2 = false) {
-    const keywords = useKeyword2 ? customKeywords2 : customKeywords;
+    const keywords = getSearchableItems(
+        useKeyword2 ? customKeywords2 : customKeywords,
+        (item) => item.time,
+    );
     const anchorKey = useKeyword2 ? 'keyword2' : 'keyword';
 
     if (keywords.length === 0) return;
@@ -527,10 +583,11 @@ function jumpToNextKeyword(useKeyword2 = false) {
 }
 
 function jumpToPreviousWord() {
-    if (navigableWords.length === 0) return;
+    const searchableWords = getSearchableItems(navigableWords, (item) => item.start);
+    if (searchableWords.length === 0) return;
 
     const { targetIndex, target } = getIndexedTarget(
-        navigableWords,
+        searchableWords,
         wordIndex,
         audio.currentTime,
         (item) => item.start,
@@ -567,12 +624,13 @@ function jumpToPreviousWordAuto() {
 }
 
 function jumpToNextWord() {
-    if (navigableWords.length === 0) return;
+    const searchableWords = getSearchableItems(navigableWords, (item) => item.start);
+    if (searchableWords.length === 0) return;
 
     stopWordBackwardMode();
 
     const { targetIndex, target } = getIndexedTarget(
-        navigableWords,
+        searchableWords,
         wordIndex,
         audio.currentTime,
         (item) => item.start,
@@ -601,10 +659,11 @@ function jumpToNextWord() {
 }
 
 function jumpToPreviousSentence() {
-    if (sentenceUnits.length === 0) return;
+    const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
+    if (searchableSentences.length === 0) return;
 
     const { targetIndex, target } = getIndexedTarget(
-        sentenceUnits,
+        searchableSentences,
         sentenceIndex,
         audio.currentTime,
         (item) => item.start,
@@ -624,10 +683,11 @@ function jumpToPreviousSentence() {
 }
 
 function jumpToNextSentence() {
-    if (sentenceUnits.length === 0) return;
+    const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
+    if (searchableSentences.length === 0) return;
 
     const { targetIndex, target } = getIndexedTarget(
-        sentenceUnits,
+        searchableSentences,
         sentenceIndex,
         audio.currentTime,
         (item) => item.start,
@@ -689,6 +749,7 @@ async function logStudyEvent(event, data = {}) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 participant: studyParticipant.value,
+                sessionId: studySessionId,
                 event,
                 ...data,
             }),
@@ -696,6 +757,53 @@ async function logStudyEvent(event, data = {}) {
     } catch (err) {
         console.error('Failed to log event:', err);
     }
+}
+
+function resetListeningWindow() {
+    lastListeningStartedAt = Date.now();
+    lastListeningAudioTime = audio.currentTime;
+}
+
+function flushListeningInterval(endedBy, extra = {}) {
+    if (!studyMode || lastListeningStartedAt === null) return;
+
+    const endedAt = Date.now();
+    const listeningDurationMs = endedAt - lastListeningStartedAt;
+    const endAudioTime = audio.currentTime;
+
+    if (listeningDurationMs <= 0) {
+        resetListeningWindow();
+        return;
+    }
+
+    logStudyEvent('listening', {
+        startedAt: new Date(lastListeningStartedAt).toISOString(),
+        endedAt: new Date(endedAt).toISOString(),
+        listeningDurationMs,
+        startAudioTime: lastListeningAudioTime,
+        endAudioTime,
+        audioProgressSeconds: endAudioTime - lastListeningAudioTime,
+        endedBy,
+        taskActive,
+        ...extra,
+    });
+
+    lastListeningStartedAt = endedAt;
+    lastListeningAudioTime = endAudioTime;
+}
+
+function logUserAction(action, extra = {}) {
+    if (!studyMode) return;
+
+    flushListeningInterval('user_action', { nextAction: action });
+    logStudyEvent('user_action', {
+        action,
+        audioTime: audio.currentTime,
+        mode: currentMode,
+        taskActive,
+        playbackRate: audio.playbackRate,
+        ...extra,
+    });
 }
 
 function logNavigationEvent(action, fromTime, toTime, extra = {}) {
@@ -713,7 +821,9 @@ function logNavigationEvent(action, fromTime, toTime, extra = {}) {
 
 function setAudioTime(targetTime, action, extra = {}) {
     const fromTime = audio.currentTime;
-    const toTime = clampToPlayedTime(targetTime);
+    const toTime = clampToPlayedTime(
+        clampToActiveSearchInterval(clampToStudyPlaybackBounds(targetTime)),
+    );
     suppressNextSeekLog = true;
     audio.currentTime = toTime;
     logNavigationEvent(action, fromTime, toTime, extra);
@@ -734,33 +844,29 @@ async function startStudySession() {
 
     currentFilename = audioFile;
     audio.src = `/mp3/${audioFile}`;
-    audio.currentTime = 0;
-    resetPlaybackProgressLock();
-
-    const playbackStartPromise = audio.play().catch((err) => {
-        console.error('Failed to start study playback:', err);
-        return err;
-    });
 
     try {
         const res = await fetch(`/api/study/interruptions/${videoId}`);
         if (!res.ok) {
-            audio.pause();
             alert(`Interruptions config not found for ${videoId}`);
             return;
         }
         studyInterruptions = await res.json();
     } catch (err) {
-        audio.pause();
         alert('Failed to load interruptions config');
         return;
     }
 
     studyMode = true;
+    studySessionId = `${participant}_${Date.now()}`;
     currentTaskIndex = 0;
     taskActive = false;
     sessionTasks = [];
     sessionStartTime = Date.now();
+    const audioStartTime = studyInterruptions.audio_start_time ?? 0;
+    audio.currentTime = audioStartTime;
+    resetPlaybackProgressLock(audioStartTime);
+    resetListeningWindow();
 
     setMode(feature);
 
@@ -775,9 +881,15 @@ async function startStudySession() {
         feature,
         audio: audioFile,
         videoId,
+        audioStartTime,
+        playbackEndTime: studyInterruptions.playback_end_time,
         totalTasks: studyInterruptions.interruptions.length,
     });
 
+    const playbackStartPromise = audio.play().catch((err) => {
+        console.error('Failed to start study playback:', err);
+        return err;
+    });
     const playbackStartResult = await playbackStartPromise;
     if (playbackStartResult instanceof Error) {
         alert('Playback could not start automatically. Please click play and start again.');
@@ -785,6 +897,7 @@ async function startStudySession() {
 }
 
 async function stopStudySession() {
+    flushListeningInterval('session_stop');
     activeTargetTime = null;
     if (taskTimerInterval) {
         clearInterval(taskTimerInterval);
@@ -819,6 +932,7 @@ async function stopStudySession() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             participant: studyParticipant.value,
+            sessionId: studySessionId,
             feature: studyFeature.value,
             audio: studyAudio.value,
             sessionStartTime: new Date(sessionStartTime).toISOString(),
@@ -831,8 +945,10 @@ async function stopStudySession() {
     });
 
     studyMode = false;
+    studySessionId = null;
     taskActive = false;
     studyInterruptions = null;
+    lastListeningStartedAt = null;
 
     document.body.classList.remove('study-active');
     btnStartStudy.style.display = 'inline-block';
@@ -852,6 +968,7 @@ function checkForInterruption() {
 }
 
 async function triggerInterruption(interruption, triggerTime) {
+    flushListeningInterval('interruption');
     taskActive = true;
     taskStartTime = Date.now();
     activeTargetTime = audio.currentTime;
@@ -866,11 +983,18 @@ async function triggerInterruption(interruption, triggerTime) {
 
     interruptionOverlay.classList.add('active');
 
-    await logStudyEvent('interruption_triggered', {
+    const delayTime = interruption.delay_time ?? interruption.delay_seconds ?? null;
+    const delayType = interruption.delay_type ?? (delayTime !== null ? 'custom_seconds' : null);
+    await logStudyEvent('interruption', {
         taskIndex: currentTaskIndex + 1,
-        targetWord: interruption.target_word,
-        targetWordTime: interruption.target_word_time,
+        word: interruption.target_word,
+        delayType,
+        delayTime,
+        targetTime: interruption.target_word_time,
         triggerTime,
+        audioTime: activeTargetTime,
+        searchIntervalMin: Math.max(0, activeTargetTime - TASK_SEARCH_WINDOW_SECONDS),
+        searchIntervalMax: activeTargetTime,
     });
 
     let remaining = studyConfig.task_timeout_seconds;
@@ -889,6 +1013,14 @@ async function triggerInterruption(interruption, triggerTime) {
 async function handleSpacebarConfirmation() {
     if (!taskActive || !studyInterruptions) return;
 
+    const interruption = studyInterruptions.interruptions[currentTaskIndex];
+
+    logUserAction('space', {
+        taskIndex: currentTaskIndex + 1,
+        targetTime: interruption.target_word_time,
+        triggerAudioTime: activeTargetTime,
+    });
+
     if (taskTimerInterval) {
         clearInterval(taskTimerInterval);
         taskTimerInterval = null;
@@ -897,7 +1029,6 @@ async function handleSpacebarConfirmation() {
     stopSpeedupReplay();
     audio.pause();
 
-    const interruption = studyInterruptions.interruptions[currentTaskIndex];
     const responseTimeMs = Date.now() - taskStartTime;
     const userPosition = audio.currentTime;
     const targetTime = interruption.target_word_time;
@@ -1000,12 +1131,14 @@ function resumeAfterTask(interruption) {
         prepCountdownTimeout = null;
         prepOverlay.classList.remove('active');
         if (!studyMode || taskActive) return;
+        resetListeningWindow();
         audio.play();
     }, prepDelaySeconds * 1000);
 }
 
 async function completeStudySession() {
     stopSpeedupReplay();
+    flushListeningInterval('session_complete');
     activeTargetTime = null;
     if (prepCountdownInterval) {
         clearInterval(prepCountdownInterval);
@@ -1031,6 +1164,7 @@ async function completeStudySession() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             participant: studyParticipant.value,
+            sessionId: studySessionId,
             feature: studyFeature.value,
             audio: studyAudio.value,
             sessionStartTime: new Date(sessionStartTime).toISOString(),
@@ -1045,8 +1179,10 @@ async function completeStudySession() {
     alert(`Study session complete!\n\nCompleted: ${completed}\nTimeouts: ${timeouts}`);
 
     studyMode = false;
+    studySessionId = null;
     taskActive = false;
     activeTargetTime = null;
+    lastListeningStartedAt = null;
 
     document.body.classList.remove('study-active');
     btnStartStudy.style.display = 'inline-block';
@@ -1064,6 +1200,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowLeft') {
         e.preventDefault();
+        logUserAction('left');
 
         switch (currentMode) {
             case 'discontinuous':
@@ -1088,6 +1225,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowRight') {
         e.preventDefault();
+        logUserAction('right');
 
         switch (currentMode) {
             case 'discontinuous':
@@ -1126,6 +1264,11 @@ if (fileSelect) {
 }
 
 audio.addEventListener('timeupdate', () => {
+    const playbackBounds = getStudyPlaybackBounds();
+    if (playbackBounds && audio.currentTime > playbackBounds.max) {
+        audio.currentTime = playbackBounds.max;
+        audio.pause();
+    }
     maxPlayedTime = Math.max(maxPlayedTime, audio.currentTime);
     lastLoggedAudioTime = audio.currentTime;
     updateCurrentSegment();
@@ -1133,8 +1276,10 @@ audio.addEventListener('timeupdate', () => {
 });
 
 audio.addEventListener('seeking', () => {
-    const clampedTime = clampToPlayedTime(audio.currentTime);
-    if (audio.currentTime > clampedTime + 0.01) {
+    const clampedTime = clampToPlayedTime(
+        clampToActiveSearchInterval(clampToStudyPlaybackBounds(audio.currentTime)),
+    );
+    if (Math.abs(audio.currentTime - clampedTime) > 0.01) {
         audio.currentTime = clampedTime;
     }
 });
@@ -1146,6 +1291,7 @@ audio.addEventListener('seeked', () => {
     }
     syncNavigationIndices(audio.currentTime);
     if (!studyMode) return;
+    logUserAction('seek', { fromTime: lastLoggedAudioTime, toTime: audio.currentTime });
     logNavigationEvent('manual_seek', lastLoggedAudioTime, audio.currentTime);
 });
 
