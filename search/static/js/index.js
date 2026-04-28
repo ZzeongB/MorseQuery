@@ -1068,7 +1068,7 @@ async function triggerInterruption(interruption, triggerTime) {
 
     interruptionOverlay.classList.add('active');
 
-    const delayTime = interruption.delay_time ?? interruption.delay_seconds ?? null;
+    const delayTime = interruption.delay_seconds ?? null;
     const delayType = interruption.delay_type ?? (delayTime !== null ? 'custom_seconds' : null);
     await logStudyEvent('interruption', {
         taskIndex: currentTaskIndex + 1,
