@@ -14,6 +14,9 @@ if str(ROOT_DIR) not in sys.path:
 from whisper_utils import transcribe_file
 
 
+TRANSCRIPTS_DIR = ROOT_DIR / "data" / "transcripts"
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Transcribe an audio file with openai-whisper."
@@ -57,10 +60,10 @@ def main() -> None:
 
     print(result.get("text", "").strip())
 
-    if args.output_json:
-        args.output_json.parent.mkdir(parents=True, exist_ok=True)
-        args.output_json.write_text(json.dumps(result, indent=2), encoding="utf-8")
-        print(f"\nWrote Whisper JSON: {args.output_json}")
+    output_json = args.output_json or (TRANSCRIPTS_DIR / f"{args.input.stem}.json")
+    output_json.parent.mkdir(parents=True, exist_ok=True)
+    output_json.write_text(json.dumps(result, indent=2), encoding="utf-8")
+    print(f"\nWrote Whisper JSON: {output_json}")
 
 
 if __name__ == "__main__":

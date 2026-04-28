@@ -73,6 +73,8 @@ let suppressNextSeekLog = false;
 let lastLoggedAudioTime = 0;
 let prepCountdownInterval = null;
 let prepCountdownTimeout = null;
+let blockedSeekAudioContext = null;
+let lastBlockedSeekCueAt = 0;
 
 const FREQ_SKIP_THRESHOLD = 4.0;
 
@@ -98,6 +100,47 @@ function getMaxSeekTime() {
 
 function clampToPlayedTime(targetTime) {
     return Math.max(0, Math.min(targetTime, getMaxSeekTime()));
+}
+
+function playBlockedSeekCue() {
+    const now = performance.now();
+    if (now - lastBlockedSeekCueAt < 120) return;
+    lastBlockedSeekCueAt = now;
+
+    const AudioContextCtor = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContextCtor) return;
+
+    if (!blockedSeekAudioContext) {
+        blockedSeekAudioContext = new AudioContextCtor();
+    }
+    if (blockedSeekAudioContext.state === 'suspended') {
+        blockedSeekAudioContext.resume().catch(() => {});
+    }
+
+    const context = blockedSeekAudioContext;
+    const startAt = context.currentTime;
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+
+    oscillator.type = 'square';
+    oscillator.frequency.setValueAtTime(1200, startAt);
+    gain.gain.setValueAtTime(0.0001, startAt);
+    gain.gain.exponentialRampToValueAtTime(0.05, startAt + 0.005);
+    gain.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.06);
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+    oscillator.start(startAt);
+    oscillator.stop(startAt + 0.06);
+}
+
+function blockForwardNavigation(action, extra = {}) {
+    playBlockedSeekCue();
+    logNavigationEvent(action, audio.currentTime, audio.currentTime, {
+        blocked: true,
+        maxSeekTime: getMaxSeekTime(),
+        ...extra,
+    });
 }
 
 async function loadFiles() {
@@ -401,6 +444,10 @@ function jumpBack() {
 
 function jumpForward() {
     const seconds = jumpSecondsInput ? (parseInt(jumpSecondsInput.value, 10) || 15) : 15;
+    if (audio.currentTime + seconds > getMaxSeekTime()) {
+        blockForwardNavigation('jump_forward_blocked', { seconds });
+        return;
+    }
     setAudioTime(audio.currentTime + seconds, 'jump_forward', { seconds });
     applySearchPlaybackRate();
     audio.play();
@@ -453,10 +500,20 @@ function jumpToNextKeyword(useKeyword2 = false) {
         1,
         navigationAnchorPending[anchorKey],
     );
-    if (!target || target.time > getMaxSeekTime() + 0.5) return;
+    if (!target) return;
+
+    const seekTime = target.time - 0.5;
+    if (seekTime > getMaxSeekTime()) {
+        blockForwardNavigation(useKeyword2 ? 'keyword2_next_blocked' : 'keyword_next_blocked', {
+            keyword: target.word,
+            keywordTime: target.time,
+            keywordIndex: targetIndex,
+        });
+        return;
+    }
 
     navigationAnchorPending[anchorKey] = false;
-    setAudioTime(target.time - 0.5, useKeyword2 ? 'keyword2_next' : 'keyword_next', {
+    setAudioTime(seekTime, useKeyword2 ? 'keyword2_next' : 'keyword_next', {
         keyword: target.word,
         keywordTime: target.time,
         keywordIndex: targetIndex,
@@ -520,7 +577,15 @@ function jumpToNextWord() {
         1,
         navigationAnchorPending.word,
     );
-    if (!target || target.start > getMaxSeekTime()) return;
+    if (!target) return;
+    if (target.start > getMaxSeekTime()) {
+        blockForwardNavigation('word_next_blocked', {
+            word: target.word,
+            wordStart: target.start,
+            wordIndex: targetIndex,
+        });
+        return;
+    }
 
     navigationAnchorPending.word = false;
     setAudioTime(target.start, 'word_next', {
@@ -567,7 +632,14 @@ function jumpToNextSentence() {
         1,
         navigationAnchorPending.sentence,
     );
-    if (!target || target.start > getMaxSeekTime()) return;
+    if (!target) return;
+    if (target.start > getMaxSeekTime()) {
+        blockForwardNavigation('sentence_next_blocked', {
+            sentenceIndex: targetIndex,
+            sentenceStart: target.start,
+        });
+        return;
+    }
 
     navigationAnchorPending.sentence = false;
     setAudioTime(target.start, 'sentence_next', {
@@ -658,14 +730,25 @@ async function startStudySession() {
 
     const videoId = getVideoIdFromAudioFilename(audioFile);
 
+    currentFilename = audioFile;
+    audio.src = `/mp3/${audioFile}`;
+    resetPlaybackProgressLock();
+
+    const playbackStartPromise = audio.play().catch((err) => {
+        console.error('Failed to start study playback:', err);
+        return err;
+    });
+
     try {
         const res = await fetch(`/api/study/interruptions/${videoId}`);
         if (!res.ok) {
+            audio.pause();
             alert(`Interruptions config not found for ${videoId}`);
             return;
         }
         studyInterruptions = await res.json();
     } catch (err) {
+        audio.pause();
         alert('Failed to load interruptions config');
         return;
     }
@@ -678,9 +761,6 @@ async function startStudySession() {
 
     setMode(feature);
 
-    currentFilename = audioFile;
-    audio.src = `/mp3/${audioFile}`;
-    resetPlaybackProgressLock();
     await loadTranscript(videoId);
 
     document.body.classList.add('study-active');
@@ -695,7 +775,10 @@ async function startStudySession() {
         totalTasks: studyInterruptions.interruptions.length,
     });
 
-    audio.play();
+    const playbackStartResult = await playbackStartPromise;
+    if (playbackStartResult instanceof Error) {
+        alert('Playback could not start automatically. Click play once, then try Start Study again.');
+    }
 }
 
 async function stopStudySession() {

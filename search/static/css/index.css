@@ -2,6 +2,7 @@
 body { font-family: monospace; padding: 20px; max-width: 900px; margin: 0 auto; }
 
 .section { margin-bottom: 20px; }
+.audio-blocker-wrap { position: relative; }
 label { font-weight: bold; }
 select, input, button { font-family: monospace; font-size: 14px; padding: 5px 10px; }
 button { cursor: pointer; border: 1px solid black; background: white; }
@@ -57,6 +58,15 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
 .study-active #study-panel { border-color: #4CAF50; background: #e8f5e9; }
 .study-active .mode-buttons button { pointer-events: none; opacity: 0.5; }
 .study-active #file-select { pointer-events: none; opacity: 0.5; }
+.audio-blocker {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.96);
+    cursor: not-allowed;
+}
+.study-active .audio-blocker { display: block; }
 
 #interruption-overlay {
     display: none;
