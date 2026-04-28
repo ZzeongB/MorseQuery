@@ -11,7 +11,7 @@ button.active { background: black; color: white; }
 button:disabled { opacity: 0.3; cursor: not-allowed; }
 
 #audio-player { width: 100%; margin: 10px 0; }
-#time-display { font-size: 18px; margin: 10px 0; }
+#time-display { display: none; }
 
 .mode-buttons button { margin-right: 10px; }
 
@@ -63,7 +63,7 @@ button:disabled { opacity: 0.3; cursor: not-allowed; }
     position: absolute;
     inset: 0;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.96);
+    background: #fff;
     cursor: not-allowed;
 }
 .study-active .audio-blocker { display: block; }

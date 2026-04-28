@@ -387,7 +387,9 @@ function updateCurrentSegment() {
         const rate = replaySpeedupRate ? replaySpeedupRate.value : '1.5';
         suffix = ` [${rate}x]`;
     }
-    timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(audio.duration || 0)}${suffix}`;
+    if (timeDisplay) {
+        timeDisplay.textContent = `${formatTime(currentTime)} / ${formatTime(audio.duration || 0)}${suffix}`;
+    }
 }
 
 function setMode(mode) {
@@ -732,6 +734,7 @@ async function startStudySession() {
 
     currentFilename = audioFile;
     audio.src = `/mp3/${audioFile}`;
+    audio.currentTime = 0;
     resetPlaybackProgressLock();
 
     const playbackStartPromise = audio.play().catch((err) => {
@@ -777,7 +780,7 @@ async function startStudySession() {
 
     const playbackStartResult = await playbackStartPromise;
     if (playbackStartResult instanceof Error) {
-        alert('Playback could not start automatically. Click play once, then try Start Study again.');
+        alert('Playback could not start automatically. Please click play and start again.');
     }
 }
 
