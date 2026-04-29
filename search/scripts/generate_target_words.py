@@ -26,8 +26,13 @@ def pick_interruption(
     delay_sigma: float,
     audio_start_time: float,
     min_search_offset_seconds: float,
+    preferred_max_offset_seconds: float,
+    hard_max_offset_seconds: float,
     max_attempts: int = 500,
 ):
+    soft_limit = audio_start_time + preferred_max_offset_seconds
+    hard_limit = audio_start_time + hard_max_offset_seconds
+
     for _ in range(max_attempts):
         delay_seconds = sample_positive_normal(rng, delay_mean, delay_sigma)
         min_target_time = audio_start_time + min_search_offset_seconds - delay_seconds
@@ -36,11 +41,18 @@ def pick_interruption(
             for idx, item in enumerate(candidates)
             if idx not in used_indexes
             and float(item["time"]) >= min_target_time
+            and float(item["time"]) + delay_seconds <= hard_limit
         ]
         if not eligible_indexes:
             continue
 
-        chosen_idx = rng.choice(eligible_indexes)
+        preferred_indexes = [
+            idx
+            for idx in eligible_indexes
+            if float(candidates[idx]["time"]) + delay_seconds <= soft_limit
+        ]
+        pool = preferred_indexes or eligible_indexes
+        chosen_idx = rng.choice(pool)
         chosen = candidates[chosen_idx]
         target_word_time = round(float(chosen["time"]), 2)
         search_start_time = round(target_word_time + delay_seconds, 2)
@@ -69,6 +81,8 @@ def generate_interruptions(
     short_mean: float,
     long_mean: float,
     delay_sigma: float,
+    preferred_max_offset_seconds: float,
+    hard_max_offset_seconds: float,
     allow_partial: bool,
 ):
     used_indexes = set()
@@ -89,6 +103,8 @@ def generate_interruptions(
                     delay_sigma=delay_sigma,
                     audio_start_time=audio_start_time,
                     min_search_offset_seconds=min_search_offset_seconds,
+                    preferred_max_offset_seconds=preferred_max_offset_seconds,
+                    hard_max_offset_seconds=hard_max_offset_seconds,
                 )
             except ValueError:
                 if not allow_partial:
@@ -167,6 +183,18 @@ def main():
         help="Minimum gap between audio_start_time and search_start_time",
     )
     parser.add_argument(
+        "--preferred-max-offset-seconds",
+        type=float,
+        default=300.0,
+        help="Soft preference for latest search_start_time relative to audio_start_time.",
+    )
+    parser.add_argument(
+        "--hard-max-offset-seconds",
+        type=float,
+        default=420.0,
+        help="Hard cap for latest search_start_time relative to audio_start_time.",
+    )
+    parser.add_argument(
         "--allow-partial",
         action="store_true",
         help="Write as many valid interruptions as possible instead of failing.",
@@ -225,6 +253,8 @@ def main():
             short_mean=args.short_mean,
             long_mean=args.long_mean,
             delay_sigma=args.delay_sigma,
+            preferred_max_offset_seconds=args.preferred_max_offset_seconds,
+            hard_max_offset_seconds=args.hard_max_offset_seconds,
             allow_partial=args.allow_partial,
         )
 

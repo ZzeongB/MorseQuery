@@ -40,6 +40,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Output directory for target words.",
     )
     parser.add_argument(
+        "--semantic-words2-dir",
+        type=Path,
+        default=ROOT_DIR / "data" / "semantic_words2",
+        help="Output directory for semantic_words2.",
+    )
+    parser.add_argument(
         "--count-field",
         default="duplicate_count_2m",
         help="Duplicate-count field that must equal zero.",
@@ -108,6 +114,24 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=120.0,
         help="Minimum gap between audio_start_time and search_start_time.",
+    )
+    parser.add_argument(
+        "--preferred-max-offset-seconds",
+        type=float,
+        default=300.0,
+        help="Soft preference for latest search_start_time relative to audio_start_time.",
+    )
+    parser.add_argument(
+        "--hard-max-offset-seconds",
+        type=float,
+        default=420.0,
+        help="Hard cap for latest search_start_time relative to audio_start_time.",
+    )
+    parser.add_argument(
+        "--semantic-words2-count-per-type",
+        type=int,
+        default=2,
+        help="How many target words to remove per delay type when building semantic_words2.",
     )
     return parser
 
@@ -210,12 +234,34 @@ def main() -> None:
         str(args.delay_sigma),
         "--min-search-offset-seconds",
         str(args.min_search_offset_seconds),
+        "--preferred-max-offset-seconds",
+        str(args.preferred_max_offset_seconds),
+        "--hard-max-offset-seconds",
+        str(args.hard_max_offset_seconds),
     ]
     if args.seed is not None:
         generate_cmd.extend(["--seed", str(args.seed)])
     if stems:
         generate_cmd.extend(["--stems", *stems])
     run_cmd(generate_cmd)
+
+    semantic_words2_cmd = [
+        sys.executable,
+        str(scripts_dir / "build_semantic_words2.py"),
+        "--semantic-dir",
+        str(args.semantic_dir),
+        "--target-dir",
+        str(args.target_dir),
+        "--output-dir",
+        str(args.semantic_words2_dir),
+        "--count-per-type",
+        str(args.semantic_words2_count_per_type),
+    ]
+    if args.seed is not None:
+        semantic_words2_cmd.extend(["--seed", str(args.seed)])
+    if stems:
+        semantic_words2_cmd.extend(["--stems", *stems])
+    run_cmd(semantic_words2_cmd)
 
 
 if __name__ == "__main__":

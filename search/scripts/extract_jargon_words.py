@@ -27,15 +27,13 @@ Prefer:
 - technical or specialized terminology
 - discipline-specific concepts
 - words whose meaning depends on subject-matter knowledge
-- words that still look technical when shown alone
+- terms that are useful as subject-matter anchors
 
 Avoid:
 - common everyday words
 - broad academic words that are not domain-specific by themselves
-- proper nouns unless they are clearly technical terms in context
-- adjectives or modifiers that are only technical as part of a longer phrase
-- common school-science words familiar to a general audience
-- body-part words and ordinary descriptive words unless the single word itself is a technical term
+- proper nouns unless they are clearly tied to the subject matter
+- ordinary descriptive words that are not meaningfully domain-specific
 
 Examples of NOT jargon:
 - primary
@@ -243,14 +241,13 @@ def select_jargon_ids(
     lines = []
     for item in batch:
         lines.append(f'id={item["id"]} word="{item["word"]}"')
-        if item["context"]:
-            lines.append(f'context="{item["context"]}"')
     prompt = (
         "Candidate words:\n"
         f"{word_list}\n\n"
-        "Keep the bar strict. A word qualifies only if it is jargon as a standalone single word.\n"
-        "If it is merely part of a technical phrase, or a common adjective/noun used in science class,\n"
-        "do not include it. Use the local transcript context only to disambiguate meaning.\n\n"
+        "Keep the bar moderately selective.\n"
+        "Multi-word technical terms are allowed.\n"
+        "Common school-science vocabulary is allowed if it is still meaningfully domain-specific.\n"
+        "Judge from the terms themselves; do not rely on transcript context.\n\n"
         + "\n".join(lines)
     )
     response = client.responses.create(
