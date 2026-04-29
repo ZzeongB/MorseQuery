@@ -1,0 +1,330 @@
+[
+  {
+    "word": "Hank",
+    "time": 1.1
+  },
+  {
+    "word": "human",
+    "time": 2.32
+  },
+  {
+    "word": "moth",
+    "time": 5.4
+  },
+  {
+    "word": "London",
+    "time": 10.5
+  },
+  {
+    "word": "lichens",
+    "time": 20.46
+  },
+  {
+    "word": "trees",
+    "time": 21.28
+  },
+  {
+    "word": "birds",
+    "time": 22.8
+  },
+  {
+    "word": "factories",
+    "time": 33.2
+  },
+  {
+    "word": "soot",
+    "time": 34.88
+  },
+  {
+    "word": "problems",
+    "time": 43.84
+  },
+  {
+    "word": "brother",
+    "time": 47.2
+  },
+  {
+    "word": "pigmentation",
+    "time": 51.72
+  },
+  {
+    "word": "2%",
+    "time": 53.88
+  },
+  {
+    "word": "1895",
+    "time": 57.92
+  },
+  {
+    "word": "environments",
+    "time": 63.24
+  },
+  {
+    "word": "dirtier",
+    "time": 63.96
+  },
+  {
+    "word": "selection",
+    "time": 87.86
+  },
+  {
+    "word": "populations",
+    "time": 96.52
+  },
+  {
+    "word": "Charles",
+    "time": 103.94
+  },
+  {
+    "word": "Darwin",
+    "time": 104.36
+  },
+  {
+    "word": "revolutionary",
+    "time": 107.48
+  },
+  {
+    "word": "species",
+    "time": 110.98
+  },
+  {
+    "word": "mutation",
+    "time": 117.02
+  },
+  {
+    "word": "migration",
+    "time": 117.86
+  },
+  {
+    "word": "alleles",
+    "time": 121.64
+  },
+  {
+    "word": "tortoises",
+    "time": 147.98
+  },
+  {
+    "word": "fossils",
+    "time": 148.5
+  },
+  {
+    "word": "insects",
+    "time": 149.36
+  },
+  {
+    "word": "theory",
+    "time": 163.38
+  },
+  {
+    "word": "organisms",
+    "time": 166.2
+  },
+  {
+    "word": "journals",
+    "time": 168.64
+  },
+  {
+    "word": "survival",
+    "time": 174.34
+  },
+  {
+    "word": "adaptations",
+    "time": 176.52
+  },
+  {
+    "word": "reproduction",
+    "time": 183.0
+  },
+  {
+    "word": "beaks",
+    "time": 187.66
+  },
+  {
+    "word": "finches",
+    "time": 189.52
+  },
+  {
+    "word": "sharp",
+    "time": 212.52
+  },
+  {
+    "word": "puncture",
+    "time": 213.2
+  },
+  {
+    "word": "fitness",
+    "time": 220.1
+  },
+  {
+    "word": "offspring",
+    "time": 225.22
+  },
+  {
+    "word": "phenotypes",
+    "time": 254.32
+  },
+  {
+    "word": "heritable",
+    "time": 257.3
+  },
+  {
+    "word": "resources",
+    "time": 273.04
+  },
+  {
+    "word": "economist",
+    "time": 281.56
+  },
+  {
+    "word": "plague",
+    "time": 284.68
+  },
+  {
+    "word": "famine",
+    "time": 286.8
+  },
+  {
+    "word": "wars",
+    "time": 287.38
+  },
+  {
+    "word": "reproduce",
+    "time": 291.22
+  },
+  {
+    "word": "coloration",
+    "time": 331.02
+  },
+  {
+    "word": "interactions",
+    "time": 354.94
+  },
+  {
+    "word": "Emma",
+    "time": 385.14
+  },
+  {
+    "word": "Wedgwood",
+    "time": 385.4
+  },
+  {
+    "word": "inbreeding",
+    "time": 429.56
+  },
+  {
+    "word": "plants",
+    "time": 430.1
+  },
+  {
+    "word": "animals",
+    "time": 430.56
+  },
+  {
+    "word": "genotype",
+    "time": 471.8
+  },
+  {
+    "word": "evolutionarily",
+    "time": 479.72
+  },
+  {
+    "word": "extremes",
+    "time": 501.02
+  },
+  {
+    "word": "infections",
+    "time": 547.0
+  },
+  {
+    "word": "Daphnia",
+    "time": 579.9
+  },
+  {
+    "word": "epidemic",
+    "time": 581.76
+  },
+  {
+    "word": "parasites",
+    "time": 582.6
+  },
+  {
+    "word": "variance",
+    "time": 585.6
+  },
+  {
+    "word": "smaller",
+    "time": 591.08
+  },
+  {
+    "word": "bigger",
+    "time": 595.36
+  },
+  {
+    "word": "susceptibility",
+    "time": 605.32
+  },
+  {
+    "word": "fecundity",
+    "time": 606.1
+  },
+  {
+    "word": "predators",
+    "time": 618.86
+  },
+  {
+    "word": "males",
+    "time": 632.14
+  },
+  {
+    "word": "camouflage",
+    "time": 658.06
+  },
+  {
+    "word": "fighting",
+    "time": 673.18
+  },
+  {
+    "word": "mating",
+    "time": 677.62
+  },
+  {
+    "word": "breeding",
+    "time": 695.38
+  },
+  {
+    "word": "pigeons",
+    "time": 696.24
+  },
+  {
+    "word": "cattle",
+    "time": 697.26
+  },
+  {
+    "word": "grains",
+    "time": 705.1
+  },
+  {
+    "word": "nutrients",
+    "time": 706.84
+  },
+  {
+    "word": "corgi",
+    "time": 723.12
+  },
+  {
+    "word": "greyhound",
+    "time": 723.72
+  },
+  {
+    "word": "comments",
+    "time": 744.58
+  },
+  {
+    "word": "Facebook",
+    "time": 745.46
+  },
+  {
+    "word": "Twitter",
+    "time": 746.02
+  }
+]

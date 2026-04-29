@@ -1,0 +1,121 @@
+[
+  {
+    "word": "concrete",
+    "time": 6.42,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "aqueducts",
+    "time": 21.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "physics",
+    "time": 29.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "geometry",
+    "time": 71.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "astronomy",
+    "time": 72.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Hellenistic",
+    "time": 78.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "catapults",
+    "time": 149.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "infinitesimals",
+    "time": 181.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "exponents",
+    "time": 183.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "hydrodynamics",
+    "time": 247.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "techne",
+    "time": 261.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "technology",
+    "time": 262.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "episteme",
+    "time": 274.64,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "epistemology",
+    "time": 276.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "epistemic",
+    "time": 290.26,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Epicycles",
+    "time": 320.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Almagist",
+    "time": 341.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  }
+]

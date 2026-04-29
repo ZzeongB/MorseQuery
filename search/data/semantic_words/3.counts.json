@@ -1,0 +1,604 @@
+[
+  {
+    "word": "Hank",
+    "time": 1.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "human",
+    "time": 2.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "moth",
+    "time": 5.4,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "London",
+    "time": 10.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "lichens",
+    "time": 20.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "trees",
+    "time": 21.28,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "birds",
+    "time": 22.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "factories",
+    "time": 33.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "soot",
+    "time": 34.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "problems",
+    "time": 43.84,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "brother",
+    "time": 47.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "pigmentation",
+    "time": 51.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "2%",
+    "time": 53.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "1895",
+    "time": 57.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "environments",
+    "time": 63.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "dirtier",
+    "time": 63.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "selection",
+    "time": 89.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "populations",
+    "time": 98.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Charles",
+    "time": 105.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Darwin",
+    "time": 106.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "revolutionary",
+    "time": 109.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "species",
+    "time": 112.98,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "mutation",
+    "time": 119.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "migration",
+    "time": 119.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "alleles",
+    "time": 123.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "barnacles",
+    "time": 147.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "earthworms",
+    "time": 148.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tortoises",
+    "time": 149.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fossils",
+    "time": 150.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "insects",
+    "time": 151.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "theory",
+    "time": 165.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "organisms",
+    "time": 168.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "journals",
+    "time": 170.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "survival",
+    "time": 176.34,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "adaptations",
+    "time": 178.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "reproduction",
+    "time": 185.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "beaks",
+    "time": 189.66,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "finches",
+    "time": 191.52,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "sharp",
+    "time": 214.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "puncture",
+    "time": 215.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fitness",
+    "time": 222.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "offspring",
+    "time": 227.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "phenotypes",
+    "time": 256.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "heritable",
+    "time": 259.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "resources",
+    "time": 275.04,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "economist",
+    "time": 283.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "plague",
+    "time": 286.68,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "famine",
+    "time": 288.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "wars",
+    "time": 289.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "reproduce",
+    "time": 293.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "coloration",
+    "time": 333.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "interactions",
+    "time": 356.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Emma",
+    "time": 387.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Wedgwood",
+    "time": 387.4,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "crossbreeding",
+    "time": 430.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "inbreeding",
+    "time": 431.56,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "plants",
+    "time": 432.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "animals",
+    "time": 432.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "deformities",
+    "time": 451.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "genotype",
+    "time": 473.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "evolutionarily",
+    "time": 481.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "extremes",
+    "time": 503.02,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "infections",
+    "time": 549.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Daphnia",
+    "time": 581.9,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "epidemic",
+    "time": 583.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "parasites",
+    "time": 584.6,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "variance",
+    "time": 587.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "smaller",
+    "time": 593.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "bigger",
+    "time": 597.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "susceptibility",
+    "time": 607.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fecundity",
+    "time": 608.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "predators",
+    "time": 620.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "males",
+    "time": 634.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "camouflage",
+    "time": 660.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fighting",
+    "time": 675.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "mating",
+    "time": 679.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "breeding",
+    "time": 697.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "pigeons",
+    "time": 698.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cattle",
+    "time": 699.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "grains",
+    "time": 707.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "nutrients",
+    "time": 708.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "corgi",
+    "time": 725.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "greyhound",
+    "time": 725.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "comments",
+    "time": 746.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Facebook",
+    "time": 747.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Twitter",
+    "time": 748.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  }
+]

@@ -1,0 +1,12 @@
+{
+  "default_target_window_seconds": 300,
+  "default_max_interruptions": 10,
+  "videos": {
+    "0": { "audio_start_time": 0 },
+    "1": { "audio_start_time": 65 },
+    "2": { "audio_start_time": 66 },
+    "3": { "audio_start_time": 86 },
+    "4": { "audio_start_time": 81 },
+    "5": { "audio_start_time": 123 }
+  }
+}

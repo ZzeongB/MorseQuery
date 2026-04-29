@@ -1,0 +1,4329 @@
+{
+  "text": "PROFESSOR: OK so on Monday we talked about how cell division is regulated at this single cell level. On Wednesday we talked about how regeneration is mediated at the level of an entire tissue. And today we're going to talk about how all of that can go wrong, OK? And when all of this goes wrong, it results in a disease, actually many different diseases, but are commonly known as cancer. And as illustrated in this cartoon, what you see is that cancer can often be defined as having distinct steps in its progressive, essentially, deregulation of normal cell and tissue behavior. So when we're thinking about cancer, we're thinking about a stepwise degeneration. And cancer is a disease that affects an individual's own cells, but those cells get progressively and progressively dysregulate d in their behavior and the coordination of their behavior with the rest of the tissue. So it's a stepwise degeneration of normal cell behavior. And it results from mutations that are occurring in the cell. And we'll talk about what types of mutations right now. And then I'll take you through some examples of different signaling pathways and we'll try to classify what different types of genes should be labeled as. So first, I want to talk about classes of genes and their involvement in cancer. And the first example that I'll take you through is known as an oncogene. And it's referred to as an oncogene after the mutation has already happened. And so an oncogenic mutation is a mutation that's going to promote growth and survival of a cell. So this promotes growth. Before the gene is mutated, it's referred to as a proto-oncogene. So before mutated, the gene is labeled a proto-oncogene. And the normal function of these proto-oncogenes is also to promote growth and survival, but they do so in a regulated manner. So a gene becomes an oncogene when there's a mutation that causes it to be unregulated by the environment of the cell or even the surroundings of the cell. And so you can think of this as a constitutive activation. Often oncogenes are constitutively active forms of normal genes. And one way to think about this is you have a gene whose normal function is to promote growth and it's kind of stuck in the state of the gene that always promotes growth, which is not normally how it works. Normally there are signals that tell a cell to grow, and those signals come and go, and that's how the body regulates when cells divide. But you can have a situation where it's essentially the equivalent of what you might consider a stuck accelerator, if you're thinking about an automobile. So if you have a stuck accelerator, and you can only speed up, and you can't slow down, this is analogous to an oncogenic mutation. Now a different class of gene, actually kind of the opposite of an oncogene, is called a tumor suppressor. And tumor suppressors are genes whose normal function is to inhibit growth or even promote death. So tumor suppressors inhibit growth or promote death. You could see how these two different things would have the same effect in that it's not allowing one cell to become a lot of cells because the tumor suppressor will either prevent it from dividing or will cause the cells to die. And so the cancer phenotype is associated with a loss of function of the tumor suppressor. So these result from loss of function mutations in the tumor suppressors. So if you remove the thing that's inhibiting growth, then that allows the cells to divide in a more unregulated way. And so sticking with the analogy of an automobile, you could think of the tumor suppressor mutation as a cell having defective brakes. So you can think of this as defective brakes. So it's the loss of function of these that lead to cancer. Now I want to tell you about one last class of genes that are implicated in cancer. And these are what, in the diagram up there, are referred to as caretaker genes. And what that refers to is the fact that these genes are involved in maintaining the genomic integrity of a cell. And they can do that by mediating DNA",
+  "segments": [
+    {
+      "id": 0,
+      "start": 17.01,
+      "end": 18.78,
+      "text": "PROFESSOR: OK so on Monday we talked",
+      "words": [
+        {
+          "word": "PROFESSOR:",
+          "start": 17.01,
+          "end": 17.310000000000002
+        },
+        {
+          "word": "OK",
+          "start": 17.310000000000002,
+          "end": 17.610000000000003
+        },
+        {
+          "word": "so",
+          "start": 17.610000000000003,
+          "end": 17.630000000000003
+        },
+        {
+          "word": "on",
+          "start": 17.630000000000003,
+          "end": 17.810000000000002
+        },
+        {
+          "word": "Monday",
+          "start": 17.810000000000002,
+          "end": 18.19
+        },
+        {
+          "word": "we",
+          "start": 18.19,
+          "end": 18.490000000000002
+        },
+        {
+          "word": "talked",
+          "start": 18.490000000000002,
+          "end": 18.75
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "start": 18.78,
+      "end": 22.95,
+      "text": "about how cell division is regulated at this single cell",
+      "words": [
+        {
+          "word": "about",
+          "start": 18.78,
+          "end": 19.3
+        },
+        {
+          "word": "how",
+          "start": 19.3,
+          "end": 19.96
+        },
+        {
+          "word": "cell",
+          "start": 19.96,
+          "end": 20.240000000000002
+        },
+        {
+          "word": "division",
+          "start": 20.240000000000002,
+          "end": 20.64
+        },
+        {
+          "word": "is",
+          "start": 20.64,
+          "end": 21.04
+        },
+        {
+          "word": "regulated",
+          "start": 21.04,
+          "end": 21.42
+        },
+        {
+          "word": "at",
+          "start": 21.42,
+          "end": 21.8
+        },
+        {
+          "word": "this",
+          "start": 21.8,
+          "end": 22.16
+        },
+        {
+          "word": "single",
+          "start": 22.16,
+          "end": 22.6
+        },
+        {
+          "word": "cell",
+          "start": 22.6,
+          "end": 22.92
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 22.95,
+      "end": 24.18,
+      "text": "level.",
+      "words": [
+        {
+          "word": "level.",
+          "start": 22.95,
+          "end": 23.349999999999998
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 24.18,
+      "end": 28.47,
+      "text": "On Wednesday we talked about how regeneration",
+      "words": [
+        {
+          "word": "On",
+          "start": 24.18,
+          "end": 24.46
+        },
+        {
+          "word": "Wednesday",
+          "start": 24.46,
+          "end": 24.82
+        },
+        {
+          "word": "we",
+          "start": 24.82,
+          "end": 25.22
+        },
+        {
+          "word": "talked",
+          "start": 25.22,
+          "end": 25.56
+        },
+        {
+          "word": "about",
+          "start": 25.56,
+          "end": 26.4
+        },
+        {
+          "word": "how",
+          "start": 26.4,
+          "end": 26.88
+        },
+        {
+          "word": "regeneration",
+          "start": 26.88,
+          "end": 28.02
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 28.47,
+      "end": 32.07,
+      "text": "is mediated at the level of an entire tissue.",
+      "words": [
+        {
+          "word": "is",
+          "start": 28.47,
+          "end": 28.75
+        },
+        {
+          "word": "mediated",
+          "start": 28.75,
+          "end": 29.41
+        },
+        {
+          "word": "at",
+          "start": 29.41,
+          "end": 29.83
+        },
+        {
+          "word": "the",
+          "start": 29.83,
+          "end": 29.93
+        },
+        {
+          "word": "level",
+          "start": 29.93,
+          "end": 30.189999999999998
+        },
+        {
+          "word": "of",
+          "start": 30.189999999999998,
+          "end": 30.45
+        },
+        {
+          "word": "an",
+          "start": 30.45,
+          "end": 30.49
+        },
+        {
+          "word": "entire",
+          "start": 30.49,
+          "end": 30.83
+        },
+        {
+          "word": "tissue.",
+          "start": 30.83,
+          "end": 31.29
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 32.07,
+      "end": 34.47,
+      "text": "And today we're going to talk about how all of that",
+      "words": [
+        {
+          "word": "And",
+          "start": 32.07,
+          "end": 32.25
+        },
+        {
+          "word": "today",
+          "start": 32.25,
+          "end": 32.57
+        },
+        {
+          "word": "we're",
+          "start": 32.57,
+          "end": 32.81
+        },
+        {
+          "word": "going",
+          "start": 32.81,
+          "end": 32.89
+        },
+        {
+          "word": "to",
+          "start": 32.89,
+          "end": 33.05
+        },
+        {
+          "word": "talk",
+          "start": 33.05,
+          "end": 33.19
+        },
+        {
+          "word": "about",
+          "start": 33.19,
+          "end": 33.49
+        },
+        {
+          "word": "how",
+          "start": 33.49,
+          "end": 33.71
+        },
+        {
+          "word": "all",
+          "start": 33.71,
+          "end": 34.01
+        },
+        {
+          "word": "of",
+          "start": 34.01,
+          "end": 34.19
+        },
+        {
+          "word": "that",
+          "start": 34.19,
+          "end": 34.45
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 34.47,
+      "end": 36.21,
+      "text": "can go wrong, OK?",
+      "words": [
+        {
+          "word": "can",
+          "start": 34.47,
+          "end": 34.769999999999996
+        },
+        {
+          "word": "go",
+          "start": 34.769999999999996,
+          "end": 35.01
+        },
+        {
+          "word": "wrong,",
+          "start": 35.01,
+          "end": 35.53
+        },
+        {
+          "word": "OK?",
+          "start": 35.53,
+          "end": 36.21
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 36.21,
+      "end": 39.12,
+      "text": "And when all of this goes wrong, it",
+      "words": [
+        {
+          "word": "And",
+          "start": 36.21,
+          "end": 36.99
+        },
+        {
+          "word": "when",
+          "start": 36.99,
+          "end": 37.21
+        },
+        {
+          "word": "all",
+          "start": 37.21,
+          "end": 37.45
+        },
+        {
+          "word": "of",
+          "start": 37.45,
+          "end": 37.63
+        },
+        {
+          "word": "this",
+          "start": 37.63,
+          "end": 37.87
+        },
+        {
+          "word": "goes",
+          "start": 37.87,
+          "end": 38.07
+        },
+        {
+          "word": "wrong,",
+          "start": 38.07,
+          "end": 38.67
+        },
+        {
+          "word": "it",
+          "start": 39.09,
+          "end": 39.09
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 39.12,
+      "end": 43.74,
+      "text": "results in a disease, actually many different diseases,",
+      "words": [
+        {
+          "word": "results",
+          "start": 39.12,
+          "end": 39.64
+        },
+        {
+          "word": "in",
+          "start": 39.64,
+          "end": 40.04
+        },
+        {
+          "word": "a",
+          "start": 40.04,
+          "end": 40.279999999999994
+        },
+        {
+          "word": "disease,",
+          "start": 40.279999999999994,
+          "end": 40.76
+        },
+        {
+          "word": "actually",
+          "start": 41.9,
+          "end": 42.3
+        },
+        {
+          "word": "many",
+          "start": 42.3,
+          "end": 42.739999999999995
+        },
+        {
+          "word": "different",
+          "start": 42.739999999999995,
+          "end": 43.12
+        },
+        {
+          "word": "diseases,",
+          "start": 43.12,
+          "end": 43.48
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "start": 43.74,
+      "end": 48.07,
+      "text": "but are commonly known as cancer.",
+      "words": [
+        {
+          "word": "but",
+          "start": 43.74,
+          "end": 44.14
+        },
+        {
+          "word": "are",
+          "start": 44.14,
+          "end": 44.56
+        },
+        {
+          "word": "commonly",
+          "start": 44.56,
+          "end": 44.940000000000005
+        },
+        {
+          "word": "known",
+          "start": 44.940000000000005,
+          "end": 45.38
+        },
+        {
+          "word": "as",
+          "start": 45.38,
+          "end": 45.68
+        },
+        {
+          "word": "cancer.",
+          "start": 45.68,
+          "end": 46.06
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "start": 48.07,
+      "end": 52.11,
+      "text": "And as illustrated in this cartoon, what you see",
+      "words": [
+        {
+          "word": "And",
+          "start": 48.77,
+          "end": 48.85
+        },
+        {
+          "word": "as",
+          "start": 48.85,
+          "end": 49.23
+        },
+        {
+          "word": "illustrated",
+          "start": 49.23,
+          "end": 49.69
+        },
+        {
+          "word": "in",
+          "start": 49.69,
+          "end": 50.09
+        },
+        {
+          "word": "this",
+          "start": 50.09,
+          "end": 50.21
+        },
+        {
+          "word": "cartoon,",
+          "start": 50.21,
+          "end": 50.69
+        },
+        {
+          "word": "what",
+          "start": 51.57,
+          "end": 51.65
+        },
+        {
+          "word": "you",
+          "start": 51.65,
+          "end": 51.85
+        },
+        {
+          "word": "see",
+          "start": 51.85,
+          "end": 52.09
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "start": 52.11,
+      "end": 57.09,
+      "text": "is that cancer can often be defined",
+      "words": [
+        {
+          "word": "is",
+          "start": 52.11,
+          "end": 52.45
+        },
+        {
+          "word": "that",
+          "start": 52.45,
+          "end": 52.91
+        },
+        {
+          "word": "cancer",
+          "start": 52.91,
+          "end": 53.43
+        },
+        {
+          "word": "can",
+          "start": 53.43,
+          "end": 54.39
+        },
+        {
+          "word": "often",
+          "start": 54.39,
+          "end": 54.85
+        },
+        {
+          "word": "be",
+          "start": 54.85,
+          "end": 56.37
+        },
+        {
+          "word": "defined",
+          "start": 56.37,
+          "end": 56.93
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "start": 57.09,
+      "end": 62.22,
+      "text": "as having distinct steps in its progressive, essentially,",
+      "words": [
+        {
+          "word": "as",
+          "start": 57.09,
+          "end": 57.410000000000004
+        },
+        {
+          "word": "having",
+          "start": 57.410000000000004,
+          "end": 57.85
+        },
+        {
+          "word": "distinct",
+          "start": 57.85,
+          "end": 58.43000000000001
+        },
+        {
+          "word": "steps",
+          "start": 58.43000000000001,
+          "end": 59.230000000000004
+        },
+        {
+          "word": "in",
+          "start": 59.230000000000004,
+          "end": 59.95
+        },
+        {
+          "word": "its",
+          "start": 59.95,
+          "end": 60.67
+        },
+        {
+          "word": "progressive,",
+          "start": 60.67,
+          "end": 61.13
+        },
+        {
+          "word": "essentially,",
+          "start": 61.13,
+          "end": 62.11
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "start": 62.22,
+      "end": 68.34,
+      "text": "deregulation of normal cell and tissue behavior.",
+      "words": [
+        {
+          "word": "deregulation",
+          "start": 62.22,
+          "end": 63.58
+        },
+        {
+          "word": "of",
+          "start": 63.58,
+          "end": 64.1
+        },
+        {
+          "word": "normal",
+          "start": 64.1,
+          "end": 64.48
+        },
+        {
+          "word": "cell",
+          "start": 64.48,
+          "end": 65.12
+        },
+        {
+          "word": "and",
+          "start": 65.12,
+          "end": 65.3
+        },
+        {
+          "word": "tissue",
+          "start": 65.3,
+          "end": 65.72
+        },
+        {
+          "word": "behavior.",
+          "start": 65.72,
+          "end": 66.5
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "start": 68.34,
+      "end": 71.76,
+      "text": "So when we're thinking about cancer,",
+      "words": [
+        {
+          "word": "So",
+          "start": 68.34,
+          "end": 68.84
+        },
+        {
+          "word": "when",
+          "start": 68.84,
+          "end": 69.7
+        },
+        {
+          "word": "we're",
+          "start": 69.7,
+          "end": 69.92
+        },
+        {
+          "word": "thinking",
+          "start": 69.92,
+          "end": 70.12
+        },
+        {
+          "word": "about",
+          "start": 70.12,
+          "end": 70.66
+        },
+        {
+          "word": "cancer,",
+          "start": 70.66,
+          "end": 71.08
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "start": 71.76,
+      "end": 77.46,
+      "text": "we're thinking about a stepwise degeneration.",
+      "words": [
+        {
+          "word": "we're",
+          "start": 71.76,
+          "end": 72.24000000000001
+        },
+        {
+          "word": "thinking",
+          "start": 72.24000000000001,
+          "end": 72.26
+        },
+        {
+          "word": "about",
+          "start": 72.26,
+          "end": 72.78
+        },
+        {
+          "word": "a",
+          "start": 72.78,
+          "end": 73.12
+        },
+        {
+          "word": "stepwise",
+          "start": 73.12,
+          "end": 74.74000000000001
+        },
+        {
+          "word": "degeneration.",
+          "start": 74.74000000000001,
+          "end": 77.30000000000001
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "start": 81.61,
+      "end": 87.13,
+      "text": "And cancer is a disease that affects an individual's",
+      "words": [
+        {
+          "word": "And",
+          "start": 81.61,
+          "end": 82.45
+        },
+        {
+          "word": "cancer",
+          "start": 82.45,
+          "end": 82.99
+        },
+        {
+          "word": "is",
+          "start": 82.99,
+          "end": 83.87
+        },
+        {
+          "word": "a",
+          "start": 83.87,
+          "end": 84.05
+        },
+        {
+          "word": "disease",
+          "start": 84.05,
+          "end": 84.51
+        },
+        {
+          "word": "that",
+          "start": 84.51,
+          "end": 84.89
+        },
+        {
+          "word": "affects",
+          "start": 84.89,
+          "end": 85.37
+        },
+        {
+          "word": "an",
+          "start": 85.37,
+          "end": 86.25
+        },
+        {
+          "word": "individual's",
+          "start": 86.25,
+          "end": 87.13
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "start": 87.13,
+      "end": 91.33,
+      "text": "own cells, but those cells get progressively and progressively",
+      "words": [
+        {
+          "word": "own",
+          "start": 87.13,
+          "end": 87.55
+        },
+        {
+          "word": "cells,",
+          "start": 87.55,
+          "end": 88.00999999999999
+        },
+        {
+          "word": "but",
+          "start": 88.27,
+          "end": 88.35
+        },
+        {
+          "word": "those",
+          "start": 88.35,
+          "end": 88.58999999999999
+        },
+        {
+          "word": "cells",
+          "start": 88.58999999999999,
+          "end": 88.99
+        },
+        {
+          "word": "get",
+          "start": 88.99,
+          "end": 89.28999999999999
+        },
+        {
+          "word": "progressively",
+          "start": 89.28999999999999,
+          "end": 89.97
+        },
+        {
+          "word": "and",
+          "start": 89.97,
+          "end": 90.44999999999999
+        },
+        {
+          "word": "progressively",
+          "start": 90.44999999999999,
+          "end": 90.81
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "start": 91.33,
+      "end": 95.89,
+      "text": "dysregulate d in their behavior and the coordination",
+      "words": [
+        {
+          "word": "dysregulate",
+          "start": 91.33,
+          "end": 92.05
+        },
+        {
+          "word": "d",
+          "start": 92.05,
+          "end": 92.77
+        },
+        {
+          "word": "in",
+          "start": 92.77,
+          "end": 93.23
+        },
+        {
+          "word": "their",
+          "start": 93.23,
+          "end": 93.45
+        },
+        {
+          "word": "behavior",
+          "start": 93.45,
+          "end": 93.87
+        },
+        {
+          "word": "and",
+          "start": 93.87,
+          "end": 94.59
+        },
+        {
+          "word": "the",
+          "start": 94.59,
+          "end": 94.83
+        },
+        {
+          "word": "coordination",
+          "start": 94.83,
+          "end": 95.53
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "start": 95.89,
+      "end": 98.81,
+      "text": "of their behavior with the rest of the tissue.",
+      "words": [
+        {
+          "word": "of",
+          "start": 95.89,
+          "end": 96.06
+        },
+        {
+          "word": "their",
+          "start": 96.06,
+          "end": 96.23
+        },
+        {
+          "word": "behavior",
+          "start": 96.23,
+          "end": 96.73
+        },
+        {
+          "word": "with",
+          "start": 96.73,
+          "end": 97.07000000000001
+        },
+        {
+          "word": "the",
+          "start": 97.07000000000001,
+          "end": 97.17
+        },
+        {
+          "word": "rest",
+          "start": 97.17,
+          "end": 97.39
+        },
+        {
+          "word": "of",
+          "start": 97.39,
+          "end": 97.59
+        },
+        {
+          "word": "the",
+          "start": 97.59,
+          "end": 97.67
+        },
+        {
+          "word": "tissue.",
+          "start": 97.67,
+          "end": 97.99
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "start": 98.81,
+      "end": 105.385,
+      "text": "So it's a stepwise degeneration of normal cell behavior.",
+      "words": [
+        {
+          "word": "So",
+          "start": 98.81,
+          "end": 99.05
+        },
+        {
+          "word": "it's",
+          "start": 99.05,
+          "end": 99.21000000000001
+        },
+        {
+          "word": "a",
+          "start": 99.21000000000001,
+          "end": 99.33
+        },
+        {
+          "word": "stepwise",
+          "start": 99.33,
+          "end": 99.81
+        },
+        {
+          "word": "degeneration",
+          "start": 99.81,
+          "end": 100.59
+        },
+        {
+          "word": "of",
+          "start": 100.59,
+          "end": 101.61
+        },
+        {
+          "word": "normal",
+          "start": 101.61,
+          "end": 103.27
+        },
+        {
+          "word": "cell",
+          "start": 103.27,
+          "end": 105.01
+        },
+        {
+          "word": "behavior.",
+          "start": 105.01,
+          "end": 105.35000000000001
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "start": 108.34,
+      "end": 116.5,
+      "text": "And it results from mutations that are occurring in the cell.",
+      "words": [
+        {
+          "word": "And",
+          "start": 108.34,
+          "end": 108.56
+        },
+        {
+          "word": "it",
+          "start": 108.56,
+          "end": 108.74000000000001
+        },
+        {
+          "word": "results",
+          "start": 108.74000000000001,
+          "end": 109.10000000000001
+        },
+        {
+          "word": "from",
+          "start": 109.10000000000001,
+          "end": 110.96000000000001
+        },
+        {
+          "word": "mutations",
+          "start": 110.96000000000001,
+          "end": 111.64
+        },
+        {
+          "word": "that",
+          "start": 111.64,
+          "end": 112.24000000000001
+        },
+        {
+          "word": "are",
+          "start": 112.24000000000001,
+          "end": 112.44
+        },
+        {
+          "word": "occurring",
+          "start": 112.44,
+          "end": 113.2
+        },
+        {
+          "word": "in",
+          "start": 113.2,
+          "end": 113.92
+        },
+        {
+          "word": "the",
+          "start": 113.92,
+          "end": 114.02000000000001
+        },
+        {
+          "word": "cell.",
+          "start": 114.02000000000001,
+          "end": 114.48
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 116.5,
+      "end": 121.42,
+      "text": "And we'll talk about what types of mutations right now.",
+      "words": [
+        {
+          "word": "And",
+          "start": 116.5,
+          "end": 116.7
+        },
+        {
+          "word": "we'll",
+          "start": 116.7,
+          "end": 116.8
+        },
+        {
+          "word": "talk",
+          "start": 116.8,
+          "end": 117.16
+        },
+        {
+          "word": "about",
+          "start": 117.16,
+          "end": 118.68
+        },
+        {
+          "word": "what",
+          "start": 118.68,
+          "end": 119.48
+        },
+        {
+          "word": "types",
+          "start": 119.48,
+          "end": 119.76
+        },
+        {
+          "word": "of",
+          "start": 119.76,
+          "end": 120.02
+        },
+        {
+          "word": "mutations",
+          "start": 120.02,
+          "end": 120.48
+        },
+        {
+          "word": "right",
+          "start": 120.48,
+          "end": 121.06
+        },
+        {
+          "word": "now.",
+          "start": 121.06,
+          "end": 121.4
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "start": 121.42,
+      "end": 124.42,
+      "text": "And then I'll take you through some examples",
+      "words": [
+        {
+          "word": "And",
+          "start": 121.42,
+          "end": 121.66
+        },
+        {
+          "word": "then",
+          "start": 121.66,
+          "end": 122.14
+        },
+        {
+          "word": "I'll",
+          "start": 122.88,
+          "end": 123.06
+        },
+        {
+          "word": "take",
+          "start": 123.06,
+          "end": 123.22
+        },
+        {
+          "word": "you",
+          "start": 123.22,
+          "end": 123.4
+        },
+        {
+          "word": "through",
+          "start": 123.4,
+          "end": 123.58
+        },
+        {
+          "word": "some",
+          "start": 123.58,
+          "end": 123.82000000000001
+        },
+        {
+          "word": "examples",
+          "start": 123.82000000000001,
+          "end": 124.2
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "start": 124.42,
+      "end": 126.73,
+      "text": "of different signaling pathways and we'll",
+      "words": [
+        {
+          "word": "of",
+          "start": 124.42,
+          "end": 124.64
+        },
+        {
+          "word": "different",
+          "start": 124.64,
+          "end": 125.02
+        },
+        {
+          "word": "signaling",
+          "start": 125.02,
+          "end": 125.34
+        },
+        {
+          "word": "pathways",
+          "start": 125.34,
+          "end": 125.8
+        },
+        {
+          "word": "and",
+          "start": 125.8,
+          "end": 126.66
+        },
+        {
+          "word": "we'll",
+          "start": 126.66,
+          "end": 126.7
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "start": 126.73,
+      "end": 132.22,
+      "text": "try to classify what different types of genes",
+      "words": [
+        {
+          "word": "try",
+          "start": 126.73,
+          "end": 127.11
+        },
+        {
+          "word": "to",
+          "start": 127.11,
+          "end": 127.77000000000001
+        },
+        {
+          "word": "classify",
+          "start": 127.77000000000001,
+          "end": 128.43
+        },
+        {
+          "word": "what",
+          "start": 128.43,
+          "end": 130.99
+        },
+        {
+          "word": "different",
+          "start": 130.99,
+          "end": 131.41
+        },
+        {
+          "word": "types",
+          "start": 131.41,
+          "end": 131.67000000000002
+        },
+        {
+          "word": "of",
+          "start": 131.67000000000002,
+          "end": 131.93
+        },
+        {
+          "word": "genes",
+          "start": 131.93,
+          "end": 132.19
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "start": 132.22,
+      "end": 135.55,
+      "text": "should be labeled as.",
+      "words": [
+        {
+          "word": "should",
+          "start": 132.22,
+          "end": 132.44
+        },
+        {
+          "word": "be",
+          "start": 132.44,
+          "end": 132.62
+        },
+        {
+          "word": "labeled",
+          "start": 132.62,
+          "end": 132.9
+        },
+        {
+          "word": "as.",
+          "start": 132.9,
+          "end": 134.8
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "start": 135.55,
+      "end": 139.377,
+      "text": "So first, I want to talk about classes of genes",
+      "words": [
+        {
+          "word": "So",
+          "start": 135.55,
+          "end": 135.77
+        },
+        {
+          "word": "first,",
+          "start": 135.77,
+          "end": 136.11
+        },
+        {
+          "word": "I",
+          "start": 136.11,
+          "end": 136.27
+        },
+        {
+          "word": "want",
+          "start": 136.27,
+          "end": 136.43
+        },
+        {
+          "word": "to",
+          "start": 136.43,
+          "end": 136.45000000000002
+        },
+        {
+          "word": "talk",
+          "start": 136.45000000000002,
+          "end": 136.75
+        },
+        {
+          "word": "about",
+          "start": 136.75,
+          "end": 137.55
+        },
+        {
+          "word": "classes",
+          "start": 137.55,
+          "end": 138.01000000000002
+        },
+        {
+          "word": "of",
+          "start": 138.01000000000002,
+          "end": 138.41000000000003
+        },
+        {
+          "word": "genes",
+          "start": 138.41000000000003,
+          "end": 138.79000000000002
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "start": 139.377,
+      "end": 140.71,
+      "text": "and their involvement in cancer.",
+      "words": [
+        {
+          "word": "and",
+          "start": 139.377,
+          "end": 139.637
+        },
+        {
+          "word": "their",
+          "start": 139.637,
+          "end": 139.89700000000002
+        },
+        {
+          "word": "involvement",
+          "start": 139.89700000000002,
+          "end": 140.23700000000002
+        },
+        {
+          "word": "in",
+          "start": 140.23700000000002,
+          "end": 140.55700000000002
+        },
+        {
+          "word": "cancer.",
+          "start": 140.55700000000002,
+          "end": 140.67700000000002
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 145.69,
+      "end": 148.57,
+      "text": "And the first example that I'll take you through",
+      "words": [
+        {
+          "word": "And",
+          "start": 145.69,
+          "end": 145.87
+        },
+        {
+          "word": "the",
+          "start": 145.87,
+          "end": 146.01
+        },
+        {
+          "word": "first",
+          "start": 146.01,
+          "end": 146.32999999999998
+        },
+        {
+          "word": "example",
+          "start": 146.32999999999998,
+          "end": 146.85
+        },
+        {
+          "word": "that",
+          "start": 146.85,
+          "end": 147.21
+        },
+        {
+          "word": "I'll",
+          "start": 147.21,
+          "end": 147.41
+        },
+        {
+          "word": "take",
+          "start": 147.41,
+          "end": 147.59
+        },
+        {
+          "word": "you",
+          "start": 147.59,
+          "end": 147.82999999999998
+        },
+        {
+          "word": "through",
+          "start": 147.82999999999998,
+          "end": 148.29
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "start": 148.57,
+      "end": 150.19,
+      "text": "is known as an oncogene.",
+      "words": [
+        {
+          "word": "is",
+          "start": 148.57,
+          "end": 148.93
+        },
+        {
+          "word": "known",
+          "start": 148.93,
+          "end": 149.15
+        },
+        {
+          "word": "as",
+          "start": 149.15,
+          "end": 149.45
+        },
+        {
+          "word": "an",
+          "start": 149.45,
+          "end": 149.57
+        },
+        {
+          "word": "oncogene.",
+          "start": 149.57,
+          "end": 150.01
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "start": 155.77,
+      "end": 158.68,
+      "text": "And it's referred to as an oncogene",
+      "words": [
+        {
+          "word": "And",
+          "start": 155.77,
+          "end": 156.27
+        },
+        {
+          "word": "it's",
+          "start": 156.27,
+          "end": 157.13000000000002
+        },
+        {
+          "word": "referred",
+          "start": 157.13000000000002,
+          "end": 157.41
+        },
+        {
+          "word": "to",
+          "start": 157.41,
+          "end": 157.71
+        },
+        {
+          "word": "as",
+          "start": 157.71,
+          "end": 157.93
+        },
+        {
+          "word": "an",
+          "start": 157.93,
+          "end": 158.01000000000002
+        },
+        {
+          "word": "oncogene",
+          "start": 158.01000000000002,
+          "end": 158.53
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "start": 158.68,
+      "end": 161.53,
+      "text": "after the mutation has already happened.",
+      "words": [
+        {
+          "word": "after",
+          "start": 158.68,
+          "end": 159.1
+        },
+        {
+          "word": "the",
+          "start": 159.1,
+          "end": 159.3
+        },
+        {
+          "word": "mutation",
+          "start": 159.3,
+          "end": 159.78
+        },
+        {
+          "word": "has",
+          "start": 159.78,
+          "end": 160.14000000000001
+        },
+        {
+          "word": "already",
+          "start": 160.14000000000001,
+          "end": 160.38
+        },
+        {
+          "word": "happened.",
+          "start": 160.38,
+          "end": 160.8
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "start": 161.53,
+      "end": 165.97,
+      "text": "And so an oncogenic mutation is a mutation",
+      "words": [
+        {
+          "word": "And",
+          "start": 161.53,
+          "end": 161.71
+        },
+        {
+          "word": "so",
+          "start": 161.71,
+          "end": 161.93
+        },
+        {
+          "word": "an",
+          "start": 161.93,
+          "end": 162.15
+        },
+        {
+          "word": "oncogenic",
+          "start": 162.15,
+          "end": 163.55
+        },
+        {
+          "word": "mutation",
+          "start": 163.55,
+          "end": 164.25
+        },
+        {
+          "word": "is",
+          "start": 164.25,
+          "end": 164.99
+        },
+        {
+          "word": "a",
+          "start": 164.99,
+          "end": 164.99
+        },
+        {
+          "word": "mutation",
+          "start": 164.99,
+          "end": 165.57
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "start": 165.97,
+      "end": 170.72,
+      "text": "that's going to promote growth and survival of a cell.",
+      "words": [
+        {
+          "word": "that's",
+          "start": 165.97,
+          "end": 166.39
+        },
+        {
+          "word": "going",
+          "start": 166.39,
+          "end": 166.65
+        },
+        {
+          "word": "to",
+          "start": 166.65,
+          "end": 167.09
+        },
+        {
+          "word": "promote",
+          "start": 167.09,
+          "end": 167.53
+        },
+        {
+          "word": "growth",
+          "start": 167.53,
+          "end": 168.19
+        },
+        {
+          "word": "and",
+          "start": 168.19,
+          "end": 168.53
+        },
+        {
+          "word": "survival",
+          "start": 168.53,
+          "end": 169.07
+        },
+        {
+          "word": "of",
+          "start": 169.07,
+          "end": 169.77
+        },
+        {
+          "word": "a",
+          "start": 169.77,
+          "end": 169.99
+        },
+        {
+          "word": "cell.",
+          "start": 169.99,
+          "end": 170.23
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "start": 170.72,
+      "end": 172.6,
+      "text": "So this promotes growth.",
+      "words": [
+        {
+          "word": "So",
+          "start": 170.72,
+          "end": 170.9
+        },
+        {
+          "word": "this",
+          "start": 170.9,
+          "end": 171.18
+        },
+        {
+          "word": "promotes",
+          "start": 171.18,
+          "end": 172.2
+        },
+        {
+          "word": "growth.",
+          "start": 172.2,
+          "end": 172.58
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "start": 177.97,
+      "end": 181.27,
+      "text": "Before the gene is mutated, it's referred",
+      "words": [
+        {
+          "word": "Before",
+          "start": 177.97,
+          "end": 178.43
+        },
+        {
+          "word": "the",
+          "start": 178.43,
+          "end": 178.75
+        },
+        {
+          "word": "gene",
+          "start": 178.75,
+          "end": 179.23
+        },
+        {
+          "word": "is",
+          "start": 179.23,
+          "end": 179.57
+        },
+        {
+          "word": "mutated,",
+          "start": 179.57,
+          "end": 180.57
+        },
+        {
+          "word": "it's",
+          "start": 180.83,
+          "end": 181.05
+        },
+        {
+          "word": "referred",
+          "start": 181.05,
+          "end": 181.21
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "start": 181.27,
+      "end": 183.73,
+      "text": "to as a proto-oncogene.",
+      "words": [
+        {
+          "word": "to",
+          "start": 181.27,
+          "end": 181.51000000000002
+        },
+        {
+          "word": "as",
+          "start": 181.51000000000002,
+          "end": 181.71
+        },
+        {
+          "word": "a",
+          "start": 181.71,
+          "end": 181.89000000000001
+        },
+        {
+          "word": "proto-oncogene.",
+          "start": 181.89000000000001,
+          "end": 183.73
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "start": 183.73,
+      "end": 193.88,
+      "text": "So before mutated, the gene is labeled a proto-oncogene.",
+      "words": [
+        {
+          "word": "So",
+          "start": 183.73,
+          "end": 184.01
+        },
+        {
+          "word": "before",
+          "start": 184.01,
+          "end": 184.42999999999998
+        },
+        {
+          "word": "mutated,",
+          "start": 184.42999999999998,
+          "end": 190.76999999999998
+        },
+        {
+          "word": "the",
+          "start": 190.76999999999998,
+          "end": 190.95
+        },
+        {
+          "word": "gene",
+          "start": 190.95,
+          "end": 191.23
+        },
+        {
+          "word": "is",
+          "start": 191.23,
+          "end": 191.54999999999998
+        },
+        {
+          "word": "labeled",
+          "start": 191.54999999999998,
+          "end": 191.89
+        },
+        {
+          "word": "a",
+          "start": 191.89,
+          "end": 192.92999999999998
+        },
+        {
+          "word": "proto-oncogene.",
+          "start": 192.92999999999998,
+          "end": 193.88
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "start": 200.59,
+      "end": 203.5,
+      "text": "And the normal function of these proto-oncogenes",
+      "words": [
+        {
+          "word": "And",
+          "start": 200.59,
+          "end": 200.85
+        },
+        {
+          "word": "the",
+          "start": 200.85,
+          "end": 201.05
+        },
+        {
+          "word": "normal",
+          "start": 201.05,
+          "end": 201.31
+        },
+        {
+          "word": "function",
+          "start": 201.31,
+          "end": 201.87
+        },
+        {
+          "word": "of",
+          "start": 201.87,
+          "end": 202.39000000000001
+        },
+        {
+          "word": "these",
+          "start": 202.39000000000001,
+          "end": 202.61
+        },
+        {
+          "word": "proto-oncogenes",
+          "start": 202.61,
+          "end": 203.5
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "start": 203.5,
+      "end": 206.41,
+      "text": "is also to promote growth and survival,",
+      "words": [
+        {
+          "word": "is",
+          "start": 203.5,
+          "end": 203.76
+        },
+        {
+          "word": "also",
+          "start": 203.76,
+          "end": 204.14
+        },
+        {
+          "word": "to",
+          "start": 204.14,
+          "end": 204.4
+        },
+        {
+          "word": "promote",
+          "start": 204.4,
+          "end": 204.8
+        },
+        {
+          "word": "growth",
+          "start": 204.8,
+          "end": 205.3
+        },
+        {
+          "word": "and",
+          "start": 205.3,
+          "end": 205.56
+        },
+        {
+          "word": "survival,",
+          "start": 205.56,
+          "end": 205.94
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "start": 206.41,
+      "end": 210.01,
+      "text": "but they do so in a regulated manner.",
+      "words": [
+        {
+          "word": "but",
+          "start": 206.41,
+          "end": 206.67
+        },
+        {
+          "word": "they",
+          "start": 206.67,
+          "end": 206.81
+        },
+        {
+          "word": "do",
+          "start": 206.81,
+          "end": 207.03
+        },
+        {
+          "word": "so",
+          "start": 207.03,
+          "end": 207.45
+        },
+        {
+          "word": "in",
+          "start": 207.45,
+          "end": 207.60999999999999
+        },
+        {
+          "word": "a",
+          "start": 207.60999999999999,
+          "end": 207.69
+        },
+        {
+          "word": "regulated",
+          "start": 207.69,
+          "end": 208.21
+        },
+        {
+          "word": "manner.",
+          "start": 208.21,
+          "end": 208.87
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "start": 210.01,
+      "end": 213.07,
+      "text": "So a gene becomes an oncogene when",
+      "words": [
+        {
+          "word": "So",
+          "start": 210.01,
+          "end": 210.92999999999998
+        },
+        {
+          "word": "a",
+          "start": 210.92999999999998,
+          "end": 211.60999999999999
+        },
+        {
+          "word": "gene",
+          "start": 211.60999999999999,
+          "end": 211.87
+        },
+        {
+          "word": "becomes",
+          "start": 211.87,
+          "end": 212.10999999999999
+        },
+        {
+          "word": "an",
+          "start": 212.10999999999999,
+          "end": 212.37
+        },
+        {
+          "word": "oncogene",
+          "start": 212.37,
+          "end": 212.91
+        },
+        {
+          "word": "when",
+          "start": 212.91,
+          "end": 213.04999999999998
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "start": 213.07,
+      "end": 215.23,
+      "text": "there's a mutation that causes it",
+      "words": [
+        {
+          "word": "there's",
+          "start": 213.07,
+          "end": 213.31
+        },
+        {
+          "word": "a",
+          "start": 213.31,
+          "end": 213.41
+        },
+        {
+          "word": "mutation",
+          "start": 213.41,
+          "end": 214.01
+        },
+        {
+          "word": "that",
+          "start": 214.01,
+          "end": 214.63
+        },
+        {
+          "word": "causes",
+          "start": 214.63,
+          "end": 214.97
+        },
+        {
+          "word": "it",
+          "start": 214.97,
+          "end": 215.20999999999998
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "start": 215.23,
+      "end": 219.91,
+      "text": "to be unregulated by the environment of the cell",
+      "words": [
+        {
+          "word": "to",
+          "start": 215.23,
+          "end": 215.67
+        },
+        {
+          "word": "be",
+          "start": 215.67,
+          "end": 216.63
+        },
+        {
+          "word": "unregulated",
+          "start": 216.63,
+          "end": 217.47
+        },
+        {
+          "word": "by",
+          "start": 217.47,
+          "end": 218.45
+        },
+        {
+          "word": "the",
+          "start": 218.45,
+          "end": 218.63
+        },
+        {
+          "word": "environment",
+          "start": 218.63,
+          "end": 219.04999999999998
+        },
+        {
+          "word": "of",
+          "start": 219.04999999999998,
+          "end": 219.39
+        },
+        {
+          "word": "the",
+          "start": 219.39,
+          "end": 219.51
+        },
+        {
+          "word": "cell",
+          "start": 219.51,
+          "end": 219.89
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "start": 219.91,
+      "end": 222.25,
+      "text": "or even the surroundings of the cell.",
+      "words": [
+        {
+          "word": "or",
+          "start": 219.91,
+          "end": 220.17
+        },
+        {
+          "word": "even",
+          "start": 220.17,
+          "end": 220.32999999999998
+        },
+        {
+          "word": "the",
+          "start": 220.32999999999998,
+          "end": 220.53
+        },
+        {
+          "word": "surroundings",
+          "start": 220.53,
+          "end": 221.01
+        },
+        {
+          "word": "of",
+          "start": 221.01,
+          "end": 221.31
+        },
+        {
+          "word": "the",
+          "start": 221.31,
+          "end": 221.41
+        },
+        {
+          "word": "cell.",
+          "start": 221.41,
+          "end": 221.71
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "start": 222.25,
+      "end": 228.46,
+      "text": "And so you can think of this as a constitutive activation.",
+      "words": [
+        {
+          "word": "And",
+          "start": 222.25,
+          "end": 222.43
+        },
+        {
+          "word": "so",
+          "start": 222.43,
+          "end": 222.55
+        },
+        {
+          "word": "you",
+          "start": 222.55,
+          "end": 222.63
+        },
+        {
+          "word": "can",
+          "start": 222.63,
+          "end": 222.83
+        },
+        {
+          "word": "think",
+          "start": 222.83,
+          "end": 223.07
+        },
+        {
+          "word": "of",
+          "start": 223.07,
+          "end": 223.29
+        },
+        {
+          "word": "this",
+          "start": 223.29,
+          "end": 223.99
+        },
+        {
+          "word": "as",
+          "start": 223.99,
+          "end": 224.61
+        },
+        {
+          "word": "a",
+          "start": 224.61,
+          "end": 224.91
+        },
+        {
+          "word": "constitutive",
+          "start": 224.91,
+          "end": 225.67
+        },
+        {
+          "word": "activation.",
+          "start": 225.67,
+          "end": 226.43
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "start": 228.46,
+      "end": 232.06,
+      "text": "Often oncogenes are constitutively active forms",
+      "words": [
+        {
+          "word": "Often",
+          "start": 228.46,
+          "end": 228.9
+        },
+        {
+          "word": "oncogenes",
+          "start": 229.02,
+          "end": 229.66
+        },
+        {
+          "word": "are",
+          "start": 229.66,
+          "end": 230.02
+        },
+        {
+          "word": "constitutively",
+          "start": 230.02,
+          "end": 230.96
+        },
+        {
+          "word": "active",
+          "start": 230.96,
+          "end": 231.58
+        },
+        {
+          "word": "forms",
+          "start": 231.58,
+          "end": 231.96
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "start": 232.06,
+      "end": 232.915,
+      "text": "of normal genes.",
+      "words": [
+        {
+          "word": "of",
+          "start": 232.06,
+          "end": 232.06
+        },
+        {
+          "word": "normal",
+          "start": 232.06,
+          "end": 232.58
+        },
+        {
+          "word": "genes.",
+          "start": 232.58,
+          "end": 232.915
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "start": 237.94,
+      "end": 240.37,
+      "text": "And one way to think about this is",
+      "words": [
+        {
+          "word": "And",
+          "start": 237.94,
+          "end": 238.12
+        },
+        {
+          "word": "one",
+          "start": 238.12,
+          "end": 238.3
+        },
+        {
+          "word": "way",
+          "start": 238.3,
+          "end": 238.54
+        },
+        {
+          "word": "to",
+          "start": 238.54,
+          "end": 238.7
+        },
+        {
+          "word": "think",
+          "start": 238.7,
+          "end": 238.92
+        },
+        {
+          "word": "about",
+          "start": 238.92,
+          "end": 239.24
+        },
+        {
+          "word": "this",
+          "start": 239.24,
+          "end": 239.5
+        },
+        {
+          "word": "is",
+          "start": 239.5,
+          "end": 240.34
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "start": 240.37,
+      "end": 245.5,
+      "text": "you have a gene whose normal function is to promote growth",
+      "words": [
+        {
+          "word": "you",
+          "start": 240.37,
+          "end": 240.79
+        },
+        {
+          "word": "have",
+          "start": 240.79,
+          "end": 241.39000000000001
+        },
+        {
+          "word": "a",
+          "start": 241.39000000000001,
+          "end": 241.63
+        },
+        {
+          "word": "gene",
+          "start": 241.63,
+          "end": 241.87
+        },
+        {
+          "word": "whose",
+          "start": 241.87,
+          "end": 242.13
+        },
+        {
+          "word": "normal",
+          "start": 242.13,
+          "end": 242.47
+        },
+        {
+          "word": "function",
+          "start": 242.47,
+          "end": 243.01
+        },
+        {
+          "word": "is",
+          "start": 243.01,
+          "end": 243.33
+        },
+        {
+          "word": "to",
+          "start": 243.33,
+          "end": 243.51
+        },
+        {
+          "word": "promote",
+          "start": 243.51,
+          "end": 243.81
+        },
+        {
+          "word": "growth",
+          "start": 243.81,
+          "end": 244.41
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "start": 245.5,
+      "end": 249.01,
+      "text": "and it's kind of stuck in the state of the gene that",
+      "words": [
+        {
+          "word": "and",
+          "start": 245.5,
+          "end": 245.8
+        },
+        {
+          "word": "it's",
+          "start": 245.8,
+          "end": 246.2
+        },
+        {
+          "word": "kind",
+          "start": 246.2,
+          "end": 246.3
+        },
+        {
+          "word": "of",
+          "start": 246.3,
+          "end": 246.56
+        },
+        {
+          "word": "stuck",
+          "start": 246.56,
+          "end": 247.06
+        },
+        {
+          "word": "in",
+          "start": 247.06,
+          "end": 247.76
+        },
+        {
+          "word": "the",
+          "start": 247.76,
+          "end": 248.06
+        },
+        {
+          "word": "state",
+          "start": 248.06,
+          "end": 248.28
+        },
+        {
+          "word": "of",
+          "start": 248.28,
+          "end": 248.54
+        },
+        {
+          "word": "the",
+          "start": 248.54,
+          "end": 248.62
+        },
+        {
+          "word": "gene",
+          "start": 248.62,
+          "end": 248.815
+        },
+        {
+          "word": "that",
+          "start": 248.815,
+          "end": 249.01
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "start": 249.01,
+      "end": 252.69,
+      "text": "always promotes growth, which is not normally how it works.",
+      "words": [
+        {
+          "word": "always",
+          "start": 249.01,
+          "end": 249.42999999999998
+        },
+        {
+          "word": "promotes",
+          "start": 249.42999999999998,
+          "end": 249.91
+        },
+        {
+          "word": "growth,",
+          "start": 249.91,
+          "end": 250.48999999999998
+        },
+        {
+          "word": "which",
+          "start": 251.19,
+          "end": 251.25
+        },
+        {
+          "word": "is",
+          "start": 251.25,
+          "end": 251.48999999999998
+        },
+        {
+          "word": "not",
+          "start": 251.48999999999998,
+          "end": 251.69
+        },
+        {
+          "word": "normally",
+          "start": 251.69,
+          "end": 251.98999999999998
+        },
+        {
+          "word": "how",
+          "start": 251.98999999999998,
+          "end": 252.29
+        },
+        {
+          "word": "it",
+          "start": 252.29,
+          "end": 252.39
+        },
+        {
+          "word": "works.",
+          "start": 252.39,
+          "end": 252.60999999999999
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "start": 252.69,
+      "end": 257.019,
+      "text": "Normally there are signals that tell a cell to grow,",
+      "words": [
+        {
+          "word": "Normally",
+          "start": 252.69,
+          "end": 253.23
+        },
+        {
+          "word": "there",
+          "start": 254.23,
+          "end": 254.47
+        },
+        {
+          "word": "are",
+          "start": 254.47,
+          "end": 254.55
+        },
+        {
+          "word": "signals",
+          "start": 254.55,
+          "end": 254.95
+        },
+        {
+          "word": "that",
+          "start": 254.95,
+          "end": 255.35
+        },
+        {
+          "word": "tell",
+          "start": 255.35,
+          "end": 255.53
+        },
+        {
+          "word": "a",
+          "start": 255.53,
+          "end": 255.8
+        },
+        {
+          "word": "cell",
+          "start": 255.8,
+          "end": 256.07
+        },
+        {
+          "word": "to",
+          "start": 256.07,
+          "end": 256.33
+        },
+        {
+          "word": "grow,",
+          "start": 256.33,
+          "end": 256.65
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "start": 257.019,
+      "end": 259.81,
+      "text": "and those signals come and go, and that's",
+      "words": [
+        {
+          "word": "and",
+          "start": 257.019,
+          "end": 257.23900000000003
+        },
+        {
+          "word": "those",
+          "start": 257.23900000000003,
+          "end": 257.459
+        },
+        {
+          "word": "signals",
+          "start": 257.459,
+          "end": 257.899
+        },
+        {
+          "word": "come",
+          "start": 257.899,
+          "end": 258.279
+        },
+        {
+          "word": "and",
+          "start": 258.279,
+          "end": 258.519
+        },
+        {
+          "word": "go,",
+          "start": 258.519,
+          "end": 258.959
+        },
+        {
+          "word": "and",
+          "start": 258.959,
+          "end": 259.579
+        },
+        {
+          "word": "that's",
+          "start": 259.579,
+          "end": 259.779
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "start": 259.81,
+      "end": 263.29,
+      "text": "how the body regulates when cells divide.",
+      "words": [
+        {
+          "word": "how",
+          "start": 259.81,
+          "end": 260.23
+        },
+        {
+          "word": "the",
+          "start": 260.23,
+          "end": 260.57
+        },
+        {
+          "word": "body",
+          "start": 260.57,
+          "end": 260.89
+        },
+        {
+          "word": "regulates",
+          "start": 260.89,
+          "end": 261.67
+        },
+        {
+          "word": "when",
+          "start": 261.67,
+          "end": 262.01
+        },
+        {
+          "word": "cells",
+          "start": 262.01,
+          "end": 262.35
+        },
+        {
+          "word": "divide.",
+          "start": 262.35,
+          "end": 262.83
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "start": 263.29,
+      "end": 267.37,
+      "text": "But you can have a situation where it's essentially",
+      "words": [
+        {
+          "word": "But",
+          "start": 263.29,
+          "end": 263.49
+        },
+        {
+          "word": "you",
+          "start": 263.49,
+          "end": 263.57
+        },
+        {
+          "word": "can",
+          "start": 263.57,
+          "end": 263.79
+        },
+        {
+          "word": "have",
+          "start": 263.79,
+          "end": 263.99
+        },
+        {
+          "word": "a",
+          "start": 263.99,
+          "end": 264.13
+        },
+        {
+          "word": "situation",
+          "start": 264.13,
+          "end": 264.67
+        },
+        {
+          "word": "where",
+          "start": 264.67,
+          "end": 266.19
+        },
+        {
+          "word": "it's",
+          "start": 266.19,
+          "end": 266.79
+        },
+        {
+          "word": "essentially",
+          "start": 266.79,
+          "end": 266.95000000000005
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "start": 267.37,
+      "end": 271.54,
+      "text": "the equivalent of what you might consider a stuck accelerator,",
+      "words": [
+        {
+          "word": "the",
+          "start": 267.37,
+          "end": 267.61
+        },
+        {
+          "word": "equivalent",
+          "start": 267.61,
+          "end": 268.03000000000003
+        },
+        {
+          "word": "of",
+          "start": 268.03000000000003,
+          "end": 269.05
+        },
+        {
+          "word": "what",
+          "start": 269.05,
+          "end": 269.31
+        },
+        {
+          "word": "you",
+          "start": 269.31,
+          "end": 269.43
+        },
+        {
+          "word": "might",
+          "start": 269.43,
+          "end": 269.71
+        },
+        {
+          "word": "consider",
+          "start": 269.71,
+          "end": 270.03000000000003
+        },
+        {
+          "word": "a",
+          "start": 270.03000000000003,
+          "end": 270.37
+        },
+        {
+          "word": "stuck",
+          "start": 270.37,
+          "end": 270.61
+        },
+        {
+          "word": "accelerator,",
+          "start": 270.61,
+          "end": 271.15
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "start": 271.54,
+      "end": 273.75,
+      "text": "if you're thinking about an automobile.",
+      "words": [
+        {
+          "word": "if",
+          "start": 271.54,
+          "end": 271.70000000000005
+        },
+        {
+          "word": "you're",
+          "start": 271.70000000000005,
+          "end": 271.88
+        },
+        {
+          "word": "thinking",
+          "start": 271.88,
+          "end": 272.1
+        },
+        {
+          "word": "about",
+          "start": 272.1,
+          "end": 272.46000000000004
+        },
+        {
+          "word": "an",
+          "start": 272.46000000000004,
+          "end": 272.72
+        },
+        {
+          "word": "automobile.",
+          "start": 272.72,
+          "end": 273.08000000000004
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "start": 273.75,
+      "end": 276.28,
+      "text": "So if you have a stuck accelerator,",
+      "words": [
+        {
+          "word": "So",
+          "start": 273.75,
+          "end": 273.878
+        },
+        {
+          "word": "if",
+          "start": 273.878,
+          "end": 274.006
+        },
+        {
+          "word": "you",
+          "start": 274.006,
+          "end": 274.134
+        },
+        {
+          "word": "have",
+          "start": 274.134,
+          "end": 274.262
+        },
+        {
+          "word": "a",
+          "start": 274.262,
+          "end": 274.39
+        },
+        {
+          "word": "stuck",
+          "start": 274.39,
+          "end": 274.69
+        },
+        {
+          "word": "accelerator,",
+          "start": 274.69,
+          "end": 275.17
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "start": 276.28,
+      "end": 279.34,
+      "text": "and you can only speed up, and you can't slow down,",
+      "words": [
+        {
+          "word": "and",
+          "start": 276.28,
+          "end": 276.5
+        },
+        {
+          "word": "you",
+          "start": 276.5,
+          "end": 276.55999999999995
+        },
+        {
+          "word": "can",
+          "start": 276.55999999999995,
+          "end": 276.78
+        },
+        {
+          "word": "only",
+          "start": 276.78,
+          "end": 277.05999999999995
+        },
+        {
+          "word": "speed",
+          "start": 277.05999999999995,
+          "end": 277.38
+        },
+        {
+          "word": "up,",
+          "start": 277.38,
+          "end": 277.78
+        },
+        {
+          "word": "and",
+          "start": 277.78,
+          "end": 277.94
+        },
+        {
+          "word": "you",
+          "start": 277.94,
+          "end": 278.05999999999995
+        },
+        {
+          "word": "can't",
+          "start": 278.05999999999995,
+          "end": 278.38
+        },
+        {
+          "word": "slow",
+          "start": 278.38,
+          "end": 278.59999999999997
+        },
+        {
+          "word": "down,",
+          "start": 278.59999999999997,
+          "end": 279.05999999999995
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "start": 279.34,
+      "end": 282.64,
+      "text": "this is analogous to an oncogenic mutation.",
+      "words": [
+        {
+          "word": "this",
+          "start": 279.34,
+          "end": 279.67999999999995
+        },
+        {
+          "word": "is",
+          "start": 279.67999999999995,
+          "end": 280.52
+        },
+        {
+          "word": "analogous",
+          "start": 280.52,
+          "end": 281.21999999999997
+        },
+        {
+          "word": "to",
+          "start": 281.21999999999997,
+          "end": 281.59999999999997
+        },
+        {
+          "word": "an",
+          "start": 281.59999999999997,
+          "end": 281.78
+        },
+        {
+          "word": "oncogenic",
+          "start": 281.78,
+          "end": 282.29999999999995
+        },
+        {
+          "word": "mutation.",
+          "start": 282.29999999999995,
+          "end": 282.64
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "start": 287.08,
+      "end": 289.96,
+      "text": "Now a different class of gene, actually",
+      "words": [
+        {
+          "word": "Now",
+          "start": 287.08,
+          "end": 287.53999999999996
+        },
+        {
+          "word": "a",
+          "start": 287.53999999999996,
+          "end": 287.71999999999997
+        },
+        {
+          "word": "different",
+          "start": 287.71999999999997,
+          "end": 287.94
+        },
+        {
+          "word": "class",
+          "start": 287.94,
+          "end": 288.3
+        },
+        {
+          "word": "of",
+          "start": 288.3,
+          "end": 288.53999999999996
+        },
+        {
+          "word": "gene,",
+          "start": 288.53999999999996,
+          "end": 288.76
+        },
+        {
+          "word": "actually",
+          "start": 289.02,
+          "end": 289.82
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "start": 289.96,
+      "end": 292.66,
+      "text": "kind of the opposite of an oncogene,",
+      "words": [
+        {
+          "word": "kind",
+          "start": 289.96,
+          "end": 290.2
+        },
+        {
+          "word": "of",
+          "start": 290.2,
+          "end": 290.4
+        },
+        {
+          "word": "the",
+          "start": 290.4,
+          "end": 290.53999999999996
+        },
+        {
+          "word": "opposite",
+          "start": 290.53999999999996,
+          "end": 290.88
+        },
+        {
+          "word": "of",
+          "start": 290.88,
+          "end": 291.18
+        },
+        {
+          "word": "an",
+          "start": 291.18,
+          "end": 291.41999999999996
+        },
+        {
+          "word": "oncogene,",
+          "start": 291.41999999999996,
+          "end": 292.66
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "start": 292.66,
+      "end": 294.27,
+      "text": "is called a tumor suppressor.",
+      "words": [
+        {
+          "word": "is",
+          "start": 292.66,
+          "end": 292.90000000000003
+        },
+        {
+          "word": "called",
+          "start": 292.90000000000003,
+          "end": 293.18
+        },
+        {
+          "word": "a",
+          "start": 293.18,
+          "end": 293.36
+        },
+        {
+          "word": "tumor",
+          "start": 293.36,
+          "end": 293.62
+        },
+        {
+          "word": "suppressor.",
+          "start": 293.62,
+          "end": 294.24
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "start": 301.85,
+      "end": 306.05,
+      "text": "And tumor suppressors are genes whose normal function",
+      "words": [
+        {
+          "word": "And",
+          "start": 301.85,
+          "end": 302.13
+        },
+        {
+          "word": "tumor",
+          "start": 302.13,
+          "end": 302.45000000000005
+        },
+        {
+          "word": "suppressors",
+          "start": 302.45000000000005,
+          "end": 303.13
+        },
+        {
+          "word": "are",
+          "start": 303.13,
+          "end": 303.59000000000003
+        },
+        {
+          "word": "genes",
+          "start": 303.59000000000003,
+          "end": 304.01000000000005
+        },
+        {
+          "word": "whose",
+          "start": 304.01000000000005,
+          "end": 304.33000000000004
+        },
+        {
+          "word": "normal",
+          "start": 304.33000000000004,
+          "end": 304.71000000000004
+        },
+        {
+          "word": "function",
+          "start": 304.71000000000004,
+          "end": 305.31
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "start": 306.05,
+      "end": 311.27,
+      "text": "is to inhibit growth or even promote death.",
+      "words": [
+        {
+          "word": "is",
+          "start": 306.05,
+          "end": 306.43
+        },
+        {
+          "word": "to",
+          "start": 306.43,
+          "end": 307.27000000000004
+        },
+        {
+          "word": "inhibit",
+          "start": 307.27000000000004,
+          "end": 307.75
+        },
+        {
+          "word": "growth",
+          "start": 307.75,
+          "end": 308.53000000000003
+        },
+        {
+          "word": "or",
+          "start": 308.53000000000003,
+          "end": 309.33
+        },
+        {
+          "word": "even",
+          "start": 309.33,
+          "end": 309.57
+        },
+        {
+          "word": "promote",
+          "start": 309.57,
+          "end": 309.91
+        },
+        {
+          "word": "death.",
+          "start": 309.91,
+          "end": 310.53000000000003
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "start": 311.27,
+      "end": 321.12,
+      "text": "So tumor suppressors inhibit growth or promote death.",
+      "words": [
+        {
+          "word": "So",
+          "start": 311.27,
+          "end": 311.54999999999995
+        },
+        {
+          "word": "tumor",
+          "start": 311.54999999999995,
+          "end": 312.34999999999997
+        },
+        {
+          "word": "suppressors",
+          "start": 312.34999999999997,
+          "end": 313.15
+        },
+        {
+          "word": "inhibit",
+          "start": 313.15,
+          "end": 313.59
+        },
+        {
+          "word": "growth",
+          "start": 313.59,
+          "end": 314.96999999999997
+        },
+        {
+          "word": "or",
+          "start": 314.96999999999997,
+          "end": 319.16999999999996
+        },
+        {
+          "word": "promote",
+          "start": 319.16999999999996,
+          "end": 319.59
+        },
+        {
+          "word": "death.",
+          "start": 319.59,
+          "end": 320.33
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "start": 321.12,
+      "end": 323.94,
+      "text": "You could see how these two different things would",
+      "words": [
+        {
+          "word": "You",
+          "start": 321.12,
+          "end": 321.24
+        },
+        {
+          "word": "could",
+          "start": 321.24,
+          "end": 321.42
+        },
+        {
+          "word": "see",
+          "start": 321.42,
+          "end": 321.66
+        },
+        {
+          "word": "how",
+          "start": 321.66,
+          "end": 321.96
+        },
+        {
+          "word": "these",
+          "start": 321.96,
+          "end": 322.14
+        },
+        {
+          "word": "two",
+          "start": 322.14,
+          "end": 322.44
+        },
+        {
+          "word": "different",
+          "start": 322.44,
+          "end": 322.74
+        },
+        {
+          "word": "things",
+          "start": 322.74,
+          "end": 323.42
+        },
+        {
+          "word": "would",
+          "start": 323.42,
+          "end": 323.92
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "start": 323.94,
+      "end": 327.39,
+      "text": "have the same effect in that it's not",
+      "words": [
+        {
+          "word": "have",
+          "start": 323.94,
+          "end": 324.32
+        },
+        {
+          "word": "the",
+          "start": 324.32,
+          "end": 324.48
+        },
+        {
+          "word": "same",
+          "start": 324.48,
+          "end": 324.66
+        },
+        {
+          "word": "effect",
+          "start": 324.66,
+          "end": 325.2
+        },
+        {
+          "word": "in",
+          "start": 325.2,
+          "end": 325.88
+        },
+        {
+          "word": "that",
+          "start": 325.88,
+          "end": 325.98
+        },
+        {
+          "word": "it's",
+          "start": 325.98,
+          "end": 327.26
+        },
+        {
+          "word": "not",
+          "start": 327.26,
+          "end": 327.36
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "start": 327.39,
+      "end": 330.0,
+      "text": "allowing one cell to become a lot of cells",
+      "words": [
+        {
+          "word": "allowing",
+          "start": 327.39,
+          "end": 327.95
+        },
+        {
+          "word": "one",
+          "start": 327.95,
+          "end": 328.51
+        },
+        {
+          "word": "cell",
+          "start": 328.51,
+          "end": 328.75
+        },
+        {
+          "word": "to",
+          "start": 328.75,
+          "end": 328.93
+        },
+        {
+          "word": "become",
+          "start": 328.93,
+          "end": 329.11
+        },
+        {
+          "word": "a",
+          "start": 329.11,
+          "end": 329.33
+        },
+        {
+          "word": "lot",
+          "start": 329.33,
+          "end": 329.49
+        },
+        {
+          "word": "of",
+          "start": 329.49,
+          "end": 329.66999999999996
+        },
+        {
+          "word": "cells",
+          "start": 329.66999999999996,
+          "end": 329.89
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "start": 330.0,
+      "end": 332.82,
+      "text": "because the tumor suppressor will either prevent it",
+      "words": [
+        {
+          "word": "because",
+          "start": 330.0,
+          "end": 330.5
+        },
+        {
+          "word": "the",
+          "start": 330.5,
+          "end": 330.98
+        },
+        {
+          "word": "tumor",
+          "start": 330.98,
+          "end": 331.28
+        },
+        {
+          "word": "suppressor",
+          "start": 331.28,
+          "end": 331.86
+        },
+        {
+          "word": "will",
+          "start": 331.86,
+          "end": 332.06
+        },
+        {
+          "word": "either",
+          "start": 332.06,
+          "end": 332.3
+        },
+        {
+          "word": "prevent",
+          "start": 332.3,
+          "end": 332.7
+        },
+        {
+          "word": "it",
+          "start": 332.7,
+          "end": 332.8
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "start": 332.82,
+      "end": 337.12,
+      "text": "from dividing or will cause the cells to die.",
+      "words": [
+        {
+          "word": "from",
+          "start": 332.82,
+          "end": 333.08
+        },
+        {
+          "word": "dividing",
+          "start": 333.08,
+          "end": 333.5
+        },
+        {
+          "word": "or",
+          "start": 333.5,
+          "end": 333.94
+        },
+        {
+          "word": "will",
+          "start": 333.94,
+          "end": 334.38
+        },
+        {
+          "word": "cause",
+          "start": 334.38,
+          "end": 334.62
+        },
+        {
+          "word": "the",
+          "start": 334.62,
+          "end": 334.74
+        },
+        {
+          "word": "cells",
+          "start": 334.74,
+          "end": 334.98
+        },
+        {
+          "word": "to",
+          "start": 334.98,
+          "end": 335.18
+        },
+        {
+          "word": "die.",
+          "start": 335.18,
+          "end": 335.56
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "start": 337.12,
+      "end": 340.92,
+      "text": "And so the cancer phenotype is associated",
+      "words": [
+        {
+          "word": "And",
+          "start": 337.12,
+          "end": 337.92
+        },
+        {
+          "word": "so",
+          "start": 337.92,
+          "end": 338.3
+        },
+        {
+          "word": "the",
+          "start": 338.3,
+          "end": 338.48
+        },
+        {
+          "word": "cancer",
+          "start": 338.48,
+          "end": 338.8
+        },
+        {
+          "word": "phenotype",
+          "start": 338.8,
+          "end": 339.4
+        },
+        {
+          "word": "is",
+          "start": 339.4,
+          "end": 339.68
+        },
+        {
+          "word": "associated",
+          "start": 339.68,
+          "end": 340.16
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "start": 340.92,
+      "end": 344.88,
+      "text": "with a loss of function of the tumor suppressor.",
+      "words": [
+        {
+          "word": "with",
+          "start": 340.92,
+          "end": 341.36
+        },
+        {
+          "word": "a",
+          "start": 341.36,
+          "end": 341.82
+        },
+        {
+          "word": "loss",
+          "start": 341.82,
+          "end": 342.1
+        },
+        {
+          "word": "of",
+          "start": 342.1,
+          "end": 342.36
+        },
+        {
+          "word": "function",
+          "start": 342.36,
+          "end": 342.78000000000003
+        },
+        {
+          "word": "of",
+          "start": 342.78000000000003,
+          "end": 343.3
+        },
+        {
+          "word": "the",
+          "start": 343.3,
+          "end": 343.42
+        },
+        {
+          "word": "tumor",
+          "start": 343.42,
+          "end": 343.68
+        },
+        {
+          "word": "suppressor.",
+          "start": 343.68,
+          "end": 344.44
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "start": 344.88,
+      "end": 349.8,
+      "text": "So these result from loss of function mutations in the tumor",
+      "words": [
+        {
+          "word": "So",
+          "start": 344.88,
+          "end": 345.15999999999997
+        },
+        {
+          "word": "these",
+          "start": 345.15999999999997,
+          "end": 345.48
+        },
+        {
+          "word": "result",
+          "start": 345.48,
+          "end": 346.8
+        },
+        {
+          "word": "from",
+          "start": 346.8,
+          "end": 347.15999999999997
+        },
+        {
+          "word": "loss",
+          "start": 347.15999999999997,
+          "end": 347.46
+        },
+        {
+          "word": "of",
+          "start": 347.46,
+          "end": 347.7
+        },
+        {
+          "word": "function",
+          "start": 347.7,
+          "end": 348.1
+        },
+        {
+          "word": "mutations",
+          "start": 348.1,
+          "end": 348.94
+        },
+        {
+          "word": "in",
+          "start": 348.94,
+          "end": 349.54
+        },
+        {
+          "word": "the",
+          "start": 349.54,
+          "end": 349.62
+        },
+        {
+          "word": "tumor",
+          "start": 349.62,
+          "end": 349.78
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "start": 349.8,
+      "end": 352.68,
+      "text": "suppressors.",
+      "words": [
+        {
+          "word": "suppressors.",
+          "start": 349.8,
+          "end": 352.68
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "start": 352.68,
+      "end": 356.49,
+      "text": "So if you remove the thing that's inhibiting growth,",
+      "words": [
+        {
+          "word": "So",
+          "start": 352.68,
+          "end": 352.92
+        },
+        {
+          "word": "if",
+          "start": 352.92,
+          "end": 353.1
+        },
+        {
+          "word": "you",
+          "start": 353.1,
+          "end": 353.74
+        },
+        {
+          "word": "remove",
+          "start": 353.74,
+          "end": 354.14
+        },
+        {
+          "word": "the",
+          "start": 354.14,
+          "end": 354.44
+        },
+        {
+          "word": "thing",
+          "start": 354.44,
+          "end": 354.68
+        },
+        {
+          "word": "that's",
+          "start": 354.68,
+          "end": 354.96
+        },
+        {
+          "word": "inhibiting",
+          "start": 354.96,
+          "end": 355.48
+        },
+        {
+          "word": "growth,",
+          "start": 355.48,
+          "end": 355.94
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "start": 356.49,
+      "end": 359.7,
+      "text": "then that allows the cells to divide",
+      "words": [
+        {
+          "word": "then",
+          "start": 356.49,
+          "end": 357.11
+        },
+        {
+          "word": "that",
+          "start": 357.11,
+          "end": 357.39
+        },
+        {
+          "word": "allows",
+          "start": 357.39,
+          "end": 357.75
+        },
+        {
+          "word": "the",
+          "start": 357.75,
+          "end": 358.07
+        },
+        {
+          "word": "cells",
+          "start": 358.07,
+          "end": 358.45
+        },
+        {
+          "word": "to",
+          "start": 358.45,
+          "end": 359.15000000000003
+        },
+        {
+          "word": "divide",
+          "start": 359.15000000000003,
+          "end": 359.55
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "start": 359.7,
+      "end": 361.41,
+      "text": "in a more unregulated way.",
+      "words": [
+        {
+          "word": "in",
+          "start": 359.7,
+          "end": 359.9
+        },
+        {
+          "word": "a",
+          "start": 359.9,
+          "end": 360.06
+        },
+        {
+          "word": "more",
+          "start": 360.06,
+          "end": 360.32
+        },
+        {
+          "word": "unregulated",
+          "start": 360.32,
+          "end": 361.02
+        },
+        {
+          "word": "way.",
+          "start": 361.02,
+          "end": 361.38
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "start": 364.23,
+      "end": 368.7,
+      "text": "And so sticking with the analogy of an automobile,",
+      "words": [
+        {
+          "word": "And",
+          "start": 364.23,
+          "end": 364.53000000000003
+        },
+        {
+          "word": "so",
+          "start": 364.53000000000003,
+          "end": 364.95000000000005
+        },
+        {
+          "word": "sticking",
+          "start": 364.95000000000005,
+          "end": 365.79
+        },
+        {
+          "word": "with",
+          "start": 365.79,
+          "end": 366.13
+        },
+        {
+          "word": "the",
+          "start": 366.13,
+          "end": 366.29
+        },
+        {
+          "word": "analogy",
+          "start": 366.29,
+          "end": 366.71000000000004
+        },
+        {
+          "word": "of",
+          "start": 366.71000000000004,
+          "end": 367.01
+        },
+        {
+          "word": "an",
+          "start": 367.01,
+          "end": 367.21000000000004
+        },
+        {
+          "word": "automobile,",
+          "start": 367.21000000000004,
+          "end": 368.7
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "start": 368.7,
+      "end": 372.48,
+      "text": "you could think of the tumor suppressor mutation",
+      "words": [
+        {
+          "word": "you",
+          "start": 368.7,
+          "end": 368.88
+        },
+        {
+          "word": "could",
+          "start": 368.88,
+          "end": 369.12
+        },
+        {
+          "word": "think",
+          "start": 369.12,
+          "end": 369.4
+        },
+        {
+          "word": "of",
+          "start": 369.4,
+          "end": 369.7
+        },
+        {
+          "word": "the",
+          "start": 369.7,
+          "end": 369.74
+        },
+        {
+          "word": "tumor",
+          "start": 369.74,
+          "end": 370.53999999999996
+        },
+        {
+          "word": "suppressor",
+          "start": 370.53999999999996,
+          "end": 371.14
+        },
+        {
+          "word": "mutation",
+          "start": 371.14,
+          "end": 371.59999999999997
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "start": 372.48,
+      "end": 375.06,
+      "text": "as a cell having defective brakes.",
+      "words": [
+        {
+          "word": "as",
+          "start": 372.48,
+          "end": 372.76
+        },
+        {
+          "word": "a",
+          "start": 372.76,
+          "end": 372.90000000000003
+        },
+        {
+          "word": "cell",
+          "start": 372.90000000000003,
+          "end": 373.12
+        },
+        {
+          "word": "having",
+          "start": 373.12,
+          "end": 373.48
+        },
+        {
+          "word": "defective",
+          "start": 373.48,
+          "end": 374.18
+        },
+        {
+          "word": "brakes.",
+          "start": 374.18,
+          "end": 375.06
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "start": 375.06,
+      "end": 378.06,
+      "text": "So you can think of this as defective brakes.",
+      "words": [
+        {
+          "word": "So",
+          "start": 375.06,
+          "end": 375.38
+        },
+        {
+          "word": "you",
+          "start": 375.38,
+          "end": 375.42
+        },
+        {
+          "word": "can",
+          "start": 375.42,
+          "end": 375.6
+        },
+        {
+          "word": "think",
+          "start": 375.6,
+          "end": 375.8
+        },
+        {
+          "word": "of",
+          "start": 375.8,
+          "end": 375.98
+        },
+        {
+          "word": "this",
+          "start": 375.98,
+          "end": 376.28000000000003
+        },
+        {
+          "word": "as",
+          "start": 376.28000000000003,
+          "end": 376.62
+        },
+        {
+          "word": "defective",
+          "start": 376.62,
+          "end": 377.34000000000003
+        },
+        {
+          "word": "brakes.",
+          "start": 377.34000000000003,
+          "end": 378.06
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "start": 389.81,
+      "end": 395.27,
+      "text": "So it's the loss of function of these that lead to cancer.",
+      "words": [
+        {
+          "word": "So",
+          "start": 389.81,
+          "end": 390.01
+        },
+        {
+          "word": "it's",
+          "start": 390.01,
+          "end": 390.19
+        },
+        {
+          "word": "the",
+          "start": 390.19,
+          "end": 390.35
+        },
+        {
+          "word": "loss",
+          "start": 390.35,
+          "end": 390.63
+        },
+        {
+          "word": "of",
+          "start": 390.63,
+          "end": 390.81
+        },
+        {
+          "word": "function",
+          "start": 390.81,
+          "end": 391.35
+        },
+        {
+          "word": "of",
+          "start": 391.35,
+          "end": 392.51
+        },
+        {
+          "word": "these",
+          "start": 392.51,
+          "end": 392.77
+        },
+        {
+          "word": "that",
+          "start": 392.77,
+          "end": 393.07
+        },
+        {
+          "word": "lead",
+          "start": 393.07,
+          "end": 393.37
+        },
+        {
+          "word": "to",
+          "start": 393.37,
+          "end": 393.73
+        },
+        {
+          "word": "cancer.",
+          "start": 393.73,
+          "end": 394.05
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "start": 395.27,
+      "end": 398.12,
+      "text": "Now I want to tell you about one last class of genes",
+      "words": [
+        {
+          "word": "Now",
+          "start": 395.27,
+          "end": 395.53
+        },
+        {
+          "word": "I",
+          "start": 395.53,
+          "end": 395.60999999999996
+        },
+        {
+          "word": "want",
+          "start": 395.60999999999996,
+          "end": 395.75
+        },
+        {
+          "word": "to",
+          "start": 395.75,
+          "end": 395.83
+        },
+        {
+          "word": "tell",
+          "start": 395.83,
+          "end": 396.03
+        },
+        {
+          "word": "you",
+          "start": 396.03,
+          "end": 396.19
+        },
+        {
+          "word": "about",
+          "start": 396.19,
+          "end": 396.53
+        },
+        {
+          "word": "one",
+          "start": 396.53,
+          "end": 396.78999999999996
+        },
+        {
+          "word": "last",
+          "start": 396.78999999999996,
+          "end": 397.15
+        },
+        {
+          "word": "class",
+          "start": 397.15,
+          "end": 397.57
+        },
+        {
+          "word": "of",
+          "start": 397.57,
+          "end": 397.83
+        },
+        {
+          "word": "genes",
+          "start": 397.83,
+          "end": 398.12
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "start": 398.12,
+      "end": 400.55,
+      "text": "that are implicated in cancer.",
+      "words": [
+        {
+          "word": "that",
+          "start": 398.12,
+          "end": 398.28000000000003
+        },
+        {
+          "word": "are",
+          "start": 398.28000000000003,
+          "end": 398.48
+        },
+        {
+          "word": "implicated",
+          "start": 398.48,
+          "end": 398.94
+        },
+        {
+          "word": "in",
+          "start": 398.94,
+          "end": 399.2
+        },
+        {
+          "word": "cancer.",
+          "start": 399.2,
+          "end": 399.52
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "start": 400.55,
+      "end": 403.97,
+      "text": "And these are what, in the diagram up there,",
+      "words": [
+        {
+          "word": "And",
+          "start": 400.55,
+          "end": 400.85
+        },
+        {
+          "word": "these",
+          "start": 400.85,
+          "end": 401.31
+        },
+        {
+          "word": "are",
+          "start": 401.31,
+          "end": 402.33
+        },
+        {
+          "word": "what,",
+          "start": 402.33,
+          "end": 402.61
+        },
+        {
+          "word": "in",
+          "start": 402.61,
+          "end": 402.89
+        },
+        {
+          "word": "the",
+          "start": 402.89,
+          "end": 403.09000000000003
+        },
+        {
+          "word": "diagram",
+          "start": 403.09000000000003,
+          "end": 403.41
+        },
+        {
+          "word": "up",
+          "start": 403.41,
+          "end": 403.75
+        },
+        {
+          "word": "there,",
+          "start": 403.75,
+          "end": 403.95
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "start": 403.97,
+      "end": 406.01,
+      "text": "are referred to as caretaker genes.",
+      "words": [
+        {
+          "word": "are",
+          "start": 403.97,
+          "end": 404.17
+        },
+        {
+          "word": "referred",
+          "start": 404.17,
+          "end": 404.53000000000003
+        },
+        {
+          "word": "to",
+          "start": 404.53000000000003,
+          "end": 404.95000000000005
+        },
+        {
+          "word": "as",
+          "start": 404.95000000000005,
+          "end": 405.21000000000004
+        },
+        {
+          "word": "caretaker",
+          "start": 405.21000000000004,
+          "end": 405.71000000000004
+        },
+        {
+          "word": "genes.",
+          "start": 405.71000000000004,
+          "end": 406.01
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "start": 410.51,
+      "end": 412.97,
+      "text": "And what that refers to is the fact",
+      "words": [
+        {
+          "word": "And",
+          "start": 410.51,
+          "end": 411.15
+        },
+        {
+          "word": "what",
+          "start": 411.15,
+          "end": 411.40999999999997
+        },
+        {
+          "word": "that",
+          "start": 411.40999999999997,
+          "end": 411.61
+        },
+        {
+          "word": "refers",
+          "start": 411.61,
+          "end": 411.90999999999997
+        },
+        {
+          "word": "to",
+          "start": 411.90999999999997,
+          "end": 412.43
+        },
+        {
+          "word": "is",
+          "start": 412.43,
+          "end": 412.65
+        },
+        {
+          "word": "the",
+          "start": 412.65,
+          "end": 412.75
+        },
+        {
+          "word": "fact",
+          "start": 412.75,
+          "end": 412.95
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "start": 412.97,
+      "end": 416.54,
+      "text": "that these genes are involved in maintaining",
+      "words": [
+        {
+          "word": "that",
+          "start": 412.97,
+          "end": 412.97
+        },
+        {
+          "word": "these",
+          "start": 412.97,
+          "end": 413.37
+        },
+        {
+          "word": "genes",
+          "start": 413.37,
+          "end": 413.73
+        },
+        {
+          "word": "are",
+          "start": 413.73,
+          "end": 414.01000000000005
+        },
+        {
+          "word": "involved",
+          "start": 414.01000000000005,
+          "end": 414.53000000000003
+        },
+        {
+          "word": "in",
+          "start": 414.53000000000003,
+          "end": 415.89000000000004
+        },
+        {
+          "word": "maintaining",
+          "start": 415.89000000000004,
+          "end": 416.29
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "start": 416.54,
+      "end": 419.93,
+      "text": "the genomic integrity of a cell.",
+      "words": [
+        {
+          "word": "the",
+          "start": 416.54,
+          "end": 416.76000000000005
+        },
+        {
+          "word": "genomic",
+          "start": 416.76000000000005,
+          "end": 417.28000000000003
+        },
+        {
+          "word": "integrity",
+          "start": 417.28000000000003,
+          "end": 417.86
+        },
+        {
+          "word": "of",
+          "start": 417.86,
+          "end": 418.40000000000003
+        },
+        {
+          "word": "a",
+          "start": 418.40000000000003,
+          "end": 418.5
+        },
+        {
+          "word": "cell.",
+          "start": 418.5,
+          "end": 418.90000000000003
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "start": 419.93,
+      "end": 420.0,
+      "text": "And they can do that by mediating DNA",
+      "words": [
+        {
+          "word": "And",
+          "start": 419.93,
+          "end": 419.97
+        },
+        {
+          "word": "they",
+          "start": 419.97,
+          "end": 419.9742857142857
+        },
+        {
+          "word": "can",
+          "start": 419.9742857142857,
+          "end": 419.97857142857146
+        },
+        {
+          "word": "do",
+          "start": 419.97857142857146,
+          "end": 419.98285714285714
+        },
+        {
+          "word": "that",
+          "start": 419.98285714285714,
+          "end": 419.9871428571429
+        },
+        {
+          "word": "by",
+          "start": 419.9871428571429,
+          "end": 419.99142857142857
+        },
+        {
+          "word": "mediating",
+          "start": 419.99142857142857,
+          "end": 419.9957142857143
+        },
+        {
+          "word": "DNA",
+          "start": 419.9957142857143,
+          "end": 420.0
+        }
+      ]
+    }
+  ]
+}

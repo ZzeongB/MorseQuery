@@ -24,6 +24,7 @@ from config import (
 )
 
 app = Flask(__name__)
+TERM_RE = re.compile(r"[a-z0-9']+")
 
 
 def _slugify_filename_part(value: str, default: str = "unknown") -> str:
@@ -375,6 +376,150 @@ def parse_clip_times(filename: str) -> tuple[float, float]:
     return 0.0, 0.0
 
 
+def normalize_token(text: str) -> str:
+    tokens = TERM_RE.findall((text or "").lower())
+    return tokens[0] if len(tokens) == 1 else ""
+
+
+def build_word_index(segments: list[dict], *, clip_start: float) -> list[dict]:
+    items = []
+    for segment_index, segment in enumerate(segments):
+        for word_index, word in enumerate(segment.get("words", [])):
+            items.append(
+                {
+                    "segment_index": segment_index,
+                    "word_index": word_index,
+                    "text": word.get("word", ""),
+                    "start": float(word.get("start", 0.0)) - clip_start,
+                    "end": float(word.get("end", 0.0)) - clip_start,
+                }
+            )
+    return items
+
+
+def remap_time_entries(path: Path, words: list[dict]) -> None:
+    if not path.exists():
+        return
+
+    entries = load_json_file(path)
+    if not isinstance(entries, list):
+        return
+
+    occurrences: dict[str, list[float]] = {}
+    for word in words:
+        token = normalize_token(str(word.get("text", "")))
+        if not token:
+            continue
+        occurrences.setdefault(token, []).append(float(word["start"]))
+
+    used_indices: dict[str, set[int]] = {}
+    updated_entries = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            updated_entries.append(entry)
+            continue
+
+        token = normalize_token(str(entry.get("word", "")))
+        original_time = float(entry.get("time", 0.0))
+        entry_copy = dict(entry)
+        candidates = occurrences.get(token, [])
+        if candidates:
+            used = used_indices.setdefault(token, set())
+            ranked = sorted(
+                range(len(candidates)),
+                key=lambda idx: (abs(candidates[idx] - original_time), idx),
+            )
+            chosen_idx = next((idx for idx in ranked if idx not in used), ranked[0])
+            used.add(chosen_idx)
+            entry_copy["time"] = candidates[chosen_idx]
+        updated_entries.append(entry_copy)
+
+    path.write_text(json.dumps(updated_entries, indent=2), encoding="utf-8")
+
+
+def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) -> None:
+    transcript_path = TRANSCRIPT_DIR / f"{transcript_id}.json"
+    if not transcript_path.exists():
+        raise FileNotFoundError(f"Transcript not found: {transcript_id}")
+
+    data = load_json_file(transcript_path)
+    clip_start = float(data.get("start_time", 0.0))
+    segments = data.get("segments", [])
+    indexed_words = build_word_index(segments, clip_start=clip_start)
+
+    if len(updated_words) != len(indexed_words):
+        raise ValueError("Word count mismatch while saving timestamps")
+
+    flat_words_for_mapping = []
+    for source_word, incoming_word in zip(indexed_words, updated_words):
+        segment = segments[source_word["segment_index"]]
+        word = segment["words"][source_word["word_index"]]
+        rel_start = max(0.0, float(incoming_word["start"]))
+        rel_end = max(rel_start, float(incoming_word["end"]))
+        abs_start = rel_start + clip_start
+        abs_end = rel_end + clip_start
+        word["start"] = abs_start
+        word["end"] = abs_end
+        flat_words_for_mapping.append(
+            {
+                "text": word.get("word", ""),
+                "start": rel_start,
+            }
+        )
+
+    for segment in segments:
+        segment_words = segment.get("words", [])
+        if segment_words:
+            segment["start"] = segment_words[0]["start"]
+            segment["end"] = segment_words[-1]["end"]
+            segment["text"] = " ".join(str(word.get("word", "")).strip() for word in segment_words).strip()
+
+    data["text"] = " ".join(str(segment.get("text", "")).strip() for segment in segments).strip()
+    transcript_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+
+    sentence_path = SENTENCES_DIR / f"{transcript_id}.json"
+    sentence_path.parent.mkdir(parents=True, exist_ok=True)
+    sentence_path.write_text(
+        json.dumps(build_sentence_units(load_transcript_segments_for_api(data)), indent=2),
+        encoding="utf-8",
+    )
+
+    remap_time_entries(KEYWORDS_DIR / f"{transcript_id}.json", flat_words_for_mapping)
+    remap_time_entries(KEYWORDS_DIR / f"{transcript_id}.jargon.json", flat_words_for_mapping)
+    remap_time_entries(KEYWORDS2_DIR / f"{transcript_id}.json", flat_words_for_mapping)
+
+
+def load_transcript_segments_for_api(data: dict) -> list[dict]:
+    clip_start = float(data.get("start_time", 0.0))
+    segments = []
+    lexicon = load_lexicon()
+    for seg in data.get("segments", []):
+        words = []
+        for w in seg.get("words", []):
+            word_text = w["word"].strip().lower()
+            word_clean = re.sub(r"[^a-z]", "", word_text)
+            freq = lexicon.get(word_clean, -1)
+            words.append(
+                {
+                    "word": w["word"].strip(),
+                    "start": w["start"] - clip_start,
+                    "end": w["end"] - clip_start,
+                    "freq": freq,
+                }
+            )
+
+        segments.append(
+            {
+                "text": seg["text"],
+                "start": seg["start"] - clip_start,
+                "end": seg["end"] - clip_start,
+                "keywords": extract_keywords(seg["text"]),
+                "words": words,
+            }
+        )
+    return segments
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -383,6 +528,11 @@ def index():
 @app.route("/timestamp-check")
 def timestamp_check():
     return render_template("timestamp_check.html")
+
+
+@app.route("/timestamp-edit")
+def timestamp_edit():
+    return render_template("timestamp_edit.html")
 
 
 @app.route("/debug")
@@ -426,42 +576,7 @@ def get_transcript(video_id: str):
         data = json.load(f)
 
     clip_start = data.get("start_time", 0)
-
-    # Process segments: convert timestamps and extract keywords
-    segments = []
-    for seg in data.get("segments", []):
-        # Convert absolute time to mp3-relative time
-        mp3_start = seg["start"] - clip_start
-        mp3_end = seg["end"] - clip_start
-
-        keywords = extract_keywords(seg["text"])
-
-        # Process words with timestamps and lexicon frequency
-        lexicon = load_lexicon()
-        words = []
-        for w in seg.get("words", []):
-            word_text = w["word"].strip().lower()
-            # Clean word for lexicon lookup (remove punctuation)
-            word_clean = re.sub(r"[^a-z]", "", word_text)
-            freq = lexicon.get(word_clean, -1)  # -1 means not in lexicon (rare)
-            words.append(
-                {
-                    "word": w["word"].strip(),
-                    "start": w["start"] - clip_start,
-                    "end": w["end"] - clip_start,
-                    "freq": freq,
-                }
-            )
-
-        segments.append(
-            {
-                "text": seg["text"],
-                "start": mp3_start,
-                "end": mp3_end,
-                "keywords": keywords,
-                "words": words,
-            }
-        )
+    segments = load_transcript_segments_for_api(data)
 
     # Load custom keywords if exists
     keywords_path = KEYWORDS_DIR / f"{video_id}.json"
@@ -469,6 +584,12 @@ def get_transcript(video_id: str):
     if keywords_path.exists():
         with open(keywords_path) as f:
             custom_keywords = json.load(f)
+
+    jargon_path = KEYWORDS_DIR / f"{video_id}.jargon.json"
+    jargon_keywords = []
+    if jargon_path.exists():
+        with open(jargon_path) as f:
+            jargon_keywords = json.load(f)
 
     # Load custom keywords2 if exists
     keywords2_path = KEYWORDS2_DIR / f"{video_id}.json"
@@ -486,9 +607,26 @@ def get_transcript(video_id: str):
             "segments": segments,
             "sentences": sentences,
             "custom_keywords": custom_keywords,
+            "jargon_keywords": jargon_keywords,
             "custom_keywords2": custom_keywords2,
         }
     )
+
+
+@app.route("/api/transcript/<transcript_id>/timestamps", methods=["POST"])
+def save_transcript_timestamps(transcript_id: str):
+    data = request.get_json()
+    if not data or not isinstance(data.get("words"), list):
+        return jsonify({"error": "Invalid payload"}), 400
+
+    try:
+        apply_word_timestamp_updates(transcript_id, data["words"])
+    except FileNotFoundError:
+        return jsonify({"error": "Transcript not found"}), 404
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+
+    return jsonify({"status": "saved"})
 
 
 @app.route("/mp3/<filename>")

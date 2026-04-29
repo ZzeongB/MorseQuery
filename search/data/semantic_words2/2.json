@@ -1,0 +1,298 @@
+[
+  {
+    "word": "Romans",
+    "time": 5.46
+  },
+  {
+    "word": "concrete",
+    "time": 6.42
+  },
+  {
+    "word": "roads",
+    "time": 9.24
+  },
+  {
+    "word": "arches",
+    "time": 12.0
+  },
+  {
+    "word": "domes",
+    "time": 12.66
+  },
+  {
+    "word": "Olympian",
+    "time": 17.64
+  },
+  {
+    "word": "aqueducts",
+    "time": 21.76
+  },
+  {
+    "word": "population",
+    "time": 23.4
+  },
+  {
+    "word": "physics",
+    "time": 29.94
+  },
+  {
+    "word": "support",
+    "time": 31.88
+  },
+  {
+    "word": "knowledge",
+    "time": 42.62
+  },
+  {
+    "word": "debate",
+    "time": 44.86
+  },
+  {
+    "word": "inherited",
+    "time": 67.02
+  },
+  {
+    "word": "Greeks",
+    "time": 68.9
+  },
+  {
+    "word": "geometry",
+    "time": 71.82
+  },
+  {
+    "word": "astronomy",
+    "time": 72.9
+  },
+  {
+    "word": "Plato",
+    "time": 76.16
+  },
+  {
+    "word": "Aristotle",
+    "time": 76.84
+  },
+  {
+    "word": "Asia",
+    "time": 81.32
+  },
+  {
+    "word": "Africa",
+    "time": 81.82
+  },
+  {
+    "word": "Europe",
+    "time": 82.5
+  },
+  {
+    "word": "library",
+    "time": 105.6
+  },
+  {
+    "word": "Italy",
+    "time": 118.24
+  },
+  {
+    "word": "engineering",
+    "time": 134.78
+  },
+  {
+    "word": "political",
+    "time": 146.04
+  },
+  {
+    "word": "catapults",
+    "time": 149.6
+  },
+  {
+    "word": "ships",
+    "time": 151.12
+  },
+  {
+    "word": "weapons",
+    "time": 157.62
+  },
+  {
+    "word": "architecton",
+    "time": 161.12
+  },
+  {
+    "word": "Archimedes",
+    "time": 170.62
+  },
+  {
+    "word": "infinitesimals",
+    "time": 181.82
+  },
+  {
+    "word": "irrigation",
+    "time": 195.5
+  },
+  {
+    "word": "science",
+    "time": 222.0
+  },
+  {
+    "word": "math",
+    "time": 230.96
+  },
+  {
+    "word": "heavens",
+    "time": 238.4
+  },
+  {
+    "word": "shipbuilding",
+    "time": 242.16
+  },
+  {
+    "word": "art",
+    "time": 243.32
+  },
+  {
+    "word": "hydrodynamics",
+    "time": 247.48
+  },
+  {
+    "word": "division",
+    "time": 252.84
+  },
+  {
+    "word": "technology",
+    "time": 262.5
+  },
+  {
+    "word": "episteme",
+    "time": 274.64
+  },
+  {
+    "word": "epistemology",
+    "time": 276.68
+  },
+  {
+    "word": "epistemic",
+    "time": 290.26
+  },
+  {
+    "word": "Ptolemy",
+    "time": 295.98
+  },
+  {
+    "word": "planets",
+    "time": 308.1
+  },
+  {
+    "word": "cosmos",
+    "time": 310.1
+  },
+  {
+    "word": "Almagist",
+    "time": 341.14
+  },
+  {
+    "word": "Geography",
+    "time": 357.42
+  },
+  {
+    "word": "cement",
+    "time": 388.74
+  },
+  {
+    "word": "durable",
+    "time": 404.4
+  },
+  {
+    "word": "Pantheon",
+    "time": 408.6
+  },
+  {
+    "word": "Rome",
+    "time": 410.78
+  },
+  {
+    "word": "mines",
+    "time": 432.38
+  },
+  {
+    "word": "irrigated",
+    "time": 434.54
+  },
+  {
+    "word": "marshes",
+    "time": 437.94
+  },
+  {
+    "word": "sewers",
+    "time": 440.06
+  },
+  {
+    "word": "engineers",
+    "time": 447.72
+  },
+  {
+    "word": "highways",
+    "time": 478.08
+  },
+  {
+    "word": "gravel",
+    "time": 509.0
+  },
+  {
+    "word": "enemies",
+    "time": 518.02
+  },
+  {
+    "word": "Colosseum",
+    "time": 563.36
+  },
+  {
+    "word": "sailors",
+    "time": 567.0
+  },
+  {
+    "word": "rigging",
+    "time": 568.5
+  },
+  {
+    "word": "quarrying",
+    "time": 592.74
+  },
+  {
+    "word": "labor",
+    "time": 596.34
+  },
+  {
+    "word": "slaves",
+    "time": 598.5
+  },
+  {
+    "word": "enslaved",
+    "time": 602.78
+  },
+  {
+    "word": "chattel",
+    "time": 622.96
+  },
+  {
+    "word": "crucified",
+    "time": 637.16
+  },
+  {
+    "word": "Baghdad",
+    "time": 700.24
+  },
+  {
+    "word": "Complexly",
+    "time": 710.92
+  },
+  {
+    "word": "Patreon",
+    "time": 723.62
+  },
+  {
+    "word": "content",
+    "time": 726.78
+  },
+  {
+    "word": "patrons",
+    "time": 728.94
+  }
+]

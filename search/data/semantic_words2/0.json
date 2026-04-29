@@ -1,0 +1,358 @@
+[
+  {
+    "word": "polio",
+    "time": 1.48
+  },
+  {
+    "word": "hepatitis",
+    "time": 4.24
+  },
+  {
+    "word": "psycho",
+    "time": 20.64
+  },
+  {
+    "word": "schizo",
+    "time": 21.44
+  },
+  {
+    "word": "bipolar",
+    "time": 22.26
+  },
+  {
+    "word": "OCD",
+    "time": 23.12
+  },
+  {
+    "word": "psychological",
+    "time": 29.86
+  },
+  {
+    "word": "disorders",
+    "time": 30.34
+  },
+  {
+    "word": "stigmatized",
+    "time": 33.06
+  },
+  {
+    "word": "minimize",
+    "time": 35.54
+  },
+  {
+    "word": "universal",
+    "time": 41.36
+  },
+  {
+    "word": "symptoms",
+    "time": 54.18
+  },
+  {
+    "word": "perspectives",
+    "time": 56.38
+  },
+  {
+    "word": "anxiety",
+    "time": 63.6
+  },
+  {
+    "word": "human",
+    "time": 65.06
+  },
+  {
+    "word": "dread",
+    "time": 69.26
+  },
+  {
+    "word": "deviant",
+    "time": 75.3
+  },
+  {
+    "word": "distressful",
+    "time": 75.98
+  },
+  {
+    "word": "dysfunctional",
+    "time": 76.76
+  },
+  {
+    "word": "laundry",
+    "time": 99.1
+  },
+  {
+    "word": "bleed",
+    "time": 102.3
+  },
+  {
+    "word": "river",
+    "time": 128.14
+  },
+  {
+    "word": "persistent",
+    "time": 141.64
+  },
+  {
+    "word": "obsessive",
+    "time": 162.34
+  },
+  {
+    "word": "ritualistic",
+    "time": 193.94
+  },
+  {
+    "word": "psychotropic",
+    "time": 237.28
+  },
+  {
+    "word": "pervasive",
+    "time": 249.68
+  },
+  {
+    "word": "Generalized",
+    "time": 258.1
+  },
+  {
+    "word": "apprehensive",
+    "time": 264.66
+  },
+  {
+    "word": "unfocused",
+    "time": 266.12
+  },
+  {
+    "word": "diagnosis",
+    "time": 275.3
+  },
+  {
+    "word": "agitated",
+    "time": 280.1
+  },
+  {
+    "word": "panic",
+    "time": 288.7
+  },
+  {
+    "word": "teen",
+    "time": 292.42
+  },
+  {
+    "word": "adults",
+    "time": 293.28
+  },
+  {
+    "word": "elevated",
+    "time": 307.84
+  },
+  {
+    "word": "physiological",
+    "time": 324.54
+  },
+  {
+    "word": "genetic",
+    "time": 331.78
+  },
+  {
+    "word": "predisposition",
+    "time": 332.08
+  },
+  {
+    "word": "trauma",
+    "time": 336.54
+  },
+  {
+    "word": "hyperventilating",
+    "time": 351.1
+  },
+  {
+    "word": "crowded",
+    "time": 360.06
+  },
+  {
+    "word": "confined",
+    "time": 360.66
+  },
+  {
+    "word": "phobias",
+    "time": 369.96
+  },
+  {
+    "word": "avoidance",
+    "time": 390.66
+  },
+  {
+    "word": "Chesapeake",
+    "time": 401.48
+  },
+  {
+    "word": "bridges",
+    "time": 402.04
+  },
+  {
+    "word": "driver's",
+    "time": 419.32
+  },
+  {
+    "word": "jephyrophobia",
+    "time": 423.02
+  },
+  {
+    "word": "social",
+    "time": 437.06
+  },
+  {
+    "word": "learning",
+    "time": 471.44
+  },
+  {
+    "word": "biology",
+    "time": 472.42
+  },
+  {
+    "word": "conditioning",
+    "time": 475.14
+  },
+  {
+    "word": "observational",
+    "time": 475.88
+  },
+  {
+    "word": "cognition",
+    "time": 477.16
+  },
+  {
+    "word": "Albert",
+    "time": 485.64
+  },
+  {
+    "word": "stimulus",
+    "time": 500.44
+  },
+  {
+    "word": "generalization",
+    "time": 500.98
+  },
+  {
+    "word": "parrot",
+    "time": 508.94
+  },
+  {
+    "word": "reinforcement",
+    "time": 513.5
+  },
+  {
+    "word": "slippers",
+    "time": 518.66
+  },
+  {
+    "word": "robin",
+    "time": 519.48
+  },
+  {
+    "word": "bear",
+    "time": 533.3
+  },
+  {
+    "word": "robber",
+    "time": 533.92
+  },
+  {
+    "word": "knife",
+    "time": 539.56
+  },
+  {
+    "word": "kiddie",
+    "time": 549.78
+  },
+  {
+    "word": "fountains",
+    "time": 552.76
+  },
+  {
+    "word": "duck",
+    "time": 553.52
+  },
+  {
+    "word": "ponds",
+    "time": 553.8
+  },
+  {
+    "word": "biological",
+    "time": 555.76
+  },
+  {
+    "word": "Natural",
+    "time": 557.04
+  },
+  {
+    "word": "snakes",
+    "time": 562.3
+  },
+  {
+    "word": "cliff",
+    "time": 570.32
+  },
+  {
+    "word": "serpents",
+    "time": 571.7
+  },
+  {
+    "word": "genes",
+    "time": 574.76
+  },
+  {
+    "word": "twins",
+    "time": 587.78
+  },
+  {
+    "word": "impulse",
+    "time": 618.46
+  },
+  {
+    "word": "habitual",
+    "time": 619.64
+  },
+  {
+    "word": "truism",
+    "time": 626.58
+  },
+  {
+    "word": "Subbable",
+    "time": 659.82
+  },
+  {
+    "word": "Crash",
+    "time": 661.02
+  },
+  {
+    "word": "Kathleen",
+    "time": 669.28
+  },
+  {
+    "word": "Yale",
+    "time": 669.7
+  },
+  {
+    "word": "DiPastino",
+    "time": 670.88
+  },
+  {
+    "word": "Bhagwat",
+    "time": 673.18
+  },
+  {
+    "word": "Nicholas",
+    "time": 675.18
+  },
+  {
+    "word": "Jenkins",
+    "time": 675.42
+  },
+  {
+    "word": "Michael",
+    "time": 676.84
+  },
+  {
+    "word": "Ronda",
+    "time": 677.02
+  }
+]

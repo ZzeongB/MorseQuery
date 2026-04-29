@@ -1,0 +1,380 @@
+[
+  {
+    "word": "roads",
+    "time": 9.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "domes",
+    "time": 12.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Olympian",
+    "time": 17.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "aqueducts",
+    "time": 21.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "population",
+    "time": 23.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "support",
+    "time": 31.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "debate",
+    "time": 44.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "inherited",
+    "time": 67.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "geometry",
+    "time": 71.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "astronomy",
+    "time": 72.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Plato",
+    "time": 76.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Aristotle",
+    "time": 76.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Asia",
+    "time": 81.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Africa",
+    "time": 81.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Europe",
+    "time": 82.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "library",
+    "time": 105.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Italy",
+    "time": 118.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "political",
+    "time": 146.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "catapults",
+    "time": 149.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ships",
+    "time": 151.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "weapons",
+    "time": 157.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "infinitesimals",
+    "time": 181.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "exponents",
+    "time": 183.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "irrigation",
+    "time": 195.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "math",
+    "time": 230.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "heavens",
+    "time": 238.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "shipbuilding",
+    "time": 242.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "hydrodynamics",
+    "time": 247.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "division",
+    "time": 252.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "techne",
+    "time": 261.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "epistemology",
+    "time": 276.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "formulas",
+    "time": 284.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Epicycles",
+    "time": 320.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cement",
+    "time": 388.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "durable",
+    "time": 404.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Pantheon",
+    "time": 408.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "mines",
+    "time": 432.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "irrigated",
+    "time": 434.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "marshes",
+    "time": 437.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "engineers",
+    "time": 447.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "highways",
+    "time": 478.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "gravel",
+    "time": 509.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "enemies",
+    "time": 518.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Colosseum",
+    "time": 563.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "sailors",
+    "time": 567.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "rigging",
+    "time": 568.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "quarrying",
+    "time": 592.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "enslaved",
+    "time": 602.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "chattel",
+    "time": 622.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "crucified",
+    "time": 637.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Baghdad",
+    "time": 700.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Patreon",
+    "time": 723.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "content",
+    "time": 726.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "patrons",
+    "time": 728.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  }
+]

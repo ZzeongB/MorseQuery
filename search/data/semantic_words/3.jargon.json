@@ -1,0 +1,128 @@
+[
+  {
+    "word": "gene",
+    "time": 50.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "pigmentation",
+    "time": 51.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "selection",
+    "time": 89.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "species",
+    "time": 112.98,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "mutation",
+    "time": 119.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "migration",
+    "time": 119.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "alleles",
+    "time": 123.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fossils",
+    "time": 150.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "organisms",
+    "time": 168.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "adaptations",
+    "time": 178.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "variations",
+    "time": 188.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "fitness",
+    "time": 222.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "phenotypes",
+    "time": 256.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "heritable",
+    "time": 259.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "inbreeding",
+    "time": 431.56,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "genotype",
+    "time": 473.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Daphnia",
+    "time": 581.9,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "fecundity",
+    "time": 608.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  }
+]

@@ -1,0 +1,5760 @@
+{
+  "text": "OK, so today is a lecture on income and substitution effects. Or really, it's about consumer-maximizing behavior. And so when we solve the consumers utility maximization problem, we get individual demand functions. It should say function with an S because if there are n goods, little n, then there's a demand for good 1, good 2, good n, and so on. And what are the arguments in these demand functions? The entire vector of Prices, denoted P1 through Pn, and Income, denoted as I. And you can think about prices and income denominated in dollars or some unit of account. We're going to be spending time looking at how the price of good k changes when we change the price of good k. But of necessity, other goods will be changing as well. It's at best, the implicit happenings in the diagrams. So here is a little bit of a repeat but expanded from last time. We've got two goods denoted, X and Y. And this household has a certain amount of income, I, say, I2. If income were I2, to this would be the budget line, which has a slope of PX over PY minus. And this is the tangency which is the maximum utility point denoted X2,Y2, associated with income I2. What this diagram is featuring, though, is not a single maximization. It's how the maximization point changes if you increase income. So you would move from X2,Y2 to X3,Y3, for example. And likewise, if your income were less, if this household's income were less, they would move to Y1,X1. So you could connect these dots. And as only income is varying and the price ratio is held fixed, we could call the connected dots an income expansion path. And I'll show you some examples of that momentarily. Here is a different experiment. Did we miss something? Well, in this one, you'll get lulled into thinking that, as income changes, the amount spent on both goods has to change, increase. But that's not necessarily the case. So here, again, we're going from I1 to I2 to I3 and tracing out the quantities from ZY1, ZY2 to ZY3. And here, the quantity demanded of good Y is increasing, but the quantity demanded of good Z is actually decreasing. So there's nothing terribly peculiar about the shape of these indifference curves. We didn't have to struggle too hard to get this phenomenon to happen. But anyway, this phenomenon has a name. Namely, the good Y over here would be called a normal good, and good Z would be called an inferior good or a necessity because the amount that you consume of it diminishes as income goes up. So here are those definitions, a good for which the demand of good i goes down as income-- capital I-- goes up is said to be an inferior good. It doesn't have to happen over the entire range of income and prices. But if it happens locally, it's called an inferior good locally. And likewise, if the derivative with respect to income is positive, then we call, in some range, the good to be a normal good or noninferior good. So there's something called Engel's Law. And with the caveat that this is not one household, it's actually comparing across households that differ in their annual income. So here, we're going from an annual income of $225 to-- this is written in 1920, by the way. Don't be too alarmed. There's been a lot of inflation. So this, in real purchasing power, was more than you thought, $300-- or this range, 450 to 600 or 750 to 1,000. And what you can see is the percent spent of the budget on food declines as we move to these income groups with higher and higher income. So in some sense, if all consumers were alike, and some had more income than others, we'd be looking at what an individual household would do as its income changed. And in this case, food would be an inferior good. You're saying, what's going up? Clothing, not by much. Lodging, not at all. What really expands as income goes up is services, education, health, legal, and other services. In fact, in the US economy, looking over decades, the fraction of services produced in GDP just keeps going up, and up, and up, which is reflective of the fact that, as households have more income, they demand more services than less food. So that's pretty dated, 1920. So I went on the web and looked this thing up, Engel's Law today. Here, we're dividing households into quintiles, five groups, an equal number of households in each group. And we plot the fraction of so-called luxuries and necessities for each group. Now, this is a bit problematic in the sense that necessities are defined as goods or services where consumption is proportionately lower as a person's income increases. So again, necessity or non-normal goods or as we defined it in the last three slides. Not too surprisingly, the highest income groups, the top 20% of the population, the proportion of expenditure on luxuries is a lot higher than on necessities. And that gap lowers until you get to the lowest group, in which case, the fraction spent on necessities is a lot higher than luxuries. Now, when I grabbed this, there was an whole article about how poor people are extravagant because they're still spending money on luxury goods. Well, I mean, narrowly speaking, yes, that's true. But again, it's a little bit harsh because it doesn't mean they're driving around in a Mercedes Benz. It just means they're eating some fraction of what they spend on are normal goods.",
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 6.03,
+      "text": "OK, so today is a lecture on income and substitution",
+      "words": [
+        {
+          "word": "OK,",
+          "start": 0.0,
+          "end": 0.7
+        },
+        {
+          "word": "so",
+          "start": 0.7,
+          "end": 0.9
+        },
+        {
+          "word": "today",
+          "start": 0.9,
+          "end": 2.14
+        },
+        {
+          "word": "is",
+          "start": 2.14,
+          "end": 3.0
+        },
+        {
+          "word": "a",
+          "start": 3.0,
+          "end": 3.36
+        },
+        {
+          "word": "lecture",
+          "start": 3.36,
+          "end": 3.88
+        },
+        {
+          "word": "on",
+          "start": 3.88,
+          "end": 4.78
+        },
+        {
+          "word": "income",
+          "start": 4.78,
+          "end": 5.1
+        },
+        {
+          "word": "and",
+          "start": 5.1,
+          "end": 5.38
+        },
+        {
+          "word": "substitution",
+          "start": 5.38,
+          "end": 5.74
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "start": 6.03,
+      "end": 7.08,
+      "text": "effects.",
+      "words": [
+        {
+          "word": "effects.",
+          "start": 6.03,
+          "end": 6.41
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 7.08,
+      "end": 12.4,
+      "text": "Or really, it's about consumer-maximizing behavior.",
+      "words": [
+        {
+          "word": "Or",
+          "start": 7.08,
+          "end": 7.42
+        },
+        {
+          "word": "really,",
+          "start": 7.42,
+          "end": 7.74
+        },
+        {
+          "word": "it's",
+          "start": 7.74,
+          "end": 8.0
+        },
+        {
+          "word": "about",
+          "start": 8.0,
+          "end": 8.5
+        },
+        {
+          "word": "consumer-maximizing",
+          "start": 8.5,
+          "end": 10.5
+        },
+        {
+          "word": "behavior.",
+          "start": 10.5,
+          "end": 11.02
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 12.4,
+      "end": 19.6,
+      "text": "And so when we solve the consumers utility maximization",
+      "words": [
+        {
+          "word": "And",
+          "start": 12.4,
+          "end": 13.02
+        },
+        {
+          "word": "so",
+          "start": 13.02,
+          "end": 15.9
+        },
+        {
+          "word": "when",
+          "start": 15.9,
+          "end": 16.12
+        },
+        {
+          "word": "we",
+          "start": 16.12,
+          "end": 16.32
+        },
+        {
+          "word": "solve",
+          "start": 16.32,
+          "end": 16.560000000000002
+        },
+        {
+          "word": "the",
+          "start": 16.560000000000002,
+          "end": 17.08
+        },
+        {
+          "word": "consumers",
+          "start": 17.08,
+          "end": 18.26
+        },
+        {
+          "word": "utility",
+          "start": 18.26,
+          "end": 18.58
+        },
+        {
+          "word": "maximization",
+          "start": 18.58,
+          "end": 19.48
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 19.6,
+      "end": 23.45,
+      "text": "problem, we get individual demand functions.",
+      "words": [
+        {
+          "word": "problem,",
+          "start": 19.6,
+          "end": 20.12
+        },
+        {
+          "word": "we",
+          "start": 20.12,
+          "end": 20.560000000000002
+        },
+        {
+          "word": "get",
+          "start": 20.560000000000002,
+          "end": 20.98
+        },
+        {
+          "word": "individual",
+          "start": 20.98,
+          "end": 21.76
+        },
+        {
+          "word": "demand",
+          "start": 21.76,
+          "end": 22.520000000000003
+        },
+        {
+          "word": "functions.",
+          "start": 22.520000000000003,
+          "end": 23.200000000000003
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 23.45,
+      "end": 27.46,
+      "text": "It should say function with an S because if there",
+      "words": [
+        {
+          "word": "It",
+          "start": 23.45,
+          "end": 23.63
+        },
+        {
+          "word": "should",
+          "start": 23.63,
+          "end": 23.97
+        },
+        {
+          "word": "say",
+          "start": 23.97,
+          "end": 24.59
+        },
+        {
+          "word": "function",
+          "start": 24.59,
+          "end": 25.13
+        },
+        {
+          "word": "with",
+          "start": 25.13,
+          "end": 25.83
+        },
+        {
+          "word": "an",
+          "start": 25.83,
+          "end": 26.03
+        },
+        {
+          "word": "S",
+          "start": 26.03,
+          "end": 26.29
+        },
+        {
+          "word": "because",
+          "start": 26.29,
+          "end": 26.91
+        },
+        {
+          "word": "if",
+          "start": 26.91,
+          "end": 27.25
+        },
+        {
+          "word": "there",
+          "start": 27.25,
+          "end": 27.43
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 27.46,
+      "end": 31.54,
+      "text": "are n goods, little n, then there's a demand for good 1,",
+      "words": [
+        {
+          "word": "are",
+          "start": 27.46,
+          "end": 27.65
+        },
+        {
+          "word": "n",
+          "start": 27.65,
+          "end": 27.84
+        },
+        {
+          "word": "goods,",
+          "start": 27.84,
+          "end": 28.32
+        },
+        {
+          "word": "little",
+          "start": 28.68,
+          "end": 28.8
+        },
+        {
+          "word": "n,",
+          "start": 28.8,
+          "end": 29.6
+        },
+        {
+          "word": "then",
+          "start": 30.1,
+          "end": 30.22
+        },
+        {
+          "word": "there's",
+          "start": 30.22,
+          "end": 30.48
+        },
+        {
+          "word": "a",
+          "start": 30.48,
+          "end": 30.6
+        },
+        {
+          "word": "demand",
+          "start": 30.6,
+          "end": 30.82
+        },
+        {
+          "word": "for",
+          "start": 30.82,
+          "end": 31.04
+        },
+        {
+          "word": "good",
+          "start": 31.04,
+          "end": 31.22
+        },
+        {
+          "word": "1,",
+          "start": 31.22,
+          "end": 31.54
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 31.54,
+      "end": 35.03,
+      "text": "good 2, good n, and so on.",
+      "words": [
+        {
+          "word": "good",
+          "start": 31.54,
+          "end": 31.84
+        },
+        {
+          "word": "2,",
+          "start": 31.84,
+          "end": 32.36
+        },
+        {
+          "word": "good",
+          "start": 32.36,
+          "end": 32.96
+        },
+        {
+          "word": "n,",
+          "start": 32.96,
+          "end": 33.199999999999996
+        },
+        {
+          "word": "and",
+          "start": 33.199999999999996,
+          "end": 33.54
+        },
+        {
+          "word": "so",
+          "start": 33.54,
+          "end": 33.68
+        },
+        {
+          "word": "on.",
+          "start": 33.68,
+          "end": 34.28
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 35.03,
+      "end": 38.29,
+      "text": "And what are the arguments in these demand functions?",
+      "words": [
+        {
+          "word": "And",
+          "start": 35.03,
+          "end": 35.17
+        },
+        {
+          "word": "what",
+          "start": 35.17,
+          "end": 35.29
+        },
+        {
+          "word": "are",
+          "start": 35.29,
+          "end": 35.39
+        },
+        {
+          "word": "the",
+          "start": 35.39,
+          "end": 35.550000000000004
+        },
+        {
+          "word": "arguments",
+          "start": 35.550000000000004,
+          "end": 35.97
+        },
+        {
+          "word": "in",
+          "start": 35.97,
+          "end": 36.21
+        },
+        {
+          "word": "these",
+          "start": 36.21,
+          "end": 36.35
+        },
+        {
+          "word": "demand",
+          "start": 36.35,
+          "end": 36.75
+        },
+        {
+          "word": "functions?",
+          "start": 36.75,
+          "end": 37.19
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "start": 38.29,
+      "end": 41.56,
+      "text": "The entire vector of Prices, denoted P1",
+      "words": [
+        {
+          "word": "The",
+          "start": 38.29,
+          "end": 38.57
+        },
+        {
+          "word": "entire",
+          "start": 38.57,
+          "end": 38.89
+        },
+        {
+          "word": "vector",
+          "start": 38.89,
+          "end": 39.31
+        },
+        {
+          "word": "of",
+          "start": 39.31,
+          "end": 39.61
+        },
+        {
+          "word": "Prices,",
+          "start": 39.61,
+          "end": 40.11
+        },
+        {
+          "word": "denoted",
+          "start": 40.589999999999996,
+          "end": 41.03
+        },
+        {
+          "word": "P1",
+          "start": 41.03,
+          "end": 41.53
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "start": 41.56,
+      "end": 46.06,
+      "text": "through Pn, and Income, denoted as I.",
+      "words": [
+        {
+          "word": "through",
+          "start": 41.56,
+          "end": 41.86
+        },
+        {
+          "word": "Pn,",
+          "start": 41.86,
+          "end": 42.84
+        },
+        {
+          "word": "and",
+          "start": 42.84,
+          "end": 43.6
+        },
+        {
+          "word": "Income,",
+          "start": 43.6,
+          "end": 44.04
+        },
+        {
+          "word": "denoted",
+          "start": 44.04,
+          "end": 45.06
+        },
+        {
+          "word": "as",
+          "start": 45.06,
+          "end": 45.440000000000005
+        },
+        {
+          "word": "I.",
+          "start": 45.440000000000005,
+          "end": 45.86
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "start": 46.06,
+      "end": 49.24,
+      "text": "And you can think about prices and income denominated",
+      "words": [
+        {
+          "word": "And",
+          "start": 46.06,
+          "end": 46.42
+        },
+        {
+          "word": "you",
+          "start": 46.42,
+          "end": 46.440000000000005
+        },
+        {
+          "word": "can",
+          "start": 46.440000000000005,
+          "end": 46.620000000000005
+        },
+        {
+          "word": "think",
+          "start": 46.620000000000005,
+          "end": 46.800000000000004
+        },
+        {
+          "word": "about",
+          "start": 46.800000000000004,
+          "end": 47.160000000000004
+        },
+        {
+          "word": "prices",
+          "start": 47.160000000000004,
+          "end": 47.480000000000004
+        },
+        {
+          "word": "and",
+          "start": 47.480000000000004,
+          "end": 47.72
+        },
+        {
+          "word": "income",
+          "start": 47.72,
+          "end": 48.28
+        },
+        {
+          "word": "denominated",
+          "start": 48.28,
+          "end": 49.24
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "start": 49.24,
+      "end": 53.0,
+      "text": "in dollars or some unit of account.",
+      "words": [
+        {
+          "word": "in",
+          "start": 49.24,
+          "end": 49.24
+        },
+        {
+          "word": "dollars",
+          "start": 49.24,
+          "end": 49.9
+        },
+        {
+          "word": "or",
+          "start": 49.9,
+          "end": 50.36
+        },
+        {
+          "word": "some",
+          "start": 50.36,
+          "end": 50.800000000000004
+        },
+        {
+          "word": "unit",
+          "start": 50.800000000000004,
+          "end": 51.06
+        },
+        {
+          "word": "of",
+          "start": 51.06,
+          "end": 51.32
+        },
+        {
+          "word": "account.",
+          "start": 51.32,
+          "end": 51.64
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "start": 53.0,
+      "end": 55.43,
+      "text": "We're going to be spending time looking",
+      "words": [
+        {
+          "word": "We're",
+          "start": 53.0,
+          "end": 53.32
+        },
+        {
+          "word": "going",
+          "start": 53.32,
+          "end": 53.4
+        },
+        {
+          "word": "to",
+          "start": 53.4,
+          "end": 53.48
+        },
+        {
+          "word": "be",
+          "start": 53.48,
+          "end": 53.72
+        },
+        {
+          "word": "spending",
+          "start": 53.72,
+          "end": 54.14
+        },
+        {
+          "word": "time",
+          "start": 54.14,
+          "end": 55.04
+        },
+        {
+          "word": "looking",
+          "start": 55.04,
+          "end": 55.3
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "start": 55.43,
+      "end": 58.61,
+      "text": "at how the price of good k changes when",
+      "words": [
+        {
+          "word": "at",
+          "start": 55.43,
+          "end": 55.43
+        },
+        {
+          "word": "how",
+          "start": 55.43,
+          "end": 55.81
+        },
+        {
+          "word": "the",
+          "start": 55.81,
+          "end": 56.089999999999996
+        },
+        {
+          "word": "price",
+          "start": 56.089999999999996,
+          "end": 56.61
+        },
+        {
+          "word": "of",
+          "start": 56.61,
+          "end": 57.07
+        },
+        {
+          "word": "good",
+          "start": 57.07,
+          "end": 57.43
+        },
+        {
+          "word": "k",
+          "start": 57.43,
+          "end": 57.81
+        },
+        {
+          "word": "changes",
+          "start": 57.81,
+          "end": 58.25
+        },
+        {
+          "word": "when",
+          "start": 58.25,
+          "end": 58.55
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "start": 58.61,
+      "end": 61.22,
+      "text": "we change the price of good k.",
+      "words": [
+        {
+          "word": "we",
+          "start": 58.61,
+          "end": 58.61
+        },
+        {
+          "word": "change",
+          "start": 58.61,
+          "end": 59.11
+        },
+        {
+          "word": "the",
+          "start": 59.11,
+          "end": 59.35
+        },
+        {
+          "word": "price",
+          "start": 59.35,
+          "end": 59.589999999999996
+        },
+        {
+          "word": "of",
+          "start": 59.589999999999996,
+          "end": 59.81
+        },
+        {
+          "word": "good",
+          "start": 59.81,
+          "end": 60.089999999999996
+        },
+        {
+          "word": "k.",
+          "start": 60.089999999999996,
+          "end": 60.49
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "start": 61.22,
+      "end": 66.32,
+      "text": "But of necessity, other goods will be changing as well.",
+      "words": [
+        {
+          "word": "But",
+          "start": 61.22,
+          "end": 61.94
+        },
+        {
+          "word": "of",
+          "start": 62.48,
+          "end": 62.5
+        },
+        {
+          "word": "necessity,",
+          "start": 62.5,
+          "end": 63.06
+        },
+        {
+          "word": "other",
+          "start": 63.62,
+          "end": 63.78
+        },
+        {
+          "word": "goods",
+          "start": 63.78,
+          "end": 64.06
+        },
+        {
+          "word": "will",
+          "start": 64.06,
+          "end": 64.4
+        },
+        {
+          "word": "be",
+          "start": 64.4,
+          "end": 64.62
+        },
+        {
+          "word": "changing",
+          "start": 64.62,
+          "end": 65.0
+        },
+        {
+          "word": "as",
+          "start": 65.0,
+          "end": 65.53999999999999
+        },
+        {
+          "word": "well.",
+          "start": 65.53999999999999,
+          "end": 65.92
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "start": 66.32,
+      "end": 71.21,
+      "text": "It's at best, the implicit happenings in the diagrams.",
+      "words": [
+        {
+          "word": "It's",
+          "start": 66.32,
+          "end": 66.75999999999999
+        },
+        {
+          "word": "at",
+          "start": 66.75999999999999,
+          "end": 66.89999999999999
+        },
+        {
+          "word": "best,",
+          "start": 66.89999999999999,
+          "end": 67.11999999999999
+        },
+        {
+          "word": "the",
+          "start": 67.11999999999999,
+          "end": 67.36
+        },
+        {
+          "word": "implicit",
+          "start": 67.36,
+          "end": 67.97999999999999
+        },
+        {
+          "word": "happenings",
+          "start": 67.97999999999999,
+          "end": 68.97999999999999
+        },
+        {
+          "word": "in",
+          "start": 68.97999999999999,
+          "end": 69.24
+        },
+        {
+          "word": "the",
+          "start": 69.24,
+          "end": 69.38
+        },
+        {
+          "word": "diagrams.",
+          "start": 69.38,
+          "end": 69.74
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "start": 71.21,
+      "end": 74.27,
+      "text": "So here is a little bit of a repeat",
+      "words": [
+        {
+          "word": "So",
+          "start": 71.21,
+          "end": 71.49
+        },
+        {
+          "word": "here",
+          "start": 71.49,
+          "end": 71.99
+        },
+        {
+          "word": "is",
+          "start": 71.99,
+          "end": 72.49
+        },
+        {
+          "word": "a",
+          "start": 72.49,
+          "end": 72.63
+        },
+        {
+          "word": "little",
+          "start": 72.63,
+          "end": 72.85
+        },
+        {
+          "word": "bit",
+          "start": 72.85,
+          "end": 73.05
+        },
+        {
+          "word": "of",
+          "start": 73.05,
+          "end": 73.25
+        },
+        {
+          "word": "a",
+          "start": 73.25,
+          "end": 73.33
+        },
+        {
+          "word": "repeat",
+          "start": 73.33,
+          "end": 73.64999999999999
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "start": 74.27,
+      "end": 76.46,
+      "text": "but expanded from last time.",
+      "words": [
+        {
+          "word": "but",
+          "start": 74.27,
+          "end": 74.81
+        },
+        {
+          "word": "expanded",
+          "start": 74.81,
+          "end": 75.33
+        },
+        {
+          "word": "from",
+          "start": 75.33,
+          "end": 75.75
+        },
+        {
+          "word": "last",
+          "start": 75.75,
+          "end": 76.03
+        },
+        {
+          "word": "time.",
+          "start": 76.03,
+          "end": 76.42999999999999
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "start": 76.46,
+      "end": 79.1,
+      "text": "We've got two goods denoted, X and Y.",
+      "words": [
+        {
+          "word": "We've",
+          "start": 76.46,
+          "end": 76.75999999999999
+        },
+        {
+          "word": "got",
+          "start": 76.75999999999999,
+          "end": 76.91999999999999
+        },
+        {
+          "word": "two",
+          "start": 76.91999999999999,
+          "end": 77.14
+        },
+        {
+          "word": "goods",
+          "start": 77.14,
+          "end": 77.5
+        },
+        {
+          "word": "denoted,",
+          "start": 77.5,
+          "end": 77.86
+        },
+        {
+          "word": "X",
+          "start": 77.86,
+          "end": 78.14
+        },
+        {
+          "word": "and",
+          "start": 78.14,
+          "end": 78.46
+        },
+        {
+          "word": "Y.",
+          "start": 78.46,
+          "end": 78.77999999999999
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "start": 79.1,
+      "end": 84.98,
+      "text": "And this household has a certain amount of income, I, say, I2.",
+      "words": [
+        {
+          "word": "And",
+          "start": 79.1,
+          "end": 79.86
+        },
+        {
+          "word": "this",
+          "start": 79.86,
+          "end": 80.08
+        },
+        {
+          "word": "household",
+          "start": 80.08,
+          "end": 80.6
+        },
+        {
+          "word": "has",
+          "start": 80.6,
+          "end": 81.17999999999999
+        },
+        {
+          "word": "a",
+          "start": 81.17999999999999,
+          "end": 81.32
+        },
+        {
+          "word": "certain",
+          "start": 81.32,
+          "end": 81.46
+        },
+        {
+          "word": "amount",
+          "start": 81.46,
+          "end": 81.75999999999999
+        },
+        {
+          "word": "of",
+          "start": 81.75999999999999,
+          "end": 81.89999999999999
+        },
+        {
+          "word": "income,",
+          "start": 81.89999999999999,
+          "end": 82.22
+        },
+        {
+          "word": "I,",
+          "start": 82.22,
+          "end": 82.91999999999999
+        },
+        {
+          "word": "say,",
+          "start": 82.91999999999999,
+          "end": 84.0
+        },
+        {
+          "word": "I2.",
+          "start": 84.0,
+          "end": 84.98
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 84.98,
+      "end": 86.81,
+      "text": "If income were I2, to this would be",
+      "words": [
+        {
+          "word": "If",
+          "start": 84.98,
+          "end": 85.24000000000001
+        },
+        {
+          "word": "income",
+          "start": 85.24000000000001,
+          "end": 85.54
+        },
+        {
+          "word": "were",
+          "start": 85.54,
+          "end": 85.78
+        },
+        {
+          "word": "I2,",
+          "start": 85.78,
+          "end": 86.24000000000001
+        },
+        {
+          "word": "to",
+          "start": 86.24000000000001,
+          "end": 86.24000000000001
+        },
+        {
+          "word": "this",
+          "start": 86.24000000000001,
+          "end": 86.46000000000001
+        },
+        {
+          "word": "would",
+          "start": 86.46000000000001,
+          "end": 86.64
+        },
+        {
+          "word": "be",
+          "start": 86.64,
+          "end": 86.78
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "start": 86.81,
+      "end": 92.51,
+      "text": "the budget line, which has a slope of PX over PY minus.",
+      "words": [
+        {
+          "word": "the",
+          "start": 86.81,
+          "end": 87.21000000000001
+        },
+        {
+          "word": "budget",
+          "start": 87.21000000000001,
+          "end": 87.23
+        },
+        {
+          "word": "line,",
+          "start": 87.23,
+          "end": 87.65
+        },
+        {
+          "word": "which",
+          "start": 87.65,
+          "end": 88.03
+        },
+        {
+          "word": "has",
+          "start": 88.03,
+          "end": 88.51
+        },
+        {
+          "word": "a",
+          "start": 88.51,
+          "end": 88.71000000000001
+        },
+        {
+          "word": "slope",
+          "start": 88.71000000000001,
+          "end": 89.03
+        },
+        {
+          "word": "of",
+          "start": 89.03,
+          "end": 89.43
+        },
+        {
+          "word": "PX",
+          "start": 89.43,
+          "end": 89.79
+        },
+        {
+          "word": "over",
+          "start": 89.79,
+          "end": 90.11
+        },
+        {
+          "word": "PY",
+          "start": 90.11,
+          "end": 90.91
+        },
+        {
+          "word": "minus.",
+          "start": 90.91,
+          "end": 91.65
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "start": 92.51,
+      "end": 96.32,
+      "text": "And this is the tangency which is the maximum utility point",
+      "words": [
+        {
+          "word": "And",
+          "start": 92.51,
+          "end": 92.93
+        },
+        {
+          "word": "this",
+          "start": 92.93,
+          "end": 93.15
+        },
+        {
+          "word": "is",
+          "start": 93.15,
+          "end": 93.65
+        },
+        {
+          "word": "the",
+          "start": 93.65,
+          "end": 93.77000000000001
+        },
+        {
+          "word": "tangency",
+          "start": 93.77000000000001,
+          "end": 94.37
+        },
+        {
+          "word": "which",
+          "start": 94.37,
+          "end": 94.63000000000001
+        },
+        {
+          "word": "is",
+          "start": 94.63000000000001,
+          "end": 94.89
+        },
+        {
+          "word": "the",
+          "start": 94.89,
+          "end": 94.97
+        },
+        {
+          "word": "maximum",
+          "start": 94.97,
+          "end": 95.39
+        },
+        {
+          "word": "utility",
+          "start": 95.39,
+          "end": 95.89
+        },
+        {
+          "word": "point",
+          "start": 95.89,
+          "end": 96.29
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "start": 96.32,
+      "end": 101.39,
+      "text": "denoted X2,Y2, associated with income I2.",
+      "words": [
+        {
+          "word": "denoted",
+          "start": 96.32,
+          "end": 97.44
+        },
+        {
+          "word": "X2,Y2,",
+          "start": 97.44,
+          "end": 98.55999999999999
+        },
+        {
+          "word": "associated",
+          "start": 98.55999999999999,
+          "end": 99.24
+        },
+        {
+          "word": "with",
+          "start": 99.24,
+          "end": 99.53999999999999
+        },
+        {
+          "word": "income",
+          "start": 99.53999999999999,
+          "end": 99.88
+        },
+        {
+          "word": "I2.",
+          "start": 99.88,
+          "end": 100.52
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "start": 101.39,
+      "end": 103.38,
+      "text": "What this diagram is featuring, though,",
+      "words": [
+        {
+          "word": "What",
+          "start": 101.39,
+          "end": 101.71
+        },
+        {
+          "word": "this",
+          "start": 101.71,
+          "end": 101.95
+        },
+        {
+          "word": "diagram",
+          "start": 101.95,
+          "end": 102.31
+        },
+        {
+          "word": "is",
+          "start": 102.31,
+          "end": 102.59
+        },
+        {
+          "word": "featuring,",
+          "start": 102.59,
+          "end": 102.87
+        },
+        {
+          "word": "though,",
+          "start": 102.87,
+          "end": 103.38
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "start": 103.38,
+      "end": 105.8,
+      "text": "is not a single maximization.",
+      "words": [
+        {
+          "word": "is",
+          "start": 103.38,
+          "end": 103.53
+        },
+        {
+          "word": "not",
+          "start": 103.53,
+          "end": 103.67999999999999
+        },
+        {
+          "word": "a",
+          "start": 103.67999999999999,
+          "end": 103.78
+        },
+        {
+          "word": "single",
+          "start": 103.78,
+          "end": 104.0
+        },
+        {
+          "word": "maximization.",
+          "start": 104.0,
+          "end": 104.88
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "start": 105.8,
+      "end": 109.83,
+      "text": "It's how the maximization point changes if you increase income.",
+      "words": [
+        {
+          "word": "It's",
+          "start": 105.8,
+          "end": 106.06
+        },
+        {
+          "word": "how",
+          "start": 106.06,
+          "end": 106.22
+        },
+        {
+          "word": "the",
+          "start": 106.22,
+          "end": 106.38
+        },
+        {
+          "word": "maximization",
+          "start": 106.38,
+          "end": 107.0
+        },
+        {
+          "word": "point",
+          "start": 107.0,
+          "end": 107.42
+        },
+        {
+          "word": "changes",
+          "start": 107.42,
+          "end": 107.98
+        },
+        {
+          "word": "if",
+          "start": 107.98,
+          "end": 108.42
+        },
+        {
+          "word": "you",
+          "start": 108.42,
+          "end": 108.72
+        },
+        {
+          "word": "increase",
+          "start": 108.72,
+          "end": 109.1
+        },
+        {
+          "word": "income.",
+          "start": 109.1,
+          "end": 109.5
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 109.83,
+      "end": 115.43,
+      "text": "So you would move from X2,Y2 to X3,Y3, for example.",
+      "words": [
+        {
+          "word": "So",
+          "start": 109.83,
+          "end": 110.09
+        },
+        {
+          "word": "you",
+          "start": 110.09,
+          "end": 110.17
+        },
+        {
+          "word": "would",
+          "start": 110.17,
+          "end": 110.35
+        },
+        {
+          "word": "move",
+          "start": 110.35,
+          "end": 110.71
+        },
+        {
+          "word": "from",
+          "start": 110.71,
+          "end": 111.25
+        },
+        {
+          "word": "X2,Y2",
+          "start": 111.25,
+          "end": 111.45
+        },
+        {
+          "word": "to",
+          "start": 111.45,
+          "end": 111.64999999999999
+        },
+        {
+          "word": "X3,Y3,",
+          "start": 111.64999999999999,
+          "end": 113.77
+        },
+        {
+          "word": "for",
+          "start": 113.77,
+          "end": 114.09
+        },
+        {
+          "word": "example.",
+          "start": 114.09,
+          "end": 114.53
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "start": 115.43,
+      "end": 119.03,
+      "text": "And likewise, if your income were less,",
+      "words": [
+        {
+          "word": "And",
+          "start": 115.43,
+          "end": 115.75
+        },
+        {
+          "word": "likewise,",
+          "start": 115.75,
+          "end": 116.37
+        },
+        {
+          "word": "if",
+          "start": 116.89,
+          "end": 117.03
+        },
+        {
+          "word": "your",
+          "start": 117.03,
+          "end": 117.43
+        },
+        {
+          "word": "income",
+          "start": 117.43,
+          "end": 117.69000000000001
+        },
+        {
+          "word": "were",
+          "start": 117.69000000000001,
+          "end": 117.91000000000001
+        },
+        {
+          "word": "less,",
+          "start": 117.91000000000001,
+          "end": 118.33000000000001
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "start": 119.03,
+      "end": 124.25,
+      "text": "if this household's income were less, they would move to Y1,X1.",
+      "words": [
+        {
+          "word": "if",
+          "start": 119.03,
+          "end": 119.31
+        },
+        {
+          "word": "this",
+          "start": 119.31,
+          "end": 119.69
+        },
+        {
+          "word": "household's",
+          "start": 119.69,
+          "end": 120.03
+        },
+        {
+          "word": "income",
+          "start": 120.03,
+          "end": 120.43
+        },
+        {
+          "word": "were",
+          "start": 120.43,
+          "end": 120.65
+        },
+        {
+          "word": "less,",
+          "start": 120.65,
+          "end": 121.09
+        },
+        {
+          "word": "they",
+          "start": 121.47,
+          "end": 121.53
+        },
+        {
+          "word": "would",
+          "start": 121.53,
+          "end": 121.71000000000001
+        },
+        {
+          "word": "move",
+          "start": 121.71000000000001,
+          "end": 121.99
+        },
+        {
+          "word": "to",
+          "start": 121.99,
+          "end": 122.97
+        },
+        {
+          "word": "Y1,X1.",
+          "start": 122.97,
+          "end": 124.25
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "start": 124.25,
+      "end": 127.7,
+      "text": "So you could connect these dots.",
+      "words": [
+        {
+          "word": "So",
+          "start": 124.25,
+          "end": 124.65
+        },
+        {
+          "word": "you",
+          "start": 125.05,
+          "end": 125.73
+        },
+        {
+          "word": "could",
+          "start": 125.73,
+          "end": 125.97
+        },
+        {
+          "word": "connect",
+          "start": 125.97,
+          "end": 126.33
+        },
+        {
+          "word": "these",
+          "start": 126.33,
+          "end": 126.69
+        },
+        {
+          "word": "dots.",
+          "start": 126.69,
+          "end": 127.05
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "start": 127.7,
+      "end": 131.51,
+      "text": "And as only income is varying and the price ratio",
+      "words": [
+        {
+          "word": "And",
+          "start": 127.7,
+          "end": 128.02
+        },
+        {
+          "word": "as",
+          "start": 128.02,
+          "end": 128.22
+        },
+        {
+          "word": "only",
+          "start": 128.22,
+          "end": 128.5
+        },
+        {
+          "word": "income",
+          "start": 128.5,
+          "end": 128.96
+        },
+        {
+          "word": "is",
+          "start": 128.96,
+          "end": 129.24
+        },
+        {
+          "word": "varying",
+          "start": 129.24,
+          "end": 129.6
+        },
+        {
+          "word": "and",
+          "start": 130.28,
+          "end": 130.74
+        },
+        {
+          "word": "the",
+          "start": 130.74,
+          "end": 130.82
+        },
+        {
+          "word": "price",
+          "start": 130.82,
+          "end": 131.06
+        },
+        {
+          "word": "ratio",
+          "start": 131.06,
+          "end": 131.51
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "start": 131.51,
+      "end": 134.57,
+      "text": "is held fixed, we could call the connected dots",
+      "words": [
+        {
+          "word": "is",
+          "start": 131.51,
+          "end": 131.69
+        },
+        {
+          "word": "held",
+          "start": 131.69,
+          "end": 131.87
+        },
+        {
+          "word": "fixed,",
+          "start": 131.87,
+          "end": 132.20999999999998
+        },
+        {
+          "word": "we",
+          "start": 132.98999999999998,
+          "end": 132.98999999999998
+        },
+        {
+          "word": "could",
+          "start": 132.98999999999998,
+          "end": 133.23
+        },
+        {
+          "word": "call",
+          "start": 133.23,
+          "end": 133.47
+        },
+        {
+          "word": "the",
+          "start": 133.47,
+          "end": 133.67
+        },
+        {
+          "word": "connected",
+          "start": 133.67,
+          "end": 134.09
+        },
+        {
+          "word": "dots",
+          "start": 134.09,
+          "end": 134.48999999999998
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "start": 134.57,
+      "end": 136.7,
+      "text": "an income expansion path.",
+      "words": [
+        {
+          "word": "an",
+          "start": 134.57,
+          "end": 134.57
+        },
+        {
+          "word": "income",
+          "start": 134.57,
+          "end": 135.20999999999998
+        },
+        {
+          "word": "expansion",
+          "start": 135.20999999999998,
+          "end": 135.91
+        },
+        {
+          "word": "path.",
+          "start": 135.91,
+          "end": 136.48999999999998
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "start": 136.7,
+      "end": 140.87,
+      "text": "And I'll show you some examples of that momentarily.",
+      "words": [
+        {
+          "word": "And",
+          "start": 136.7,
+          "end": 137.01999999999998
+        },
+        {
+          "word": "I'll",
+          "start": 137.01999999999998,
+          "end": 137.44
+        },
+        {
+          "word": "show",
+          "start": 137.44,
+          "end": 137.64
+        },
+        {
+          "word": "you",
+          "start": 137.64,
+          "end": 137.92
+        },
+        {
+          "word": "some",
+          "start": 137.92,
+          "end": 138.14
+        },
+        {
+          "word": "examples",
+          "start": 138.14,
+          "end": 138.57999999999998
+        },
+        {
+          "word": "of",
+          "start": 138.57999999999998,
+          "end": 138.88
+        },
+        {
+          "word": "that",
+          "start": 138.88,
+          "end": 139.39999999999998
+        },
+        {
+          "word": "momentarily.",
+          "start": 139.39999999999998,
+          "end": 140.06
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "start": 140.87,
+      "end": 144.11,
+      "text": "Here is a different experiment.",
+      "words": [
+        {
+          "word": "Here",
+          "start": 140.87,
+          "end": 141.29
+        },
+        {
+          "word": "is",
+          "start": 141.29,
+          "end": 142.31
+        },
+        {
+          "word": "a",
+          "start": 142.31,
+          "end": 142.53
+        },
+        {
+          "word": "different",
+          "start": 142.53,
+          "end": 142.83
+        },
+        {
+          "word": "experiment.",
+          "start": 142.83,
+          "end": 143.51
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "start": 144.11,
+      "end": 145.43,
+      "text": "Did we miss something?",
+      "words": [
+        {
+          "word": "Did",
+          "start": 144.11,
+          "end": 144.25
+        },
+        {
+          "word": "we",
+          "start": 144.25,
+          "end": 144.39000000000001
+        },
+        {
+          "word": "miss",
+          "start": 144.39000000000001,
+          "end": 144.67000000000002
+        },
+        {
+          "word": "something?",
+          "start": 144.67000000000002,
+          "end": 144.97000000000003
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "start": 145.43,
+      "end": 148.68,
+      "text": "Well, in this one, you'll get lulled",
+      "words": [
+        {
+          "word": "Well,",
+          "start": 145.43,
+          "end": 146.05
+        },
+        {
+          "word": "in",
+          "start": 146.07,
+          "end": 146.17000000000002
+        },
+        {
+          "word": "this",
+          "start": 146.17000000000002,
+          "end": 146.39000000000001
+        },
+        {
+          "word": "one,",
+          "start": 146.39000000000001,
+          "end": 146.95000000000002
+        },
+        {
+          "word": "you'll",
+          "start": 147.89000000000001,
+          "end": 148.09
+        },
+        {
+          "word": "get",
+          "start": 148.09,
+          "end": 148.29000000000002
+        },
+        {
+          "word": "lulled",
+          "start": 148.29000000000002,
+          "end": 148.65
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "start": 148.68,
+      "end": 151.08,
+      "text": "into thinking that, as income changes,",
+      "words": [
+        {
+          "word": "into",
+          "start": 148.68,
+          "end": 149.0
+        },
+        {
+          "word": "thinking",
+          "start": 149.0,
+          "end": 149.42000000000002
+        },
+        {
+          "word": "that,",
+          "start": 149.42000000000002,
+          "end": 149.76000000000002
+        },
+        {
+          "word": "as",
+          "start": 149.76000000000002,
+          "end": 149.92000000000002
+        },
+        {
+          "word": "income",
+          "start": 149.92000000000002,
+          "end": 150.18
+        },
+        {
+          "word": "changes,",
+          "start": 150.18,
+          "end": 150.6
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "start": 151.08,
+      "end": 154.71,
+      "text": "the amount spent on both goods has to change, increase.",
+      "words": [
+        {
+          "word": "the",
+          "start": 151.08,
+          "end": 151.3
+        },
+        {
+          "word": "amount",
+          "start": 151.3,
+          "end": 151.70000000000002
+        },
+        {
+          "word": "spent",
+          "start": 151.70000000000002,
+          "end": 151.98000000000002
+        },
+        {
+          "word": "on",
+          "start": 151.98000000000002,
+          "end": 152.26000000000002
+        },
+        {
+          "word": "both",
+          "start": 152.26000000000002,
+          "end": 152.46
+        },
+        {
+          "word": "goods",
+          "start": 152.46,
+          "end": 152.74
+        },
+        {
+          "word": "has",
+          "start": 152.74,
+          "end": 153.06
+        },
+        {
+          "word": "to",
+          "start": 153.06,
+          "end": 153.24
+        },
+        {
+          "word": "change,",
+          "start": 153.24,
+          "end": 153.82000000000002
+        },
+        {
+          "word": "increase.",
+          "start": 154.20000000000002,
+          "end": 154.44000000000003
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "start": 154.71,
+      "end": 157.57,
+      "text": "But that's not necessarily the case.",
+      "words": [
+        {
+          "word": "But",
+          "start": 154.71,
+          "end": 154.93
+        },
+        {
+          "word": "that's",
+          "start": 154.93,
+          "end": 155.25
+        },
+        {
+          "word": "not",
+          "start": 155.25,
+          "end": 155.49
+        },
+        {
+          "word": "necessarily",
+          "start": 155.49,
+          "end": 156.05
+        },
+        {
+          "word": "the",
+          "start": 156.05,
+          "end": 156.41
+        },
+        {
+          "word": "case.",
+          "start": 156.41,
+          "end": 156.79000000000002
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "start": 157.57,
+      "end": 162.81,
+      "text": "So here, again, we're going from I1 to I2 to I3",
+      "words": [
+        {
+          "word": "So",
+          "start": 157.57,
+          "end": 157.81
+        },
+        {
+          "word": "here,",
+          "start": 157.81,
+          "end": 157.98999999999998
+        },
+        {
+          "word": "again,",
+          "start": 157.98999999999998,
+          "end": 158.59
+        },
+        {
+          "word": "we're",
+          "start": 159.23,
+          "end": 159.35
+        },
+        {
+          "word": "going",
+          "start": 159.35,
+          "end": 159.67
+        },
+        {
+          "word": "from",
+          "start": 159.67,
+          "end": 160.10999999999999
+        },
+        {
+          "word": "I1",
+          "start": 160.10999999999999,
+          "end": 160.57
+        },
+        {
+          "word": "to",
+          "start": 160.57,
+          "end": 160.82999999999998
+        },
+        {
+          "word": "I2",
+          "start": 160.82999999999998,
+          "end": 161.31
+        },
+        {
+          "word": "to",
+          "start": 161.31,
+          "end": 161.53
+        },
+        {
+          "word": "I3",
+          "start": 161.53,
+          "end": 162.15
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "start": 162.81,
+      "end": 170.94,
+      "text": "and tracing out the quantities from ZY1, ZY2 to ZY3.",
+      "words": [
+        {
+          "word": "and",
+          "start": 162.81,
+          "end": 163.69
+        },
+        {
+          "word": "tracing",
+          "start": 163.69,
+          "end": 164.03
+        },
+        {
+          "word": "out",
+          "start": 164.03,
+          "end": 164.97
+        },
+        {
+          "word": "the",
+          "start": 164.97,
+          "end": 165.37
+        },
+        {
+          "word": "quantities",
+          "start": 165.37,
+          "end": 165.81
+        },
+        {
+          "word": "from",
+          "start": 165.81,
+          "end": 167.39000000000001
+        },
+        {
+          "word": "ZY1,",
+          "start": 167.39000000000001,
+          "end": 168.27
+        },
+        {
+          "word": "ZY2",
+          "start": 168.31,
+          "end": 169.17000000000002
+        },
+        {
+          "word": "to",
+          "start": 169.17000000000002,
+          "end": 169.51
+        },
+        {
+          "word": "ZY3.",
+          "start": 169.51,
+          "end": 170.29
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "start": 170.94,
+      "end": 177.06,
+      "text": "And here, the quantity demanded of good Y is increasing,",
+      "words": [
+        {
+          "word": "And",
+          "start": 170.94,
+          "end": 171.28
+        },
+        {
+          "word": "here,",
+          "start": 171.28,
+          "end": 171.74
+        },
+        {
+          "word": "the",
+          "start": 172.74,
+          "end": 172.82
+        },
+        {
+          "word": "quantity",
+          "start": 172.82,
+          "end": 173.18
+        },
+        {
+          "word": "demanded",
+          "start": 173.18,
+          "end": 174.0
+        },
+        {
+          "word": "of",
+          "start": 174.0,
+          "end": 174.3
+        },
+        {
+          "word": "good",
+          "start": 174.3,
+          "end": 174.66
+        },
+        {
+          "word": "Y",
+          "start": 174.66,
+          "end": 175.35999999999999
+        },
+        {
+          "word": "is",
+          "start": 175.35999999999999,
+          "end": 175.74
+        },
+        {
+          "word": "increasing,",
+          "start": 175.74,
+          "end": 176.16
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "start": 177.06,
+      "end": 181.21,
+      "text": "but the quantity demanded of good Z is actually decreasing.",
+      "words": [
+        {
+          "word": "but",
+          "start": 177.06,
+          "end": 177.32
+        },
+        {
+          "word": "the",
+          "start": 177.32,
+          "end": 177.42000000000002
+        },
+        {
+          "word": "quantity",
+          "start": 177.42000000000002,
+          "end": 177.78
+        },
+        {
+          "word": "demanded",
+          "start": 177.78,
+          "end": 178.3
+        },
+        {
+          "word": "of",
+          "start": 178.3,
+          "end": 178.54
+        },
+        {
+          "word": "good",
+          "start": 178.54,
+          "end": 178.72
+        },
+        {
+          "word": "Z",
+          "start": 178.72,
+          "end": 178.94
+        },
+        {
+          "word": "is",
+          "start": 178.94,
+          "end": 179.38
+        },
+        {
+          "word": "actually",
+          "start": 179.38,
+          "end": 179.9
+        },
+        {
+          "word": "decreasing.",
+          "start": 179.9,
+          "end": 180.36
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "start": 181.21,
+      "end": 185.01,
+      "text": "So there's nothing terribly peculiar about the shape",
+      "words": [
+        {
+          "word": "So",
+          "start": 181.21,
+          "end": 181.43
+        },
+        {
+          "word": "there's",
+          "start": 181.43,
+          "end": 181.71
+        },
+        {
+          "word": "nothing",
+          "start": 181.71,
+          "end": 182.11
+        },
+        {
+          "word": "terribly",
+          "start": 182.11,
+          "end": 182.67000000000002
+        },
+        {
+          "word": "peculiar",
+          "start": 182.67000000000002,
+          "end": 183.51000000000002
+        },
+        {
+          "word": "about",
+          "start": 183.51000000000002,
+          "end": 184.33
+        },
+        {
+          "word": "the",
+          "start": 184.33,
+          "end": 184.73000000000002
+        },
+        {
+          "word": "shape",
+          "start": 184.73000000000002,
+          "end": 184.95000000000002
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "start": 185.01,
+      "end": 186.47,
+      "text": "of these indifference curves.",
+      "words": [
+        {
+          "word": "of",
+          "start": 185.01,
+          "end": 185.17
+        },
+        {
+          "word": "these",
+          "start": 185.17,
+          "end": 185.41
+        },
+        {
+          "word": "indifference",
+          "start": 185.41,
+          "end": 185.85
+        },
+        {
+          "word": "curves.",
+          "start": 185.85,
+          "end": 186.25
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "start": 186.47,
+      "end": 189.75,
+      "text": "We didn't have to struggle too hard to get this phenomenon",
+      "words": [
+        {
+          "word": "We",
+          "start": 186.47,
+          "end": 186.47
+        },
+        {
+          "word": "didn't",
+          "start": 186.47,
+          "end": 186.85
+        },
+        {
+          "word": "have",
+          "start": 186.85,
+          "end": 187.13
+        },
+        {
+          "word": "to",
+          "start": 187.13,
+          "end": 187.27
+        },
+        {
+          "word": "struggle",
+          "start": 187.27,
+          "end": 187.59
+        },
+        {
+          "word": "too",
+          "start": 187.59,
+          "end": 187.99
+        },
+        {
+          "word": "hard",
+          "start": 187.99,
+          "end": 188.33
+        },
+        {
+          "word": "to",
+          "start": 188.33,
+          "end": 188.57
+        },
+        {
+          "word": "get",
+          "start": 188.57,
+          "end": 188.79
+        },
+        {
+          "word": "this",
+          "start": 188.79,
+          "end": 189.09
+        },
+        {
+          "word": "phenomenon",
+          "start": 189.09,
+          "end": 189.49
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "start": 189.75,
+      "end": 190.98,
+      "text": "to happen.",
+      "words": [
+        {
+          "word": "to",
+          "start": 189.75,
+          "end": 189.75
+        },
+        {
+          "word": "happen.",
+          "start": 189.75,
+          "end": 190.27
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "start": 190.98,
+      "end": 194.04,
+      "text": "But anyway, this phenomenon has a name.",
+      "words": [
+        {
+          "word": "But",
+          "start": 190.98,
+          "end": 191.26
+        },
+        {
+          "word": "anyway,",
+          "start": 191.26,
+          "end": 191.5
+        },
+        {
+          "word": "this",
+          "start": 191.67999999999998,
+          "end": 191.79999999999998
+        },
+        {
+          "word": "phenomenon",
+          "start": 191.79999999999998,
+          "end": 192.32
+        },
+        {
+          "word": "has",
+          "start": 192.32,
+          "end": 193.22
+        },
+        {
+          "word": "a",
+          "start": 193.22,
+          "end": 193.48
+        },
+        {
+          "word": "name.",
+          "start": 193.48,
+          "end": 193.84
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "start": 194.04,
+      "end": 199.56,
+      "text": "Namely, the good Y over here would be called a normal good,",
+      "words": [
+        {
+          "word": "Namely,",
+          "start": 194.04,
+          "end": 194.7
+        },
+        {
+          "word": "the",
+          "start": 194.7,
+          "end": 195.79999999999998
+        },
+        {
+          "word": "good",
+          "start": 195.79999999999998,
+          "end": 196.01999999999998
+        },
+        {
+          "word": "Y",
+          "start": 196.01999999999998,
+          "end": 196.79999999999998
+        },
+        {
+          "word": "over",
+          "start": 196.79999999999998,
+          "end": 197.0
+        },
+        {
+          "word": "here",
+          "start": 197.0,
+          "end": 197.17999999999998
+        },
+        {
+          "word": "would",
+          "start": 197.17999999999998,
+          "end": 197.5
+        },
+        {
+          "word": "be",
+          "start": 197.5,
+          "end": 197.79999999999998
+        },
+        {
+          "word": "called",
+          "start": 197.79999999999998,
+          "end": 198.12
+        },
+        {
+          "word": "a",
+          "start": 198.12,
+          "end": 198.35999999999999
+        },
+        {
+          "word": "normal",
+          "start": 198.35999999999999,
+          "end": 198.66
+        },
+        {
+          "word": "good,",
+          "start": 198.66,
+          "end": 199.1
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "start": 199.56,
+      "end": 205.53,
+      "text": "and good Z would be called an inferior good or a necessity",
+      "words": [
+        {
+          "word": "and",
+          "start": 199.56,
+          "end": 200.02
+        },
+        {
+          "word": "good",
+          "start": 200.02,
+          "end": 200.34
+        },
+        {
+          "word": "Z",
+          "start": 200.34,
+          "end": 200.86
+        },
+        {
+          "word": "would",
+          "start": 200.86,
+          "end": 201.72
+        },
+        {
+          "word": "be",
+          "start": 201.72,
+          "end": 202.0
+        },
+        {
+          "word": "called",
+          "start": 202.0,
+          "end": 202.24
+        },
+        {
+          "word": "an",
+          "start": 202.24,
+          "end": 202.5
+        },
+        {
+          "word": "inferior",
+          "start": 202.5,
+          "end": 202.76
+        },
+        {
+          "word": "good",
+          "start": 202.76,
+          "end": 203.68
+        },
+        {
+          "word": "or",
+          "start": 203.68,
+          "end": 204.24
+        },
+        {
+          "word": "a",
+          "start": 204.24,
+          "end": 204.38
+        },
+        {
+          "word": "necessity",
+          "start": 204.38,
+          "end": 204.76
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "start": 205.53,
+      "end": 207.69,
+      "text": "because the amount that you consume of it",
+      "words": [
+        {
+          "word": "because",
+          "start": 205.53,
+          "end": 205.99
+        },
+        {
+          "word": "the",
+          "start": 205.99,
+          "end": 206.15
+        },
+        {
+          "word": "amount",
+          "start": 206.15,
+          "end": 206.47
+        },
+        {
+          "word": "that",
+          "start": 206.47,
+          "end": 206.69
+        },
+        {
+          "word": "you",
+          "start": 206.69,
+          "end": 206.83
+        },
+        {
+          "word": "consume",
+          "start": 206.83,
+          "end": 207.19
+        },
+        {
+          "word": "of",
+          "start": 207.19,
+          "end": 207.45
+        },
+        {
+          "word": "it",
+          "start": 207.45,
+          "end": 207.67
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "start": 207.69,
+      "end": 211.9,
+      "text": "diminishes as income goes up.",
+      "words": [
+        {
+          "word": "diminishes",
+          "start": 207.69,
+          "end": 208.59
+        },
+        {
+          "word": "as",
+          "start": 208.59,
+          "end": 209.07
+        },
+        {
+          "word": "income",
+          "start": 209.07,
+          "end": 209.45
+        },
+        {
+          "word": "goes",
+          "start": 209.45,
+          "end": 209.82999999999998
+        },
+        {
+          "word": "up.",
+          "start": 209.82999999999998,
+          "end": 210.45
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "start": 211.9,
+      "end": 214.65,
+      "text": "So here are those definitions, a good",
+      "words": [
+        {
+          "word": "So",
+          "start": 211.9,
+          "end": 212.08
+        },
+        {
+          "word": "here",
+          "start": 212.08,
+          "end": 212.28
+        },
+        {
+          "word": "are",
+          "start": 212.28,
+          "end": 212.44
+        },
+        {
+          "word": "those",
+          "start": 212.44,
+          "end": 212.62
+        },
+        {
+          "word": "definitions,",
+          "start": 212.62,
+          "end": 213.16
+        },
+        {
+          "word": "a",
+          "start": 214.26000000000002,
+          "end": 214.34
+        },
+        {
+          "word": "good",
+          "start": 214.34,
+          "end": 214.56
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "start": 214.65,
+      "end": 218.1,
+      "text": "for which the demand of good i goes down",
+      "words": [
+        {
+          "word": "for",
+          "start": 214.65,
+          "end": 214.87
+        },
+        {
+          "word": "which",
+          "start": 214.87,
+          "end": 215.31
+        },
+        {
+          "word": "the",
+          "start": 215.31,
+          "end": 215.77
+        },
+        {
+          "word": "demand",
+          "start": 215.77,
+          "end": 216.19
+        },
+        {
+          "word": "of",
+          "start": 216.85,
+          "end": 217.03
+        },
+        {
+          "word": "good",
+          "start": 217.03,
+          "end": 217.19
+        },
+        {
+          "word": "i",
+          "start": 217.19,
+          "end": 217.45000000000002
+        },
+        {
+          "word": "goes",
+          "start": 217.45000000000002,
+          "end": 217.65
+        },
+        {
+          "word": "down",
+          "start": 217.65,
+          "end": 218.07
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "start": 218.1,
+      "end": 222.84,
+      "text": "as income-- capital I-- goes up is said to be an inferior good.",
+      "words": [
+        {
+          "word": "as",
+          "start": 218.1,
+          "end": 218.4
+        },
+        {
+          "word": "income--",
+          "start": 218.4,
+          "end": 218.76
+        },
+        {
+          "word": "capital",
+          "start": 218.76,
+          "end": 219.22
+        },
+        {
+          "word": "I--",
+          "start": 219.22,
+          "end": 219.56
+        },
+        {
+          "word": "goes",
+          "start": 219.56,
+          "end": 219.9
+        },
+        {
+          "word": "up",
+          "start": 219.9,
+          "end": 220.56
+        },
+        {
+          "word": "is",
+          "start": 221.06,
+          "end": 221.35999999999999
+        },
+        {
+          "word": "said",
+          "start": 221.35999999999999,
+          "end": 221.64
+        },
+        {
+          "word": "to",
+          "start": 221.64,
+          "end": 221.79999999999998
+        },
+        {
+          "word": "be",
+          "start": 221.79999999999998,
+          "end": 221.9
+        },
+        {
+          "word": "an",
+          "start": 221.9,
+          "end": 222.01999999999998
+        },
+        {
+          "word": "inferior",
+          "start": 222.01999999999998,
+          "end": 222.35999999999999
+        },
+        {
+          "word": "good.",
+          "start": 222.35999999999999,
+          "end": 222.82
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "start": 222.84,
+      "end": 226.68,
+      "text": "It doesn't have to happen over the entire range of income",
+      "words": [
+        {
+          "word": "It",
+          "start": 222.84,
+          "end": 223.02
+        },
+        {
+          "word": "doesn't",
+          "start": 223.02,
+          "end": 223.34
+        },
+        {
+          "word": "have",
+          "start": 223.34,
+          "end": 223.70000000000002
+        },
+        {
+          "word": "to",
+          "start": 223.70000000000002,
+          "end": 223.86
+        },
+        {
+          "word": "happen",
+          "start": 223.86,
+          "end": 224.20000000000002
+        },
+        {
+          "word": "over",
+          "start": 224.20000000000002,
+          "end": 224.76
+        },
+        {
+          "word": "the",
+          "start": 224.76,
+          "end": 225.14000000000001
+        },
+        {
+          "word": "entire",
+          "start": 225.14000000000001,
+          "end": 225.6
+        },
+        {
+          "word": "range",
+          "start": 225.6,
+          "end": 226.06
+        },
+        {
+          "word": "of",
+          "start": 226.06,
+          "end": 226.3
+        },
+        {
+          "word": "income",
+          "start": 226.3,
+          "end": 226.52
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "start": 226.68,
+      "end": 227.58,
+      "text": "and prices.",
+      "words": [
+        {
+          "word": "and",
+          "start": 226.68,
+          "end": 226.68
+        },
+        {
+          "word": "prices.",
+          "start": 226.68,
+          "end": 227.26000000000002
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "start": 227.58,
+      "end": 231.01,
+      "text": "But if it happens locally, it's called an inferior good",
+      "words": [
+        {
+          "word": "But",
+          "start": 227.58,
+          "end": 227.94000000000003
+        },
+        {
+          "word": "if",
+          "start": 228.42000000000002,
+          "end": 228.64000000000001
+        },
+        {
+          "word": "it",
+          "start": 228.64000000000001,
+          "end": 228.86
+        },
+        {
+          "word": "happens",
+          "start": 228.86,
+          "end": 229.12
+        },
+        {
+          "word": "locally,",
+          "start": 229.12,
+          "end": 229.62
+        },
+        {
+          "word": "it's",
+          "start": 229.96,
+          "end": 229.96
+        },
+        {
+          "word": "called",
+          "start": 229.96,
+          "end": 230.18
+        },
+        {
+          "word": "an",
+          "start": 230.18,
+          "end": 230.44000000000003
+        },
+        {
+          "word": "inferior",
+          "start": 230.44000000000003,
+          "end": 230.68
+        },
+        {
+          "word": "good",
+          "start": 230.68,
+          "end": 230.98000000000002
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "start": 231.01,
+      "end": 231.51,
+      "text": "locally.",
+      "words": [
+        {
+          "word": "locally.",
+          "start": 231.01,
+          "end": 231.51
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "start": 231.51,
+      "end": 234.63,
+      "text": "And likewise, if the derivative with respect to income",
+      "words": [
+        {
+          "word": "And",
+          "start": 231.51,
+          "end": 231.51
+        },
+        {
+          "word": "likewise,",
+          "start": 231.51,
+          "end": 232.14999999999998
+        },
+        {
+          "word": "if",
+          "start": 232.14999999999998,
+          "end": 232.70999999999998
+        },
+        {
+          "word": "the",
+          "start": 232.70999999999998,
+          "end": 233.03
+        },
+        {
+          "word": "derivative",
+          "start": 233.03,
+          "end": 233.53
+        },
+        {
+          "word": "with",
+          "start": 233.53,
+          "end": 233.87
+        },
+        {
+          "word": "respect",
+          "start": 233.87,
+          "end": 234.13
+        },
+        {
+          "word": "to",
+          "start": 234.13,
+          "end": 234.37
+        },
+        {
+          "word": "income",
+          "start": 234.37,
+          "end": 234.48999999999998
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "start": 234.63,
+      "end": 237.48,
+      "text": "is positive, then we call, in some range,",
+      "words": [
+        {
+          "word": "is",
+          "start": 234.63,
+          "end": 234.63
+        },
+        {
+          "word": "positive,",
+          "start": 234.63,
+          "end": 235.29
+        },
+        {
+          "word": "then",
+          "start": 235.29,
+          "end": 235.59
+        },
+        {
+          "word": "we",
+          "start": 235.59,
+          "end": 235.79
+        },
+        {
+          "word": "call,",
+          "start": 235.79,
+          "end": 236.37
+        },
+        {
+          "word": "in",
+          "start": 236.37,
+          "end": 236.82999999999998
+        },
+        {
+          "word": "some",
+          "start": 236.82999999999998,
+          "end": 237.09
+        },
+        {
+          "word": "range,",
+          "start": 237.09,
+          "end": 237.37
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "start": 237.48,
+      "end": 242.08,
+      "text": "the good to be a normal good or noninferior good.",
+      "words": [
+        {
+          "word": "the",
+          "start": 237.48,
+          "end": 237.48
+        },
+        {
+          "word": "good",
+          "start": 237.48,
+          "end": 237.79999999999998
+        },
+        {
+          "word": "to",
+          "start": 237.79999999999998,
+          "end": 238.01999999999998
+        },
+        {
+          "word": "be",
+          "start": 238.01999999999998,
+          "end": 238.35999999999999
+        },
+        {
+          "word": "a",
+          "start": 238.35999999999999,
+          "end": 238.5
+        },
+        {
+          "word": "normal",
+          "start": 238.5,
+          "end": 238.79999999999998
+        },
+        {
+          "word": "good",
+          "start": 238.79999999999998,
+          "end": 239.17999999999998
+        },
+        {
+          "word": "or",
+          "start": 239.17999999999998,
+          "end": 239.48
+        },
+        {
+          "word": "noninferior",
+          "start": 239.48,
+          "end": 240.16
+        },
+        {
+          "word": "good.",
+          "start": 240.16,
+          "end": 240.73999999999998
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "start": 242.08,
+      "end": 244.72,
+      "text": "So there's something called Engel's Law.",
+      "words": [
+        {
+          "word": "So",
+          "start": 242.08,
+          "end": 242.58
+        },
+        {
+          "word": "there's",
+          "start": 242.58,
+          "end": 242.94000000000003
+        },
+        {
+          "word": "something",
+          "start": 242.94000000000003,
+          "end": 243.10000000000002
+        },
+        {
+          "word": "called",
+          "start": 243.10000000000002,
+          "end": 243.48000000000002
+        },
+        {
+          "word": "Engel's",
+          "start": 243.48000000000002,
+          "end": 244.04000000000002
+        },
+        {
+          "word": "Law.",
+          "start": 244.04000000000002,
+          "end": 244.32000000000002
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "start": 244.72,
+      "end": 248.68,
+      "text": "And with the caveat that this is not one household,",
+      "words": [
+        {
+          "word": "And",
+          "start": 244.72,
+          "end": 245.32
+        },
+        {
+          "word": "with",
+          "start": 245.32,
+          "end": 245.46
+        },
+        {
+          "word": "the",
+          "start": 245.46,
+          "end": 245.64
+        },
+        {
+          "word": "caveat",
+          "start": 245.64,
+          "end": 246.0
+        },
+        {
+          "word": "that",
+          "start": 246.0,
+          "end": 246.28
+        },
+        {
+          "word": "this",
+          "start": 246.28,
+          "end": 246.54
+        },
+        {
+          "word": "is",
+          "start": 246.54,
+          "end": 246.76
+        },
+        {
+          "word": "not",
+          "start": 246.76,
+          "end": 247.08
+        },
+        {
+          "word": "one",
+          "start": 247.08,
+          "end": 247.4
+        },
+        {
+          "word": "household,",
+          "start": 247.4,
+          "end": 247.84
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "start": 248.68,
+      "end": 252.13,
+      "text": "it's actually comparing across households that",
+      "words": [
+        {
+          "word": "it's",
+          "start": 248.68,
+          "end": 249.08
+        },
+        {
+          "word": "actually",
+          "start": 249.08,
+          "end": 249.34
+        },
+        {
+          "word": "comparing",
+          "start": 249.34,
+          "end": 249.96
+        },
+        {
+          "word": "across",
+          "start": 249.96,
+          "end": 250.56
+        },
+        {
+          "word": "households",
+          "start": 250.56,
+          "end": 251.20000000000002
+        },
+        {
+          "word": "that",
+          "start": 251.20000000000002,
+          "end": 252.13
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "start": 252.13,
+      "end": 254.96,
+      "text": "differ in their annual income.",
+      "words": [
+        {
+          "word": "differ",
+          "start": 252.13,
+          "end": 252.54999999999998
+        },
+        {
+          "word": "in",
+          "start": 252.54999999999998,
+          "end": 253.04999999999998
+        },
+        {
+          "word": "their",
+          "start": 253.04999999999998,
+          "end": 253.39
+        },
+        {
+          "word": "annual",
+          "start": 253.39,
+          "end": 253.81
+        },
+        {
+          "word": "income.",
+          "start": 253.81,
+          "end": 254.29
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "start": 254.96,
+      "end": 261.25,
+      "text": "So here, we're going from an annual income of $225",
+      "words": [
+        {
+          "word": "So",
+          "start": 254.96,
+          "end": 255.48000000000002
+        },
+        {
+          "word": "here,",
+          "start": 255.48000000000002,
+          "end": 255.92000000000002
+        },
+        {
+          "word": "we're",
+          "start": 255.92000000000002,
+          "end": 256.54
+        },
+        {
+          "word": "going",
+          "start": 256.54,
+          "end": 256.58
+        },
+        {
+          "word": "from",
+          "start": 256.58,
+          "end": 257.36
+        },
+        {
+          "word": "an",
+          "start": 257.36,
+          "end": 257.6
+        },
+        {
+          "word": "annual",
+          "start": 257.6,
+          "end": 257.82
+        },
+        {
+          "word": "income",
+          "start": 257.82,
+          "end": 258.62
+        },
+        {
+          "word": "of",
+          "start": 258.62,
+          "end": 260.02
+        },
+        {
+          "word": "$225",
+          "start": 260.02,
+          "end": 260.76
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "start": 261.25,
+      "end": 263.65,
+      "text": "to-- this is written in 1920, by the way.",
+      "words": [
+        {
+          "word": "to--",
+          "start": 261.25,
+          "end": 261.25
+        },
+        {
+          "word": "this",
+          "start": 261.25,
+          "end": 261.65
+        },
+        {
+          "word": "is",
+          "start": 261.65,
+          "end": 262.05
+        },
+        {
+          "word": "written",
+          "start": 262.05,
+          "end": 262.21
+        },
+        {
+          "word": "in",
+          "start": 262.21,
+          "end": 262.47
+        },
+        {
+          "word": "1920,",
+          "start": 262.47,
+          "end": 262.99
+        },
+        {
+          "word": "by",
+          "start": 262.99,
+          "end": 263.37
+        },
+        {
+          "word": "the",
+          "start": 263.37,
+          "end": 263.51
+        },
+        {
+          "word": "way.",
+          "start": 263.51,
+          "end": 263.63
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "start": 263.65,
+      "end": 264.82,
+      "text": "Don't be too alarmed.",
+      "words": [
+        {
+          "word": "Don't",
+          "start": 263.65,
+          "end": 263.90999999999997
+        },
+        {
+          "word": "be",
+          "start": 263.90999999999997,
+          "end": 264.03
+        },
+        {
+          "word": "too",
+          "start": 264.03,
+          "end": 264.21
+        },
+        {
+          "word": "alarmed.",
+          "start": 264.21,
+          "end": 264.78999999999996
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "start": 264.82,
+      "end": 267.83,
+      "text": "There's been a lot of inflation.",
+      "words": [
+        {
+          "word": "There's",
+          "start": 264.82,
+          "end": 265.38
+        },
+        {
+          "word": "been",
+          "start": 265.38,
+          "end": 265.48
+        },
+        {
+          "word": "a",
+          "start": 265.48,
+          "end": 265.65999999999997
+        },
+        {
+          "word": "lot",
+          "start": 265.65999999999997,
+          "end": 265.76
+        },
+        {
+          "word": "of",
+          "start": 265.76,
+          "end": 265.98
+        },
+        {
+          "word": "inflation.",
+          "start": 265.98,
+          "end": 266.42
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "start": 267.83,
+      "end": 269.68,
+      "text": "So this, in real purchasing power,",
+      "words": [
+        {
+          "word": "So",
+          "start": 267.83,
+          "end": 268.07
+        },
+        {
+          "word": "this,",
+          "start": 268.07,
+          "end": 268.39
+        },
+        {
+          "word": "in",
+          "start": 268.39,
+          "end": 268.60999999999996
+        },
+        {
+          "word": "real",
+          "start": 268.60999999999996,
+          "end": 268.77
+        },
+        {
+          "word": "purchasing",
+          "start": 268.77,
+          "end": 269.19
+        },
+        {
+          "word": "power,",
+          "start": 269.19,
+          "end": 269.59
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "start": 269.68,
+      "end": 272.86,
+      "text": "was more than you thought, $300--",
+      "words": [
+        {
+          "word": "was",
+          "start": 269.68,
+          "end": 269.84000000000003
+        },
+        {
+          "word": "more",
+          "start": 269.84000000000003,
+          "end": 270.06
+        },
+        {
+          "word": "than",
+          "start": 270.06,
+          "end": 270.3
+        },
+        {
+          "word": "you",
+          "start": 270.3,
+          "end": 270.59000000000003
+        },
+        {
+          "word": "thought,",
+          "start": 270.59000000000003,
+          "end": 270.88
+        },
+        {
+          "word": "$300--",
+          "start": 270.88,
+          "end": 271.64
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "start": 272.86,
+      "end": 278.92,
+      "text": "or this range, 450 to 600 or 750 to 1,000.",
+      "words": [
+        {
+          "word": "or",
+          "start": 272.86,
+          "end": 273.14
+        },
+        {
+          "word": "this",
+          "start": 273.14,
+          "end": 273.38
+        },
+        {
+          "word": "range,",
+          "start": 273.38,
+          "end": 273.76
+        },
+        {
+          "word": "450",
+          "start": 273.76,
+          "end": 274.24
+        },
+        {
+          "word": "to",
+          "start": 274.24,
+          "end": 274.48
+        },
+        {
+          "word": "600",
+          "start": 274.48,
+          "end": 274.90000000000003
+        },
+        {
+          "word": "or",
+          "start": 274.90000000000003,
+          "end": 276.14
+        },
+        {
+          "word": "750",
+          "start": 276.14,
+          "end": 276.7
+        },
+        {
+          "word": "to",
+          "start": 276.7,
+          "end": 277.08000000000004
+        },
+        {
+          "word": "1,000.",
+          "start": 277.08000000000004,
+          "end": 278.92
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "start": 278.92,
+      "end": 280.967,
+      "text": "And what you can see is the percent",
+      "words": [
+        {
+          "word": "And",
+          "start": 278.92,
+          "end": 279.16
+        },
+        {
+          "word": "what",
+          "start": 279.16,
+          "end": 279.3
+        },
+        {
+          "word": "you",
+          "start": 279.3,
+          "end": 279.44
+        },
+        {
+          "word": "can",
+          "start": 279.44,
+          "end": 279.64000000000004
+        },
+        {
+          "word": "see",
+          "start": 279.64000000000004,
+          "end": 279.94
+        },
+        {
+          "word": "is",
+          "start": 279.94,
+          "end": 280.40000000000003
+        },
+        {
+          "word": "the",
+          "start": 280.40000000000003,
+          "end": 280.62
+        },
+        {
+          "word": "percent",
+          "start": 280.62,
+          "end": 280.94
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "start": 280.967,
+      "end": 286.93,
+      "text": "spent of the budget on food declines",
+      "words": [
+        {
+          "word": "spent",
+          "start": 280.967,
+          "end": 281.74699999999996
+        },
+        {
+          "word": "of",
+          "start": 281.74699999999996,
+          "end": 283.207
+        },
+        {
+          "word": "the",
+          "start": 283.207,
+          "end": 283.42699999999996
+        },
+        {
+          "word": "budget",
+          "start": 283.42699999999996,
+          "end": 283.887
+        },
+        {
+          "word": "on",
+          "start": 283.887,
+          "end": 285.027
+        },
+        {
+          "word": "food",
+          "start": 285.027,
+          "end": 285.467
+        },
+        {
+          "word": "declines",
+          "start": 285.467,
+          "end": 286.347
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "start": 286.93,
+      "end": 289.84,
+      "text": "as we move to these income groups",
+      "words": [
+        {
+          "word": "as",
+          "start": 286.93,
+          "end": 287.25
+        },
+        {
+          "word": "we",
+          "start": 287.25,
+          "end": 287.39
+        },
+        {
+          "word": "move",
+          "start": 287.39,
+          "end": 287.67
+        },
+        {
+          "word": "to",
+          "start": 287.67,
+          "end": 287.93
+        },
+        {
+          "word": "these",
+          "start": 287.93,
+          "end": 288.49
+        },
+        {
+          "word": "income",
+          "start": 288.49,
+          "end": 289.47
+        },
+        {
+          "word": "groups",
+          "start": 289.47,
+          "end": 289.71
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "start": 289.84,
+      "end": 291.71,
+      "text": "with higher and higher income.",
+      "words": [
+        {
+          "word": "with",
+          "start": 289.84,
+          "end": 290.08
+        },
+        {
+          "word": "higher",
+          "start": 290.08,
+          "end": 290.32
+        },
+        {
+          "word": "and",
+          "start": 290.32,
+          "end": 290.5
+        },
+        {
+          "word": "higher",
+          "start": 290.5,
+          "end": 290.76
+        },
+        {
+          "word": "income.",
+          "start": 290.76,
+          "end": 291.06
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "start": 291.71,
+      "end": 295.04,
+      "text": "So in some sense, if all consumers were alike,",
+      "words": [
+        {
+          "word": "So",
+          "start": 291.71,
+          "end": 292.03
+        },
+        {
+          "word": "in",
+          "start": 292.03,
+          "end": 292.15
+        },
+        {
+          "word": "some",
+          "start": 292.15,
+          "end": 292.37
+        },
+        {
+          "word": "sense,",
+          "start": 292.37,
+          "end": 292.66999999999996
+        },
+        {
+          "word": "if",
+          "start": 292.72999999999996,
+          "end": 292.90999999999997
+        },
+        {
+          "word": "all",
+          "start": 292.90999999999997,
+          "end": 293.51
+        },
+        {
+          "word": "consumers",
+          "start": 293.51,
+          "end": 293.98999999999995
+        },
+        {
+          "word": "were",
+          "start": 293.98999999999995,
+          "end": 294.39
+        },
+        {
+          "word": "alike,",
+          "start": 294.39,
+          "end": 295.04
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "start": 295.04,
+      "end": 297.34,
+      "text": "and some had more income than others,",
+      "words": [
+        {
+          "word": "and",
+          "start": 295.04,
+          "end": 295.26000000000005
+        },
+        {
+          "word": "some",
+          "start": 295.26000000000005,
+          "end": 295.48
+        },
+        {
+          "word": "had",
+          "start": 295.48,
+          "end": 295.74
+        },
+        {
+          "word": "more",
+          "start": 295.74,
+          "end": 296.02000000000004
+        },
+        {
+          "word": "income",
+          "start": 296.02000000000004,
+          "end": 296.36
+        },
+        {
+          "word": "than",
+          "start": 296.36,
+          "end": 296.86
+        },
+        {
+          "word": "others,",
+          "start": 296.86,
+          "end": 297.16
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "start": 297.34,
+      "end": 300.52,
+      "text": "we'd be looking at what an individual household would",
+      "words": [
+        {
+          "word": "we'd",
+          "start": 297.34,
+          "end": 297.65999999999997
+        },
+        {
+          "word": "be",
+          "start": 297.65999999999997,
+          "end": 297.73999999999995
+        },
+        {
+          "word": "looking",
+          "start": 297.73999999999995,
+          "end": 298.06
+        },
+        {
+          "word": "at",
+          "start": 298.06,
+          "end": 298.78
+        },
+        {
+          "word": "what",
+          "start": 298.78,
+          "end": 298.78
+        },
+        {
+          "word": "an",
+          "start": 298.78,
+          "end": 299.32
+        },
+        {
+          "word": "individual",
+          "start": 299.32,
+          "end": 299.7
+        },
+        {
+          "word": "household",
+          "start": 299.7,
+          "end": 300.28
+        },
+        {
+          "word": "would",
+          "start": 300.28,
+          "end": 300.52
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "start": 300.52,
+      "end": 303.38,
+      "text": "do as its income changed.",
+      "words": [
+        {
+          "word": "do",
+          "start": 300.52,
+          "end": 300.84
+        },
+        {
+          "word": "as",
+          "start": 300.84,
+          "end": 301.08
+        },
+        {
+          "word": "its",
+          "start": 301.08,
+          "end": 301.53999999999996
+        },
+        {
+          "word": "income",
+          "start": 301.53999999999996,
+          "end": 301.79999999999995
+        },
+        {
+          "word": "changed.",
+          "start": 301.79999999999995,
+          "end": 302.4
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "start": 303.38,
+      "end": 306.46,
+      "text": "And in this case, food would be an inferior good.",
+      "words": [
+        {
+          "word": "And",
+          "start": 303.38,
+          "end": 303.38
+        },
+        {
+          "word": "in",
+          "start": 303.38,
+          "end": 303.54
+        },
+        {
+          "word": "this",
+          "start": 303.54,
+          "end": 303.76
+        },
+        {
+          "word": "case,",
+          "start": 303.76,
+          "end": 304.15999999999997
+        },
+        {
+          "word": "food",
+          "start": 304.38,
+          "end": 304.64
+        },
+        {
+          "word": "would",
+          "start": 304.64,
+          "end": 305.0
+        },
+        {
+          "word": "be",
+          "start": 305.0,
+          "end": 305.12
+        },
+        {
+          "word": "an",
+          "start": 305.12,
+          "end": 305.28
+        },
+        {
+          "word": "inferior",
+          "start": 305.28,
+          "end": 305.62
+        },
+        {
+          "word": "good.",
+          "start": 305.62,
+          "end": 306.12
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "start": 306.46,
+      "end": 307.84,
+      "text": "You're saying, what's going up?",
+      "words": [
+        {
+          "word": "You're",
+          "start": 306.46,
+          "end": 306.7
+        },
+        {
+          "word": "saying,",
+          "start": 306.7,
+          "end": 306.9
+        },
+        {
+          "word": "what's",
+          "start": 306.9,
+          "end": 307.23999999999995
+        },
+        {
+          "word": "going",
+          "start": 307.23999999999995,
+          "end": 307.38
+        },
+        {
+          "word": "up?",
+          "start": 307.38,
+          "end": 307.82
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "start": 307.84,
+      "end": 310.06,
+      "text": "Clothing, not by much.",
+      "words": [
+        {
+          "word": "Clothing,",
+          "start": 307.84,
+          "end": 308.23999999999995
+        },
+        {
+          "word": "not",
+          "start": 308.23999999999995,
+          "end": 308.65999999999997
+        },
+        {
+          "word": "by",
+          "start": 308.65999999999997,
+          "end": 308.85999999999996
+        },
+        {
+          "word": "much.",
+          "start": 308.85999999999996,
+          "end": 309.28
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "start": 310.06,
+      "end": 312.43,
+      "text": "Lodging, not at all.",
+      "words": [
+        {
+          "word": "Lodging,",
+          "start": 310.06,
+          "end": 310.74
+        },
+        {
+          "word": "not",
+          "start": 310.74,
+          "end": 311.14
+        },
+        {
+          "word": "at",
+          "start": 311.14,
+          "end": 311.34
+        },
+        {
+          "word": "all.",
+          "start": 311.34,
+          "end": 311.78000000000003
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "start": 312.43,
+      "end": 315.19,
+      "text": "What really expands as income goes up",
+      "words": [
+        {
+          "word": "What",
+          "start": 312.43,
+          "end": 312.81
+        },
+        {
+          "word": "really",
+          "start": 312.81,
+          "end": 313.39
+        },
+        {
+          "word": "expands",
+          "start": 313.39,
+          "end": 313.97
+        },
+        {
+          "word": "as",
+          "start": 313.97,
+          "end": 314.31000000000006
+        },
+        {
+          "word": "income",
+          "start": 314.31000000000006,
+          "end": 314.65000000000003
+        },
+        {
+          "word": "goes",
+          "start": 314.65000000000003,
+          "end": 314.95
+        },
+        {
+          "word": "up",
+          "start": 314.95,
+          "end": 315.17
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "start": 315.19,
+      "end": 318.9,
+      "text": "is services, education, health, legal, and other services.",
+      "words": [
+        {
+          "word": "is",
+          "start": 315.19,
+          "end": 315.19
+        },
+        {
+          "word": "services,",
+          "start": 315.19,
+          "end": 316.01
+        },
+        {
+          "word": "education,",
+          "start": 316.45,
+          "end": 316.91
+        },
+        {
+          "word": "health,",
+          "start": 317.29,
+          "end": 317.43
+        },
+        {
+          "word": "legal,",
+          "start": 317.53,
+          "end": 317.73
+        },
+        {
+          "word": "and",
+          "start": 317.73,
+          "end": 318.01
+        },
+        {
+          "word": "other",
+          "start": 318.01,
+          "end": 318.25
+        },
+        {
+          "word": "services.",
+          "start": 318.25,
+          "end": 318.63
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "start": 318.9,
+      "end": 321.82,
+      "text": "In fact, in the US economy, looking",
+      "words": [
+        {
+          "word": "In",
+          "start": 318.9,
+          "end": 318.9
+        },
+        {
+          "word": "fact,",
+          "start": 318.9,
+          "end": 319.26
+        },
+        {
+          "word": "in",
+          "start": 319.26,
+          "end": 319.73999999999995
+        },
+        {
+          "word": "the",
+          "start": 319.73999999999995,
+          "end": 319.9
+        },
+        {
+          "word": "US",
+          "start": 319.9,
+          "end": 320.29999999999995
+        },
+        {
+          "word": "economy,",
+          "start": 320.29999999999995,
+          "end": 321.06
+        },
+        {
+          "word": "looking",
+          "start": 321.06,
+          "end": 321.7
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "start": 321.82,
+      "end": 326.86,
+      "text": "over decades, the fraction of services produced in GDP",
+      "words": [
+        {
+          "word": "over",
+          "start": 321.82,
+          "end": 322.42
+        },
+        {
+          "word": "decades,",
+          "start": 322.42,
+          "end": 323.12
+        },
+        {
+          "word": "the",
+          "start": 324.04,
+          "end": 324.06
+        },
+        {
+          "word": "fraction",
+          "start": 324.06,
+          "end": 324.48
+        },
+        {
+          "word": "of",
+          "start": 324.48,
+          "end": 324.8
+        },
+        {
+          "word": "services",
+          "start": 324.8,
+          "end": 325.26
+        },
+        {
+          "word": "produced",
+          "start": 325.26,
+          "end": 325.78
+        },
+        {
+          "word": "in",
+          "start": 325.78,
+          "end": 326.09999999999997
+        },
+        {
+          "word": "GDP",
+          "start": 326.09999999999997,
+          "end": 326.4
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "start": 326.86,
+      "end": 328.43,
+      "text": "just keeps going up, and up, and up,",
+      "words": [
+        {
+          "word": "just",
+          "start": 326.86,
+          "end": 327.08000000000004
+        },
+        {
+          "word": "keeps",
+          "start": 327.08000000000004,
+          "end": 327.32
+        },
+        {
+          "word": "going",
+          "start": 327.32,
+          "end": 327.64
+        },
+        {
+          "word": "up,",
+          "start": 327.64,
+          "end": 327.96000000000004
+        },
+        {
+          "word": "and",
+          "start": 327.96000000000004,
+          "end": 328.08000000000004
+        },
+        {
+          "word": "up,",
+          "start": 328.08000000000004,
+          "end": 328.38
+        },
+        {
+          "word": "and",
+          "start": 328.38,
+          "end": 328.405
+        },
+        {
+          "word": "up,",
+          "start": 328.405,
+          "end": 328.43
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "start": 328.43,
+      "end": 331.42,
+      "text": "which is reflective of the fact that, as households",
+      "words": [
+        {
+          "word": "which",
+          "start": 328.43,
+          "end": 328.77
+        },
+        {
+          "word": "is",
+          "start": 328.77,
+          "end": 329.07
+        },
+        {
+          "word": "reflective",
+          "start": 329.07,
+          "end": 329.51
+        },
+        {
+          "word": "of",
+          "start": 329.51,
+          "end": 329.95
+        },
+        {
+          "word": "the",
+          "start": 329.95,
+          "end": 330.03000000000003
+        },
+        {
+          "word": "fact",
+          "start": 330.03000000000003,
+          "end": 330.35
+        },
+        {
+          "word": "that,",
+          "start": 330.35,
+          "end": 330.67
+        },
+        {
+          "word": "as",
+          "start": 330.67,
+          "end": 331.045
+        },
+        {
+          "word": "households",
+          "start": 331.045,
+          "end": 331.42
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "start": 331.42,
+      "end": 334.795,
+      "text": "have more income, they demand more services than less food.",
+      "words": [
+        {
+          "word": "have",
+          "start": 331.42,
+          "end": 331.42
+        },
+        {
+          "word": "more",
+          "start": 331.42,
+          "end": 331.86
+        },
+        {
+          "word": "income,",
+          "start": 331.86,
+          "end": 332.28000000000003
+        },
+        {
+          "word": "they",
+          "start": 332.28000000000003,
+          "end": 332.72
+        },
+        {
+          "word": "demand",
+          "start": 332.72,
+          "end": 333.08000000000004
+        },
+        {
+          "word": "more",
+          "start": 333.08000000000004,
+          "end": 333.38
+        },
+        {
+          "word": "services",
+          "start": 333.38,
+          "end": 333.8
+        },
+        {
+          "word": "than",
+          "start": 333.8,
+          "end": 334.13166666666666
+        },
+        {
+          "word": "less",
+          "start": 334.13166666666666,
+          "end": 334.46333333333337
+        },
+        {
+          "word": "food.",
+          "start": 334.46333333333337,
+          "end": 334.795
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "start": 337.47,
+      "end": 339.45,
+      "text": "So that's pretty dated, 1920.",
+      "words": [
+        {
+          "word": "So",
+          "start": 337.47,
+          "end": 337.67
+        },
+        {
+          "word": "that's",
+          "start": 337.67,
+          "end": 337.93
+        },
+        {
+          "word": "pretty",
+          "start": 337.93,
+          "end": 338.13000000000005
+        },
+        {
+          "word": "dated,",
+          "start": 338.13000000000005,
+          "end": 338.51000000000005
+        },
+        {
+          "word": "1920.",
+          "start": 338.51000000000005,
+          "end": 339.45
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "start": 339.45,
+      "end": 343.23,
+      "text": "So I went on the web and looked this thing up, Engel's Law",
+      "words": [
+        {
+          "word": "So",
+          "start": 339.45,
+          "end": 339.89
+        },
+        {
+          "word": "I",
+          "start": 339.89,
+          "end": 340.09
+        },
+        {
+          "word": "went",
+          "start": 340.09,
+          "end": 340.21
+        },
+        {
+          "word": "on",
+          "start": 340.21,
+          "end": 340.45
+        },
+        {
+          "word": "the",
+          "start": 340.45,
+          "end": 340.61
+        },
+        {
+          "word": "web",
+          "start": 340.61,
+          "end": 340.75
+        },
+        {
+          "word": "and",
+          "start": 340.75,
+          "end": 340.96999999999997
+        },
+        {
+          "word": "looked",
+          "start": 340.96999999999997,
+          "end": 341.19
+        },
+        {
+          "word": "this",
+          "start": 341.19,
+          "end": 341.37
+        },
+        {
+          "word": "thing",
+          "start": 341.37,
+          "end": 341.57
+        },
+        {
+          "word": "up,",
+          "start": 341.57,
+          "end": 342.49
+        },
+        {
+          "word": "Engel's",
+          "start": 342.49,
+          "end": 342.86
+        },
+        {
+          "word": "Law",
+          "start": 342.86,
+          "end": 343.23
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "start": 343.23,
+      "end": 344.46,
+      "text": "today.",
+      "words": [
+        {
+          "word": "today.",
+          "start": 343.23,
+          "end": 343.71000000000004
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "start": 344.46,
+      "end": 347.61,
+      "text": "Here, we're dividing households into quintiles,",
+      "words": [
+        {
+          "word": "Here,",
+          "start": 344.46,
+          "end": 344.73999999999995
+        },
+        {
+          "word": "we're",
+          "start": 344.73999999999995,
+          "end": 345.15999999999997
+        },
+        {
+          "word": "dividing",
+          "start": 345.15999999999997,
+          "end": 345.56
+        },
+        {
+          "word": "households",
+          "start": 345.56,
+          "end": 346.21999999999997
+        },
+        {
+          "word": "into",
+          "start": 346.21999999999997,
+          "end": 346.7
+        },
+        {
+          "word": "quintiles,",
+          "start": 346.7,
+          "end": 347.58
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "start": 347.61,
+      "end": 352.15,
+      "text": "five groups, an equal number of households in each group.",
+      "words": [
+        {
+          "word": "five",
+          "start": 347.61,
+          "end": 348.03000000000003
+        },
+        {
+          "word": "groups,",
+          "start": 348.03000000000003,
+          "end": 348.75
+        },
+        {
+          "word": "an",
+          "start": 349.37,
+          "end": 349.49
+        },
+        {
+          "word": "equal",
+          "start": 349.49,
+          "end": 349.67
+        },
+        {
+          "word": "number",
+          "start": 349.67,
+          "end": 349.95
+        },
+        {
+          "word": "of",
+          "start": 349.95,
+          "end": 350.11
+        },
+        {
+          "word": "households",
+          "start": 350.11,
+          "end": 350.47
+        },
+        {
+          "word": "in",
+          "start": 350.47,
+          "end": 350.79
+        },
+        {
+          "word": "each",
+          "start": 350.79,
+          "end": 351.01
+        },
+        {
+          "word": "group.",
+          "start": 351.01,
+          "end": 351.43
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "start": 352.15,
+      "end": 356.31,
+      "text": "And we plot the fraction of so-called luxuries",
+      "words": [
+        {
+          "word": "And",
+          "start": 352.15,
+          "end": 352.45
+        },
+        {
+          "word": "we",
+          "start": 352.45,
+          "end": 352.65
+        },
+        {
+          "word": "plot",
+          "start": 352.65,
+          "end": 353.09
+        },
+        {
+          "word": "the",
+          "start": 353.09,
+          "end": 353.87
+        },
+        {
+          "word": "fraction",
+          "start": 353.87,
+          "end": 354.33
+        },
+        {
+          "word": "of",
+          "start": 354.33,
+          "end": 355.07
+        },
+        {
+          "word": "so-called",
+          "start": 355.07,
+          "end": 355.51
+        },
+        {
+          "word": "luxuries",
+          "start": 355.51,
+          "end": 356.16999999999996
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "start": 356.31,
+      "end": 358.51,
+      "text": "and necessities for each group.",
+      "words": [
+        {
+          "word": "and",
+          "start": 356.31,
+          "end": 356.63
+        },
+        {
+          "word": "necessities",
+          "start": 356.63,
+          "end": 357.45
+        },
+        {
+          "word": "for",
+          "start": 357.45,
+          "end": 357.79
+        },
+        {
+          "word": "each",
+          "start": 357.79,
+          "end": 358.07
+        },
+        {
+          "word": "group.",
+          "start": 358.07,
+          "end": 358.39
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "start": 358.51,
+      "end": 360.9,
+      "text": "Now, this is a bit problematic in the sense",
+      "words": [
+        {
+          "word": "Now,",
+          "start": 358.51,
+          "end": 358.51
+        },
+        {
+          "word": "this",
+          "start": 358.51,
+          "end": 358.96999999999997
+        },
+        {
+          "word": "is",
+          "start": 358.96999999999997,
+          "end": 359.21
+        },
+        {
+          "word": "a",
+          "start": 359.21,
+          "end": 359.28999999999996
+        },
+        {
+          "word": "bit",
+          "start": 359.28999999999996,
+          "end": 359.51
+        },
+        {
+          "word": "problematic",
+          "start": 359.51,
+          "end": 360.11
+        },
+        {
+          "word": "in",
+          "start": 360.11,
+          "end": 360.57
+        },
+        {
+          "word": "the",
+          "start": 360.57,
+          "end": 360.61
+        },
+        {
+          "word": "sense",
+          "start": 360.61,
+          "end": 360.87
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "start": 360.9,
+      "end": 364.11,
+      "text": "that necessities are defined as goods or services",
+      "words": [
+        {
+          "word": "that",
+          "start": 360.9,
+          "end": 361.34
+        },
+        {
+          "word": "necessities",
+          "start": 361.34,
+          "end": 361.84
+        },
+        {
+          "word": "are",
+          "start": 361.84,
+          "end": 362.34
+        },
+        {
+          "word": "defined",
+          "start": 362.34,
+          "end": 362.79999999999995
+        },
+        {
+          "word": "as",
+          "start": 362.79999999999995,
+          "end": 363.14
+        },
+        {
+          "word": "goods",
+          "start": 363.14,
+          "end": 363.4
+        },
+        {
+          "word": "or",
+          "start": 363.4,
+          "end": 363.59999999999997
+        },
+        {
+          "word": "services",
+          "start": 363.59999999999997,
+          "end": 363.85999999999996
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "start": 364.11,
+      "end": 367.68,
+      "text": "where consumption is proportionately lower",
+      "words": [
+        {
+          "word": "where",
+          "start": 364.11,
+          "end": 364.41
+        },
+        {
+          "word": "consumption",
+          "start": 364.41,
+          "end": 365.09000000000003
+        },
+        {
+          "word": "is",
+          "start": 365.09000000000003,
+          "end": 365.67
+        },
+        {
+          "word": "proportionately",
+          "start": 365.67,
+          "end": 366.79
+        },
+        {
+          "word": "lower",
+          "start": 366.79,
+          "end": 367.49
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "start": 367.68,
+      "end": 369.76,
+      "text": "as a person's income increases.",
+      "words": [
+        {
+          "word": "as",
+          "start": 367.68,
+          "end": 367.92
+        },
+        {
+          "word": "a",
+          "start": 367.92,
+          "end": 368.12
+        },
+        {
+          "word": "person's",
+          "start": 368.12,
+          "end": 368.7
+        },
+        {
+          "word": "income",
+          "start": 368.7,
+          "end": 369.0
+        },
+        {
+          "word": "increases.",
+          "start": 369.0,
+          "end": 369.48
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "start": 369.76,
+      "end": 373.29,
+      "text": "So again, necessity or non-normal goods",
+      "words": [
+        {
+          "word": "So",
+          "start": 369.76,
+          "end": 370.4
+        },
+        {
+          "word": "again,",
+          "start": 370.4,
+          "end": 370.78
+        },
+        {
+          "word": "necessity",
+          "start": 371.12,
+          "end": 371.56
+        },
+        {
+          "word": "or",
+          "start": 371.56,
+          "end": 372.14
+        },
+        {
+          "word": "non-normal",
+          "start": 372.14,
+          "end": 372.78
+        },
+        {
+          "word": "goods",
+          "start": 372.78,
+          "end": 373.26
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "start": 373.29,
+      "end": 376.5,
+      "text": "or as we defined it in the last three slides.",
+      "words": [
+        {
+          "word": "or",
+          "start": 373.29,
+          "end": 373.71000000000004
+        },
+        {
+          "word": "as",
+          "start": 373.71000000000004,
+          "end": 373.99
+        },
+        {
+          "word": "we",
+          "start": 373.99,
+          "end": 374.19
+        },
+        {
+          "word": "defined",
+          "start": 374.19,
+          "end": 374.57
+        },
+        {
+          "word": "it",
+          "start": 374.57,
+          "end": 374.97
+        },
+        {
+          "word": "in",
+          "start": 374.97,
+          "end": 375.13
+        },
+        {
+          "word": "the",
+          "start": 375.13,
+          "end": 375.17
+        },
+        {
+          "word": "last",
+          "start": 375.17,
+          "end": 375.45000000000005
+        },
+        {
+          "word": "three",
+          "start": 375.45000000000005,
+          "end": 375.75
+        },
+        {
+          "word": "slides.",
+          "start": 375.75,
+          "end": 376.13
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "start": 376.5,
+      "end": 380.19,
+      "text": "Not too surprisingly, the highest income groups,",
+      "words": [
+        {
+          "word": "Not",
+          "start": 376.5,
+          "end": 376.84
+        },
+        {
+          "word": "too",
+          "start": 376.84,
+          "end": 377.04
+        },
+        {
+          "word": "surprisingly,",
+          "start": 377.04,
+          "end": 377.72
+        },
+        {
+          "word": "the",
+          "start": 378.5,
+          "end": 378.62
+        },
+        {
+          "word": "highest",
+          "start": 378.62,
+          "end": 378.92
+        },
+        {
+          "word": "income",
+          "start": 378.92,
+          "end": 379.36
+        },
+        {
+          "word": "groups,",
+          "start": 379.36,
+          "end": 379.8
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "start": 380.19,
+      "end": 385.11,
+      "text": "the top 20% of the population, the proportion of expenditure",
+      "words": [
+        {
+          "word": "the",
+          "start": 380.19,
+          "end": 380.43
+        },
+        {
+          "word": "top",
+          "start": 380.43,
+          "end": 380.61
+        },
+        {
+          "word": "20%",
+          "start": 380.61,
+          "end": 380.96999999999997
+        },
+        {
+          "word": "of",
+          "start": 381.41,
+          "end": 381.63
+        },
+        {
+          "word": "the",
+          "start": 381.63,
+          "end": 381.81
+        },
+        {
+          "word": "population,",
+          "start": 381.81,
+          "end": 382.33
+        },
+        {
+          "word": "the",
+          "start": 382.96999999999997,
+          "end": 383.03
+        },
+        {
+          "word": "proportion",
+          "start": 383.03,
+          "end": 383.53
+        },
+        {
+          "word": "of",
+          "start": 383.53,
+          "end": 384.49
+        },
+        {
+          "word": "expenditure",
+          "start": 384.49,
+          "end": 384.93
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "start": 385.11,
+      "end": 388.59,
+      "text": "on luxuries is a lot higher than on necessities.",
+      "words": [
+        {
+          "word": "on",
+          "start": 385.11,
+          "end": 385.11
+        },
+        {
+          "word": "luxuries",
+          "start": 385.11,
+          "end": 385.93
+        },
+        {
+          "word": "is",
+          "start": 385.93,
+          "end": 386.37
+        },
+        {
+          "word": "a",
+          "start": 386.37,
+          "end": 386.47
+        },
+        {
+          "word": "lot",
+          "start": 386.47,
+          "end": 386.67
+        },
+        {
+          "word": "higher",
+          "start": 386.67,
+          "end": 387.03000000000003
+        },
+        {
+          "word": "than",
+          "start": 387.03000000000003,
+          "end": 387.39
+        },
+        {
+          "word": "on",
+          "start": 387.39,
+          "end": 387.59000000000003
+        },
+        {
+          "word": "necessities.",
+          "start": 387.59000000000003,
+          "end": 388.35
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "start": 388.59,
+      "end": 391.74,
+      "text": "And that gap lowers until you get",
+      "words": [
+        {
+          "word": "And",
+          "start": 388.59,
+          "end": 389.19
+        },
+        {
+          "word": "that",
+          "start": 389.19,
+          "end": 389.54999999999995
+        },
+        {
+          "word": "gap",
+          "start": 389.54999999999995,
+          "end": 389.96999999999997
+        },
+        {
+          "word": "lowers",
+          "start": 389.96999999999997,
+          "end": 390.72999999999996
+        },
+        {
+          "word": "until",
+          "start": 390.72999999999996,
+          "end": 391.28999999999996
+        },
+        {
+          "word": "you",
+          "start": 391.28999999999996,
+          "end": 391.53
+        },
+        {
+          "word": "get",
+          "start": 391.53,
+          "end": 391.71
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "start": 391.74,
+      "end": 394.72,
+      "text": "to the lowest group, in which case,",
+      "words": [
+        {
+          "word": "to",
+          "start": 391.74,
+          "end": 391.92
+        },
+        {
+          "word": "the",
+          "start": 391.92,
+          "end": 392.08
+        },
+        {
+          "word": "lowest",
+          "start": 392.08,
+          "end": 392.34000000000003
+        },
+        {
+          "word": "group,",
+          "start": 392.34000000000003,
+          "end": 393.06
+        },
+        {
+          "word": "in",
+          "start": 393.06,
+          "end": 393.6
+        },
+        {
+          "word": "which",
+          "start": 393.6,
+          "end": 393.8
+        },
+        {
+          "word": "case,",
+          "start": 393.8,
+          "end": 394.32
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "start": 394.72,
+      "end": 397.23,
+      "text": "the fraction spent on necessities",
+      "words": [
+        {
+          "word": "the",
+          "start": 394.72,
+          "end": 395.20000000000005
+        },
+        {
+          "word": "fraction",
+          "start": 395.20000000000005,
+          "end": 395.74
+        },
+        {
+          "word": "spent",
+          "start": 395.74,
+          "end": 396.1
+        },
+        {
+          "word": "on",
+          "start": 396.1,
+          "end": 396.28000000000003
+        },
+        {
+          "word": "necessities",
+          "start": 396.28000000000003,
+          "end": 397.02000000000004
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "start": 397.23,
+      "end": 400.17,
+      "text": "is a lot higher than luxuries.",
+      "words": [
+        {
+          "word": "is",
+          "start": 397.23,
+          "end": 397.53000000000003
+        },
+        {
+          "word": "a",
+          "start": 397.53000000000003,
+          "end": 397.65000000000003
+        },
+        {
+          "word": "lot",
+          "start": 397.65000000000003,
+          "end": 397.85
+        },
+        {
+          "word": "higher",
+          "start": 397.85,
+          "end": 398.21000000000004
+        },
+        {
+          "word": "than",
+          "start": 398.21000000000004,
+          "end": 398.97
+        },
+        {
+          "word": "luxuries.",
+          "start": 398.97,
+          "end": 399.59000000000003
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "start": 400.17,
+      "end": 402.51,
+      "text": "Now, when I grabbed this, there was an whole article",
+      "words": [
+        {
+          "word": "Now,",
+          "start": 400.17,
+          "end": 400.33000000000004
+        },
+        {
+          "word": "when",
+          "start": 400.33000000000004,
+          "end": 400.51
+        },
+        {
+          "word": "I",
+          "start": 400.51,
+          "end": 400.61
+        },
+        {
+          "word": "grabbed",
+          "start": 400.61,
+          "end": 400.87
+        },
+        {
+          "word": "this,",
+          "start": 400.87,
+          "end": 401.17
+        },
+        {
+          "word": "there",
+          "start": 401.23,
+          "end": 401.25
+        },
+        {
+          "word": "was",
+          "start": 401.25,
+          "end": 401.45
+        },
+        {
+          "word": "an",
+          "start": 401.45,
+          "end": 401.69
+        },
+        {
+          "word": "whole",
+          "start": 401.69,
+          "end": 401.99
+        },
+        {
+          "word": "article",
+          "start": 401.99,
+          "end": 402.33000000000004
+        }
+      ]
+    },
+    {
+      "id": 117,
+      "start": 402.51,
+      "end": 405.18,
+      "text": "about how poor people are extravagant",
+      "words": [
+        {
+          "word": "about",
+          "start": 402.51,
+          "end": 402.83
+        },
+        {
+          "word": "how",
+          "start": 402.83,
+          "end": 403.09
+        },
+        {
+          "word": "poor",
+          "start": 403.09,
+          "end": 403.37
+        },
+        {
+          "word": "people",
+          "start": 403.37,
+          "end": 403.69
+        },
+        {
+          "word": "are",
+          "start": 403.69,
+          "end": 404.46999999999997
+        },
+        {
+          "word": "extravagant",
+          "start": 404.46999999999997,
+          "end": 405.15
+        }
+      ]
+    },
+    {
+      "id": 118,
+      "start": 405.18,
+      "end": 408.27,
+      "text": "because they're still spending money on luxury goods.",
+      "words": [
+        {
+          "word": "because",
+          "start": 405.18,
+          "end": 405.58
+        },
+        {
+          "word": "they're",
+          "start": 405.58,
+          "end": 405.94
+        },
+        {
+          "word": "still",
+          "start": 405.94,
+          "end": 406.3
+        },
+        {
+          "word": "spending",
+          "start": 406.3,
+          "end": 406.72
+        },
+        {
+          "word": "money",
+          "start": 406.72,
+          "end": 407.06
+        },
+        {
+          "word": "on",
+          "start": 407.06,
+          "end": 407.28000000000003
+        },
+        {
+          "word": "luxury",
+          "start": 407.28000000000003,
+          "end": 407.56
+        },
+        {
+          "word": "goods.",
+          "start": 407.56,
+          "end": 408.1
+        }
+      ]
+    },
+    {
+      "id": 119,
+      "start": 408.27,
+      "end": 412.05,
+      "text": "Well, I mean, narrowly speaking, yes, that's true.",
+      "words": [
+        {
+          "word": "Well,",
+          "start": 408.27,
+          "end": 408.71
+        },
+        {
+          "word": "I",
+          "start": 408.77,
+          "end": 408.77
+        },
+        {
+          "word": "mean,",
+          "start": 408.77,
+          "end": 409.16999999999996
+        },
+        {
+          "word": "narrowly",
+          "start": 409.34999999999997,
+          "end": 410.13
+        },
+        {
+          "word": "speaking,",
+          "start": 410.13,
+          "end": 410.57
+        },
+        {
+          "word": "yes,",
+          "start": 411.07,
+          "end": 411.07
+        },
+        {
+          "word": "that's",
+          "start": 411.33,
+          "end": 411.59
+        },
+        {
+          "word": "true.",
+          "start": 411.59,
+          "end": 411.84999999999997
+        }
+      ]
+    },
+    {
+      "id": 120,
+      "start": 412.05,
+      "end": 413.643,
+      "text": "But again, it's a little bit harsh",
+      "words": [
+        {
+          "word": "But",
+          "start": 412.05,
+          "end": 412.33
+        },
+        {
+          "word": "again,",
+          "start": 412.33,
+          "end": 412.53000000000003
+        },
+        {
+          "word": "it's",
+          "start": 412.73,
+          "end": 412.83
+        },
+        {
+          "word": "a",
+          "start": 412.83,
+          "end": 412.85
+        },
+        {
+          "word": "little",
+          "start": 412.85,
+          "end": 413.07
+        },
+        {
+          "word": "bit",
+          "start": 413.07,
+          "end": 413.31
+        },
+        {
+          "word": "harsh",
+          "start": 413.31,
+          "end": 413.61
+        }
+      ]
+    },
+    {
+      "id": 121,
+      "start": 413.643,
+      "end": 415.56,
+      "text": "because it doesn't mean they're driving around",
+      "words": [
+        {
+          "word": "because",
+          "start": 413.643,
+          "end": 413.92299999999994
+        },
+        {
+          "word": "it",
+          "start": 413.92299999999994,
+          "end": 414.143
+        },
+        {
+          "word": "doesn't",
+          "start": 414.143,
+          "end": 414.383
+        },
+        {
+          "word": "mean",
+          "start": 414.383,
+          "end": 414.683
+        },
+        {
+          "word": "they're",
+          "start": 414.683,
+          "end": 414.883
+        },
+        {
+          "word": "driving",
+          "start": 414.883,
+          "end": 415.123
+        },
+        {
+          "word": "around",
+          "start": 415.123,
+          "end": 415.46299999999997
+        }
+      ]
+    },
+    {
+      "id": 122,
+      "start": 415.56,
+      "end": 416.7,
+      "text": "in a Mercedes Benz.",
+      "words": [
+        {
+          "word": "in",
+          "start": 415.56,
+          "end": 415.67
+        },
+        {
+          "word": "a",
+          "start": 415.67,
+          "end": 415.78000000000003
+        },
+        {
+          "word": "Mercedes",
+          "start": 415.78000000000003,
+          "end": 416.08
+        },
+        {
+          "word": "Benz.",
+          "start": 416.08,
+          "end": 416.62
+        }
+      ]
+    },
+    {
+      "id": 123,
+      "start": 416.7,
+      "end": 419.76,
+      "text": "It just means they're eating some fraction of what",
+      "words": [
+        {
+          "word": "It",
+          "start": 416.7,
+          "end": 416.7
+        },
+        {
+          "word": "just",
+          "start": 416.7,
+          "end": 417.03999999999996
+        },
+        {
+          "word": "means",
+          "start": 417.03999999999996,
+          "end": 417.53999999999996
+        },
+        {
+          "word": "they're",
+          "start": 417.53999999999996,
+          "end": 418.03999999999996
+        },
+        {
+          "word": "eating",
+          "start": 418.03999999999996,
+          "end": 418.47999999999996
+        },
+        {
+          "word": "some",
+          "start": 418.47999999999996,
+          "end": 418.94
+        },
+        {
+          "word": "fraction",
+          "start": 418.94,
+          "end": 419.38
+        },
+        {
+          "word": "of",
+          "start": 419.38,
+          "end": 419.59999999999997
+        },
+        {
+          "word": "what",
+          "start": 419.59999999999997,
+          "end": 419.74
+        }
+      ]
+    },
+    {
+      "id": 124,
+      "start": 419.76,
+      "end": 420.0,
+      "text": "they spend on are normal goods.",
+      "words": [
+        {
+          "word": "they",
+          "start": 419.76,
+          "end": 419.8
+        },
+        {
+          "word": "spend",
+          "start": 419.8,
+          "end": 419.84
+        },
+        {
+          "word": "on",
+          "start": 419.84,
+          "end": 419.88
+        },
+        {
+          "word": "are",
+          "start": 419.88,
+          "end": 419.92
+        },
+        {
+          "word": "normal",
+          "start": 419.92,
+          "end": 419.96
+        },
+        {
+          "word": "goods.",
+          "start": 419.96,
+          "end": 420.0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "2",
+  "video_id": "2",
+  "audio_start_time": 66.0,
+  "audio_end_time": 366.0,
+  "target_window_seconds": 300.0,
+  "source_transcript_file": "2_01-06_06-06.json",
+  "question_count": 5,
+  "questions": [
+    {
+      "id": 1,
+      "type": "true_false",
+      "statement": "Alexander the Great’s conquests helped spread Greek knowledge and culture across parts of Asia, Africa, and Europe.",
+      "answer": true,
+      "explanation": "The transcript states that from 323 to 31 BCE Greek disciplines spread throughout the Hellenistic world, which included parts of Asia, Africa, and Europe, due in large part to Alexander's conquests."
+    },
+    {
+      "id": 2,
+      "type": "true_false",
+      "statement": "The Library of Pergamon was primarily funded by Roman leaders during their rule in Anatolia.",
+      "answer": false,
+      "explanation": "The transcript specifies that kings in Pergamon, in what is now Turkey, funded the library long before Roman dominance, during the Hellenistic period."
+    },
+    {
+      "id": 3,
+      "type": "true_false",
+      "statement": "The Romans were more focused on practical engineering and military applications than on advancing natural philosophy.",
+      "answer": true,
+      "explanation": "It is stated that Romans are remembered for engineering and improving practical systems, while natural philosophy saw little advancement under Greco-Roman times."
+    },
+    {
+      "id": 4,
+      "type": "true_false",
+      "statement": "Archimedes was killed by Roman troops despite orders to capture him alive, because he refused to abandon his mathematical work.",
+      "answer": true,
+      "explanation": "The transcript explains that although the Roman general ordered Archimedes to be captured, a soldier killed him when Archimedes continued working on a proof instead of surrendering."
+    },
+    {
+      "id": 5,
+      "type": "true_false",
+      "statement": "Ptolemy’s astronomical model used perfect circular orbits with Earth at the center but rejected the concept of epicycles.",
+      "answer": false,
+      "explanation": "The transcript says Ptolemy's model combined multiple strategies, including epicycles (small circles along bigger circles), to fit planetary data to a geocentric model."
+    }
+  ]
+}

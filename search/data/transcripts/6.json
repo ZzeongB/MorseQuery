@@ -1,0 +1,4644 @@
+{
+  "text": "ROBERT FIELD: Last time, we talked about the photoelectric effect. What was that? And what were the important points? Yes? AUDIENCE: It's quantized and has energy associated with its frequency. ROBERT FIELD: Yes. OK, so, the idea of quantization of electromagnetic radiation and photons. And the photon has an energy h times nu. Nu is the frequency. And the evidence was mostly from a plot of what versus what. Somebody else? Yes? AUDIENCE: Frequency of the incoming photon versus-- or, that's the x-axis. So, kinetic energy of the ejected electron versus frequency. ROBERT FIELD: Exactly. And the slope of that plot, which was h, is universal. It doesn't matter where the electron came from. And this was really an amazing thing. And then, the other thing we talked about was Compton scattering. And what did Compton scattering tell us? Yes. AUDIENCE: Photon has a momentum-- ROBERT FIELD: Yes. AUDIENCE: --transfer. ROBERT FIELD: We're interested in the particle-like character of what we think of as waves. And we saw that the waves were particles. And particles-- or at least packets. And these packets had definite momentum. And that was a wonderful observation. So, today, this is the menu of what I'm going to talk about. And at the end, there's a magic word, \"spectra.\" And I like that because what we're going to be discovering today is that the internal structure of atoms and molecules-- we are not allowed to observe it directly, but it's surprising. And it's encoded in something which we can observe, which is a spectrum. And the spectrum that I will show you at the end is one that is-- contains essentially no information, but acts as a template for what we really want to know about how things are different from hydrogen atom. And that's the beginning of our exploration of the structure of atoms and molecules. It's through the spectrum and it's how it's different from-- in subtle ways-- the spectrum of the hydrogen atom. OK, so, we're going to turn our focus today to the electron, as opposed to light. And we're going to play the same game. We know the electron is a particle. Does anyone want to tell me why we know that? Is there any-- anybody who's got a clue? You can-- oh, good. Yes. AUDIENCE: There's an experiment with the little oil drops, where they suspended them and found that-- ROBERT FIELD: Yes. AUDIENCE: --charge is quantized. ROBERT FIELD: I love that experiment. That's the Millikan experiment. One of the reasons I love it is because Millikan and Mulliken are two different people. So I find that it's really easy to come up with one of them. And I remember Mulliken is a spectroscopist and Millikan was a different kind of physicist. But they're both famous and they both have connections to important universities-- University of Chicago for Millikan and Mulliken, MIT and Caltech. So we're going to be looking at something that we know is a particle. And we're going to show that it has wave characteristics. We want to be able to show that the electron has a wavelength and it follows the same equation that we use to describe the behavior of electromagnetic radiation. So how would we control the momentum of an electron? Yes. AUDIENCE: So you can control the kinetic energy that it has by putting it through a certain potential. ROBERT FIELD: OK, so, we know we can easily measure the momentum of a particle. That's not a big challenge. But then how would we measure its wavelength? Yes. AUDIENCE: Some type of diffraction? ROBERT FIELD: Yes. We basically use some material, which acts a ruler. We have a thin metal foil and the distances between atoms in the foil are constant. So that's the ruler against which we measure the wavelength of light. And we'll talk about the Davisson-Germer experiment, where we measure the wavelength. And then we'll talk about the Geiger-Marsden experiment, where we say, well, atoms have electrons in them. And what is the structure of an atom? Remember, we can't look inside. So we have to use some kind of an experiment to be able to look inside the atom. Now, physicists have one trick they often use. To find out the internal structure of something, they shoot a particle, or a wave, at it that has a wavelength comparable to the distances you're hoping to measure. So if you have a very high energy probe particle,",
+  "segments": [
+    {
+      "id": 0,
+      "start": 0.0,
+      "end": 2.7,
+      "text": "ROBERT FIELD: Last time, we talked",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 0.0,
+          "end": 0.0
+        },
+        {
+          "word": "FIELD:",
+          "start": 0.0,
+          "end": 0.0
+        },
+        {
+          "word": "Last",
+          "start": 0.0,
+          "end": 0.36
+        },
+        {
+          "word": "time,",
+          "start": 0.36,
+          "end": 1.04
+        },
+        {
+          "word": "we",
+          "start": 2.32,
+          "end": 2.4
+        },
+        {
+          "word": "talked",
+          "start": 2.4,
+          "end": 2.6
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "start": 2.7,
+      "end": 4.335,
+      "text": "about the photoelectric effect.",
+      "words": [
+        {
+          "word": "about",
+          "start": 2.7,
+          "end": 3.06
+        },
+        {
+          "word": "the",
+          "start": 3.06,
+          "end": 3.3200000000000003
+        },
+        {
+          "word": "photoelectric",
+          "start": 3.3200000000000003,
+          "end": 4.0
+        },
+        {
+          "word": "effect.",
+          "start": 4.0,
+          "end": 4.300000000000001
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 7.51,
+      "end": 8.445,
+      "text": "What was that?",
+      "words": [
+        {
+          "word": "What",
+          "start": 7.51,
+          "end": 7.71
+        },
+        {
+          "word": "was",
+          "start": 7.71,
+          "end": 7.97
+        },
+        {
+          "word": "that?",
+          "start": 7.97,
+          "end": 8.23
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 8.445,
+      "end": 9.925,
+      "text": "And what were the important points?",
+      "words": [
+        {
+          "word": "And",
+          "start": 8.445,
+          "end": 8.925
+        },
+        {
+          "word": "what",
+          "start": 8.925,
+          "end": 9.045
+        },
+        {
+          "word": "were",
+          "start": 9.045,
+          "end": 9.225
+        },
+        {
+          "word": "the",
+          "start": 9.225,
+          "end": 9.365
+        },
+        {
+          "word": "important",
+          "start": 9.365,
+          "end": 9.665000000000001
+        },
+        {
+          "word": "points?",
+          "start": 9.665000000000001,
+          "end": 9.905000000000001
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 14.63,
+      "end": 15.52,
+      "text": "Yes?",
+      "words": [
+        {
+          "word": "Yes?",
+          "start": 14.63,
+          "end": 14.99
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 15.52,
+      "end": 17.87,
+      "text": "AUDIENCE: It's quantized and has energy",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 15.52,
+          "end": 15.813333333333333
+        },
+        {
+          "word": "It's",
+          "start": 15.813333333333333,
+          "end": 16.106666666666666
+        },
+        {
+          "word": "quantized",
+          "start": 16.106666666666666,
+          "end": 16.4
+        },
+        {
+          "word": "and",
+          "start": 16.4,
+          "end": 16.82
+        },
+        {
+          "word": "has",
+          "start": 16.82,
+          "end": 17.345
+        },
+        {
+          "word": "energy",
+          "start": 17.345,
+          "end": 17.87
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 17.87,
+      "end": 19.28,
+      "text": "associated with its frequency.",
+      "words": [
+        {
+          "word": "associated",
+          "start": 17.87,
+          "end": 18.2225
+        },
+        {
+          "word": "with",
+          "start": 18.2225,
+          "end": 18.575000000000003
+        },
+        {
+          "word": "its",
+          "start": 18.575000000000003,
+          "end": 18.927500000000002
+        },
+        {
+          "word": "frequency.",
+          "start": 18.927500000000002,
+          "end": 19.28
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 19.28,
+      "end": 20.11,
+      "text": "ROBERT FIELD: Yes.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 19.28,
+          "end": 19.28
+        },
+        {
+          "word": "FIELD:",
+          "start": 19.28,
+          "end": 19.28
+        },
+        {
+          "word": "Yes.",
+          "start": 19.28,
+          "end": 19.880000000000003
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 20.11,
+      "end": 26.15,
+      "text": "OK, so, the idea of quantization of electromagnetic",
+      "words": [
+        {
+          "word": "OK,",
+          "start": 20.11,
+          "end": 20.49
+        },
+        {
+          "word": "so,",
+          "start": 20.59,
+          "end": 21.15
+        },
+        {
+          "word": "the",
+          "start": 21.15,
+          "end": 21.509999999999998
+        },
+        {
+          "word": "idea",
+          "start": 21.509999999999998,
+          "end": 21.89
+        },
+        {
+          "word": "of",
+          "start": 21.89,
+          "end": 22.57
+        },
+        {
+          "word": "quantization",
+          "start": 22.57,
+          "end": 23.29
+        },
+        {
+          "word": "of",
+          "start": 23.29,
+          "end": 24.31
+        },
+        {
+          "word": "electromagnetic",
+          "start": 24.31,
+          "end": 25.689999999999998
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "start": 26.15,
+      "end": 28.46,
+      "text": "radiation and photons.",
+      "words": [
+        {
+          "word": "radiation",
+          "start": 26.15,
+          "end": 26.709999999999997
+        },
+        {
+          "word": "and",
+          "start": 26.709999999999997,
+          "end": 27.189999999999998
+        },
+        {
+          "word": "photons.",
+          "start": 27.189999999999998,
+          "end": 27.549999999999997
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "start": 28.46,
+      "end": 32.66,
+      "text": "And the photon has an energy h times nu.",
+      "words": [
+        {
+          "word": "And",
+          "start": 28.46,
+          "end": 28.68
+        },
+        {
+          "word": "the",
+          "start": 28.68,
+          "end": 28.84
+        },
+        {
+          "word": "photon",
+          "start": 28.84,
+          "end": 29.26
+        },
+        {
+          "word": "has",
+          "start": 29.26,
+          "end": 29.6
+        },
+        {
+          "word": "an",
+          "start": 29.6,
+          "end": 29.8
+        },
+        {
+          "word": "energy",
+          "start": 29.8,
+          "end": 30.26
+        },
+        {
+          "word": "h",
+          "start": 30.26,
+          "end": 31.3
+        },
+        {
+          "word": "times",
+          "start": 31.3,
+          "end": 31.700000000000003
+        },
+        {
+          "word": "nu.",
+          "start": 31.700000000000003,
+          "end": 32.66
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "start": 32.66,
+      "end": 34.37,
+      "text": "Nu is the frequency.",
+      "words": [
+        {
+          "word": "Nu",
+          "start": 32.66,
+          "end": 32.92
+        },
+        {
+          "word": "is",
+          "start": 32.92,
+          "end": 33.18
+        },
+        {
+          "word": "the",
+          "start": 33.18,
+          "end": 33.31999999999999
+        },
+        {
+          "word": "frequency.",
+          "start": 33.31999999999999,
+          "end": 33.66
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "start": 34.37,
+      "end": 47.72,
+      "text": "And the evidence was mostly from a plot of what versus what.",
+      "words": [
+        {
+          "word": "And",
+          "start": 34.37,
+          "end": 35.809999999999995
+        },
+        {
+          "word": "the",
+          "start": 35.809999999999995,
+          "end": 39.169999999999995
+        },
+        {
+          "word": "evidence",
+          "start": 39.169999999999995,
+          "end": 39.61
+        },
+        {
+          "word": "was",
+          "start": 39.61,
+          "end": 40.25
+        },
+        {
+          "word": "mostly",
+          "start": 40.25,
+          "end": 40.87
+        },
+        {
+          "word": "from",
+          "start": 40.87,
+          "end": 42.25
+        },
+        {
+          "word": "a",
+          "start": 42.25,
+          "end": 43.65
+        },
+        {
+          "word": "plot",
+          "start": 43.65,
+          "end": 43.97
+        },
+        {
+          "word": "of",
+          "start": 43.97,
+          "end": 44.849999999999994
+        },
+        {
+          "word": "what",
+          "start": 44.849999999999994,
+          "end": 45.17
+        },
+        {
+          "word": "versus",
+          "start": 45.17,
+          "end": 45.61
+        },
+        {
+          "word": "what.",
+          "start": 45.61,
+          "end": 46.05
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "start": 47.72,
+      "end": 48.47,
+      "text": "Somebody else?",
+      "words": [
+        {
+          "word": "Somebody",
+          "start": 47.72,
+          "end": 48.06
+        },
+        {
+          "word": "else?",
+          "start": 48.06,
+          "end": 48.44
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "start": 52.44,
+      "end": 53.2,
+      "text": "Yes?",
+      "words": [
+        {
+          "word": "Yes?",
+          "start": 52.44,
+          "end": 52.82
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "start": 53.2,
+      "end": 55.56,
+      "text": "AUDIENCE: Frequency of the incoming photon versus--",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 53.2,
+          "end": 53.53714285714286
+        },
+        {
+          "word": "Frequency",
+          "start": 53.53714285714286,
+          "end": 53.87428571428572
+        },
+        {
+          "word": "of",
+          "start": 53.87428571428572,
+          "end": 54.21142857142858
+        },
+        {
+          "word": "the",
+          "start": 54.21142857142858,
+          "end": 54.54857142857143
+        },
+        {
+          "word": "incoming",
+          "start": 54.54857142857143,
+          "end": 54.885714285714286
+        },
+        {
+          "word": "photon",
+          "start": 54.885714285714286,
+          "end": 55.222857142857144
+        },
+        {
+          "word": "versus--",
+          "start": 55.222857142857144,
+          "end": 55.56
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "start": 55.56,
+      "end": 57.04,
+      "text": "or, that's the x-axis.",
+      "words": [
+        {
+          "word": "or,",
+          "start": 55.56,
+          "end": 55.92
+        },
+        {
+          "word": "that's",
+          "start": 55.92,
+          "end": 56.400000000000006
+        },
+        {
+          "word": "the",
+          "start": 56.400000000000006,
+          "end": 56.440000000000005
+        },
+        {
+          "word": "x-axis.",
+          "start": 56.440000000000005,
+          "end": 57.04
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "start": 57.04,
+      "end": 59.3,
+      "text": "So, kinetic energy of the ejected",
+      "words": [
+        {
+          "word": "So,",
+          "start": 57.86,
+          "end": 58.14
+        },
+        {
+          "word": "kinetic",
+          "start": 58.14,
+          "end": 58.372
+        },
+        {
+          "word": "energy",
+          "start": 58.372,
+          "end": 58.604
+        },
+        {
+          "word": "of",
+          "start": 58.604,
+          "end": 58.836
+        },
+        {
+          "word": "the",
+          "start": 58.836,
+          "end": 59.068
+        },
+        {
+          "word": "ejected",
+          "start": 59.068,
+          "end": 59.3
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "start": 59.3,
+      "end": 61.56,
+      "text": "electron versus frequency.",
+      "words": [
+        {
+          "word": "electron",
+          "start": 59.3,
+          "end": 60.053333333333335
+        },
+        {
+          "word": "versus",
+          "start": 60.053333333333335,
+          "end": 60.806666666666665
+        },
+        {
+          "word": "frequency.",
+          "start": 60.806666666666665,
+          "end": 61.56
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "start": 61.56,
+      "end": 63.79,
+      "text": "ROBERT FIELD: Exactly.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 61.56,
+          "end": 61.56
+        },
+        {
+          "word": "FIELD:",
+          "start": 61.56,
+          "end": 61.56
+        },
+        {
+          "word": "Exactly.",
+          "start": 61.56,
+          "end": 62.160000000000004
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "start": 63.79,
+      "end": 69.86,
+      "text": "And the slope of that plot, which was h, is universal.",
+      "words": [
+        {
+          "word": "And",
+          "start": 63.79,
+          "end": 64.81
+        },
+        {
+          "word": "the",
+          "start": 64.81,
+          "end": 65.73
+        },
+        {
+          "word": "slope",
+          "start": 65.73,
+          "end": 66.07
+        },
+        {
+          "word": "of",
+          "start": 66.07,
+          "end": 66.33
+        },
+        {
+          "word": "that",
+          "start": 66.33,
+          "end": 66.59
+        },
+        {
+          "word": "plot,",
+          "start": 66.59,
+          "end": 67.21
+        },
+        {
+          "word": "which",
+          "start": 67.83,
+          "end": 67.92999999999999
+        },
+        {
+          "word": "was",
+          "start": 67.92999999999999,
+          "end": 68.35
+        },
+        {
+          "word": "h,",
+          "start": 68.35,
+          "end": 68.77
+        },
+        {
+          "word": "is",
+          "start": 68.99,
+          "end": 69.23
+        },
+        {
+          "word": "universal.",
+          "start": 69.23,
+          "end": 69.86
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "start": 69.86,
+      "end": 72.51,
+      "text": "It doesn't matter where the electron came from.",
+      "words": [
+        {
+          "word": "It",
+          "start": 69.86,
+          "end": 69.86
+        },
+        {
+          "word": "doesn't",
+          "start": 69.86,
+          "end": 70.16
+        },
+        {
+          "word": "matter",
+          "start": 70.16,
+          "end": 70.46
+        },
+        {
+          "word": "where",
+          "start": 70.46,
+          "end": 70.76
+        },
+        {
+          "word": "the",
+          "start": 70.76,
+          "end": 70.9
+        },
+        {
+          "word": "electron",
+          "start": 70.9,
+          "end": 71.17999999999999
+        },
+        {
+          "word": "came",
+          "start": 71.17999999999999,
+          "end": 71.6
+        },
+        {
+          "word": "from.",
+          "start": 71.6,
+          "end": 71.96
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 72.51,
+      "end": 76.32,
+      "text": "And this was really an amazing thing.",
+      "words": [
+        {
+          "word": "And",
+          "start": 72.51,
+          "end": 72.89
+        },
+        {
+          "word": "this",
+          "start": 72.89,
+          "end": 73.09
+        },
+        {
+          "word": "was",
+          "start": 73.09,
+          "end": 73.51
+        },
+        {
+          "word": "really",
+          "start": 73.51,
+          "end": 73.93
+        },
+        {
+          "word": "an",
+          "start": 73.93,
+          "end": 75.01
+        },
+        {
+          "word": "amazing",
+          "start": 75.01,
+          "end": 75.39
+        },
+        {
+          "word": "thing.",
+          "start": 75.39,
+          "end": 75.83
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "start": 76.32,
+      "end": 79.38,
+      "text": "And then, the other thing we talked about",
+      "words": [
+        {
+          "word": "And",
+          "start": 76.32,
+          "end": 76.61999999999999
+        },
+        {
+          "word": "then,",
+          "start": 76.61999999999999,
+          "end": 77.05999999999999
+        },
+        {
+          "word": "the",
+          "start": 77.05999999999999,
+          "end": 78.08
+        },
+        {
+          "word": "other",
+          "start": 78.08,
+          "end": 78.47999999999999
+        },
+        {
+          "word": "thing",
+          "start": 78.47999999999999,
+          "end": 78.67999999999999
+        },
+        {
+          "word": "we",
+          "start": 78.67999999999999,
+          "end": 78.88
+        },
+        {
+          "word": "talked",
+          "start": 78.88,
+          "end": 79.1
+        },
+        {
+          "word": "about",
+          "start": 79.1,
+          "end": 79.36
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "start": 79.38,
+      "end": 81.75,
+      "text": "was Compton scattering.",
+      "words": [
+        {
+          "word": "was",
+          "start": 79.38,
+          "end": 79.75999999999999
+        },
+        {
+          "word": "Compton",
+          "start": 79.75999999999999,
+          "end": 80.3
+        },
+        {
+          "word": "scattering.",
+          "start": 80.3,
+          "end": 80.89999999999999
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "start": 81.75,
+      "end": 84.06,
+      "text": "And what did Compton scattering tell us?",
+      "words": [
+        {
+          "word": "And",
+          "start": 81.75,
+          "end": 82.05
+        },
+        {
+          "word": "what",
+          "start": 82.05,
+          "end": 82.21
+        },
+        {
+          "word": "did",
+          "start": 82.21,
+          "end": 82.49
+        },
+        {
+          "word": "Compton",
+          "start": 82.49,
+          "end": 82.89
+        },
+        {
+          "word": "scattering",
+          "start": 82.89,
+          "end": 83.37
+        },
+        {
+          "word": "tell",
+          "start": 83.37,
+          "end": 83.65
+        },
+        {
+          "word": "us?",
+          "start": 83.65,
+          "end": 84.03
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "start": 91.511,
+      "end": 92.01,
+      "text": "Yes.",
+      "words": [
+        {
+          "word": "Yes.",
+          "start": 91.511,
+          "end": 91.89099999999999
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "start": 92.01,
+      "end": 93.32,
+      "text": "AUDIENCE: Photon has a momentum--",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 92.01,
+          "end": 92.20333333333333
+        },
+        {
+          "word": "Photon",
+          "start": 92.20333333333333,
+          "end": 92.39666666666668
+        },
+        {
+          "word": "has",
+          "start": 92.39666666666668,
+          "end": 92.59
+        },
+        {
+          "word": "a",
+          "start": 92.59,
+          "end": 92.81
+        },
+        {
+          "word": "momentum--",
+          "start": 92.81,
+          "end": 93.32
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "start": 93.32,
+      "end": 93.88,
+      "text": "ROBERT FIELD: Yes.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 93.32,
+          "end": 93.32
+        },
+        {
+          "word": "FIELD:",
+          "start": 93.32,
+          "end": 93.32
+        },
+        {
+          "word": "Yes.",
+          "start": 93.32,
+          "end": 93.8
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 93.88,
+      "end": 94.92,
+      "text": "AUDIENCE: --transfer.",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 93.88,
+          "end": 94.4
+        },
+        {
+          "word": "--transfer.",
+          "start": 94.4,
+          "end": 94.92
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "start": 100.239,
+      "end": 102.78,
+      "text": "ROBERT FIELD: We're interested in the particle-like character",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 100.239,
+          "end": 100.239
+        },
+        {
+          "word": "FIELD:",
+          "start": 100.239,
+          "end": 100.239
+        },
+        {
+          "word": "We're",
+          "start": 100.239,
+          "end": 100.839
+        },
+        {
+          "word": "interested",
+          "start": 100.839,
+          "end": 101.179
+        },
+        {
+          "word": "in",
+          "start": 101.179,
+          "end": 101.49900000000001
+        },
+        {
+          "word": "the",
+          "start": 101.49900000000001,
+          "end": 101.559
+        },
+        {
+          "word": "particle-like",
+          "start": 101.559,
+          "end": 102.259
+        },
+        {
+          "word": "character",
+          "start": 102.259,
+          "end": 102.679
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "start": 102.78,
+      "end": 105.689,
+      "text": "of what we think of as waves.",
+      "words": [
+        {
+          "word": "of",
+          "start": 102.78,
+          "end": 103.18
+        },
+        {
+          "word": "what",
+          "start": 103.18,
+          "end": 103.86
+        },
+        {
+          "word": "we",
+          "start": 103.86,
+          "end": 104.06
+        },
+        {
+          "word": "think",
+          "start": 104.06,
+          "end": 104.32000000000001
+        },
+        {
+          "word": "of",
+          "start": 104.32000000000001,
+          "end": 104.46000000000001
+        },
+        {
+          "word": "as",
+          "start": 104.46000000000001,
+          "end": 104.62
+        },
+        {
+          "word": "waves.",
+          "start": 104.62,
+          "end": 104.98
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "start": 105.689,
+      "end": 110.55,
+      "text": "And we saw that the waves were particles.",
+      "words": [
+        {
+          "word": "And",
+          "start": 105.689,
+          "end": 106.329
+        },
+        {
+          "word": "we",
+          "start": 106.329,
+          "end": 106.78899999999999
+        },
+        {
+          "word": "saw",
+          "start": 106.78899999999999,
+          "end": 107.809
+        },
+        {
+          "word": "that",
+          "start": 107.809,
+          "end": 108.609
+        },
+        {
+          "word": "the",
+          "start": 108.609,
+          "end": 108.78899999999999
+        },
+        {
+          "word": "waves",
+          "start": 108.78899999999999,
+          "end": 109.04899999999999
+        },
+        {
+          "word": "were",
+          "start": 109.04899999999999,
+          "end": 109.469
+        },
+        {
+          "word": "particles.",
+          "start": 109.469,
+          "end": 109.889
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "start": 110.55,
+      "end": 113.01,
+      "text": "And particles-- or at least packets.",
+      "words": [
+        {
+          "word": "And",
+          "start": 110.55,
+          "end": 111.00999999999999
+        },
+        {
+          "word": "particles--",
+          "start": 111.00999999999999,
+          "end": 111.42999999999999
+        },
+        {
+          "word": "or",
+          "start": 111.42999999999999,
+          "end": 111.83
+        },
+        {
+          "word": "at",
+          "start": 111.83,
+          "end": 111.89
+        },
+        {
+          "word": "least",
+          "start": 111.89,
+          "end": 112.09
+        },
+        {
+          "word": "packets.",
+          "start": 112.09,
+          "end": 112.53
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "start": 113.01,
+      "end": 117.27,
+      "text": "And these packets had definite momentum.",
+      "words": [
+        {
+          "word": "And",
+          "start": 113.01,
+          "end": 113.25
+        },
+        {
+          "word": "these",
+          "start": 113.25,
+          "end": 113.47
+        },
+        {
+          "word": "packets",
+          "start": 113.47,
+          "end": 113.83
+        },
+        {
+          "word": "had",
+          "start": 113.83,
+          "end": 114.13000000000001
+        },
+        {
+          "word": "definite",
+          "start": 114.13000000000001,
+          "end": 114.67
+        },
+        {
+          "word": "momentum.",
+          "start": 114.67,
+          "end": 116.21000000000001
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "start": 117.27,
+      "end": 123.24,
+      "text": "And that was a wonderful observation.",
+      "words": [
+        {
+          "word": "And",
+          "start": 117.27,
+          "end": 117.95
+        },
+        {
+          "word": "that",
+          "start": 117.95,
+          "end": 118.63
+        },
+        {
+          "word": "was",
+          "start": 118.63,
+          "end": 118.85
+        },
+        {
+          "word": "a",
+          "start": 118.85,
+          "end": 119.22999999999999
+        },
+        {
+          "word": "wonderful",
+          "start": 119.22999999999999,
+          "end": 119.91
+        },
+        {
+          "word": "observation.",
+          "start": 119.91,
+          "end": 122.47
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "start": 123.24,
+      "end": 126.55,
+      "text": "So, today, this is the menu of what I'm going to talk about.",
+      "words": [
+        {
+          "word": "So,",
+          "start": 123.24,
+          "end": 123.55999999999999
+        },
+        {
+          "word": "today,",
+          "start": 123.55999999999999,
+          "end": 124.0
+        },
+        {
+          "word": "this",
+          "start": 124.32,
+          "end": 124.32
+        },
+        {
+          "word": "is",
+          "start": 124.32,
+          "end": 124.52
+        },
+        {
+          "word": "the",
+          "start": 124.52,
+          "end": 124.6
+        },
+        {
+          "word": "menu",
+          "start": 124.6,
+          "end": 124.88
+        },
+        {
+          "word": "of",
+          "start": 124.88,
+          "end": 125.08
+        },
+        {
+          "word": "what",
+          "start": 125.08,
+          "end": 125.14
+        },
+        {
+          "word": "I'm",
+          "start": 125.14,
+          "end": 125.3
+        },
+        {
+          "word": "going",
+          "start": 125.3,
+          "end": 125.42
+        },
+        {
+          "word": "to",
+          "start": 125.42,
+          "end": 125.58
+        },
+        {
+          "word": "talk",
+          "start": 125.58,
+          "end": 125.69999999999999
+        },
+        {
+          "word": "about.",
+          "start": 125.69999999999999,
+          "end": 126.19999999999999
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "start": 126.55,
+      "end": 131.07,
+      "text": "And at the end, there's a magic word, \"spectra.\"",
+      "words": [
+        {
+          "word": "And",
+          "start": 126.55,
+          "end": 126.55
+        },
+        {
+          "word": "at",
+          "start": 126.55,
+          "end": 126.78999999999999
+        },
+        {
+          "word": "the",
+          "start": 126.78999999999999,
+          "end": 127.09
+        },
+        {
+          "word": "end,",
+          "start": 127.09,
+          "end": 127.64999999999999
+        },
+        {
+          "word": "there's",
+          "start": 128.93,
+          "end": 129.13
+        },
+        {
+          "word": "a",
+          "start": 129.13,
+          "end": 129.21
+        },
+        {
+          "word": "magic",
+          "start": 129.21,
+          "end": 129.49
+        },
+        {
+          "word": "word,",
+          "start": 129.49,
+          "end": 129.75
+        },
+        {
+          "word": "\"spectra.\"",
+          "start": 129.75,
+          "end": 130.35
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "start": 131.07,
+      "end": 134.22,
+      "text": "And I like that because what we're",
+      "words": [
+        {
+          "word": "And",
+          "start": 131.07,
+          "end": 131.35
+        },
+        {
+          "word": "I",
+          "start": 131.35,
+          "end": 131.48999999999998
+        },
+        {
+          "word": "like",
+          "start": 131.48999999999998,
+          "end": 131.73
+        },
+        {
+          "word": "that",
+          "start": 131.73,
+          "end": 132.31
+        },
+        {
+          "word": "because",
+          "start": 132.31,
+          "end": 133.15
+        },
+        {
+          "word": "what",
+          "start": 133.15,
+          "end": 134.10999999999999
+        },
+        {
+          "word": "we're",
+          "start": 134.10999999999999,
+          "end": 134.19
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "start": 134.22,
+      "end": 140.49,
+      "text": "going to be discovering today is that the internal structure",
+      "words": [
+        {
+          "word": "going",
+          "start": 134.22,
+          "end": 134.54
+        },
+        {
+          "word": "to",
+          "start": 134.54,
+          "end": 134.68
+        },
+        {
+          "word": "be",
+          "start": 134.68,
+          "end": 135.22
+        },
+        {
+          "word": "discovering",
+          "start": 135.22,
+          "end": 135.8
+        },
+        {
+          "word": "today",
+          "start": 135.8,
+          "end": 136.42
+        },
+        {
+          "word": "is",
+          "start": 136.42,
+          "end": 137.64
+        },
+        {
+          "word": "that",
+          "start": 137.64,
+          "end": 139.0
+        },
+        {
+          "word": "the",
+          "start": 139.0,
+          "end": 139.58
+        },
+        {
+          "word": "internal",
+          "start": 139.58,
+          "end": 139.84
+        },
+        {
+          "word": "structure",
+          "start": 139.84,
+          "end": 140.32
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "start": 140.49,
+      "end": 142.87,
+      "text": "of atoms and molecules--",
+      "words": [
+        {
+          "word": "of",
+          "start": 140.49,
+          "end": 140.87
+        },
+        {
+          "word": "atoms",
+          "start": 140.87,
+          "end": 141.07000000000002
+        },
+        {
+          "word": "and",
+          "start": 141.07000000000002,
+          "end": 141.33
+        },
+        {
+          "word": "molecules--",
+          "start": 141.33,
+          "end": 141.67000000000002
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "start": 142.87,
+      "end": 148.02,
+      "text": "we are not allowed to observe it directly, but it's surprising.",
+      "words": [
+        {
+          "word": "we",
+          "start": 142.87,
+          "end": 143.11
+        },
+        {
+          "word": "are",
+          "start": 143.11,
+          "end": 143.33
+        },
+        {
+          "word": "not",
+          "start": 143.33,
+          "end": 143.51
+        },
+        {
+          "word": "allowed",
+          "start": 143.51,
+          "end": 143.75
+        },
+        {
+          "word": "to",
+          "start": 143.75,
+          "end": 143.91
+        },
+        {
+          "word": "observe",
+          "start": 143.91,
+          "end": 144.17000000000002
+        },
+        {
+          "word": "it",
+          "start": 144.17000000000002,
+          "end": 144.69
+        },
+        {
+          "word": "directly,",
+          "start": 144.69,
+          "end": 145.09
+        },
+        {
+          "word": "but",
+          "start": 146.19,
+          "end": 146.37
+        },
+        {
+          "word": "it's",
+          "start": 146.37,
+          "end": 146.71
+        },
+        {
+          "word": "surprising.",
+          "start": 146.71,
+          "end": 147.17000000000002
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "start": 148.02,
+      "end": 152.17,
+      "text": "And it's encoded in something which we can observe,",
+      "words": [
+        {
+          "word": "And",
+          "start": 148.02,
+          "end": 148.28
+        },
+        {
+          "word": "it's",
+          "start": 148.28,
+          "end": 148.5
+        },
+        {
+          "word": "encoded",
+          "start": 148.5,
+          "end": 149.12
+        },
+        {
+          "word": "in",
+          "start": 149.12,
+          "end": 150.0
+        },
+        {
+          "word": "something",
+          "start": 150.0,
+          "end": 150.26000000000002
+        },
+        {
+          "word": "which",
+          "start": 150.26000000000002,
+          "end": 150.58
+        },
+        {
+          "word": "we",
+          "start": 150.58,
+          "end": 150.76000000000002
+        },
+        {
+          "word": "can",
+          "start": 150.76000000000002,
+          "end": 150.94
+        },
+        {
+          "word": "observe,",
+          "start": 150.94,
+          "end": 151.42000000000002
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "start": 152.17,
+      "end": 154.02,
+      "text": "which is a spectrum.",
+      "words": [
+        {
+          "word": "which",
+          "start": 152.17,
+          "end": 152.35
+        },
+        {
+          "word": "is",
+          "start": 152.35,
+          "end": 152.51
+        },
+        {
+          "word": "a",
+          "start": 152.51,
+          "end": 152.67
+        },
+        {
+          "word": "spectrum.",
+          "start": 152.67,
+          "end": 153.01
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "start": 154.02,
+      "end": 157.17,
+      "text": "And the spectrum that I will show you at the end",
+      "words": [
+        {
+          "word": "And",
+          "start": 154.02,
+          "end": 154.26000000000002
+        },
+        {
+          "word": "the",
+          "start": 154.26000000000002,
+          "end": 154.4
+        },
+        {
+          "word": "spectrum",
+          "start": 154.4,
+          "end": 154.76000000000002
+        },
+        {
+          "word": "that",
+          "start": 154.76000000000002,
+          "end": 155.04000000000002
+        },
+        {
+          "word": "I",
+          "start": 155.04000000000002,
+          "end": 155.12
+        },
+        {
+          "word": "will",
+          "start": 155.12,
+          "end": 155.28
+        },
+        {
+          "word": "show",
+          "start": 155.28,
+          "end": 155.52
+        },
+        {
+          "word": "you",
+          "start": 155.52,
+          "end": 155.70000000000002
+        },
+        {
+          "word": "at",
+          "start": 155.70000000000002,
+          "end": 155.86
+        },
+        {
+          "word": "the",
+          "start": 155.86,
+          "end": 156.08
+        },
+        {
+          "word": "end",
+          "start": 156.08,
+          "end": 156.42000000000002
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "start": 157.17,
+      "end": 159.15,
+      "text": "is one that is--",
+      "words": [
+        {
+          "word": "is",
+          "start": 157.17,
+          "end": 157.41
+        },
+        {
+          "word": "one",
+          "start": 157.41,
+          "end": 157.86999999999998
+        },
+        {
+          "word": "that",
+          "start": 157.86999999999998,
+          "end": 158.47
+        },
+        {
+          "word": "is--",
+          "start": 158.47,
+          "end": 158.89
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "start": 159.15,
+      "end": 162.12,
+      "text": "contains essentially no information,",
+      "words": [
+        {
+          "word": "contains",
+          "start": 159.15,
+          "end": 159.63
+        },
+        {
+          "word": "essentially",
+          "start": 159.63,
+          "end": 160.23000000000002
+        },
+        {
+          "word": "no",
+          "start": 160.23000000000002,
+          "end": 160.57
+        },
+        {
+          "word": "information,",
+          "start": 160.57,
+          "end": 161.09
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "start": 162.12,
+      "end": 166.225,
+      "text": "but acts as a template for what we really",
+      "words": [
+        {
+          "word": "but",
+          "start": 162.12,
+          "end": 162.38
+        },
+        {
+          "word": "acts",
+          "start": 162.38,
+          "end": 162.5
+        },
+        {
+          "word": "as",
+          "start": 162.5,
+          "end": 162.62
+        },
+        {
+          "word": "a",
+          "start": 162.62,
+          "end": 163.72
+        },
+        {
+          "word": "template",
+          "start": 163.72,
+          "end": 164.14000000000001
+        },
+        {
+          "word": "for",
+          "start": 164.14000000000001,
+          "end": 165.5
+        },
+        {
+          "word": "what",
+          "start": 165.5,
+          "end": 165.9
+        },
+        {
+          "word": "we",
+          "start": 165.9,
+          "end": 166.06
+        },
+        {
+          "word": "really",
+          "start": 166.06,
+          "end": 166.20000000000002
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "start": 166.225,
+      "end": 168.6,
+      "text": "want to know about how things are different from hydrogen",
+      "words": [
+        {
+          "word": "want",
+          "start": 166.225,
+          "end": 166.445
+        },
+        {
+          "word": "to",
+          "start": 166.445,
+          "end": 166.605
+        },
+        {
+          "word": "know",
+          "start": 166.605,
+          "end": 166.805
+        },
+        {
+          "word": "about",
+          "start": 166.805,
+          "end": 167.045
+        },
+        {
+          "word": "how",
+          "start": 167.045,
+          "end": 167.285
+        },
+        {
+          "word": "things",
+          "start": 167.285,
+          "end": 167.525
+        },
+        {
+          "word": "are",
+          "start": 167.525,
+          "end": 167.685
+        },
+        {
+          "word": "different",
+          "start": 167.685,
+          "end": 167.965
+        },
+        {
+          "word": "from",
+          "start": 167.965,
+          "end": 168.185
+        },
+        {
+          "word": "hydrogen",
+          "start": 168.185,
+          "end": 168.42499999999998
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "start": 168.6,
+      "end": 170.21,
+      "text": "atom.",
+      "words": [
+        {
+          "word": "atom.",
+          "start": 168.6,
+          "end": 170.21
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "start": 170.21,
+      "end": 176.24,
+      "text": "And that's the beginning of our exploration of the structure",
+      "words": [
+        {
+          "word": "And",
+          "start": 170.21,
+          "end": 170.43
+        },
+        {
+          "word": "that's",
+          "start": 170.43,
+          "end": 170.67000000000002
+        },
+        {
+          "word": "the",
+          "start": 170.67000000000002,
+          "end": 170.77
+        },
+        {
+          "word": "beginning",
+          "start": 170.77,
+          "end": 171.23000000000002
+        },
+        {
+          "word": "of",
+          "start": 171.23000000000002,
+          "end": 172.57000000000002
+        },
+        {
+          "word": "our",
+          "start": 172.57000000000002,
+          "end": 172.63
+        },
+        {
+          "word": "exploration",
+          "start": 172.63,
+          "end": 174.57000000000002
+        },
+        {
+          "word": "of",
+          "start": 174.57000000000002,
+          "end": 175.25
+        },
+        {
+          "word": "the",
+          "start": 175.25,
+          "end": 175.39000000000001
+        },
+        {
+          "word": "structure",
+          "start": 175.39000000000001,
+          "end": 175.77
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "start": 176.24,
+      "end": 178.53,
+      "text": "of atoms and molecules.",
+      "words": [
+        {
+          "word": "of",
+          "start": 176.24,
+          "end": 176.58666666666667
+        },
+        {
+          "word": "atoms",
+          "start": 176.58666666666667,
+          "end": 176.93333333333334
+        },
+        {
+          "word": "and",
+          "start": 176.93333333333334,
+          "end": 177.28
+        },
+        {
+          "word": "molecules.",
+          "start": 177.28,
+          "end": 177.60000000000002
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "start": 178.53,
+      "end": 182.84,
+      "text": "It's through the spectrum and it's how it's different from--",
+      "words": [
+        {
+          "word": "It's",
+          "start": 178.53,
+          "end": 178.85
+        },
+        {
+          "word": "through",
+          "start": 178.85,
+          "end": 178.99
+        },
+        {
+          "word": "the",
+          "start": 178.99,
+          "end": 179.19
+        },
+        {
+          "word": "spectrum",
+          "start": 179.19,
+          "end": 179.53
+        },
+        {
+          "word": "and",
+          "start": 179.53,
+          "end": 180.13
+        },
+        {
+          "word": "it's",
+          "start": 180.13,
+          "end": 180.67
+        },
+        {
+          "word": "how",
+          "start": 180.67,
+          "end": 180.67
+        },
+        {
+          "word": "it's",
+          "start": 180.67,
+          "end": 181.19
+        },
+        {
+          "word": "different",
+          "start": 181.19,
+          "end": 181.55
+        },
+        {
+          "word": "from--",
+          "start": 181.55,
+          "end": 182.81
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "start": 182.84,
+      "end": 187.8,
+      "text": "in subtle ways-- the spectrum of the hydrogen atom.",
+      "words": [
+        {
+          "word": "in",
+          "start": 182.84,
+          "end": 183.16
+        },
+        {
+          "word": "subtle",
+          "start": 183.16,
+          "end": 183.28
+        },
+        {
+          "word": "ways--",
+          "start": 183.28,
+          "end": 183.68
+        },
+        {
+          "word": "the",
+          "start": 183.68,
+          "end": 184.20000000000002
+        },
+        {
+          "word": "spectrum",
+          "start": 184.20000000000002,
+          "end": 184.6
+        },
+        {
+          "word": "of",
+          "start": 184.6,
+          "end": 185.32
+        },
+        {
+          "word": "the",
+          "start": 185.32,
+          "end": 185.42000000000002
+        },
+        {
+          "word": "hydrogen",
+          "start": 185.42000000000002,
+          "end": 185.72
+        },
+        {
+          "word": "atom.",
+          "start": 185.72,
+          "end": 186.26
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "start": 187.8,
+      "end": 197.82,
+      "text": "OK, so, we're going to turn our focus today to the electron,",
+      "words": [
+        {
+          "word": "OK,",
+          "start": 187.8,
+          "end": 188.18
+        },
+        {
+          "word": "so,",
+          "start": 193.24,
+          "end": 193.24
+        },
+        {
+          "word": "we're",
+          "start": 193.24,
+          "end": 193.54000000000002
+        },
+        {
+          "word": "going",
+          "start": 193.54000000000002,
+          "end": 193.64000000000001
+        },
+        {
+          "word": "to",
+          "start": 193.64000000000001,
+          "end": 193.74
+        },
+        {
+          "word": "turn",
+          "start": 193.74,
+          "end": 193.9
+        },
+        {
+          "word": "our",
+          "start": 193.9,
+          "end": 194.06
+        },
+        {
+          "word": "focus",
+          "start": 194.06,
+          "end": 194.36
+        },
+        {
+          "word": "today",
+          "start": 194.36,
+          "end": 194.86
+        },
+        {
+          "word": "to",
+          "start": 195.52,
+          "end": 196.12
+        },
+        {
+          "word": "the",
+          "start": 196.12,
+          "end": 196.36
+        },
+        {
+          "word": "electron,",
+          "start": 196.36,
+          "end": 196.84
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "start": 197.82,
+      "end": 199.89,
+      "text": "as opposed to light.",
+      "words": [
+        {
+          "word": "as",
+          "start": 197.82,
+          "end": 198.1
+        },
+        {
+          "word": "opposed",
+          "start": 198.1,
+          "end": 198.4
+        },
+        {
+          "word": "to",
+          "start": 198.4,
+          "end": 198.78
+        },
+        {
+          "word": "light.",
+          "start": 198.78,
+          "end": 199.07999999999998
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "start": 199.89,
+      "end": 203.13,
+      "text": "And we're going to play the same game.",
+      "words": [
+        {
+          "word": "And",
+          "start": 199.89,
+          "end": 200.48999999999998
+        },
+        {
+          "word": "we're",
+          "start": 200.48999999999998,
+          "end": 201.01
+        },
+        {
+          "word": "going",
+          "start": 201.01,
+          "end": 201.14999999999998
+        },
+        {
+          "word": "to",
+          "start": 201.14999999999998,
+          "end": 201.19
+        },
+        {
+          "word": "play",
+          "start": 201.19,
+          "end": 201.36999999999998
+        },
+        {
+          "word": "the",
+          "start": 201.36999999999998,
+          "end": 201.54999999999998
+        },
+        {
+          "word": "same",
+          "start": 201.54999999999998,
+          "end": 201.76999999999998
+        },
+        {
+          "word": "game.",
+          "start": 201.76999999999998,
+          "end": 202.20999999999998
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "start": 203.13,
+      "end": 206.14,
+      "text": "We know the electron is a particle.",
+      "words": [
+        {
+          "word": "We",
+          "start": 203.13,
+          "end": 203.32999999999998
+        },
+        {
+          "word": "know",
+          "start": 203.32999999999998,
+          "end": 203.59
+        },
+        {
+          "word": "the",
+          "start": 203.59,
+          "end": 203.76999999999998
+        },
+        {
+          "word": "electron",
+          "start": 203.76999999999998,
+          "end": 204.13
+        },
+        {
+          "word": "is",
+          "start": 204.13,
+          "end": 204.43
+        },
+        {
+          "word": "a",
+          "start": 204.43,
+          "end": 204.60999999999999
+        },
+        {
+          "word": "particle.",
+          "start": 204.60999999999999,
+          "end": 204.91
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "start": 206.14,
+      "end": 209.35,
+      "text": "Does anyone want to tell me why we know that?",
+      "words": [
+        {
+          "word": "Does",
+          "start": 206.14,
+          "end": 206.33999999999997
+        },
+        {
+          "word": "anyone",
+          "start": 206.33999999999997,
+          "end": 206.54
+        },
+        {
+          "word": "want",
+          "start": 206.54,
+          "end": 206.82
+        },
+        {
+          "word": "to",
+          "start": 206.82,
+          "end": 206.82
+        },
+        {
+          "word": "tell",
+          "start": 206.82,
+          "end": 206.95999999999998
+        },
+        {
+          "word": "me",
+          "start": 206.95999999999998,
+          "end": 207.14
+        },
+        {
+          "word": "why",
+          "start": 207.14,
+          "end": 207.33999999999997
+        },
+        {
+          "word": "we",
+          "start": 207.33999999999997,
+          "end": 207.51999999999998
+        },
+        {
+          "word": "know",
+          "start": 207.51999999999998,
+          "end": 207.67999999999998
+        },
+        {
+          "word": "that?",
+          "start": 207.67999999999998,
+          "end": 208.07999999999998
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "start": 209.35,
+      "end": 212.24,
+      "text": "Is there any-- anybody who's got a clue?",
+      "words": [
+        {
+          "word": "Is",
+          "start": 209.35,
+          "end": 209.57
+        },
+        {
+          "word": "there",
+          "start": 209.57,
+          "end": 209.95
+        },
+        {
+          "word": "any--",
+          "start": 209.95,
+          "end": 209.95
+        },
+        {
+          "word": "anybody",
+          "start": 209.95,
+          "end": 211.35
+        },
+        {
+          "word": "who's",
+          "start": 211.35,
+          "end": 211.79
+        },
+        {
+          "word": "got",
+          "start": 211.79,
+          "end": 211.89
+        },
+        {
+          "word": "a",
+          "start": 211.89,
+          "end": 212.04999999999998
+        },
+        {
+          "word": "clue?",
+          "start": 212.04999999999998,
+          "end": 212.17
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "start": 212.24,
+      "end": 213.53,
+      "text": "You can-- oh, good.",
+      "words": [
+        {
+          "word": "You",
+          "start": 212.24,
+          "end": 212.36
+        },
+        {
+          "word": "can--",
+          "start": 212.36,
+          "end": 212.56
+        },
+        {
+          "word": "oh,",
+          "start": 212.56,
+          "end": 213.42000000000002
+        },
+        {
+          "word": "good.",
+          "start": 213.42000000000002,
+          "end": 213.5
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "start": 213.53,
+      "end": 214.17,
+      "text": "Yes.",
+      "words": [
+        {
+          "word": "Yes.",
+          "start": 213.53,
+          "end": 214.17
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "start": 214.17,
+      "end": 216.881,
+      "text": "AUDIENCE: There's an experiment with the little oil drops,",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 214.17,
+          "end": 214.53666666666666
+        },
+        {
+          "word": "There's",
+          "start": 214.53666666666666,
+          "end": 214.9033333333333
+        },
+        {
+          "word": "an",
+          "start": 214.9033333333333,
+          "end": 215.26999999999998
+        },
+        {
+          "word": "experiment",
+          "start": 215.26999999999998,
+          "end": 215.26999999999998
+        },
+        {
+          "word": "with",
+          "start": 215.26999999999998,
+          "end": 216.13
+        },
+        {
+          "word": "the",
+          "start": 216.13,
+          "end": 216.35
+        },
+        {
+          "word": "little",
+          "start": 216.35,
+          "end": 216.58999999999997
+        },
+        {
+          "word": "oil",
+          "start": 216.58999999999997,
+          "end": 216.73
+        },
+        {
+          "word": "drops,",
+          "start": 216.73,
+          "end": 216.881
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "start": 216.881,
+      "end": 218.63,
+      "text": "where they suspended them and found that--",
+      "words": [
+        {
+          "word": "where",
+          "start": 216.881,
+          "end": 217.27100000000002
+        },
+        {
+          "word": "they",
+          "start": 217.27100000000002,
+          "end": 217.661
+        },
+        {
+          "word": "suspended",
+          "start": 217.661,
+          "end": 218.001
+        },
+        {
+          "word": "them",
+          "start": 218.001,
+          "end": 218.15825
+        },
+        {
+          "word": "and",
+          "start": 218.15825,
+          "end": 218.3155
+        },
+        {
+          "word": "found",
+          "start": 218.3155,
+          "end": 218.47275
+        },
+        {
+          "word": "that--",
+          "start": 218.47275,
+          "end": 218.63
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "start": 218.63,
+      "end": 218.89,
+      "text": "ROBERT FIELD: Yes.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 218.63,
+          "end": 218.71666666666667
+        },
+        {
+          "word": "FIELD:",
+          "start": 218.71666666666667,
+          "end": 218.8033333333333
+        },
+        {
+          "word": "Yes.",
+          "start": 218.8033333333333,
+          "end": 218.89
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "start": 218.89,
+      "end": 219.94,
+      "text": "AUDIENCE: --charge is quantized.",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 218.89,
+          "end": 219.15249999999997
+        },
+        {
+          "word": "--charge",
+          "start": 219.15249999999997,
+          "end": 219.415
+        },
+        {
+          "word": "is",
+          "start": 219.415,
+          "end": 219.6775
+        },
+        {
+          "word": "quantized.",
+          "start": 219.6775,
+          "end": 219.94
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "start": 219.94,
+      "end": 221.481,
+      "text": "ROBERT FIELD: I love that experiment.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 219.94,
+          "end": 219.94
+        },
+        {
+          "word": "FIELD:",
+          "start": 219.94,
+          "end": 219.94
+        },
+        {
+          "word": "I",
+          "start": 219.94,
+          "end": 220.14
+        },
+        {
+          "word": "love",
+          "start": 220.14,
+          "end": 220.3
+        },
+        {
+          "word": "that",
+          "start": 220.3,
+          "end": 220.6
+        },
+        {
+          "word": "experiment.",
+          "start": 220.6,
+          "end": 221.06
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "start": 221.481,
+      "end": 222.85,
+      "text": "That's the Millikan experiment.",
+      "words": [
+        {
+          "word": "That's",
+          "start": 221.481,
+          "end": 221.641
+        },
+        {
+          "word": "the",
+          "start": 221.641,
+          "end": 221.801
+        },
+        {
+          "word": "Millikan",
+          "start": 221.801,
+          "end": 221.96099999999998
+        },
+        {
+          "word": "experiment.",
+          "start": 221.96099999999998,
+          "end": 222.641
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "start": 226.45,
+      "end": 230.92,
+      "text": "One of the reasons I love it is because Millikan and Mulliken",
+      "words": [
+        {
+          "word": "One",
+          "start": 226.45,
+          "end": 226.73
+        },
+        {
+          "word": "of",
+          "start": 226.73,
+          "end": 226.86999999999998
+        },
+        {
+          "word": "the",
+          "start": 226.86999999999998,
+          "end": 226.95
+        },
+        {
+          "word": "reasons",
+          "start": 226.95,
+          "end": 227.14999999999998
+        },
+        {
+          "word": "I",
+          "start": 227.14999999999998,
+          "end": 227.41
+        },
+        {
+          "word": "love",
+          "start": 227.41,
+          "end": 227.57
+        },
+        {
+          "word": "it",
+          "start": 227.57,
+          "end": 227.86999999999998
+        },
+        {
+          "word": "is",
+          "start": 227.86999999999998,
+          "end": 228.08999999999997
+        },
+        {
+          "word": "because",
+          "start": 228.08999999999997,
+          "end": 228.60999999999999
+        },
+        {
+          "word": "Millikan",
+          "start": 228.60999999999999,
+          "end": 229.92999999999998
+        },
+        {
+          "word": "and",
+          "start": 229.92999999999998,
+          "end": 230.47
+        },
+        {
+          "word": "Mulliken",
+          "start": 230.47,
+          "end": 230.92
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "start": 230.92,
+      "end": 233.5,
+      "text": "are two different people.",
+      "words": [
+        {
+          "word": "are",
+          "start": 230.92,
+          "end": 231.11999999999998
+        },
+        {
+          "word": "two",
+          "start": 231.11999999999998,
+          "end": 231.28
+        },
+        {
+          "word": "different",
+          "start": 231.28,
+          "end": 231.54
+        },
+        {
+          "word": "people.",
+          "start": 231.54,
+          "end": 232.26
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "start": 233.5,
+      "end": 236.919,
+      "text": "So I find that it's really easy to come up with one of them.",
+      "words": [
+        {
+          "word": "So",
+          "start": 233.5,
+          "end": 233.78
+        },
+        {
+          "word": "I",
+          "start": 233.78,
+          "end": 233.98
+        },
+        {
+          "word": "find",
+          "start": 233.98,
+          "end": 234.38
+        },
+        {
+          "word": "that",
+          "start": 234.38,
+          "end": 234.64
+        },
+        {
+          "word": "it's",
+          "start": 234.64,
+          "end": 234.8
+        },
+        {
+          "word": "really",
+          "start": 234.8,
+          "end": 235.02
+        },
+        {
+          "word": "easy",
+          "start": 235.02,
+          "end": 235.3
+        },
+        {
+          "word": "to",
+          "start": 235.3,
+          "end": 235.5
+        },
+        {
+          "word": "come",
+          "start": 235.5,
+          "end": 235.6
+        },
+        {
+          "word": "up",
+          "start": 235.6,
+          "end": 235.82
+        },
+        {
+          "word": "with",
+          "start": 235.82,
+          "end": 236.4
+        },
+        {
+          "word": "one",
+          "start": 236.4,
+          "end": 236.64
+        },
+        {
+          "word": "of",
+          "start": 236.64,
+          "end": 236.8
+        },
+        {
+          "word": "them.",
+          "start": 236.8,
+          "end": 236.88
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "start": 236.919,
+      "end": 241.21,
+      "text": "And I remember Mulliken is a spectroscopist",
+      "words": [
+        {
+          "word": "And",
+          "start": 236.919,
+          "end": 237.09900000000002
+        },
+        {
+          "word": "I",
+          "start": 237.09900000000002,
+          "end": 237.239
+        },
+        {
+          "word": "remember",
+          "start": 237.239,
+          "end": 237.81900000000002
+        },
+        {
+          "word": "Mulliken",
+          "start": 237.81900000000002,
+          "end": 239.579
+        },
+        {
+          "word": "is",
+          "start": 239.579,
+          "end": 240.399
+        },
+        {
+          "word": "a",
+          "start": 240.399,
+          "end": 240.619
+        },
+        {
+          "word": "spectroscopist",
+          "start": 240.619,
+          "end": 241.21
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "start": 241.21,
+      "end": 246.76,
+      "text": "and Millikan was a different kind of physicist.",
+      "words": [
+        {
+          "word": "and",
+          "start": 241.21,
+          "end": 242.05666666666667
+        },
+        {
+          "word": "Millikan",
+          "start": 242.05666666666667,
+          "end": 242.90333333333334
+        },
+        {
+          "word": "was",
+          "start": 242.90333333333334,
+          "end": 243.75
+        },
+        {
+          "word": "a",
+          "start": 243.75,
+          "end": 244.43
+        },
+        {
+          "word": "different",
+          "start": 244.43,
+          "end": 244.75
+        },
+        {
+          "word": "kind",
+          "start": 244.75,
+          "end": 245.15
+        },
+        {
+          "word": "of",
+          "start": 245.15,
+          "end": 245.31
+        },
+        {
+          "word": "physicist.",
+          "start": 245.31,
+          "end": 245.73000000000002
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "start": 246.76,
+      "end": 249.76,
+      "text": "But they're both famous and they both have connections",
+      "words": [
+        {
+          "word": "But",
+          "start": 246.76,
+          "end": 247.04
+        },
+        {
+          "word": "they're",
+          "start": 247.04,
+          "end": 247.67999999999998
+        },
+        {
+          "word": "both",
+          "start": 247.67999999999998,
+          "end": 247.67999999999998
+        },
+        {
+          "word": "famous",
+          "start": 247.67999999999998,
+          "end": 248.39999999999998
+        },
+        {
+          "word": "and",
+          "start": 248.39999999999998,
+          "end": 248.72
+        },
+        {
+          "word": "they",
+          "start": 248.72,
+          "end": 248.85999999999999
+        },
+        {
+          "word": "both",
+          "start": 248.85999999999999,
+          "end": 248.98
+        },
+        {
+          "word": "have",
+          "start": 248.98,
+          "end": 249.26
+        },
+        {
+          "word": "connections",
+          "start": 249.26,
+          "end": 249.6
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "start": 249.76,
+      "end": 252.67,
+      "text": "to important universities--",
+      "words": [
+        {
+          "word": "to",
+          "start": 249.76,
+          "end": 250.2
+        },
+        {
+          "word": "important",
+          "start": 250.2,
+          "end": 251.54
+        },
+        {
+          "word": "universities--",
+          "start": 251.54,
+          "end": 252.42
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "start": 252.67,
+      "end": 257.54,
+      "text": "University of Chicago for Millikan and Mulliken, MIT",
+      "words": [
+        {
+          "word": "University",
+          "start": 252.67,
+          "end": 253.04999999999998
+        },
+        {
+          "word": "of",
+          "start": 253.04999999999998,
+          "end": 253.23
+        },
+        {
+          "word": "Chicago",
+          "start": 253.23,
+          "end": 253.54999999999998
+        },
+        {
+          "word": "for",
+          "start": 253.54999999999998,
+          "end": 254.35
+        },
+        {
+          "word": "Millikan",
+          "start": 254.35,
+          "end": 254.79
+        },
+        {
+          "word": "and",
+          "start": 254.79,
+          "end": 255.75
+        },
+        {
+          "word": "Mulliken,",
+          "start": 255.75,
+          "end": 256.83
+        },
+        {
+          "word": "MIT",
+          "start": 256.83,
+          "end": 257.33
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "start": 257.54,
+      "end": 258.04,
+      "text": "and Caltech.",
+      "words": [
+        {
+          "word": "and",
+          "start": 257.54,
+          "end": 257.88
+        },
+        {
+          "word": "Caltech.",
+          "start": 257.88,
+          "end": 258.04
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "start": 262.19,
+      "end": 267.23,
+      "text": "So we're going to be looking at something",
+      "words": [
+        {
+          "word": "So",
+          "start": 262.19,
+          "end": 263.01
+        },
+        {
+          "word": "we're",
+          "start": 263.01,
+          "end": 264.45
+        },
+        {
+          "word": "going",
+          "start": 264.45,
+          "end": 264.75
+        },
+        {
+          "word": "to",
+          "start": 264.75,
+          "end": 265.01
+        },
+        {
+          "word": "be",
+          "start": 265.01,
+          "end": 265.59
+        },
+        {
+          "word": "looking",
+          "start": 265.59,
+          "end": 266.63
+        },
+        {
+          "word": "at",
+          "start": 266.63,
+          "end": 266.91
+        },
+        {
+          "word": "something",
+          "start": 266.91,
+          "end": 267.21
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "start": 267.23,
+      "end": 270.67,
+      "text": "that we know is a particle.",
+      "words": [
+        {
+          "word": "that",
+          "start": 267.23,
+          "end": 267.41
+        },
+        {
+          "word": "we",
+          "start": 267.41,
+          "end": 267.67
+        },
+        {
+          "word": "know",
+          "start": 267.67,
+          "end": 267.89000000000004
+        },
+        {
+          "word": "is",
+          "start": 267.89000000000004,
+          "end": 268.13
+        },
+        {
+          "word": "a",
+          "start": 268.13,
+          "end": 268.27000000000004
+        },
+        {
+          "word": "particle.",
+          "start": 268.27000000000004,
+          "end": 268.59000000000003
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "start": 270.67,
+      "end": 273.16,
+      "text": "And we're going to show that it has wave characteristics.",
+      "words": [
+        {
+          "word": "And",
+          "start": 270.67,
+          "end": 270.97
+        },
+        {
+          "word": "we're",
+          "start": 270.97,
+          "end": 271.19
+        },
+        {
+          "word": "going",
+          "start": 271.19,
+          "end": 271.31
+        },
+        {
+          "word": "to",
+          "start": 271.31,
+          "end": 271.39000000000004
+        },
+        {
+          "word": "show",
+          "start": 271.39000000000004,
+          "end": 271.51
+        },
+        {
+          "word": "that",
+          "start": 271.51,
+          "end": 271.67
+        },
+        {
+          "word": "it",
+          "start": 271.67,
+          "end": 271.81
+        },
+        {
+          "word": "has",
+          "start": 271.81,
+          "end": 271.95
+        },
+        {
+          "word": "wave",
+          "start": 271.95,
+          "end": 272.21000000000004
+        },
+        {
+          "word": "characteristics.",
+          "start": 272.21000000000004,
+          "end": 272.75
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "start": 279.77,
+      "end": 289.08,
+      "text": "We want to be able to show that the electron has a wavelength",
+      "words": [
+        {
+          "word": "We",
+          "start": 279.77,
+          "end": 280.03
+        },
+        {
+          "word": "want",
+          "start": 280.03,
+          "end": 280.37
+        },
+        {
+          "word": "to",
+          "start": 280.37,
+          "end": 280.75
+        },
+        {
+          "word": "be",
+          "start": 280.75,
+          "end": 280.77
+        },
+        {
+          "word": "able",
+          "start": 280.77,
+          "end": 281.01
+        },
+        {
+          "word": "to",
+          "start": 281.01,
+          "end": 281.13
+        },
+        {
+          "word": "show",
+          "start": 281.13,
+          "end": 281.81
+        },
+        {
+          "word": "that",
+          "start": 281.81,
+          "end": 282.51
+        },
+        {
+          "word": "the",
+          "start": 282.51,
+          "end": 282.69
+        },
+        {
+          "word": "electron",
+          "start": 282.69,
+          "end": 283.25
+        },
+        {
+          "word": "has",
+          "start": 283.25,
+          "end": 284.46999999999997
+        },
+        {
+          "word": "a",
+          "start": 284.46999999999997,
+          "end": 284.63
+        },
+        {
+          "word": "wavelength",
+          "start": 284.63,
+          "end": 285.28999999999996
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "start": 289.08,
+      "end": 292.05,
+      "text": "and it follows the same equation that we",
+      "words": [
+        {
+          "word": "and",
+          "start": 289.08,
+          "end": 289.44
+        },
+        {
+          "word": "it",
+          "start": 289.44,
+          "end": 289.53999999999996
+        },
+        {
+          "word": "follows",
+          "start": 289.53999999999996,
+          "end": 289.78
+        },
+        {
+          "word": "the",
+          "start": 289.78,
+          "end": 290.2
+        },
+        {
+          "word": "same",
+          "start": 290.2,
+          "end": 290.44
+        },
+        {
+          "word": "equation",
+          "start": 290.44,
+          "end": 291.18
+        },
+        {
+          "word": "that",
+          "start": 291.18,
+          "end": 291.91999999999996
+        },
+        {
+          "word": "we",
+          "start": 291.91999999999996,
+          "end": 292.02
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "start": 292.05,
+      "end": 299.38,
+      "text": "use to describe the behavior of electromagnetic radiation.",
+      "words": [
+        {
+          "word": "use",
+          "start": 292.05,
+          "end": 292.51
+        },
+        {
+          "word": "to",
+          "start": 292.51,
+          "end": 293.19
+        },
+        {
+          "word": "describe",
+          "start": 293.19,
+          "end": 293.71000000000004
+        },
+        {
+          "word": "the",
+          "start": 293.71000000000004,
+          "end": 294.45
+        },
+        {
+          "word": "behavior",
+          "start": 294.45,
+          "end": 294.83
+        },
+        {
+          "word": "of",
+          "start": 294.83,
+          "end": 296.57
+        },
+        {
+          "word": "electromagnetic",
+          "start": 296.57,
+          "end": 297.13
+        },
+        {
+          "word": "radiation.",
+          "start": 297.13,
+          "end": 297.83
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "start": 299.38,
+      "end": 306.0,
+      "text": "So how would we control the momentum of an electron?",
+      "words": [
+        {
+          "word": "So",
+          "start": 299.38,
+          "end": 300.28
+        },
+        {
+          "word": "how",
+          "start": 300.28,
+          "end": 301.98
+        },
+        {
+          "word": "would",
+          "start": 301.98,
+          "end": 302.14
+        },
+        {
+          "word": "we",
+          "start": 302.14,
+          "end": 302.38
+        },
+        {
+          "word": "control",
+          "start": 302.38,
+          "end": 302.92
+        },
+        {
+          "word": "the",
+          "start": 302.92,
+          "end": 304.21999999999997
+        },
+        {
+          "word": "momentum",
+          "start": 304.21999999999997,
+          "end": 304.76
+        },
+        {
+          "word": "of",
+          "start": 304.76,
+          "end": 305.68
+        },
+        {
+          "word": "an",
+          "start": 305.68,
+          "end": 305.8
+        },
+        {
+          "word": "electron?",
+          "start": 305.8,
+          "end": 306.0
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "start": 311.491,
+      "end": 311.99,
+      "text": "Yes.",
+      "words": [
+        {
+          "word": "Yes.",
+          "start": 311.491,
+          "end": 311.83099999999996
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "start": 311.99,
+      "end": 313.948,
+      "text": "AUDIENCE: So you can control the kinetic energy",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 311.99,
+          "end": 311.99
+        },
+        {
+          "word": "So",
+          "start": 311.99,
+          "end": 312.49
+        },
+        {
+          "word": "you",
+          "start": 312.49,
+          "end": 312.59000000000003
+        },
+        {
+          "word": "can",
+          "start": 312.59000000000003,
+          "end": 312.77
+        },
+        {
+          "word": "control",
+          "start": 312.77,
+          "end": 313.07
+        },
+        {
+          "word": "the",
+          "start": 313.07,
+          "end": 313.27
+        },
+        {
+          "word": "kinetic",
+          "start": 313.27,
+          "end": 313.53000000000003
+        },
+        {
+          "word": "energy",
+          "start": 313.53000000000003,
+          "end": 313.91
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "start": 313.948,
+      "end": 317.56,
+      "text": "that it has by putting it through a certain potential.",
+      "words": [
+        {
+          "word": "that",
+          "start": 313.948,
+          "end": 314.14799999999997
+        },
+        {
+          "word": "it",
+          "start": 314.14799999999997,
+          "end": 314.34799999999996
+        },
+        {
+          "word": "has",
+          "start": 314.34799999999996,
+          "end": 314.688
+        },
+        {
+          "word": "by",
+          "start": 314.688,
+          "end": 314.948
+        },
+        {
+          "word": "putting",
+          "start": 314.948,
+          "end": 315.168
+        },
+        {
+          "word": "it",
+          "start": 315.168,
+          "end": 315.52799999999996
+        },
+        {
+          "word": "through",
+          "start": 315.52799999999996,
+          "end": 315.748
+        },
+        {
+          "word": "a",
+          "start": 315.748,
+          "end": 315.828
+        },
+        {
+          "word": "certain",
+          "start": 315.828,
+          "end": 316.188
+        },
+        {
+          "word": "potential.",
+          "start": 316.188,
+          "end": 317.08799999999997
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "start": 317.56,
+      "end": 321.26,
+      "text": "ROBERT FIELD: OK, so, we know we can easily measure",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 317.56,
+          "end": 317.88666666666666
+        },
+        {
+          "word": "FIELD:",
+          "start": 317.88666666666666,
+          "end": 318.21333333333337
+        },
+        {
+          "word": "OK,",
+          "start": 318.21333333333337,
+          "end": 318.54
+        },
+        {
+          "word": "so,",
+          "start": 318.54,
+          "end": 318.6
+        },
+        {
+          "word": "we",
+          "start": 318.6,
+          "end": 318.84
+        },
+        {
+          "word": "know",
+          "start": 318.84,
+          "end": 319.08
+        },
+        {
+          "word": "we",
+          "start": 319.08,
+          "end": 319.42
+        },
+        {
+          "word": "can",
+          "start": 319.42,
+          "end": 319.9
+        },
+        {
+          "word": "easily",
+          "start": 319.9,
+          "end": 320.44
+        },
+        {
+          "word": "measure",
+          "start": 320.44,
+          "end": 320.9
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "start": 321.26,
+      "end": 322.76,
+      "text": "the momentum of a particle.",
+      "words": [
+        {
+          "word": "the",
+          "start": 321.26,
+          "end": 321.67999999999995
+        },
+        {
+          "word": "momentum",
+          "start": 321.67999999999995,
+          "end": 322.09999999999997
+        },
+        {
+          "word": "of",
+          "start": 322.09999999999997,
+          "end": 322.18
+        },
+        {
+          "word": "a",
+          "start": 322.18,
+          "end": 322.26
+        },
+        {
+          "word": "particle.",
+          "start": 322.26,
+          "end": 322.59999999999997
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "start": 322.76,
+      "end": 326.51,
+      "text": "That's not a big challenge.",
+      "words": [
+        {
+          "word": "That's",
+          "start": 322.76,
+          "end": 323.15999999999997
+        },
+        {
+          "word": "not",
+          "start": 323.15999999999997,
+          "end": 323.32
+        },
+        {
+          "word": "a",
+          "start": 323.32,
+          "end": 323.42
+        },
+        {
+          "word": "big",
+          "start": 323.42,
+          "end": 323.59999999999997
+        },
+        {
+          "word": "challenge.",
+          "start": 323.59999999999997,
+          "end": 324.02
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "start": 326.51,
+      "end": 330.805,
+      "text": "But then how would we measure its wavelength?",
+      "words": [
+        {
+          "word": "But",
+          "start": 326.51,
+          "end": 327.15
+        },
+        {
+          "word": "then",
+          "start": 327.15,
+          "end": 327.75
+        },
+        {
+          "word": "how",
+          "start": 327.75,
+          "end": 327.93
+        },
+        {
+          "word": "would",
+          "start": 327.93,
+          "end": 328.19
+        },
+        {
+          "word": "we",
+          "start": 328.19,
+          "end": 329.01
+        },
+        {
+          "word": "measure",
+          "start": 329.01,
+          "end": 329.34999999999997
+        },
+        {
+          "word": "its",
+          "start": 329.34999999999997,
+          "end": 329.83
+        },
+        {
+          "word": "wavelength?",
+          "start": 329.83,
+          "end": 330.11
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "start": 333.561,
+      "end": 334.06,
+      "text": "Yes.",
+      "words": [
+        {
+          "word": "Yes.",
+          "start": 333.561,
+          "end": 333.90099999999995
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "start": 334.06,
+      "end": 335.93,
+      "text": "AUDIENCE: Some type of diffraction?",
+      "words": [
+        {
+          "word": "AUDIENCE:",
+          "start": 334.06,
+          "end": 334.434
+        },
+        {
+          "word": "Some",
+          "start": 334.434,
+          "end": 334.808
+        },
+        {
+          "word": "type",
+          "start": 334.808,
+          "end": 335.182
+        },
+        {
+          "word": "of",
+          "start": 335.182,
+          "end": 335.556
+        },
+        {
+          "word": "diffraction?",
+          "start": 335.556,
+          "end": 335.93
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "start": 335.93,
+      "end": 337.55,
+      "text": "ROBERT FIELD: Yes.",
+      "words": [
+        {
+          "word": "ROBERT",
+          "start": 335.93,
+          "end": 335.93
+        },
+        {
+          "word": "FIELD:",
+          "start": 335.93,
+          "end": 335.93
+        },
+        {
+          "word": "Yes.",
+          "start": 335.93,
+          "end": 336.37
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "start": 337.55,
+      "end": 343.75,
+      "text": "We basically use some material, which acts a ruler.",
+      "words": [
+        {
+          "word": "We",
+          "start": 337.69,
+          "end": 337.79
+        },
+        {
+          "word": "basically",
+          "start": 337.79,
+          "end": 338.23
+        },
+        {
+          "word": "use",
+          "start": 338.23,
+          "end": 338.87
+        },
+        {
+          "word": "some",
+          "start": 338.87,
+          "end": 339.97
+        },
+        {
+          "word": "material,",
+          "start": 339.97,
+          "end": 341.51
+        },
+        {
+          "word": "which",
+          "start": 341.87,
+          "end": 341.97
+        },
+        {
+          "word": "acts",
+          "start": 341.97,
+          "end": 342.21000000000004
+        },
+        {
+          "word": "a",
+          "start": 342.39,
+          "end": 342.47
+        },
+        {
+          "word": "ruler.",
+          "start": 342.47,
+          "end": 342.81
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "start": 343.75,
+      "end": 349.94,
+      "text": "We have a thin metal foil and the distances between atoms",
+      "words": [
+        {
+          "word": "We",
+          "start": 343.75,
+          "end": 344.05
+        },
+        {
+          "word": "have",
+          "start": 344.05,
+          "end": 344.83
+        },
+        {
+          "word": "a",
+          "start": 344.83,
+          "end": 345.51
+        },
+        {
+          "word": "thin",
+          "start": 345.51,
+          "end": 345.69
+        },
+        {
+          "word": "metal",
+          "start": 345.69,
+          "end": 346.03
+        },
+        {
+          "word": "foil",
+          "start": 346.03,
+          "end": 346.47
+        },
+        {
+          "word": "and",
+          "start": 346.47,
+          "end": 347.39
+        },
+        {
+          "word": "the",
+          "start": 347.39,
+          "end": 347.87
+        },
+        {
+          "word": "distances",
+          "start": 347.87,
+          "end": 348.27
+        },
+        {
+          "word": "between",
+          "start": 348.27,
+          "end": 349.07
+        },
+        {
+          "word": "atoms",
+          "start": 349.07,
+          "end": 349.81
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "start": 349.94,
+      "end": 354.47,
+      "text": "in the foil are constant.",
+      "words": [
+        {
+          "word": "in",
+          "start": 349.94,
+          "end": 350.2
+        },
+        {
+          "word": "the",
+          "start": 350.2,
+          "end": 350.3
+        },
+        {
+          "word": "foil",
+          "start": 350.3,
+          "end": 350.68
+        },
+        {
+          "word": "are",
+          "start": 350.68,
+          "end": 351.68
+        },
+        {
+          "word": "constant.",
+          "start": 351.68,
+          "end": 352.64
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "start": 354.47,
+      "end": 358.22,
+      "text": "So that's the ruler against which we measure",
+      "words": [
+        {
+          "word": "So",
+          "start": 354.75,
+          "end": 354.97
+        },
+        {
+          "word": "that's",
+          "start": 354.97,
+          "end": 355.43
+        },
+        {
+          "word": "the",
+          "start": 355.43,
+          "end": 355.61
+        },
+        {
+          "word": "ruler",
+          "start": 355.61,
+          "end": 355.93
+        },
+        {
+          "word": "against",
+          "start": 355.93,
+          "end": 356.39000000000004
+        },
+        {
+          "word": "which",
+          "start": 356.39000000000004,
+          "end": 357.13000000000005
+        },
+        {
+          "word": "we",
+          "start": 357.13000000000005,
+          "end": 357.49
+        },
+        {
+          "word": "measure",
+          "start": 357.49,
+          "end": 358.15000000000003
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "start": 358.22,
+      "end": 360.18,
+      "text": "the wavelength of light.",
+      "words": [
+        {
+          "word": "the",
+          "start": 358.22,
+          "end": 358.38000000000005
+        },
+        {
+          "word": "wavelength",
+          "start": 358.38000000000005,
+          "end": 358.82000000000005
+        },
+        {
+          "word": "of",
+          "start": 358.82000000000005,
+          "end": 359.16
+        },
+        {
+          "word": "light.",
+          "start": 359.16,
+          "end": 359.48
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "start": 360.18,
+      "end": 367.28,
+      "text": "And we'll talk about the Davisson-Germer experiment,",
+      "words": [
+        {
+          "word": "And",
+          "start": 360.18,
+          "end": 360.44
+        },
+        {
+          "word": "we'll",
+          "start": 360.6,
+          "end": 360.82
+        },
+        {
+          "word": "talk",
+          "start": 360.82,
+          "end": 361.08
+        },
+        {
+          "word": "about",
+          "start": 361.08,
+          "end": 361.68
+        },
+        {
+          "word": "the",
+          "start": 361.68,
+          "end": 361.88
+        },
+        {
+          "word": "Davisson-Germer",
+          "start": 361.88,
+          "end": 365.46
+        },
+        {
+          "word": "experiment,",
+          "start": 365.46,
+          "end": 366.02
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "start": 367.28,
+      "end": 371.55,
+      "text": "where we measure the wavelength.",
+      "words": [
+        {
+          "word": "where",
+          "start": 367.28,
+          "end": 367.78
+        },
+        {
+          "word": "we",
+          "start": 367.78,
+          "end": 368.29999999999995
+        },
+        {
+          "word": "measure",
+          "start": 368.29999999999995,
+          "end": 369.55999999999995
+        },
+        {
+          "word": "the",
+          "start": 369.55999999999995,
+          "end": 370.35999999999996
+        },
+        {
+          "word": "wavelength.",
+          "start": 370.35999999999996,
+          "end": 370.73999999999995
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "start": 371.55,
+      "end": 375.71,
+      "text": "And then we'll talk about the Geiger-Marsden experiment,",
+      "words": [
+        {
+          "word": "And",
+          "start": 371.55,
+          "end": 371.71000000000004
+        },
+        {
+          "word": "then",
+          "start": 371.71000000000004,
+          "end": 371.85
+        },
+        {
+          "word": "we'll",
+          "start": 371.85,
+          "end": 372.05
+        },
+        {
+          "word": "talk",
+          "start": 372.05,
+          "end": 372.37
+        },
+        {
+          "word": "about",
+          "start": 372.37,
+          "end": 373.33
+        },
+        {
+          "word": "the",
+          "start": 373.33,
+          "end": 373.45
+        },
+        {
+          "word": "Geiger-Marsden",
+          "start": 373.45,
+          "end": 375.17
+        },
+        {
+          "word": "experiment,",
+          "start": 375.17,
+          "end": 375.53000000000003
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "start": 375.71,
+      "end": 380.72,
+      "text": "where we say, well, atoms have electrons in them.",
+      "words": [
+        {
+          "word": "where",
+          "start": 375.71,
+          "end": 376.01
+        },
+        {
+          "word": "we",
+          "start": 376.01,
+          "end": 376.27
+        },
+        {
+          "word": "say,",
+          "start": 376.27,
+          "end": 376.48999999999995
+        },
+        {
+          "word": "well,",
+          "start": 376.48999999999995,
+          "end": 376.90999999999997
+        },
+        {
+          "word": "atoms",
+          "start": 377.51,
+          "end": 378.03
+        },
+        {
+          "word": "have",
+          "start": 378.03,
+          "end": 379.25
+        },
+        {
+          "word": "electrons",
+          "start": 379.25,
+          "end": 379.63
+        },
+        {
+          "word": "in",
+          "start": 379.63,
+          "end": 380.07
+        },
+        {
+          "word": "them.",
+          "start": 380.07,
+          "end": 380.45
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "start": 380.72,
+      "end": 386.23,
+      "text": "And what is the structure of an atom?",
+      "words": [
+        {
+          "word": "And",
+          "start": 380.72,
+          "end": 381.36
+        },
+        {
+          "word": "what",
+          "start": 381.36,
+          "end": 382.8
+        },
+        {
+          "word": "is",
+          "start": 382.8,
+          "end": 383.14000000000004
+        },
+        {
+          "word": "the",
+          "start": 383.14000000000004,
+          "end": 383.42
+        },
+        {
+          "word": "structure",
+          "start": 383.42,
+          "end": 383.8
+        },
+        {
+          "word": "of",
+          "start": 383.8,
+          "end": 384.16
+        },
+        {
+          "word": "an",
+          "start": 384.16,
+          "end": 384.32000000000005
+        },
+        {
+          "word": "atom?",
+          "start": 384.32000000000005,
+          "end": 384.6
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "start": 386.23,
+      "end": 388.6,
+      "text": "Remember, we can't look inside.",
+      "words": [
+        {
+          "word": "Remember,",
+          "start": 386.23,
+          "end": 386.51
+        },
+        {
+          "word": "we",
+          "start": 386.51,
+          "end": 386.71000000000004
+        },
+        {
+          "word": "can't",
+          "start": 386.71000000000004,
+          "end": 386.95000000000005
+        },
+        {
+          "word": "look",
+          "start": 386.95000000000005,
+          "end": 387.19
+        },
+        {
+          "word": "inside.",
+          "start": 387.19,
+          "end": 387.51
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "start": 388.6,
+      "end": 391.14,
+      "text": "So we have to use some kind of an experiment",
+      "words": [
+        {
+          "word": "So",
+          "start": 388.6,
+          "end": 388.78000000000003
+        },
+        {
+          "word": "we",
+          "start": 388.78000000000003,
+          "end": 388.82000000000005
+        },
+        {
+          "word": "have",
+          "start": 388.82000000000005,
+          "end": 389.02000000000004
+        },
+        {
+          "word": "to",
+          "start": 389.02000000000004,
+          "end": 389.12
+        },
+        {
+          "word": "use",
+          "start": 389.12,
+          "end": 389.40000000000003
+        },
+        {
+          "word": "some",
+          "start": 389.40000000000003,
+          "end": 389.76000000000005
+        },
+        {
+          "word": "kind",
+          "start": 389.76000000000005,
+          "end": 389.86
+        },
+        {
+          "word": "of",
+          "start": 389.86,
+          "end": 389.96000000000004
+        },
+        {
+          "word": "an",
+          "start": 389.96000000000004,
+          "end": 390.18
+        },
+        {
+          "word": "experiment",
+          "start": 390.18,
+          "end": 390.54
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "start": 391.14,
+      "end": 394.2,
+      "text": "to be able to look inside the atom.",
+      "words": [
+        {
+          "word": "to",
+          "start": 391.14,
+          "end": 391.44
+        },
+        {
+          "word": "be",
+          "start": 391.44,
+          "end": 391.52
+        },
+        {
+          "word": "able",
+          "start": 391.52,
+          "end": 391.74
+        },
+        {
+          "word": "to",
+          "start": 391.74,
+          "end": 391.9
+        },
+        {
+          "word": "look",
+          "start": 391.9,
+          "end": 392.2
+        },
+        {
+          "word": "inside",
+          "start": 392.2,
+          "end": 392.64
+        },
+        {
+          "word": "the",
+          "start": 392.64,
+          "end": 392.96
+        },
+        {
+          "word": "atom.",
+          "start": 392.96,
+          "end": 393.21999999999997
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "start": 394.2,
+      "end": 402.54,
+      "text": "Now, physicists have one trick they often use.",
+      "words": [
+        {
+          "word": "Now,",
+          "start": 394.2,
+          "end": 394.97999999999996
+        },
+        {
+          "word": "physicists",
+          "start": 395.76,
+          "end": 396.21999999999997
+        },
+        {
+          "word": "have",
+          "start": 398.4,
+          "end": 398.82
+        },
+        {
+          "word": "one",
+          "start": 398.82,
+          "end": 399.44
+        },
+        {
+          "word": "trick",
+          "start": 399.44,
+          "end": 400.18
+        },
+        {
+          "word": "they",
+          "start": 400.18,
+          "end": 400.58
+        },
+        {
+          "word": "often",
+          "start": 400.58,
+          "end": 400.88
+        },
+        {
+          "word": "use.",
+          "start": 400.88,
+          "end": 401.46
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "start": 402.54,
+      "end": 405.63,
+      "text": "To find out the internal structure of something,",
+      "words": [
+        {
+          "word": "To",
+          "start": 402.54,
+          "end": 402.8
+        },
+        {
+          "word": "find",
+          "start": 402.8,
+          "end": 403.06
+        },
+        {
+          "word": "out",
+          "start": 403.06,
+          "end": 403.36
+        },
+        {
+          "word": "the",
+          "start": 403.36,
+          "end": 403.5
+        },
+        {
+          "word": "internal",
+          "start": 403.5,
+          "end": 403.82
+        },
+        {
+          "word": "structure",
+          "start": 403.82,
+          "end": 404.38
+        },
+        {
+          "word": "of",
+          "start": 404.38,
+          "end": 404.8
+        },
+        {
+          "word": "something,",
+          "start": 404.8,
+          "end": 405.18
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "start": 405.63,
+      "end": 408.54,
+      "text": "they shoot a particle, or a wave,",
+      "words": [
+        {
+          "word": "they",
+          "start": 405.63,
+          "end": 405.93
+        },
+        {
+          "word": "shoot",
+          "start": 405.93,
+          "end": 406.15
+        },
+        {
+          "word": "a",
+          "start": 406.15,
+          "end": 406.45
+        },
+        {
+          "word": "particle,",
+          "start": 406.45,
+          "end": 406.89
+        },
+        {
+          "word": "or",
+          "start": 406.89,
+          "end": 407.99
+        },
+        {
+          "word": "a",
+          "start": 407.99,
+          "end": 408.11
+        },
+        {
+          "word": "wave,",
+          "start": 408.11,
+          "end": 408.37
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "start": 408.54,
+      "end": 413.73,
+      "text": "at it that has a wavelength comparable to the distances",
+      "words": [
+        {
+          "word": "at",
+          "start": 408.54,
+          "end": 408.75
+        },
+        {
+          "word": "it",
+          "start": 408.75,
+          "end": 408.96000000000004
+        },
+        {
+          "word": "that",
+          "start": 408.96000000000004,
+          "end": 409.5
+        },
+        {
+          "word": "has",
+          "start": 409.5,
+          "end": 410.02000000000004
+        },
+        {
+          "word": "a",
+          "start": 410.02000000000004,
+          "end": 410.34000000000003
+        },
+        {
+          "word": "wavelength",
+          "start": 410.34000000000003,
+          "end": 410.98
+        },
+        {
+          "word": "comparable",
+          "start": 410.98,
+          "end": 412.38
+        },
+        {
+          "word": "to",
+          "start": 412.38,
+          "end": 412.90000000000003
+        },
+        {
+          "word": "the",
+          "start": 412.90000000000003,
+          "end": 413.08000000000004
+        },
+        {
+          "word": "distances",
+          "start": 413.08000000000004,
+          "end": 413.52000000000004
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "start": 413.73,
+      "end": 415.98,
+      "text": "you're hoping to measure.",
+      "words": [
+        {
+          "word": "you're",
+          "start": 413.73,
+          "end": 413.97
+        },
+        {
+          "word": "hoping",
+          "start": 413.97,
+          "end": 414.23
+        },
+        {
+          "word": "to",
+          "start": 414.23,
+          "end": 414.49
+        },
+        {
+          "word": "measure.",
+          "start": 414.49,
+          "end": 414.77000000000004
+        }
+      ]
+    },
+    {
+      "id": 112,
+      "start": 415.98,
+      "end": 420.0,
+      "text": "So if you have a very high energy probe particle,",
+      "words": [
+        {
+          "word": "So",
+          "start": 415.98,
+          "end": 416.56
+        },
+        {
+          "word": "if",
+          "start": 416.56,
+          "end": 416.98
+        },
+        {
+          "word": "you",
+          "start": 416.98,
+          "end": 417.46000000000004
+        },
+        {
+          "word": "have",
+          "start": 417.46000000000004,
+          "end": 417.82
+        },
+        {
+          "word": "a",
+          "start": 417.82,
+          "end": 418.22
+        },
+        {
+          "word": "very",
+          "start": 418.22,
+          "end": 418.64000000000004
+        },
+        {
+          "word": "high",
+          "start": 418.64000000000004,
+          "end": 419.42
+        },
+        {
+          "word": "energy",
+          "start": 419.42,
+          "end": 419.98
+        },
+        {
+          "word": "probe",
+          "start": 419.98,
+          "end": 419.99
+        },
+        {
+          "word": "particle,",
+          "start": 419.99,
+          "end": 420.0
+        }
+      ]
+    }
+  ]
+}

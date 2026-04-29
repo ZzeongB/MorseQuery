@@ -1,0 +1,247 @@
+[
+  {
+    "word": "annelids",
+    "time": 14.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "annelida",
+    "time": 78.48,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "arthropoda",
+    "time": 79.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "segmentation",
+    "time": 84.34,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "chordata",
+    "time": 102.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "synapomorphies",
+    "time": 167.52,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "nematodes",
+    "time": 175.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "ketae",
+    "time": 179.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "plesiomorphies",
+    "time": 198.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "platyhelminthes",
+    "time": 202.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "oligochetes",
+    "time": 224.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Herudinia",
+    "time": 251.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "polychaetes",
+    "time": 275.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "oscordates",
+    "time": 355.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "exoskeleton",
+    "time": 363.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "chitin",
+    "time": 366.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "appendages",
+    "time": 381.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "antennae",
+    "time": 390.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "cheliceroformes",
+    "time": 404.6,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "arachnids",
+    "time": 442.08,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cephalothorax",
+    "time": 447.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "myriapoda",
+    "time": 461.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "centipedes",
+    "time": 465.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "mandibles",
+    "time": 475.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "hexapoda",
+    "time": 511.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Crustaceans",
+    "time": 560.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "metamorphosis",
+    "time": 647.3,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "nymphs",
+    "time": 650.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "maggots",
+    "time": 670.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "muleworms",
+    "time": 671.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "larva",
+    "time": 676.7,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "pupa",
+    "time": 686.28,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "crustacea",
+    "time": 704.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "mouthparts",
+    "time": 733.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "bioluminescence",
+    "time": 737.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  }
+]

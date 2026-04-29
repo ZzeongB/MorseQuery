@@ -1,0 +1,46 @@
+{
+  "id": "3",
+  "video_id": "3",
+  "audio_start_time": 86.0,
+  "audio_end_time": 386.0,
+  "target_window_seconds": 300.0,
+  "source_transcript_file": "3_01-26_06-26.json",
+  "question_count": 5,
+  "questions": [
+    {
+      "id": 1,
+      "type": "true_false",
+      "statement": "Charles Darwin first identified natural selection during his voyage on the HMS Beagle in the 1830s.",
+      "answer": true,
+      "explanation": "The transcript states that Darwin began to formulate the theory of natural selection during his famous voyage on the HMS Beagle in the 1830s."
+    },
+    {
+      "id": 2,
+      "type": "true_false",
+      "statement": "Darwin observed that finches on different Galapagos Islands had similar beak shapes regardless of food sources.",
+      "answer": false,
+      "explanation": "Darwin noticed that finches had different shaped and sized beaks adapted to the specific food available on each island, showing variation related to environment."
+    },
+    {
+      "id": 3,
+      "type": "true_false",
+      "statement": "One of Darwin's four basic principles of natural selection is that most offspring produced generally exceed available resources, leading to competition.",
+      "answer": true,
+      "explanation": "The transcript explains Darwin's third principle as populations often having far more offspring than resources can support, causing a struggle for existence."
+    },
+    {
+      "id": 4,
+      "type": "true_false",
+      "statement": "Natural selection directly causes evolutionary change in individuals rather than whole populations.",
+      "answer": false,
+      "explanation": "The transcript clearly states that individuals do not evolve; natural selection causes evolutionary change by altering the genetic makeup of populations."
+    },
+    {
+      "id": 5,
+      "type": "true_false",
+      "statement": "Darwin requested a census question about cousin marriage frequency because it related to his interest in inherited traits and their effects on offspring health.",
+      "answer": true,
+      "explanation": "The transcript notes that Darwin wrote to have a question added about cousin marriage frequency and offspring health, as it was a significant concern for him regarding inheritance."
+    }
+  ]
+}
