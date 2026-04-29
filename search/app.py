@@ -385,6 +385,11 @@ def timestamp_check():
     return render_template("timestamp_check.html")
 
 
+@app.route("/debug")
+def debug():
+    return render_template("debug.html")
+
+
 @app.route("/api/files")
 def get_files():
     """Return list of available mp3 files with their video IDs."""

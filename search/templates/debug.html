@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playback Search Debug</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/debug.css') }}">
+</head>
+<body class="debug-page">
+    <h2>Playback Search Debug</h2>
+
+    <div id="study-panel">
+        <h3>User Study Mode</h3>
+        <div class="form-row">
+            <label>Participant:</label>
+            <input type="text" id="study-participant" placeholder="e.g., P01">
+        </div>
+        <div class="form-row">
+            <label>Feature:</label>
+            <select id="study-feature">
+                <option value="">-- Select Feature --</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label>Audio:</label>
+            <select id="study-audio">
+                <option value="">-- Select Audio --</option>
+            </select>
+        </div>
+        <button id="btn-start-study">Start Study</button>
+        <button id="btn-stop-study">Stop Study</button>
+    </div>
+
+    <div id="interruption-overlay">
+        <div id="interruption-content">
+            <div class="task-label">Task <span id="task-number">1</span> / <span id="task-total">7</span></div>
+            <div class="instruction">Find this word:</div>
+            <div class="target-word" id="target-word-display">TARGET</div>
+            <div class="instruction">Press SPACEBAR when you find it</div>
+            <div class="timer"><span id="task-timer">90</span>s</div>
+        </div>
+        <div id="blocked-nav-cue" aria-live="polite" aria-atomic="true">Search limit</div>
+    </div>
+
+    <div id="feedback-overlay">
+        <div id="feedback-content">Good!</div>
+    </div>
+
+    <div id="prep-overlay">
+        <div id="prep-content">
+            <div class="prep-label">Get Ready</div>
+            <div class="prep-count" id="prep-count-display">3</div>
+            <div class="prep-instruction">Playback resumes soon</div>
+        </div>
+    </div>
+
+    <div class="section debug-controls">
+        <div class="control-row">
+            <label for="file-select">Audio</label>
+            <select id="file-select">
+                <option value="">-- Select Audio --</option>
+            </select>
+        </div>
+
+        <div class="mode-buttons" aria-label="Playback techniques">
+            <button id="mode-discontinuous" type="button">Discontinuous</button>
+            <button id="mode-keyword" type="button">Keyword</button>
+            <button id="mode-keyword2" type="button">Keyword 2</button>
+            <button id="mode-word" type="button">Word</button>
+            <button id="mode-sentence" type="button">Sentence</button>
+        </div>
+
+        <div id="jump-back-setting" class="control-row">
+            <label for="jump-seconds">Jump Seconds</label>
+            <input id="jump-seconds" type="number" min="1" step="1" value="15">
+        </div>
+
+        <div class="control-row inline-controls">
+            <button id="toggle-transcript" type="button">Show Transcript</button>
+            <label class="checkbox-label" for="replay-speedup-enabled">
+                <input id="replay-speedup-enabled" type="checkbox" checked>
+                Speed Up Replay
+            </label>
+            <label for="replay-speedup-rate">Rate</label>
+            <input id="replay-speedup-rate" type="number" min="1.1" max="4" step="0.1" value="1.5">
+        </div>
+    </div>
+
+    <div class="section audio-blocker-wrap">
+        <audio id="audio-player" controls></audio>
+        <div id="time-display">0:00 / 0:00</div>
+        <div class="audio-blocker" aria-hidden="true"></div>
+    </div>
+
+    <div id="transcript" style="display:none;"></div>
+
+    <div id="instructions">
+        <b>← Left Arrow:</b> Backward / Previous item<br>
+        <b>→ Right Arrow:</b> Forward / Next item<br>
+        Debug page keeps arrow navigation active during playback.
+    </div>
+
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/debug.js') }}"></script>
+</body>
+</html>
