@@ -66,6 +66,7 @@ let taskStartTime = null;
 let taskTimerInterval = null;
 let sessionStartTime = null;
 let studySessionId = null;
+let studyLogBaseName = null;
 let sessionTasks = [];
 let activeTargetTime = null;
 let maxPlayedTime = 0;
@@ -91,6 +92,22 @@ function getVideoIdFromAudioFilename(audioFile) {
     if (!audioFile) return null;
     const dotIdx = audioFile.lastIndexOf('.');
     return dotIdx >= 0 ? audioFile.slice(0, dotIdx) : audioFile;
+}
+
+function slugifyStudyFilenamePart(value, fallback = 'unknown') {
+    const normalized = String(value ?? '').trim().replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '');
+    return normalized || fallback;
+}
+
+function buildStudyLogBaseName(participant, feature, audioFile, startedAtMs) {
+    const timestamp = new Date(startedAtMs).toISOString().replace(/[-:]/g, '').replace('T', '_').slice(0, 15);
+    const audioStem = getVideoIdFromAudioFilename(audioFile) || audioFile || 'unknown';
+    return [
+        slugifyStudyFilenamePart(participant),
+        slugifyStudyFilenamePart(feature),
+        slugifyStudyFilenamePart(audioStem),
+        timestamp,
+    ].join('_');
 }
 
 function resetPlaybackProgressLock(initialTime = 0) {
@@ -861,6 +878,9 @@ async function logStudyEvent(event, data = {}) {
             body: JSON.stringify({
                 participant: studyParticipant.value,
                 sessionId: studySessionId,
+                feature: studyFeature.value,
+                audio: studyAudio.value,
+                logBaseName: studyLogBaseName,
                 event,
                 ...data,
             }),
@@ -981,6 +1001,7 @@ async function startStudySession() {
     taskActive = false;
     sessionTasks = [];
     sessionStartTime = Date.now();
+    studyLogBaseName = buildStudyLogBaseName(participant, feature, audioFile, sessionStartTime);
     const audioStartTime = studyInterruptions.audio_start_time ?? 0;
     audio.currentTime = audioStartTime;
     resetPlaybackProgressLock(audioStartTime);
@@ -1053,6 +1074,7 @@ async function stopStudySession() {
             sessionId: studySessionId,
             feature: studyFeature.value,
             audio: studyAudio.value,
+            logBaseName: studyLogBaseName,
             sessionStartTime: new Date(sessionStartTime).toISOString(),
             sessionEndTime: new Date().toISOString(),
             totalTasks: studyInterruptions ? studyInterruptions.interruptions.length : 0,
@@ -1064,6 +1086,7 @@ async function stopStudySession() {
 
     studyMode = false;
     studySessionId = null;
+    studyLogBaseName = null;
     taskActive = false;
     studyInterruptions = null;
     lastListeningStartedAt = null;
@@ -1285,6 +1308,7 @@ async function completeStudySession() {
             sessionId: studySessionId,
             feature: studyFeature.value,
             audio: studyAudio.value,
+            logBaseName: studyLogBaseName,
             sessionStartTime: new Date(sessionStartTime).toISOString(),
             sessionEndTime: new Date().toISOString(),
             totalTasks: studyInterruptions.interruptions.length,
@@ -1298,6 +1322,7 @@ async function completeStudySession() {
 
     studyMode = false;
     studySessionId = null;
+    studyLogBaseName = null;
     taskActive = false;
     activeTargetTime = null;
     lastListeningStartedAt = null;
@@ -1318,6 +1343,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowLeft') {
         e.preventDefault();
+        if (studyMode && !taskActive) return;
         logUserAction('left');
 
         switch (currentMode) {
@@ -1343,6 +1369,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowRight') {
         e.preventDefault();
+        if (studyMode && !taskActive) return;
         logUserAction('right');
 
         switch (currentMode) {
@@ -1387,6 +1414,18 @@ audio.addEventListener('timeupdate', () => {
         audio.currentTime = playbackBounds.max;
         audio.pause();
     }
+
+    const searchInterval = getActiveSearchInterval();
+    if (searchInterval) {
+        if (audio.currentTime < searchInterval.min) {
+            audio.currentTime = searchInterval.min;
+        } else if (audio.currentTime > searchInterval.max) {
+            audio.currentTime = searchInterval.max;
+            audio.pause();
+            showBlockedNavigationCue();
+        }
+    }
+
     maxPlayedTime = Math.max(maxPlayedTime, audio.currentTime);
     lastLoggedAudioTime = audio.currentTime;
     updateCurrentSegment();

@@ -5,6 +5,7 @@ import io
 import json
 import re
 from datetime import datetime
+from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
 from pydub import AudioSegment
@@ -23,6 +24,28 @@ from config import (
 )
 
 app = Flask(__name__)
+
+
+def _slugify_filename_part(value: str, default: str = "unknown") -> str:
+    """Normalize a filename segment to a safe, predictable token."""
+    text = str(value or "").strip()
+    if not text:
+        return default
+    return re.sub(r"[^A-Za-z0-9._-]+", "-", text).strip("-") or default
+
+
+def _build_study_log_basename(data: dict) -> str:
+    """Build the shared basename for study JSON and JSONL logs."""
+    provided = data.get("logBaseName")
+    if provided:
+        return _slugify_filename_part(Path(str(provided)).stem)
+
+    participant = _slugify_filename_part(data.get("participant"))
+    feature = _slugify_filename_part(data.get("feature"))
+    audio_value = data.get("audio") or data.get("videoId")
+    audio = _slugify_filename_part(Path(str(audio_value or "unknown")).stem)
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    return f"{participant}_{feature}_{audio}_{timestamp}"
 
 # Stopwords for keyword extraction
 STOPWORDS = {
@@ -650,22 +673,9 @@ def log_study_event():
     if not data:
         return jsonify({"error": "No data provided"}), 400
 
-    participant = data.get("participant", "unknown")
-    session_id = data.get("sessionId")
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
     # Create logs directory if not exists
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
-
-    if session_id:
-        log_path = LOGS_DIR / f"{participant}_{session_id}.jsonl"
-    else:
-        # Fallback for older clients without sessionId.
-        log_files = list(LOGS_DIR.glob(f"{participant}_*.jsonl"))
-        if log_files:
-            log_path = sorted(log_files)[-1]
-        else:
-            log_path = LOGS_DIR / f"{participant}_{timestamp}.jsonl"
+    log_path = LOGS_DIR / f"{_build_study_log_basename(data)}.jsonl"
 
     # Append event to log file
     with open(log_path, "a") as f:
@@ -682,14 +692,11 @@ def save_study_session():
     if not data:
         return jsonify({"error": "No data provided"}), 400
 
-    participant = data.get("participant", "unknown")
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-
     # Create logs directory if not exists
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
     # Save session summary
-    session_path = LOGS_DIR / f"session_{participant}_{timestamp}.json"
+    session_path = LOGS_DIR / f"{_build_study_log_basename(data)}.json"
     with open(session_path, "w") as f:
         json.dump(data, f, indent=2)
 
