@@ -616,7 +616,7 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
     else keywordIndex = targetIndex;
 
     if (setAudioTimeFromArrow(
-        target.time - 0.2,
+        target.time - 0.1,
         useKeyword2 ? 'keyword2_prev' : 'keyword_prev',
         useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked',
         {

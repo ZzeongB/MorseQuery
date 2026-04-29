@@ -380,19 +380,29 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/timestamp-check")
+def timestamp_check():
+    return render_template("timestamp_check.html")
+
+
 @app.route("/api/files")
 def get_files():
     """Return list of available mp3 files with their video IDs."""
     files = []
     for mp3_path in MP3_DIR.glob("*.mp3"):
         video_id = mp3_path.stem.split("_clip_")[0]
-        transcript_path = TRANSCRIPT_DIR / f"{video_id}.json"
-        if transcript_path.exists():
-            clip_start, clip_end = parse_clip_times(mp3_path.name)
+        transcript_paths = sorted(TRANSCRIPT_DIR.glob(f"{video_id}*.json"))
+        if not transcript_paths:
+            continue
+
+        clip_start, clip_end = parse_clip_times(mp3_path.name)
+        for transcript_path in transcript_paths:
             files.append(
                 {
                     "filename": mp3_path.name,
                     "video_id": video_id,
+                    "transcript_id": transcript_path.stem,
+                    "transcript_label": transcript_path.stem,
                     "clip_start": clip_start,
                     "clip_end": clip_end,
                 }
