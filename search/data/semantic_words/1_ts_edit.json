@@ -4,36 +4,8 @@
     "time": 13.860000000000001
   },
   {
-    "word": "annelids",
-    "time": 14.760000000000002
-  },
-  {
-    "word": "annelid",
-    "time": 159.55266648065475
-  },
-  {
-    "word": "annelids",
-    "time": 166.90118768601187
-  },
-  {
-    "word": "annelids",
-    "time": 175.73469354538685
-  },
-  {
     "word": "earthworm",
     "time": 15.540000000000001
-  },
-  {
-    "word": "earthworms",
-    "time": 149.23266648065476
-  },
-  {
-    "word": "earthworms",
-    "time": 225.7354092261904
-  },
-  {
-    "word": "earthworms",
-    "time": 274.2213657924105
   },
   {
     "word": "soil",
@@ -44,36 +16,12 @@
     "time": 26.56
   },
   {
-    "word": "Arthropod",
-    "time": 387.729222470238
-  },
-  {
     "word": "arthropods",
     "time": 34.980000000000004
   },
   {
-    "word": "arthropods",
-    "time": 311.5039467075891
-  },
-  {
-    "word": "arthropods",
-    "time": 317.51997442336295
-  },
-  {
-    "word": "arthropods",
-    "time": 340.71554361979156
-  },
-  {
     "word": "spiders",
     "time": 37.46
-  },
-  {
-    "word": "spiders",
-    "time": 410.73692894345226
-  },
-  {
-    "word": "spiders",
-    "time": 439.4688164992558
   },
   {
     "word": "shrimp",
@@ -92,32 +40,8 @@
     "time": 74.29070870535709
   },
   {
-    "word": "Annelida",
-    "time": 78.36910760788685
-  },
-  {
-    "word": "annelida",
-    "time": 100.32534133184518
-  },
-  {
-    "word": "annelida",
-    "time": 147.25266648065477
-  },
-  {
     "word": "Arthropoda",
     "time": 79.02910760788686
-  },
-  {
-    "word": "arthropoda",
-    "time": 101.10534133184518
-  },
-  {
-    "word": "arthropoda",
-    "time": 295.08523670014864
-  },
-  {
-    "word": "segmentation",
-    "time": 85.30910760788684
   },
   {
     "word": "segmentation",
@@ -125,11 +49,19 @@
   },
   {
     "word": "segmentation",
-    "time": 99.36534133184517
+    "time": 85.30910760788684
   },
   {
     "word": "evolution",
     "time": 93.08534133184519
+  },
+  {
+    "word": "segmentation",
+    "time": 99.36534133184517
+  },
+  {
+    "word": "arthropoda",
+    "time": 101.10534133184518
   },
   {
     "word": "Chordata",
@@ -138,26 +70,6 @@
   {
     "word": "vertebrates",
     "time": 104.29446800595234
-  },
-  {
-    "word": "segmented",
-    "time": 104.87446800595234
-  },
-  {
-    "word": "beetles",
-    "time": 673.1145503162195
-  },
-  {
-    "word": "head",
-    "time": 346.5555436197916
-  },
-  {
-    "word": "head",
-    "time": 452.8383142671129
-  },
-  {
-    "word": "head",
-    "time": 521.1941345796124
   },
   {
     "word": "vertebra",
@@ -180,28 +92,24 @@
     "time": 141.21907133556547
   },
   {
+    "word": "annelida",
+    "time": 147.25266648065477
+  },
+  {
     "word": "leeches",
     "time": 148.43266648065475
-  },
-  {
-    "word": "leeches",
-    "time": 252.73893647693436
-  },
-  {
-    "word": "leeches",
-    "time": 259.5589364769343
   },
   {
     "word": "lugworms",
     "time": 150.07266648065476
   },
   {
-    "word": "lugworms",
-    "time": 287.1652367001486
-  },
-  {
     "word": "Greek",
     "time": 156.95266648065476
+  },
+  {
+    "word": "annelid",
+    "time": 159.55266648065475
   },
   {
     "word": "synapomorphian",
@@ -212,52 +120,28 @@
     "time": 167.3858328683035
   },
   {
-    "word": "Synapomorphies",
-    "time": 189.76650065104155
-  },
-  {
-    "word": "synapomorphies",
-    "time": 339.0555436197916
-  },
-  {
-    "word": "synapomorphies",
-    "time": 517.4941345796124
-  },
-  {
     "word": "flatworm",
     "time": 174.40461588541663
   },
   {
-    "word": "nematode",
-    "time": 175.13309942336303
-  },
-  {
-    "word": "nematodes",
-    "time": 203.87768415178567
+    "word": "annelids",
+    "time": 175.73469354538685
   },
   {
     "word": "bristles",
     "time": 178.44733770461298
   },
   {
-    "word": "bristles",
-    "time": 231.5565029761904
-  },
-  {
-    "word": "bristles",
-    "time": 281.6158463541665
-  },
-  {
     "word": "ketae",
     "time": 179.79877371651773
   },
   {
-    "word": "ketae",
-    "time": 230.3554092261904
-  },
-  {
     "word": "traction",
     "time": 181.33877371651775
+  },
+  {
+    "word": "Synapomorphies",
+    "time": 189.76650065104155
   },
   {
     "word": "phylum",
@@ -272,12 +156,12 @@
     "time": 198.36195359002969
   },
   {
-    "word": "plesiomorphy",
-    "time": 352.17554361979154
-  },
-  {
     "word": "platyhelminthes",
     "time": 202.61768415178565
+  },
+  {
+    "word": "nematodes",
+    "time": 203.87768415178567
   },
   {
     "word": "classes",
@@ -292,24 +176,28 @@
     "time": 224.1154092261904
   },
   {
+    "word": "earthworms",
+    "time": 225.7354092261904
+  },
+  {
     "word": "synathomorphy",
     "time": 228.1354092261904
+  },
+  {
+    "word": "ketae",
+    "time": 230.3554092261904
+  },
+  {
+    "word": "bristles",
+    "time": 231.5565029761904
   },
   {
     "word": "poo",
     "time": 242.7546656436011
   },
   {
-    "word": "nitrogen",
-    "time": 245.71893647693446
-  },
-  {
     "word": "calcium",
     "time": 246.31893647693445
-  },
-  {
-    "word": "magnesium",
-    "time": 246.95893647693447
   },
   {
     "word": "phosphorus",
@@ -320,8 +208,16 @@
     "time": 251.2389364769345
   },
   {
+    "word": "leeches",
+    "time": 252.73893647693436
+  },
+  {
     "word": "parasitic",
     "time": 254.53893647693442
+  },
+  {
+    "word": "leeches",
+    "time": 259.5589364769343
   },
   {
     "word": "suckers",
@@ -340,6 +236,10 @@
     "time": 273.0213657924105
   },
   {
+    "word": "earthworms",
+    "time": 274.2213657924105
+  },
+  {
     "word": "polychaetes",
     "time": 275.3413657924105
   },
@@ -348,28 +248,36 @@
     "time": 279.97584635416644
   },
   {
+    "word": "bristles",
+    "time": 281.6158463541665
+  },
+  {
     "word": "marine",
     "time": 283.03087844122007
+  },
+  {
+    "word": "lugworms",
+    "time": 287.1652367001486
   },
   {
     "word": "castings",
     "time": 290.8852367001486
   },
   {
+    "word": "arthropoda",
+    "time": 295.08523670014864
+  },
+  {
     "word": "insects",
     "time": 304.82394670758913
   },
   {
-    "word": "insects",
-    "time": 516.5541345796123
+    "word": "arthropods",
+    "time": 311.5039467075891
   },
   {
-    "word": "insects",
-    "time": 537.7541345796124
-  },
-  {
-    "word": "fossils",
-    "time": 316.74744094122013
+    "word": "arthropods",
+    "time": 317.51997442336295
   },
   {
     "word": "diversity",
@@ -380,56 +288,32 @@
     "time": 332.53554361979155
   },
   {
-    "word": "scorpions",
-    "time": 411.75692894345224
-  },
-  {
-    "word": "scorpions",
-    "time": 447.7183142671129
-  },
-  {
     "word": "butterflies",
     "time": 333.5555436197916
-  },
-  {
-    "word": "butterflies",
-    "time": 674.9345503162195
   },
   {
     "word": "lobsters",
     "time": 335.2555436197916
   },
   {
-    "word": "lobsters",
-    "time": 709.4345503162195
+    "word": "synapomorphies",
+    "time": 339.0555436197916
   },
   {
-    "word": "thorax",
-    "time": 347.29554361979154
+    "word": "arthropods",
+    "time": 340.71554361979156
   },
   {
-    "word": "thorax",
-    "time": 453.9183142671129
-  },
-  {
-    "word": "thorax",
-    "time": 521.8541345796124
-  },
-  {
-    "word": "thorax",
-    "time": 525.3741345796124
+    "word": "head",
+    "time": 346.5555436197916
   },
   {
     "word": "abdomen",
     "time": 348.09554361979156
   },
   {
-    "word": "abdomen",
-    "time": 457.8183142671129
-  },
-  {
-    "word": "abdomen",
-    "time": 522.4741345796124
+    "word": "plesiomorphy",
+    "time": 352.17554361979154
   },
   {
     "word": "oscordates",
@@ -444,10 +328,6 @@
     "time": 368.357777157738
   },
   {
-    "word": "chitin",
-    "time": 697.5345503162195
-  },
-  {
     "word": "carbohydrate",
     "time": 369.55777715773803
   },
@@ -458,6 +338,10 @@
   {
     "word": "shed",
     "time": 375.55777715773803
+  },
+  {
+    "word": "Arthropod",
+    "time": 387.729222470238
   },
   {
     "word": "claws",
@@ -472,8 +356,12 @@
     "time": 409.13692894345223
   },
   {
-    "word": "Cheliceroformes",
-    "time": 420.4569289434522
+    "word": "spiders",
+    "time": 410.73692894345226
+  },
+  {
+    "word": "scorpions",
+    "time": 411.75692894345224
   },
   {
     "word": "crabs",
@@ -488,8 +376,8 @@
     "time": 416.55692894345225
   },
   {
-    "word": "fly",
-    "time": 629.5545503162195
+    "word": "Cheliceroformes",
+    "time": 420.4569289434522
   },
   {
     "word": "flies",
@@ -500,40 +388,40 @@
     "time": 433.6488164992558
   },
   {
+    "word": "spiders",
+    "time": 439.4688164992558
+  },
+  {
     "word": "arachnids",
     "time": 445.3583142671129
+  },
+  {
+    "word": "scorpions",
+    "time": 447.7183142671129
   },
   {
     "word": "cephalothorax",
     "time": 450.8583142671129
   },
   {
-    "word": "cephalothorax",
-    "time": 716.1545503162195
+    "word": "head",
+    "time": 452.8383142671129
+  },
+  {
+    "word": "thorax",
+    "time": 453.9183142671129
+  },
+  {
+    "word": "abdomen",
+    "time": 457.8183142671129
   },
   {
     "word": "myriapoda",
     "time": 461.94404529389857
   },
   {
-    "word": "millipedes",
-    "time": 465.5640452938986
-  },
-  {
-    "word": "millipedes",
-    "time": 477.10404529389854
-  },
-  {
     "word": "centipedes",
     "time": 466.22404529389854
-  },
-  {
-    "word": "centipedes",
-    "time": 495.84404529389855
-  },
-  {
-    "word": "myriapod",
-    "time": 509.3144024367557
   },
   {
     "word": "mandibles",
@@ -548,20 +436,44 @@
     "time": 481.7440452938986
   },
   {
+    "word": "centipedes",
+    "time": 495.84404529389855
+  },
+  {
     "word": "carnivores",
     "time": 504.29795014880926
+  },
+  {
+    "word": "myriapod",
+    "time": 509.3144024367557
   },
   {
     "word": "hexapoda",
     "time": 513.4341345796132
   },
   {
-    "word": "BIOLOGRAPHY",
-    "time": 547.7945503162194
+    "word": "synapomorphies",
+    "time": 517.4941345796124
   },
   {
-    "word": "Crustaceans",
-    "time": 707.9345503162195
+    "word": "head",
+    "time": 521.1941345796124
+  },
+  {
+    "word": "abdomen",
+    "time": 522.4741345796124
+  },
+  {
+    "word": "thorax",
+    "time": 525.3741345796124
+  },
+  {
+    "word": "insects",
+    "time": 537.7541345796124
+  },
+  {
+    "word": "BIOLOGRAPHY",
+    "time": 547.7945503162194
   },
   {
     "word": "meganora",
@@ -570,6 +482,10 @@
   {
     "word": "dragonfly",
     "time": 580.9945503162195
+  },
+  {
+    "word": "fly",
+    "time": 629.5545503162195
   },
   {
     "word": "wings",
@@ -584,10 +500,6 @@
     "time": 636.0345503162195
   },
   {
-    "word": "bats",
-    "time": 636.6345503162195
-  },
-  {
     "word": "metamorphosis",
     "time": 647.9345503162195
   },
@@ -598,10 +510,6 @@
   {
     "word": "molts",
     "time": 655.6145503162195
-  },
-  {
-    "word": "grasshoppers",
-    "time": 662.7745503162195
   },
   {
     "word": "cockroaches",
@@ -616,12 +524,8 @@
     "time": 672.1545503162195
   },
   {
-    "word": "caterpillars",
-    "time": 674.0145503162195
-  },
-  {
-    "word": "caterpillar",
-    "time": 754.8945503162195
+    "word": "butterflies",
+    "time": 674.9345503162195
   },
   {
     "word": "larva",
@@ -632,12 +536,28 @@
     "time": 686.9145503162194
   },
   {
+    "word": "chitin",
+    "time": 697.5345503162195
+  },
+  {
     "word": "crustacea",
     "time": 705.4345503162195
   },
   {
+    "word": "Crustaceans",
+    "time": 707.9345503162195
+  },
+  {
+    "word": "lobsters",
+    "time": 709.4345503162195
+  },
+  {
     "word": "barnacles",
     "time": 710.4945503162195
+  },
+  {
+    "word": "cephalothorax",
+    "time": 716.1545503162195
   },
   {
     "word": "mouthparts",
@@ -646,6 +566,10 @@
   {
     "word": "bioluminescence",
     "time": 738.1745503162196
+  },
+  {
+    "word": "caterpillar",
+    "time": 754.8945503162195
   },
   {
     "word": "Brandon",

@@ -24,10 +24,6 @@
     "time": 20.34
   },
   {
-    "word": "trees",
-    "time": 36.86
-  },
-  {
     "word": "birds",
     "time": 22.68
   },
@@ -38,6 +34,10 @@
   {
     "word": "soot",
     "time": 34.760000000000005
+  },
+  {
+    "word": "trees",
+    "time": 36.86
   },
   {
     "word": "soot",
@@ -56,20 +56,8 @@
     "time": 47.080000000000005
   },
   {
-    "word": "gene",
-    "time": 50.7
-  },
-  {
     "word": "pigmentation",
     "time": 51.6
-  },
-  {
-    "word": "moth",
-    "time": 329.3012053571428
-  },
-  {
-    "word": "moth",
-    "time": 336.1336030505953
   },
   {
     "word": "1895",
@@ -80,40 +68,20 @@
     "time": 63.120000000000005
   },
   {
-    "word": "moth",
-    "time": 519.1869010416665
-  },
-  {
     "word": "trait",
     "time": 72.74
-  },
-  {
-    "word": "selection",
-    "time": 89.94047433035715
   },
   {
     "word": "process",
     "time": 90.74047433035715
   },
   {
-    "word": "trait",
-    "time": 261.8662239583333
-  },
-  {
     "word": "populations",
     "time": 98.60047433035714
   },
   {
-    "word": "Charles",
-    "time": 106.02047433035715
-  },
-  {
     "word": "Darwin",
     "time": 106.47823474702382
-  },
-  {
-    "word": "process",
-    "time": 108.65823474702383
   },
   {
     "word": "revolutionary",
@@ -136,10 +104,6 @@
     "time": 119.13823474702382
   },
   {
-    "word": "migration",
-    "time": 119.97823474702382
-  },
-  {
     "word": "alleles",
     "time": 123.7638151041667
   },
@@ -156,10 +120,6 @@
     "time": 139.25877976190472
   },
   {
-    "word": "process",
-    "time": 140.049103422619
-  },
-  {
     "word": "selection",
     "time": 140.8520684523809
   },
@@ -172,14 +132,6 @@
     "time": 148.46112909226187
   },
   {
-    "word": "birds",
-    "time": 149.16112909226186
-  },
-  {
-    "word": "rocks",
-    "time": 149.64112909226188
-  },
-  {
     "word": "tortoises",
     "time": 150.04112909226185
   },
@@ -188,24 +140,12 @@
     "time": 150.56112909226187
   },
   {
-    "word": "fish",
-    "time": 151.02112909226187
-  },
-  {
-    "word": "insects",
-    "time": 151.42112909226188
-  },
-  {
-    "word": "Darwin",
-    "time": 165.88406622023803
-  },
-  {
     "word": "1830s",
     "time": 160.62112909226187
   },
   {
     "word": "Darwin",
-    "time": 189.96427083333322
+    "time": 165.88406622023803
   },
   {
     "word": "organisms",
@@ -228,20 +168,8 @@
     "time": 185.02336867559515
   },
   {
-    "word": "environment",
-    "time": 223.26006324404742
-  },
-  {
-    "word": "variation",
-    "time": 324.6991722470238
-  },
-  {
     "word": "beaks",
     "time": 189.58427083333322
-  },
-  {
-    "word": "Darwin",
-    "time": 218.99589657738076
   },
   {
     "word": "finches",
@@ -273,19 +201,11 @@
   },
   {
     "word": "beaks",
-    "time": 210.6832366071427
-  },
-  {
-    "word": "beaks",
     "time": 213.94837425595225
   },
   {
-    "word": "trait",
-    "time": 337.5536030505953
-  },
-  {
     "word": "Darwin",
-    "time": 278.5477976190476
+    "time": 218.99589657738076
   },
   {
     "word": "finches",
@@ -293,7 +213,7 @@
   },
   {
     "word": "environment",
-    "time": 359.19541294642863
+    "time": 223.26006324404742
   },
   {
     "word": "survive",
@@ -304,68 +224,36 @@
     "time": 227.26006324404742
   },
   {
-    "word": "Darwin",
-    "time": 366.4354129464286
+    "word": "selection",
+    "time": 233.34006324404743
   },
   {
     "word": "selection",
     "time": 235.5800632440474
   },
   {
-    "word": "selection",
-    "time": 233.34006324404743
-  },
-  {
-    "word": "Darwin",
-    "time": 368.4954129464286
-  },
-  {
-    "word": "populations",
-    "time": 271.64622395833334
-  },
-  {
-    "word": "variation",
-    "time": 327.1791722470238
-  },
-  {
     "word": "phenotypes",
     "time": 256.3600632440477
-  },
-  {
-    "word": "variation",
-    "time": 331.13194010416663
   },
   {
     "word": "heritable",
     "time": 259.3391331845238
   },
   {
-    "word": "offspring",
-    "time": 261.1391331845238
-  },
-  {
     "word": "trait",
-    "time": 502.14690104166675
-  },
-  {
-    "word": "Darwin",
-    "time": 405.1028255208334
+    "time": 261.8662239583333
   },
   {
     "word": "populations",
-    "time": 285.2354352678571
+    "time": 271.64622395833334
   },
   {
     "word": "offspring",
     "time": 274.255119047619
   },
   {
-    "word": "resources",
-    "time": 275.00779761904766
-  },
-  {
     "word": "Darwin",
-    "time": 415.38282552083336
+    "time": 278.5477976190476
   },
   {
     "word": "economist",
@@ -373,7 +261,7 @@
   },
   {
     "word": "populations",
-    "time": 354.8336030505953
+    "time": 285.2354352678571
   },
   {
     "word": "plague",
@@ -382,10 +270,6 @@
   {
     "word": "plague",
     "time": 287.9265494791666
-  },
-  {
-    "word": "famine",
-    "time": 288.72654947916664
   },
   {
     "word": "wars",
@@ -408,68 +292,44 @@
     "time": 304.85917224702376
   },
   {
-    "word": "heritable",
-    "time": 305.6791722470238
-  },
-  {
-    "word": "trait",
-    "time": 515.5469010416665
-  },
-  {
-    "word": "variation",
-    "time": 341.5336030505953
-  },
-  {
-    "word": "trait",
-    "time": 520.9669010416665
-  },
-  {
     "word": "selection",
     "time": 319.8991722470238
   },
   {
-    "word": "populations",
-    "time": 616.128093377976
+    "word": "variation",
+    "time": 324.6991722470238
   },
   {
     "word": "variation",
-    "time": 490.4269010416667
+    "time": 327.1791722470238
   },
   {
-    "word": "heritable",
-    "time": 323.9391722470238
+    "word": "moth",
+    "time": 329.3012053571428
   },
   {
-    "word": "organisms",
-    "time": 478.3069010416667
-  },
-  {
-    "word": "species",
-    "time": 332.11194010416665
-  },
-  {
-    "word": "coloration",
-    "time": 332.97747395833335
+    "word": "variation",
+    "time": 331.13194010416663
   },
   {
     "word": "heritable",
     "time": 333.85747395833334
   },
   {
-    "word": "survive",
-    "time": 338.29360305059527
+    "word": "moth",
+    "time": 336.1336030505953
   },
   {
-    "word": "birds",
-    "time": 339.4936030505953
+    "word": "trait",
+    "time": 337.5536030505953
   },
   {
     "word": "London",
     "time": 339.9736030505953
   },
   {
-    "word": "organisms",
-    "time": 480.2469010416667
+    "word": "variation",
+    "time": 341.5336030505953
   },
   {
     "word": "beginning",
@@ -485,7 +345,7 @@
   },
   {
     "word": "populations",
-    "time": 731.212626488095
+    "time": 354.8336030505953
   },
   {
     "word": "interactions",
@@ -493,7 +353,43 @@
   },
   {
     "word": "environment",
-    "time": 543.5069010416665
+    "time": 359.19541294642863
+  },
+  {
+    "word": "Darwin",
+    "time": 366.4354129464286
+  },
+  {
+    "word": "Darwin",
+    "time": 368.4954129464286
+  },
+  {
+    "word": "offspring",
+    "time": 379.7354129464286
+  },
+  {
+    "word": "Emma",
+    "time": 386.58282552083335
+  },
+  {
+    "word": "Emma",
+    "time": 403.0428255208334
+  },
+  {
+    "word": "Darwin",
+    "time": 405.1028255208334
+  },
+  {
+    "word": "Wedgwoods",
+    "time": 409.38282552083336
+  },
+  {
+    "word": "Darwin",
+    "time": 415.38282552083336
+  },
+  {
+    "word": "problems",
+    "time": 422.4228255208334
   },
   {
     "word": "Darwin",
@@ -504,44 +400,8 @@
     "time": 427.6028255208334
   },
   {
-    "word": "offspring",
-    "time": 379.7354129464286
-  },
-  {
-    "word": "Darwin",
-    "time": 625.1628776041665
-  },
-  {
-    "word": "Emma",
-    "time": 386.58282552083335
-  },
-  {
-    "word": "Wedgwoods",
-    "time": 409.38282552083336
-  },
-  {
-    "word": "Darwin",
-    "time": 693.0726264880949
-  },
-  {
-    "word": "Emma",
-    "time": 403.0428255208334
-  },
-  {
-    "word": "problems",
-    "time": 422.4228255208334
-  },
-  {
-    "word": "crossbreeding",
-    "time": 430.84294270833334
-  },
-  {
     "word": "inbreeding",
     "time": 431.75277901785716
-  },
-  {
-    "word": "Emma",
-    "time": 441.6727790178572
   },
   {
     "word": "Charles",
@@ -568,20 +428,16 @@
     "time": 465.3669010416667
   },
   {
-    "word": "phenotypes",
-    "time": 539.7869010416665
-  },
-  {
     "word": "genotype",
     "time": 474.08690104166675
   },
   {
-    "word": "heritable",
-    "time": 474.70690104166675
+    "word": "organisms",
+    "time": 478.3069010416667
   },
   {
-    "word": "alleles",
-    "time": 477.60690104166673
+    "word": "organisms",
+    "time": 480.2469010416667
   },
   {
     "word": "evolutionarily",
@@ -592,12 +448,32 @@
     "time": 489.02690104166675
   },
   {
+    "word": "variation",
+    "time": 490.4269010416667
+  },
+  {
     "word": "selection",
     "time": 496.64690104166675
   },
   {
     "word": "selection",
     "time": 500.34690104166674
+  },
+  {
+    "word": "trait",
+    "time": 502.14690104166675
+  },
+  {
+    "word": "trait",
+    "time": 515.5469010416665
+  },
+  {
+    "word": "moth",
+    "time": 519.1869010416665
+  },
+  {
+    "word": "trait",
+    "time": 520.9669010416665
   },
   {
     "word": "selection",
@@ -608,12 +484,20 @@
     "time": 537.8669010416666
   },
   {
+    "word": "phenotypes",
+    "time": 539.7869010416665
+  },
+  {
     "word": "environment",
-    "time": 568.319886532738
+    "time": 543.5069010416665
   },
   {
     "word": "infections",
     "time": 549.739886532738
+  },
+  {
+    "word": "environment",
+    "time": 568.319886532738
   },
   {
     "word": "selection",
@@ -648,16 +532,20 @@
     "time": 607.3339750744046
   },
   {
-    "word": "fecundity",
-    "time": 608.228093377976
-  },
-  {
     "word": "selection",
     "time": 612.168093377976
   },
   {
+    "word": "populations",
+    "time": 616.128093377976
+  },
+  {
     "word": "selection",
     "time": 622.9828776041666
+  },
+  {
+    "word": "Darwin",
+    "time": 625.1628776041665
   },
   {
     "word": "species",
@@ -696,6 +584,10 @@
     "time": 688.6726264880949
   },
   {
+    "word": "Darwin",
+    "time": 693.0726264880949
+  },
+  {
     "word": "species",
     "time": 695.6526264880949
   },
@@ -716,16 +608,12 @@
     "time": 723.1926264880949
   },
   {
-    "word": "corgi",
-    "time": 724.632626488095
-  },
-  {
     "word": "greyhound",
     "time": 725.232626488095
   },
   {
-    "word": "selection",
-    "time": 730.492626488095
+    "word": "populations",
+    "time": 731.212626488095
   },
   {
     "word": "species",

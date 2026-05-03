@@ -370,7 +370,7 @@ function findNearestIndex(items, targetTime, getTime) {
     return bestIndex;
 }
 
-const PREV_SKIP_THRESHOLD = 2.0;
+const PREV_SKIP_THRESHOLD = 1.0;
 const PREV_TIME_TOLERANCE = 0.1; // Include the current item despite minor seek precision drift.
 const NEXT_TIME_EPSILON = 0.001; // Advance to the first item strictly after the current timestamp.
 
@@ -427,6 +427,20 @@ function findNextIndexByTime(items, currentTime, getTime) {
     }
 
     return { targetIndex: nextIndex, blocked: false };
+}
+
+function findCurrentItemByTime(items, currentTime, getTime) {
+    if (!items || items.length === 0) return null;
+
+    let currentIndex = -1;
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+        if (getTime(items[i]) <= currentTime + PREV_TIME_TOLERANCE) {
+            currentIndex = i;
+            break;
+        }
+    }
+
+    return currentIndex >= 0 ? items[currentIndex] : null;
 }
 
 function syncNavigationIndices(targetTime = audio.currentTime) {
@@ -606,7 +620,16 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
     if (keywords.length === 0) return;
 
     const currentTime = audio.currentTime;
+    const currentKeyword = findCurrentItemByTime(keywords, currentTime, (item) => item.time);
     const { targetIndex, blocked } = findPrevIndexByTime(keywords, currentTime, (item) => item.time);
+
+    console.log('[keyword_prev]', {
+        mode: useKeyword2 ? 'keyword2' : 'keyword',
+        currentTime,
+        currentKeyword,
+        targetKeyword: targetIndex >= 0 ? keywords[targetIndex] : null,
+        blocked,
+    });
 
     if (blocked || targetIndex < 0) {
         if (!moveToSearchIntervalStart(
@@ -652,7 +675,16 @@ function jumpToNextKeyword(useKeyword2 = false) {
     if (keywords.length === 0) return;
 
     const currentTime = audio.currentTime;
+    const currentKeyword = findCurrentItemByTime(keywords, currentTime, (item) => item.time);
     const { targetIndex, blocked } = findNextIndexByTime(keywords, currentTime, (item) => item.time);
+
+    console.log('[keyword_next]', {
+        mode: useKeyword2 ? 'keyword2' : 'keyword',
+        currentTime,
+        currentKeyword,
+        targetKeyword: targetIndex >= 0 ? keywords[targetIndex] : null,
+        blocked,
+    });
 
     if (blocked || targetIndex < 0) {
         blockNavigation(useKeyword2 ? 'keyword2_next_blocked' : 'keyword_next_blocked', currentTime, {
