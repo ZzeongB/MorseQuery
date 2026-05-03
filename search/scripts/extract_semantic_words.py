@@ -34,6 +34,9 @@ Return only valid JSON in the format:
 {"terms": ["term1", "term2"]}"""
 
 TERM_RE = re.compile(r"[a-z0-9']+")
+IRREGULAR_TOKEN_MAP = {
+    "nuclei": "nucleus",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -60,7 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--max-terms",
         type=int,
-        default=20,
+        default=50,
         help="Maximum number of semantic terms to request from the model.",
     )
     parser.add_argument(
@@ -82,6 +85,7 @@ def normalize_tokens(text: str) -> list[str]:
 
 
 def canonicalize_token(token: str) -> str:
+    token = IRREGULAR_TOKEN_MAP.get(token, token)
     if token.endswith("'s") and len(token) > 2:
         token = token[:-2]
     elif token.endswith("s'") and len(token) > 2:
@@ -137,25 +141,35 @@ def iter_segment_batches(
     ]
 
 
-def find_term_start(term: str, words: list[dict[str, Any]]) -> float | None:
+def find_term_starts(term: str, words: list[dict[str, Any]]) -> list[float]:
     term_tokens = normalize_canonical_tokens(term)
     if not term_tokens:
-        return None
+        return []
 
+    starts: list[float] = []
     limit = len(words) - len(term_tokens) + 1
     for idx in range(max(limit, 0)):
         candidate = [
             words[idx + offset]["normalized"] for offset in range(len(term_tokens))
         ]
         if candidate == term_tokens:
-            return float(words[idx]["start"])
+            starts.append(float(words[idx]["start"]))
 
-    if len(term_tokens) == 1:
-        for word in words:
-            if word["normalized"] == term_tokens[0]:
-                return float(word["start"])
+    return starts
 
-    return None
+
+def dedupe_word_time_entries(
+    entries: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    deduped: list[dict[str, Any]] = []
+    seen: set[tuple[Any, Any]] = set()
+    for entry in entries:
+        key = (entry.get("word"), entry.get("time"))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(entry)
+    return deduped
 
 
 def extract_candidate_terms(
@@ -207,7 +221,7 @@ def extract_semantic_words(
     client = OpenAI()
     all_words = transcript_words(transcript)
     results: list[dict[str, Any]] = []
-    seen_terms: set[str] = set()
+    seen_occurrences: set[tuple[str, float]] = set()
     for batch in iter_segment_batches(transcript, batch_size=batch_size):
         if not batch:
             continue
@@ -230,25 +244,29 @@ def extract_semantic_words(
 
         for term in candidate_terms:
             normalized_term = " ".join(normalize_canonical_tokens(term))
-            if not normalized_term or normalized_term in seen_terms:
+            if not normalized_term:
                 continue
             if " " in normalized_term:
                 continue
 
-            start_time = find_term_start(term, all_words)
-            if start_time is None:
+            start_times = find_term_starts(term, all_words)
+            if not start_times:
                 continue
 
-            seen_terms.add(normalized_term)
-            results.append(
-                {
-                    "word": term,
-                    "time": start_time,
-                }
-            )
+            for start_time in start_times:
+                occurrence_key = (normalized_term, start_time)
+                if occurrence_key in seen_occurrences:
+                    continue
+                seen_occurrences.add(occurrence_key)
+                results.append(
+                    {
+                        "word": term,
+                        "time": start_time,
+                    }
+                )
 
     results.sort(key=lambda item: item["time"])
-    return results
+    return dedupe_word_time_entries(results)
 
 
 def main() -> None:

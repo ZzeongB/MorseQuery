@@ -15,6 +15,9 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 TERM_RE = re.compile(r"[a-z0-9']+")
+IRREGULAR_TOKEN_MAP = {
+    "nuclei": "nucleus",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -47,6 +50,7 @@ def normalize_tokens(text: str) -> list[str]:
 
 
 def canonicalize_token(token: str) -> str:
+    token = IRREGULAR_TOKEN_MAP.get(token, token)
     if token.endswith("'s") and len(token) > 2:
         token = token[:-2]
     elif token.endswith("s'") and len(token) > 2:

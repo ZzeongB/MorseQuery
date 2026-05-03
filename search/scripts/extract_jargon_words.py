@@ -51,6 +51,9 @@ Return only valid JSON in this format:
 {"jargon_ids": [1, 4, 9]}"""
 
 TERM_RE = re.compile(r"[a-z0-9']+")
+IRREGULAR_TOKEN_MAP = {
+    "nuclei": "nucleus",
+}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -109,6 +112,7 @@ def normalize_tokens(text: str) -> list[str]:
 
 
 def canonicalize_token(token: str) -> str:
+    token = IRREGULAR_TOKEN_MAP.get(token, token)
     if token.endswith("'s") and len(token) > 2:
         token = token[:-2]
     elif token.endswith("s'") and len(token) > 2:
@@ -125,6 +129,10 @@ def canonicalize_token(token: str) -> str:
     if token.endswith("s"):
         return token[:-1]
     return token
+
+
+def normalize_canonical_tokens(text: str) -> list[str]:
+    return [canonicalize_token(token) for token in normalize_tokens(text)]
 
 
 def transcript_segments(transcript: dict[str, Any]) -> list[dict[str, Any]]:
@@ -231,6 +239,18 @@ def augment_duplicate_counts(
     return augmented
 
 
+def dedupe_jargon_words(words: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    deduped: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for item in sorted(words, key=lambda item: float(item.get("time", 0.0))):
+        key = " ".join(normalize_canonical_tokens(str(item.get("word", ""))))
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        deduped.append(item)
+    return deduped
+
+
 def select_jargon_ids(
     client: OpenAI,
     *,
@@ -308,6 +328,7 @@ def extract_jargon_words(
         selected_ids.update(select_jargon_ids(client, model=model, batch=batch))
 
     output = [item for idx, item in enumerate(semantic_words) if idx in selected_ids]
+    output = dedupe_jargon_words(output)
     output = augment_duplicate_counts(output, occurrences)
     output.sort(key=lambda item: float(item.get("time", 0.0)))
     return output

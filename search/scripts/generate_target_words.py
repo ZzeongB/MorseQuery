@@ -16,6 +16,14 @@ def sample_positive_normal(rng: random.Random, mean: float, sigma: float) -> flo
             return round(value, 2)
 
 
+def resolve_video_config(video_configs, video_id: str):
+    config = video_configs.get(video_id)
+    if config is not None:
+        return config
+    base_id = video_id.split("_", 1)[0]
+    return video_configs.get(base_id, {})
+
+
 def pick_interruption(
     candidates,
     used_indexes,
@@ -236,7 +244,7 @@ def main():
     for keyword_path in keyword_paths:
         video_id = keyword_path.name[: -len(args.keywords_suffix)]
         candidates = load_json(keyword_path)
-        video_config = video_configs.get(video_id, {})
+        video_config = resolve_video_config(video_configs, video_id)
         audio_start_time = float(video_config.get("audio_start_time", 0))
         target_window_seconds = float(
             video_config.get("target_window_seconds", default_target_window_seconds)
