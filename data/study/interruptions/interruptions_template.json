@@ -1,0 +1,12 @@
+{
+  "video_id": "VIDEO_ID",
+  "interruptions": [
+    {"id": 1, "target_word": "WORD1", "target_word_time": 10.5, "delay_seconds": 8},
+    {"id": 2, "target_word": "WORD2", "target_word_time": 25.3, "delay_seconds": 10},
+    {"id": 3, "target_word": "WORD3", "target_word_time": 45.0, "delay_seconds": 8},
+    {"id": 4, "target_word": "WORD4", "target_word_time": 65.0, "delay_seconds": 10},
+    {"id": 5, "target_word": "WORD5", "target_word_time": 90.0, "delay_seconds": 8},
+    {"id": 6, "target_word": "WORD6", "target_word_time": 120.0, "delay_seconds": 10},
+    {"id": 7, "target_word": "WORD7", "target_word_time": 150.0, "delay_seconds": 8}
+  ]
+}

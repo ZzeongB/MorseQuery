@@ -1,0 +1,15 @@
+[
+  {"word": "subcortical", "time": 1.1},
+  {"word": "thalamus", "time": 6.04},
+  {"word": "hippocampus", "time": 11.36},
+  {"word": "amygdala", "time": 12.78},
+  {"word": "cortex", "time": 22.14},
+  {"word": "sensory information", "time": 32.1},
+  {"word": "auditory cortex", "time": 53.64},
+  {"word": "somatosensory", "time": 59.26},
+  {"word": "somatosensory cortex", "time": 71.2},
+  {"word": "visual cortex", "time": 83.46},
+  {"word": "axons", "time": 88.72},
+  {"word": "synapse", "time": 89.88},
+  {"word": "LGN", "time": 95.6}
+]

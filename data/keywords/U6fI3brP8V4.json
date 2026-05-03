@@ -1,0 +1,16 @@
+[
+  {"word": "atomic spectra", "time": 5.0},
+  {"word": "spark gap", "time": 18.0},
+  {"word": "electric potential", "time": 28.0},
+  {"word": "hydrogen", "time": 40.0},
+  {"word": "prism", "time": 60.0},
+  {"word": "spectrum", "time": 75.0},
+  {"word": "wavelength", "time": 95.0},
+  {"word": "angstroms", "time": 100.0},
+  {"word": "Lyman", "time": 130.0},
+  {"word": "Balmer", "time": 132.0},
+  {"word": "Paschen", "time": 135.0},
+  {"word": "spectral lines", "time": 150.0},
+  {"word": "Rydberg", "time": 190.0},
+  {"word": "wavelength formula", "time": 210.0}
+]
