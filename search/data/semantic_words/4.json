@@ -12,247 +12,611 @@
     "time": 10.86
   },
   {
-    "word": "tongue",
-    "time": 47.32
+    "word": "psychology",
+    "time": 12.92
+  },
+  {
+    "word": "sense",
+    "time": 20.52
+  },
+  {
+    "word": "touch",
+    "time": 38.0
+  },
+  {
+    "word": "exploration",
+    "time": 52.22
+  },
+  {
+    "word": "sense",
+    "time": 53.32
+  },
+  {
+    "word": "Homunculus",
+    "time": 54.64
   },
   {
     "word": "environment",
     "time": 60.54
   },
   {
-    "word": "perception",
-    "time": 84.54
+    "word": "smell",
+    "time": 61.42
   },
   {
-    "word": "brains",
-    "time": 87.82
+    "word": "taste",
+    "time": 63.32
+  },
+  {
+    "word": "touch",
+    "time": 65.74
+  },
+  {
+    "word": "sense",
+    "time": 87.2
+  },
+  {
+    "word": "sense",
+    "time": 95.84
+  },
+  {
+    "word": "hearing",
+    "time": 96.26
   },
   {
     "word": "vibrate",
-    "time": 109.78
+    "time": 110.47331287202381
+  },
+  {
+    "word": "light",
+    "time": 117.17331287202381
   },
   {
     "word": "amplitude",
-    "time": 128.14
+    "time": 128.44561755952378
   },
   {
     "word": "decibels",
-    "time": 131.4
+    "time": 131.7056175595238
   },
   {
-    "word": "electrical",
-    "time": 133.32
+    "word": "light",
+    "time": 132.7456175595238
+  },
+  {
+    "word": "sight",
+    "time": 135.4186179315476
   },
   {
     "word": "jackrabbits",
-    "time": 142.62
+    "time": 142.7986179315476
+  },
+  {
+    "word": "hearing",
+    "time": 152.0786179315476
+  },
+  {
+    "word": "hearing",
+    "time": 153.6386179315476
   },
   {
     "word": "eardrum",
-    "time": 166.38
+    "time": 166.73607328869045
   },
   {
-    "word": "amplified",
-    "time": 168.82
+    "word": "vibrate",
+    "time": 167.41607328869046
   },
   {
     "word": "stirrup",
-    "time": 174.28
+    "time": 174.74530877976187
   },
   {
     "word": "hammer",
-    "time": 175.22
+    "time": 175.68530877976187
   },
   {
     "word": "anvil",
-    "time": 176.4
+    "time": 176.86530877976188
   },
   {
     "word": "cochlea",
-    "time": 181.36
-  },
-  {
-    "word": "fluids",
-    "time": 183.1
-  },
-  {
-    "word": "bend",
-    "time": 188.32
+    "time": 181.82530877976188
   },
   {
     "word": "songbirds",
-    "time": 197.74
+    "time": 198.20530877976188
   },
   {
     "word": "Elvis",
-    "time": 198.62
+    "time": 199.08530877976187
   },
   {
     "word": "vengeance",
-    "time": 199.74
+    "time": 200.20530877976188
   },
   {
     "word": "rockabilly",
-    "time": 202.64
+    "time": 203.10530877976186
   },
   {
-    "word": "flavors",
-    "time": 208.18
+    "word": "revenge",
+    "time": 203.82530877976188
   },
   {
     "word": "casserole",
-    "time": 209.28
+    "time": 210.1290513392857
   },
   {
     "word": "caviar",
-    "time": 209.92
+    "time": 210.76905133928568
+  },
+  {
+    "word": "taste",
+    "time": 214.04905133928568
+  },
+  {
+    "word": "taste",
+    "time": 216.0090513392857
+  },
+  {
+    "word": "taste",
+    "time": 220.4490513392857
   },
   {
     "word": "salty",
-    "time": 224.66
+    "time": 225.6633017113095
   },
   {
     "word": "lemon",
-    "time": 225.48
+    "time": 226.53705915178568
   },
   {
-    "word": "sour",
-    "time": 226.16
+    "word": "taste",
+    "time": 230.3970591517857
   },
   {
     "word": "sweet",
-    "time": 230.0
+    "time": 231.0570591517857
+  },
+  {
+    "word": "salty",
+    "time": 231.5570591517857
   },
   {
     "word": "bitter",
-    "time": 231.58
+    "time": 232.6370591517857
+  },
+  {
+    "word": "taste",
+    "time": 235.4370591517857
+  },
+  {
+    "word": "taste",
+    "time": 237.6370591517857
   },
   {
     "word": "savory",
-    "time": 240.9
+    "time": 241.9570591517857
   },
   {
     "word": "meaty",
-    "time": 241.56
+    "time": 242.6170591517857
+  },
+  {
+    "word": "taste",
+    "time": 244.2370591517857
   },
   {
     "word": "umami",
-    "time": 246.26
+    "time": 247.45480096726186
+  },
+  {
+    "word": "taste",
+    "time": 248.41480096726187
+  },
+  {
+    "word": "smell",
+    "time": 249.75480096726187
   },
   {
     "word": "cold",
-    "time": 250.32
+    "time": 251.51480096726186
+  },
+  {
+    "word": "sense",
+    "time": 257.654800967262
+  },
+  {
+    "word": "smell",
+    "time": 259.834800967262
+  },
+  {
+    "word": "taste",
+    "time": 269.69480096726204
+  },
+  {
+    "word": "kitten",
+    "time": 271.93480096726205
+  },
+  {
+    "word": "taste",
+    "time": 272.23480096726206
+  },
+  {
+    "word": "hearing",
+    "time": 274.11480096726206
+  },
+  {
+    "word": "smell",
+    "time": 284.69480096726204
+  },
+  {
+    "word": "smell",
+    "time": 286.154800967262
   },
   {
     "word": "touching",
-    "time": 287.14
+    "time": 288.08466145833347
+  },
+  {
+    "word": "cold",
+    "time": 288.6046614583335
   },
   {
     "word": "synesthesia",
-    "time": 296.94
+    "time": 297.49882626488113
+  },
+  {
+    "word": "sense",
+    "time": 302.1388262648811
+  },
+  {
+    "word": "taste",
+    "time": 313.17882626488114
+  },
+  {
+    "word": "sense",
+    "time": 325.03882626488115
+  },
+  {
+    "word": "synesthesia",
+    "time": 327.6988262648811
+  },
+  {
+    "word": "sense",
+    "time": 329.43882626488113
+  },
+  {
+    "word": "sense",
+    "time": 331.8988262648811
   },
   {
     "word": "synesthete",
-    "time": 334.86
+    "time": 336.2789918154764
   },
   {
     "word": "neurotransmitters",
-    "time": 339.62
+    "time": 341.0389918154764
+  },
+  {
+    "word": "mind",
+    "time": 347.29899181547637
+  },
+  {
+    "word": "smell",
+    "time": 352.05899181547636
+  },
+  {
+    "word": "smell",
+    "time": 353.1389918154764
+  },
+  {
+    "word": "sense",
+    "time": 355.0389918154764
+  },
+  {
+    "word": "sight",
+    "time": 355.5189918154764
+  },
+  {
+    "word": "hearing",
+    "time": 355.8589918154764
+  },
+  {
+    "word": "taste",
+    "time": 356.6389918154764
+  },
+  {
+    "word": "smell",
+    "time": 357.0389918154764
+  },
+  {
+    "word": "sense",
+    "time": 358.0789918154764
+  },
+  {
+    "word": "smell",
+    "time": 359.75899181547635
   },
   {
     "word": "gasoline",
-    "time": 360.9
+    "time": 361.59308035714304
   },
   {
-    "word": "memories",
-    "time": 380.58
+    "word": "smell",
+    "time": 370.31308035714306
   },
   {
-    "word": "odor",
-    "time": 388.52
+    "word": "smell",
+    "time": 377.49308035714307
   },
   {
-    "word": "combinations",
-    "time": 390.4
+    "word": "emotion",
+    "time": 380.51308035714305
+  },
+  {
+    "word": "memory",
+    "time": 381.27308035714304
+  },
+  {
+    "word": "taste",
+    "time": 383.07308035714306
+  },
+  {
+    "word": "smell",
+    "time": 387.59308035714304
+  },
+  {
+    "word": "smell",
+    "time": 399.54601748511925
+  },
+  {
+    "word": "smell",
+    "time": 402.30601748511924
+  },
+  {
+    "word": "smell",
+    "time": 404.36601748511924
   },
   {
     "word": "gingerbread",
-    "time": 407.8
+    "time": 409.3818917410717
   },
   {
-    "word": "storing",
-    "time": 416.12
+    "word": "memory",
+    "time": 411.22189174107166
   },
   {
-    "word": "associations",
-    "time": 418.26
+    "word": "smell",
+    "time": 412.84189174107166
+  },
+  {
+    "word": "gingerbread",
+    "time": 413.2018917410717
   },
   {
     "word": "bakery",
-    "time": 422.12
+    "time": 423.7018917410717
+  },
+  {
+    "word": "smell",
+    "time": 427.28189174107166
   },
   {
     "word": "amygdala",
-    "time": 431.96
+    "time": 432.765850074405
+  },
+  {
+    "word": "memory",
+    "time": 434.02585007440507
   },
   {
     "word": "hippocampus",
-    "time": 434.2
+    "time": 435.00585007440503
   },
   {
-    "word": "pressure",
-    "time": 486.86
+    "word": "sense",
+    "time": 436.02585007440507
+  },
+  {
+    "word": "memory",
+    "time": 438.80585007440504
+  },
+  {
+    "word": "hearing",
+    "time": 444.68585007440504
+  },
+  {
+    "word": "sense",
+    "time": 453.02585007440507
+  },
+  {
+    "word": "touching",
+    "time": 454.34585007440506
+  },
+  {
+    "word": "touching",
+    "time": 459.74585007440504
+  },
+  {
+    "word": "touching",
+    "time": 460.705850074405
+  },
+  {
+    "word": "touching",
+    "time": 461.18585007440504
+  },
+  {
+    "word": "touch",
+    "time": 462.96585007440507
+  },
+  {
+    "word": "touch",
+    "time": 463.205850074405
+  },
+  {
+    "word": "smell",
+    "time": 468.56585007440503
+  },
+  {
+    "word": "touch",
+    "time": 469.265850074405
+  },
+  {
+    "word": "sense",
+    "time": 484.00585007440503
+  },
+  {
+    "word": "touch",
+    "time": 484.265850074405
+  },
+  {
+    "word": "Pressure",
+    "time": 487.66585007440506
   },
   {
     "word": "warmth",
-    "time": 487.44
+    "time": 488.24585007440504
+  },
+  {
+    "word": "cold",
+    "time": 488.80585007440504
   },
   {
     "word": "pain",
-    "time": 488.72
+    "time": 489.52585007440507
+  },
+  {
+    "word": "touch",
+    "time": 490.44585007440503
   },
   {
     "word": "anglerfish",
-    "time": 492.62
+    "time": 493.42585007440505
+  },
+  {
+    "word": "sense",
+    "time": 495.44585007440503
   },
   {
     "word": "softness",
-    "time": 496.06
+    "time": 496.86585007440505
   },
   {
     "word": "needlepoint",
-    "time": 503.18
+    "time": 503.98585007440505
   },
   {
-    "word": "joints",
-    "time": 518.26
+    "word": "sense",
+    "time": 504.84585007440506
   },
   {
-    "word": "tendons",
-    "time": 518.76
+    "word": "tickles",
+    "time": 510.705850074405
+  },
+  {
+    "word": "itches",
+    "time": 511.2458500744051
+  },
+  {
+    "word": "sense",
+    "time": 516.365850074405
+  },
+  {
+    "word": "touch",
+    "time": 516.685850074405
   },
   {
     "word": "kinesthesis",
-    "time": 520.56
+    "time": 521.8015364583337
+  },
+  {
+    "word": "sense",
+    "time": 523.7615364583337
+  },
+  {
+    "word": "sense",
+    "time": 527.3615364583337
+  },
+  {
+    "word": "touch",
+    "time": 532.4415364583338
+  },
+  {
+    "word": "sense",
+    "time": 534.3015364583337
+  },
+  {
+    "word": "sense",
+    "time": 538.4415364583338
   },
   {
     "word": "backstroke",
-    "time": 539.8
+    "time": 542.3109747023813
+  },
+  {
+    "word": "sense",
+    "time": 545.8309747023814
+  },
+  {
+    "word": "kinesthesis",
+    "time": 546.4509747023814
+  },
+  {
+    "word": "sense",
+    "time": 548.1509747023813
   },
   {
     "word": "balance",
-    "time": 547.98
+    "time": 550.4909747023813
+  },
+  {
+    "word": "sense",
+    "time": 551.1309747023813
   },
   {
     "word": "equilibrium",
-    "time": 549.0
+    "time": 551.5109747023813
+  },
+  {
+    "word": "cochlea",
+    "time": 557.7709747023813
   },
   {
     "word": "dizzy",
-    "time": 563.18
+    "time": 565.6909747023813
   },
   {
-    "word": "spinning",
-    "time": 567.78
+    "word": "sense",
+    "time": 572.9309747023813
+  },
+  {
+    "word": "Homunculus",
+    "time": 583.0709747023812
+  },
+  {
+    "word": "sense",
+    "time": 587.5309747023813
+  },
+  {
+    "word": "hearing",
+    "time": 587.9709747023813
+  },
+  {
+    "word": "taste",
+    "time": 588.4509747023814
+  },
+  {
+    "word": "smell",
+    "time": 588.9309747023813
+  },
+  {
+    "word": "touch",
+    "time": 589.6109747023813
+  },
+  {
+    "word": "psychology",
+    "time": 596.6909747023813
   }
 ]

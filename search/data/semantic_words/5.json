@@ -4,16 +4,20 @@
     "time": 0.66
   },
   {
-    "word": "rugged",
-    "time": 2.86
-  },
-  {
-    "word": "digest",
-    "time": 8.0
+    "word": "Amibah",
+    "time": 4.88
   },
   {
     "word": "cells",
     "time": 12.48
+  },
+  {
+    "word": "cells",
+    "time": 14.5
+  },
+  {
+    "word": "heart",
+    "time": 19.6
   },
   {
     "word": "lungs",
@@ -24,56 +28,60 @@
     "time": 26.7
   },
   {
+    "word": "cells",
+    "time": 29.32
+  },
+  {
     "word": "compartmentalizing",
     "time": 30.76
+  },
+  {
+    "word": "cells",
+    "time": 32.84
   },
   {
     "word": "homeostasis",
     "time": 36.86
   },
   {
-    "word": "energy",
-    "time": 39.5
+    "word": "cells",
+    "time": 41.18
   },
   {
     "word": "hierarchy",
     "time": 43.32
   },
   {
+    "word": "cells",
+    "time": 48.32
+  },
+  {
     "word": "course",
     "time": 49.34
   },
   {
-    "word": "refresh",
-    "time": 52.92
+    "word": "course",
+    "time": 51.18
   },
   {
-    "word": "ground",
-    "time": 57.06
-  },
-  {
-    "word": "groups",
-    "time": 59.54
-  },
-  {
-    "word": "function",
-    "time": 62.16
+    "word": "cells",
+    "time": 60.24
   },
   {
     "word": "tissues",
     "time": 63.3
   },
   {
-    "word": "situ's",
+    "word": "Situ's",
     "time": 64.1
-  },
-  {
-    "word": "fabric",
-    "time": 65.36
   },
   {
     "word": "woven",
     "time": 68.3
+  },
+  {
+    "word": "tissues",
+    "time": 69.62
   },
   {
     "word": "organs",
@@ -84,251 +92,927 @@
     "time": 71.92
   },
   {
+    "word": "lungs",
+    "time": 72.42
+  },
+  {
     "word": "liver",
     "time": 72.86
+  },
+  {
+    "word": "organs",
+    "time": 73.36
+  },
+  {
+    "word": "tissues",
+    "time": 74.98
+  },
+  {
+    "word": "organs",
+    "time": 77.46
+  },
+  {
+    "word": "tissues",
+    "time": 79.48
+  },
+  {
+    "word": "tissues",
+    "time": 81.96
+  },
+  {
+    "word": "tissues",
+    "time": 85.6
+  },
+  {
+    "word": "tissues",
+    "time": 88.36
+  },
+  {
+    "word": "muscles",
+    "time": 91.1
+  },
+  {
+    "word": "tissues",
+    "time": 91.32
   },
   {
     "word": "movement",
     "time": 92.26
   },
   {
+    "word": "tissues",
+    "time": 93.3
+  },
+  {
+    "word": "organs",
+    "time": 95.2
+  },
+  {
+    "word": "tissues",
+    "time": 98.62
+  },
+  {
     "word": "support",
     "time": 99.48
   },
   {
+    "word": "cells",
+    "time": 100.44
+  },
+  {
+    "word": "tissues",
+    "time": 102.46
+  },
+  {
+    "word": "cells",
+    "time": 103.8
+  },
+  {
     "word": "histology",
-    "time": 129.3
+    "time": 128.53125930059525
+  },
+  {
+    "word": "tissues",
+    "time": 129.91125930059525
+  },
+  {
+    "word": "tissues",
+    "time": 133.97125930059525
   },
   {
     "word": "microscopes",
-    "time": 135.66
+    "time": 134.89125930059524
   },
   {
     "word": "1590s",
-    "time": 137.8
+    "time": 137.03125930059525
+  },
+  {
+    "word": "microscopes",
+    "time": 146.25125930059525
   },
   {
     "word": "magnification",
-    "time": 152.34
+    "time": 151.57125930059524
+  },
+  {
+    "word": "microscopes",
+    "time": 153.99125930059523
+  },
+  {
+    "word": "microscopes",
+    "time": 162.01125930059524
+  },
+  {
+    "word": "magnification",
+    "time": 164.91125930059525
   },
   {
     "word": "microorganisms",
-    "time": 175.8
+    "time": 175.34282924107146
   },
   {
     "word": "bacterias",
-    "time": 177.1
+    "time": 176.64282924107144
   },
   {
     "word": "bromatazzoa",
-    "time": 177.64
+    "time": 177.18282924107143
+  },
+  {
+    "word": "muscles",
+    "time": 178.18282924107143
+  },
+  {
+    "word": "fibers",
+    "time": 178.44282924107145
+  },
+  {
+    "word": "histology",
+    "time": 186.46282924107143
+  },
+  {
+    "word": "cells",
+    "time": 189.18282924107143
+  },
+  {
+    "word": "tissues",
+    "time": 190.1852101934524
   },
   {
     "word": "breakthrough",
-    "time": 193.1
+    "time": 192.7783389136905
   },
   {
-    "word": "stain",
-    "time": 194.64
+    "word": "stains",
+    "time": 193.05187686011905
+  },
+  {
+    "word": "die",
+    "time": 193.73187686011906
+  },
+  {
+    "word": "microscopes",
+    "time": 196.59187686011907
   },
   {
     "word": "preserve",
-    "time": 199.3
+    "time": 197.71187686011908
   },
   {
     "word": "fix",
-    "time": 200.28
+    "time": 198.69187686011907
   },
   {
-    "word": "slice",
-    "time": 201.4
+    "word": "stains",
+    "time": 205.78941592261907
   },
   {
-    "word": "contrast",
-    "time": 208.32
+    "word": "stains",
+    "time": 210.5253087797619
   },
   {
-    "word": "identify",
-    "time": 221.92
+    "word": "tissues",
+    "time": 215.9653087797619
   },
   {
-    "word": "location",
-    "time": 223.42
+    "word": "cells",
+    "time": 219.1453087797619
   },
   {
-    "word": "shape",
-    "time": 224.22
+    "word": "stains",
+    "time": 219.68969680059524
   },
   {
-    "word": "size",
-    "time": 224.86
+    "word": "tissues",
+    "time": 221.6329613095238
   },
   {
     "word": "nuclei",
-    "time": 226.28
+    "time": 225.00284226190473
+  },
+  {
+    "word": "die",
+    "time": 229.12284226190474
   },
   {
     "word": "saffron",
-    "time": 231.32
+    "time": 230.04284226190472
   },
   {
     "word": "1673",
-    "time": 233.7
+    "time": 232.42284226190472
   },
   {
     "word": "1850s",
-    "time": 239.0
+    "time": 237.72284226190473
+  },
+  {
+    "word": "stains",
+    "time": 240.92284226190472
   },
   {
     "word": "German",
-    "time": 243.82
+    "time": 242.54284226190472
+  },
+  {
+    "word": "Adamist",
+    "time": 242.94284226190473
+  },
+  {
+    "word": "tissues",
+    "time": 247.18284226190474
   },
   {
     "word": "Carmen",
-    "time": 250.38
+    "time": 249.10284226190473
+  },
+  {
+    "word": "Garlock",
+    "time": 253.36284226190475
+  },
+  {
+    "word": "Carmen",
+    "time": 254.80284226190486
+  },
+  {
+    "word": "cells",
+    "time": 256.5428422619049
+  },
+  {
+    "word": "Garlock",
+    "time": 257.9028422619049
+  },
+  {
+    "word": "tissues",
+    "time": 260.2828422619049
   },
   {
     "word": "brain",
-    "time": 262.24
+    "time": 260.9628422619049
+  },
+  {
+    "word": "stains",
+    "time": 262.8428422619049
+  },
+  {
+    "word": "brain",
+    "time": 263.12284226190485
+  },
+  {
+    "word": "cells",
+    "time": 263.56284226190485
+  },
+  {
+    "word": "stains",
+    "time": 264.4428422619049
+  },
+  {
+    "word": "stains",
+    "time": 269.66284226190487
+  },
+  {
+    "word": "Carmen",
+    "time": 270.98284226190486
   },
   {
     "word": "ammonia",
-    "time": 272.7
+    "time": 271.59164806547625
   },
   {
     "word": "gelatin",
-    "time": 273.48
-  },
-  {
-    "word": "shoot",
-    "time": 275.72
+    "time": 272.3716480654763
   },
   {
     "word": "cerebellum",
-    "time": 283.8
+    "time": 282.55944010416675
   },
   {
-    "word": "solution",
-    "time": 285.54
+    "word": "Carmen",
+    "time": 288.37944010416675
+  },
+  {
+    "word": "tissues",
+    "time": 291.87944010416675
+  },
+  {
+    "word": "nuclei",
+    "time": 293.25944010416674
+  },
+  {
+    "word": "brain",
+    "time": 294.37944010416675
+  },
+  {
+    "word": "cells",
+    "time": 294.87944010416675
+  },
+  {
+    "word": "fibers",
+    "time": 296.85944010416677
+  },
+  {
+    "word": "cells",
+    "time": 298.73944010416676
   },
   {
     "word": "neuron",
-    "time": 302.92
+    "time": 301.67944010416676
+  },
+  {
+    "word": "stains",
+    "time": 303.79944010416676
+  },
+  {
+    "word": "breakthrough",
+    "time": 304.81944010416674
+  },
+  {
+    "word": "tissues",
+    "time": 306.69944010416674
+  },
+  {
+    "word": "anatomists",
+    "time": 308.2194401041667
+  },
+  {
+    "word": "microscopes",
+    "time": 310.3394401041667
+  },
+  {
+    "word": "stains",
+    "time": 311.3394401041667
+  },
+  {
+    "word": "tissues",
+    "time": 315.43944010416675
+  },
+  {
+    "word": "cells",
+    "time": 318.8394401041667
+  },
+  {
+    "word": "tissues",
+    "time": 320.81944010416674
+  },
+  {
+    "word": "brain",
+    "time": 324.39944010416673
   },
   {
     "word": "nerves",
-    "time": 328.58
+    "time": 327.3394401041667
   },
   {
-    "word": "stimuli",
-    "time": 337.72
+    "word": "tissues",
+    "time": 333.93944010416675
+  },
+  {
+    "word": "tissues",
+    "time": 344.12767671130956
+  },
+  {
+    "word": "cells",
+    "time": 346.4276767113096
+  },
+  {
+    "word": "neuron",
+    "time": 347.0476767113096
+  },
+  {
+    "word": "cells",
+    "time": 348.26767671130955
+  },
+  {
+    "word": "neuron",
+    "time": 348.74767671130957
+  },
+  {
+    "word": "brain",
+    "time": 352.4676767113096
+  },
+  {
+    "word": "nerves",
+    "time": 357.9676767113096
+  },
+  {
+    "word": "neuron",
+    "time": 368.62767671130956
+  },
+  {
+    "word": "tissues",
+    "time": 370.06767671130956
+  },
+  {
+    "word": "messages",
+    "time": 372.6076767113096
+  },
+  {
+    "word": "brain",
+    "time": 373.26767671130955
+  },
+  {
+    "word": "neuron",
+    "time": 379.36767671130957
   },
   {
     "word": "dendrites",
-    "time": 382.46
+    "time": 382.2046521577381
   },
   {
     "word": "axon",
-    "time": 383.52
+    "time": 383.2646521577381
+  },
+  {
+    "word": "cells",
+    "time": 383.80465215773813
   },
   {
     "word": "soma",
-    "time": 384.84
+    "time": 384.7573177083333
+  },
+  {
+    "word": "neuron",
+    "time": 385.5573177083333
+  },
+  {
+    "word": "support",
+    "time": 386.1173177083333
   },
   {
     "word": "nucleus",
-    "time": 388.56
+    "time": 388.4773177083333
   },
   {
     "word": "mitochondria",
-    "time": 389.08
+    "time": 388.9973177083333
   },
   {
     "word": "DNA",
-    "time": 389.88
+    "time": 389.7973177083333
+  },
+  {
+    "word": "dendrites",
+    "time": 390.5373177083333
+  },
+  {
+    "word": "cells",
+    "time": 394.5573177083333
+  },
+  {
+    "word": "soma",
+    "time": 395.6773177083333
+  },
+  {
+    "word": "axon",
+    "time": 398.45731770833333
+  },
+  {
+    "word": "messages",
+    "time": 401.2173177083333
+  },
+  {
+    "word": "neuron",
+    "time": 402.2373177083333
+  },
+  {
+    "word": "muscles",
+    "time": 402.7973177083333
+  },
+  {
+    "word": "glands",
+    "time": 403.39731770833333
+  },
+  {
+    "word": "nerves",
+    "time": 405.9373177083333
+  },
+  {
+    "word": "cells",
+    "time": 409.7573177083333
+  },
+  {
+    "word": "cells",
+    "time": 410.6173177083333
+  },
+  {
+    "word": "neuron",
+    "time": 411.45731770833333
+  },
+  {
+    "word": "support",
+    "time": 412.9173177083333
   },
   {
     "word": "insulation",
-    "time": 413.86
+    "time": 413.0375483630952
   },
   {
     "word": "protection",
-    "time": 414.92
+    "time": 414.0975483630952
   },
   {
     "word": "blood",
-    "time": 416.56
+    "time": 415.7375483630952
+  },
+  {
+    "word": "muscles",
+    "time": 421.3975483630952
+  },
+  {
+    "word": "tissues",
+    "time": 421.8375483630952
+  },
+  {
+    "word": "tissues",
+    "time": 423.1775483630952
+  },
+  {
+    "word": "muscles",
+    "time": 423.75754836309517
+  },
+  {
+    "word": "tissues",
+    "time": 423.9975483630952
   },
   {
     "word": "contract",
-    "time": 425.58
+    "time": 424.75754836309517
   },
   {
     "word": "walk",
-    "time": 428.88
+    "time": 428.0575483630952
   },
   {
     "word": "chew",
-    "time": 429.56
+    "time": 428.7375483630952
   },
   {
     "word": "breathe",
-    "time": 430.54
+    "time": 429.7175483630952
+  },
+  {
+    "word": "muscles",
+    "time": 430.3375483630952
+  },
+  {
+    "word": "tissues",
+    "time": 430.5975483630952
   },
   {
     "word": "vascularized",
-    "time": 432.42
+    "time": 431.5975483630952
   },
   {
-    "word": "skeletal",
-    "time": 437.84
+    "word": "blood",
+    "time": 433.7175483630952
   },
   {
-    "word": "cardiac",
-    "time": 438.68
-  },
-  {
-    "word": "smooth",
-    "time": 439.2
+    "word": "muscles",
+    "time": 439.5575483630952
   },
   {
     "word": "bones",
-    "time": 442.04
+    "time": 441.2175483630952
   },
   {
     "word": "skeleton",
-    "time": 442.52
+    "time": 441.69754836309517
   },
   {
     "word": "posture",
-    "time": 444.24
+    "time": 443.4175483630952
+  },
+  {
+    "word": "muscles",
+    "time": 444.57754836309516
+  },
+  {
+    "word": "tissues",
+    "time": 444.8375483630952
+  },
+  {
+    "word": "bones",
+    "time": 446.13754836309516
+  },
+  {
+    "word": "contract",
+    "time": 447.4775483630952
+  },
+  {
+    "word": "muscles",
+    "time": 450.3775483630952
+  },
+  {
+    "word": "tissues",
+    "time": 450.6575483630952
+  },
+  {
+    "word": "cells",
+    "time": 452.2375483630952
   },
   {
     "word": "striations",
-    "time": 456.28
+    "time": 457.14323474702377
+  },
+  {
+    "word": "tissues",
+    "time": 462.0632347470238
+  },
+  {
+    "word": "voluntary",
+    "time": 466.2232347470238
+  },
+  {
+    "word": "tissues",
+    "time": 467.4232347470238
+  },
+  {
+    "word": "involuntarily",
+    "time": 468.8832347470238
+  },
+  {
+    "word": "heart",
+    "time": 472.2832347470238
+  },
+  {
+    "word": "contract",
+    "time": 475.14323474702377
+  },
+  {
+    "word": "tissues",
+    "time": 476.7432347470238
+  },
+  {
+    "word": "heart",
+    "time": 478.8832347470238
+  },
+  {
+    "word": "blood",
+    "time": 481.1256398809524
+  },
+  {
+    "word": "muscles",
+    "time": 482.5895163690477
+  },
+  {
+    "word": "tissues",
+    "time": 482.8095163690477
+  },
+  {
+    "word": "striped",
+    "time": 483.63819196428585
   },
   {
     "word": "striated",
-    "time": 485.34
+    "time": 484.1255282738096
+  },
+  {
+    "word": "muscles",
+    "time": 485.78552827380963
+  },
+  {
+    "word": "tissues",
+    "time": 486.02552827380964
+  },
+  {
+    "word": "cells",
+    "time": 486.5226748511906
   },
   {
     "word": "unenucleate",
-    "time": 488.92
+    "time": 487.36219680059537
+  },
+  {
+    "word": "nucleus",
+    "time": 489.84219680059533
+  },
+  {
+    "word": "tissues",
+    "time": 491.6021968005954
+  },
+  {
+    "word": "cells",
+    "time": 494.12219680059536
+  },
+  {
+    "word": "cells",
+    "time": 499.52219680059534
+  },
+  {
+    "word": "striations",
+    "time": 501.56219680059536
+  },
+  {
+    "word": "glue",
+    "time": 502.90219680059533
+  },
+  {
+    "word": "muscles",
+    "time": 503.58219680059534
+  },
+  {
+    "word": "cells",
+    "time": 503.70219680059535
+  },
+  {
+    "word": "contract",
+    "time": 504.84219680059533
   },
   {
     "word": "pores",
-    "time": 507.66
+    "time": 507.2933240327382
+  },
+  {
+    "word": "cells",
+    "time": 510.5333240327381
+  },
+  {
+    "word": "muscles",
+    "time": 512.2933240327377
+  },
+  {
+    "word": "tissues",
+    "time": 512.5933240327378
+  },
+  {
+    "word": "blood",
+    "time": 514.7933240327379
+  },
+  {
+    "word": "organs",
+    "time": 515.9133240327379
   },
   {
     "word": "uterus",
-    "time": 519.76
+    "time": 518.612306547619
   },
   {
-    "word": "involuntary",
-    "time": 530.98
+    "word": "striations",
+    "time": 522.8123065476191
   },
   {
-    "word": "pustereal",
-    "time": 585.14
+    "word": "tissues",
+    "time": 529.032306547619
+  },
+  {
+    "word": "heart",
+    "time": 531.0523065476191
+  },
+  {
+    "word": "organs",
+    "time": 531.4323065476191
+  },
+  {
+    "word": "muscles",
+    "time": 541.272306547619
+  },
+  {
+    "word": "tissues",
+    "time": 541.492306547619
+  },
+  {
+    "word": "tissues",
+    "time": 545.472306547619
+  },
+  {
+    "word": "stains",
+    "time": 545.7923065476191
+  },
+  {
+    "word": "muscles",
+    "time": 546.9323065476191
+  },
+  {
+    "word": "tissues",
+    "time": 547.3123065476191
+  },
+  {
+    "word": "striations",
+    "time": 549.372306547619
+  },
+  {
+    "word": "cells",
+    "time": 550.352306547619
+  },
+  {
+    "word": "tissues",
+    "time": 552.772306547619
+  },
+  {
+    "word": "cells",
+    "time": 553.332306547619
+  },
+  {
+    "word": "striated",
+    "time": 553.7923065476191
+  },
+  {
+    "word": "nucleus",
+    "time": 555.332306547619
+  },
+  {
+    "word": "cells",
+    "time": 557.412306547619
+  },
+  {
+    "word": "cells",
+    "time": 561.132306547619
+  },
+  {
+    "word": "muscles",
+    "time": 564.992306547619
+  },
+  {
+    "word": "cells",
+    "time": 567.152306547619
+  },
+  {
+    "word": "striations",
+    "time": 570.7923065476191
+  },
+  {
+    "word": "muscles",
+    "time": 573.5523065476191
+  },
+  {
+    "word": "cells",
+    "time": 575.992306547619
+  },
+  {
+    "word": "striations",
+    "time": 576.852306547619
+  },
+  {
+    "word": "nuclei",
+    "time": 578.3123065476191
+  },
+  {
+    "word": "muscles",
+    "time": 580.252306547619
+  },
+  {
+    "word": "tissues",
+    "time": 580.472306547619
+  },
+  {
+    "word": "muscles",
+    "time": 586.4470665922619
+  },
+  {
+    "word": "histology",
+    "time": 588.9470665922619
+  },
+  {
+    "word": "cells",
+    "time": 590.707066592262
+  },
+  {
+    "word": "muscles",
+    "time": 592.5470665922619
+  },
+  {
+    "word": "tissues",
+    "time": 594.747066592262
+  },
+  {
+    "word": "histology",
+    "time": 597.107066592262
+  },
+  {
+    "word": "microscopes",
+    "time": 598.207066592262
+  },
+  {
+    "word": "stains",
+    "time": 599.0470665922619
+  },
+  {
+    "word": "tissues",
+    "time": 600.727066592262
+  },
+  {
+    "word": "muscles",
+    "time": 605.1670665922619
+  },
+  {
+    "word": "tissues",
+    "time": 605.5470665922619
+  },
+  {
+    "word": "movement",
+    "time": 606.9070665922619
+  },
+  {
+    "word": "voluntary",
+    "time": 607.607066592262
+  },
+  {
+    "word": "course",
+    "time": 616.747066592262
+  },
+  {
+    "word": "supporter",
+    "time": 621.6470665922619
   }
 ]

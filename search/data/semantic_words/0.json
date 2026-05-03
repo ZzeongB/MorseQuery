@@ -5,370 +5,586 @@
   },
   {
     "word": "hepatitis",
-    "time": 4.24
+    "time": 4.105327380952382
   },
   {
     "word": "psycho",
-    "time": 20.64
+    "time": 20.242911086309523
   },
   {
     "word": "schizo",
-    "time": 21.44
+    "time": 20.917167038690476
   },
   {
     "word": "bipolar",
-    "time": 22.26
+    "time": 21.737167038690476
   },
   {
     "word": "OCD",
-    "time": 23.12
-  },
-  {
-    "word": "psychological",
-    "time": 29.86
-  },
-  {
-    "word": "disorders",
-    "time": 30.34
+    "time": 22.597167038690475
   },
   {
     "word": "stigmatized",
-    "time": 33.06
+    "time": 32.53716703869047
   },
   {
     "word": "minimize",
-    "time": 35.54
+    "time": 35.01716703869047
   },
   {
-    "word": "universal",
-    "time": 41.36
+    "word": "nicknames",
+    "time": 36.97716703869047
+  },
+  {
+    "word": "healthy",
+    "time": 42.457167038690464
   },
   {
     "word": "symptoms",
-    "time": 54.18
+    "time": 53.65716703869047
+  },
+  {
+    "word": "types",
+    "time": 54.25716703869047
+  },
+  {
+    "word": "causes",
+    "time": 54.83716703869047
   },
   {
     "word": "perspectives",
-    "time": 56.38
+    "time": 55.85716703869047
   },
   {
     "word": "anxiety",
-    "time": 63.6
-  },
-  {
-    "word": "human",
-    "time": 65.06
+    "time": 62.66012834821428
   },
   {
     "word": "fear",
-    "time": 67.82
+    "time": 66.88012834821427
   },
   {
-    "word": "dread",
-    "time": 69.26
+    "word": "anxiety",
+    "time": 70.94012834821427
   },
   {
     "word": "deviant",
-    "time": 75.3
+    "time": 74.36012834821427
   },
   {
     "word": "distressful",
-    "time": 75.98
+    "time": 75.04012834821428
   },
   {
-    "word": "dysfunctional",
-    "time": 76.76
+    "word": "healthy",
+    "time": 81.14012834821428
+  },
+  {
+    "word": "anxiety",
+    "time": 82.32012834821428
   },
   {
     "word": "phobic",
-    "time": 87.32
+    "time": 87.66142485119046
   },
   {
-    "word": "laundry",
-    "time": 99.1
+    "word": "fear",
+    "time": 93.60142485119047
   },
   {
-    "word": "bleed",
-    "time": 102.3
+    "word": "OCD",
+    "time": 98.26142485119047
   },
   {
-    "word": "drowned",
-    "time": 124.46
+    "word": "anxiety",
+    "time": 117.91084635416665
+  },
+  {
+    "word": "fear",
+    "time": 118.73084635416666
+  },
+  {
+    "word": "anxiety",
+    "time": 119.27084635416665
+  },
+  {
+    "word": "fear",
+    "time": 120.81084635416666
+  },
+  {
+    "word": "fear",
+    "time": 124.35146577380952
   },
   {
     "word": "river",
-    "time": 128.14
+    "time": 127.15483444940477
   },
   {
-    "word": "persistent",
-    "time": 141.64
+    "word": "causes",
+    "time": 127.55483444940481
   },
   {
-    "word": "obsessive",
-    "time": 162.34
+    "word": "anxiety",
+    "time": 127.99483444940485
   },
   {
-    "word": "ritualistic",
-    "time": 193.94
+    "word": "anxiety",
+    "time": 137.21007998511914
   },
   {
-    "word": "psychotropic",
-    "time": 237.28
+    "word": "anxiety",
+    "time": 140.23199776785725
   },
   {
-    "word": "pervasive",
-    "time": 249.68
+    "word": "anxiety",
+    "time": 144.51199776785725
   },
   {
-    "word": "Generalized",
-    "time": 258.1
+    "word": "anxiety",
+    "time": 148.73199776785725
+  },
+  {
+    "word": "anxiety",
+    "time": 156.21199776785724
+  },
+  {
+    "word": "OCD",
+    "time": 162.58188802083345
+  },
+  {
+    "word": "obsessions",
+    "time": 169.441752232143
+  },
+  {
+    "word": "compulsions",
+    "time": 173.31533668154773
+  },
+  {
+    "word": "fastidious",
+    "time": 180.37533668154774
+  },
+  {
+    "word": "OCD",
+    "time": 182.49533668154774
+  },
+  {
+    "word": "OCD",
+    "time": 183.15533668154774
+  },
+  {
+    "word": "anxiety",
+    "time": 197.77533668154774
+  },
+  {
+    "word": "deviant",
+    "time": 208.15533668154774
+  },
+  {
+    "word": "distressful",
+    "time": 208.85533668154773
+  },
+  {
+    "word": "OCD",
+    "time": 210.53533668154773
+  },
+  {
+    "word": "OCD",
+    "time": 222.85533668154773
+  },
+  {
+    "word": "fear",
+    "time": 224.45533668154772
+  },
+  {
+    "word": "OCD",
+    "time": 234.75533668154773
+  },
+  {
+    "word": "psychotherapy",
+    "time": 236.33533668154774
+  },
+  {
+    "word": "OCD",
+    "time": 246.67533668154775
+  },
+  {
+    "word": "fear",
+    "time": 251.35533668154773
+  },
+  {
+    "word": "worry",
+    "time": 251.83533668154774
+  },
+  {
+    "word": "anxiety",
+    "time": 256.2953366815478
+  },
+  {
+    "word": "anxiety",
+    "time": 258.05682291666676
   },
   {
     "word": "GAD",
-    "time": 260.3
+    "time": 259.1878348214287
+  },
+  {
+    "word": "tense",
+    "time": 262.5478348214287
   },
   {
     "word": "apprehensive",
-    "time": 264.66
+    "time": 263.5478348214287
   },
   {
-    "word": "unfocused",
-    "time": 266.12
+    "word": "GAD",
+    "time": 276.20783482142866
   },
   {
-    "word": "diagnosis",
-    "time": 275.3
+    "word": "worry",
+    "time": 276.5078348214287
   },
   {
-    "word": "agitated",
-    "time": 280.1
+    "word": "anxiety",
+    "time": 281.6278348214287
   },
   {
     "word": "panic",
-    "time": 288.7
+    "time": 287.58783482142866
   },
   {
-    "word": "teen",
-    "time": 292.42
+    "word": "panic",
+    "time": 293.66783482142864
   },
   {
-    "word": "adults",
-    "time": 293.28
+    "word": "fear",
+    "time": 297.40783482142865
   },
   {
-    "word": "elevated",
-    "time": 307.84
+    "word": "symptoms",
+    "time": 299.90783482142865
   },
   {
-    "word": "physiological",
-    "time": 324.54
+    "word": "GAD",
+    "time": 300.34783482142865
   },
   {
-    "word": "genetic",
-    "time": 331.78
+    "word": "panic",
+    "time": 302.5678348214287
   },
   {
-    "word": "predisposition",
-    "time": 332.08
+    "word": "anxiety",
+    "time": 307.1278348214287
   },
   {
-    "word": "trauma",
-    "time": 336.54
+    "word": "causes",
+    "time": 313.8678348214287
+  },
+  {
+    "word": "genetics",
+    "time": 330.66783482142864
+  },
+  {
+    "word": "panic",
+    "time": 331.94783482142867
+  },
+  {
+    "word": "panic",
+    "time": 342.38783482142867
+  },
+  {
+    "word": "fear",
+    "time": 343.94783482142867
+  },
+  {
+    "word": "panic",
+    "time": 345.52783482142866
+  },
+  {
+    "word": "panic",
+    "time": 348.22783482142864
   },
   {
     "word": "hyperventilating",
-    "time": 351.1
+    "time": 349.9878348214287
   },
   {
-    "word": "crowded",
-    "time": 360.06
+    "word": "anxiety",
+    "time": 357.16783482142864
   },
   {
-    "word": "confined",
-    "time": 360.66
+    "word": "anxiety",
+    "time": 361.4278348214287
+  },
+  {
+    "word": "fear",
+    "time": 363.16783482142864
+  },
+  {
+    "word": "anxiety",
+    "time": 363.84783482142865
+  },
+  {
+    "word": "anxiety",
+    "time": 367.6878348214287
   },
   {
     "word": "phobias",
-    "time": 369.96
+    "time": 368.84783482142865
   },
   {
-    "word": "avoidance",
-    "time": 390.66
+    "word": "fear",
+    "time": 377.96783482142865
   },
   {
-    "word": "Chesapeake",
-    "time": 401.48
+    "word": "phobic",
+    "time": 380.1278348214287
   },
   {
-    "word": "bridges",
-    "time": 402.04
+    "word": "phobias",
+    "time": 381.76783482142866
   },
   {
-    "word": "driver's",
-    "time": 419.32
+    "word": "fear",
+    "time": 383.8078348214287
+  },
+  {
+    "word": "fear",
+    "time": 391.34783482142865
+  },
+  {
+    "word": "phobias",
+    "time": 396.5478348214287
+  },
+  {
+    "word": "Maryland",
+    "time": 401.38783482142867
+  },
+  {
+    "word": "Maryland",
+    "time": 407.3678348214287
   },
   {
     "word": "jephyrophobia",
-    "time": 423.02
+    "time": 421.90783482142865
   },
   {
-    "word": "social",
-    "time": 437.06
+    "word": "fear",
+    "time": 423.1278348214287
   },
   {
-    "word": "learning",
-    "time": 471.44
+    "word": "dogs",
+    "time": 426.9878348214287
   },
   {
-    "word": "biology",
-    "time": 472.42
+    "word": "phobias",
+    "time": 432.52783482142866
+  },
+  {
+    "word": "phobias",
+    "time": 436.34783482142865
+  },
+  {
+    "word": "anxiety",
+    "time": 438.14783482142866
+  },
+  {
+    "word": "anxiety",
+    "time": 440.20783482142866
+  },
+  {
+    "word": "anxiety",
+    "time": 450.64783482142866
+  },
+  {
+    "word": "causes",
+    "time": 457.44783482142867
+  },
+  {
+    "word": "anxiety",
+    "time": 459.44783482142867
+  },
+  {
+    "word": "panic",
+    "time": 462.0678348214287
+  },
+  {
+    "word": "perspectives",
+    "time": 466.46783482142865
+  },
+  {
+    "word": "anxiety",
+    "time": 468.5078348214287
+  },
+  {
+    "word": "perspectives",
+    "time": 472.4278348214287
   },
   {
     "word": "conditioning",
-    "time": 475.14
-  },
-  {
-    "word": "observational",
-    "time": 475.88
+    "time": 474.02783482142866
   },
   {
     "word": "cognition",
-    "time": 477.16
+    "time": 476.0478348214287
   },
   {
-    "word": "Albert",
-    "time": 485.64
+    "word": "anxiety",
+    "time": 479.70783482142866
   },
   {
-    "word": "stimulus",
-    "time": 500.44
+    "word": "conditioning",
+    "time": 482.8078348214287
   },
   {
-    "word": "generalization",
-    "time": 500.98
+    "word": "conditioning",
+    "time": 488.90783482142865
   },
   {
-    "word": "parrot",
-    "time": 508.94
+    "word": "fear",
+    "time": 489.96783482142865
   },
   {
-    "word": "reinforcement",
-    "time": 513.5
+    "word": "bunnies",
+    "time": 491.96783482142865
   },
   {
-    "word": "slippers",
-    "time": 518.66
+    "word": "dogs",
+    "time": 492.64783482142866
+  },
+  {
+    "word": "conditioning",
+    "time": 494.0078348214287
+  },
+  {
+    "word": "fear",
+    "time": 502.84783482142865
+  },
+  {
+    "word": "fear",
+    "time": 508.82783482142867
+  },
+  {
+    "word": "anxiety",
+    "time": 510.6678348214285
   },
   {
     "word": "robin",
-    "time": 519.48
+    "time": 518.3678348214283
   },
   {
-    "word": "bear",
-    "time": 533.3
+    "word": "anxiety",
+    "time": 520.0478348214283
+  },
+  {
+    "word": "phobic",
+    "time": 525.0878348214284
+  },
+  {
+    "word": "cognition",
+    "time": 526.7478348214283
+  },
+  {
+    "word": "anxiety",
+    "time": 528.5878348214284
   },
   {
     "word": "robber",
-    "time": 533.92
+    "time": 532.8078348214283
   },
   {
-    "word": "knife",
-    "time": 539.56
+    "word": "anxiety",
+    "time": 539.8278348214284
   },
   {
-    "word": "kiddie",
-    "time": 549.78
+    "word": "fear",
+    "time": 545.9878348214284
   },
   {
-    "word": "fountains",
-    "time": 552.76
+    "word": "perspectives",
+    "time": 555.1478348214283
   },
   {
-    "word": "duck",
-    "time": 553.52
+    "word": "fear",
+    "time": 559.0078348214283
   },
   {
-    "word": "ponds",
-    "time": 553.8
+    "word": "fear",
+    "time": 562.2878348214283
   },
   {
-    "word": "biological",
-    "time": 555.76
+    "word": "fear",
+    "time": 575.9078348214283
   },
   {
-    "word": "Natural",
-    "time": 557.04
+    "word": "fear",
+    "time": 580.8478348214284
   },
   {
-    "word": "snakes",
-    "time": 562.3
+    "word": "genetics",
+    "time": 582.7078348214284
   },
   {
-    "word": "cliff",
-    "time": 570.32
+    "word": "phobias",
+    "time": 590.1878348214283
   },
   {
-    "word": "serpents",
-    "time": 571.7
+    "word": "anxiety",
+    "time": 596.8878348214283
   },
   {
-    "word": "genes",
-    "time": 574.76
+    "word": "anxiety",
+    "time": 607.8878348214283
   },
   {
-    "word": "twins",
-    "time": 587.78
+    "word": "panic",
+    "time": 610.3878348214283
   },
   {
-    "word": "impulse",
-    "time": 618.46
+    "word": "anxiety",
+    "time": 611.6878348214283
   },
   {
-    "word": "habitual",
-    "time": 619.64
+    "word": "compulsions",
+    "time": 613.2078348214284
   },
   {
-    "word": "truism",
-    "time": 626.58
+    "word": "anxiety",
+    "time": 639.2478348214283
   },
   {
-    "word": "Subbable",
-    "time": 659.82
+    "word": "symptoms",
+    "time": 640.8078348214283
   },
   {
-    "word": "Crash",
-    "time": 661.02
+    "word": "anxiety",
+    "time": 642.9478348214283
   },
   {
-    "word": "Kathleen",
-    "time": 669.28
+    "word": "panic",
+    "time": 643.9478348214283
   },
   {
-    "word": "Yale",
-    "time": 669.7
+    "word": "phobias",
+    "time": 645.0278348214283
   },
   {
-    "word": "DiPastino",
-    "time": 670.88
+    "word": "perspectives",
+    "time": 647.3878348214283
   },
   {
-    "word": "Bhagwat",
-    "time": 673.18
+    "word": "anxiety",
+    "time": 649.0478348214283
   },
   {
-    "word": "Nicholas",
-    "time": 675.18
+    "word": "perspectives",
+    "time": 650.6478348214283
   },
   {
-    "word": "Jenkins",
-    "time": 675.42
+    "word": "perspectives",
+    "time": 652.1278348214283
   },
   {
-    "word": "Michael",
-    "time": 676.84
-  },
-  {
-    "word": "Ronda",
-    "time": 677.02
+    "word": "OCD",
+    "time": 654.7478348214283
   }
 ]

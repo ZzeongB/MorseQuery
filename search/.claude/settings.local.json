@@ -3,7 +3,13 @@
     "allow": [
       "Bash(python split_words.py:*)",
       "Bash(python:*)",
-      "Bash(wc:*)"
+      "Bash(wc:*)",
+      "Bash(python3:*)",
+      "Bash(xargs:*)",
+      "Bash(ls:*)",
+      "Bash(grep:*)",
+      "Bash(ffprobe:*)",
+      "Bash(ffmpeg:*)"
     ]
   }
 }

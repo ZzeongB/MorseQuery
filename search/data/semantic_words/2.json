@@ -20,6 +20,10 @@
     "time": 12.66
   },
   {
+    "word": "buildings",
+    "time": 13.98
+  },
+  {
     "word": "Olympian",
     "time": 17.64
   },
@@ -28,287 +32,963 @@
     "time": 21.76
   },
   {
-    "word": "population",
-    "time": 23.4
+    "word": "buildings",
+    "time": 25.52
+  },
+  {
+    "word": "Romans",
+    "time": 28.2
   },
   {
     "word": "physics",
     "time": 29.94
   },
   {
+    "word": "arches",
+    "time": 31.32
+  },
+  {
     "word": "support",
     "time": 31.88
+  },
+  {
+    "word": "concrete",
+    "time": 40.7
   },
   {
     "word": "knowledge",
     "time": 42.62
   },
   {
+    "word": "Romans",
+    "time": 43.24
+  },
+  {
     "word": "debate",
     "time": 44.86
   },
   {
-    "word": "inherited",
-    "time": 67.02
+    "word": "explain",
+    "time": 49.44
+  },
+  {
+    "word": "abstract",
+    "time": 51.3
+  },
+  {
+    "word": "explain",
+    "time": 56.74
+  },
+  {
+    "word": "Romans",
+    "time": 67.29118861607144
+  },
+  {
+    "word": "knowledge",
+    "time": 68.49563616071428
   },
   {
     "word": "Greeks",
-    "time": 68.9
+    "time": 69.35563616071428
   },
   {
     "word": "geometry",
-    "time": 71.82
+    "time": 72.1866294642857
+  },
+  {
+    "word": "physics",
+    "time": 72.86662946428571
   },
   {
     "word": "astronomy",
-    "time": 72.9
+    "time": 73.18459821428571
   },
   {
     "word": "Plato",
-    "time": 76.16
+    "time": 76.4445982142857
   },
   {
     "word": "Aristotle",
-    "time": 76.84
+    "time": 77.12459821428571
   },
   {
     "word": "Asia",
-    "time": 81.32
+    "time": 81.6045982142857
   },
   {
     "word": "Africa",
-    "time": 81.82
+    "time": 82.1045982142857
   },
   {
     "word": "Europe",
-    "time": 82.5
+    "time": 82.78459821428571
   },
   {
-    "word": "library",
-    "time": 105.6
+    "word": "Greeks",
+    "time": 84.1645982142857
+  },
+  {
+    "word": "Pergamon",
+    "time": 102.8845982142857
+  },
+  {
+    "word": "Turkey",
+    "time": 104.0045982142857
+  },
+  {
+    "word": "Greeks",
+    "time": 115.8045982142857
   },
   {
     "word": "Italy",
-    "time": 118.24
+    "time": 117.49093005952379
+  },
+  {
+    "word": "Romans",
+    "time": 118.3909300595238
+  },
+  {
+    "word": "Romans",
+    "time": 123.6709300595238
+  },
+  {
+    "word": "Greeks",
+    "time": 125.7309300595238
+  },
+  {
+    "word": "Romans",
+    "time": 128.25093005952382
+  },
+  {
+    "word": "Romans",
+    "time": 130.29093005952382
+  },
+  {
+    "word": "Romans",
+    "time": 133.15093005952383
   },
   {
     "word": "engineering",
-    "time": 134.78
+    "time": 134.03093005952383
+  },
+  {
+    "word": "Romans",
+    "time": 141.7309300595238
+  },
+  {
+    "word": "engineering",
+    "time": 142.07093005952382
+  },
+  {
+    "word": "Greeks",
+    "time": 143.15093005952383
+  },
+  {
+    "word": "engineering",
+    "time": 143.37093005952383
+  },
+  {
+    "word": "knowledge",
+    "time": 144.61093005952384
   },
   {
     "word": "political",
-    "time": 146.04
+    "time": 145.29093005952382
+  },
+  {
+    "word": "politicians",
+    "time": 146.27093005952383
   },
   {
     "word": "catapults",
-    "time": 149.6
+    "time": 148.5741908482143
   },
   {
     "word": "ships",
-    "time": 151.12
+    "time": 150.0941908482143
+  },
+  {
+    "word": "Romans",
+    "time": 150.8941908482143
   },
   {
     "word": "weapons",
-    "time": 157.62
+    "time": 156.5941908482143
+  },
+  {
+    "word": "buildings",
+    "time": 158.6141908482143
   },
   {
     "word": "architecton",
-    "time": 161.12
+    "time": 160.0941908482143
+  },
+  {
+    "word": "architect",
+    "time": 161.8741908482143
+  },
+  {
+    "word": "architect",
+    "time": 163.3541908482143
+  },
+  {
+    "word": "architecton",
+    "time": 167.85713727678572
   },
   {
     "word": "Archimedes",
-    "time": 170.62
+    "time": 168.27369233630952
+  },
+  {
+    "word": "Greeks",
+    "time": 170.3536923363095
+  },
+  {
+    "word": "Romans",
+    "time": 171.49369233630952
+  },
+  {
+    "word": "Archimedes",
+    "time": 172.09369233630952
+  },
+  {
+    "word": "mathematician",
+    "time": 173.83369233630953
   },
   {
     "word": "infinitesimals",
-    "time": 181.82
+    "time": 179.4736923363095
   },
   {
     "word": "exponents",
-    "time": 183.04
+    "time": 180.6936923363095
+  },
+  {
+    "word": "Archimedes",
+    "time": 181.5336923363095
   },
   {
     "word": "irrigation",
-    "time": 195.5
+    "time": 194.88899739583331
+  },
+  {
+    "word": "Archimedes",
+    "time": 199.3689973958333
+  },
+  {
+    "word": "Romans",
+    "time": 202.2089973958333
+  },
+  {
+    "word": "Romans",
+    "time": 205.8689973958333
+  },
+  {
+    "word": "Archimedes",
+    "time": 212.72899739583332
+  },
+  {
+    "word": "Archimedes",
+    "time": 216.7689973958333
+  },
+  {
+    "word": "Greeks",
+    "time": 221.1489973958333
   },
   {
     "word": "science",
-    "time": 222.0
+    "time": 221.38899739583331
+  },
+  {
+    "word": "Archimedes",
+    "time": 222.6089973958333
+  },
+  {
+    "word": "astronomy",
+    "time": 229.3089973958333
+  },
+  {
+    "word": "physics",
+    "time": 229.88899739583331
   },
   {
     "word": "math",
-    "time": 230.96
+    "time": 230.34899739583332
   },
   {
-    "word": "heavens",
-    "time": 238.4
+    "word": "abstract",
+    "time": 231.8289973958333
+  },
+  {
+    "word": "weapons",
+    "time": 234.9289973958333
+  },
+  {
+    "word": "political",
+    "time": 236.3289973958333
+  },
+  {
+    "word": "rain",
+    "time": 238.9742075892857
+  },
+  {
+    "word": "abstract",
+    "time": 240.7342075892857
   },
   {
     "word": "shipbuilding",
-    "time": 242.16
+    "time": 241.7942075892857
   },
   {
     "word": "art",
-    "time": 243.32
+    "time": 242.9542075892857
   },
   {
     "word": "hydrodynamics",
-    "time": 247.48
+    "time": 247.29784784226186
   },
   {
-    "word": "division",
-    "time": 252.84
+    "word": "Aristotle",
+    "time": 251.11784784226188
+  },
+  {
+    "word": "knowledge",
+    "time": 254.19784784226187
+  },
+  {
+    "word": "knowledge",
+    "time": 256.63784784226186
+  },
+  {
+    "word": "knowledge",
+    "time": 259.8978478422619
   },
   {
     "word": "techne",
-    "time": 261.0
+    "time": 260.81635974702385
   },
   {
     "word": "technology",
-    "time": 262.5
+    "time": 262.31635974702385
+  },
+  {
+    "word": "technology",
+    "time": 263.4763597470239
+  },
+  {
+    "word": "art",
+    "time": 267.89635974702384
+  },
+  {
+    "word": "knowledge",
+    "time": 274.40290178571433
   },
   {
     "word": "episteme",
-    "time": 274.64
+    "time": 275.81015438988106
   },
   {
     "word": "epistemology",
-    "time": 276.68
+    "time": 278.0962016369049
+  },
+  {
+    "word": "knowledge",
+    "time": 279.5962016369049
+  },
+  {
+    "word": "episteme",
+    "time": 279.93620163690485
+  },
+  {
+    "word": "knowledge",
+    "time": 281.4162016369049
+  },
+  {
+    "word": "science",
+    "time": 283.0762016369049
+  },
+  {
+    "word": "science",
+    "time": 283.85620163690487
+  },
+  {
+    "word": "abstract",
+    "time": 284.61620163690486
   },
   {
     "word": "formulas",
-    "time": 284.82
+    "time": 286.23620163690487
+  },
+  {
+    "word": "science",
+    "time": 287.73620163690487
   },
   {
     "word": "epistemic",
-    "time": 290.26
+    "time": 291.67620163690486
+  },
+  {
+    "word": "epistemic",
+    "time": 294.43620163690485
+  },
+  {
+    "word": "Romans",
+    "time": 295.8962016369049
   },
   {
     "word": "Ptolemy",
-    "time": 295.98
+    "time": 297.3962016369049
   },
   {
-    "word": "planets",
-    "time": 308.1
+    "word": "Greeks",
+    "time": 298.37620163690485
   },
   {
-    "word": "cosmos",
-    "time": 310.1
+    "word": "Greeks",
+    "time": 298.9162016369049
+  },
+  {
+    "word": "Romans",
+    "time": 301.43620163690485
+  },
+  {
+    "word": "optics",
+    "time": 303.55620163690486
+  },
+  {
+    "word": "science",
+    "time": 304.29620163690487
+  },
+  {
+    "word": "Ptolemy",
+    "time": 304.88316034226204
+  },
+  {
+    "word": "Plato",
+    "time": 305.58316034226203
+  },
+  {
+    "word": "math",
+    "time": 320.4109393601192
   },
   {
     "word": "Epicycles",
-    "time": 320.06
+    "time": 321.5109393601192
+  },
+  {
+    "word": "Ptolemy",
+    "time": 327.05093936011923
+  },
+  {
+    "word": "Aristotle",
+    "time": 329.9909393601192
+  },
+  {
+    "word": "Plato",
+    "time": 330.8109393601192
   },
   {
     "word": "Almagist",
-    "time": 341.14
+    "time": 340.5290904017859
   },
   {
-    "word": "Geography",
-    "time": 357.42
+    "word": "Almagist",
+    "time": 343.72909040178587
+  },
+  {
+    "word": "history",
+    "time": 350.9890904017859
+  },
+  {
+    "word": "science",
+    "time": 351.3490904017859
+  },
+  {
+    "word": "Ptolemy",
+    "time": 353.7490904017859
+  },
+  {
+    "word": "Romans",
+    "time": 358.1490904017859
+  },
+  {
+    "word": "Romans",
+    "time": 376.78909040178587
+  },
+  {
+    "word": "Ptolemy",
+    "time": 377.7490904017859
+  },
+  {
+    "word": "epistemic",
+    "time": 378.5290904017859
+  },
+  {
+    "word": "Romans",
+    "time": 380.8090904017859
+  },
+  {
+    "word": "techne",
+    "time": 383.5290904017859
+  },
+  {
+    "word": "engineering",
+    "time": 384.4290904017859
   },
   {
     "word": "cement",
-    "time": 388.74
+    "time": 388.51208891369066
   },
   {
-    "word": "durable",
-    "time": 404.4
+    "word": "Romans",
+    "time": 391.4320889136907
+  },
+  {
+    "word": "lime",
+    "time": 394.4920889136907
+  },
+  {
+    "word": "Romans",
+    "time": 395.39208891369066
+  },
+  {
+    "word": "concrete",
+    "time": 395.89208891369066
+  },
+  {
+    "word": "technology",
+    "time": 399.35208891369064
+  },
+  {
+    "word": "domes",
+    "time": 407.23208891369063
   },
   {
     "word": "Pantheon",
-    "time": 408.6
+    "time": 408.3720889136907
   },
   {
     "word": "Rome",
-    "time": 410.78
+    "time": 410.81510974702394
+  },
+  {
+    "word": "domes",
+    "time": 413.635109747024
+  },
+  {
+    "word": "concrete",
+    "time": 414.17510974702395
+  },
+  {
+    "word": "Romans",
+    "time": 417.695109747024
+  },
+  {
+    "word": "arches",
+    "time": 418.65510974702397
+  },
+  {
+    "word": "support",
+    "time": 419.17510974702395
+  },
+  {
+    "word": "Romans",
+    "time": 425.61510974702395
+  },
+  {
+    "word": "aqueducts",
+    "time": 429.11510974702395
+  },
+  {
+    "word": "Romans",
+    "time": 430.61510974702395
   },
   {
     "word": "mines",
-    "time": 432.38
+    "time": 432.41510974702396
   },
   {
-    "word": "irrigated",
-    "time": 434.54
+    "word": "Romans",
+    "time": 435.29510974702396
   },
   {
     "word": "marshes",
-    "time": 437.94
+    "time": 438.1605171130954
   },
   {
     "word": "sewers",
-    "time": 440.06
+    "time": 440.2805171130954
+  },
+  {
+    "word": "sewers",
+    "time": 444.5805171130954
+  },
+  {
+    "word": "politicians",
+    "time": 447.0005171130954
   },
   {
     "word": "engineers",
-    "time": 447.72
+    "time": 447.94051711309544
+  },
+  {
+    "word": "aqueducts",
+    "time": 454.2405171130954
+  },
+  {
+    "word": "sewers",
+    "time": 454.9605171130954
+  },
+  {
+    "word": "Rome",
+    "time": 455.5405171130954
+  },
+  {
+    "word": "Romans",
+    "time": 464.6005171130954
+  },
+  {
+    "word": "engineering",
+    "time": 465.4805171130954
+  },
+  {
+    "word": "sewers",
+    "time": 474.3005171130954
+  },
+  {
+    "word": "Romans",
+    "time": 476.6405171130954
+  },
+  {
+    "word": "engineering",
+    "time": 476.8605171130954
   },
   {
     "word": "highways",
-    "time": 478.08
+    "time": 477.9219828869049
+  },
+  {
+    "word": "roads",
+    "time": 482.06198288690496
+  },
+  {
+    "word": "Romans",
+    "time": 484.2419828869049
+  },
+  {
+    "word": "roads",
+    "time": 484.94198288690495
+  },
+  {
+    "word": "art",
+    "time": 486.08198288690494
+  },
+  {
+    "word": "Rome",
+    "time": 493.84198288690493
+  },
+  {
+    "word": "Italy",
+    "time": 496.3019828869049
+  },
+  {
+    "word": "Romans",
+    "time": 504.34198288690493
+  },
+  {
+    "word": "concrete",
+    "time": 504.70198288690494
+  },
+  {
+    "word": "cement",
+    "time": 506.52198288690494
+  },
+  {
+    "word": "stones",
+    "time": 508.1819828869049
   },
   {
     "word": "gravel",
-    "time": 509.0
+    "time": 508.4461495535716
+  },
+  {
+    "word": "roads",
+    "time": 510.9061495535716
+  },
+  {
+    "word": "Romans",
+    "time": 514.8861495535717
   },
   {
     "word": "enemies",
-    "time": 518.02
+    "time": 517.4661495535717
+  },
+  {
+    "word": "expanded",
+    "time": 518.7461495535716
+  },
+  {
+    "word": "cement",
+    "time": 523.0461495535717
+  },
+  {
+    "word": "trees",
+    "time": 528.5861495535717
+  },
+  {
+    "word": "monuments",
+    "time": 529.6661495535717
+  },
+  {
+    "word": "history",
+    "time": 531.2061495535717
+  },
+  {
+    "word": "Romans",
+    "time": 536.0661495535717
+  },
+  {
+    "word": "roads",
+    "time": 536.4461495535717
+  },
+  {
+    "word": "Africa",
+    "time": 537.6261495535716
+  },
+  {
+    "word": "Asia",
+    "time": 538.4261495535717
+  },
+  {
+    "word": "Europe",
+    "time": 539.0061495535716
+  },
+  {
+    "word": "roads",
+    "time": 540.8661495535716
+  },
+  {
+    "word": "Rome",
+    "time": 541.9261495535717
+  },
+  {
+    "word": "taxes",
+    "time": 543.4861495535716
+  },
+  {
+    "word": "highways",
+    "time": 546.4061495535717
+  },
+  {
+    "word": "technology",
+    "time": 548.1461495535717
+  },
+  {
+    "word": "Romans",
+    "time": 548.9261495535717
   },
   {
     "word": "Colosseum",
-    "time": 563.36
+    "time": 565.0438262648814
   },
   {
     "word": "sailors",
-    "time": 567.0
+    "time": 567.818266369048
   },
   {
-    "word": "rigging",
-    "time": 568.5
+    "word": "engineers",
+    "time": 576.338266369048
+  },
+  {
+    "word": "Romans",
+    "time": 586.818266369048
+  },
+  {
+    "word": "aqueducts",
+    "time": 591.378266369048
+  },
+  {
+    "word": "sewers",
+    "time": 592.0382663690481
+  },
+  {
+    "word": "roads",
+    "time": 592.5382663690481
   },
   {
     "word": "quarrying",
-    "time": 592.74
+    "time": 593.558266369048
   },
   {
     "word": "labor",
-    "time": 596.34
+    "time": 597.1582663690481
+  },
+  {
+    "word": "labor",
+    "time": 598.1782663690481
   },
   {
     "word": "slaves",
-    "time": 598.5
+    "time": 599.318266369048
+  },
+  {
+    "word": "Romans",
+    "time": 602.6782663690481
+  },
+  {
+    "word": "Italy",
+    "time": 602.938266369048
   },
   {
     "word": "enslaved",
-    "time": 602.78
+    "time": 603.598266369048
+  },
+  {
+    "word": "knowledge",
+    "time": 605.6382663690481
+  },
+  {
+    "word": "buildings",
+    "time": 608.2782663690481
+  },
+  {
+    "word": "roads",
+    "time": 610.378266369048
+  },
+  {
+    "word": "Romans",
+    "time": 611.618266369048
+  },
+  {
+    "word": "slaves",
+    "time": 616.0182663690481
+  },
+  {
+    "word": "slaves",
+    "time": 619.3982663690481
   },
   {
     "word": "chattel",
-    "time": 622.96
+    "time": 623.4243787202385
+  },
+  {
+    "word": "slaves",
+    "time": 629.0243787202384
+  },
+  {
+    "word": "Italy",
+    "time": 629.9043787202385
+  },
+  {
+    "word": "slaves",
+    "time": 630.7043787202384
   },
   {
     "word": "crucified",
-    "time": 637.16
+    "time": 638.6759505208336
+  },
+  {
+    "word": "Romans",
+    "time": 643.7159505208336
+  },
+  {
+    "word": "engineering",
+    "time": 643.9159505208336
+  },
+  {
+    "word": "technology",
+    "time": 645.2159505208336
+  },
+  {
+    "word": "engineers",
+    "time": 645.9959505208336
+  },
+  {
+    "word": "science",
+    "time": 647.5559505208336
+  },
+  {
+    "word": "political",
+    "time": 648.2559505208336
+  },
+  {
+    "word": "Romans",
+    "time": 652.4959505208336
+  },
+  {
+    "word": "history",
+    "time": 656.3559505208336
+  },
+  {
+    "word": "Romans",
+    "time": 660.2759505208336
+  },
+  {
+    "word": "aqueducts",
+    "time": 663.9759505208336
+  },
+  {
+    "word": "buildings",
+    "time": 668.5159505208336
+  },
+  {
+    "word": "knowledge",
+    "time": 681.6359505208336
+  },
+  {
+    "word": "Romans",
+    "time": 683.9359505208336
   },
   {
     "word": "Baghdad",
-    "time": 700.24
+    "time": 701.7559505208336
+  },
+  {
+    "word": "history",
+    "time": 702.8759505208336
+  },
+  {
+    "word": "science",
+    "time": 703.3759505208336
   },
   {
     "word": "Complexly",
-    "time": 710.92
+    "time": 712.4359505208336
+  },
+  {
+    "word": "Complexly",
+    "time": 714.8759505208336
+  },
+  {
+    "word": "art",
+    "time": 718.7559505208336
+  },
+  {
+    "word": "support",
+    "time": 724.2559505208336
   },
   {
     "word": "Patreon",
-    "time": 723.62
+    "time": 725.1359505208336
+  },
+  {
+    "word": "crowdfunding",
+    "time": 725.8559505208336
+  },
+  {
+    "word": "support",
+    "time": 727.7559505208336
   },
   {
     "word": "content",
-    "time": 726.78
+    "time": 728.2959505208336
   },
   {
     "word": "patrons",
-    "time": 728.94
+    "time": 730.4559505208337
+  },
+  {
+    "word": "support",
+    "time": 732.9959505208336
   }
 ]
