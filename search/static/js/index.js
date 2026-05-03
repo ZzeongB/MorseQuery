@@ -370,36 +370,34 @@ function findNearestIndex(items, targetTime, getTime) {
     return bestIndex;
 }
 
-const PREV_SKIP_THRESHOLD = 1.0;
 const PREV_TIME_TOLERANCE = 0.1; // Include the current item despite minor seek precision drift.
 const NEXT_TIME_EPSILON = 0.001; // Advance to the first item strictly after the current timestamp.
+
+function findCurrentIndexByTime(items, currentTime, getTime) {
+    if (!items || items.length === 0) return -1;
+
+    // Find the last item that starts at or before currentTime
+    for (let i = items.length - 1; i >= 0; i -= 1) {
+        if (getTime(items[i]) <= currentTime + PREV_TIME_TOLERANCE) {
+            return i;
+        }
+    }
+
+    return -1;
+}
 
 function findPrevIndexByTime(items, currentTime, getTime) {
     if (!items || items.length === 0) return { targetIndex: -1, blocked: false };
 
-    // Find the last item that starts at or before currentTime
-    // Add tolerance to include items we might be "at" due to floating point
-    let prevIndex = -1;
-    for (let i = items.length - 1; i >= 0; i -= 1) {
-        if (getTime(items[i]) <= currentTime + PREV_TIME_TOLERANCE) {
-            prevIndex = i;
-            break;
-        }
-    }
+    // Find the current item index
+    const currentIndex = findCurrentIndexByTime(items, currentTime, getTime);
 
-    if (prevIndex < 0) {
+    // Always go to the previous item (before the current one)
+    if (currentIndex <= 0) {
         return { targetIndex: -1, blocked: true };
     }
 
-    // Check if we're too close to this item (within threshold), skip to one before
-    const itemTime = getTime(items[prevIndex]);
-    const distance = currentTime - itemTime;
-    // distance could be slightly negative due to tolerance, treat that as 0
-    if (distance < PREV_SKIP_THRESHOLD && prevIndex > 0) {
-        prevIndex -= 1;
-    }
-
-    return { targetIndex: prevIndex, blocked: false };
+    return { targetIndex: currentIndex - 1, blocked: false };
 }
 
 function findNextIndexByTime(items, currentTime, getTime) {
@@ -861,6 +859,111 @@ function jumpToNextSentence() {
         return;
     }
     sentenceIndex = targetIndex;
+    applySearchPlaybackRate();
+    audio.play();
+}
+
+function replayCurrentKeyword(useKeyword2 = false) {
+    const keywords = getSearchableItems(
+        useKeyword2 ? customKeywords2 : customKeywords,
+        (item) => item.time,
+    );
+
+    if (keywords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    const currentIndex = findCurrentIndexByTime(keywords, currentTime, (item) => item.time);
+
+    if (currentIndex < 0) {
+        blockNavigation(useKeyword2 ? 'keyword2_replay_blocked' : 'keyword_replay_blocked', currentTime, {
+            currentTime,
+        });
+        return;
+    }
+
+    const target = keywords[currentIndex];
+    if (useKeyword2) keyword2Index = currentIndex;
+    else keywordIndex = currentIndex;
+
+    console.log('[keyword_replay]', {
+        mode: useKeyword2 ? 'keyword2' : 'keyword',
+        currentTime,
+        targetKeyword: target,
+    });
+
+    if (setAudioTimeFromArrow(
+        target.time,
+        useKeyword2 ? 'keyword2_replay' : 'keyword_replay',
+        useKeyword2 ? 'keyword2_replay_blocked' : 'keyword_replay_blocked',
+        {
+            keyword: target.word,
+            keywordTime: target.time,
+            keywordIndex: currentIndex,
+        },
+    ) === null) {
+        return;
+    }
+    applySearchPlaybackRate();
+    audio.play();
+}
+
+function replayCurrentWord() {
+    const searchableWords = getSearchableItems(navigableWords, (item) => item.start);
+    if (searchableWords.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    const currentIndex = findCurrentIndexByTime(searchableWords, currentTime, (item) => item.start);
+
+    if (currentIndex < 0) {
+        blockNavigation('word_replay_blocked', currentTime, { currentTime });
+        return;
+    }
+
+    const target = searchableWords[currentIndex];
+    wordIndex = currentIndex;
+
+    console.log('[word_replay]', {
+        currentTime,
+        targetWord: target,
+    });
+
+    if (setAudioTimeFromArrow(target.start, 'word_replay', 'word_replay_blocked', {
+        word: target.word,
+        wordStart: target.start,
+        wordIndex: currentIndex,
+    }) === null) {
+        return;
+    }
+    applySearchPlaybackRate();
+    audio.play();
+}
+
+function replayCurrentSentence() {
+    const searchableSentences = getSearchableItems(sentenceUnits, (item) => item.start);
+    if (searchableSentences.length === 0) return;
+
+    const currentTime = audio.currentTime;
+    const currentIndex = findCurrentIndexByTime(searchableSentences, currentTime, (item) => item.start);
+
+    if (currentIndex < 0) {
+        blockNavigation('sentence_replay_blocked', currentTime, { currentTime });
+        return;
+    }
+
+    const target = searchableSentences[currentIndex];
+    sentenceIndex = currentIndex;
+
+    console.log('[sentence_replay]', {
+        currentTime,
+        targetSentence: target,
+    });
+
+    if (setAudioTimeFromArrow(target.start, 'sentence_replay', 'sentence_replay_blocked', {
+        sentenceIndex: currentIndex,
+        sentenceStart: target.start,
+    }) === null) {
+        return;
+    }
     applySearchPlaybackRate();
     audio.play();
 }
@@ -1411,6 +1514,32 @@ document.addEventListener('keydown', (e) => {
                 break;
             case 'sentence':
                 jumpToNextSentence();
+                break;
+            default:
+                break;
+        }
+    }
+
+    if (e.code === 'ArrowUp') {
+        e.preventDefault();
+        if (studyMode && !taskActive && !isDebugPage) return;
+        logUserAction('up');
+
+        switch (currentMode) {
+            case 'discontinuous':
+                // No replay in discontinuous mode - do nothing
+                break;
+            case 'keyword':
+                replayCurrentKeyword(false);
+                break;
+            case 'keyword2':
+                replayCurrentKeyword(true);
+                break;
+            case 'word':
+                replayCurrentWord();
+                break;
+            case 'sentence':
+                replayCurrentSentence();
                 break;
             default:
                 break;
