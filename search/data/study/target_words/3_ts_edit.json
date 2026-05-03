@@ -1,0 +1,56 @@
+{
+  "video_id": "3_ts_edit",
+  "audio_start_time": 86.0,
+  "target_window_seconds": 300.0,
+  "search_window_end_time": 274.46,
+  "interruptions": [
+    {
+      "target_word": "tortoises",
+      "target_word_time": 150.04,
+      "delay_type": "long",
+      "delay_seconds": 56.24,
+      "search_start_time": 206.28,
+      "id": 1
+    },
+    {
+      "target_word": "fossils",
+      "target_word_time": 150.56,
+      "delay_type": "long",
+      "delay_seconds": 55.88,
+      "search_start_time": 206.44,
+      "id": 2
+    },
+    {
+      "target_word": "earthworms",
+      "target_word_time": 148.46,
+      "delay_type": "long",
+      "delay_seconds": 58.55,
+      "search_start_time": 207.01,
+      "id": 3
+    },
+    {
+      "target_word": "barnacles",
+      "target_word_time": 147.74,
+      "delay_type": "long",
+      "delay_seconds": 59.67,
+      "search_start_time": 207.41,
+      "id": 4
+    },
+    {
+      "target_word": "reproduction",
+      "target_word_time": 185.02,
+      "delay_type": "long",
+      "delay_seconds": 44.31,
+      "search_start_time": 229.33,
+      "id": 5
+    },
+    {
+      "target_word": "phenotypes",
+      "target_word_time": 256.36,
+      "delay_type": "short",
+      "delay_seconds": 18.1,
+      "search_start_time": 274.46,
+      "id": 6
+    }
+  ]
+}

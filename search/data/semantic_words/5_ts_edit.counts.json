@@ -1,0 +1,1234 @@
+[
+  {
+    "word": "Amibah",
+    "time": 0.54,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Amibah",
+    "time": 4.76,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 14.38,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "cells",
+    "time": 41.06,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "heart",
+    "time": 472.03842075892857,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "lungs",
+    "time": 20.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Marseille",
+    "time": 26.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 60.120000000000005,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "compartmentalizing",
+    "time": 30.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 100.32,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "homeostasis",
+    "time": 36.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 103.67999999999999,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "hierarchy",
+    "time": 43.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 188.70643043154763,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "course",
+    "time": 49.220000000000006,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "course",
+    "time": 51.06,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 263.6377827380953,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "tissues",
+    "time": 63.18,
+    "duplicate_count_1m": 8,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "Situ's",
+    "time": 63.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "woven",
+    "time": 68.17999999999999,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tissues",
+    "time": 69.5,
+    "duplicate_count_1m": 9,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "organs",
+    "time": 70.89999999999999,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "kidneys",
+    "time": 71.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "lungs",
+    "time": 72.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "liver",
+    "time": 72.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "organs",
+    "time": 73.24,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "tissues",
+    "time": 74.86,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "organs",
+    "time": 95.08,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "tissues",
+    "time": 85.47999999999999,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "tissues",
+    "time": 88.24,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "tissues",
+    "time": 91.19999999999999,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "tissues",
+    "time": 93.17999999999999,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "muscles",
+    "time": 401.72800595238095,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "tissues",
+    "time": 98.5,
+    "duplicate_count_1m": 9,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "movement",
+    "time": 92.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tissues",
+    "time": 102.33999999999999,
+    "duplicate_count_1m": 9,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 13
+  },
+  {
+    "word": "organs",
+    "time": 515.668510044643,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "tissues",
+    "time": 129.64324032738097,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 14
+  },
+  {
+    "word": "support",
+    "time": 99.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 294.9543805803572,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "tissues",
+    "time": 133.70324032738097,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 11,
+    "duplicate_count_3m": 15
+  },
+  {
+    "word": "cells",
+    "time": 298.81438058035724,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "histology",
+    "time": 127.78458519345239,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "tissues",
+    "time": 221.70785528273808,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "tissues",
+    "time": 247.257736235119,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "microscopes",
+    "time": 134.62324032738096,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "1590s",
+    "time": 136.5820182291667,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "microscopes",
+    "time": 145.8020182291667,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "magnification",
+    "time": 151.12201822916668,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "microscopes",
+    "time": 153.66418154761905,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "microscopes",
+    "time": 161.68418154761906,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "magnification",
+    "time": 164.58418154761907,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "microorganisms",
+    "time": 174.77305245535717,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "bacterias",
+    "time": 175.73213913690475,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "bromatazzoa",
+    "time": 176.31552641369046,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "muscles",
+    "time": 586.2022526041669,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "fibers",
+    "time": 177.81627232142858,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "histology",
+    "time": 185.83627232142857,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 318.9143805803572,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "tissues",
+    "time": 260.35778273809535,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "breakthrough",
+    "time": 192.03957031250005,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "stains",
+    "time": 193.56357328869046,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "die",
+    "time": 229.197736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "microscopes",
+    "time": 597.962252604167,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "preserve",
+    "time": 198.22231770833335,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fix",
+    "time": 199.20231770833334,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "stains",
+    "time": 208.47417968749997,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "stains",
+    "time": 218.03872581845238,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "tissues",
+    "time": 315.5143805803572,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "cells",
+    "time": 344.17537574404764,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "stains",
+    "time": 545.5474925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "tissues",
+    "time": 421.59273437499996,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 9,
+    "duplicate_count_3m": 14
+  },
+  {
+    "word": "nuclei",
+    "time": 225.077736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "saffron",
+    "time": 230.117736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "1673",
+    "time": 232.497736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "1850s",
+    "time": 237.797736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "stains",
+    "time": 598.8022526041669,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "German",
+    "time": 242.617736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Adamist",
+    "time": 243.017736235119,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tissues",
+    "time": 422.93273437499994,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 15
+  },
+  {
+    "word": "Carmen",
+    "time": 249.177736235119,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Garlock",
+    "time": 253.39220982142857,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Carmen",
+    "time": 254.87778273809533,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "cells",
+    "time": 346.14381696428575,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "Garlock",
+    "time": 257.97778273809536,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "tissues",
+    "time": 423.75273437499993,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 15
+  },
+  {
+    "word": "brain",
+    "time": 261.03778273809536,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "brain",
+    "time": 263.1977827380953,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "cells",
+    "time": 393.5619921875,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "Carmen",
+    "time": 271.05778273809534,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "ammonia",
+    "time": 271.6665885416667,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "gelatin",
+    "time": 272.44658854166676,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cerebellum",
+    "time": 282.63438058035723,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Carmen",
+    "time": 288.4543805803572,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "tissues",
+    "time": 444.59273437499996,
+    "duplicate_count_1m": 7,
+    "duplicate_count_2m": 11,
+    "duplicate_count_3m": 14
+  },
+  {
+    "word": "nuclei",
+    "time": 293.3343805803572,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "brain",
+    "time": 294.4543805803572,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "cells",
+    "time": 408.68800595238093,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "fibers",
+    "time": 296.93438058035724,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 409.54800595238095,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "neuron",
+    "time": 301.75438058035724,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "breakthrough",
+    "time": 304.8943805803572,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tissues",
+    "time": 594.502252604167,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "anatomists",
+    "time": 308.2943805803572,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 451.99273437499994,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "brain",
+    "time": 324.4743805803572,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "nerves",
+    "time": 327.4143805803572,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "cells",
+    "time": 486.2778608630953,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 13
+  },
+  {
+    "word": "neuron",
+    "time": 377.24381696428577,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "cells",
+    "time": 499.2773828125001,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "brain",
+    "time": 350.3438169642858,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "nerves",
+    "time": 404.86800595238094,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "messages",
+    "time": 400.14800595238097,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "brain",
+    "time": 371.14381696428575,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "dendrites",
+    "time": 381.2520628720239,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "axon",
+    "time": 382.3120628720239,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 503.4573828125001,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 9,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "soma",
+    "time": 383.7198604910714,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "support",
+    "time": 385.07986049107143,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "nucleus",
+    "time": 387.33336867559524,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "mitochondria",
+    "time": 387.8533686755952,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "DNA",
+    "time": 388.65336867559523,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "dendrites",
+    "time": 389.5419921875,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 553.0874925595241,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "soma",
+    "time": 394.60800595238095,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "axon",
+    "time": 397.388005952381,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "glands",
+    "time": 402.328005952381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cells",
+    "time": 557.167492559524,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 9,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "cells",
+    "time": 560.887492559524,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "support",
+    "time": 412.0246707589286,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "insulation",
+    "time": 412.5334802827381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "protection",
+    "time": 413.5934802827381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "blood",
+    "time": 415.23348028273807,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "contract",
+    "time": 424.5127343749999,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "walk",
+    "time": 427.81273437499993,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "chew",
+    "time": 428.49273437499994,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "breathe",
+    "time": 429.47273437499996,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "vascularized",
+    "time": 431.35273437499995,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "blood",
+    "time": 433.47273437499996,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "bones",
+    "time": 440.97273437499996,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "skeleton",
+    "time": 441.4527343749999,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "posture",
+    "time": 443.17273437499995,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "bones",
+    "time": 445.8927343749999,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "contract",
+    "time": 447.23273437499995,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "cells",
+    "time": 566.907492559524,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "striations",
+    "time": 456.8984207589285,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "voluntary",
+    "time": 465.97842075892856,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "involuntarily",
+    "time": 468.63842075892853,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "heart",
+    "time": 478.63842075892853,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "contract",
+    "time": 474.8984207589285,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "heart",
+    "time": 530.8074925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "blood",
+    "time": 480.88082589285716,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "striped",
+    "time": 483.3933779761906,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "striated",
+    "time": 483.88071428571436,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 575.7474925595241,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "unenucleate",
+    "time": 487.1173828125001,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "nucleus",
+    "time": 489.5973828125001,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cells",
+    "time": 590.462252604167,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "striations",
+    "time": 501.3173828125001,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "glue",
+    "time": 502.6573828125001,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "contract",
+    "time": 504.5973828125001,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "pores",
+    "time": 507.04851004464297,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "blood",
+    "time": 514.548510044643,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "organs",
+    "time": 531.1874925595241,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "uterus",
+    "time": 518.3674925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "striations",
+    "time": 549.1274925595241,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "striations",
+    "time": 570.5474925595241,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "striated",
+    "time": 553.5474925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "nucleus",
+    "time": 555.0874925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "striations",
+    "time": 576.6074925595241,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "nuclei",
+    "time": 578.0674925595241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "histology",
+    "time": 588.7022526041669,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "histology",
+    "time": 596.862252604167,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "voluntary",
+    "time": 607.362252604167,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "course",
+    "time": 616.502252604167,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "supporter",
+    "time": 621.402252604167,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  }
+]

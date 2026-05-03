@@ -1,0 +1,56 @@
+{
+  "video_id": "5_ts_edit",
+  "audio_start_time": 123.0,
+  "target_window_seconds": 300.0,
+  "search_window_end_time": 410.01,
+  "interruptions": [
+    {
+      "target_word": "nuclei",
+      "target_word_time": 225.08,
+      "delay_type": "long",
+      "delay_seconds": 54.44,
+      "search_start_time": 279.52,
+      "id": 1
+    },
+    {
+      "target_word": "cerebellum",
+      "target_word_time": 282.63,
+      "delay_type": "short",
+      "delay_seconds": 2.97,
+      "search_start_time": 285.6,
+      "id": 2
+    },
+    {
+      "target_word": "ammonia",
+      "target_word_time": 271.67,
+      "delay_type": "short",
+      "delay_seconds": 28.71,
+      "search_start_time": 300.38,
+      "id": 3
+    },
+    {
+      "target_word": "anatomists",
+      "target_word_time": 308.29,
+      "delay_type": "short",
+      "delay_seconds": 17.32,
+      "search_start_time": 325.61,
+      "id": 4
+    },
+    {
+      "target_word": "mitochondria",
+      "target_word_time": 387.85,
+      "delay_type": "short",
+      "delay_seconds": 19.07,
+      "search_start_time": 406.92,
+      "id": 5
+    },
+    {
+      "target_word": "glands",
+      "target_word_time": 402.33,
+      "delay_type": "short",
+      "delay_seconds": 7.68,
+      "search_start_time": 410.01,
+      "id": 6
+    }
+  ]
+}

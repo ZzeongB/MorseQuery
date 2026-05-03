@@ -1,0 +1,56 @@
+{
+  "video_id": "1_ts_edit",
+  "audio_start_time": 65.0,
+  "target_window_seconds": 300.0,
+  "search_window_end_time": 237.83,
+  "interruptions": [
+    {
+      "target_word": "chachea",
+      "target_word_time": 136.19,
+      "delay_type": "long",
+      "delay_seconds": 50.06,
+      "search_start_time": 186.25,
+      "id": 1
+    },
+    {
+      "target_word": "cartilage",
+      "target_word_time": 135.27,
+      "delay_type": "long",
+      "delay_seconds": 56.62,
+      "search_start_time": 191.89,
+      "id": 2
+    },
+    {
+      "target_word": "leeches",
+      "target_word_time": 148.43,
+      "delay_type": "long",
+      "delay_seconds": 45.0,
+      "search_start_time": 193.43,
+      "id": 3
+    },
+    {
+      "target_word": "lugworms",
+      "target_word_time": 150.07,
+      "delay_type": "long",
+      "delay_seconds": 52.83,
+      "search_start_time": 202.9,
+      "id": 4
+    },
+    {
+      "target_word": "phylum",
+      "target_word_time": 194.98,
+      "delay_type": "short",
+      "delay_seconds": 14.75,
+      "search_start_time": 209.73,
+      "id": 5
+    },
+    {
+      "target_word": "oligochetes",
+      "target_word_time": 224.12,
+      "delay_type": "short",
+      "delay_seconds": 13.71,
+      "search_start_time": 237.83,
+      "id": 6
+    }
+  ]
+}

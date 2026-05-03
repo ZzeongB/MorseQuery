@@ -1,0 +1,1402 @@
+[
+  {
+    "word": "Romans",
+    "time": 5.34,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "concrete",
+    "time": 6.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "roads",
+    "time": 9.120000000000001,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "arches",
+    "time": 11.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "domes",
+    "time": 12.540000000000001,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "buildings",
+    "time": 13.860000000000001,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Olympian",
+    "time": 17.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "aqueducts",
+    "time": 21.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "buildings",
+    "time": 25.4,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Romans",
+    "time": 28.08,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "physics",
+    "time": 29.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "arches",
+    "time": 31.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "support",
+    "time": 31.759999999999998,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "concrete",
+    "time": 40.580000000000005,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "knowledge",
+    "time": 42.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Romans",
+    "time": 43.120000000000005,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 7
+  },
+  {
+    "word": "debate",
+    "time": 44.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "explain",
+    "time": 49.32,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "abstract",
+    "time": 51.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "explain",
+    "time": 56.620000000000005,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Romans",
+    "time": 66.70011346726191,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "knowledge",
+    "time": 68.01970238095238,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Greeks",
+    "time": 68.87970238095238,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "geometry",
+    "time": 71.7106956845238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "physics",
+    "time": 72.3906956845238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "astronomy",
+    "time": 72.70866443452381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Plato",
+    "time": 75.9686644345238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Aristotle",
+    "time": 76.64866443452381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Asia",
+    "time": 81.1286644345238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Africa",
+    "time": 81.6286644345238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Europe",
+    "time": 82.3086644345238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Greeks",
+    "time": 115.52927827380951,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Pergamon",
+    "time": 102.60927827380951,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Turkey",
+    "time": 103.72927827380951,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Greeks",
+    "time": 172.61701636904758,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Italy",
+    "time": 118.36060639880952,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Romans",
+    "time": 119.20694196428572,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "Romans",
+    "time": 124.48694196428572,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "Romans",
+    "time": 133.96694196428572,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "Romans",
+    "time": 173.8273753720238,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 9,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "Romans",
+    "time": 202.76831287202376,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "engineering",
+    "time": 134.84694196428572,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Romans",
+    "time": 381.4235119047622,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "engineering",
+    "time": 142.8869419642857,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "engineering",
+    "time": 144.18694196428572,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "knowledge",
+    "time": 145.42694196428573,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "political",
+    "time": 146.1069419642857,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "politicians",
+    "time": 147.08694196428573,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "catapults",
+    "time": 149.6816834077381,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ships",
+    "time": 151.15829613095238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Romans",
+    "time": 392.046510416667,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "weapons",
+    "time": 157.65829613095238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "buildings",
+    "time": 669.1303720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "architecton",
+    "time": 161.15829613095238,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "architect",
+    "time": 162.93829613095238,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "architecton",
+    "time": 169.6830078125,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Archimedes",
+    "time": 170.5370163690476,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "Romans",
+    "time": 418.3095312500003,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 12
+  },
+  {
+    "word": "Archimedes",
+    "time": 174.4273753720238,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "mathematician",
+    "time": 176.1673753720238,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "infinitesimals",
+    "time": 181.80737537202378,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "exponents",
+    "time": 183.02737537202378,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Archimedes",
+    "time": 183.8673753720238,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "irrigation",
+    "time": 195.51281249999997,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Archimedes",
+    "time": 199.92831287202375,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "Romans",
+    "time": 426.22953125000026,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 13
+  },
+  {
+    "word": "Romans",
+    "time": 435.90953125000027,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 13
+  },
+  {
+    "word": "Archimedes",
+    "time": 213.32542224702377,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "Archimedes",
+    "time": 217.36542224702376,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "science",
+    "time": 221.98542224702376,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Archimedes",
+    "time": 223.20542224702376,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "astronomy",
+    "time": 229.8455264136904,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "physics",
+    "time": 230.42552641369042,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "math",
+    "time": 230.88552641369043,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "abstract",
+    "time": 232.36552641369042,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "weapons",
+    "time": 235.54355840773803,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "political",
+    "time": 236.94355840773804,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "rain",
+    "time": 239.35816034226187,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "abstract",
+    "time": 241.11816034226186,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "shipbuilding",
+    "time": 242.17816034226186,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "art",
+    "time": 243.33816034226186,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "hydrodynamics",
+    "time": 247.50936755952375,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Aristotle",
+    "time": 251.32936755952377,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "knowledge",
+    "time": 254.40936755952382,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "knowledge",
+    "time": 256.81853608630956,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "knowledge",
+    "time": 260.0785360863096,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "techne",
+    "time": 260.99704799107155,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "technology",
+    "time": 262.49704799107155,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "technology",
+    "time": 263.6570479910716,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "art",
+    "time": 268.07704799107154,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "knowledge",
+    "time": 273.4870033482144,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "episteme",
+    "time": 274.64216331845256,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "epistemology",
+    "time": 276.62315104166686,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "knowledge",
+    "time": 279.94315104166685,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "episteme",
+    "time": 278.46315104166683,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "knowledge",
+    "time": 278.12315104166686,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "science",
+    "time": 282.38315104166685,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "science",
+    "time": 281.6031510416669,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "abstract",
+    "time": 283.14315104166684,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "formulas",
+    "time": 284.7970517113097,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "science",
+    "time": 286.2970517113097,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "epistemic",
+    "time": 292.99705171130967,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "epistemic",
+    "time": 290.2370517113097,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Romans",
+    "time": 549.5405710565477,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "Ptolemy",
+    "time": 295.9570517113097,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Romans",
+    "time": 587.4326878720241,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "optics",
+    "time": 302.11705171130967,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "science",
+    "time": 302.8570517113097,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Ptolemy",
+    "time": 303.75311569940493,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "math",
+    "time": 318.97867187500015,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Epicycles",
+    "time": 319.8225799851192,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Ptolemy",
+    "time": 354.3635119047622,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Almagist",
+    "time": 341.1435119047622,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Almagist",
+    "time": 344.3435119047622,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "history",
+    "time": 351.60351190476223,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "science",
+    "time": 351.9635119047622,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Ptolemy",
+    "time": 378.3635119047622,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "epistemic",
+    "time": 379.1435119047622,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "techne",
+    "time": 384.1435119047622,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "engineering",
+    "time": 385.0435119047622,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "cement",
+    "time": 389.126510416667,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "lime",
+    "time": 395.106510416667,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "concrete",
+    "time": 396.50651041666697,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "technology",
+    "time": 548.7605710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "domes",
+    "time": 407.84651041666694,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Pantheon",
+    "time": 408.986510416667,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Rome",
+    "time": 411.42953125000025,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "concrete",
+    "time": 414.78953125000027,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "arches",
+    "time": 419.2695312500003,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "support",
+    "time": 419.78953125000027,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "aqueducts",
+    "time": 429.72953125000026,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "mines",
+    "time": 433.0295312500003,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "marshes",
+    "time": 438.7749386160717,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "sewers",
+    "time": 455.57493861607173,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "sewers",
+    "time": 474.9149386160717,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "engineers",
+    "time": 576.9526878720241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "aqueducts",
+    "time": 454.8549386160717,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "sewers",
+    "time": 592.6526878720241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Rome",
+    "time": 456.1549386160717,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "engineering",
+    "time": 466.0949386160717,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "engineering",
+    "time": 477.4749386160717,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "highways",
+    "time": 478.5364043898812,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "roads",
+    "time": 482.67640438988127,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "roads",
+    "time": 537.0605710565477,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "art",
+    "time": 486.69640438988125,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Rome",
+    "time": 494.45640438988124,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Italy",
+    "time": 496.9164043898812,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "concrete",
+    "time": 505.31640438988126,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cement",
+    "time": 507.13640438988125,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "stones",
+    "time": 508.7964043898812,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "gravel",
+    "time": 509.06057105654793,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "roads",
+    "time": 541.4805710565477,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "enemies",
+    "time": 518.0805710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "expanded",
+    "time": 519.3605710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "cement",
+    "time": 523.6605710565477,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "trees",
+    "time": 529.2005710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "monuments",
+    "time": 530.2805710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "history",
+    "time": 531.8205710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "roads",
+    "time": 593.1526878720241,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Africa",
+    "time": 538.2405710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Asia",
+    "time": 539.0405710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Europe",
+    "time": 539.6205710565476,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "roads",
+    "time": 610.992687872024,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Rome",
+    "time": 542.5405710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "taxes",
+    "time": 544.1005710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "highways",
+    "time": 547.0205710565477,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Colosseum",
+    "time": 565.6582477678575,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "sailors",
+    "time": 568.4326878720241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "engineers",
+    "time": 646.6103720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "aqueducts",
+    "time": 591.992687872024,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "quarrying",
+    "time": 594.1726878720241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "labor",
+    "time": 597.7726878720241,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "labor",
+    "time": 598.7926878720241,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "slaves",
+    "time": 599.9326878720241,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Italy",
+    "time": 603.5526878720241,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "enslaved",
+    "time": 604.212687872024,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "knowledge",
+    "time": 606.2526878720241,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "slaves",
+    "time": 616.6326878720241,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "slaves",
+    "time": 620.0126878720241,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "chattel",
+    "time": 624.0388002232145,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "slaves",
+    "time": 631.3188002232145,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Italy",
+    "time": 630.5188002232145,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "crucified",
+    "time": 639.2903720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "engineering",
+    "time": 644.5303720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "science",
+    "time": 703.9903720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "political",
+    "time": 648.8703720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "history",
+    "time": 703.4903720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "aqueducts",
+    "time": 664.5903720238097,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "knowledge",
+    "time": 682.2503720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Baghdad",
+    "time": 702.3703720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Complexly",
+    "time": 713.0503720238096,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Complexly",
+    "time": 715.4903720238096,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "art",
+    "time": 719.3703720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "support",
+    "time": 724.8703720238096,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Patreon",
+    "time": 725.7503720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "crowdfunding",
+    "time": 726.4703720238097,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "support",
+    "time": 728.3703720238096,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "content",
+    "time": 728.9103720238096,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "patrons",
+    "time": 731.0703720238097,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "support",
+    "time": 733.6103720238096,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  }
+]

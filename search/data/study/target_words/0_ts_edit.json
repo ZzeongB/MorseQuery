@@ -1,0 +1,88 @@
+{
+  "video_id": "0_ts_edit",
+  "audio_start_time": 0.0,
+  "target_window_seconds": 300.0,
+  "search_window_end_time": 524.19,
+  "interruptions": [
+    {
+      "target_word": "hepatitis",
+      "target_word_time": 4.105,
+      "delay_type": "long",
+      "delay_seconds": 51.76,
+      "search_start_time": 55.865,
+      "id": 1
+    },
+    {
+      "target_word": "dysfunctional",
+      "target_word_time": 75.82012834821428,
+      "delay_type": "short",
+      "delay_seconds": 15,
+      "search_start_time": 90.82012834821428,
+      "id": 2
+    },
+    {
+      "target_word": "phobic",
+      "target_word_time":  87.66142485119046,
+      "delay_type": "short",
+      "delay_seconds": 12,
+      "search_start_time": 99.66142485119046,
+      "id": 3
+    },
+    {
+      "target_word": "anxiety",
+      "target_word_time": 62.66012834821428,
+      "delay_type": "long",
+      "delay_seconds": 48,
+      "search_start_time": 110.66012834821428,
+      "id": 4
+    },
+    {
+      "target_word": "psychotherapy",
+      "target_word_time": 236.33533668154774,
+      "delay_type": "short",
+      "delay_seconds": 20.97,
+      "search_start_time": 257.3053366815477,
+      "id": 5
+    },
+    {
+      "target_word": "GAD",
+      "target_word_time": 259.1878348214287,
+      "delay_type": "short",
+      "delay_seconds": 19.71,
+      "search_start_time": 278.89783482142866,
+      "id": 6
+    },
+    {
+      "target_word": "panic",
+      "target_word_time": 287.58783482142866,
+      "delay_type": "long",
+      "delay_seconds": 49.51,
+      "search_start_time": 337.09783482142865,
+      "id": 7
+    },
+    {
+      "target_word": "genetics",
+      "target_word_time": 582.7078348214284,
+      "delay_type": "short",
+      "delay_seconds": 14.66,
+      "search_start_time": 597.3678348214285,
+      "id": 8
+    },
+    {
+      "target_word": "hyperventilating",
+      "target_word_time": 349.9878348214287,
+      "delay_type": "long",
+      "delay_seconds": 52.11,
+      "search_start_time": 402.09783482142865,
+      "id": 9
+    },
+    {
+      "target_word": "conditioning",
+      "target_word_time": 474.02783482142866,
+      "delay_type": "long",
+      "delay_seconds": 49.05,
+      "search_start_time": 523.0778348214287,
+      "id": 10
+    }
+  ]
+}
