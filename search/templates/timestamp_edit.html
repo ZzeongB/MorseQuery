@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Edit</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/timestamp_edit.css') }}">
+</head>
+<body>
+    <main class="page">
+        <header class="hero">
+            <div>
+                <p class="eyebrow">Transcription QA</p>
+                <h1>Timestamp Edit</h1>
+                <p class="lede">Inspect word-level timestamps, highlight keyword and jargon anchors, and drag a word block to shift it and all following words together.</p>
+            </div>
+            <div class="hero-actions">
+                <a class="back-link" href="/">Back</a>
+                <a class="back-link" href="/timestamp-check">Check</a>
+            </div>
+        </header>
+
+        <section class="panel controls">
+            <div class="field wide">
+                <label for="file-select">Audio Clip</label>
+                <select id="file-select">
+                    <option value="">Select an MP3 clip</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="playback-rate">Speed</label>
+                <select id="playback-rate">
+                    <option value="0.75">0.75x</option>
+                    <option value="1" selected>1.0x</option>
+                    <option value="1.25">1.25x</option>
+                    <option value="1.5">1.5x</option>
+                </select>
+            </div>
+            <div class="field">
+                <label for="drag-scale-ms">Drag Scale</label>
+                <input id="drag-scale-ms" type="number" value="1" min="0.25" max="4" step="0.25">
+            </div>
+            <div class="field">
+                <label for="zoom-range">Timeline Zoom</label>
+                <div class="zoom-controls">
+                    <button type="button" id="zoom-out">-</button>
+                    <input id="zoom-range" type="range" min="1" max="12" step="1" value="3">
+                    <button type="button" id="zoom-in">+</button>
+                </div>
+            </div>
+            <div class="field action-field">
+                <button type="button" id="reset-button" disabled>Reset</button>
+                <button type="button" id="save-button" disabled>Save</button>
+            </div>
+        </section>
+
+        <section class="panel player-panel">
+            <audio id="audio-player" controls preload="metadata"></audio>
+            <div class="transport">
+                <button type="button" data-seek="-1">-1.0s</button>
+                <button type="button" data-seek="-0.2">-0.2s</button>
+                <button type="button" data-seek="0.2">+0.2s</button>
+                <button type="button" data-seek="1">+1.0s</button>
+                <button type="button" id="play-selection" disabled>Play Word</button>
+            </div>
+            <div class="status-grid">
+                <div><span class="label">Time</span><span id="time-readout">0.00 / 0.00</span></div>
+                <div><span class="label">Word</span><span id="current-word">-</span></div>
+                <div><span class="label">Delta</span><span id="drag-delta">0.00s</span></div>
+                <div><span class="label">Status</span><span id="save-status">Idle</span></div>
+            </div>
+        </section>
+
+        <section class="panel legend-panel">
+            <span class="legend-chip keyword">Keyword</span>
+            <span class="legend-chip jargon">Jargon</span>
+            <span class="legend-chip selected">Selected</span>
+            <span class="legend-chip shifted">Shifted</span>
+        </section>
+
+        <section class="panel timeline-panel">
+            <div class="panel-header">
+                <h2>Timeline</h2>
+                <p>Drag a bar horizontally to shift that word and all following words by the same amount. Zoom in when the clip is too dense.</p>
+            </div>
+            <div class="timeline-toolbar">
+                <span class="label">Zoom</span>
+                <span id="zoom-readout">3x</span>
+            </div>
+            <div id="timeline-scroll" class="timeline-scroll">
+                <div id="timeline" class="timeline"></div>
+            </div>
+        </section>
+
+        <section class="content-grid">
+            <section class="panel transcript-panel">
+                <div class="panel-header">
+                    <h2>Word List</h2>
+                    <p>Word-level timestamps with keyword and jargon highlights.</p>
+                </div>
+                <div id="word-list" class="word-list"></div>
+            </section>
+
+            <section class="panel details-panel">
+                <div class="panel-header">
+                    <h2>Selection</h2>
+                    <p>Selected word details and edit preview.</p>
+                </div>
+                <dl id="selection-details" class="details">
+                    <div><dt>Word</dt><dd>-</dd></div>
+                    <div><dt>Start</dt><dd>-</dd></div>
+                    <div><dt>End</dt><dd>-</dd></div>
+                    <div><dt>Duration</dt><dd>-</dd></div>
+                    <div><dt>Delta</dt><dd>-</dd></div>
+                    <div><dt>Flags</dt><dd>-</dd></div>
+                </dl>
+                <div class="hint">
+                    Keyboard: <kbd>J</kbd>/<kbd>L</kbd> seek 0.2s, <kbd>,</kbd>/<kbd>.</kbd> move selection, <kbd>R</kbd> replay selected word, <kbd>Space</kbd> play or pause.
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/timestamp_edit.js') }}"></script>
+</body>
+</html>

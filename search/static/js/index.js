@@ -6,6 +6,7 @@ const jumpSecondsInput = document.getElementById('jump-seconds');
 const toggleTranscriptBtn = document.getElementById('toggle-transcript');
 const replaySpeedupEnabled = document.getElementById('replay-speedup-enabled');
 const replaySpeedupRate = document.getElementById('replay-speedup-rate');
+const isDebugPage = document.body.classList.contains('debug-page');
 
 const studyPanel = document.getElementById('study-panel');
 const studyParticipant = document.getElementById('study-participant');
@@ -616,7 +617,7 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
     else keywordIndex = targetIndex;
 
     if (setAudioTimeFromArrow(
-        target.time - 0.1,
+        target.time - 0.0,
         useKeyword2 ? 'keyword2_prev' : 'keyword_prev',
         useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked',
         {
@@ -1343,7 +1344,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowLeft') {
         e.preventDefault();
-        if (studyMode && !taskActive) return;
+        if (studyMode && !taskActive && !isDebugPage) return;
         logUserAction('left');
 
         switch (currentMode) {
@@ -1369,7 +1370,7 @@ document.addEventListener('keydown', (e) => {
 
     if (e.code === 'ArrowRight') {
         e.preventDefault();
-        if (studyMode && !taskActive) return;
+        if (studyMode && !taskActive && !isDebugPage) return;
         logUserAction('right');
 
         switch (currentMode) {

@@ -381,6 +381,13 @@ def normalize_token(text: str) -> str:
     return tokens[0] if len(tokens) == 1 else ""
 
 
+def preferred_transcript_id(requested_id: str) -> str:
+    normalized = edited_transcript_id(requested_id)
+    if (TRANSCRIPT_DIR / f"{normalized}.json").exists():
+        return normalized
+    return requested_id
+
+
 def build_word_index(segments: list[dict], *, clip_start: float) -> list[dict]:
     items = []
     for segment_index, segment in enumerate(segments):
@@ -437,8 +444,80 @@ def remap_time_entries(path: Path, words: list[dict]) -> None:
     path.write_text(json.dumps(updated_entries, indent=2), encoding="utf-8")
 
 
-def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) -> None:
-    transcript_path = TRANSCRIPT_DIR / f"{transcript_id}.json"
+def remap_target_words_file(source_path: Path, destination_path: Path, jargon_words_path: Path) -> None:
+    if not source_path.exists():
+        return
+
+    data = load_json_file(source_path)
+    interruptions = data.get("interruptions")
+    if not isinstance(interruptions, list):
+        destination_path.parent.mkdir(parents=True, exist_ok=True)
+        destination_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        return
+
+    occurrences: dict[str, list[float]] = {}
+    if jargon_words_path.exists():
+        jargon_words = load_json_file(jargon_words_path)
+        if isinstance(jargon_words, list):
+            for word in jargon_words:
+                if not isinstance(word, dict):
+                    continue
+                token = normalize_token(str(word.get("word", "")))
+                if not token or "time" not in word:
+                    continue
+                occurrences.setdefault(token, []).append(float(word["time"]))
+
+    used_indices: dict[str, set[int]] = {}
+    updated_interruptions = []
+    for item in interruptions:
+        if not isinstance(item, dict):
+            updated_interruptions.append(item)
+            continue
+
+        entry = dict(item)
+        token = normalize_token(str(entry.get("target_word", "")))
+        original_time = float(entry.get("target_word_time", 0.0))
+        candidates = occurrences.get(token, [])
+        if candidates:
+            used = used_indices.setdefault(token, set())
+            ranked = sorted(
+                range(len(candidates)),
+                key=lambda idx: (abs(candidates[idx] - original_time), idx),
+            )
+            chosen_idx = next((idx for idx in ranked if idx not in used), ranked[0])
+            used.add(chosen_idx)
+            delta = candidates[chosen_idx] - original_time
+            entry["target_word_time"] = candidates[chosen_idx]
+            if "search_start_time" in entry and isinstance(entry["search_start_time"], (int, float)):
+                entry["search_start_time"] = float(entry["search_start_time"]) + delta
+        updated_interruptions.append(entry)
+
+    output = dict(data)
+    output["video_id"] = destination_path.stem
+    output["interruptions"] = updated_interruptions
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    destination_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
+
+
+def edited_transcript_id(transcript_id: str) -> str:
+    match = re.match(r"^(.*?)(?:_tsedit_\d+|_ts_edit)$", transcript_id)
+    base_id = match.group(1) if match else transcript_id
+    return f"{base_id}_ts_edit"
+
+
+def copy_json_if_exists(source: Path, destination: Path) -> None:
+    if not source.exists():
+        return
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
+
+
+def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) -> str:
+    source_id = preferred_transcript_id(transcript_id)
+    source_transcript_path = TRANSCRIPT_DIR / f"{source_id}.json"
+    target_transcript_id = edited_transcript_id(transcript_id)
+    target_transcript_path = TRANSCRIPT_DIR / f"{target_transcript_id}.json"
+    transcript_path = source_transcript_path
     if not transcript_path.exists():
         raise FileNotFoundError(f"Transcript not found: {transcript_id}")
 
@@ -472,21 +551,31 @@ def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) 
         if segment_words:
             segment["start"] = segment_words[0]["start"]
             segment["end"] = segment_words[-1]["end"]
-            segment["text"] = " ".join(str(word.get("word", "")).strip() for word in segment_words).strip()
 
-    data["text"] = " ".join(str(segment.get("text", "")).strip() for segment in segments).strip()
-    transcript_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    target_transcript_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
 
-    sentence_path = SENTENCES_DIR / f"{transcript_id}.json"
+    sentence_path = SENTENCES_DIR / f"{target_transcript_id}.json"
     sentence_path.parent.mkdir(parents=True, exist_ok=True)
     sentence_path.write_text(
         json.dumps(build_sentence_units(load_transcript_segments_for_api(data)), indent=2),
         encoding="utf-8",
     )
 
-    remap_time_entries(KEYWORDS_DIR / f"{transcript_id}.json", flat_words_for_mapping)
-    remap_time_entries(KEYWORDS_DIR / f"{transcript_id}.jargon.json", flat_words_for_mapping)
-    remap_time_entries(KEYWORDS2_DIR / f"{transcript_id}.json", flat_words_for_mapping)
+    target_keywords_path = KEYWORDS_DIR / f"{target_transcript_id}.json"
+    target_jargon_path = KEYWORDS_DIR / f"{target_transcript_id}.jargon.json"
+    target_keywords2_path = KEYWORDS2_DIR / f"{target_transcript_id}.json"
+    copy_json_if_exists(KEYWORDS_DIR / f"{source_id}.json", target_keywords_path)
+    copy_json_if_exists(KEYWORDS_DIR / f"{source_id}.jargon.json", target_jargon_path)
+    copy_json_if_exists(KEYWORDS2_DIR / f"{source_id}.json", target_keywords2_path)
+    remap_time_entries(target_keywords_path, flat_words_for_mapping)
+    remap_time_entries(target_jargon_path, flat_words_for_mapping)
+    remap_time_entries(target_keywords2_path, flat_words_for_mapping)
+    remap_target_words_file(
+        INTERRUPTIONS_DIR / f"{source_id}.json",
+        INTERRUPTIONS_DIR / f"{target_transcript_id}.json",
+        target_jargon_path,
+    )
+    return target_transcript_id
 
 
 def load_transcript_segments_for_api(data: dict) -> list[dict]:
@@ -546,7 +635,14 @@ def get_files():
     files = []
     for mp3_path in MP3_DIR.glob("*.mp3"):
         video_id = mp3_path.stem.split("_clip_")[0]
-        transcript_paths = sorted(TRANSCRIPT_DIR.glob(f"{video_id}*.json"))
+        transcript_paths = sorted(
+            TRANSCRIPT_DIR.glob(f"{video_id}*.json"),
+            key=lambda path: (
+                0 if path.stem == f"{video_id}_ts_edit" else 1,
+                0 if path.stem == video_id else 1,
+                path.stem,
+            ),
+        )
         if not transcript_paths:
             continue
 
@@ -568,7 +664,8 @@ def get_files():
 @app.route("/api/transcript/<video_id>")
 def get_transcript(video_id: str):
     """Return transcript with keywords extracted for each segment."""
-    transcript_path = TRANSCRIPT_DIR / f"{video_id}.json"
+    resolved_id = preferred_transcript_id(video_id)
+    transcript_path = TRANSCRIPT_DIR / f"{resolved_id}.json"
     if not transcript_path.exists():
         return jsonify({"error": "Transcript not found"}), 404
 
@@ -579,30 +676,30 @@ def get_transcript(video_id: str):
     segments = load_transcript_segments_for_api(data)
 
     # Load custom keywords if exists
-    keywords_path = KEYWORDS_DIR / f"{video_id}.json"
+    keywords_path = KEYWORDS_DIR / f"{resolved_id}.json"
     custom_keywords = []
     if keywords_path.exists():
         with open(keywords_path) as f:
             custom_keywords = json.load(f)
 
-    jargon_path = KEYWORDS_DIR / f"{video_id}.jargon.json"
+    jargon_path = KEYWORDS_DIR / f"{resolved_id}.jargon.json"
     jargon_keywords = []
     if jargon_path.exists():
         with open(jargon_path) as f:
             jargon_keywords = json.load(f)
 
     # Load custom keywords2 if exists
-    keywords2_path = KEYWORDS2_DIR / f"{video_id}.json"
+    keywords2_path = KEYWORDS2_DIR / f"{resolved_id}.json"
     custom_keywords2 = []
     if keywords2_path.exists():
         with open(keywords2_path) as f:
             custom_keywords2 = json.load(f)
 
-    sentences = load_or_create_sentences(video_id, segments)
+    sentences = load_or_create_sentences(resolved_id, segments)
 
     return jsonify(
         {
-            "video_id": video_id,
+            "video_id": resolved_id,
             "clip_start": clip_start,
             "segments": segments,
             "sentences": sentences,
@@ -620,13 +717,13 @@ def save_transcript_timestamps(transcript_id: str):
         return jsonify({"error": "Invalid payload"}), 400
 
     try:
-        apply_word_timestamp_updates(transcript_id, data["words"])
+        saved_transcript_id = apply_word_timestamp_updates(transcript_id, data["words"])
     except FileNotFoundError:
         return jsonify({"error": "Transcript not found"}), 404
     except ValueError as exc:
         return jsonify({"error": str(exc)}), 400
 
-    return jsonify({"status": "saved"})
+    return jsonify({"status": "saved", "transcript_id": saved_transcript_id})
 
 
 @app.route("/mp3/<filename>")
@@ -783,7 +880,10 @@ def get_study_config():
 @app.route("/api/study/interruptions/<video_id>")
 def get_study_interruptions(video_id: str):
     """Return interruption config for a specific video."""
-    interruptions_path = INTERRUPTIONS_DIR / f"{video_id}.json"
+    resolved_id = preferred_transcript_id(video_id)
+    interruptions_path = INTERRUPTIONS_DIR / f"{resolved_id}.json"
+    if not interruptions_path.exists():
+        interruptions_path = INTERRUPTIONS_DIR / f"{video_id}.json"
     if not interruptions_path.exists():
         return jsonify({"error": f"Interruptions for {video_id} not found"}), 404
 
