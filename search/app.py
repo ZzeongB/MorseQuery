@@ -388,6 +388,18 @@ def preferred_transcript_id(requested_id: str) -> str:
     return requested_id
 
 
+def base_transcript_id(transcript_id: str) -> str:
+    return edited_transcript_id(transcript_id).removesuffix("_ts_edit")
+
+
+def preferred_data_path(directory: Path, requested_id: str, suffix: str = ".json") -> Path:
+    normalized = edited_transcript_id(requested_id)
+    preferred = directory / f"{normalized}{suffix}"
+    if preferred.exists():
+        return preferred
+    return directory / f"{base_transcript_id(requested_id)}{suffix}"
+
+
 def build_word_index(segments: list[dict], *, clip_start: float) -> list[dict]:
     items = []
     for segment_index, segment in enumerate(segments):
@@ -412,6 +424,11 @@ def remap_time_entries(path: Path, words: list[dict]) -> None:
     if not isinstance(entries, list):
         return
 
+    updated_entries = remap_time_entries_data(entries, words)
+    path.write_text(json.dumps(updated_entries, indent=2), encoding="utf-8")
+
+
+def remap_time_entries_data(entries: list[dict], words: list[dict]) -> list[dict]:
     occurrences: dict[str, list[float]] = {}
     for word in words:
         token = normalize_token(str(word.get("text", "")))
@@ -440,8 +457,7 @@ def remap_time_entries(path: Path, words: list[dict]) -> None:
             used.add(chosen_idx)
             entry_copy["time"] = candidates[chosen_idx]
         updated_entries.append(entry_copy)
-
-    path.write_text(json.dumps(updated_entries, indent=2), encoding="utf-8")
+    return updated_entries
 
 
 def remap_target_words_file(source_path: Path, destination_path: Path, jargon_words_path: Path) -> None:
@@ -512,6 +528,13 @@ def copy_json_if_exists(source: Path, destination: Path) -> None:
     destination.write_text(source.read_text(encoding="utf-8"), encoding="utf-8")
 
 
+def copy_preferred_json_if_exists(
+    directory: Path, requested_id: str, destination: Path, suffix: str = ".json"
+) -> None:
+    source = preferred_data_path(directory, requested_id, suffix)
+    copy_json_if_exists(source, destination)
+
+
 def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) -> str:
     source_id = preferred_transcript_id(transcript_id)
     source_transcript_path = TRANSCRIPT_DIR / f"{source_id}.json"
@@ -564,9 +587,11 @@ def apply_word_timestamp_updates(transcript_id: str, updated_words: list[dict]) 
     target_keywords_path = KEYWORDS_DIR / f"{target_transcript_id}.json"
     target_jargon_path = KEYWORDS_DIR / f"{target_transcript_id}.jargon.json"
     target_keywords2_path = KEYWORDS2_DIR / f"{target_transcript_id}.json"
-    copy_json_if_exists(KEYWORDS_DIR / f"{source_id}.json", target_keywords_path)
-    copy_json_if_exists(KEYWORDS_DIR / f"{source_id}.jargon.json", target_jargon_path)
-    copy_json_if_exists(KEYWORDS2_DIR / f"{source_id}.json", target_keywords2_path)
+    copy_preferred_json_if_exists(KEYWORDS_DIR, transcript_id, target_keywords_path)
+    copy_preferred_json_if_exists(
+        KEYWORDS_DIR, transcript_id, target_jargon_path, ".jargon.json"
+    )
+    copy_preferred_json_if_exists(KEYWORDS2_DIR, transcript_id, target_keywords2_path)
     remap_time_entries(target_keywords_path, flat_words_for_mapping)
     remap_time_entries(target_jargon_path, flat_words_for_mapping)
     remap_time_entries(target_keywords2_path, flat_words_for_mapping)
@@ -674,26 +699,33 @@ def get_transcript(video_id: str):
 
     clip_start = data.get("start_time", 0)
     segments = load_transcript_segments_for_api(data)
+    remap_words = build_word_index(data.get("segments", []), clip_start=float(clip_start))
 
     # Load custom keywords if exists
-    keywords_path = KEYWORDS_DIR / f"{resolved_id}.json"
+    keywords_path = preferred_data_path(KEYWORDS_DIR, video_id)
     custom_keywords = []
     if keywords_path.exists():
         with open(keywords_path) as f:
             custom_keywords = json.load(f)
+        if keywords_path.stem != resolved_id and isinstance(custom_keywords, list):
+            custom_keywords = remap_time_entries_data(custom_keywords, remap_words)
 
-    jargon_path = KEYWORDS_DIR / f"{resolved_id}.jargon.json"
+    jargon_path = preferred_data_path(KEYWORDS_DIR, video_id, ".jargon.json")
     jargon_keywords = []
     if jargon_path.exists():
         with open(jargon_path) as f:
             jargon_keywords = json.load(f)
+        if jargon_path.stem.removesuffix(".jargon") != resolved_id and isinstance(jargon_keywords, list):
+            jargon_keywords = remap_time_entries_data(jargon_keywords, remap_words)
 
     # Load custom keywords2 if exists
-    keywords2_path = KEYWORDS2_DIR / f"{resolved_id}.json"
+    keywords2_path = preferred_data_path(KEYWORDS2_DIR, video_id)
     custom_keywords2 = []
     if keywords2_path.exists():
         with open(keywords2_path) as f:
             custom_keywords2 = json.load(f)
+        if keywords2_path.stem != resolved_id and isinstance(custom_keywords2, list):
+            custom_keywords2 = remap_time_entries_data(custom_keywords2, remap_words)
 
     sentences = load_or_create_sentences(resolved_id, segments)
 
