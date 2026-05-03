@@ -24,10 +24,19 @@ let words = [];
 let originalWords = [];
 let selectedWordIndex = -1;
 let activeWordIndex = -1;
-let keywordTimes = new Set();
-let jargonTimes = new Set();
+let keywordStarts = new Set();
+let jargonStarts = new Set();
 let dragState = null;
 let zoomLevel = Number(zoomRange?.value || 3);
+let selectedFile = null;
+
+function syncSelectedFileFromSelect() {
+    if (!fileSelect.value) {
+        selectedFile = null;
+        return;
+    }
+    selectedFile = JSON.parse(fileSelect.value);
+}
 
 function getTimelineDuration() {
     return Math.max(...words.map((word) => word.end), audio.duration || 0.001);
@@ -57,13 +66,8 @@ function clampTime(value) {
     return Math.max(0, Math.min(value, duration));
 }
 
-function normalizeToken(text) {
-    const tokens = String(text || '').toLowerCase().match(/[a-z0-9']+/g);
-    return tokens && tokens.length === 1 ? tokens[0] : '';
-}
-
-function buildWordKey(word) {
-    return `${normalizeToken(word.word)}@${Number(word.start).toFixed(2)}`;
+function buildTimeKey(value) {
+    return Number(value).toFixed(2);
 }
 
 function buildWords(transcript) {
@@ -88,21 +92,21 @@ function cloneWords(items) {
 
 function markHighlightKinds(items) {
     return items.map((word) => {
-        const key = buildWordKey(word);
+        const key = buildTimeKey(word.start);
         return {
             ...word,
-            isKeyword: keywordTimes.has(key),
-            isJargon: jargonTimes.has(key),
+            isKeyword: keywordStarts.has(key),
+            isJargon: jargonStarts.has(key),
         };
     });
 }
 
 function syncHighlightSets(transcript) {
-    keywordTimes = new Set(
-        (transcript.custom_keywords || []).map((item) => `${normalizeToken(item.word)}@${Number(item.time).toFixed(2)}`),
+    keywordStarts = new Set(
+        (transcript.custom_keywords || []).map((item) => buildTimeKey(item.time)),
     );
-    jargonTimes = new Set(
-        (transcript.jargon_keywords || []).map((item) => `${normalizeToken(item.word)}@${Number(item.time).toFixed(2)}`),
+    jargonStarts = new Set(
+        (transcript.jargon_keywords || []).map((item) => buildTimeKey(item.time)),
     );
 }
 
@@ -309,7 +313,9 @@ function updateSelectionDetails() {
 function seekToSelectedWord({ play = false } = {}) {
     const word = words[selectedWordIndex];
     if (!word) return;
+    console.log(`seekToSelectedWord: index=${selectedWordIndex}, word="${word.word}", start=${word.start}, currentTime before=${audio.currentTime}`);
     audio.currentTime = clampTime(word.start);
+    console.log(`seekToSelectedWord: currentTime after=${audio.currentTime}`);
     if (play) {
         audio.play().catch(() => {});
     }
@@ -318,10 +324,10 @@ function seekToSelectedWord({ play = false } = {}) {
 function playSelection() {
     const word = words[selectedWordIndex];
     if (!word) return;
-    audio.currentTime = clampTime(Math.max(0, word.start - 0.12));
+    audio.currentTime = clampTime(word.start);
     audio.play().catch(() => {});
     window.clearTimeout(playSelection._timeoutId);
-    playSelection._timeoutId = window.setTimeout(() => audio.pause(), Math.max(120, (word.end - word.start + 0.24) * 1000));
+    playSelection._timeoutId = window.setTimeout(() => audio.pause(), Math.max(120, (word.end - word.start) * 1000));
 }
 
 function moveSelection(delta) {
@@ -447,17 +453,20 @@ async function refreshFileOptions(selectTranscriptId) {
         });
         if (match) {
             fileSelect.value = match.value;
+            syncSelectedFileFromSelect();
             return;
         }
     }
 
     fileSelect.value = previousValue;
+    syncSelectedFileFromSelect();
 }
 
 function handleFileChange() {
     const selected = fileSelect.value;
     if (!selected) return;
     const file = JSON.parse(selected);
+    selectedFile = file;
     audio.src = `/mp3/${encodeURIComponent(file.filename)}`;
     audio.load();
     loadTranscript(file.transcript_id || file.video_id);
