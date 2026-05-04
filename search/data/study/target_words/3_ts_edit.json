@@ -21,27 +21,27 @@
       "id": 2
     },
     {
+      "target_word": "finches",
+      "target_word_time": 191.46,
+      "delay_type": "short",
+      "delay_seconds": 15.0,
+      "search_start_time": 206.46,
+      "id": 3
+    },
+    {
       "target_word": "earthworms",
       "target_word_time": 148.46,
       "delay_type": "long",
       "delay_seconds": 58.55,
       "search_start_time": 207.01,
-      "id": 3
-    },
-    {
-      "target_word": "barnacles",
-      "target_word_time": 147.74,
-      "delay_type": "long",
-      "delay_seconds": 59.67,
-      "search_start_time": 207.41,
       "id": 4
     },
     {
-      "target_word": "reproduction",
-      "target_word_time": 185.02,
-      "delay_type": "long",
-      "delay_seconds": 44.31,
-      "search_start_time": 229.33,
+      "target_word": "species",
+      "target_word_time": 200.64,
+      "delay_type": "short",
+      "delay_seconds": 15.36,
+      "search_start_time": 216.0,
       "id": 5
     },
     {

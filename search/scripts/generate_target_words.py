@@ -4,6 +4,8 @@ import random
 import math
 from pathlib import Path
 
+STRICT_MAX_SEARCH_OFFSET_SECONDS = 299.99
+
 
 def load_json(path: Path):
     with path.open() as f:
@@ -15,6 +17,27 @@ def sample_positive_normal(rng: random.Random, mean: float, sigma: float) -> flo
         value = rng.gauss(mean, sigma)
         if value > 0:
             return round(value, 2)
+
+
+def capped_search_window_end_time(
+    interruptions, *, audio_start_time: float, target_window_seconds: float
+) -> float:
+    default_end_time = round(
+        min(
+            audio_start_time + target_window_seconds,
+            audio_start_time + STRICT_MAX_SEARCH_OFFSET_SECONDS,
+        ),
+        2,
+    )
+    if not interruptions:
+        return default_end_time
+    return round(
+        min(
+            max(item["search_start_time"] for item in interruptions),
+            audio_start_time + STRICT_MAX_SEARCH_OFFSET_SECONDS,
+        ),
+        2,
+    )
 
 
 def resolve_video_config(video_configs, video_id: str):
@@ -39,8 +62,12 @@ def pick_interruption(
     hard_max_offset_seconds: float,
     max_attempts: int = 500,
 ):
-    soft_limit = audio_start_time + preferred_max_offset_seconds
-    hard_limit = audio_start_time + hard_max_offset_seconds
+    capped_preferred_offset = min(
+        preferred_max_offset_seconds, STRICT_MAX_SEARCH_OFFSET_SECONDS
+    )
+    capped_hard_offset = min(hard_max_offset_seconds, STRICT_MAX_SEARCH_OFFSET_SECONDS)
+    soft_limit = audio_start_time + capped_preferred_offset
+    hard_limit = audio_start_time + capped_hard_offset
 
     for _ in range(max_attempts):
         delay_seconds = sample_positive_normal(rng, delay_mean, delay_sigma)
@@ -64,6 +91,39 @@ def pick_interruption(
         chosen_idx = rng.choice(pool)
         chosen = candidates[chosen_idx]
         target_word_time = round(float(chosen["time"]), 2)
+        search_start_time = round(target_word_time + delay_seconds, 2)
+        return chosen_idx, {
+            "target_word": chosen["word"],
+            "target_word_time": target_word_time,
+            "delay_type": delay_type,
+            "delay_seconds": delay_seconds,
+            "search_start_time": search_start_time,
+        }
+
+    fallback_candidates = []
+    for idx, item in enumerate(candidates):
+        if idx in used_indexes:
+            continue
+        target_word_time = round(float(item["time"]), 2)
+        min_delay_seconds = round(
+            max(0.01, audio_start_time + min_search_offset_seconds - target_word_time),
+            2,
+        )
+        max_delay_seconds = round(hard_limit - target_word_time, 2)
+        if min_delay_seconds > max_delay_seconds:
+            continue
+        delay_seconds = round(
+            min(max(delay_mean, min_delay_seconds), max_delay_seconds), 2
+        )
+        fallback_candidates.append(
+            (abs(delay_seconds - delay_mean), idx, target_word_time, delay_seconds)
+        )
+
+    if fallback_candidates:
+        _distance, chosen_idx, target_word_time, delay_seconds = min(
+            fallback_candidates, key=lambda item: item[0]
+        )
+        chosen = candidates[chosen_idx]
         search_start_time = round(target_word_time + delay_seconds, 2)
         return chosen_idx, {
             "target_word": chosen["word"],
@@ -183,9 +243,10 @@ def generate_interruptions(
     for idx, interruption in enumerate(interruptions, start=1):
         interruption["id"] = idx
 
-    search_window_end_time = max(
-        (item["search_start_time"] for item in interruptions),
-        default=round(audio_start_time + target_window_seconds, 2),
+    search_window_end_time = capped_search_window_end_time(
+        interruptions,
+        audio_start_time=audio_start_time,
+        target_window_seconds=target_window_seconds,
     )
     return interruptions, search_window_end_time
 
@@ -230,9 +291,10 @@ def generate_minute_slot_interruptions(
     for idx, interruption in enumerate(interruptions, start=1):
         interruption["id"] = idx
 
-    search_window_end_time = max(
-        (item["search_start_time"] for item in interruptions),
-        default=round(audio_start_time + target_window_seconds, 2),
+    search_window_end_time = capped_search_window_end_time(
+        interruptions,
+        audio_start_time=audio_start_time,
+        target_window_seconds=target_window_seconds,
     )
     return interruptions, search_window_end_time
 
@@ -262,13 +324,13 @@ def main():
     parser.add_argument(
         "--short-count",
         type=int,
-        default=5,
+        default=3,
         help="Number of short-delay interruptions per file",
     )
     parser.add_argument(
         "--long-count",
         type=int,
-        default=5,
+        default=3,
         help="Number of long-delay interruptions per file",
     )
     parser.add_argument(

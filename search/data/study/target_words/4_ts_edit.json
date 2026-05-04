@@ -5,12 +5,28 @@
   "search_window_end_time": 253.23,
   "interruptions": [
     {
+      "target_word": "cochlea",
+      "target_word_time": 181.49,
+      "delay_type": "short",
+      "delay_seconds": 21.04,
+      "search_start_time": 202.53,
+      "id": 1
+    },
+    {
+      "target_word": "songbirds",
+      "target_word_time": 197.7,
+      "delay_type": "short",
+      "delay_seconds": 15.3,
+      "search_start_time": 213.0,
+      "id": 2
+    },
+    {
       "target_word": "eardrum",
       "target_word_time": 166.4,
       "delay_type": "long",
       "delay_seconds": 51.09,
       "search_start_time": 217.49,
-      "id": 1
+      "id": 3
     },
     {
       "target_word": "stirrup",
@@ -18,7 +34,7 @@
       "delay_type": "long",
       "delay_seconds": 47.88,
       "search_start_time": 222.29,
-      "id": 2
+      "id": 4
     },
     {
       "target_word": "hammer",
@@ -26,22 +42,6 @@
       "delay_type": "long",
       "delay_seconds": 47.52,
       "search_start_time": 222.87,
-      "id": 3
-    },
-    {
-      "target_word": "anvil",
-      "target_word_time": 176.53,
-      "delay_type": "long",
-      "delay_seconds": 48.71,
-      "search_start_time": 225.24,
-      "id": 4
-    },
-    {
-      "target_word": "cochlea",
-      "target_word_time": 181.49,
-      "delay_type": "long",
-      "delay_seconds": 51.04,
-      "search_start_time": 232.53,
       "id": 5
     },
     {

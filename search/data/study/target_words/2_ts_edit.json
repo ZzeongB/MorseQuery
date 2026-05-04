@@ -5,28 +5,12 @@
   "search_window_end_time": 263.89,
   "interruptions": [
     {
-      "target_word": "exponents",
-      "target_word_time": 183.03,
-      "delay_type": "short",
-      "delay_seconds": 8.5,
-      "search_start_time": 191.53,
-      "id": 1
-    },
-    {
-      "target_word": "mathematician",
-      "target_word_time": 176.17,
-      "delay_type": "short",
-      "delay_seconds": 18.6,
-      "search_start_time": 194.77,
-      "id": 2
-    },
-    {
       "target_word": "catapults",
       "target_word_time": 149.68,
       "delay_type": "long",
       "delay_seconds": 50.53,
       "search_start_time": 200.21,
-      "id": 3
+      "id": 1
     },
     {
       "target_word": "irrigation",
@@ -34,6 +18,22 @@
       "delay_type": "short",
       "delay_seconds": 13.67,
       "search_start_time": 209.18,
+      "id": 2
+    },
+    {
+      "target_word": "mathematician",
+      "target_word_time": 176.17,
+      "delay_type": "long",
+      "delay_seconds": 46.6,
+      "search_start_time": 222.77,
+      "id": 3
+    },
+    {
+      "target_word": "exponents",
+      "target_word_time": 183.03,
+      "delay_type": "long",
+      "delay_seconds": 48.5,
+      "search_start_time": 231.53,
       "id": 4
     },
     {

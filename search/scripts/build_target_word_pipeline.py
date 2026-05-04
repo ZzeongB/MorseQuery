@@ -82,13 +82,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--short-count",
         type=int,
-        default=5,
+        default=3,
         help="Number of short-delay interruptions per file.",
     )
     parser.add_argument(
         "--long-count",
         type=int,
-        default=5,
+        default=3,
         help="Number of long-delay interruptions per file.",
     )
     parser.add_argument(

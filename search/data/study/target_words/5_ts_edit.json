@@ -13,19 +13,19 @@
       "id": 1
     },
     {
-      "target_word": "cerebellum",
-      "target_word_time": 282.63,
-      "delay_type": "short",
-      "delay_seconds": 2.97,
-      "search_start_time": 285.6,
+      "target_word": "ammonia",
+      "target_word_time": 271.67,
+      "delay_type": "long",
+      "delay_seconds": 38.71,
+      "search_start_time": 310.38,
       "id": 2
     },
     {
-      "target_word": "ammonia",
-      "target_word_time": 271.67,
-      "delay_type": "short",
-      "delay_seconds": 28.71,
-      "search_start_time": 300.38,
+      "target_word": "cerebellum",
+      "target_word_time": 282.63,
+      "delay_type": "long",
+      "delay_seconds": 42.96,
+      "search_start_time": 325.59,
       "id": 3
     },
     {

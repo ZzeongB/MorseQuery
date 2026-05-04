@@ -5,12 +5,20 @@
   "search_window_end_time": 237.83,
   "interruptions": [
     {
+      "target_word": "synapomorphian",
+      "target_word_time": 165.72,
+      "delay_type": "short",
+      "delay_seconds": 19.28,
+      "search_start_time": 185.0,
+      "id": 1
+    },
+    {
       "target_word": "chachea",
       "target_word_time": 136.19,
       "delay_type": "long",
       "delay_seconds": 50.06,
       "search_start_time": 186.25,
-      "id": 1
+      "id": 2
     },
     {
       "target_word": "cartilage",
@@ -18,7 +26,7 @@
       "delay_type": "long",
       "delay_seconds": 56.62,
       "search_start_time": 191.89,
-      "id": 2
+      "id": 3
     },
     {
       "target_word": "leeches",
@@ -26,14 +34,6 @@
       "delay_type": "long",
       "delay_seconds": 45.0,
       "search_start_time": 193.43,
-      "id": 3
-    },
-    {
-      "target_word": "lugworms",
-      "target_word_time": 150.07,
-      "delay_type": "long",
-      "delay_seconds": 52.83,
-      "search_start_time": 202.9,
       "id": 4
     },
     {
