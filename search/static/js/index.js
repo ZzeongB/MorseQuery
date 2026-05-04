@@ -132,13 +132,17 @@ function clampToStudyPlaybackBounds(targetTime) {
     return Math.max(bounds.min, Math.min(targetTime, bounds.max));
 }
 
+function getSearchWindowSeconds() {
+    return studyInterruptions?.search_window_seconds ?? TASK_SEARCH_WINDOW_SECONDS;
+}
+
 function getActiveSearchInterval() {
     if (!studyMode || !taskActive || activeTargetTime === null) return null;
     const playbackBounds = getStudyPlaybackBounds();
     const minTime = playbackBounds ? playbackBounds.min : 0;
 
     return {
-        min: Math.max(minTime, activeTargetTime - TASK_SEARCH_WINDOW_SECONDS),
+        min: Math.max(minTime, activeTargetTime - getSearchWindowSeconds()),
         max: activeTargetTime,
     };
 }
@@ -585,6 +589,10 @@ function applySearchPlaybackRate() {
 function moveToSearchIntervalStart(action, extra = {}) {
     const interval = getActiveSearchInterval();
     if (!interval) return false;
+    // If already at or near interval start, treat as blocked
+    if (Math.abs(audio.currentTime - interval.min) < 0.1) {
+        return false;
+    }
     setAudioTime(interval.min, action, {
         intervalStart: interval.min,
         ...extra,
@@ -1266,7 +1274,7 @@ async function triggerInterruption(interruption, triggerTime) {
         targetTime: interruption.target_word_time,
         triggerTime,
         audioTime: activeTargetTime,
-        searchIntervalMin: Math.max(0, activeTargetTime - TASK_SEARCH_WINDOW_SECONDS),
+        searchIntervalMin: Math.max(0, activeTargetTime - getSearchWindowSeconds()),
         searchIntervalMax: activeTargetTime,
     });
 
@@ -1450,7 +1458,7 @@ async function completeStudySession() {
         }),
     });
 
-    alert(`Study session complete!\n\nCompleted: ${completed}\nTimeouts: ${timeouts}`);
+    alert('Study session complete!');
 
     studyMode = false;
     studySessionId = null;

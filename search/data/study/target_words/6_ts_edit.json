@@ -4,6 +4,7 @@
   "target_window_seconds": 300.0,
   "search_window_end_time": 300.0,
   "selection_mode": "minute_slots",
+  "search_window_seconds": 60,
   "interruptions": [
     {
       "target_word": "Act",
