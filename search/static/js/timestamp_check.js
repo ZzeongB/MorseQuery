@@ -18,9 +18,16 @@ let selectedWordIndex = -1;
 let activeWordIndex = -1;
 let loopEnabled = false;
 let selectionLoop = null;
+let keywordStarts = new Set();
+let jargonStarts = new Set();
+let keyword2Starts = new Set();
 
 function formatSeconds(value) {
     return Number.isFinite(value) ? value.toFixed(2) : '-';
+}
+
+function buildTimeKey(value) {
+    return Number(value).toFixed(2);
 }
 
 function getOffsetSeconds() {
@@ -44,10 +51,23 @@ function getAdjustedWindow(word) {
     };
 }
 
+function syncHighlightSets(transcript) {
+    keywordStarts = new Set(
+        (transcript.custom_keywords || []).map((item) => buildTimeKey(item.time)),
+    );
+    jargonStarts = new Set(
+        (transcript.jargon_keywords || []).map((item) => buildTimeKey(item.time)),
+    );
+    keyword2Starts = new Set(
+        (transcript.custom_keywords2 || []).map((item) => buildTimeKey(item.time)),
+    );
+}
+
 function buildWords(transcript) {
     const items = [];
     (transcript.segments || []).forEach((segment, segmentIndex) => {
         (segment.words || []).forEach((word, wordIndexInSegment) => {
+            const timeKey = buildTimeKey(word.start);
             items.push({
                 id: `${segmentIndex}-${wordIndexInSegment}`,
                 word: word.word,
@@ -55,6 +75,9 @@ function buildWords(transcript) {
                 end: word.end,
                 segmentText: segment.text,
                 segmentIndex,
+                isKeyword: keywordStarts.has(timeKey),
+                isJargon: jargonStarts.has(timeKey),
+                isKeyword2: keyword2Starts.has(timeKey),
             });
         });
     });
@@ -77,6 +100,7 @@ async function loadFiles() {
 async function loadTranscript(transcriptId) {
     const response = await fetch(`/api/transcript/${transcriptId}`);
     transcriptData = await response.json();
+    syncHighlightSets(transcriptData);
     words = buildWords(transcriptData);
     selectedWordIndex = words.length > 0 ? 0 : -1;
     activeWordIndex = -1;
@@ -98,10 +122,20 @@ function renderWordList() {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'word-chip';
+        if (word.isKeyword) button.classList.add('keyword');
+        if (word.isJargon) button.classList.add('jargon');
+        if (word.isKeyword2) button.classList.add('keyword2');
+        const badges = [];
+        if (word.isKeyword) badges.push('<span class="badge">semantic</span>');
+        if (word.isJargon) badges.push('<span class="badge">jargon</span>');
+        if (word.isKeyword2) badges.push('<span class="badge">semantic2</span>');
         button.dataset.index = String(index);
         button.innerHTML = `
             <span class="word-text">${word.word}</span>
-            <span class="word-time">${formatSeconds(word.start)}-${formatSeconds(word.end)}</span>
+            <span class="word-time">
+                <span>${formatSeconds(word.start)}-${formatSeconds(word.end)}</span>
+                ${badges.join('')}
+            </span>
         `;
         button.addEventListener('click', () => {
             selectedWordIndex = index;
@@ -132,6 +166,9 @@ function renderTimeline() {
         const bar = document.createElement('button');
         bar.type = 'button';
         bar.className = 'timeline-word';
+        if (word.isKeyword) bar.classList.add('keyword');
+        if (word.isJargon) bar.classList.add('jargon');
+        if (word.isKeyword2) bar.classList.add('keyword2');
         bar.dataset.index = String(index);
         const left = (word.start / duration) * 100;
         const width = Math.max(0.35, ((word.end - word.start) / duration) * 100);

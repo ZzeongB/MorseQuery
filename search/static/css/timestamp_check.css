@@ -9,6 +9,12 @@
     --active: #d12f19;
     --selected: #0d7a5f;
     --selected-soft: #d8f1ea;
+    --keyword: #d9ecff;
+    --keyword-line: #2f6fb2;
+    --jargon: #ffe8c7;
+    --jargon-line: #b66a12;
+    --keyword2: #efe3ff;
+    --keyword2-line: #7251a6;
 }
 
 * {
@@ -192,6 +198,21 @@ h1 {
     cursor: pointer;
 }
 
+.timeline-word.keyword {
+    background: var(--keyword);
+    border-color: var(--keyword-line);
+}
+
+.timeline-word.jargon {
+    background: var(--jargon);
+    border-color: var(--jargon-line);
+}
+
+.timeline-word.keyword2 {
+    background: var(--keyword2);
+    border-color: var(--keyword2-line);
+}
+
 .timeline-word.active {
     background: #ffd6cf;
     border-color: var(--active);
@@ -238,6 +259,21 @@ h1 {
     text-align: left;
 }
 
+.word-chip.keyword {
+    background: color-mix(in srgb, var(--keyword) 58%, white);
+    border-color: var(--keyword-line);
+}
+
+.word-chip.jargon {
+    background: color-mix(in srgb, var(--jargon) 58%, white);
+    border-color: var(--jargon-line);
+}
+
+.word-chip.keyword2 {
+    background: color-mix(in srgb, var(--keyword2) 58%, white);
+    border-color: var(--keyword2-line);
+}
+
 .word-chip.active {
     border-color: var(--active);
     background: #fff0ec;
@@ -255,6 +291,20 @@ h1 {
 .word-time {
     color: var(--muted);
     font-size: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 5px;
+    border: 1px solid currentColor;
+    font-size: 11px;
+    line-height: 1.2;
+    text-transform: uppercase;
 }
 
 .details {

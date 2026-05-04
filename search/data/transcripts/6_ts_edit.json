@@ -1,0 +1,6669 @@
+{
+  "text": " Adam, this was a very big ruling on a very big piece of our history. Yeah, the Supreme Court did further and, in a sense, final damage to the Voting Rights Act of 1965, probably the greatest legislative achievement of the civil rights movement, which was meant to protect minority voting power. So it's meant to stop Southern officials from using all kinds of methods from violence to poll taxes to literacy tests to grandfather clauses to keep individual black voters from the voting booth. But it also meant to ensure that minority voters as a group had the collective power or at least the opportunity to elect candidates of their choice. Right. At the time, President Johnson called it a triumph for freedom. That's right. And it worked. Voter registration and voter turnout numbers in southern states went from single digits for minority voters to sometimes achieving levels higher than those of white voters. But this gave rise to an attack from the right and from Republicans because, you know, frankly, protecting minority voters often meant protecting Democratic voters because there's a high degree of correlation between the two. So tell us how that pressure from the right brings us to yesterday's ruling. So in response to challenges from conservatives, the Supreme Court on Wednesday issued the third in a trilogy of decisions that have collectively hollowed out and rendered the Voting Rights Act toothless. The first one in 2013 cut the heart out of the Voting Rights Act, which had required jurisdictions with a history of discrimination to get federal approval before they changed voting practices. The second one in 2021 made it all but impossible to sue under the Voting Rights Act for so-called vote denial claims, claims that election administrators had made it harder to vote by, say, instituting voter ID. And then this third and last decision on Wednesday took aim at the remaining piece of the Voting Rights Act, which tried to protect minority voting power when it would be diluted so that minority voters could not have the opportunity to elect candidates of their choice. just remind us of the specifics of the case that was decided on wednesday this third in this trilogy and what specifically was at issue in it so the question in the case was whether louisiana could have two majority minority voting districts louisiana has six congressional districts And not long ago, the state redrew its maps so that black voters were the majority in two districts rather than just one. Louisiana is about a third black. So if you just do the math, two sounds about right. But the court said that taking account of race in that way was unlawful. Creating a second congressional district in which black voters were the majority, the court found, was unlawful. That's right. So in the past, the Voting Rights Act would have protected these districts because the understanding of the Voting Rights Act for decades and decades was that it was meant not only to make sure that an individual voter would have the right to vote, but that this community of voters, that minority voters as a collective would have the opportunity to elect their candidates of choice. But on Wednesday, by a six to three vote, the court's Republican appointees in the majority, the Democratic appointees in dissent, the court installed a new test, one that made it very hard to take race into account in drawing voting districts. And what was that new test? So the court says the Voting Rights Act only kicks in if lawmakers had intended to discriminate against minority voters. Whatever the effect of, whatever the results of the map are, only intentional racial discrimination, which is very hard to prove, what was in the lawmakers' heads counts. So what the court does on Wednesday is it lays out a new legal criteria for when it is not OK to eliminate a, for example, black majority congressional district, which the VRA in the past was seen as protecting. And that new criteria is that the people eliminating the district would have to stand up on a stage somewhere, pretty much, and say, we're getting rid of this district in order to hurt black voters. They'd have to be explicit in their desire to discriminate. And unless they do that, then such a district with a black majority can be wiped off the map. That's right. So a lawmaker could say and maybe truthfully say that, hey, I don't mean to discriminate against black people. I mean to discriminate against Democrats, and I'm allowed to do that. Partisan gerrymandering, the Supreme Court said in another case, is not subject to review in the federal courts. And what this means is a practical matter is that districts drawn to ensure that minority voters have the power to elect the candidates they want are now in peril across the country. Adam, what is the rationale from the conservative justices who issued this ruling for doing so? Because it feels related.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 0.0,
+      "end": 4.94,
+      "text": " Adam, this was a very big ruling on a very big piece of our history.",
+      "tokens": [
+        50365,
+        7938,
+        11,
+        341,
+        390,
+        257,
+        588,
+        955,
+        21437,
+        322,
+        257,
+        588,
+        955,
+        2522,
+        295,
+        527,
+        2503,
+        13,
+        50613
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.08321134367985512,
+      "compression_ratio": 1.4773869346733668,
+      "no_speech_prob": 8.963892995927925e-13,
+      "words": [
+        {
+          "word": " Adam,",
+          "start": 0.0,
+          "end": 0.32,
+          "probability": 0.9994106292724609
+        },
+        {
+          "word": " this",
+          "start": 0.52,
+          "end": 0.76,
+          "probability": 0.9999868869781494
+        },
+        {
+          "word": " was",
+          "start": 0.76,
+          "end": 1.68,
+          "probability": 0.9999769926071167
+        },
+        {
+          "word": " a",
+          "start": 1.68,
+          "end": 1.84,
+          "probability": 0.9999972581863403
+        },
+        {
+          "word": " very",
+          "start": 1.84,
+          "end": 2.28,
+          "probability": 0.9999897480010986
+        },
+        {
+          "word": " big",
+          "start": 2.28,
+          "end": 2.5,
+          "probability": 0.9999948740005493
+        },
+        {
+          "word": " ruling",
+          "start": 2.5,
+          "end": 2.86,
+          "probability": 0.9999771118164062
+        },
+        {
+          "word": " on",
+          "start": 2.86,
+          "end": 3.6,
+          "probability": 0.999665379524231
+        },
+        {
+          "word": " a",
+          "start": 3.6,
+          "end": 3.7,
+          "probability": 0.9999972581863403
+        },
+        {
+          "word": " very",
+          "start": 3.7,
+          "end": 3.92,
+          "probability": 0.9999935626983643
+        },
+        {
+          "word": " big",
+          "start": 3.92,
+          "end": 4.16,
+          "probability": 0.9999957084655762
+        },
+        {
+          "word": " piece",
+          "start": 4.16,
+          "end": 4.4,
+          "probability": 0.9999699592590332
+        },
+        {
+          "word": " of",
+          "start": 4.4,
+          "end": 4.52,
+          "probability": 0.9999889135360718
+        },
+        {
+          "word": " our",
+          "start": 4.52,
+          "end": 4.64,
+          "probability": 0.9998989105224609
+        },
+        {
+          "word": " history.",
+          "start": 4.64,
+          "end": 4.94,
+          "probability": 0.9999656677246094
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 5.24,
+      "end": 21.16,
+      "text": " Yeah, the Supreme Court did further and, in a sense, final damage to the Voting Rights Act of 1965, probably the greatest legislative achievement of the civil rights movement, which was meant to protect minority voting power.",
+      "tokens": [
+        50613,
+        865,
+        11,
+        264,
+        11032,
+        7873,
+        630,
+        3052,
+        293,
+        11,
+        294,
+        257,
+        2020,
+        11,
+        2572,
+        4344,
+        281,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        295,
+        33809,
+        11,
+        1391,
+        264,
+        6636,
+        21331,
+        15838,
+        295,
+        264,
+        5605,
+        4601,
+        3963,
+        11,
+        597,
+        390,
+        4140,
+        281,
+        2371,
+        16166,
+        10419,
+        1347,
+        13,
+        51425
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.08321134367985512,
+      "compression_ratio": 1.4773869346733668,
+      "no_speech_prob": 8.963892995927925e-13,
+      "words": [
+        {
+          "word": " Yeah,",
+          "start": 5.24,
+          "end": 5.62,
+          "probability": 0.9589490294456482
+        },
+        {
+          "word": " the",
+          "start": 5.68,
+          "end": 5.8,
+          "probability": 0.9999721050262451
+        },
+        {
+          "word": " Supreme",
+          "start": 5.8,
+          "end": 6.06,
+          "probability": 0.9998724460601807
+        },
+        {
+          "word": " Court",
+          "start": 6.06,
+          "end": 6.46,
+          "probability": 0.999775230884552
+        },
+        {
+          "word": " did",
+          "start": 6.46,
+          "end": 7.04,
+          "probability": 0.9999637603759766
+        },
+        {
+          "word": " further",
+          "start": 7.04,
+          "end": 7.84,
+          "probability": 0.9999433755874634
+        },
+        {
+          "word": " and,",
+          "start": 7.84,
+          "end": 8.36,
+          "probability": 0.8462215065956116
+        },
+        {
+          "word": " in",
+          "start": 8.42,
+          "end": 8.48,
+          "probability": 0.999988317489624
+        },
+        {
+          "word": " a",
+          "start": 8.48,
+          "end": 8.58,
+          "probability": 0.9995744824409485
+        },
+        {
+          "word": " sense,",
+          "start": 8.58,
+          "end": 8.76,
+          "probability": 0.9999313354492188
+        },
+        {
+          "word": " final",
+          "start": 8.92,
+          "end": 9.2,
+          "probability": 0.9998918771743774
+        },
+        {
+          "word": " damage",
+          "start": 9.2,
+          "end": 9.64,
+          "probability": 0.9998769760131836
+        },
+        {
+          "word": " to",
+          "start": 9.64,
+          "end": 10.04,
+          "probability": 0.9997571110725403
+        },
+        {
+          "word": " the",
+          "start": 10.04,
+          "end": 10.16,
+          "probability": 0.9999693632125854
+        },
+        {
+          "word": " Voting",
+          "start": 10.16,
+          "end": 10.4,
+          "probability": 0.9995431900024414
+        },
+        {
+          "word": " Rights",
+          "start": 10.4,
+          "end": 10.66,
+          "probability": 0.999897837638855
+        },
+        {
+          "word": " Act",
+          "start": 10.66,
+          "end": 10.94,
+          "probability": 0.9998331069946289
+        },
+        {
+          "word": " of",
+          "start": 10.94,
+          "end": 11.08,
+          "probability": 0.999636173248291
+        },
+        {
+          "word": " 1965,",
+          "start": 11.08,
+          "end": 11.76,
+          "probability": 0.9995631575584412
+        },
+        {
+          "word": " probably",
+          "start": 11.76,
+          "end": 13.62,
+          "probability": 0.9998519420623779
+        },
+        {
+          "word": " the",
+          "start": 13.62,
+          "end": 13.88,
+          "probability": 0.9999908208847046
+        },
+        {
+          "word": " greatest",
+          "start": 13.88,
+          "end": 14.2,
+          "probability": 0.9999043941497803
+        },
+        {
+          "word": " legislative",
+          "start": 14.2,
+          "end": 14.8,
+          "probability": 0.9999651908874512
+        },
+        {
+          "word": " achievement",
+          "start": 14.8,
+          "end": 15.26,
+          "probability": 0.9999542236328125
+        },
+        {
+          "word": " of",
+          "start": 15.26,
+          "end": 15.92,
+          "probability": 0.9997816681861877
+        },
+        {
+          "word": " the",
+          "start": 15.92,
+          "end": 16.14,
+          "probability": 0.9999356269836426
+        },
+        {
+          "word": " civil",
+          "start": 16.14,
+          "end": 16.4,
+          "probability": 0.8991103768348694
+        },
+        {
+          "word": " rights",
+          "start": 16.4,
+          "end": 16.72,
+          "probability": 0.9999524354934692
+        },
+        {
+          "word": " movement,",
+          "start": 16.72,
+          "end": 17.3,
+          "probability": 0.9999622106552124
+        },
+        {
+          "word": " which",
+          "start": 17.3,
+          "end": 18.6,
+          "probability": 0.9999151229858398
+        },
+        {
+          "word": " was",
+          "start": 18.6,
+          "end": 18.82,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " meant",
+          "start": 18.82,
+          "end": 19.1,
+          "probability": 0.9999809265136719
+        },
+        {
+          "word": " to",
+          "start": 19.1,
+          "end": 19.42,
+          "probability": 0.9999958276748657
+        },
+        {
+          "word": " protect",
+          "start": 19.42,
+          "end": 19.84,
+          "probability": 0.9999488592147827
+        },
+        {
+          "word": " minority",
+          "start": 19.84,
+          "end": 20.38,
+          "probability": 0.9999450445175171
+        },
+        {
+          "word": " voting",
+          "start": 20.38,
+          "end": 20.7,
+          "probability": 0.9997571110725403
+        },
+        {
+          "word": " power.",
+          "start": 20.7,
+          "end": 21.16,
+          "probability": 0.9999408721923828
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 2116,
+      "start": 21.16,
+      "end": 37.32,
+      "text": " So it's meant to stop Southern officials from using all kinds of methods from violence to poll taxes to literacy tests to grandfather clauses to keep individual black voters from the voting booth.",
+      "tokens": [
+        50365,
+        407,
+        309,
+        311,
+        4140,
+        281,
+        1590,
+        13724,
+        9798,
+        490,
+        1228,
+        439,
+        3685,
+        295,
+        7150,
+        490,
+        6270,
+        281,
+        6418,
+        10041,
+        281,
+        23166,
+        6921,
+        281,
+        14754,
+        49072,
+        281,
+        1066,
+        2609,
+        2211,
+        14073,
+        490,
+        264,
+        10419,
+        20912,
+        13,
+        51174
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.08046117727307306,
+      "compression_ratio": 1.5944700460829493,
+      "no_speech_prob": 5.52914430820145e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 21.16,
+          "end": 22.04,
+          "probability": 0.9896523356437683
+        },
+        {
+          "word": " it's",
+          "start": 22.04,
+          "end": 22.18,
+          "probability": 0.8512976467609406
+        },
+        {
+          "word": " meant",
+          "start": 22.18,
+          "end": 22.32,
+          "probability": 0.9999827146530151
+        },
+        {
+          "word": " to",
+          "start": 22.32,
+          "end": 22.58,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " stop",
+          "start": 22.58,
+          "end": 23.4,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " Southern",
+          "start": 23.4,
+          "end": 24.02,
+          "probability": 0.8219091892242432
+        },
+        {
+          "word": " officials",
+          "start": 24.02,
+          "end": 24.56,
+          "probability": 0.9999816417694092
+        },
+        {
+          "word": " from",
+          "start": 24.56,
+          "end": 25.66,
+          "probability": 0.9999690055847168
+        },
+        {
+          "word": " using",
+          "start": 25.66,
+          "end": 26.0,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " all",
+          "start": 26.0,
+          "end": 26.36,
+          "probability": 0.9999984502792358
+        },
+        {
+          "word": " kinds",
+          "start": 26.36,
+          "end": 26.78,
+          "probability": 0.999980092048645
+        },
+        {
+          "word": " of",
+          "start": 26.78,
+          "end": 27.02,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " methods",
+          "start": 27.02,
+          "end": 27.42,
+          "probability": 0.9999817609786987
+        },
+        {
+          "word": " from",
+          "start": 27.42,
+          "end": 27.74,
+          "probability": 0.8505216240882874
+        },
+        {
+          "word": " violence",
+          "start": 27.74,
+          "end": 28.24,
+          "probability": 0.9999748468399048
+        },
+        {
+          "word": " to",
+          "start": 28.24,
+          "end": 28.46,
+          "probability": 0.9732027649879456
+        },
+        {
+          "word": " poll",
+          "start": 28.46,
+          "end": 28.72,
+          "probability": 0.9991579055786133
+        },
+        {
+          "word": " taxes",
+          "start": 28.72,
+          "end": 29.2,
+          "probability": 0.9998905658721924
+        },
+        {
+          "word": " to",
+          "start": 29.2,
+          "end": 30.14,
+          "probability": 0.4960637092590332
+        },
+        {
+          "word": " literacy",
+          "start": 30.14,
+          "end": 30.54,
+          "probability": 0.999976634979248
+        },
+        {
+          "word": " tests",
+          "start": 30.54,
+          "end": 31.16,
+          "probability": 0.9998655319213867
+        },
+        {
+          "word": " to",
+          "start": 31.16,
+          "end": 32.1,
+          "probability": 0.9950439929962158
+        },
+        {
+          "word": " grandfather",
+          "start": 32.1,
+          "end": 32.6,
+          "probability": 0.9998188614845276
+        },
+        {
+          "word": " clauses",
+          "start": 32.6,
+          "end": 33.12,
+          "probability": 0.9986591339111328
+        },
+        {
+          "word": " to",
+          "start": 33.12,
+          "end": 34.08,
+          "probability": 0.9983099699020386
+        },
+        {
+          "word": " keep",
+          "start": 34.08,
+          "end": 34.34,
+          "probability": 0.9999626874923706
+        },
+        {
+          "word": " individual",
+          "start": 34.34,
+          "end": 34.82,
+          "probability": 0.9999076128005981
+        },
+        {
+          "word": " black",
+          "start": 34.82,
+          "end": 35.18,
+          "probability": 0.694440484046936
+        },
+        {
+          "word": " voters",
+          "start": 35.18,
+          "end": 35.72,
+          "probability": 0.9999861717224121
+        },
+        {
+          "word": " from",
+          "start": 35.72,
+          "end": 36.38,
+          "probability": 0.9999723434448242
+        },
+        {
+          "word": " the",
+          "start": 36.38,
+          "end": 36.78,
+          "probability": 0.9999817609786987
+        },
+        {
+          "word": " voting",
+          "start": 36.78,
+          "end": 37.02,
+          "probability": 0.999940037727356
+        },
+        {
+          "word": " booth.",
+          "start": 37.02,
+          "end": 37.32,
+          "probability": 0.999962329864502
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 2116,
+      "start": 37.46,
+      "end": 49.6698474702381,
+      "text": " But it also meant to ensure that minority voters as a group had the collective power or at least the opportunity to elect candidates of their choice.",
+      "tokens": [
+        51183,
+        583,
+        309,
+        611,
+        4140,
+        281,
+        5586,
+        300,
+        16166,
+        14073,
+        382,
+        257,
+        1594,
+        632,
+        264,
+        12590,
+        1347,
+        420,
+        412,
+        1935,
+        264,
+        2650,
+        281,
+        2185,
+        11255,
+        295,
+        641,
+        3922,
+        13,
+        51788
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.08046117727307306,
+      "compression_ratio": 1.5944700460829493,
+      "no_speech_prob": 5.52914430820145e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 37.46,
+          "end": 38.04,
+          "probability": 0.9998760223388672
+        },
+        {
+          "word": " it",
+          "start": 38.04,
+          "end": 38.14,
+          "probability": 0.9999929666519165
+        },
+        {
+          "word": " also",
+          "start": 38.14,
+          "end": 38.44,
+          "probability": 0.9959763884544373
+        },
+        {
+          "word": " meant",
+          "start": 38.44,
+          "end": 38.78,
+          "probability": 0.9998979568481445
+        },
+        {
+          "word": " to",
+          "start": 38.78,
+          "end": 39.26,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " ensure",
+          "start": 39.26,
+          "end": 40.86,
+          "probability": 0.9995580315589905
+        },
+        {
+          "word": " that",
+          "start": 40.86,
+          "end": 41.28,
+          "probability": 0.9999967813491821
+        },
+        {
+          "word": " minority",
+          "start": 41.47405691964286,
+          "end": 42.33405691964286,
+          "probability": 0.99993896484375
+        },
+        {
+          "word": " voters",
+          "start": 42.33405691964286,
+          "end": 42.67405691964286,
+          "probability": 0.9999885559082031
+        },
+        {
+          "word": " as",
+          "start": 42.67405691964286,
+          "end": 42.91405691964286,
+          "probability": 0.999868631362915
+        },
+        {
+          "word": " a",
+          "start": 42.91405691964286,
+          "end": 43.01405691964286,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " group",
+          "start": 43.01405691964286,
+          "end": 43.37405691964286,
+          "probability": 0.9999778270721436
+        },
+        {
+          "word": " had",
+          "start": 43.37405691964286,
+          "end": 44.55405691964286,
+          "probability": 0.9996123909950256
+        },
+        {
+          "word": " the",
+          "start": 44.55405691964286,
+          "end": 44.69405691964286,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " collective",
+          "start": 44.69405691964286,
+          "end": 45.09405691964286,
+          "probability": 0.9999740123748779
+        },
+        {
+          "word": " power",
+          "start": 44.9698474702381,
+          "end": 45.5098474702381,
+          "probability": 0.9999792575836182
+        },
+        {
+          "word": " or",
+          "start": 45.5098474702381,
+          "end": 46.0298474702381,
+          "probability": 0.880856990814209
+        },
+        {
+          "word": " at",
+          "start": 46.0298474702381,
+          "end": 46.1698474702381,
+          "probability": 0.9999829530715942
+        },
+        {
+          "word": " least",
+          "start": 46.1698474702381,
+          "end": 46.2898474702381,
+          "probability": 0.9998319149017334
+        },
+        {
+          "word": " the",
+          "start": 46.2898474702381,
+          "end": 46.449847470238105,
+          "probability": 0.9999978542327881
+        },
+        {
+          "word": " opportunity",
+          "start": 46.449847470238105,
+          "end": 46.989847470238104,
+          "probability": 0.9999562501907349
+        },
+        {
+          "word": " to",
+          "start": 46.989847470238104,
+          "end": 47.8498474702381,
+          "probability": 0.9999717473983765
+        },
+        {
+          "word": " elect",
+          "start": 47.8498474702381,
+          "end": 48.3898474702381,
+          "probability": 0.9995545744895935
+        },
+        {
+          "word": " candidates",
+          "start": 48.3898474702381,
+          "end": 48.949847470238105,
+          "probability": 0.9999176263809204
+        },
+        {
+          "word": " of",
+          "start": 48.949847470238105,
+          "end": 49.1698474702381,
+          "probability": 0.9998001456260681
+        },
+        {
+          "word": " their",
+          "start": 49.1698474702381,
+          "end": 49.309847470238104,
+          "probability": 0.9999629259109497
+        },
+        {
+          "word": " choice.",
+          "start": 49.309847470238104,
+          "end": 49.6698474702381,
+          "probability": 0.9999425411224365
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 4960,
+      "start": 49.6698474702381,
+      "end": 53.79231584821429,
+      "text": " Right. At the time, President Johnson called it a triumph for freedom.",
+      "tokens": [
+        50365,
+        1779,
+        13,
+        1711,
+        264,
+        565,
+        11,
+        3117,
+        9779,
+        1219,
+        309,
+        257,
+        29156,
+        337,
+        5645,
+        13,
+        50573
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12152413318031713,
+      "compression_ratio": 1.4623655913978495,
+      "no_speech_prob": 1.031753350290432e-12,
+      "words": [
+        {
+          "word": " Right.",
+          "start": 49.6698474702381,
+          "end": 50.2898474702381,
+          "probability": 0.9133877754211426
+        },
+        {
+          "word": " At",
+          "start": 50.3498474702381,
+          "end": 50.4298474702381,
+          "probability": 0.9994794726371765
+        },
+        {
+          "word": " the",
+          "start": 50.4298474702381,
+          "end": 50.5098474702381,
+          "probability": 0.9999179840087891
+        },
+        {
+          "word": " time,",
+          "start": 50.5098474702381,
+          "end": 50.7098474702381,
+          "probability": 0.999987006187439
+        },
+        {
+          "word": " President",
+          "start": 50.65086123511905,
+          "end": 50.81086123511905,
+          "probability": 0.9965645670890808
+        },
+        {
+          "word": " Johnson",
+          "start": 50.81086123511905,
+          "end": 51.19086123511905,
+          "probability": 0.9996882677078247
+        },
+        {
+          "word": " called",
+          "start": 51.19086123511905,
+          "end": 51.55086123511905,
+          "probability": 0.9999642372131348
+        },
+        {
+          "word": " it",
+          "start": 51.55086123511905,
+          "end": 51.750861235119054,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " a",
+          "start": 51.750861235119054,
+          "end": 52.250861235119054,
+          "probability": 0.9998414516448975
+        },
+        {
+          "word": " triumph",
+          "start": 52.250861235119054,
+          "end": 52.73086123511905,
+          "probability": 0.9991911053657532
+        },
+        {
+          "word": " for",
+          "start": 52.73086123511905,
+          "end": 53.31086123511905,
+          "probability": 0.9999839067459106
+        },
+        {
+          "word": " freedom.",
+          "start": 53.49231584821428,
+          "end": 53.79231584821429,
+          "probability": 0.9999791383743286
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 4960,
+      "start": 54.45231584821429,
+      "end": 70.07000186011905,
+      "text": " That's right. And it worked. Voter registration and voter turnout numbers in southern states went from single digits for minority voters to sometimes achieving levels higher than those of white voters.",
+      "tokens": [
+        50616,
+        663,
+        311,
+        558,
+        13,
+        400,
+        309,
+        2732,
+        13,
+        691,
+        21585,
+        16847,
+        293,
+        21722,
+        42497,
+        3547,
+        294,
+        13456,
+        4368,
+        1437,
+        490,
+        2167,
+        27011,
+        337,
+        16166,
+        14073,
+        281,
+        2171,
+        19626,
+        4358,
+        2946,
+        813,
+        729,
+        295,
+        2418,
+        14073,
+        13,
+        51390
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12152413318031713,
+      "compression_ratio": 1.4623655913978495,
+      "no_speech_prob": 1.031753350290432e-12,
+      "words": [
+        {
+          "word": " That's",
+          "start": 54.45231584821429,
+          "end": 54.832315848214286,
+          "probability": 0.9975983500480652
+        },
+        {
+          "word": " right.",
+          "start": 54.832315848214286,
+          "end": 55.03231584821428,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " And",
+          "start": 55.192315848214285,
+          "end": 55.272315848214284,
+          "probability": 0.999695897102356
+        },
+        {
+          "word": " it",
+          "start": 55.272315848214284,
+          "end": 55.552315848214285,
+          "probability": 0.9999853372573853
+        },
+        {
+          "word": " worked.",
+          "start": 55.552315848214285,
+          "end": 55.93231584821429,
+          "probability": 0.886009156703949
+        },
+        {
+          "word": " Voter",
+          "start": 56.37000186011905,
+          "end": 56.630001860119044,
+          "probability": 0.9973555207252502
+        },
+        {
+          "word": " registration",
+          "start": 56.630001860119044,
+          "end": 57.25000186011904,
+          "probability": 0.999883770942688
+        },
+        {
+          "word": " and",
+          "start": 57.25000186011904,
+          "end": 57.550001860119046,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " voter",
+          "start": 57.550001860119046,
+          "end": 57.770001860119045,
+          "probability": 0.9999686479568481
+        },
+        {
+          "word": " turnout",
+          "start": 57.770001860119045,
+          "end": 58.090001860119045,
+          "probability": 0.999889612197876
+        },
+        {
+          "word": " numbers",
+          "start": 58.090001860119045,
+          "end": 58.590001860119045,
+          "probability": 0.9999679327011108
+        },
+        {
+          "word": " in",
+          "start": 58.590001860119045,
+          "end": 59.310001860119044,
+          "probability": 0.9999587535858154
+        },
+        {
+          "word": " southern",
+          "start": 59.310001860119044,
+          "end": 59.630001860119044,
+          "probability": 0.8872480988502502
+        },
+        {
+          "word": " states",
+          "start": 59.630001860119044,
+          "end": 60.19000186011905,
+          "probability": 0.9999480247497559
+        },
+        {
+          "word": " went",
+          "start": 60.19000186011905,
+          "end": 61.270001860119045,
+          "probability": 0.9994992017745972
+        },
+        {
+          "word": " from",
+          "start": 61.270001860119045,
+          "end": 61.47000186011904,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " single",
+          "start": 61.47000186011904,
+          "end": 61.910001860119046,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " digits",
+          "start": 61.910001860119046,
+          "end": 62.37000186011905,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " for",
+          "start": 62.37000186011905,
+          "end": 63.090001860119045,
+          "probability": 0.9995954632759094
+        },
+        {
+          "word": " minority",
+          "start": 63.090001860119045,
+          "end": 63.670001860119044,
+          "probability": 0.9999853372573853
+        },
+        {
+          "word": " voters",
+          "start": 63.670001860119044,
+          "end": 64.11000186011907,
+          "probability": 0.99997878074646
+        },
+        {
+          "word": " to",
+          "start": 64.11000186011906,
+          "end": 65.15000186011905,
+          "probability": 0.9987809062004089
+        },
+        {
+          "word": " sometimes",
+          "start": 65.15000186011905,
+          "end": 66.19000186011905,
+          "probability": 0.999931812286377
+        },
+        {
+          "word": " achieving",
+          "start": 66.19000186011905,
+          "end": 67.11000186011906,
+          "probability": 0.9999297857284546
+        },
+        {
+          "word": " levels",
+          "start": 67.11000186011906,
+          "end": 67.73000186011905,
+          "probability": 0.999963641166687
+        },
+        {
+          "word": " higher",
+          "start": 67.73000186011905,
+          "end": 68.31000186011904,
+          "probability": 0.9999819993972778
+        },
+        {
+          "word": " than",
+          "start": 68.31000186011904,
+          "end": 68.67000186011906,
+          "probability": 0.9999896287918091
+        },
+        {
+          "word": " those",
+          "start": 68.67000186011906,
+          "end": 69.27000186011905,
+          "probability": 0.9999701976776123
+        },
+        {
+          "word": " of",
+          "start": 69.27000186011905,
+          "end": 69.49000186011905,
+          "probability": 0.9950574636459351
+        },
+        {
+          "word": " white",
+          "start": 69.49000186011905,
+          "end": 69.69000186011905,
+          "probability": 0.997825026512146
+        },
+        {
+          "word": " voters.",
+          "start": 69.69000186011905,
+          "end": 70.07000186011905,
+          "probability": 0.9999822378158569
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 7008,
+      "start": 70.07000186011905,
+      "end": 85.74079427083335,
+      "text": " But this gave rise to an attack from the right and from Republicans because, you know, frankly, protecting minority voters often meant protecting Democratic voters because there's a high degree of correlation between the two.",
+      "tokens": [
+        50365,
+        583,
+        341,
+        2729,
+        6272,
+        281,
+        364,
+        2690,
+        490,
+        264,
+        558,
+        293,
+        490,
+        12017,
+        570,
+        11,
+        291,
+        458,
+        11,
+        11939,
+        11,
+        12316,
+        16166,
+        14073,
+        2049,
+        4140,
+        12316,
+        14928,
+        14073,
+        570,
+        456,
+        311,
+        257,
+        1090,
+        4314,
+        295,
+        20009,
+        1296,
+        264,
+        732,
+        13,
+        51152
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09851266491797663,
+      "compression_ratio": 1.556701030927835,
+      "no_speech_prob": 6.083370569440194e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 70.07000186011905,
+          "end": 71.39000186011906,
+          "probability": 0.9684440493583679
+        },
+        {
+          "word": " this",
+          "start": 71.39000186011906,
+          "end": 71.95000186011904,
+          "probability": 0.9998849630355835
+        },
+        {
+          "word": " gave",
+          "start": 71.95000186011904,
+          "end": 72.17000186011906,
+          "probability": 0.999975323677063
+        },
+        {
+          "word": " rise",
+          "start": 72.17000186011906,
+          "end": 72.63000186011905,
+          "probability": 0.9999839067459106
+        },
+        {
+          "word": " to",
+          "start": 72.63000186011905,
+          "end": 73.09000186011905,
+          "probability": 0.9999921321868896
+        },
+        {
+          "word": " an",
+          "start": 73.09000186011905,
+          "end": 73.71000186011905,
+          "probability": 0.9999825954437256
+        },
+        {
+          "word": " attack",
+          "start": 73.71000186011905,
+          "end": 74.17000186011906,
+          "probability": 0.9999904632568359
+        },
+        {
+          "word": " from",
+          "start": 74.17000186011906,
+          "end": 74.75000186011906,
+          "probability": 0.9999798536300659
+        },
+        {
+          "word": " the",
+          "start": 74.75000186011906,
+          "end": 74.89000186011906,
+          "probability": 0.9999892711639404
+        },
+        {
+          "word": " right",
+          "start": 74.89000186011906,
+          "end": 75.13000186011905,
+          "probability": 0.9960893392562866
+        },
+        {
+          "word": " and",
+          "start": 75.13000186011905,
+          "end": 75.41000186011905,
+          "probability": 0.9998231530189514
+        },
+        {
+          "word": " from",
+          "start": 75.41000186011905,
+          "end": 75.61000186011906,
+          "probability": 0.9999864101409912
+        },
+        {
+          "word": " Republicans",
+          "start": 75.60079427083335,
+          "end": 76.14079427083334,
+          "probability": 0.999347984790802
+        },
+        {
+          "word": " because,",
+          "start": 76.14079427083334,
+          "end": 77.16079427083335,
+          "probability": 0.8656293749809265
+        },
+        {
+          "word": " you",
+          "start": 77.68079427083335,
+          "end": 77.94079427083334,
+          "probability": 0.9025009274482727
+        },
+        {
+          "word": " know,",
+          "start": 77.94079427083334,
+          "end": 78.00079427083334,
+          "probability": 0.9999912977218628
+        },
+        {
+          "word": " frankly,",
+          "start": 78.10079427083335,
+          "end": 78.42079427083334,
+          "probability": 0.9998396635055542
+        },
+        {
+          "word": " protecting",
+          "start": 79.04079427083335,
+          "end": 79.40079427083334,
+          "probability": 0.9999361038208008
+        },
+        {
+          "word": " minority",
+          "start": 79.40079427083334,
+          "end": 79.80079427083334,
+          "probability": 0.9999798536300659
+        },
+        {
+          "word": " voters",
+          "start": 79.80079427083334,
+          "end": 80.20079427083334,
+          "probability": 0.9999783039093018
+        },
+        {
+          "word": " often",
+          "start": 80.20079427083334,
+          "end": 80.70079427083334,
+          "probability": 0.9998716115951538
+        },
+        {
+          "word": " meant",
+          "start": 80.70079427083334,
+          "end": 80.98079427083334,
+          "probability": 0.9999700784683228
+        },
+        {
+          "word": " protecting",
+          "start": 80.98079427083334,
+          "end": 81.50079427083334,
+          "probability": 0.9999037981033325
+        },
+        {
+          "word": " Democratic",
+          "start": 81.50079427083334,
+          "end": 81.82079427083335,
+          "probability": 0.9985210299491882
+        },
+        {
+          "word": " voters",
+          "start": 81.82079427083335,
+          "end": 82.38079427083335,
+          "probability": 0.9999725818634033
+        },
+        {
+          "word": " because",
+          "start": 82.38079427083335,
+          "end": 82.70079427083334,
+          "probability": 0.9926300048828125
+        },
+        {
+          "word": " there's",
+          "start": 82.70079427083334,
+          "end": 83.14079427083334,
+          "probability": 0.9995036721229553
+        },
+        {
+          "word": " a",
+          "start": 83.14079427083334,
+          "end": 83.32079427083335,
+          "probability": 0.9999991655349731
+        },
+        {
+          "word": " high",
+          "start": 83.32079427083335,
+          "end": 84.24079427083335,
+          "probability": 0.999974250793457
+        },
+        {
+          "word": " degree",
+          "start": 84.24079427083335,
+          "end": 84.48079427083334,
+          "probability": 0.9999735355377197
+        },
+        {
+          "word": " of",
+          "start": 84.48079427083334,
+          "end": 84.62079427083334,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " correlation",
+          "start": 84.62079427083334,
+          "end": 85.04079427083335,
+          "probability": 0.9999849796295166
+        },
+        {
+          "word": " between",
+          "start": 85.04079427083335,
+          "end": 85.38079427083335,
+          "probability": 0.9999783039093018
+        },
+        {
+          "word": " the",
+          "start": 85.38079427083335,
+          "end": 85.58079427083334,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " two.",
+          "start": 85.58079427083334,
+          "end": 85.74079427083335,
+          "probability": 0.9999383687973022
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 7008,
+      "start": 86.66079427083334,
+      "end": 92.54079427083335,
+      "text": " So tell us how that pressure from the right brings us to yesterday's ruling.",
+      "tokens": [
+        51214,
+        407,
+        980,
+        505,
+        577,
+        300,
+        3321,
+        490,
+        264,
+        558,
+        5607,
+        505,
+        281,
+        5186,
+        311,
+        21437,
+        13,
+        51465
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09851266491797663,
+      "compression_ratio": 1.556701030927835,
+      "no_speech_prob": 6.083370569440194e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 86.66079427083334,
+          "end": 87.06079427083334,
+          "probability": 0.9890016317367554
+        },
+        {
+          "word": " tell",
+          "start": 87.06079427083334,
+          "end": 87.34079427083334,
+          "probability": 0.9640223383903503
+        },
+        {
+          "word": " us",
+          "start": 87.34079427083334,
+          "end": 87.54079427083335,
+          "probability": 0.9999973773956299
+        },
+        {
+          "word": " how",
+          "start": 87.54079427083335,
+          "end": 87.82079427083335,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " that",
+          "start": 87.82079427083335,
+          "end": 88.04079427083335,
+          "probability": 0.9999977350234985
+        },
+        {
+          "word": " pressure",
+          "start": 88.04079427083335,
+          "end": 88.50079427083334,
+          "probability": 0.9999794960021973
+        },
+        {
+          "word": " from",
+          "start": 88.50079427083334,
+          "end": 89.24079427083335,
+          "probability": 0.9999586343765259
+        },
+        {
+          "word": " the",
+          "start": 89.24079427083335,
+          "end": 89.38079427083335,
+          "probability": 0.9999951124191284
+        },
+        {
+          "word": " right",
+          "start": 89.38079427083335,
+          "end": 89.64079427083334,
+          "probability": 0.9999277591705322
+        },
+        {
+          "word": " brings",
+          "start": 89.64079427083334,
+          "end": 90.46079427083335,
+          "probability": 0.9999681711196899
+        },
+        {
+          "word": " us",
+          "start": 90.46079427083335,
+          "end": 90.70079427083334,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " to",
+          "start": 90.70079427083334,
+          "end": 91.16079427083335,
+          "probability": 0.9999961853027344
+        },
+        {
+          "word": " yesterday's",
+          "start": 91.16079427083335,
+          "end": 91.98079427083334,
+          "probability": 0.9999447464942932
+        },
+        {
+          "word": " ruling.",
+          "start": 91.98079427083334,
+          "end": 92.54079427083335,
+          "probability": 0.9999918937683105
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 9256,
+      "start": 94.04079427083335,
+      "end": 110.23236979166667,
+      "text": " So in response to challenges from conservatives, the Supreme Court on Wednesday issued the third in a trilogy of decisions that have collectively hollowed out and rendered the Voting Rights Act toothless.",
+      "tokens": [
+        50365,
+        407,
+        294,
+        4134,
+        281,
+        4759,
+        490,
+        39607,
+        11,
+        264,
+        11032,
+        7873,
+        322,
+        10579,
+        14379,
+        264,
+        2636,
+        294,
+        257,
+        34030,
+        295,
+        5327,
+        300,
+        362,
+        24341,
+        23972,
+        292,
+        484,
+        293,
+        28748,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        11680,
+        1832,
+        13,
+        51249
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.08219512497506491,
+      "compression_ratio": 1.36,
+      "no_speech_prob": 7.754158643305531e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 94.04079427083335,
+          "end": 94.86079427083334,
+          "probability": 0.9099968075752258
+        },
+        {
+          "word": " in",
+          "start": 94.86079427083334,
+          "end": 95.24079427083335,
+          "probability": 0.7797992825508118
+        },
+        {
+          "word": " response",
+          "start": 95.24079427083335,
+          "end": 95.64079427083334,
+          "probability": 0.9999662637710571
+        },
+        {
+          "word": " to",
+          "start": 95.64079427083334,
+          "end": 96.08079427083334,
+          "probability": 0.9999679327011108
+        },
+        {
+          "word": " challenges",
+          "start": 96.08079427083334,
+          "end": 96.78079427083334,
+          "probability": 0.9996805191040039
+        },
+        {
+          "word": " from",
+          "start": 96.78079427083334,
+          "end": 97.28079427083334,
+          "probability": 0.9999072551727295
+        },
+        {
+          "word": " conservatives,",
+          "start": 97.28079427083334,
+          "end": 98.06079427083334,
+          "probability": 0.993152379989624
+        },
+        {
+          "word": " the",
+          "start": 98.44079427083334,
+          "end": 98.70079427083334,
+          "probability": 0.9996046423912048
+        },
+        {
+          "word": " Supreme",
+          "start": 98.70079427083334,
+          "end": 98.98079427083334,
+          "probability": 0.9996992349624634
+        },
+        {
+          "word": " Court",
+          "start": 98.98079427083334,
+          "end": 99.38079427083335,
+          "probability": 0.9990434050559998
+        },
+        {
+          "word": " on",
+          "start": 99.38079427083335,
+          "end": 99.88079427083335,
+          "probability": 0.9983454942703247
+        },
+        {
+          "word": " Wednesday",
+          "start": 99.88079427083335,
+          "end": 100.32079427083335,
+          "probability": 0.9999148845672607
+        },
+        {
+          "word": " issued",
+          "start": 100.32079427083335,
+          "end": 100.86079427083334,
+          "probability": 0.9996371269226074
+        },
+        {
+          "word": " the",
+          "start": 100.86079427083334,
+          "end": 101.08079427083334,
+          "probability": 0.999817430973053
+        },
+        {
+          "word": " third",
+          "start": 101.08079427083334,
+          "end": 101.48079427083334,
+          "probability": 0.9995144605636597
+        },
+        {
+          "word": " in",
+          "start": 101.48079427083334,
+          "end": 102.58079427083334,
+          "probability": 0.9995762705802917
+        },
+        {
+          "word": " a",
+          "start": 102.58079427083334,
+          "end": 102.70079427083334,
+          "probability": 0.9999774694442749
+        },
+        {
+          "word": " trilogy",
+          "start": 102.70079427083334,
+          "end": 103.12079427083334,
+          "probability": 0.9996600151062012
+        },
+        {
+          "word": " of",
+          "start": 103.12079427083334,
+          "end": 103.72079427083334,
+          "probability": 0.9999349117279053
+        },
+        {
+          "word": " decisions",
+          "start": 103.72079427083334,
+          "end": 104.26079427083334,
+          "probability": 0.9998904466629028
+        },
+        {
+          "word": " that",
+          "start": 104.26079427083334,
+          "end": 105.38079427083335,
+          "probability": 0.9989259839057922
+        },
+        {
+          "word": " have",
+          "start": 105.38079427083335,
+          "end": 105.60079427083335,
+          "probability": 0.9999545812606812
+        },
+        {
+          "word": " collectively",
+          "start": 105.60079427083335,
+          "end": 106.18079427083335,
+          "probability": 0.9999843835830688
+        },
+        {
+          "word": " hollowed",
+          "start": 106.37852492559524,
+          "end": 107.53852492559524,
+          "probability": 0.9999078214168549
+        },
+        {
+          "word": " out",
+          "start": 107.53852492559524,
+          "end": 107.79852492559525,
+          "probability": 0.999963641166687
+        },
+        {
+          "word": " and",
+          "start": 107.79852492559525,
+          "end": 108.25852492559524,
+          "probability": 0.9998910427093506
+        },
+        {
+          "word": " rendered",
+          "start": 108.25852492559524,
+          "end": 108.65852492559524,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " the",
+          "start": 108.65852492559524,
+          "end": 108.99852492559523,
+          "probability": 0.999452531337738
+        },
+        {
+          "word": " Voting",
+          "start": 108.83236979166666,
+          "end": 109.07236979166667,
+          "probability": 0.9991316497325897
+        },
+        {
+          "word": " Rights",
+          "start": 109.07236979166667,
+          "end": 109.31236979166667,
+          "probability": 0.999816358089447
+        },
+        {
+          "word": " Act",
+          "start": 109.31236979166667,
+          "end": 109.63236979166668,
+          "probability": 0.9998962879180908
+        },
+        {
+          "word": " toothless.",
+          "start": 109.63236979166668,
+          "end": 110.23236979166667,
+          "probability": 0.9981476068496704
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 11022,
+      "start": 111.07236979166667,
+      "end": 123.09236979166667,
+      "text": " The first one in 2013 cut the heart out of the Voting Rights Act, which had required jurisdictions with a history of discrimination to get federal approval before they changed voting practices.",
+      "tokens": [
+        50403,
+        440,
+        700,
+        472,
+        294,
+        9012,
+        1723,
+        264,
+        1917,
+        484,
+        295,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        11,
+        597,
+        632,
+        4739,
+        37958,
+        365,
+        257,
+        2503,
+        295,
+        15973,
+        281,
+        483,
+        6019,
+        13317,
+        949,
+        436,
+        3105,
+        10419,
+        7525,
+        13,
+        51009
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1030590478764024,
+      "compression_ratio": 1.6175298804780875,
+      "no_speech_prob": 6.144746170222426e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 111.07236979166667,
+          "end": 111.67236979166667,
+          "probability": 0.9601479172706604
+        },
+        {
+          "word": " first",
+          "start": 111.67236979166667,
+          "end": 111.91236979166668,
+          "probability": 0.9985936284065247
+        },
+        {
+          "word": " one",
+          "start": 111.91236979166668,
+          "end": 112.09236979166667,
+          "probability": 0.9999006986618042
+        },
+        {
+          "word": " in",
+          "start": 112.09236979166667,
+          "end": 112.21236979166667,
+          "probability": 0.9937135577201843
+        },
+        {
+          "word": " 2013",
+          "start": 112.21236979166667,
+          "end": 112.79236979166667,
+          "probability": 0.9996525049209595
+        },
+        {
+          "word": " cut",
+          "start": 112.79236979166667,
+          "end": 114.07236979166667,
+          "probability": 0.9940286874771118
+        },
+        {
+          "word": " the",
+          "start": 114.07236979166667,
+          "end": 114.23236979166667,
+          "probability": 0.9892134070396423
+        },
+        {
+          "word": " heart",
+          "start": 114.23236979166667,
+          "end": 114.51236979166667,
+          "probability": 0.9963856935501099
+        },
+        {
+          "word": " out",
+          "start": 114.51236979166667,
+          "end": 114.91236979166668,
+          "probability": 0.9997681975364685
+        },
+        {
+          "word": " of",
+          "start": 114.91236979166668,
+          "end": 114.99236979166668,
+          "probability": 0.9999421834945679
+        },
+        {
+          "word": " the",
+          "start": 114.99236979166668,
+          "end": 115.07236979166667,
+          "probability": 0.999679684638977
+        },
+        {
+          "word": " Voting",
+          "start": 115.07236979166667,
+          "end": 115.31236979166667,
+          "probability": 0.9994988441467285
+        },
+        {
+          "word": " Rights",
+          "start": 115.31236979166667,
+          "end": 115.57236979166667,
+          "probability": 0.9998902082443237
+        },
+        {
+          "word": " Act,",
+          "start": 115.57236979166667,
+          "end": 115.89236979166667,
+          "probability": 0.9999356269836426
+        },
+        {
+          "word": " which",
+          "start": 116.07236979166667,
+          "end": 116.17236979166667,
+          "probability": 0.9998899698257446
+        },
+        {
+          "word": " had",
+          "start": 116.17236979166667,
+          "end": 116.35236979166667,
+          "probability": 0.9998435974121094
+        },
+        {
+          "word": " required",
+          "start": 116.35236979166667,
+          "end": 116.83236979166666,
+          "probability": 0.9997671246528625
+        },
+        {
+          "word": " jurisdictions",
+          "start": 116.83236979166666,
+          "end": 117.67236979166667,
+          "probability": 0.9997647404670715
+        },
+        {
+          "word": " with",
+          "start": 117.67236979166667,
+          "end": 118.01236979166667,
+          "probability": 0.9998019337654114
+        },
+        {
+          "word": " a",
+          "start": 118.01236979166667,
+          "end": 118.11236979166667,
+          "probability": 0.9995642304420471
+        },
+        {
+          "word": " history",
+          "start": 118.11236979166667,
+          "end": 118.41236979166668,
+          "probability": 0.9999051094055176
+        },
+        {
+          "word": " of",
+          "start": 118.41236979166668,
+          "end": 118.57236979166667,
+          "probability": 0.9999648332595825
+        },
+        {
+          "word": " discrimination",
+          "start": 118.57236979166667,
+          "end": 119.19236979166668,
+          "probability": 0.9999473094940186
+        },
+        {
+          "word": " to",
+          "start": 119.19236979166668,
+          "end": 120.05236979166668,
+          "probability": 0.9949965476989746
+        },
+        {
+          "word": " get",
+          "start": 120.05236979166668,
+          "end": 120.23236979166667,
+          "probability": 0.9999508857727051
+        },
+        {
+          "word": " federal",
+          "start": 120.23236979166667,
+          "end": 120.57236979166667,
+          "probability": 0.9998824596405029
+        },
+        {
+          "word": " approval",
+          "start": 120.57236979166667,
+          "end": 121.01236979166667,
+          "probability": 0.9999872446060181
+        },
+        {
+          "word": " before",
+          "start": 121.01236979166667,
+          "end": 121.37236979166667,
+          "probability": 0.9997811913490295
+        },
+        {
+          "word": " they",
+          "start": 121.37236979166667,
+          "end": 121.61236979166667,
+          "probability": 0.9999516010284424
+        },
+        {
+          "word": " changed",
+          "start": 121.61236979166667,
+          "end": 122.03236979166667,
+          "probability": 0.9999486207962036
+        },
+        {
+          "word": " voting",
+          "start": 122.03236979166667,
+          "end": 122.37236979166667,
+          "probability": 0.9998750686645508
+        },
+        {
+          "word": " practices.",
+          "start": 122.37236979166667,
+          "end": 123.09236979166667,
+          "probability": 0.9998757839202881
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 11022,
+      "start": 123.83236979166666,
+      "end": 138.6923697916667,
+      "text": " The second one in 2021 made it all but impossible to sue under the Voting Rights Act for so-called vote denial claims, claims that election administrators had made it harder to vote by, say, instituting voter ID.",
+      "tokens": [
+        51043,
+        440,
+        1150,
+        472,
+        294,
+        7201,
+        1027,
+        309,
+        439,
+        457,
+        6243,
+        281,
+        20416,
+        833,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        337,
+        370,
+        12,
+        11880,
+        4740,
+        28754,
+        9441,
+        11,
+        9441,
+        300,
+        6618,
+        27754,
+        632,
+        1027,
+        309,
+        6081,
+        281,
+        4740,
+        538,
+        11,
+        584,
+        11,
+        4348,
+        10861,
+        21722,
+        7348,
+        13,
+        51789
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1030590478764024,
+      "compression_ratio": 1.6175298804780875,
+      "no_speech_prob": 6.144746170222426e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 123.83236979166666,
+          "end": 124.43236979166667,
+          "probability": 0.9998667240142822
+        },
+        {
+          "word": " second",
+          "start": 124.43236979166667,
+          "end": 124.77236979166668,
+          "probability": 0.9999555349349976
+        },
+        {
+          "word": " one",
+          "start": 124.77236979166668,
+          "end": 125.09236979166667,
+          "probability": 0.9999940395355225
+        },
+        {
+          "word": " in",
+          "start": 125.09236979166667,
+          "end": 125.31236979166667,
+          "probability": 0.9798583984375
+        },
+        {
+          "word": " 2021",
+          "start": 125.31236979166667,
+          "end": 126.01236979166667,
+          "probability": 0.9993231296539307
+        },
+        {
+          "word": " made",
+          "start": 126.01236979166667,
+          "end": 127.45236979166667,
+          "probability": 0.9995450377464294
+        },
+        {
+          "word": " it",
+          "start": 127.45236979166667,
+          "end": 127.63236979166668,
+          "probability": 0.999993085861206
+        },
+        {
+          "word": " all",
+          "start": 127.63236979166668,
+          "end": 127.93236979166666,
+          "probability": 0.9999630451202393
+        },
+        {
+          "word": " but",
+          "start": 127.93236979166666,
+          "end": 128.11236979166677,
+          "probability": 0.9999262094497681
+        },
+        {
+          "word": " impossible",
+          "start": 128.11236979166665,
+          "end": 128.67236979166665,
+          "probability": 0.9999678134918213
+        },
+        {
+          "word": " to",
+          "start": 128.67236979166668,
+          "end": 129.1923697916667,
+          "probability": 0.9998111128807068
+        },
+        {
+          "word": " sue",
+          "start": 129.1923697916667,
+          "end": 129.5723697916667,
+          "probability": 0.9993628859519958
+        },
+        {
+          "word": " under",
+          "start": 129.5723697916667,
+          "end": 129.95236979166668,
+          "probability": 0.9996939897537231
+        },
+        {
+          "word": " the",
+          "start": 129.95236979166668,
+          "end": 130.11236979166668,
+          "probability": 0.9999376535415649
+        },
+        {
+          "word": " Voting",
+          "start": 130.11236979166668,
+          "end": 130.3523697916667,
+          "probability": 0.9997828900814056
+        },
+        {
+          "word": " Rights",
+          "start": 130.3523697916667,
+          "end": 130.6323697916667,
+          "probability": 0.9999274015426636
+        },
+        {
+          "word": " Act",
+          "start": 130.6323697916667,
+          "end": 130.99236979166668,
+          "probability": 0.9999196529388428
+        },
+        {
+          "word": " for",
+          "start": 130.99236979166668,
+          "end": 131.39236979166668,
+          "probability": 0.9992541670799255
+        },
+        {
+          "word": " so",
+          "start": 131.39236979166668,
+          "end": 131.67236979166668,
+          "probability": 0.9998917579650879
+        },
+        {
+          "word": "-called",
+          "start": 131.67236979166668,
+          "end": 131.95236979166668,
+          "probability": 0.9997137188911438
+        },
+        {
+          "word": " vote",
+          "start": 131.95236979166668,
+          "end": 132.2523697916667,
+          "probability": 0.9995359182357788
+        },
+        {
+          "word": " denial",
+          "start": 132.2523697916667,
+          "end": 132.5723697916667,
+          "probability": 0.962422788143158
+        },
+        {
+          "word": " claims,",
+          "start": 132.5723697916667,
+          "end": 133.2523697916667,
+          "probability": 0.9999107122421265
+        },
+        {
+          "word": " claims",
+          "start": 133.5323697916667,
+          "end": 134.2523697916667,
+          "probability": 0.9989736080169678
+        },
+        {
+          "word": " that",
+          "start": 134.2523697916667,
+          "end": 134.61236979166668,
+          "probability": 0.9999713897705078
+        },
+        {
+          "word": " election",
+          "start": 134.61236979166668,
+          "end": 135.05236979166668,
+          "probability": 0.9998401403427124
+        },
+        {
+          "word": " administrators",
+          "start": 135.05236979166668,
+          "end": 135.6923697916667,
+          "probability": 0.999312162399292
+        },
+        {
+          "word": " had",
+          "start": 135.6923697916667,
+          "end": 135.93236979166667,
+          "probability": 0.9980008006095886
+        },
+        {
+          "word": " made",
+          "start": 135.93236979166667,
+          "end": 136.0723697916667,
+          "probability": 0.9998866319656372
+        },
+        {
+          "word": " it",
+          "start": 136.0723697916667,
+          "end": 136.1923697916667,
+          "probability": 0.9999537467956543
+        },
+        {
+          "word": " harder",
+          "start": 136.1923697916667,
+          "end": 136.4723697916667,
+          "probability": 0.9998058676719666
+        },
+        {
+          "word": " to",
+          "start": 136.4723697916667,
+          "end": 136.65236979166667,
+          "probability": 0.9999387264251709
+        },
+        {
+          "word": " vote",
+          "start": 136.65236979166667,
+          "end": 136.8723697916667,
+          "probability": 0.9999109506607056
+        },
+        {
+          "word": " by,",
+          "start": 136.8723697916667,
+          "end": 137.11236979166668,
+          "probability": 0.9995513558387756
+        },
+        {
+          "word": " say,",
+          "start": 137.23236979166668,
+          "end": 137.4123697916667,
+          "probability": 0.9998717308044434
+        },
+        {
+          "word": " instituting",
+          "start": 137.73236979166668,
+          "end": 138.1323697916667,
+          "probability": 0.9995495080947876
+        },
+        {
+          "word": " voter",
+          "start": 138.1323697916667,
+          "end": 138.3723697916667,
+          "probability": 0.997732400894165
+        },
+        {
+          "word": " ID.",
+          "start": 138.3723697916667,
+          "end": 138.6923697916667,
+          "probability": 0.970252275466919
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 13868,
+      "start": 139.39236979166668,
+      "end": 156.78861793154763,
+      "text": " And then this third and last decision on Wednesday took aim at the remaining piece of the Voting Rights Act, which tried to protect minority voting power when it would be diluted so that minority voters could not have the opportunity to elect candidates of their choice.",
+      "tokens": [
+        50365,
+        400,
+        550,
+        341,
+        2636,
+        293,
+        1036,
+        3537,
+        322,
+        10579,
+        1890,
+        5939,
+        412,
+        264,
+        8877,
+        2522,
+        295,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        11,
+        597,
+        3031,
+        281,
+        2371,
+        16166,
+        10419,
+        1347,
+        562,
+        309,
+        576,
+        312,
+        11504,
+        4866,
+        370,
+        300,
+        16166,
+        14073,
+        727,
+        406,
+        362,
+        264,
+        2650,
+        281,
+        2185,
+        11255,
+        295,
+        641,
+        3922,
+        13,
+        51275
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.07797268954190341,
+      "compression_ratio": 1.5168539325842696,
+      "no_speech_prob": 5.313941018984802e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 139.39236979166668,
+          "end": 140.0723697916667,
+          "probability": 0.9440415501594543
+        },
+        {
+          "word": " then",
+          "start": 140.0723697916667,
+          "end": 140.21236979166667,
+          "probability": 0.9995125532150269
+        },
+        {
+          "word": " this",
+          "start": 140.21236979166667,
+          "end": 140.4723697916667,
+          "probability": 0.99949049949646
+        },
+        {
+          "word": " third",
+          "start": 140.4723697916667,
+          "end": 140.8123697916667,
+          "probability": 0.9994391798973083
+        },
+        {
+          "word": " and",
+          "start": 140.8123697916667,
+          "end": 141.0923697916667,
+          "probability": 0.9991532564163208
+        },
+        {
+          "word": " last",
+          "start": 141.0923697916667,
+          "end": 141.43236979166667,
+          "probability": 0.9999748468399048
+        },
+        {
+          "word": " decision",
+          "start": 141.43236979166667,
+          "end": 141.89236979166668,
+          "probability": 0.9999630451202393
+        },
+        {
+          "word": " on",
+          "start": 141.89236979166668,
+          "end": 142.27236979166668,
+          "probability": 0.9971461892127991
+        },
+        {
+          "word": " Wednesday",
+          "start": 142.27236979166668,
+          "end": 142.7523697916667,
+          "probability": 0.9999516010284424
+        },
+        {
+          "word": " took",
+          "start": 142.7523697916667,
+          "end": 143.3523697916667,
+          "probability": 0.9981083869934082
+        },
+        {
+          "word": " aim",
+          "start": 143.3523697916667,
+          "end": 143.61236979166668,
+          "probability": 0.9999443292617798
+        },
+        {
+          "word": " at",
+          "start": 143.61236979166668,
+          "end": 143.8723697916667,
+          "probability": 0.9999794960021973
+        },
+        {
+          "word": " the",
+          "start": 143.8723697916667,
+          "end": 144.0323697916667,
+          "probability": 0.9999544620513916
+        },
+        {
+          "word": " remaining",
+          "start": 144.0323697916667,
+          "end": 144.4123697916667,
+          "probability": 0.9994021654129028
+        },
+        {
+          "word": " piece",
+          "start": 144.4123697916667,
+          "end": 144.93236979166667,
+          "probability": 0.9998239874839783
+        },
+        {
+          "word": " of",
+          "start": 144.93236979166667,
+          "end": 145.3123697916667,
+          "probability": 0.9998688697814941
+        },
+        {
+          "word": " the",
+          "start": 145.3123697916667,
+          "end": 145.4123697916667,
+          "probability": 0.9998531341552734
+        },
+        {
+          "word": " Voting",
+          "start": 145.4123697916667,
+          "end": 145.65236979166667,
+          "probability": 0.9987804293632507
+        },
+        {
+          "word": " Rights",
+          "start": 145.65236979166667,
+          "end": 145.89236979166668,
+          "probability": 0.9998302459716797
+        },
+        {
+          "word": " Act,",
+          "start": 145.89236979166668,
+          "end": 146.2523697916667,
+          "probability": 0.9999221563339233
+        },
+        {
+          "word": " which",
+          "start": 146.43236979166667,
+          "end": 147.1923697916667,
+          "probability": 0.9999517202377319
+        },
+        {
+          "word": " tried",
+          "start": 147.1923697916667,
+          "end": 147.4723697916667,
+          "probability": 0.9999529123306274
+        },
+        {
+          "word": " to",
+          "start": 147.4723697916667,
+          "end": 147.65236979166667,
+          "probability": 0.9999920129776001
+        },
+        {
+          "word": " protect",
+          "start": 147.65236979166667,
+          "end": 148.0723697916667,
+          "probability": 0.9998921155929565
+        },
+        {
+          "word": " minority",
+          "start": 148.0723697916667,
+          "end": 148.5923697916667,
+          "probability": 0.9998944997787476
+        },
+        {
+          "word": " voting",
+          "start": 148.5923697916667,
+          "end": 148.89236979166668,
+          "probability": 0.9997310042381287
+        },
+        {
+          "word": " power",
+          "start": 148.89236979166668,
+          "end": 149.39236979166668,
+          "probability": 0.9998966455459595
+        },
+        {
+          "word": " when",
+          "start": 149.39236979166668,
+          "end": 150.01236979166669,
+          "probability": 0.9988995790481567
+        },
+        {
+          "word": " it",
+          "start": 150.01236979166669,
+          "end": 150.3523697916667,
+          "probability": 0.9999823570251465
+        },
+        {
+          "word": " would",
+          "start": 150.3523697916667,
+          "end": 150.51236979166669,
+          "probability": 0.9999061822891235
+        },
+        {
+          "word": " be",
+          "start": 150.51236979166669,
+          "end": 150.6923697916667,
+          "probability": 0.9999732971191406
+        },
+        {
+          "word": " diluted",
+          "start": 150.6923697916667,
+          "end": 151.1923697916667,
+          "probability": 0.997485488653183
+        },
+        {
+          "word": " so",
+          "start": 151.1923697916667,
+          "end": 151.9123697916667,
+          "probability": 0.989253580570221
+        },
+        {
+          "word": " that",
+          "start": 151.9123697916667,
+          "end": 152.15236979166667,
+          "probability": 0.999967098236084
+        },
+        {
+          "word": " minority",
+          "start": 152.15236979166667,
+          "end": 152.7923697916667,
+          "probability": 0.9999427795410156
+        },
+        {
+          "word": " voters",
+          "start": 152.7923697916667,
+          "end": 153.27236979166668,
+          "probability": 0.9999008178710938
+        },
+        {
+          "word": " could",
+          "start": 153.27236979166668,
+          "end": 154.15236979166667,
+          "probability": 0.9995242357254028
+        },
+        {
+          "word": " not",
+          "start": 154.15236979166667,
+          "end": 154.3523697916667,
+          "probability": 0.99996018409729
+        },
+        {
+          "word": " have",
+          "start": 154.3523697916667,
+          "end": 154.5323697916667,
+          "probability": 0.9999762773513794
+        },
+        {
+          "word": " the",
+          "start": 154.5323697916667,
+          "end": 154.67236979166668,
+          "probability": 0.9999508857727051
+        },
+        {
+          "word": " opportunity",
+          "start": 154.67236979166668,
+          "end": 155.1323697916667,
+          "probability": 0.9996216297149658
+        },
+        {
+          "word": " to",
+          "start": 155.1323697916667,
+          "end": 155.43236979166667,
+          "probability": 0.9997723698616028
+        },
+        {
+          "word": " elect",
+          "start": 155.3486179315476,
+          "end": 155.5686179315476,
+          "probability": 0.998099148273468
+        },
+        {
+          "word": " candidates",
+          "start": 155.5686179315476,
+          "end": 156.02861793154761,
+          "probability": 0.9994328618049622
+        },
+        {
+          "word": " of",
+          "start": 156.02861793154761,
+          "end": 156.2486179315476,
+          "probability": 0.9995904564857483
+        },
+        {
+          "word": " their",
+          "start": 156.2486179315476,
+          "end": 156.38861793154763,
+          "probability": 0.9999291896820068
+        },
+        {
+          "word": " choice.",
+          "start": 156.38861793154763,
+          "end": 156.78861793154763,
+          "probability": 0.9999551773071289
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 15686,
+      "start": 161.71528459821428,
+      "end": 167.4552845982143,
+      "text": " just remind us of the specifics of the case that was decided on wednesday this third in this",
+      "tokens": [
+        50365,
+        445,
+        4160,
+        505,
+        295,
+        264,
+        28454,
+        295,
+        264,
+        1389,
+        300,
+        390,
+        3047,
+        322,
+        6393,
+        10362,
+        341,
+        2636,
+        294,
+        341,
+        50892
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11210607309810451,
+      "compression_ratio": 1.715151515151515,
+      "no_speech_prob": 9.907882890861086e-13,
+      "words": [
+        {
+          "word": " just",
+          "start": 161.71528459821428,
+          "end": 162.35528459821427,
+          "probability": 0.005250315181910992
+        },
+        {
+          "word": " remind",
+          "start": 162.35528459821427,
+          "end": 162.59528459821428,
+          "probability": 0.9975284934043884
+        },
+        {
+          "word": " us",
+          "start": 162.59528459821428,
+          "end": 162.79528459821427,
+          "probability": 0.9999048709869385
+        },
+        {
+          "word": " of",
+          "start": 162.79528459821427,
+          "end": 162.9552845982143,
+          "probability": 0.9996651411056519
+        },
+        {
+          "word": " the",
+          "start": 162.9552845982143,
+          "end": 163.09528459821428,
+          "probability": 0.9992535710334778
+        },
+        {
+          "word": " specifics",
+          "start": 163.09528459821428,
+          "end": 163.71528459821428,
+          "probability": 0.9995750784873962
+        },
+        {
+          "word": " of",
+          "start": 163.71528459821428,
+          "end": 164.21528459821428,
+          "probability": 0.9995808005332947
+        },
+        {
+          "word": " the",
+          "start": 164.21528459821428,
+          "end": 164.37528459821428,
+          "probability": 0.9997361302375793
+        },
+        {
+          "word": " case",
+          "start": 164.37528459821428,
+          "end": 164.63528459821427,
+          "probability": 0.9997963309288025
+        },
+        {
+          "word": " that",
+          "start": 164.63528459821427,
+          "end": 164.79528459821427,
+          "probability": 0.9991043210029602
+        },
+        {
+          "word": " was",
+          "start": 164.79528459821427,
+          "end": 164.93528459821428,
+          "probability": 0.9997894167900085
+        },
+        {
+          "word": " decided",
+          "start": 164.93528459821428,
+          "end": 165.37528459821428,
+          "probability": 0.9998193383216858
+        },
+        {
+          "word": " on",
+          "start": 165.37528459821428,
+          "end": 165.99528459821428,
+          "probability": 0.9980667233467102
+        },
+        {
+          "word": " wednesday",
+          "start": 165.99528459821428,
+          "end": 166.43528459821428,
+          "probability": 0.7481792718172073
+        },
+        {
+          "word": " this",
+          "start": 166.43528459821428,
+          "end": 166.73528459821426,
+          "probability": 0.993459165096283
+        },
+        {
+          "word": " third",
+          "start": 166.73528459821426,
+          "end": 167.05528459821429,
+          "probability": 0.9992082715034485
+        },
+        {
+          "word": " in",
+          "start": 167.05528459821429,
+          "end": 167.29528459821427,
+          "probability": 0.9992475509643555
+        },
+        {
+          "word": " this",
+          "start": 167.29528459821427,
+          "end": 167.4552845982143,
+          "probability": 0.9995412826538086
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 15686,
+      "start": 167.4552845982143,
+      "end": 173.21528459821428,
+      "text": " trilogy and what specifically was at issue in it so the question in the case was whether",
+      "tokens": [
+        50892,
+        34030,
+        293,
+        437,
+        4682,
+        390,
+        412,
+        2734,
+        294,
+        309,
+        370,
+        264,
+        1168,
+        294,
+        264,
+        1389,
+        390,
+        1968,
+        51180
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11210607309810451,
+      "compression_ratio": 1.715151515151515,
+      "no_speech_prob": 9.907882890861086e-13,
+      "words": [
+        {
+          "word": " trilogy",
+          "start": 167.4552845982143,
+          "end": 167.81528459821428,
+          "probability": 0.9910722374916077
+        },
+        {
+          "word": " and",
+          "start": 167.81528459821428,
+          "end": 168.4552845982143,
+          "probability": 0.999777615070343
+        },
+        {
+          "word": " what",
+          "start": 168.4552845982143,
+          "end": 168.99528459821428,
+          "probability": 0.9998725652694702
+        },
+        {
+          "word": " specifically",
+          "start": 168.99528459821428,
+          "end": 169.73528459821426,
+          "probability": 0.9996209144592285
+        },
+        {
+          "word": " was",
+          "start": 169.73528459821426,
+          "end": 169.97528459821427,
+          "probability": 0.999858021736145
+        },
+        {
+          "word": " at",
+          "start": 169.97528459821427,
+          "end": 170.07528459821427,
+          "probability": 0.8050516247749329
+        },
+        {
+          "word": " issue",
+          "start": 170.07528459821427,
+          "end": 170.27528459821428,
+          "probability": 0.9987743496894836
+        },
+        {
+          "word": " in",
+          "start": 170.27528459821428,
+          "end": 170.43528459821428,
+          "probability": 0.6636284589767456
+        },
+        {
+          "word": " it",
+          "start": 170.43528459821428,
+          "end": 170.59528459821428,
+          "probability": 0.9866800904273987
+        },
+        {
+          "word": " so",
+          "start": 170.59528459821428,
+          "end": 171.47528459821427,
+          "probability": 0.9975294470787048
+        },
+        {
+          "word": " the",
+          "start": 171.47528459821427,
+          "end": 171.6152845982143,
+          "probability": 0.9998778104782104
+        },
+        {
+          "word": " question",
+          "start": 171.6152845982143,
+          "end": 171.8952845982143,
+          "probability": 0.9998084902763367
+        },
+        {
+          "word": " in",
+          "start": 171.8952845982143,
+          "end": 172.05528459821429,
+          "probability": 0.9931528568267822
+        },
+        {
+          "word": " the",
+          "start": 172.05528459821429,
+          "end": 172.13528459821427,
+          "probability": 0.9994947910308838
+        },
+        {
+          "word": " case",
+          "start": 172.13528459821427,
+          "end": 172.4552845982143,
+          "probability": 0.9999382495880127
+        },
+        {
+          "word": " was",
+          "start": 172.4552845982143,
+          "end": 172.85528459821427,
+          "probability": 0.9998006224632263
+        },
+        {
+          "word": " whether",
+          "start": 172.85528459821427,
+          "end": 173.21528459821428,
+          "probability": 0.9993300437927246
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 15686,
+      "start": 173.21528459821428,
+      "end": 180.59528459821428,
+      "text": " louisiana could have two majority minority voting districts louisiana has six congressional districts",
+      "tokens": [
+        51180,
+        15185,
+        271,
+        8497,
+        727,
+        362,
+        732,
+        6286,
+        16166,
+        10419,
+        16815,
+        15185,
+        271,
+        8497,
+        575,
+        2309,
+        32962,
+        16815,
+        51555
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11210607309810451,
+      "compression_ratio": 1.715151515151515,
+      "no_speech_prob": 9.907882890861086e-13,
+      "words": [
+        {
+          "word": " louisiana",
+          "start": 173.21528459821428,
+          "end": 174.03528459821428,
+          "probability": 0.9955854415893555
+        },
+        {
+          "word": " could",
+          "start": 174.03528459821428,
+          "end": 174.31528459821428,
+          "probability": 0.9996834993362427
+        },
+        {
+          "word": " have",
+          "start": 174.31528459821428,
+          "end": 174.59528459821428,
+          "probability": 0.99982750415802
+        },
+        {
+          "word": " two",
+          "start": 174.59528459821428,
+          "end": 175.21528459821428,
+          "probability": 0.9990366697311401
+        },
+        {
+          "word": " majority",
+          "start": 175.21528459821428,
+          "end": 176.19528459821427,
+          "probability": 0.9988252520561218
+        },
+        {
+          "word": " minority",
+          "start": 176.19528459821427,
+          "end": 176.81528459821428,
+          "probability": 0.981936514377594
+        },
+        {
+          "word": " voting",
+          "start": 176.81528459821428,
+          "end": 177.27528459821428,
+          "probability": 0.9992784857749939
+        },
+        {
+          "word": " districts",
+          "start": 177.27528459821428,
+          "end": 177.79528459821427,
+          "probability": 0.9974992871284485
+        },
+        {
+          "word": " louisiana",
+          "start": 177.79528459821427,
+          "end": 178.77528459821428,
+          "probability": 0.9986591537793478
+        },
+        {
+          "word": " has",
+          "start": 178.77528459821428,
+          "end": 179.05528459821429,
+          "probability": 0.9996238946914673
+        },
+        {
+          "word": " six",
+          "start": 179.05528459821429,
+          "end": 179.43528459821428,
+          "probability": 0.9997931122779846
+        },
+        {
+          "word": " congressional",
+          "start": 179.43528459821428,
+          "end": 180.1152845982143,
+          "probability": 0.9997037053108215
+        },
+        {
+          "word": " districts",
+          "start": 180.1152845982143,
+          "end": 180.59528459821428,
+          "probability": 0.9997710585594177
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 18050,
+      "start": 181.27528459821428,
+      "end": 189.88726190476189,
+      "text": " And not long ago, the state redrew its maps so that black voters were the majority in two districts rather than just one.",
+      "tokens": [
+        50404,
+        400,
+        406,
+        938,
+        2057,
+        11,
+        264,
+        1785,
+        2182,
+        2236,
+        1080,
+        11317,
+        370,
+        300,
+        2211,
+        14073,
+        645,
+        264,
+        6286,
+        294,
+        732,
+        16815,
+        2831,
+        813,
+        445,
+        472,
+        13,
+        50837
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 181.27528459821428,
+          "end": 181.87528459821428,
+          "probability": 0.7723166346549988
+        },
+        {
+          "word": " not",
+          "start": 181.87528459821428,
+          "end": 182.3952845982143,
+          "probability": 0.9974285960197449
+        },
+        {
+          "word": " long",
+          "start": 182.3952845982143,
+          "end": 182.63528459821427,
+          "probability": 0.9999732971191406
+        },
+        {
+          "word": " ago,",
+          "start": 182.63528459821427,
+          "end": 182.85528459821427,
+          "probability": 0.9999890327453613
+        },
+        {
+          "word": " the",
+          "start": 182.91445870535713,
+          "end": 183.03445870535714,
+          "probability": 0.9999202489852905
+        },
+        {
+          "word": " state",
+          "start": 183.0009765625,
+          "end": 183.3009765625,
+          "probability": 0.9998941421508789
+        },
+        {
+          "word": " redrew",
+          "start": 183.3009765625,
+          "end": 184.0009765625,
+          "probability": 0.9945746958255768
+        },
+        {
+          "word": " its",
+          "start": 184.0009765625,
+          "end": 184.1809765625,
+          "probability": 0.9999315738677979
+        },
+        {
+          "word": " maps",
+          "start": 184.1809765625,
+          "end": 184.6009765625,
+          "probability": 0.999764621257782
+        },
+        {
+          "word": " so",
+          "start": 184.6009765625,
+          "end": 185.5809765625,
+          "probability": 0.9649081230163574
+        },
+        {
+          "word": " that",
+          "start": 185.5809765625,
+          "end": 185.7609765625,
+          "probability": 0.9966502785682678
+        },
+        {
+          "word": " black",
+          "start": 185.7609765625,
+          "end": 186.0209765625,
+          "probability": 0.6051033139228821
+        },
+        {
+          "word": " voters",
+          "start": 186.0209765625,
+          "end": 186.4209765625,
+          "probability": 0.9999852180480957
+        },
+        {
+          "word": " were",
+          "start": 186.4209765625,
+          "end": 186.6609765625,
+          "probability": 0.9987795948982239
+        },
+        {
+          "word": " the",
+          "start": 186.6609765625,
+          "end": 186.7409765625,
+          "probability": 0.9998230338096619
+        },
+        {
+          "word": " majority",
+          "start": 186.7409765625,
+          "end": 187.1609765625,
+          "probability": 0.9995728135108948
+        },
+        {
+          "word": " in",
+          "start": 187.1609765625,
+          "end": 187.7209765625,
+          "probability": 0.9998925924301147
+        },
+        {
+          "word": " two",
+          "start": 187.7209765625,
+          "end": 188.1809765625,
+          "probability": 0.9987155199050903
+        },
+        {
+          "word": " districts",
+          "start": 188.1472619047619,
+          "end": 188.6672619047619,
+          "probability": 0.9998812675476074
+        },
+        {
+          "word": " rather",
+          "start": 188.6672619047619,
+          "end": 189.0872619047619,
+          "probability": 0.9962596893310547
+        },
+        {
+          "word": " than",
+          "start": 189.0872619047619,
+          "end": 189.3072619047619,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " just",
+          "start": 189.3072619047619,
+          "end": 189.5472619047619,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " one.",
+          "start": 189.5472619047619,
+          "end": 189.88726190476189,
+          "probability": 0.9999622106552124
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 18050,
+      "start": 190.4672619047619,
+      "end": 192.4272619047619,
+      "text": " Louisiana is about a third black.",
+      "tokens": [
+        50865,
+        25413,
+        307,
+        466,
+        257,
+        2636,
+        2211,
+        13,
+        50969
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " Louisiana",
+          "start": 190.4672619047619,
+          "end": 191.0672619047619,
+          "probability": 0.9996699094772339
+        },
+        {
+          "word": " is",
+          "start": 191.0672619047619,
+          "end": 191.2472619047619,
+          "probability": 0.9864411950111389
+        },
+        {
+          "word": " about",
+          "start": 191.2472619047619,
+          "end": 191.5072619047619,
+          "probability": 0.9999909400939941
+        },
+        {
+          "word": " a",
+          "start": 191.5072619047619,
+          "end": 191.8272619047619,
+          "probability": 0.9999645948410034
+        },
+        {
+          "word": " third",
+          "start": 191.8272619047619,
+          "end": 192.0872619047619,
+          "probability": 0.9999682903289795
+        },
+        {
+          "word": " black.",
+          "start": 192.0872619047619,
+          "end": 192.4272619047619,
+          "probability": 0.9982843995094299
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 18050,
+      "start": 192.8672619047619,
+      "end": 196.7472619047619,
+      "text": " So if you just do the math, two sounds about right.",
+      "tokens": [
+        50999,
+        407,
+        498,
+        291,
+        445,
+        360,
+        264,
+        5221,
+        11,
+        732,
+        3263,
+        466,
+        558,
+        13,
+        51181
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 192.8672619047619,
+          "end": 193.4672619047619,
+          "probability": 0.9998971223831177
+        },
+        {
+          "word": " if",
+          "start": 193.4672619047619,
+          "end": 193.9072619047619,
+          "probability": 0.9536147713661194
+        },
+        {
+          "word": " you",
+          "start": 193.9072619047619,
+          "end": 194.3072619047619,
+          "probability": 0.999991774559021
+        },
+        {
+          "word": " just",
+          "start": 194.3072619047619,
+          "end": 194.5072619047619,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " do",
+          "start": 194.5072619047619,
+          "end": 194.6472619047619,
+          "probability": 0.9999833106994629
+        },
+        {
+          "word": " the",
+          "start": 194.6472619047619,
+          "end": 194.7672619047619,
+          "probability": 0.9999878406524658
+        },
+        {
+          "word": " math,",
+          "start": 194.7672619047619,
+          "end": 195.1672619047619,
+          "probability": 0.9999724626541138
+        },
+        {
+          "word": " two",
+          "start": 195.7472619047619,
+          "end": 195.88726190476189,
+          "probability": 0.9804907441139221
+        },
+        {
+          "word": " sounds",
+          "start": 195.88726190476189,
+          "end": 196.2072619047619,
+          "probability": 0.9928218722343445
+        },
+        {
+          "word": " about",
+          "start": 196.2072619047619,
+          "end": 196.4472619047619,
+          "probability": 0.9999707937240601
+        },
+        {
+          "word": " right.",
+          "start": 196.4472619047619,
+          "end": 196.7472619047619,
+          "probability": 0.9999489784240723
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 18050,
+      "start": 197.6272619047619,
+      "end": 202.6472619047619,
+      "text": " But the court said that taking account of race in that way was unlawful.",
+      "tokens": [
+        51221,
+        583,
+        264,
+        4753,
+        848,
+        300,
+        1940,
+        2696,
+        295,
+        4569,
+        294,
+        300,
+        636,
+        390,
+        517,
+        5901,
+        906,
+        13,
+        51474
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 197.6272619047619,
+          "end": 198.2272619047619,
+          "probability": 0.9045369625091553
+        },
+        {
+          "word": " the",
+          "start": 198.2272619047619,
+          "end": 198.6672619047619,
+          "probability": 0.9999661445617676
+        },
+        {
+          "word": " court",
+          "start": 198.6672619047619,
+          "end": 198.88726190476189,
+          "probability": 0.9982051849365234
+        },
+        {
+          "word": " said",
+          "start": 198.88726190476189,
+          "end": 199.3272619047619,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " that",
+          "start": 199.3272619047619,
+          "end": 199.5672619047619,
+          "probability": 0.9992423057556152
+        },
+        {
+          "word": " taking",
+          "start": 199.5672619047619,
+          "end": 199.8672619047619,
+          "probability": 0.9999485015869141
+        },
+        {
+          "word": " account",
+          "start": 199.8672619047619,
+          "end": 200.1672619047619,
+          "probability": 0.9906831979751587
+        },
+        {
+          "word": " of",
+          "start": 200.1672619047619,
+          "end": 200.3072619047619,
+          "probability": 0.9999704360961914
+        },
+        {
+          "word": " race",
+          "start": 200.3072619047619,
+          "end": 200.5872619047619,
+          "probability": 0.9995669722557068
+        },
+        {
+          "word": " in",
+          "start": 200.5872619047619,
+          "end": 200.9072619047619,
+          "probability": 0.9999207258224487
+        },
+        {
+          "word": " that",
+          "start": 200.9072619047619,
+          "end": 201.10726190476188,
+          "probability": 0.9999837875366211
+        },
+        {
+          "word": " way",
+          "start": 201.10726190476188,
+          "end": 201.4072619047619,
+          "probability": 0.9999302625656128
+        },
+        {
+          "word": " was",
+          "start": 201.4072619047619,
+          "end": 202.0672619047619,
+          "probability": 0.9998759031295776
+        },
+        {
+          "word": " unlawful.",
+          "start": 202.0672619047619,
+          "end": 202.6472619047619,
+          "probability": 0.9998936255772909
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 18050,
+      "start": 202.8072619047619,
+      "end": 209.4472619047619,
+      "text": " Creating a second congressional district in which black voters were the majority, the court found, was unlawful.",
+      "tokens": [
+        51474,
+        40002,
+        257,
+        1150,
+        32962,
+        6566,
+        294,
+        597,
+        2211,
+        14073,
+        645,
+        264,
+        6286,
+        11,
+        264,
+        4753,
+        1352,
+        11,
+        390,
+        517,
+        5901,
+        906,
+        13,
+        51815
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " Creating",
+          "start": 202.8072619047619,
+          "end": 203.3472619047619,
+          "probability": 0.9672083854675293
+        },
+        {
+          "word": " a",
+          "start": 203.3472619047619,
+          "end": 203.6272619047619,
+          "probability": 0.9999960660934448
+        },
+        {
+          "word": " second",
+          "start": 203.6272619047619,
+          "end": 204.10726190476188,
+          "probability": 0.999862790107727
+        },
+        {
+          "word": " congressional",
+          "start": 204.10726190476188,
+          "end": 204.7272619047619,
+          "probability": 0.9984419941902161
+        },
+        {
+          "word": " district",
+          "start": 204.7272619047619,
+          "end": 205.0872619047619,
+          "probability": 0.9999747276306152
+        },
+        {
+          "word": " in",
+          "start": 205.0872619047619,
+          "end": 205.3072619047619,
+          "probability": 0.999937891960144
+        },
+        {
+          "word": " which",
+          "start": 205.3072619047619,
+          "end": 205.5472619047619,
+          "probability": 0.9999421834945679
+        },
+        {
+          "word": " black",
+          "start": 205.5472619047619,
+          "end": 206.2072619047619,
+          "probability": 0.9993053674697876
+        },
+        {
+          "word": " voters",
+          "start": 206.2072619047619,
+          "end": 206.4872619047619,
+          "probability": 0.9999892711639404
+        },
+        {
+          "word": " were",
+          "start": 206.4872619047619,
+          "end": 206.60726190476188,
+          "probability": 0.9656500816345215
+        },
+        {
+          "word": " the",
+          "start": 206.60726190476188,
+          "end": 206.6672619047619,
+          "probability": 0.9998867511749268
+        },
+        {
+          "word": " majority,",
+          "start": 206.6672619047619,
+          "end": 207.1872619047619,
+          "probability": 0.9999616146087646
+        },
+        {
+          "word": " the",
+          "start": 207.4272619047619,
+          "end": 207.7472619047619,
+          "probability": 0.9998655319213867
+        },
+        {
+          "word": " court",
+          "start": 207.7472619047619,
+          "end": 207.9272619047619,
+          "probability": 0.999663233757019
+        },
+        {
+          "word": " found,",
+          "start": 207.9272619047619,
+          "end": 208.3072619047619,
+          "probability": 0.999909520149231
+        },
+        {
+          "word": " was",
+          "start": 208.4672619047619,
+          "end": 208.6872619047619,
+          "probability": 0.9997907280921936
+        },
+        {
+          "word": " unlawful.",
+          "start": 208.6872619047619,
+          "end": 209.4472619047619,
+          "probability": 0.9999707539876302
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 18050,
+      "start": 209.6272619047619,
+      "end": 210.3272619047619,
+      "text": " That's right.",
+      "tokens": [
+        51827,
+        663,
+        311,
+        558,
+        13,
+        51862
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.17391120686250575,
+      "compression_ratio": 1.7467811158798283,
+      "no_speech_prob": 7.378346523166657e-13,
+      "words": [
+        {
+          "word": " That's",
+          "start": 209.6272619047619,
+          "end": 210.1672619047619,
+          "probability": 0.9992711246013641
+        },
+        {
+          "word": " right.",
+          "start": 210.1672619047619,
+          "end": 210.3272619047619,
+          "probability": 0.9999912977218628
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 21050,
+      "start": 210.4672619047619,
+      "end": 235.2146447172619,
+      "text": " So in the past, the Voting Rights Act would have protected these districts because the understanding of the Voting Rights Act for decades and decades was that it was meant not only to make sure that an individual voter would have the right to vote, but that this community of voters, that minority voters as a collective would have the opportunity to elect their candidates of choice.",
+      "tokens": [
+        50365,
+        407,
+        294,
+        264,
+        1791,
+        11,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        576,
+        362,
+        10594,
+        613,
+        16815,
+        570,
+        264,
+        3701,
+        295,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        337,
+        7878,
+        293,
+        7878,
+        390,
+        300,
+        309,
+        390,
+        4140,
+        406,
+        787,
+        281,
+        652,
+        988,
+        300,
+        364,
+        2609,
+        21722,
+        576,
+        362,
+        264,
+        558,
+        281,
+        4740,
+        11,
+        457,
+        300,
+        341,
+        1768,
+        295,
+        14073,
+        11,
+        300,
+        16166,
+        14073,
+        382,
+        257,
+        12590,
+        576,
+        362,
+        264,
+        2650,
+        281,
+        2185,
+        641,
+        11255,
+        295,
+        3922,
+        13,
+        51600
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04912979571850269,
+      "compression_ratio": 1.786046511627907,
+      "no_speech_prob": 7.488117114221038e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 210.4672619047619,
+          "end": 211.0072619047619,
+          "probability": 0.9930671453475952
+        },
+        {
+          "word": " in",
+          "start": 211.0072619047619,
+          "end": 211.1272619047619,
+          "probability": 0.8634426593780518
+        },
+        {
+          "word": " the",
+          "start": 211.1272619047619,
+          "end": 211.2072619047619,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " past,",
+          "start": 211.2072619047619,
+          "end": 211.5672619047619,
+          "probability": 0.9999874830245972
+        },
+        {
+          "word": " the",
+          "start": 211.7872619047619,
+          "end": 212.0072619047619,
+          "probability": 0.9992917776107788
+        },
+        {
+          "word": " Voting",
+          "start": 212.0072619047619,
+          "end": 212.2072619047619,
+          "probability": 0.9986720979213715
+        },
+        {
+          "word": " Rights",
+          "start": 212.2072619047619,
+          "end": 212.4672619047619,
+          "probability": 0.9995906949043274
+        },
+        {
+          "word": " Act",
+          "start": 212.4672619047619,
+          "end": 212.7272619047619,
+          "probability": 0.9998557567596436
+        },
+        {
+          "word": " would",
+          "start": 212.7272619047619,
+          "end": 212.9872619047619,
+          "probability": 0.9999284744262695
+        },
+        {
+          "word": " have",
+          "start": 212.9872619047619,
+          "end": 213.1472619047619,
+          "probability": 0.999987006187439
+        },
+        {
+          "word": " protected",
+          "start": 213.1472619047619,
+          "end": 213.6272619047619,
+          "probability": 0.999946117401123
+        },
+        {
+          "word": " these",
+          "start": 213.6272619047619,
+          "end": 214.3272619047619,
+          "probability": 0.9999152421951294
+        },
+        {
+          "word": " districts",
+          "start": 214.3272619047619,
+          "end": 214.7272619047619,
+          "probability": 0.9999732971191406
+        },
+        {
+          "word": " because",
+          "start": 214.7272619047619,
+          "end": 215.5072619047619,
+          "probability": 0.8365685343742371
+        },
+        {
+          "word": " the",
+          "start": 215.5072619047619,
+          "end": 215.7672619047619,
+          "probability": 0.9999890327453613
+        },
+        {
+          "word": " understanding",
+          "start": 215.7672619047619,
+          "end": 216.5072619047619,
+          "probability": 0.9998390674591064
+        },
+        {
+          "word": " of",
+          "start": 216.5072619047619,
+          "end": 216.6672619047619,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " the",
+          "start": 216.6672619047619,
+          "end": 216.7672619047619,
+          "probability": 0.8701662421226501
+        },
+        {
+          "word": " Voting",
+          "start": 216.7672619047619,
+          "end": 216.88726190476189,
+          "probability": 0.9997886121273041
+        },
+        {
+          "word": " Rights",
+          "start": 216.88726190476189,
+          "end": 217.10726190476188,
+          "probability": 0.9999113082885742
+        },
+        {
+          "word": " Act",
+          "start": 217.10726190476188,
+          "end": 217.4072619047619,
+          "probability": 0.999823272228241
+        },
+        {
+          "word": " for",
+          "start": 217.4072619047619,
+          "end": 217.5872619047619,
+          "probability": 0.9882036447525024
+        },
+        {
+          "word": " decades",
+          "start": 217.5872619047619,
+          "end": 217.9672619047619,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " and",
+          "start": 217.9672619047619,
+          "end": 218.1872619047619,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " decades",
+          "start": 218.1872619047619,
+          "end": 218.6272619047619,
+          "probability": 0.9999672174453735
+        },
+        {
+          "word": " was",
+          "start": 218.6272619047619,
+          "end": 220.1472619047619,
+          "probability": 0.9992917776107788
+        },
+        {
+          "word": " that",
+          "start": 220.1472619047619,
+          "end": 220.5072619047619,
+          "probability": 0.9999973773956299
+        },
+        {
+          "word": " it",
+          "start": 220.5072619047619,
+          "end": 220.7472619047619,
+          "probability": 0.9999959468841553
+        },
+        {
+          "word": " was",
+          "start": 220.7472619047619,
+          "end": 220.9272619047619,
+          "probability": 0.9999963045120239
+        },
+        {
+          "word": " meant",
+          "start": 220.9272619047619,
+          "end": 221.1672619047619,
+          "probability": 0.999876856803894
+        },
+        {
+          "word": " not",
+          "start": 221.1672619047619,
+          "end": 221.4272619047619,
+          "probability": 0.999970555305481
+        },
+        {
+          "word": " only",
+          "start": 221.4272619047619,
+          "end": 221.7072619047619,
+          "probability": 0.9999850988388062
+        },
+        {
+          "word": " to",
+          "start": 221.7072619047619,
+          "end": 221.88726190476189,
+          "probability": 0.9999982118606567
+        },
+        {
+          "word": " make",
+          "start": 221.88726190476189,
+          "end": 222.0672619047619,
+          "probability": 0.9999821186065674
+        },
+        {
+          "word": " sure",
+          "start": 222.0672619047619,
+          "end": 222.3672619047619,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " that",
+          "start": 222.3672619047619,
+          "end": 222.60726190476188,
+          "probability": 0.9999939203262329
+        },
+        {
+          "word": " an",
+          "start": 222.60726190476188,
+          "end": 222.7672619047619,
+          "probability": 0.9999743700027466
+        },
+        {
+          "word": " individual",
+          "start": 222.7672619047619,
+          "end": 223.2472619047619,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " voter",
+          "start": 223.34956845238094,
+          "end": 223.84956845238094,
+          "probability": 0.9999504089355469
+        },
+        {
+          "word": " would",
+          "start": 223.84956845238094,
+          "end": 224.32956845238093,
+          "probability": 0.9999551773071289
+        },
+        {
+          "word": " have",
+          "start": 224.32956845238093,
+          "end": 224.50956845238093,
+          "probability": 0.9999920129776001
+        },
+        {
+          "word": " the",
+          "start": 224.50956845238093,
+          "end": 224.62956845238094,
+          "probability": 0.9972186088562012
+        },
+        {
+          "word": " right",
+          "start": 224.62956845238094,
+          "end": 224.80956845238094,
+          "probability": 0.9999840259552002
+        },
+        {
+          "word": " to",
+          "start": 224.80956845238094,
+          "end": 224.96956845238094,
+          "probability": 0.999976396560669
+        },
+        {
+          "word": " vote,",
+          "start": 224.9145554315476,
+          "end": 225.1945554315476,
+          "probability": 0.9999077320098877
+        },
+        {
+          "word": " but",
+          "start": 225.3545554315476,
+          "end": 225.9545554315476,
+          "probability": 0.9999618530273438
+        },
+        {
+          "word": " that",
+          "start": 225.9545554315476,
+          "end": 226.15455543154758,
+          "probability": 0.999963641166687
+        },
+        {
+          "word": " this",
+          "start": 226.15455543154758,
+          "end": 226.43455543154758,
+          "probability": 0.999980092048645
+        },
+        {
+          "word": " community",
+          "start": 226.43455543154758,
+          "end": 227.05455543154758,
+          "probability": 0.9999507665634155
+        },
+        {
+          "word": " of",
+          "start": 227.05455543154758,
+          "end": 227.2945554315476,
+          "probability": 0.9999514818191528
+        },
+        {
+          "word": " voters,",
+          "start": 227.2945554315476,
+          "end": 227.65455543154758,
+          "probability": 0.9998894929885864
+        },
+        {
+          "word": " that",
+          "start": 227.9745554315476,
+          "end": 228.0745554315476,
+          "probability": 0.9737427830696106
+        },
+        {
+          "word": " minority",
+          "start": 228.0745554315476,
+          "end": 228.4545554315476,
+          "probability": 0.9999644756317139
+        },
+        {
+          "word": " voters",
+          "start": 228.4545554315476,
+          "end": 228.8145554315476,
+          "probability": 0.9999806880950928
+        },
+        {
+          "word": " as",
+          "start": 228.8145554315476,
+          "end": 229.27455543154758,
+          "probability": 0.9999130964279175
+        },
+        {
+          "word": " a",
+          "start": 229.27455543154758,
+          "end": 229.3945554315476,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " collective",
+          "start": 229.3945554315476,
+          "end": 229.8945554315476,
+          "probability": 0.9996746778488159
+        },
+        {
+          "word": " would",
+          "start": 229.8945554315476,
+          "end": 230.9145554315476,
+          "probability": 0.5910484194755554
+        },
+        {
+          "word": " have",
+          "start": 230.9145554315476,
+          "end": 231.2545554315476,
+          "probability": 0.9999884366989136
+        },
+        {
+          "word": " the",
+          "start": 231.2545554315476,
+          "end": 231.5945554315476,
+          "probability": 0.9999703168869019
+        },
+        {
+          "word": " opportunity",
+          "start": 231.5945554315476,
+          "end": 232.2345554315476,
+          "probability": 0.9998891353607178
+        },
+        {
+          "word": " to",
+          "start": 232.2345554315476,
+          "end": 233.2345554315476,
+          "probability": 0.9991748929023743
+        },
+        {
+          "word": " elect",
+          "start": 233.2546447172619,
+          "end": 233.5946447172619,
+          "probability": 0.9970845580101013
+        },
+        {
+          "word": " their",
+          "start": 233.5946447172619,
+          "end": 234.0546447172619,
+          "probability": 0.9996153116226196
+        },
+        {
+          "word": " candidates",
+          "start": 234.0546447172619,
+          "end": 234.5946447172619,
+          "probability": 0.9996591806411743
+        },
+        {
+          "word": " of",
+          "start": 234.5946447172619,
+          "end": 234.7946447172619,
+          "probability": 0.9997037053108215
+        },
+        {
+          "word": " choice.",
+          "start": 234.7946447172619,
+          "end": 235.2146447172619,
+          "probability": 0.9998923540115356
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 23518,
+      "start": 235.2146447172619,
+      "end": 252.26968005952384,
+      "text": " But on Wednesday, by a six to three vote, the court's Republican appointees in the majority, the Democratic appointees in dissent, the court installed a new test, one that made it very hard to take race into account in drawing voting districts.",
+      "tokens": [
+        50365,
+        583,
+        322,
+        10579,
+        11,
+        538,
+        257,
+        2309,
+        281,
+        1045,
+        4740,
+        11,
+        264,
+        4753,
+        311,
+        10937,
+        7602,
+        4031,
+        294,
+        264,
+        6286,
+        11,
+        264,
+        14928,
+        7602,
+        4031,
+        294,
+        7802,
+        317,
+        11,
+        264,
+        4753,
+        8899,
+        257,
+        777,
+        1500,
+        11,
+        472,
+        300,
+        1027,
+        309,
+        588,
+        1152,
+        281,
+        747,
+        4569,
+        666,
+        2696,
+        294,
+        6316,
+        10419,
+        16815,
+        13,
+        51222
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11218726818378155,
+      "compression_ratio": 1.536723163841808,
+      "no_speech_prob": 6.994227245982199e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 235.2146447172619,
+          "end": 236.0546447172619,
+          "probability": 0.9536720514297485
+        },
+        {
+          "word": " on",
+          "start": 236.0546447172619,
+          "end": 236.5346447172619,
+          "probability": 0.9992498755455017
+        },
+        {
+          "word": " Wednesday,",
+          "start": 236.5346447172619,
+          "end": 237.0546447172619,
+          "probability": 0.9999581575393677
+        },
+        {
+          "word": " by",
+          "start": 237.3546447172619,
+          "end": 237.45464471726189,
+          "probability": 0.9999879598617554
+        },
+        {
+          "word": " a",
+          "start": 237.45464471726189,
+          "end": 237.5946447172619,
+          "probability": 0.9999783039093018
+        },
+        {
+          "word": " six",
+          "start": 237.5946447172619,
+          "end": 237.7946447172619,
+          "probability": 0.5350610613822937
+        },
+        {
+          "word": " to",
+          "start": 237.7946447172619,
+          "end": 237.9346447172619,
+          "probability": 0.8795569539070129
+        },
+        {
+          "word": " three",
+          "start": 237.9346447172619,
+          "end": 238.1146447172619,
+          "probability": 0.9998036026954651
+        },
+        {
+          "word": " vote,",
+          "start": 238.1146447172619,
+          "end": 238.4746447172619,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " the",
+          "start": 238.67464471726188,
+          "end": 239.0946447172619,
+          "probability": 0.9999700784683228
+        },
+        {
+          "word": " court's",
+          "start": 239.04986235119048,
+          "end": 239.3898623511905,
+          "probability": 0.9955874085426331
+        },
+        {
+          "word": " Republican",
+          "start": 239.29569382440476,
+          "end": 239.69569382440477,
+          "probability": 0.9979254007339478
+        },
+        {
+          "word": " appointees",
+          "start": 239.69569382440477,
+          "end": 240.45569382440476,
+          "probability": 0.9999046921730042
+        },
+        {
+          "word": " in",
+          "start": 240.45569382440476,
+          "end": 240.87569382440475,
+          "probability": 0.997904896736145
+        },
+        {
+          "word": " the",
+          "start": 240.87569382440475,
+          "end": 240.97569382440477,
+          "probability": 0.9998206496238708
+        },
+        {
+          "word": " majority,",
+          "start": 241.00531622023811,
+          "end": 241.3453162202381,
+          "probability": 0.9991613626480103
+        },
+        {
+          "word": " the",
+          "start": 241.50531622023811,
+          "end": 241.5853162202381,
+          "probability": 0.9998019337654114
+        },
+        {
+          "word": " Democratic",
+          "start": 241.5853162202381,
+          "end": 241.9453162202381,
+          "probability": 0.9997313618659973
+        },
+        {
+          "word": " appointees",
+          "start": 241.9453162202381,
+          "end": 242.7253162202381,
+          "probability": 0.999884694814682
+        },
+        {
+          "word": " in",
+          "start": 242.7253162202381,
+          "end": 243.00531622023811,
+          "probability": 0.9981589913368225
+        },
+        {
+          "word": " dissent,",
+          "start": 243.00531622023811,
+          "end": 243.4653162202381,
+          "probability": 0.9991379082202911
+        },
+        {
+          "word": " the",
+          "start": 243.7253162202381,
+          "end": 244.3653162202381,
+          "probability": 0.9998704195022583
+        },
+        {
+          "word": " court",
+          "start": 244.3653162202381,
+          "end": 244.6653162202381,
+          "probability": 0.9994890689849854
+        },
+        {
+          "word": " installed",
+          "start": 244.6653162202381,
+          "end": 245.4253162202381,
+          "probability": 0.9996358156204224
+        },
+        {
+          "word": " a",
+          "start": 245.4253162202381,
+          "end": 245.5853162202381,
+          "probability": 0.9999696016311646
+        },
+        {
+          "word": " new",
+          "start": 245.5853162202381,
+          "end": 245.7453162202381,
+          "probability": 0.9999204874038696
+        },
+        {
+          "word": " test,",
+          "start": 245.7453162202381,
+          "end": 246.2253162202381,
+          "probability": 0.999970555305481
+        },
+        {
+          "word": " one",
+          "start": 246.5653162202381,
+          "end": 247.2653162202381,
+          "probability": 0.999981164932251
+        },
+        {
+          "word": " that",
+          "start": 247.2653162202381,
+          "end": 247.4853162202381,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " made",
+          "start": 247.4853162202381,
+          "end": 247.7053162202381,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " it",
+          "start": 247.7053162202381,
+          "end": 247.8653162202381,
+          "probability": 0.9999949932098389
+        },
+        {
+          "word": " very",
+          "start": 247.8653162202381,
+          "end": 248.2253162202381,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " hard",
+          "start": 248.2253162202381,
+          "end": 248.6453162202381,
+          "probability": 0.9999855756759644
+        },
+        {
+          "word": " to",
+          "start": 248.6453162202381,
+          "end": 249.0253162202381,
+          "probability": 0.9999362230300903
+        },
+        {
+          "word": " take",
+          "start": 249.0253162202381,
+          "end": 249.2653162202381,
+          "probability": 0.9998990297317505
+        },
+        {
+          "word": " race",
+          "start": 249.2653162202381,
+          "end": 249.5653162202381,
+          "probability": 0.9998689889907837
+        },
+        {
+          "word": " into",
+          "start": 249.5653162202381,
+          "end": 249.7653162202381,
+          "probability": 0.9999901056289673
+        },
+        {
+          "word": " account",
+          "start": 249.7653162202381,
+          "end": 250.28531622023812,
+          "probability": 0.9999890327453613
+        },
+        {
+          "word": " in",
+          "start": 250.28531622023812,
+          "end": 251.1653162202381,
+          "probability": 0.9982538819313049
+        },
+        {
+          "word": " drawing",
+          "start": 251.20968005952383,
+          "end": 251.48968005952383,
+          "probability": 0.9993935823440552
+        },
+        {
+          "word": " voting",
+          "start": 251.48968005952383,
+          "end": 251.78968005952382,
+          "probability": 0.9999228715896606
+        },
+        {
+          "word": " districts.",
+          "start": 251.78968005952382,
+          "end": 252.26968005952384,
+          "probability": 0.9999488592147827
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 23518,
+      "start": 252.6696800595238,
+      "end": 254.3896800595238,
+      "text": " And what was that new test?",
+      "tokens": [
+        51264,
+        400,
+        437,
+        390,
+        300,
+        777,
+        1500,
+        30,
+        51330
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11218726818378155,
+      "compression_ratio": 1.536723163841808,
+      "no_speech_prob": 6.994227245982199e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 252.6696800595238,
+          "end": 253.1096800595238,
+          "probability": 0.9718677997589111
+        },
+        {
+          "word": " what",
+          "start": 253.1096800595238,
+          "end": 253.48968005952383,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " was",
+          "start": 253.48968005952383,
+          "end": 253.76968005952384,
+          "probability": 0.9999954700469971
+        },
+        {
+          "word": " that",
+          "start": 253.76968005952384,
+          "end": 253.96968005952382,
+          "probability": 0.9999946355819702
+        },
+        {
+          "word": " new",
+          "start": 253.96968005952382,
+          "end": 254.1096800595238,
+          "probability": 0.9997997879981995
+        },
+        {
+          "word": " test?",
+          "start": 254.1096800595238,
+          "end": 254.3896800595238,
+          "probability": 0.9998260140419006
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 25442,
+      "start": 254.3896800595238,
+      "end": 264.5096800595238,
+      "text": " So the court says the Voting Rights Act only kicks in if lawmakers had intended to discriminate against minority voters.",
+      "tokens": [
+        50365,
+        407,
+        264,
+        4753,
+        1619,
+        264,
+        691,
+        17001,
+        16352,
+        3251,
+        787,
+        21293,
+        294,
+        498,
+        40988,
+        632,
+        10226,
+        281,
+        47833,
+        1970,
+        16166,
+        14073,
+        13,
+        50872
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.10691948090830157,
+      "compression_ratio": 1.564516129032258,
+      "no_speech_prob": 8.20162893763049e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 254.3896800595238,
+          "end": 255.4496800595238,
+          "probability": 0.9111955165863037
+        },
+        {
+          "word": " the",
+          "start": 255.4496800595238,
+          "end": 255.56968005952382,
+          "probability": 0.9689726829528809
+        },
+        {
+          "word": " court",
+          "start": 255.56968005952382,
+          "end": 255.74968005952383,
+          "probability": 0.9868685007095337
+        },
+        {
+          "word": " says",
+          "start": 255.74968005952383,
+          "end": 256.1096800595238,
+          "probability": 0.9999706745147705
+        },
+        {
+          "word": " the",
+          "start": 256.1096800595238,
+          "end": 256.3696800595238,
+          "probability": 0.9970384836196899
+        },
+        {
+          "word": " Voting",
+          "start": 256.3696800595238,
+          "end": 256.6496800595238,
+          "probability": 0.9966332018375397
+        },
+        {
+          "word": " Rights",
+          "start": 256.6496800595238,
+          "end": 256.8496800595238,
+          "probability": 0.9996886253356934
+        },
+        {
+          "word": " Act",
+          "start": 256.8496800595238,
+          "end": 257.1096800595238,
+          "probability": 0.9999245405197144
+        },
+        {
+          "word": " only",
+          "start": 257.1096800595238,
+          "end": 257.3896800595238,
+          "probability": 0.9998719692230225
+        },
+        {
+          "word": " kicks",
+          "start": 257.3896800595238,
+          "end": 257.6696800595238,
+          "probability": 0.999950647354126
+        },
+        {
+          "word": " in",
+          "start": 257.6696800595238,
+          "end": 257.9696800595238,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " if",
+          "start": 257.9696800595238,
+          "end": 258.8896800595238,
+          "probability": 0.9993547797203064
+        },
+        {
+          "word": " lawmakers",
+          "start": 258.8896800595238,
+          "end": 259.5296800595238,
+          "probability": 0.9998047947883606
+        },
+        {
+          "word": " had",
+          "start": 259.5296800595238,
+          "end": 260.4496800595238,
+          "probability": 0.9999520778656006
+        },
+        {
+          "word": " intended",
+          "start": 260.4496800595238,
+          "end": 261.0896800595238,
+          "probability": 0.9999622106552124
+        },
+        {
+          "word": " to",
+          "start": 261.0896800595238,
+          "end": 262.0496800595238,
+          "probability": 0.9998395442962646
+        },
+        {
+          "word": " discriminate",
+          "start": 262.0496800595238,
+          "end": 262.5696800595238,
+          "probability": 0.9998664855957031
+        },
+        {
+          "word": " against",
+          "start": 262.5696800595238,
+          "end": 263.4496800595238,
+          "probability": 0.9996746778488159
+        },
+        {
+          "word": " minority",
+          "start": 263.4496800595238,
+          "end": 264.0696800595238,
+          "probability": 0.9999749660491943
+        },
+        {
+          "word": " voters.",
+          "start": 264.0696800595238,
+          "end": 264.5096800595238,
+          "probability": 0.9999853372573853
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 25442,
+      "start": 264.74968005952377,
+      "end": 276.6096800595238,
+      "text": " Whatever the effect of, whatever the results of the map are, only intentional racial discrimination, which is very hard to prove, what was in the lawmakers' heads counts.",
+      "tokens": [
+        50886,
+        8541,
+        264,
+        1802,
+        295,
+        11,
+        2035,
+        264,
+        3542,
+        295,
+        264,
+        4471,
+        366,
+        11,
+        787,
+        21935,
+        12131,
+        15973,
+        11,
+        597,
+        307,
+        588,
+        1152,
+        281,
+        7081,
+        11,
+        437,
+        390,
+        294,
+        264,
+        40988,
+        6,
+        8050,
+        14893,
+        13,
+        51480
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.10691948090830157,
+      "compression_ratio": 1.564516129032258,
+      "no_speech_prob": 8.20162893763049e-13,
+      "words": [
+        {
+          "word": " Whatever",
+          "start": 264.74968005952377,
+          "end": 265.3296800595238,
+          "probability": 0.998808741569519
+        },
+        {
+          "word": " the",
+          "start": 265.3296800595238,
+          "end": 265.5496800595238,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " effect",
+          "start": 265.5496800595238,
+          "end": 265.9696800595238,
+          "probability": 0.9996519088745117
+        },
+        {
+          "word": " of,",
+          "start": 265.9696800595238,
+          "end": 266.2696800595238,
+          "probability": 0.9999781847000122
+        },
+        {
+          "word": " whatever",
+          "start": 266.3496800595238,
+          "end": 266.5296800595238,
+          "probability": 0.9999731779098511
+        },
+        {
+          "word": " the",
+          "start": 266.5296800595238,
+          "end": 266.6896800595238,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " results",
+          "start": 266.6896800595238,
+          "end": 267.1296800595238,
+          "probability": 0.9999641180038452
+        },
+        {
+          "word": " of",
+          "start": 267.1296800595238,
+          "end": 267.6296800595238,
+          "probability": 0.9999961853027344
+        },
+        {
+          "word": " the",
+          "start": 267.6296800595238,
+          "end": 267.8896800595238,
+          "probability": 0.9996521472930908
+        },
+        {
+          "word": " map",
+          "start": 267.8896800595238,
+          "end": 268.1496800595238,
+          "probability": 0.9522695541381836
+        },
+        {
+          "word": " are,",
+          "start": 268.1496800595238,
+          "end": 268.4896800595238,
+          "probability": 0.9998254179954529
+        },
+        {
+          "word": " only",
+          "start": 268.9896800595238,
+          "end": 269.74968005952377,
+          "probability": 0.9997923970222473
+        },
+        {
+          "word": " intentional",
+          "start": 269.74968005952377,
+          "end": 270.5296800595238,
+          "probability": 0.9996403455734253
+        },
+        {
+          "word": " racial",
+          "start": 270.5296800595238,
+          "end": 271.0696800595238,
+          "probability": 0.9999713897705078
+        },
+        {
+          "word": " discrimination,",
+          "start": 271.0696800595238,
+          "end": 271.6296800595238,
+          "probability": 0.9999713897705078
+        },
+        {
+          "word": " which",
+          "start": 271.6296800595238,
+          "end": 272.0496800595238,
+          "probability": 0.9999611377716064
+        },
+        {
+          "word": " is",
+          "start": 272.0496800595238,
+          "end": 272.2096800595238,
+          "probability": 0.9999773502349854
+        },
+        {
+          "word": " very",
+          "start": 272.2096800595238,
+          "end": 272.5296800595238,
+          "probability": 0.9999752044677734
+        },
+        {
+          "word": " hard",
+          "start": 272.5296800595238,
+          "end": 272.7896800595238,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " to",
+          "start": 272.7896800595238,
+          "end": 272.9496800595238,
+          "probability": 0.999987006187439
+        },
+        {
+          "word": " prove,",
+          "start": 272.9496800595238,
+          "end": 273.3896800595238,
+          "probability": 0.9999140501022339
+        },
+        {
+          "word": " what",
+          "start": 273.6496800595238,
+          "end": 274.3496800595238,
+          "probability": 0.9960795044898987
+        },
+        {
+          "word": " was",
+          "start": 274.3496800595238,
+          "end": 274.5296800595238,
+          "probability": 0.9999866485595703
+        },
+        {
+          "word": " in",
+          "start": 274.5296800595238,
+          "end": 274.6896800595238,
+          "probability": 0.9999911785125732
+        },
+        {
+          "word": " the",
+          "start": 274.6896800595238,
+          "end": 274.7896800595238,
+          "probability": 0.9999842643737793
+        },
+        {
+          "word": " lawmakers'",
+          "start": 274.7896800595238,
+          "end": 275.24968005952377,
+          "probability": 0.9979701638221741
+        },
+        {
+          "word": " heads",
+          "start": 275.4696800595238,
+          "end": 275.7896800595238,
+          "probability": 0.9998906850814819
+        },
+        {
+          "word": " counts.",
+          "start": 275.7896800595238,
+          "end": 276.6096800595238,
+          "probability": 0.6485428810119629
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 27664,
+      "start": 276.6096800595238,
+      "end": 295.9039099702381,
+      "text": " So what the court does on Wednesday is it lays out a new legal criteria for when it is not OK to eliminate a, for example, black majority congressional district, which the VRA in the past was seen as protecting.",
+      "tokens": [
+        50365,
+        407,
+        437,
+        264,
+        4753,
+        775,
+        322,
+        10579,
+        307,
+        309,
+        32714,
+        484,
+        257,
+        777,
+        5089,
+        11101,
+        337,
+        562,
+        309,
+        307,
+        406,
+        2264,
+        281,
+        13819,
+        257,
+        11,
+        337,
+        1365,
+        11,
+        2211,
+        6286,
+        32962,
+        6566,
+        11,
+        597,
+        264,
+        691,
+        3750,
+        294,
+        264,
+        1791,
+        390,
+        1612,
+        382,
+        12316,
+        13,
+        51329
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.07124876002876127,
+      "compression_ratio": 1.3612903225806452,
+      "no_speech_prob": 8.79882267306592e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 276.6096800595238,
+          "end": 277.1696800595238,
+          "probability": 0.9712175726890564
+        },
+        {
+          "word": " what",
+          "start": 277.1696800595238,
+          "end": 277.3496800595238,
+          "probability": 0.9883162379264832
+        },
+        {
+          "word": " the",
+          "start": 277.3496800595238,
+          "end": 277.4496800595238,
+          "probability": 0.9999943971633911
+        },
+        {
+          "word": " court",
+          "start": 277.4496800595238,
+          "end": 277.5696800595238,
+          "probability": 0.9986404776573181
+        },
+        {
+          "word": " does",
+          "start": 277.5696800595238,
+          "end": 277.7296800595238,
+          "probability": 0.9999934434890747
+        },
+        {
+          "word": " on",
+          "start": 277.7296800595238,
+          "end": 277.8496800595238,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " Wednesday",
+          "start": 277.8496800595238,
+          "end": 278.1896800595238,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " is",
+          "start": 278.1896800595238,
+          "end": 278.4896800595238,
+          "probability": 0.9999364614486694
+        },
+        {
+          "word": " it",
+          "start": 278.4896800595238,
+          "end": 278.5896800595238,
+          "probability": 0.9999436140060425
+        },
+        {
+          "word": " lays",
+          "start": 278.5896800595238,
+          "end": 278.80968005952377,
+          "probability": 0.9999274015426636
+        },
+        {
+          "word": " out",
+          "start": 278.80968005952377,
+          "end": 279.0696800595238,
+          "probability": 0.9999990463256836
+        },
+        {
+          "word": " a",
+          "start": 279.0696800595238,
+          "end": 279.4296800595238,
+          "probability": 0.9999982118606567
+        },
+        {
+          "word": " new",
+          "start": 279.4296800595238,
+          "end": 279.8296800595238,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " legal",
+          "start": 279.8296800595238,
+          "end": 280.8896800595238,
+          "probability": 0.9999794960021973
+        },
+        {
+          "word": " criteria",
+          "start": 280.8896800595238,
+          "end": 281.9096800595238,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " for",
+          "start": 281.9096800595238,
+          "end": 283.0496800595238,
+          "probability": 0.9999690055847168
+        },
+        {
+          "word": " when",
+          "start": 283.0496800595238,
+          "end": 284.0296800595238,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " it",
+          "start": 284.0296800595238,
+          "end": 284.2696800595238,
+          "probability": 0.9999974966049194
+        },
+        {
+          "word": " is",
+          "start": 284.2696800595238,
+          "end": 284.5096800595238,
+          "probability": 0.9999984502792358
+        },
+        {
+          "word": " not",
+          "start": 284.5096800595238,
+          "end": 285.24968005952377,
+          "probability": 0.999996542930603
+        },
+        {
+          "word": " OK",
+          "start": 285.24968005952377,
+          "end": 285.7096800595238,
+          "probability": 0.7947337627410889
+        },
+        {
+          "word": " to",
+          "start": 285.7096800595238,
+          "end": 286.8496800595238,
+          "probability": 0.9997826218605042
+        },
+        {
+          "word": " eliminate",
+          "start": 286.8496800595238,
+          "end": 287.9096800595238,
+          "probability": 0.9999376535415649
+        },
+        {
+          "word": " a,",
+          "start": 287.9096800595238,
+          "end": 288.6496800595238,
+          "probability": 0.9999595880508423
+        },
+        {
+          "word": " for",
+          "start": 289.0896800595238,
+          "end": 289.1896800595238,
+          "probability": 0.9999938011169434
+        },
+        {
+          "word": " example,",
+          "start": 289.1896800595238,
+          "end": 289.4896800595238,
+          "probability": 0.999976396560669
+        },
+        {
+          "word": " black",
+          "start": 289.8496800595238,
+          "end": 290.1896800595238,
+          "probability": 0.7721834778785706
+        },
+        {
+          "word": " majority",
+          "start": 290.1896800595238,
+          "end": 291.1896800595238,
+          "probability": 0.973997175693512
+        },
+        {
+          "word": " congressional",
+          "start": 291.280546875,
+          "end": 291.840546875,
+          "probability": 0.9990220069885254
+        },
+        {
+          "word": " district,",
+          "start": 291.840546875,
+          "end": 292.380546875,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " which",
+          "start": 292.68390997023806,
+          "end": 293.26390997023805,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " the",
+          "start": 293.26390997023805,
+          "end": 293.4039099702381,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " VRA",
+          "start": 293.4039099702381,
+          "end": 293.7239099702381,
+          "probability": 0.9909466803073883
+        },
+        {
+          "word": " in",
+          "start": 293.7239099702381,
+          "end": 293.9039099702381,
+          "probability": 0.9999853372573853
+        },
+        {
+          "word": " the",
+          "start": 293.9039099702381,
+          "end": 294.00390997023806,
+          "probability": 0.9999992847442627
+        },
+        {
+          "word": " past",
+          "start": 294.00390997023806,
+          "end": 294.36390997023807,
+          "probability": 0.9999655485153198
+        },
+        {
+          "word": " was",
+          "start": 294.36390997023807,
+          "end": 294.62390997023806,
+          "probability": 0.9999847412109375
+        },
+        {
+          "word": " seen",
+          "start": 294.62390997023806,
+          "end": 294.9039099702381,
+          "probability": 0.9997863173484802
+        },
+        {
+          "word": " as",
+          "start": 294.9039099702381,
+          "end": 295.2039099702381,
+          "probability": 0.9999876022338867
+        },
+        {
+          "word": " protecting.",
+          "start": 295.2039099702381,
+          "end": 295.9039099702381,
+          "probability": 0.9999637603759766
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 29592,
+      "start": 295.9039099702381,
+      "end": 306.5633128720238,
+      "text": " And that new criteria is that the people eliminating the district would have to stand up on a stage somewhere, pretty much, and say, we're getting rid of this district in order to hurt black voters.",
+      "tokens": [
+        50365,
+        400,
+        300,
+        777,
+        11101,
+        307,
+        300,
+        264,
+        561,
+        31203,
+        264,
+        6566,
+        576,
+        362,
+        281,
+        1463,
+        493,
+        322,
+        257,
+        3233,
+        4079,
+        11,
+        1238,
+        709,
+        11,
+        293,
+        584,
+        11,
+        321,
+        434,
+        1242,
+        3973,
+        295,
+        341,
+        6566,
+        294,
+        1668,
+        281,
+        4607,
+        2211,
+        14073,
+        13,
+        50901
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1365892741991126,
+      "compression_ratio": 1.7096774193548387,
+      "no_speech_prob": 1.2101142570636325e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 295.9039099702381,
+          "end": 296.68390997023806,
+          "probability": 0.9425365328788757
+        },
+        {
+          "word": " that",
+          "start": 296.68390997023806,
+          "end": 297.0439099702381,
+          "probability": 0.9997593760490417
+        },
+        {
+          "word": " new",
+          "start": 297.0439099702381,
+          "end": 297.2239099702381,
+          "probability": 0.999925971031189
+        },
+        {
+          "word": " criteria",
+          "start": 297.2239099702381,
+          "end": 297.6439099702381,
+          "probability": 0.9997850060462952
+        },
+        {
+          "word": " is",
+          "start": 297.6439099702381,
+          "end": 298.0439099702381,
+          "probability": 0.9999619722366333
+        },
+        {
+          "word": " that",
+          "start": 298.0439099702381,
+          "end": 298.7039099702381,
+          "probability": 0.9992685914039612
+        },
+        {
+          "word": " the",
+          "start": 298.7039099702381,
+          "end": 298.94390997023805,
+          "probability": 0.9999074935913086
+        },
+        {
+          "word": " people",
+          "start": 298.94390997023805,
+          "end": 299.1439099702381,
+          "probability": 0.999990701675415
+        },
+        {
+          "word": " eliminating",
+          "start": 299.1439099702381,
+          "end": 299.6039099702381,
+          "probability": 0.56568443775177
+        },
+        {
+          "word": " the",
+          "start": 299.6039099702381,
+          "end": 299.7839099702381,
+          "probability": 0.9964239001274109
+        },
+        {
+          "word": " district",
+          "start": 299.7839099702381,
+          "end": 299.94390997023805,
+          "probability": 0.9995784163475037
+        },
+        {
+          "word": " would",
+          "start": 299.94390997023805,
+          "end": 300.1639099702381,
+          "probability": 0.9999586343765259
+        },
+        {
+          "word": " have",
+          "start": 300.1639099702381,
+          "end": 300.36390997023807,
+          "probability": 0.9999948740005493
+        },
+        {
+          "word": " to",
+          "start": 300.36390997023807,
+          "end": 300.56390997023806,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " stand",
+          "start": 300.56390997023806,
+          "end": 301.36390997023807,
+          "probability": 0.9998959302902222
+        },
+        {
+          "word": " up",
+          "start": 301.36390997023807,
+          "end": 301.6039099702381,
+          "probability": 0.9999856948852539
+        },
+        {
+          "word": " on",
+          "start": 301.6039099702381,
+          "end": 301.92390997023807,
+          "probability": 0.9999027252197266
+        },
+        {
+          "word": " a",
+          "start": 301.92390997023807,
+          "end": 302.0239099702381,
+          "probability": 0.9990041851997375
+        },
+        {
+          "word": " stage",
+          "start": 301.9833128720238,
+          "end": 302.2433128720238,
+          "probability": 0.9997559189796448
+        },
+        {
+          "word": " somewhere,",
+          "start": 302.2433128720238,
+          "end": 302.4833128720238,
+          "probability": 0.9999077320098877
+        },
+        {
+          "word": " pretty",
+          "start": 302.4833128720238,
+          "end": 302.6833128720238,
+          "probability": 0.9998524188995361
+        },
+        {
+          "word": " much,",
+          "start": 302.6833128720238,
+          "end": 302.8833128720238,
+          "probability": 0.9999799728393555
+        },
+        {
+          "word": " and",
+          "start": 302.9633128720238,
+          "end": 303.0433128720238,
+          "probability": 0.9999368190765381
+        },
+        {
+          "word": " say,",
+          "start": 303.0433128720238,
+          "end": 303.3433128720238,
+          "probability": 0.999907374382019
+        },
+        {
+          "word": " we're",
+          "start": 303.4633128720238,
+          "end": 303.9433128720238,
+          "probability": 0.9956725239753723
+        },
+        {
+          "word": " getting",
+          "start": 303.9433128720238,
+          "end": 304.2633128720238,
+          "probability": 0.9999666213989258
+        },
+        {
+          "word": " rid",
+          "start": 304.2633128720238,
+          "end": 304.4833128720238,
+          "probability": 0.9999833106994629
+        },
+        {
+          "word": " of",
+          "start": 304.4833128720238,
+          "end": 304.5833128720238,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " this",
+          "start": 304.5833128720238,
+          "end": 304.78331287202377,
+          "probability": 0.9999916553497314
+        },
+        {
+          "word": " district",
+          "start": 304.78331287202377,
+          "end": 305.1033128720238,
+          "probability": 0.9999662637710571
+        },
+        {
+          "word": " in",
+          "start": 305.1033128720238,
+          "end": 305.3033128720238,
+          "probability": 0.9999270439147949
+        },
+        {
+          "word": " order",
+          "start": 305.3033128720238,
+          "end": 305.4633128720238,
+          "probability": 0.9999196529388428
+        },
+        {
+          "word": " to",
+          "start": 305.4633128720238,
+          "end": 305.6033128720238,
+          "probability": 0.9999899864196777
+        },
+        {
+          "word": " hurt",
+          "start": 305.6033128720238,
+          "end": 305.8633128720238,
+          "probability": 0.9999309778213501
+        },
+        {
+          "word": " black",
+          "start": 305.8633128720238,
+          "end": 306.1233128720238,
+          "probability": 0.7072032690048218
+        },
+        {
+          "word": " voters.",
+          "start": 306.1233128720238,
+          "end": 306.5633128720238,
+          "probability": 0.9999730587005615
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 29592,
+      "start": 306.7033128720238,
+      "end": 309.7433128720238,
+      "text": " They'd have to be explicit in their desire to discriminate.",
+      "tokens": [
+        50904,
+        814,
+        1116,
+        362,
+        281,
+        312,
+        13691,
+        294,
+        641,
+        7516,
+        281,
+        47833,
+        13,
+        51059
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1365892741991126,
+      "compression_ratio": 1.7096774193548387,
+      "no_speech_prob": 1.2101142570636325e-12,
+      "words": [
+        {
+          "word": " They'd",
+          "start": 306.7033128720238,
+          "end": 306.78331287202377,
+          "probability": 0.9991739094257355
+        },
+        {
+          "word": " have",
+          "start": 306.78331287202377,
+          "end": 306.8633128720238,
+          "probability": 0.9999743700027466
+        },
+        {
+          "word": " to",
+          "start": 306.8633128720238,
+          "end": 306.9233128720238,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " be",
+          "start": 306.9233128720238,
+          "end": 307.0433128720238,
+          "probability": 0.999996542930603
+        },
+        {
+          "word": " explicit",
+          "start": 307.0433128720238,
+          "end": 307.8833128720238,
+          "probability": 0.9999525547027588
+        },
+        {
+          "word": " in",
+          "start": 307.8833128720238,
+          "end": 308.6233128720238,
+          "probability": 0.9998093247413635
+        },
+        {
+          "word": " their",
+          "start": 308.6233128720238,
+          "end": 308.7633128720238,
+          "probability": 0.9999904632568359
+        },
+        {
+          "word": " desire",
+          "start": 308.7633128720238,
+          "end": 309.0833128720238,
+          "probability": 0.9999420642852783
+        },
+        {
+          "word": " to",
+          "start": 309.0833128720238,
+          "end": 309.2633128720238,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " discriminate.",
+          "start": 309.2633128720238,
+          "end": 309.7433128720238,
+          "probability": 0.9998230338096619
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 29592,
+      "start": 309.9633128720238,
+      "end": 315.8233128720238,
+      "text": " And unless they do that, then such a district with a black majority can be wiped off the map.",
+      "tokens": [
+        51076,
+        400,
+        5969,
+        436,
+        360,
+        300,
+        11,
+        550,
+        1270,
+        257,
+        6566,
+        365,
+        257,
+        2211,
+        6286,
+        393,
+        312,
+        26879,
+        766,
+        264,
+        4471,
+        13,
+        51363
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1365892741991126,
+      "compression_ratio": 1.7096774193548387,
+      "no_speech_prob": 1.2101142570636325e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 309.9633128720238,
+          "end": 310.2633128720238,
+          "probability": 0.9995166063308716
+        },
+        {
+          "word": " unless",
+          "start": 310.2633128720238,
+          "end": 310.4833128720238,
+          "probability": 0.999788224697113
+        },
+        {
+          "word": " they",
+          "start": 310.4833128720238,
+          "end": 310.6633128720238,
+          "probability": 0.9999958276748657
+        },
+        {
+          "word": " do",
+          "start": 310.6633128720238,
+          "end": 310.8833128720238,
+          "probability": 0.9999967813491821
+        },
+        {
+          "word": " that,",
+          "start": 310.8833128720238,
+          "end": 311.22331287202377,
+          "probability": 0.9999909400939941
+        },
+        {
+          "word": " then",
+          "start": 311.6233128720238,
+          "end": 312.0833128720238,
+          "probability": 0.9999309778213501
+        },
+        {
+          "word": " such",
+          "start": 312.0833128720238,
+          "end": 312.72331287202377,
+          "probability": 0.9999254941940308
+        },
+        {
+          "word": " a",
+          "start": 312.72331287202377,
+          "end": 312.8433128720238,
+          "probability": 0.9999885559082031
+        },
+        {
+          "word": " district",
+          "start": 312.8433128720238,
+          "end": 313.2033128720238,
+          "probability": 0.9999598264694214
+        },
+        {
+          "word": " with",
+          "start": 313.2033128720238,
+          "end": 313.9633128720238,
+          "probability": 0.9993730187416077
+        },
+        {
+          "word": " a",
+          "start": 313.9633128720238,
+          "end": 314.1233128720238,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " black",
+          "start": 314.1233128720238,
+          "end": 314.28331287202377,
+          "probability": 0.9993287324905396
+        },
+        {
+          "word": " majority",
+          "start": 314.28331287202377,
+          "end": 314.6633128720238,
+          "probability": 0.9997290968894958
+        },
+        {
+          "word": " can",
+          "start": 314.6633128720238,
+          "end": 314.9833128720238,
+          "probability": 0.9999823570251465
+        },
+        {
+          "word": " be",
+          "start": 314.9833128720238,
+          "end": 315.1233128720238,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " wiped",
+          "start": 315.1233128720238,
+          "end": 315.3433128720238,
+          "probability": 0.9999622106552124
+        },
+        {
+          "word": " off",
+          "start": 315.3433128720238,
+          "end": 315.4833128720238,
+          "probability": 0.9999004602432251
+        },
+        {
+          "word": " the",
+          "start": 315.4833128720238,
+          "end": 315.5833128720238,
+          "probability": 0.9999409914016724
+        },
+        {
+          "word": " map.",
+          "start": 315.5833128720238,
+          "end": 315.8233128720238,
+          "probability": 0.999160885810852
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 29592,
+      "start": 316.0833128720238,
+      "end": 316.72331287202377,
+      "text": " That's right.",
+      "tokens": [
+        51395,
+        663,
+        311,
+        558,
+        13,
+        51409
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1365892741991126,
+      "compression_ratio": 1.7096774193548387,
+      "no_speech_prob": 1.2101142570636325e-12,
+      "words": [
+        {
+          "word": " That's",
+          "start": 316.0833128720238,
+          "end": 316.5633128720238,
+          "probability": 0.9865553081035614
+        },
+        {
+          "word": " right.",
+          "start": 316.5633128720238,
+          "end": 316.72331287202377,
+          "probability": 0.9999486207962036
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 29592,
+      "start": 317.2433128720238,
+      "end": 325.4633128720238,
+      "text": " So a lawmaker could say and maybe truthfully say that, hey, I don't mean to discriminate against black people.",
+      "tokens": [
+        51431,
+        407,
+        257,
+        2101,
+        18821,
+        727,
+        584,
+        293,
+        1310,
+        3494,
+        2277,
+        584,
+        300,
+        11,
+        4177,
+        11,
+        286,
+        500,
+        380,
+        914,
+        281,
+        47833,
+        1970,
+        2211,
+        561,
+        13,
+        51846
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1365892741991126,
+      "compression_ratio": 1.7096774193548387,
+      "no_speech_prob": 1.2101142570636325e-12,
+      "words": [
+        {
+          "word": " So",
+          "start": 317.2433128720238,
+          "end": 317.72331287202377,
+          "probability": 0.9966990351676941
+        },
+        {
+          "word": " a",
+          "start": 317.72331287202377,
+          "end": 317.9033128720238,
+          "probability": 0.9705857634544373
+        },
+        {
+          "word": " lawmaker",
+          "start": 317.9033128720238,
+          "end": 318.3633128720238,
+          "probability": 0.9987483322620392
+        },
+        {
+          "word": " could",
+          "start": 318.3633128720238,
+          "end": 318.6633128720238,
+          "probability": 0.9999799728393555
+        },
+        {
+          "word": " say",
+          "start": 318.6633128720238,
+          "end": 319.0833128720238,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " and",
+          "start": 319.0833128720238,
+          "end": 319.8833128720238,
+          "probability": 0.346335232257843
+        },
+        {
+          "word": " maybe",
+          "start": 319.8833128720238,
+          "end": 320.5233128720238,
+          "probability": 0.9998786449432373
+        },
+        {
+          "word": " truthfully",
+          "start": 320.5233128720238,
+          "end": 321.3633128720238,
+          "probability": 0.9999610781669617
+        },
+        {
+          "word": " say",
+          "start": 321.3633128720238,
+          "end": 321.7433128720238,
+          "probability": 0.9999781847000122
+        },
+        {
+          "word": " that,",
+          "start": 321.7433128720238,
+          "end": 322.22331287202377,
+          "probability": 0.952113151550293
+        },
+        {
+          "word": " hey,",
+          "start": 322.2633128720238,
+          "end": 322.4033128720238,
+          "probability": 0.9961147308349609
+        },
+        {
+          "word": " I",
+          "start": 322.6033128720238,
+          "end": 323.1633128720238,
+          "probability": 0.9999531507492065
+        },
+        {
+          "word": " don't",
+          "start": 323.1633128720238,
+          "end": 323.5033128720238,
+          "probability": 0.9999610781669617
+        },
+        {
+          "word": " mean",
+          "start": 323.5033128720238,
+          "end": 323.6433128720238,
+          "probability": 0.9999467134475708
+        },
+        {
+          "word": " to",
+          "start": 323.6433128720238,
+          "end": 323.78331287202377,
+          "probability": 0.9999642372131348
+        },
+        {
+          "word": " discriminate",
+          "start": 323.78331287202377,
+          "end": 324.1633128720238,
+          "probability": 0.9961589574813843
+        },
+        {
+          "word": " against",
+          "start": 324.1633128720238,
+          "end": 324.5633128720238,
+          "probability": 0.9999580383300781
+        },
+        {
+          "word": " black",
+          "start": 324.5633128720238,
+          "end": 325.1033128720238,
+          "probability": 0.9990912675857544
+        },
+        {
+          "word": " people.",
+          "start": 325.1033128720238,
+          "end": 325.4633128720238,
+          "probability": 0.9999752044677734
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "seek": 32552,
+      "start": 325.4633128720238,
+      "end": 329.0433128720238,
+      "text": " I mean to discriminate against Democrats, and I'm allowed to do that.",
+      "tokens": [
+        50365,
+        286,
+        914,
+        281,
+        47833,
+        1970,
+        12217,
+        11,
+        293,
+        286,
+        478,
+        4350,
+        281,
+        360,
+        300,
+        13,
+        50546
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1320166355226098,
+      "compression_ratio": 1.5665236051502145,
+      "no_speech_prob": 1.2293790117856584e-12,
+      "words": [
+        {
+          "word": " I",
+          "start": 325.4633128720238,
+          "end": 325.7433128720238,
+          "probability": 0.9596275091171265
+        },
+        {
+          "word": " mean",
+          "start": 325.7433128720238,
+          "end": 325.9633128720238,
+          "probability": 0.9968229532241821
+        },
+        {
+          "word": " to",
+          "start": 325.9633128720238,
+          "end": 326.1033128720238,
+          "probability": 0.9379565715789795
+        },
+        {
+          "word": " discriminate",
+          "start": 326.1033128720238,
+          "end": 326.5233128720238,
+          "probability": 0.9863090515136719
+        },
+        {
+          "word": " against",
+          "start": 326.5233128720238,
+          "end": 326.9633128720238,
+          "probability": 0.9999262094497681
+        },
+        {
+          "word": " Democrats,",
+          "start": 326.9633128720238,
+          "end": 327.6433128720238,
+          "probability": 0.9926503300666809
+        },
+        {
+          "word": " and",
+          "start": 327.6433128720238,
+          "end": 328.0833128720238,
+          "probability": 0.9999691247940063
+        },
+        {
+          "word": " I'm",
+          "start": 328.0833128720238,
+          "end": 328.22331287202377,
+          "probability": 0.9999691843986511
+        },
+        {
+          "word": " allowed",
+          "start": 328.22331287202377,
+          "end": 328.4633128720238,
+          "probability": 0.9999438524246216
+        },
+        {
+          "word": " to",
+          "start": 328.4633128720238,
+          "end": 328.6233128720238,
+          "probability": 0.9999974966049194
+        },
+        {
+          "word": " do",
+          "start": 328.6233128720238,
+          "end": 328.7433128720238,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " that.",
+          "start": 328.7433128720238,
+          "end": 329.0433128720238,
+          "probability": 0.9999935626983643
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "seek": 32552,
+      "start": 329.4633128720238,
+      "end": 336.8633128720238,
+      "text": " Partisan gerrymandering, the Supreme Court said in another case, is not subject to review in the federal courts.",
+      "tokens": [
+        50580,
+        4100,
+        14804,
+        290,
+        5318,
+        22396,
+        1794,
+        11,
+        264,
+        11032,
+        7873,
+        848,
+        294,
+        1071,
+        1389,
+        11,
+        307,
+        406,
+        3983,
+        281,
+        3131,
+        294,
+        264,
+        6019,
+        14141,
+        13,
+        50936
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1320166355226098,
+      "compression_ratio": 1.5665236051502145,
+      "no_speech_prob": 1.2293790117856584e-12,
+      "words": [
+        {
+          "word": " Partisan",
+          "start": 329.4633128720238,
+          "end": 330.0633128720238,
+          "probability": 0.9989592432975769
+        },
+        {
+          "word": " gerrymandering,",
+          "start": 330.0633128720238,
+          "end": 330.8033128720238,
+          "probability": 0.9995962530374527
+        },
+        {
+          "word": " the",
+          "start": 330.9833128720238,
+          "end": 331.4033128720238,
+          "probability": 0.9981122016906738
+        },
+        {
+          "word": " Supreme",
+          "start": 331.4033128720238,
+          "end": 331.7033128720238,
+          "probability": 0.998878538608551
+        },
+        {
+          "word": " Court",
+          "start": 331.7033128720238,
+          "end": 331.9633128720238,
+          "probability": 0.9980888962745667
+        },
+        {
+          "word": " said",
+          "start": 331.9633128720238,
+          "end": 332.22331287202377,
+          "probability": 0.999566376209259
+        },
+        {
+          "word": " in",
+          "start": 332.22331287202377,
+          "end": 332.3833128720238,
+          "probability": 0.9995431900024414
+        },
+        {
+          "word": " another",
+          "start": 332.3833128720238,
+          "end": 332.6433128720238,
+          "probability": 0.9999840259552002
+        },
+        {
+          "word": " case,",
+          "start": 332.6433128720238,
+          "end": 333.1033128720238,
+          "probability": 0.9999955892562866
+        },
+        {
+          "word": " is",
+          "start": 333.3633128720238,
+          "end": 334.1233128720238,
+          "probability": 0.9999876022338867
+        },
+        {
+          "word": " not",
+          "start": 334.1233128720238,
+          "end": 334.4033128720238,
+          "probability": 0.9999915361404419
+        },
+        {
+          "word": " subject",
+          "start": 334.4033128720238,
+          "end": 335.2633128720238,
+          "probability": 0.999920129776001
+        },
+        {
+          "word": " to",
+          "start": 335.2633128720238,
+          "end": 335.4833128720238,
+          "probability": 0.9999902248382568
+        },
+        {
+          "word": " review",
+          "start": 335.4833128720238,
+          "end": 335.7633128720238,
+          "probability": 0.9998824596405029
+        },
+        {
+          "word": " in",
+          "start": 335.7633128720238,
+          "end": 336.0233128720238,
+          "probability": 0.9999635219573975
+        },
+        {
+          "word": " the",
+          "start": 336.0233128720238,
+          "end": 336.1033128720238,
+          "probability": 0.9998669624328613
+        },
+        {
+          "word": " federal",
+          "start": 336.1033128720238,
+          "end": 336.3433128720238,
+          "probability": 0.9997609257698059
+        },
+        {
+          "word": " courts.",
+          "start": 336.3433128720238,
+          "end": 336.8633128720238,
+          "probability": 0.999953031539917
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "seek": 32552,
+      "start": 337.1233128720238,
+      "end": 350.2633128720238,
+      "text": " And what this means is a practical matter is that districts drawn to ensure that minority voters have the power to elect the candidates they want are now in peril across the country.",
+      "tokens": [
+        50963,
+        400,
+        437,
+        341,
+        1355,
+        307,
+        257,
+        8496,
+        1871,
+        307,
+        300,
+        16815,
+        10117,
+        281,
+        5586,
+        300,
+        16166,
+        14073,
+        362,
+        264,
+        1347,
+        281,
+        2185,
+        264,
+        11255,
+        436,
+        528,
+        366,
+        586,
+        294,
+        46118,
+        2108,
+        264,
+        1941,
+        13,
+        51606
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1320166355226098,
+      "compression_ratio": 1.5665236051502145,
+      "no_speech_prob": 1.2293790117856584e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 337.1233128720238,
+          "end": 337.72331287202377,
+          "probability": 0.9956654906272888
+        },
+        {
+          "word": " what",
+          "start": 337.72331287202377,
+          "end": 337.8633128720238,
+          "probability": 0.9999825954437256
+        },
+        {
+          "word": " this",
+          "start": 337.8633128720238,
+          "end": 338.0633128720238,
+          "probability": 0.999991774559021
+        },
+        {
+          "word": " means",
+          "start": 338.0633128720238,
+          "end": 338.3033128720238,
+          "probability": 0.9999105930328369
+        },
+        {
+          "word": " is",
+          "start": 338.3033128720238,
+          "end": 338.4433128720238,
+          "probability": 0.7370928525924683
+        },
+        {
+          "word": " a",
+          "start": 338.4433128720238,
+          "end": 338.5633128720238,
+          "probability": 0.9993427395820618
+        },
+        {
+          "word": " practical",
+          "start": 338.5633128720238,
+          "end": 338.9433128720238,
+          "probability": 0.9999616146087646
+        },
+        {
+          "word": " matter",
+          "start": 338.9433128720238,
+          "end": 339.3433128720238,
+          "probability": 0.9996721744537354
+        },
+        {
+          "word": " is",
+          "start": 339.3433128720238,
+          "end": 340.6233128720238,
+          "probability": 0.604561984539032
+        },
+        {
+          "word": " that",
+          "start": 340.6233128720238,
+          "end": 340.9833128720238,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " districts",
+          "start": 340.9833128720238,
+          "end": 341.78331287202377,
+          "probability": 0.9998844861984253
+        },
+        {
+          "word": " drawn",
+          "start": 341.78331287202377,
+          "end": 342.2033128720238,
+          "probability": 0.9999371767044067
+        },
+        {
+          "word": " to",
+          "start": 342.2033128720238,
+          "end": 342.6633128720238,
+          "probability": 0.999984860420227
+        },
+        {
+          "word": " ensure",
+          "start": 342.6633128720238,
+          "end": 343.1433128720238,
+          "probability": 0.999911904335022
+        },
+        {
+          "word": " that",
+          "start": 343.1433128720238,
+          "end": 343.8833128720238,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " minority",
+          "start": 343.8833128720238,
+          "end": 344.3233128720238,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " voters",
+          "start": 344.3233128720238,
+          "end": 344.7033128720238,
+          "probability": 0.9999709129333496
+        },
+        {
+          "word": " have",
+          "start": 344.7033128720238,
+          "end": 345.2433128720238,
+          "probability": 0.9999535083770752
+        },
+        {
+          "word": " the",
+          "start": 345.2433128720238,
+          "end": 345.3833128720238,
+          "probability": 0.999943733215332
+        },
+        {
+          "word": " power",
+          "start": 345.3833128720238,
+          "end": 345.6433128720238,
+          "probability": 0.9998952150344849
+        },
+        {
+          "word": " to",
+          "start": 345.6433128720238,
+          "end": 345.8633128720238,
+          "probability": 0.9999781847000122
+        },
+        {
+          "word": " elect",
+          "start": 345.8633128720238,
+          "end": 346.1033128720238,
+          "probability": 0.9988546371459961
+        },
+        {
+          "word": " the",
+          "start": 346.1033128720238,
+          "end": 346.2633128720238,
+          "probability": 0.9997037053108215
+        },
+        {
+          "word": " candidates",
+          "start": 346.2633128720238,
+          "end": 346.6033128720238,
+          "probability": 0.9998788833618164
+        },
+        {
+          "word": " they",
+          "start": 346.6033128720238,
+          "end": 346.8633128720238,
+          "probability": 0.999841570854187
+        },
+        {
+          "word": " want",
+          "start": 346.8633128720238,
+          "end": 347.2433128720238,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " are",
+          "start": 347.2433128720238,
+          "end": 348.0433128720238,
+          "probability": 0.9972432851791382
+        },
+        {
+          "word": " now",
+          "start": 348.0433128720238,
+          "end": 348.3633128720238,
+          "probability": 0.9999710321426392
+        },
+        {
+          "word": " in",
+          "start": 348.3633128720238,
+          "end": 348.6833128720238,
+          "probability": 0.9999251365661621
+        },
+        {
+          "word": " peril",
+          "start": 348.6833128720238,
+          "end": 349.0633128720238,
+          "probability": 0.9999388456344604
+        },
+        {
+          "word": " across",
+          "start": 349.0633128720238,
+          "end": 349.6233128720238,
+          "probability": 0.9990830421447754
+        },
+        {
+          "word": " the",
+          "start": 349.6233128720238,
+          "end": 349.8633128720238,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " country.",
+          "start": 349.8633128720238,
+          "end": 350.2633128720238,
+          "probability": 0.9999322891235352
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "seek": 35032,
+      "start": 350.2633128720238,
+      "end": 359.4833128720238,
+      "text": " Adam, what is the rationale from the conservative justices who issued this ruling for doing so? Because it feels related.",
+      "tokens": [
+        50365,
+        7938,
+        11,
+        437,
+        307,
+        264,
+        41989,
+        490,
+        264,
+        13780,
+        445,
+        1473,
+        567,
+        14379,
+        341,
+        21437,
+        337,
+        884,
+        370,
+        30,
+        1436,
+        309,
+        3417,
+        4077,
+        13,
+        50815
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1334042990649188,
+      "compression_ratio": 1.21,
+      "no_speech_prob": 6.298567353443807e-13,
+      "words": [
+        {
+          "word": " Adam,",
+          "start": 350.2633128720238,
+          "end": 351.5233128720238,
+          "probability": 0.9234551787376404
+        },
+        {
+          "word": " what",
+          "start": 351.7633128720238,
+          "end": 351.8433128720238,
+          "probability": 0.9999233484268188
+        },
+        {
+          "word": " is",
+          "start": 351.8433128720238,
+          "end": 351.9833128720238,
+          "probability": 0.9998615980148315
+        },
+        {
+          "word": " the",
+          "start": 351.9833128720238,
+          "end": 352.1433128720238,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " rationale",
+          "start": 352.1433128720238,
+          "end": 352.6633128720238,
+          "probability": 0.9995939135551453
+        },
+        {
+          "word": " from",
+          "start": 352.6633128720238,
+          "end": 353.4433128720238,
+          "probability": 0.9997186064720154
+        },
+        {
+          "word": " the",
+          "start": 353.4433128720238,
+          "end": 353.6633128720238,
+          "probability": 0.9999841451644897
+        },
+        {
+          "word": " conservative",
+          "start": 353.6633128720238,
+          "end": 354.1033128720238,
+          "probability": 0.9983859062194824
+        },
+        {
+          "word": " justices",
+          "start": 354.1033128720238,
+          "end": 354.8833128720238,
+          "probability": 0.9994859099388123
+        },
+        {
+          "word": " who",
+          "start": 354.8833128720238,
+          "end": 355.0633128720238,
+          "probability": 0.9998199343681335
+        },
+        {
+          "word": " issued",
+          "start": 355.0633128720238,
+          "end": 355.5233128720238,
+          "probability": 0.9999662637710571
+        },
+        {
+          "word": " this",
+          "start": 355.5233128720238,
+          "end": 355.8233128720238,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " ruling",
+          "start": 355.8233128720238,
+          "end": 356.28331287202377,
+          "probability": 0.9999781847000122
+        },
+        {
+          "word": " for",
+          "start": 356.28331287202377,
+          "end": 357.28331287202377,
+          "probability": 0.9982714653015137
+        },
+        {
+          "word": " doing",
+          "start": 357.28331287202377,
+          "end": 357.6433128720238,
+          "probability": 0.9999556541442871
+        },
+        {
+          "word": " so?",
+          "start": 357.6433128720238,
+          "end": 358.0233128720238,
+          "probability": 0.9999823570251465
+        },
+        {
+          "word": " Because",
+          "start": 358.22331287202377,
+          "end": 358.3233128720238,
+          "probability": 0.9994786381721497
+        },
+        {
+          "word": " it",
+          "start": 358.3233128720238,
+          "end": 358.5033128720238,
+          "probability": 0.9999792575836182
+        },
+        {
+          "word": " feels",
+          "start": 358.5033128720238,
+          "end": 359.1233128720238,
+          "probability": 0.9999692440032959
+        },
+        {
+          "word": " related.",
+          "start": 359.1233128720238,
+          "end": 359.4833128720238,
+          "probability": 0.9995654225349426
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}
