@@ -274,7 +274,12 @@ async function loadTranscript(videoId) {
         });
     }
     allWords = sortItemsByTime(allWords, (item) => item.start);
-    navigableWords = allWords.filter((w) => !shouldSkipWord(w));
+    // Use server-provided merged_words (duration >= 1s per group)
+    if (transcript.merged_words && transcript.merged_words.length > 0) {
+        navigableWords = sortItemsByTime(transcript.merged_words, (item) => item.start);
+    } else {
+        navigableWords = allWords.filter((w) => !shouldSkipWord(w));
+    }
     sentenceUnits = sortItemsByTime(transcript.sentences || buildSentenceUnits(), (item) => item.start);
 
     resetAllIndices();

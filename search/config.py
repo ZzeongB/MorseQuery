@@ -22,6 +22,7 @@ MP3_DIR = (
 )
 TRANSCRIPT_DIR = _prefer_search_dir("transcripts")
 SENTENCES_DIR = SEARCH_DATA_DIR / "sentences"
+WORDS_DIR = SEARCH_DATA_DIR / "words"
 KEYWORDS_DIR = _prefer_search_dir("semantic_words")
 KEYWORDS2_DIR = _prefer_search_dir("semantic_words2")
 LEXICON_PATH = _prefer_search_dir("lexicon/OpenLexicon.xlsx")

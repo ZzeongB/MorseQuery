@@ -21,6 +21,7 @@ from config import (
     STUDY_AUDIO_WINDOWS_PATH,
     STUDY_DIR,
     TRANSCRIPT_DIR,
+    WORDS_DIR,
 )
 
 app = Flask(__name__)
@@ -366,6 +367,77 @@ def load_or_create_sentences(video_id: str, segments: list[dict]) -> list[dict]:
         json.dump(sentences, f, indent=2)
 
     return sentences
+
+
+def merge_words_min_duration(words: list[dict], min_duration: float = 1.0) -> list[dict]:
+    """Merge words from the end so each group has duration >= min_duration."""
+    if not words:
+        return []
+
+    # Process from the end
+    groups = []
+    current_group = []
+
+    for w in reversed(words):
+        current_group.insert(0, w)
+        group_start = current_group[0]["start"]
+        group_end = current_group[-1]["end"]
+        duration = group_end - group_start
+
+        if duration >= min_duration:
+            # Duration is sufficient, finalize this group
+            groups.insert(0, {
+                "words": list(current_group),
+                "word": " ".join(x["word"] for x in current_group),
+                "start": group_start,
+                "end": group_end,
+                "freq": min(x.get("freq", -1) for x in current_group),
+            })
+            current_group = []
+
+    # Handle remaining words (duration < min_duration but no more words to add)
+    if current_group:
+        groups.insert(0, {
+            "words": list(current_group),
+            "word": " ".join(x["word"] for x in current_group),
+            "start": current_group[0]["start"],
+            "end": current_group[-1]["end"],
+            "freq": min(x.get("freq", -1) for x in current_group),
+        })
+
+    return groups
+
+
+def build_merged_words(segments: list[dict]) -> list[dict]:
+    """Build list of merged words from transcript segments."""
+    all_words = []
+    for seg in segments:
+        for w in seg.get("words", []):
+            all_words.append({
+                "word": w["word"].strip(),
+                "start": w["start"],
+                "end": w["end"],
+                "freq": w.get("freq", -1),
+            })
+
+    all_words.sort(key=lambda x: x["start"])
+    return merge_words_min_duration(all_words, min_duration=1.0)
+
+
+def load_or_create_merged_words(video_id: str, segments: list[dict]) -> list[dict]:
+    """Load merged words cache or create it from transcript segments."""
+    WORDS_DIR.mkdir(parents=True, exist_ok=True)
+    words_path = WORDS_DIR / f"{video_id}.json"
+
+    if words_path.exists():
+        with open(words_path) as f:
+            return json.load(f)
+
+    merged_words = build_merged_words(segments)
+    with open(words_path, "w") as f:
+        json.dump(merged_words, f, indent=2)
+
+    return merged_words
 
 
 def parse_clip_times(filename: str) -> tuple[float, float]:
@@ -728,6 +800,7 @@ def get_transcript(video_id: str):
             custom_keywords2 = remap_time_entries_data(custom_keywords2, remap_words)
 
     sentences = load_or_create_sentences(resolved_id, segments)
+    merged_words = load_or_create_merged_words(resolved_id, segments)
 
     return jsonify(
         {
@@ -735,6 +808,7 @@ def get_transcript(video_id: str):
             "clip_start": clip_start,
             "segments": segments,
             "sentences": sentences,
+            "merged_words": merged_words,
             "custom_keywords": custom_keywords,
             "jargon_keywords": jargon_keywords,
             "custom_keywords2": custom_keywords2,
