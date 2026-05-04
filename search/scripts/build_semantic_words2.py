@@ -1,6 +1,5 @@
 import argparse
 import json
-import random
 import re
 from pathlib import Path
 
@@ -14,21 +13,19 @@ def load_json(path: Path):
         return json.load(f)
 
 
-def pick_words_to_remove(interruptions, rng, count_per_type):
-    selected = {}
-    for delay_type in ("short", "long"):
-        candidates = [
-            item["target_word"]
-            for item in interruptions
-            if item.get("delay_type") == delay_type
-        ]
-        if len(candidates) < count_per_type:
-            raise ValueError(
-                f"Not enough {delay_type} candidates: "
-                f"expected {count_per_type}, found {len(candidates)}"
-            )
-        selected[delay_type] = rng.sample(candidates, count_per_type)
-    return selected
+def collect_target_words(interruptions):
+    seen = set()
+    words = []
+    for item in interruptions:
+        word = item.get("target_word")
+        if not isinstance(word, str):
+            continue
+        normalized = normalize_word(word)
+        if not normalized or normalized in seen:
+            continue
+        seen.add(normalized)
+        words.append(word)
+    return words
 
 
 def filter_semantic_words(semantic_words, words_to_remove):
@@ -61,13 +58,13 @@ def main():
         "--count-per-type",
         type=int,
         default=2,
-        help="How many words to remove per delay type",
+        help="Unused legacy option kept for compatibility.",
     )
     parser.add_argument(
         "--seed",
         type=int,
         default=None,
-        help="Optional random seed for reproducible output",
+        help="Unused legacy option kept for compatibility.",
     )
     parser.add_argument(
         "--stems",
@@ -76,8 +73,6 @@ def main():
         help="Optional list of file stems to process",
     )
     args = parser.parse_args()
-
-    rng = random.Random(args.seed)
     semantic_dir = Path(args.semantic_dir)
     target_dir = Path(args.target_dir)
     output_dir = Path(args.output_dir)
@@ -96,13 +91,7 @@ def main():
 
         target_data = load_json(target_path)
         semantic_words = load_json(semantic_path)
-        selected = pick_words_to_remove(
-            target_data.get("interruptions", []),
-            rng,
-            args.count_per_type,
-        )
-
-        words_to_remove = selected["short"] + selected["long"]
+        words_to_remove = collect_target_words(target_data.get("interruptions", []))
         filtered_words = filter_semantic_words(semantic_words, words_to_remove)
 
         output_path = output_dir / semantic_path.name
@@ -110,10 +99,7 @@ def main():
             json.dump(filtered_words, f, ensure_ascii=False, indent=2)
             f.write("\n")
 
-        print(
-            f"{stem}: removed short={selected['short']} "
-            f"long={selected['long']} -> {output_path}"
-        )
+        print(f"{stem}: removed target_words={words_to_remove} -> {output_path}")
 
 
 if __name__ == "__main__":

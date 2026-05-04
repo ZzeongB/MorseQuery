@@ -133,6 +133,28 @@ def build_parser() -> argparse.ArgumentParser:
         default=2,
         help="How many target words to remove per delay type when building semantic_words2.",
     )
+    parser.add_argument(
+        "--selection-mode",
+        choices=("gaussian_delay", "minute_slots"),
+        default="gaussian_delay",
+        help="How to select target words from jargon candidates.",
+    )
+    parser.add_argument(
+        "--slot-seconds",
+        default="10,50",
+        help="Comma-separated second marks within each minute for minute_slots mode.",
+    )
+    parser.add_argument(
+        "--slot-tolerance-seconds",
+        type=float,
+        default=5.0,
+        help="Allowed +/- window around each slot second for minute_slots mode.",
+    )
+    parser.add_argument(
+        "--allow-partial",
+        action="store_true",
+        help="Write as many valid interruptions as possible instead of failing.",
+    )
     return parser
 
 
@@ -238,9 +260,17 @@ def main() -> None:
         str(args.preferred_max_offset_seconds),
         "--hard-max-offset-seconds",
         str(args.hard_max_offset_seconds),
+        "--selection-mode",
+        args.selection_mode,
+        "--slot-seconds",
+        args.slot_seconds,
+        "--slot-tolerance-seconds",
+        str(args.slot_tolerance_seconds),
     ]
     if args.seed is not None:
         generate_cmd.extend(["--seed", str(args.seed)])
+    if args.allow_partial:
+        generate_cmd.append("--allow-partial")
     if stems:
         generate_cmd.extend(["--stems", *stems])
     run_cmd(generate_cmd)

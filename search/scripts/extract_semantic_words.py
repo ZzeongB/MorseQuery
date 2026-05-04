@@ -30,13 +30,16 @@ Selection criteria:
 Avoid:
 - Very common or generic words
 
+Rules:
+- Return single-word terms only.
+- Do not return multi-word phrases.
+- If a concept appears as a multi-word phrase, split it into its meaningful component words and return those as separate single-word terms instead.
+- Each returned term must be a single token that could match a single transcript word timestamp.
+
 Return only valid JSON in the format:
 {"terms": ["term1", "term2"]}"""
 
 TERM_RE = re.compile(r"[a-z0-9']+")
-IRREGULAR_TOKEN_MAP = {
-    "nuclei": "nucleus",
-}
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -84,30 +87,6 @@ def normalize_tokens(text: str) -> list[str]:
     return TERM_RE.findall(text.lower())
 
 
-def canonicalize_token(token: str) -> str:
-    token = IRREGULAR_TOKEN_MAP.get(token, token)
-    if token.endswith("'s") and len(token) > 2:
-        token = token[:-2]
-    elif token.endswith("s'") and len(token) > 2:
-        token = token[:-1]
-
-    if len(token) <= 3:
-        return token
-    if token.endswith("ies") and len(token) > 4:
-        return f"{token[:-3]}y"
-    if token.endswith("sses") or token.endswith("ss"):
-        return token
-    if token.endswith(("us", "is")):
-        return token
-    if token.endswith("s"):
-        return token[:-1]
-    return token
-
-
-def normalize_canonical_tokens(text: str) -> list[str]:
-    return [canonicalize_token(token) for token in normalize_tokens(text)]
-
-
 def read_transcript(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -123,7 +102,7 @@ def transcript_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
             words.append(
                 {
                     "raw": raw_word,
-                    "normalized": canonicalize_token(tokens[0]),
+                    "token": tokens[0],
                     "start": word.get("start"),
                 }
             )
@@ -142,16 +121,14 @@ def iter_segment_batches(
 
 
 def find_term_starts(term: str, words: list[dict[str, Any]]) -> list[float]:
-    term_tokens = normalize_canonical_tokens(term)
+    term_tokens = normalize_tokens(term)
     if not term_tokens:
         return []
 
     starts: list[float] = []
     limit = len(words) - len(term_tokens) + 1
     for idx in range(max(limit, 0)):
-        candidate = [
-            words[idx + offset]["normalized"] for offset in range(len(term_tokens))
-        ]
+        candidate = [words[idx + offset]["token"] for offset in range(len(term_tokens))]
         if candidate == term_tokens:
             starts.append(float(words[idx]["start"]))
 
@@ -243,10 +220,8 @@ def extract_semantic_words(
         )
 
         for term in candidate_terms:
-            normalized_term = " ".join(normalize_canonical_tokens(term))
-            if not normalized_term:
-                continue
-            if " " in normalized_term:
+            term_tokens = normalize_tokens(term)
+            if not term_tokens:
                 continue
 
             start_times = find_term_starts(term, all_words)
@@ -254,7 +229,7 @@ def extract_semantic_words(
                 continue
 
             for start_time in start_times:
-                occurrence_key = (normalized_term, start_time)
+                occurrence_key = (" ".join(term_tokens), start_time)
                 if occurrence_key in seen_occurrences:
                     continue
                 seen_occurrences.add(occurrence_key)
