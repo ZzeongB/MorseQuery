@@ -1,45 +1,41 @@
 {
   "video_id": "9",
   "audio_start_time": 0.0,
-  "target_window_seconds": 300.0,
-  "search_window_end_time": 300.0,
+  "target_window_seconds": 360.0,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "transportation",
-      "target_word_time": 40.64,
+      "target_word": "discharge",
+      "target_word_time": 50.02,
       "delay_type": "short",
-      "delay_seconds": 19.36,
+      "delay_seconds": 9.98,
       "search_start_time": 60.0,
-      "slot_second": 50.0,
       "id": 1
     },
     {
-      "target_word": "Caltech",
-      "target_word_time": 99.04,
-      "delay_type": "short",
-      "delay_seconds": 20.96,
+      "target_word": "evidence",
+      "target_word_time": 71.28,
+      "delay_type": "long",
+      "delay_seconds": 48.72,
       "search_start_time": 120.0,
-      "slot_second": 50.0,
       "id": 2
     },
     {
-      "target_word": "radicalized",
-      "target_word_time": 160.84,
-      "delay_type": "short",
-      "delay_seconds": 19.16,
+      "target_word": "academic",
+      "target_word_time": 130.7,
+      "delay_type": "long",
+      "delay_seconds": 49.3,
       "search_start_time": 180.0,
-      "slot_second": 50.0,
       "id": 3
     },
     {
-      "target_word": "administration",
-      "target_word_time": 193.22,
+      "target_word": "political",
+      "target_word_time": 188.06,
       "delay_type": "long",
-      "delay_seconds": 46.78,
+      "delay_seconds": 51.94,
       "search_start_time": 240.0,
-      "slot_second": 10.0,
       "id": 4
     },
     {
@@ -48,8 +44,15 @@
       "delay_type": "short",
       "delay_seconds": 16.98,
       "search_start_time": 300.0,
-      "slot_second": 50.0,
       "id": 5
+    },
+    {
+      "target_word": "Hilton",
+      "target_word_time": 346.2,
+      "delay_type": "short",
+      "delay_seconds": 13.8,
+      "search_start_time": 360.0,
+      "id": 6
     }
   ]
 }

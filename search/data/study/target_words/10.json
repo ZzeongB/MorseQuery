@@ -1,27 +1,25 @@
 {
   "video_id": "10",
   "audio_start_time": 0.0,
-  "target_window_seconds": 300.0,
-  "search_window_end_time": 300.0,
+  "target_window_seconds": 360.0,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "messages",
-      "target_word_time": 48.44,
-      "delay_type": "short",
-      "delay_seconds": 11.56,
+      "target_word": "Natalie",
+      "target_word_time": 5.4,
+      "delay_type": "long",
+      "delay_seconds": 54.6,
       "search_start_time": 60.0,
-      "slot_second": 50.0,
       "id": 1
     },
     {
-      "target_word": "Mushtab",
-      "target_word_time": 117.66,
-      "delay_type": "short",
-      "delay_seconds": 2.34,
+      "target_word": "ceasefire",
+      "target_word_time": 68.86,
+      "delay_type": "long",
+      "delay_seconds": 51.14,
       "search_start_time": 120.0,
-      "slot_second": 50.0,
       "id": 2
     },
     {
@@ -30,26 +28,31 @@
       "delay_type": "long",
       "delay_seconds": 57.94,
       "search_start_time": 180.0,
-      "slot_second": 10.0,
       "id": 3
     },
     {
-      "target_word": "Revolution",
-      "target_word_time": 219.84,
+      "target_word": "regime",
+      "target_word_time": 223.8,
       "delay_type": "short",
-      "delay_seconds": 20.16,
+      "delay_seconds": 16.2,
       "search_start_time": 240.0,
-      "slot_second": 50.0,
       "id": 4
     },
     {
-      "target_word": "tourism",
-      "target_word_time": 278.74,
+      "target_word": "militarized",
+      "target_word_time": 292.94,
       "delay_type": "short",
-      "delay_seconds": 21.26,
+      "delay_seconds": 7.06,
       "search_start_time": 300.0,
-      "slot_second": 50.0,
       "id": 5
+    },
+    {
+      "target_word": "politics",
+      "target_word_time": 347.76,
+      "delay_type": "short",
+      "delay_seconds": 12.24,
+      "search_start_time": 360.0,
+      "id": 6
     }
   ]
 }

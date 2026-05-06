@@ -16,6 +16,10 @@
     "time": 12.26
   },
   {
+    "word": "voters",
+    "time": 14.44
+  },
+  {
     "word": "November",
     "time": 16.1
   },
@@ -30,6 +34,13 @@
   {
     "word": "affordability",
     "time": 30.28
+  },
+  {
+    "word": "electorate",
+    "time": 32.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
   },
   {
     "word": "angry",
@@ -160,20 +171,16 @@
     "time": 106.72
   },
   {
-    "word": "wealth",
-    "time": 109.72
-  },
-  {
     "word": "residential",
     "time": 112.28
   },
   {
-    "word": "unusual",
-    "time": 118.68
+    "word": "exemption",
+    "time": 116.08
   },
   {
-    "word": "revenue",
-    "time": 120.04
+    "word": "unusual",
+    "time": 118.68
   },
   {
     "word": "fund",
@@ -264,6 +271,10 @@
     "time": 176.9
   },
   {
+    "word": "insurance",
+    "time": 179.42
+  },
+  {
     "word": "money",
     "time": 182.26
   },
@@ -344,10 +355,6 @@
     "time": 236.32
   },
   {
-    "word": "management",
-    "time": 244.34
-  },
-  {
     "word": "experts",
     "time": 245.52
   },
@@ -382,6 +389,10 @@
   {
     "word": "polling",
     "time": 290.86
+  },
+  {
+    "word": "voters",
+    "time": 293.06
   },
   {
     "word": "Democrats",
@@ -466,10 +477,6 @@
   {
     "word": "Medicaid",
     "time": 349.56
-  },
-  {
-    "word": "President",
-    "time": 351.22
   },
   {
     "word": "closures",

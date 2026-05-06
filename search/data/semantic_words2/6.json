@@ -1,9 +1,5 @@
 [
   {
-    "word": "Adam",
-    "time": 0.0
-  },
-  {
     "word": "ruling",
     "time": 2.5
   },
@@ -18,10 +14,6 @@
   {
     "word": "civil",
     "time": 16.14
-  },
-  {
-    "word": "minority",
-    "time": 19.84
   },
   {
     "word": "Southern",
@@ -46,10 +38,6 @@
   {
     "word": "Voting",
     "time": 36.78
-  },
-  {
-    "word": "minority",
-    "time": 41.28
   },
   {
     "word": "power",
@@ -80,16 +68,8 @@
     "time": 59.32
   },
   {
-    "word": "minority",
-    "time": 63.1
-  },
-  {
     "word": "voters",
     "time": 69.7
-  },
-  {
-    "word": "Republicans",
-    "time": 75.62
   },
   {
     "word": "protecting",
@@ -144,6 +124,10 @@
     "time": 115.06
   },
   {
+    "word": "jurisdictions",
+    "time": 116.82
+  },
+  {
     "word": "discrimination",
     "time": 118.56
   },
@@ -184,16 +168,8 @@
     "time": 145.4
   },
   {
-    "word": "minority",
-    "time": 148.06
-  },
-  {
     "word": "diluted",
     "time": 150.68
-  },
-  {
-    "word": "minority",
-    "time": 152.14
   },
   {
     "word": "elect",
@@ -226,6 +202,10 @@
   {
     "word": "Voting",
     "time": 176.72
+  },
+  {
+    "word": "state",
+    "time": 183.0
   },
   {
     "word": "maps",
@@ -356,10 +336,6 @@
     "time": 262.08
   },
   {
-    "word": "minority",
-    "time": 263.48
-  },
-  {
     "word": "intentional",
     "time": 269.78
   },
@@ -450,10 +426,6 @@
   {
     "word": "districts",
     "time": 341.04
-  },
-  {
-    "word": "minority",
-    "time": 343.94
   },
   {
     "word": "power",

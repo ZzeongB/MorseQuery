@@ -12,10 +12,6 @@
     "time": 6.98
   },
   {
-    "word": "representative",
-    "time": 8.88
-  },
-  {
     "word": "husband",
     "time": 10.14
   },
@@ -72,8 +68,8 @@
     "time": 36.7
   },
   {
-    "word": "Trump",
-    "time": 40.58
+    "word": "manifesto",
+    "time": 39.32
   },
   {
     "word": "targets",
@@ -164,8 +160,8 @@
     "time": 103.52
   },
   {
-    "word": "Trump",
-    "time": 105.48
+    "word": "theory",
+    "time": 114.72
   },
   {
     "word": "violent",
@@ -232,10 +228,6 @@
     "time": 161.22
   },
   {
-    "word": "militia",
-    "time": 164.0
-  },
-  {
     "word": "violence",
     "time": 165.96
   },
@@ -246,6 +238,10 @@
   {
     "word": "volatile",
     "time": 176.2
+  },
+  {
+    "word": "psychosocial",
+    "time": 177.62
   },
   {
     "word": "volatile",
@@ -270,6 +266,10 @@
   {
     "word": "tips",
     "time": 196.46
+  },
+  {
+    "word": "FBI",
+    "time": 197.66
   },
   {
     "word": "support",
@@ -326,10 +326,6 @@
   {
     "word": "assassination",
     "time": 236.52
-  },
-  {
-    "word": "Democratic",
-    "time": 238.32
   },
   {
     "word": "Minnesota",

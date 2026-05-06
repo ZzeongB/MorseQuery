@@ -4,10 +4,6 @@
     "time": 1.7600000000000007
   },
   {
-    "word": "Natalie",
-    "time": 5.4
-  },
-  {
     "word": "Trump",
     "time": 10.08
   },
@@ -78,6 +74,10 @@
   {
     "word": "round",
     "time": 45.32
+  },
+  {
+    "word": "messages",
+    "time": 48.44
   },
   {
     "word": "Americans",
@@ -152,10 +152,6 @@
     "time": 81.66
   },
   {
-    "word": "regime",
-    "time": 85.56
-  },
-  {
     "word": "disarray",
     "time": 86.96
   },
@@ -214,6 +210,10 @@
   {
     "word": "Revolutionary",
     "time": 115.0
+  },
+  {
+    "word": "Mushtab",
+    "time": 117.66
   },
   {
     "word": "decisions",
@@ -336,8 +336,8 @@
     "time": 216.18
   },
   {
-    "word": "regime",
-    "time": 223.8
+    "word": "Revolution",
+    "time": 219.84
   },
   {
     "word": "Islamic",
@@ -440,6 +440,10 @@
     "time": 276.92
   },
   {
+    "word": "tourism",
+    "time": 278.74
+  },
+  {
     "word": "parallel",
     "time": 282.84
   },
@@ -458,10 +462,6 @@
   {
     "word": "country",
     "time": 291.2
-  },
-  {
-    "word": "militarized",
-    "time": 292.94
   },
   {
     "word": "clerics",
@@ -550,10 +550,6 @@
   {
     "word": "Guards",
     "time": 345.02
-  },
-  {
-    "word": "politics",
-    "time": 347.76
   },
   {
     "word": "economy",

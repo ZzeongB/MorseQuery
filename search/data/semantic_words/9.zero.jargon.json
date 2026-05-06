@@ -1,5 +1,33 @@
 [
   {
+    "word": "Barrett",
+    "time": 1.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "shooter",
+    "time": 6.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "White",
+    "time": 8.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "House",
+    "time": 8.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "Justice",
     "time": 14.72,
     "duplicate_count_1m": 0,
@@ -14,8 +42,43 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "Times",
+    "time": 15.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Cole",
+    "time": 23.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Allen",
+    "time": 23.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "assassinate",
     "time": 28.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "president",
+    "time": 28.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "sentence",
+    "time": 36.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -49,8 +112,36 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "violence",
+    "time": 52.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "officials",
+    "time": 60.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "evidence",
     "time": 71.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Torrance",
+    "time": 90.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "California",
+    "time": 90.8,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -84,6 +175,13 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "Protestant",
+    "time": 104.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "academic",
     "time": 130.7,
     "duplicate_count_1m": 0,
@@ -105,6 +203,13 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "political",
+    "time": 188.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "administration",
     "time": 193.22,
     "duplicate_count_1m": 0,
@@ -112,8 +217,22 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "Devlin",
+    "time": 206.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "court",
     "time": 215.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "attack",
+    "time": 227.86,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -161,8 +280,64 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "Correspondents",
+    "time": 306.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Association",
+    "time": 306.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Trump",
+    "time": 320.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 3
+  },
+  {
     "word": "prosecutors",
     "time": 322.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Los",
+    "time": 333.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Angeles",
+    "time": 333.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ticket",
+    "time": 338.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Hilton",
+    "time": 346.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "event",
+    "time": 356.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0

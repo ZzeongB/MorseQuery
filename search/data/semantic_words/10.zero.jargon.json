@@ -1,5 +1,54 @@
 [
   {
+    "word": "Farnaz",
+    "time": 1.7600000000000007,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Natalie",
+    "time": 5.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Steve",
+    "time": 35.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Witkoff",
+    "time": 36.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Jared",
+    "time": 38.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Kushner",
+    "time": 38.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "limbo",
+    "time": 65.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "unilateral",
     "time": 68.2,
     "duplicate_count_1m": 0,
@@ -14,6 +63,13 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "deadline",
+    "time": 72.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "blockade",
     "time": 75.32,
     "duplicate_count_1m": 0,
@@ -21,8 +77,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "regime",
-    "time": 85.56,
+    "word": "disarray",
+    "time": 86.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -35,8 +91,57 @@
     "duplicate_count_3m": 2
   },
   {
+    "word": "Moshtab",
+    "time": 99.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Khomeini",
+    "time": 99.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "divisions",
+    "time": 101.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "officials",
+    "time": 112.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Mushtab",
+    "time": 117.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "framework",
     "time": 122.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Revolution",
+    "time": 219.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "regime",
+    "time": 223.8,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -91,6 +196,13 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "National",
+    "time": 264.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "Security",
     "time": 264.48,
     "duplicate_count_1m": 0,
@@ -105,8 +217,43 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "economy",
+    "time": 271.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
     "word": "conglomerate",
     "time": 273.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "economic",
+    "time": 275.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "energy",
+    "time": 276.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "transportation",
+    "time": 277.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tourism",
+    "time": 278.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -126,6 +273,27 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "supreme",
+    "time": 313.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "leader",
+    "time": 314.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "borders",
+    "time": 318.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "proxy",
     "time": 322.62,
     "duplicate_count_1m": 0,
@@ -140,6 +308,20 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "groups",
+    "time": 323.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "region",
+    "time": 324.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "ideologically",
     "time": 326.56,
     "duplicate_count_1m": 0,
@@ -149,6 +331,13 @@
   {
     "word": "Hezbollah",
     "time": 328.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Lebanon",
+    "time": 329.3,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -201,13 +390,6 @@
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
-  },
-  {
-    "word": "economy",
-    "time": 349.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
   },
   {
     "word": "military",

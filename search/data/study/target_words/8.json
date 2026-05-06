@@ -1,36 +1,33 @@
 {
   "video_id": "8",
   "audio_start_time": 0.0,
-  "target_window_seconds": 300.0,
-  "search_window_end_time": 300.0,
+  "target_window_seconds": 360.0,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "electorate",
-      "target_word_time": 32.7,
+      "target_word": "dollars",
+      "target_word_time": 52.14,
       "delay_type": "short",
-      "delay_seconds": 27.3,
+      "delay_seconds": 7.86,
       "search_start_time": 60.0,
-      "slot_second": 50.0,
       "id": 1
     },
     {
-      "target_word": "exemption",
-      "target_word_time": 116.08,
+      "target_word": "wealth",
+      "target_word_time": 109.72,
       "delay_type": "short",
-      "delay_seconds": 3.92,
+      "delay_seconds": 10.28,
       "search_start_time": 120.0,
-      "slot_second": 50.0,
       "id": 2
     },
     {
-      "target_word": "insurance",
-      "target_word_time": 179.42,
-      "delay_type": "short",
-      "delay_seconds": 0.58,
+      "target_word": "revenue",
+      "target_word_time": 120.04,
+      "delay_type": "long",
+      "delay_seconds": 59.96,
       "search_start_time": 180.0,
-      "slot_second": 50.0,
       "id": 3
     },
     {
@@ -39,17 +36,23 @@
       "delay_type": "long",
       "delay_seconds": 48.44,
       "search_start_time": 240.0,
-      "slot_second": 10.0,
       "id": 4
     },
     {
-      "target_word": "voters",
-      "target_word_time": 293.06,
-      "delay_type": "short",
-      "delay_seconds": 6.94,
+      "target_word": "management",
+      "target_word_time": 244.34,
+      "delay_type": "long",
+      "delay_seconds": 55.66,
       "search_start_time": 300.0,
-      "slot_second": 50.0,
       "id": 5
+    },
+    {
+      "target_word": "President",
+      "target_word_time": 351.22,
+      "delay_type": "short",
+      "delay_seconds": 8.78,
+      "search_start_time": 360.0,
+      "id": 6
     }
   ]
 }
