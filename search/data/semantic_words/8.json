@@ -1,0 +1,513 @@
+[
+  {
+    "word": "Laurel",
+    "time": 1.659999999999997
+  },
+  {
+    "word": "historic",
+    "time": 9.28
+  },
+  {
+    "word": "billionaires",
+    "time": 10.7
+  },
+  {
+    "word": "signatures",
+    "time": 12.26
+  },
+  {
+    "word": "voters",
+    "time": 14.44
+  },
+  {
+    "word": "November",
+    "time": 16.1
+  },
+  {
+    "word": "anxiety",
+    "time": 25.22
+  },
+  {
+    "word": "economic",
+    "time": 26.48
+  },
+  {
+    "word": "affordability",
+    "time": 30.28
+  },
+  {
+    "word": "electorate",
+    "time": 32.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "angry",
+    "time": 35.36
+  },
+  {
+    "word": "cuts",
+    "time": 37.2
+  },
+  {
+    "word": "favoring",
+    "time": 40.12
+  },
+  {
+    "word": "emotional",
+    "time": 42.8
+  },
+  {
+    "word": "tax",
+    "time": 45.12
+  },
+  {
+    "word": "pushback",
+    "time": 47.64
+  },
+  {
+    "word": "billionaires",
+    "time": 49.28
+  },
+  {
+    "word": "millions",
+    "time": 51.54
+  },
+  {
+    "word": "fight",
+    "time": 52.84
+  },
+  {
+    "word": "scope",
+    "time": 54.62
+  },
+  {
+    "word": "structure",
+    "time": 56.4
+  },
+  {
+    "word": "unusual",
+    "time": 58.14
+  },
+  {
+    "word": "firestorm",
+    "time": 61.52
+  },
+  {
+    "word": "unusual",
+    "time": 64.42
+  },
+  {
+    "word": "measure",
+    "time": 67.98
+  },
+  {
+    "word": "tax",
+    "time": 73.12
+  },
+  {
+    "word": "net",
+    "time": 75.34
+  },
+  {
+    "word": "billionaires",
+    "time": 77.92
+  },
+  {
+    "word": "California",
+    "time": 79.0
+  },
+  {
+    "word": "January",
+    "time": 80.84
+  },
+  {
+    "word": "money",
+    "time": 83.64
+  },
+  {
+    "word": "fund",
+    "time": 86.54
+  },
+  {
+    "word": "state",
+    "time": 87.78
+  },
+  {
+    "word": "health",
+    "time": 91.34
+  },
+  {
+    "word": "unusual",
+    "time": 93.96
+  },
+  {
+    "word": "tax",
+    "time": 95.12
+  },
+  {
+    "word": "assets",
+    "time": 96.4
+  },
+  {
+    "word": "income",
+    "time": 98.64
+  },
+  {
+    "word": "stocks",
+    "time": 101.72
+  },
+  {
+    "word": "jewelry",
+    "time": 103.1
+  },
+  {
+    "word": "cars",
+    "time": 104.84
+  },
+  {
+    "word": "paintings",
+    "time": 106.72
+  },
+  {
+    "word": "wealth",
+    "time": 109.72
+  },
+  {
+    "word": "residential",
+    "time": 112.28
+  },
+  {
+    "word": "exemption",
+    "time": 116.08
+  },
+  {
+    "word": "unusual",
+    "time": 118.68
+  },
+  {
+    "word": "revenue",
+    "time": 120.04
+  },
+  {
+    "word": "fund",
+    "time": 123.14
+  },
+  {
+    "word": "money",
+    "time": 124.18
+  },
+  {
+    "word": "purpose",
+    "time": 127.64
+  },
+  {
+    "word": "tax",
+    "time": 130.4
+  },
+  {
+    "word": "state",
+    "time": 131.66
+  },
+  {
+    "word": "general",
+    "time": 133.8
+  },
+  {
+    "word": "elected",
+    "time": 135.5
+  },
+  {
+    "word": "state",
+    "time": 137.46
+  },
+  {
+    "word": "health",
+    "time": 146.12
+  },
+  {
+    "word": "money",
+    "time": 151.62
+  },
+  {
+    "word": "health",
+    "time": 153.34
+  },
+  {
+    "word": "supporters",
+    "time": 156.68
+  },
+  {
+    "word": "tax",
+    "time": 157.8
+  },
+  {
+    "word": "funding",
+    "time": 162.3
+  },
+  {
+    "word": "federal",
+    "time": 164.42
+  },
+  {
+    "word": "Republicans",
+    "time": 166.58
+  },
+  {
+    "word": "bill",
+    "time": 168.34
+  },
+  {
+    "word": "cuts",
+    "time": 169.42
+  },
+  {
+    "word": "bill",
+    "time": 170.62
+  },
+  {
+    "word": "Medicaid",
+    "time": 174.16
+  },
+  {
+    "word": "Obamacare",
+    "time": 175.62
+  },
+  {
+    "word": "subsidies",
+    "time": 176.9
+  },
+  {
+    "word": "insurance",
+    "time": 179.42
+  },
+  {
+    "word": "money",
+    "time": 182.26
+  },
+  {
+    "word": "health",
+    "time": 183.4
+  },
+  {
+    "word": "supporters",
+    "time": 187.16
+  },
+  {
+    "word": "money",
+    "time": 189.2
+  },
+  {
+    "word": "hospitals",
+    "time": 191.56
+  },
+  {
+    "word": "emergency",
+    "time": 193.14
+  },
+  {
+    "word": "health",
+    "time": 196.6
+  },
+  {
+    "word": "Californians",
+    "time": 198.74
+  },
+  {
+    "word": "cuts",
+    "time": 204.76
+  },
+  {
+    "word": "unusual",
+    "time": 208.56
+  },
+  {
+    "word": "initiative",
+    "time": 209.76
+  },
+  {
+    "word": "taxing",
+    "time": 211.36
+  },
+  {
+    "word": "tax",
+    "time": 216.88
+  },
+  {
+    "word": "unusual",
+    "time": 219.44
+  },
+  {
+    "word": "money",
+    "time": 223.88
+  },
+  {
+    "word": "purpose",
+    "time": 225.88
+  },
+  {
+    "word": "health",
+    "time": 227.0
+  },
+  {
+    "word": "state",
+    "time": 230.96
+  },
+  {
+    "word": "billionaires",
+    "time": 232.74
+  },
+  {
+    "word": "state",
+    "time": 234.06
+  },
+  {
+    "word": "supporters",
+    "time": 236.32
+  },
+  {
+    "word": "management",
+    "time": 244.34
+  },
+  {
+    "word": "experts",
+    "time": 245.52
+  },
+  {
+    "word": "California",
+    "time": 262.04
+  },
+  {
+    "word": "signatures",
+    "time": 266.78
+  },
+  {
+    "word": "petition",
+    "time": 271.62
+  },
+  {
+    "word": "petition",
+    "time": 274.64
+  },
+  {
+    "word": "public",
+    "time": 277.74
+  },
+  {
+    "word": "grocery",
+    "time": 279.32
+  },
+  {
+    "word": "taxing",
+    "time": 282.04
+  },
+  {
+    "word": "polling",
+    "time": 290.86
+  },
+  {
+    "word": "voters",
+    "time": 293.06
+  },
+  {
+    "word": "Democrats",
+    "time": 295.72
+  },
+  {
+    "word": "California",
+    "time": 296.96
+  },
+  {
+    "word": "support",
+    "time": 301.9
+  },
+  {
+    "word": "public",
+    "time": 303.58
+  },
+  {
+    "word": "Democrats",
+    "time": 306.16
+  },
+  {
+    "word": "unions",
+    "time": 310.98
+  },
+  {
+    "word": "sidelines",
+    "time": 312.76
+  },
+  {
+    "word": "tax",
+    "time": 324.42
+  },
+  {
+    "word": "union",
+    "time": 327.34
+  },
+  {
+    "word": "SEIU-UHW",
+    "time": 328.98
+  },
+  {
+    "word": "Service",
+    "time": 331.76
+  },
+  {
+    "word": "International",
+    "time": 333.1
+  },
+  {
+    "word": "United",
+    "time": 334.56
+  },
+  {
+    "word": "West",
+    "time": 335.84
+  },
+  {
+    "word": "union",
+    "time": 338.88
+  },
+  {
+    "word": "hospital",
+    "time": 340.16
+  },
+  {
+    "word": "Workers",
+    "time": 341.44
+  },
+  {
+    "word": "janitors",
+    "time": 342.54
+  },
+  {
+    "word": "cooks",
+    "time": 343.66
+  },
+  {
+    "word": "technicians",
+    "time": 345.24
+  },
+  {
+    "word": "Medicaid",
+    "time": 349.56
+  },
+  {
+    "word": "President",
+    "time": 351.22
+  },
+  {
+    "word": "closures",
+    "time": 355.78
+  },
+  {
+    "word": "ER",
+    "time": 357.06
+  },
+  {
+    "word": "hospitals",
+    "time": 358.22
+  }
+]

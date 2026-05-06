@@ -1,5 +1,5 @@
 {
-  "video_id": "6",
+  "video_id": "9",
   "audio_start_time": 0.0,
   "target_window_seconds": 300.0,
   "search_window_end_time": 300.0,
@@ -7,46 +7,46 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "Act",
-      "target_word_time": 10.66,
-      "delay_type": "long",
-      "delay_seconds": 49.34,
+      "target_word": "transportation",
+      "target_word_time": 40.64,
+      "delay_type": "short",
+      "delay_seconds": 19.36,
       "search_start_time": 60.0,
-      "slot_second": 10.0,
+      "slot_second": 50.0,
       "id": 1
     },
     {
-      "target_word": "jurisdictions",
-      "target_word_time": 116.82,
+      "target_word": "Caltech",
+      "target_word_time": 99.04,
       "delay_type": "short",
-      "delay_seconds": 3.18,
+      "delay_seconds": 20.96,
       "search_start_time": 120.0,
       "slot_second": 50.0,
       "id": 2
     },
     {
-      "target_word": "election",
-      "target_word_time": 134.6,
-      "delay_type": "long",
-      "delay_seconds": 45.4,
+      "target_word": "radicalized",
+      "target_word_time": 160.84,
+      "delay_type": "short",
+      "delay_seconds": 19.16,
       "search_start_time": 180.0,
-      "slot_second": 10.0,
+      "slot_second": 50.0,
       "id": 3
     },
     {
-      "target_word": "state",
-      "target_word_time": 183.0,
+      "target_word": "administration",
+      "target_word_time": 193.22,
       "delay_type": "long",
-      "delay_seconds": 57.0,
+      "delay_seconds": 46.78,
       "search_start_time": 240.0,
       "slot_second": 10.0,
       "id": 4
     },
     {
-      "target_word": "congressional",
-      "target_word_time": 291.22,
+      "target_word": "pistol",
+      "target_word_time": 283.02,
       "delay_type": "short",
-      "delay_seconds": 8.78,
+      "delay_seconds": 16.98,
       "search_start_time": 300.0,
       "slot_second": 50.0,
       "id": 5

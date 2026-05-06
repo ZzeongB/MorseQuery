@@ -403,6 +403,12 @@ def main():
         default=5.0,
         help="Allowed +/- window around each slot second for minute_slots mode.",
     )
+    parser.add_argument(
+        "--search-window-seconds",
+        type=float,
+        default=60.0,
+        help="Search/navigation window size exposed to the study UI.",
+    )
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
@@ -470,6 +476,7 @@ def main():
             "audio_start_time": audio_start_time,
             "target_window_seconds": target_window_seconds,
             "search_window_end_time": search_window_end_time,
+            "search_window_seconds": float(args.search_window_seconds),
             "selection_mode": args.selection_mode,
             "interruptions": interruptions,
         }

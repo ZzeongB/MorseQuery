@@ -1,0 +1,7560 @@
+[
+  {
+    "words": [
+      {
+        "word": "Laurel,",
+        "start": 1.659999999999997,
+        "end": 2.18,
+        "freq": 2.276
+      },
+      {
+        "word": "welcome",
+        "start": 2.54,
+        "end": 2.7,
+        "freq": 3.961
+      },
+      {
+        "word": "back",
+        "start": 2.7,
+        "end": 2.9,
+        "freq": 5.011
+      }
+    ],
+    "word": "Laurel, welcome back",
+    "start": 1.659999999999997,
+    "end": 2.9,
+    "freq": 2.276
+  },
+  {
+    "words": [
+      {
+        "word": "to",
+        "start": 2.9,
+        "end": 3.02,
+        "freq": 6.063
+      },
+      {
+        "word": "the",
+        "start": 3.02,
+        "end": 3.1,
+        "freq": 6.177
+      },
+      {
+        "word": "show.",
+        "start": 3.1,
+        "end": 3.3,
+        "freq": 4.396
+      },
+      {
+        "word": "It's",
+        "start": 3.46,
+        "end": 3.52,
+        "freq": 3.942
+      },
+      {
+        "word": "great",
+        "start": 3.52,
+        "end": 3.64,
+        "freq": 4.622
+      },
+      {
+        "word": "to",
+        "start": 3.64,
+        "end": 3.74,
+        "freq": 6.063
+      },
+      {
+        "word": "have",
+        "start": 3.74,
+        "end": 3.86,
+        "freq": 5.497
+      },
+      {
+        "word": "you",
+        "start": 3.86,
+        "end": 3.94,
+        "freq": 6.329
+      }
+    ],
+    "word": "to the show. It's great to have you",
+    "start": 2.9,
+    "end": 3.94,
+    "freq": 3.942
+  },
+  {
+    "words": [
+      {
+        "word": "here.",
+        "start": 3.94,
+        "end": 4.1,
+        "freq": 5.363
+      },
+      {
+        "word": "Great",
+        "start": 4.58,
+        "end": 4.68,
+        "freq": 4.622
+      },
+      {
+        "word": "to",
+        "start": 4.68,
+        "end": 4.84,
+        "freq": 6.063
+      },
+      {
+        "word": "be",
+        "start": 4.84,
+        "end": 4.94,
+        "freq": 5.467
+      },
+      {
+        "word": "here.",
+        "start": 4.94,
+        "end": 5.1,
+        "freq": 5.363
+      },
+      {
+        "word": "Thank",
+        "start": 5.22,
+        "end": 5.28,
+        "freq": 4.755
+      },
+      {
+        "word": "you.",
+        "start": 5.28,
+        "end": 5.5,
+        "freq": 6.329
+      }
+    ],
+    "word": "here. Great to be here. Thank you.",
+    "start": 3.94,
+    "end": 5.5,
+    "freq": 4.622
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 5.86,
+        "end": 6.26,
+        "freq": 5.335
+      },
+      {
+        "word": "we",
+        "start": 6.26,
+        "end": 6.84,
+        "freq": 5.662
+      },
+      {
+        "word": "have",
+        "start": 6.84,
+        "end": 7.06,
+        "freq": 5.497
+      }
+    ],
+    "word": "So we have",
+    "start": 5.86,
+    "end": 7.06,
+    "freq": 5.335
+  },
+  {
+    "words": [
+      {
+        "word": "you",
+        "start": 7.06,
+        "end": 7.16,
+        "freq": 6.329
+      },
+      {
+        "word": "here",
+        "start": 7.16,
+        "end": 7.32,
+        "freq": 5.363
+      },
+      {
+        "word": "because",
+        "start": 7.32,
+        "end": 7.62,
+        "freq": 4.737
+      },
+      {
+        "word": "we",
+        "start": 7.62,
+        "end": 7.94,
+        "freq": 5.662
+      },
+      {
+        "word": "got",
+        "start": 7.94,
+        "end": 8.12,
+        "freq": 5.227
+      }
+    ],
+    "word": "you here because we got",
+    "start": 7.06,
+    "end": 8.12,
+    "freq": 4.737
+  },
+  {
+    "words": [
+      {
+        "word": "word",
+        "start": 8.12,
+        "end": 8.32,
+        "freq": 4.08
+      },
+      {
+        "word": "this",
+        "start": 8.32,
+        "end": 8.52,
+        "freq": 5.609
+      },
+      {
+        "word": "week",
+        "start": 8.52,
+        "end": 8.74,
+        "freq": 4.085
+      },
+      {
+        "word": "that",
+        "start": 8.74,
+        "end": 9.0,
+        "freq": 5.857
+      },
+      {
+        "word": "a",
+        "start": 9.0,
+        "end": 9.28,
+        "freq": 6.018
+      }
+    ],
+    "word": "word this week that a",
+    "start": 8.12,
+    "end": 9.28,
+    "freq": 4.08
+  },
+  {
+    "words": [
+      {
+        "word": "historic",
+        "start": 9.28,
+        "end": 9.88,
+        "freq": 2.269
+      },
+      {
+        "word": "tax",
+        "start": 9.88,
+        "end": 10.48,
+        "freq": 2.871
+      },
+      {
+        "word": "on",
+        "start": 10.48,
+        "end": 10.7,
+        "freq": 5.55
+      }
+    ],
+    "word": "historic tax on",
+    "start": 9.28,
+    "end": 10.7,
+    "freq": 2.269
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires",
+        "start": 10.7,
+        "end": 11.18,
+        "freq": -1
+      },
+      {
+        "word": "appears",
+        "start": 11.18,
+        "end": 11.52,
+        "freq": 3.031
+      },
+      {
+        "word": "to",
+        "start": 11.52,
+        "end": 11.7,
+        "freq": 6.063
+      },
+      {
+        "word": "have",
+        "start": 11.7,
+        "end": 11.8,
+        "freq": 5.497
+      }
+    ],
+    "word": "billionaires appears to have",
+    "start": 10.7,
+    "end": 11.8,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "gotten",
+        "start": 11.8,
+        "end": 11.98,
+        "freq": 3.442
+      },
+      {
+        "word": "enough",
+        "start": 11.98,
+        "end": 12.26,
+        "freq": 4.408
+      },
+      {
+        "word": "signatures",
+        "start": 12.26,
+        "end": 12.8,
+        "freq": 2.167
+      }
+    ],
+    "word": "gotten enough signatures",
+    "start": 11.8,
+    "end": 12.8,
+    "freq": 2.167
+  },
+  {
+    "words": [
+      {
+        "word": "to",
+        "start": 12.8,
+        "end": 13.58,
+        "freq": 6.063
+      },
+      {
+        "word": "be",
+        "start": 13.58,
+        "end": 13.86,
+        "freq": 5.467
+      }
+    ],
+    "word": "to be",
+    "start": 12.8,
+    "end": 13.86,
+    "freq": 5.467
+  },
+  {
+    "words": [
+      {
+        "word": "put",
+        "start": 13.86,
+        "end": 14.16,
+        "freq": 4.626
+      },
+      {
+        "word": "to",
+        "start": 14.16,
+        "end": 14.44,
+        "freq": 6.063
+      },
+      {
+        "word": "voters",
+        "start": 14.44,
+        "end": 14.76,
+        "freq": 2.029
+      },
+      {
+        "word": "in",
+        "start": 14.76,
+        "end": 15.04,
+        "freq": 5.698
+      }
+    ],
+    "word": "put to voters in",
+    "start": 13.86,
+    "end": 15.04,
+    "freq": 2.029
+  },
+  {
+    "words": [
+      {
+        "word": "California",
+        "start": 15.04,
+        "end": 15.64,
+        "freq": 3.295
+      },
+      {
+        "word": "in",
+        "start": 15.64,
+        "end": 16.1,
+        "freq": 5.698
+      },
+      {
+        "word": "November.",
+        "start": 16.1,
+        "end": 16.46,
+        "freq": 2.651
+      }
+    ],
+    "word": "California in November.",
+    "start": 15.04,
+    "end": 16.46,
+    "freq": 2.651
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 16.88,
+        "end": 17.4,
+        "freq": 5.335
+      },
+      {
+        "word": "just",
+        "start": 17.4,
+        "end": 18.3,
+        "freq": 5.384
+      }
+    ],
+    "word": "So just",
+    "start": 16.88,
+    "end": 18.3,
+    "freq": 5.335
+  },
+  {
+    "words": [
+      {
+        "word": "tell",
+        "start": 18.3,
+        "end": 18.52,
+        "freq": 4.944
+      },
+      {
+        "word": "us",
+        "start": 18.52,
+        "end": 18.76,
+        "freq": 4.937
+      },
+      {
+        "word": "why",
+        "start": 18.76,
+        "end": 19.22,
+        "freq": 5.059
+      },
+      {
+        "word": "that",
+        "start": 19.22,
+        "end": 19.48,
+        "freq": 5.857
+      }
+    ],
+    "word": "tell us why that",
+    "start": 18.3,
+    "end": 19.48,
+    "freq": 4.937
+  },
+  {
+    "words": [
+      {
+        "word": "matters",
+        "start": 19.48,
+        "end": 19.86,
+        "freq": 3.233
+      },
+      {
+        "word": "at",
+        "start": 19.86,
+        "end": 20.18,
+        "freq": 5.215
+      },
+      {
+        "word": "a",
+        "start": 20.18,
+        "end": 20.26,
+        "freq": 6.018
+      },
+      {
+        "word": "fundamental",
+        "start": 20.26,
+        "end": 20.6,
+        "freq": 2.225
+      }
+    ],
+    "word": "matters at a fundamental",
+    "start": 19.48,
+    "end": 20.6,
+    "freq": 2.225
+  },
+  {
+    "words": [
+      {
+        "word": "level.",
+        "start": 20.6,
+        "end": 20.98,
+        "freq": 3.421
+      },
+      {
+        "word": "Well,",
+        "start": 21.62,
+        "end": 21.8,
+        "freq": 5.183
+      }
+    ],
+    "word": "level. Well,",
+    "start": 20.6,
+    "end": 21.8,
+    "freq": 3.421
+  },
+  {
+    "words": [
+      {
+        "word": "this",
+        "start": 22.04,
+        "end": 22.28,
+        "freq": 5.609
+      },
+      {
+        "word": "is",
+        "start": 22.28,
+        "end": 22.56,
+        "freq": 5.662
+      },
+      {
+        "word": "coming",
+        "start": 22.56,
+        "end": 23.14,
+        "freq": 4.429
+      }
+    ],
+    "word": "this is coming",
+    "start": 22.04,
+    "end": 23.14,
+    "freq": 4.429
+  },
+  {
+    "words": [
+      {
+        "word": "at",
+        "start": 23.14,
+        "end": 23.32,
+        "freq": 5.215
+      },
+      {
+        "word": "a",
+        "start": 23.32,
+        "end": 23.44,
+        "freq": 6.018
+      },
+      {
+        "word": "moment",
+        "start": 23.44,
+        "end": 23.7,
+        "freq": 3.979
+      },
+      {
+        "word": "when",
+        "start": 23.7,
+        "end": 24.0,
+        "freq": 5.016
+      },
+      {
+        "word": "there",
+        "start": 24.0,
+        "end": 24.22,
+        "freq": 5.346
+      }
+    ],
+    "word": "at a moment when there",
+    "start": 23.14,
+    "end": 24.22,
+    "freq": 3.979
+  },
+  {
+    "words": [
+      {
+        "word": "is",
+        "start": 24.22,
+        "end": 24.64,
+        "freq": 5.662
+      },
+      {
+        "word": "a",
+        "start": 24.64,
+        "end": 24.92,
+        "freq": 6.018
+      },
+      {
+        "word": "lot",
+        "start": 24.92,
+        "end": 25.08,
+        "freq": 4.463
+      },
+      {
+        "word": "of",
+        "start": 25.08,
+        "end": 25.22,
+        "freq": 5.771
+      }
+    ],
+    "word": "is a lot of",
+    "start": 24.22,
+    "end": 25.22,
+    "freq": 4.463
+  },
+  {
+    "words": [
+      {
+        "word": "anxiety",
+        "start": 25.22,
+        "end": 25.76,
+        "freq": 2.539
+      },
+      {
+        "word": "about",
+        "start": 25.76,
+        "end": 26.48,
+        "freq": 5.268
+      }
+    ],
+    "word": "anxiety about",
+    "start": 25.22,
+    "end": 26.48,
+    "freq": 2.539
+  },
+  {
+    "words": [
+      {
+        "word": "economic",
+        "start": 26.48,
+        "end": 27.06,
+        "freq": 2.405
+      },
+      {
+        "word": "inequality.",
+        "start": 27.06,
+        "end": 27.7,
+        "freq": 0.602
+      }
+    ],
+    "word": "economic inequality.",
+    "start": 26.48,
+    "end": 27.7,
+    "freq": 0.602
+  },
+  {
+    "words": [
+      {
+        "word": "You",
+        "start": 27.7,
+        "end": 28.36,
+        "freq": 6.329
+      },
+      {
+        "word": "know,",
+        "start": 28.36,
+        "end": 28.44,
+        "freq": 5.465
+      },
+      {
+        "word": "a",
+        "start": 28.54,
+        "end": 28.58,
+        "freq": 6.018
+      },
+      {
+        "word": "lot",
+        "start": 28.58,
+        "end": 28.68,
+        "freq": 4.463
+      },
+      {
+        "word": "of",
+        "start": 28.68,
+        "end": 28.78,
+        "freq": 5.771
+      }
+    ],
+    "word": "You know, a lot of",
+    "start": 27.7,
+    "end": 28.78,
+    "freq": 4.463
+  },
+  {
+    "words": [
+      {
+        "word": "people",
+        "start": 28.78,
+        "end": 29.0,
+        "freq": 4.75
+      },
+      {
+        "word": "are",
+        "start": 29.0,
+        "end": 29.16,
+        "freq": 5.424
+      },
+      {
+        "word": "feeling",
+        "start": 29.16,
+        "end": 29.48,
+        "freq": 3.933
+      },
+      {
+        "word": "squeezed",
+        "start": 29.48,
+        "end": 29.9,
+        "freq": 2.075
+      }
+    ],
+    "word": "people are feeling squeezed",
+    "start": 28.78,
+    "end": 29.9,
+    "freq": 2.075
+  },
+  {
+    "words": [
+      {
+        "word": "about",
+        "start": 29.9,
+        "end": 30.28,
+        "freq": 5.268
+      },
+      {
+        "word": "affordability.",
+        "start": 30.28,
+        "end": 31.02,
+        "freq": -1
+      }
+    ],
+    "word": "about affordability.",
+    "start": 29.9,
+    "end": 31.02,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "In",
+        "start": 31.34,
+        "end": 31.9,
+        "freq": 5.698
+      },
+      {
+        "word": "California,",
+        "start": 31.9,
+        "end": 32.42,
+        "freq": 3.295
+      },
+      {
+        "word": "the",
+        "start": 32.62,
+        "end": 32.7,
+        "freq": 6.177
+      }
+    ],
+    "word": "In California, the",
+    "start": 31.34,
+    "end": 32.7,
+    "freq": 3.295
+  },
+  {
+    "words": [
+      {
+        "word": "electorate",
+        "start": 32.7,
+        "end": 33.16,
+        "freq": 1.0
+      },
+      {
+        "word": "is",
+        "start": 33.16,
+        "end": 33.3,
+        "freq": 5.662
+      },
+      {
+        "word": "very",
+        "start": 33.3,
+        "end": 33.52,
+        "freq": 4.801
+      },
+      {
+        "word": "anti",
+        "start": 33.52,
+        "end": 33.86,
+        "freq": -1
+      }
+    ],
+    "word": "electorate is very anti",
+    "start": 32.7,
+    "end": 33.86,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "-Trump",
+        "start": 33.86,
+        "end": 34.28,
+        "freq": 2.064
+      },
+      {
+        "word": "and",
+        "start": 34.28,
+        "end": 34.5,
+        "freq": 5.834
+      },
+      {
+        "word": "feeling",
+        "start": 34.5,
+        "end": 34.88,
+        "freq": 3.933
+      }
+    ],
+    "word": "-Trump and feeling",
+    "start": 33.86,
+    "end": 34.88,
+    "freq": 2.064
+  },
+  {
+    "words": [
+      {
+        "word": "somewhat",
+        "start": 34.88,
+        "end": 35.36,
+        "freq": 2.667
+      },
+      {
+        "word": "angry",
+        "start": 35.36,
+        "end": 35.7,
+        "freq": 3.478
+      },
+      {
+        "word": "about",
+        "start": 35.7,
+        "end": 36.12,
+        "freq": 5.268
+      }
+    ],
+    "word": "somewhat angry about",
+    "start": 34.88,
+    "end": 36.12,
+    "freq": 2.667
+  },
+  {
+    "words": [
+      {
+        "word": "some",
+        "start": 36.12,
+        "end": 36.96,
+        "freq": 4.945
+      },
+      {
+        "word": "of",
+        "start": 36.96,
+        "end": 37.08,
+        "freq": 5.771
+      },
+      {
+        "word": "the",
+        "start": 37.08,
+        "end": 37.2,
+        "freq": 6.177
+      }
+    ],
+    "word": "some of the",
+    "start": 36.12,
+    "end": 37.2,
+    "freq": 4.945
+  },
+  {
+    "words": [
+      {
+        "word": "cuts",
+        "start": 37.2,
+        "end": 37.5,
+        "freq": 2.766
+      },
+      {
+        "word": "that",
+        "start": 37.5,
+        "end": 37.7,
+        "freq": 5.857
+      },
+      {
+        "word": "he's",
+        "start": 37.7,
+        "end": 38.02,
+        "freq": -1
+      },
+      {
+        "word": "done",
+        "start": 38.02,
+        "end": 38.3,
+        "freq": 4.393
+      }
+    ],
+    "word": "cuts that he's done",
+    "start": 37.2,
+    "end": 38.3,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 38.3,
+        "end": 38.56,
+        "freq": 5.834
+      },
+      {
+        "word": "the",
+        "start": 38.56,
+        "end": 38.74,
+        "freq": 6.177
+      },
+      {
+        "word": "ways",
+        "start": 38.74,
+        "end": 39.08,
+        "freq": 3.421
+      },
+      {
+        "word": "that",
+        "start": 39.08,
+        "end": 39.3,
+        "freq": 5.857
+      },
+      {
+        "word": "he",
+        "start": 39.3,
+        "end": 39.48,
+        "freq": 5.59
+      }
+    ],
+    "word": "and the ways that he",
+    "start": 38.3,
+    "end": 39.48,
+    "freq": 3.421
+  },
+  {
+    "words": [
+      {
+        "word": "seems",
+        "start": 39.48,
+        "end": 39.76,
+        "freq": 3.932
+      },
+      {
+        "word": "to",
+        "start": 39.76,
+        "end": 39.94,
+        "freq": 6.063
+      },
+      {
+        "word": "be",
+        "start": 39.94,
+        "end": 40.12,
+        "freq": 5.467
+      },
+      {
+        "word": "favoring",
+        "start": 40.12,
+        "end": 40.68,
+        "freq": 1.342
+      }
+    ],
+    "word": "seems to be favoring",
+    "start": 39.48,
+    "end": 40.68,
+    "freq": 1.342
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires.",
+        "start": 40.68,
+        "end": 41.3,
+        "freq": -1
+      },
+      {
+        "word": "And",
+        "start": 41.5,
+        "end": 41.58,
+        "freq": 5.834
+      },
+      {
+        "word": "so",
+        "start": 41.58,
+        "end": 41.76,
+        "freq": 5.335
+      },
+      {
+        "word": "people",
+        "start": 41.76,
+        "end": 42.1,
+        "freq": 4.75
+      },
+      {
+        "word": "are",
+        "start": 42.1,
+        "end": 42.4,
+        "freq": 5.424
+      }
+    ],
+    "word": "billionaires. And so people are",
+    "start": 40.68,
+    "end": 42.4,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "feeling",
+        "start": 42.4,
+        "end": 42.8,
+        "freq": 3.933
+      },
+      {
+        "word": "emotional",
+        "start": 42.8,
+        "end": 43.22,
+        "freq": 3.034
+      },
+      {
+        "word": "about",
+        "start": 43.22,
+        "end": 43.52,
+        "freq": 5.268
+      }
+    ],
+    "word": "feeling emotional about",
+    "start": 42.4,
+    "end": 43.52,
+    "freq": 3.034
+  },
+  {
+    "words": [
+      {
+        "word": "that.",
+        "start": 43.52,
+        "end": 43.78,
+        "freq": 5.857
+      },
+      {
+        "word": "And",
+        "start": 43.78,
+        "end": 44.66,
+        "freq": 5.834
+      }
+    ],
+    "word": "that. And",
+    "start": 43.52,
+    "end": 44.66,
+    "freq": 5.834
+  },
+  {
+    "words": [
+      {
+        "word": "this",
+        "start": 44.66,
+        "end": 45.12,
+        "freq": 5.609
+      },
+      {
+        "word": "tax",
+        "start": 45.12,
+        "end": 45.62,
+        "freq": 2.871
+      },
+      {
+        "word": "has",
+        "start": 45.62,
+        "end": 46.04,
+        "freq": 4.762
+      }
+    ],
+    "word": "this tax has",
+    "start": 44.66,
+    "end": 46.04,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "ignited",
+        "start": 46.04,
+        "end": 47.06,
+        "freq": 1.477
+      }
+    ],
+    "word": "ignited",
+    "start": 46.04,
+    "end": 47.06,
+    "freq": 1.477
+  },
+  {
+    "words": [
+      {
+        "word": "a",
+        "start": 47.06,
+        "end": 47.42,
+        "freq": 6.018
+      },
+      {
+        "word": "big",
+        "start": 47.42,
+        "end": 47.64,
+        "freq": 4.542
+      },
+      {
+        "word": "pushback",
+        "start": 47.64,
+        "end": 48.28,
+        "freq": -1
+      }
+    ],
+    "word": "a big pushback",
+    "start": 47.06,
+    "end": 48.28,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "from",
+        "start": 48.28,
+        "end": 48.76,
+        "freq": 5.017
+      },
+      {
+        "word": "many",
+        "start": 48.76,
+        "end": 49.28,
+        "freq": 4.263
+      }
+    ],
+    "word": "from many",
+    "start": 48.28,
+    "end": 49.28,
+    "freq": 4.263
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires",
+        "start": 49.28,
+        "end": 49.94,
+        "freq": -1
+      },
+      {
+        "word": "who",
+        "start": 49.94,
+        "end": 50.22,
+        "freq": 5.054
+      },
+      {
+        "word": "are",
+        "start": 50.22,
+        "end": 50.38,
+        "freq": 5.424
+      },
+      {
+        "word": "spending",
+        "start": 50.38,
+        "end": 50.84,
+        "freq": 3.102
+      }
+    ],
+    "word": "billionaires who are spending",
+    "start": 49.28,
+    "end": 50.84,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "tens",
+        "start": 50.84,
+        "end": 51.2,
+        "freq": 2.061
+      },
+      {
+        "word": "of",
+        "start": 51.2,
+        "end": 51.54,
+        "freq": 5.771
+      },
+      {
+        "word": "millions",
+        "start": 51.54,
+        "end": 51.86,
+        "freq": 3.06
+      },
+      {
+        "word": "of",
+        "start": 51.86,
+        "end": 52.14,
+        "freq": 5.771
+      }
+    ],
+    "word": "tens of millions of",
+    "start": 50.84,
+    "end": 52.14,
+    "freq": 2.061
+  },
+  {
+    "words": [
+      {
+        "word": "dollars",
+        "start": 52.14,
+        "end": 52.52,
+        "freq": 3.602
+      },
+      {
+        "word": "to",
+        "start": 52.52,
+        "end": 52.84,
+        "freq": 6.063
+      },
+      {
+        "word": "fight",
+        "start": 52.84,
+        "end": 53.2,
+        "freq": 4.011
+      }
+    ],
+    "word": "dollars to fight",
+    "start": 52.14,
+    "end": 53.2,
+    "freq": 3.602
+  },
+  {
+    "words": [
+      {
+        "word": "it.",
+        "start": 53.2,
+        "end": 53.46,
+        "freq": 5.984
+      },
+      {
+        "word": "And",
+        "start": 53.64,
+        "end": 54.2,
+        "freq": 5.834
+      },
+      {
+        "word": "the",
+        "start": 54.2,
+        "end": 54.62,
+        "freq": 6.177
+      }
+    ],
+    "word": "it. And the",
+    "start": 53.2,
+    "end": 54.62,
+    "freq": 5.834
+  },
+  {
+    "words": [
+      {
+        "word": "scope",
+        "start": 54.62,
+        "end": 54.98,
+        "freq": 2.458
+      },
+      {
+        "word": "of",
+        "start": 54.98,
+        "end": 55.2,
+        "freq": 5.771
+      },
+      {
+        "word": "this",
+        "start": 55.2,
+        "end": 55.48,
+        "freq": 5.609
+      },
+      {
+        "word": "tax",
+        "start": 55.48,
+        "end": 55.94,
+        "freq": 2.871
+      }
+    ],
+    "word": "scope of this tax",
+    "start": 54.62,
+    "end": 55.94,
+    "freq": 2.458
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 55.94,
+        "end": 56.22,
+        "freq": 5.834
+      },
+      {
+        "word": "the",
+        "start": 56.22,
+        "end": 56.4,
+        "freq": 6.177
+      },
+      {
+        "word": "structure",
+        "start": 56.4,
+        "end": 56.8,
+        "freq": 2.716
+      },
+      {
+        "word": "of",
+        "start": 56.8,
+        "end": 57.06,
+        "freq": 5.771
+      }
+    ],
+    "word": "and the structure of",
+    "start": 55.94,
+    "end": 57.06,
+    "freq": 2.716
+  },
+  {
+    "words": [
+      {
+        "word": "this",
+        "start": 57.06,
+        "end": 57.28,
+        "freq": 5.609
+      },
+      {
+        "word": "tax",
+        "start": 57.28,
+        "end": 57.62,
+        "freq": 2.871
+      },
+      {
+        "word": "is",
+        "start": 57.62,
+        "end": 57.86,
+        "freq": 5.662
+      },
+      {
+        "word": "very",
+        "start": 57.86,
+        "end": 58.14,
+        "freq": 4.801
+      }
+    ],
+    "word": "this tax is very",
+    "start": 57.06,
+    "end": 58.14,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "unusual.",
+        "start": 58.14,
+        "end": 58.66,
+        "freq": 3.083
+      },
+      {
+        "word": "And",
+        "start": 58.66,
+        "end": 58.96,
+        "freq": 5.834
+      },
+      {
+        "word": "that's",
+        "start": 58.96,
+        "end": 59.22,
+        "freq": -1
+      },
+      {
+        "word": "part",
+        "start": 59.22,
+        "end": 59.42,
+        "freq": 4.125
+      }
+    ],
+    "word": "unusual. And that's part",
+    "start": 58.14,
+    "end": 59.42,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 59.42,
+        "end": 59.52,
+        "freq": 5.771
+      },
+      {
+        "word": "the",
+        "start": 59.52,
+        "end": 59.64,
+        "freq": 6.177
+      },
+      {
+        "word": "reason",
+        "start": 59.64,
+        "end": 59.88,
+        "freq": 3.994
+      },
+      {
+        "word": "it's",
+        "start": 59.88,
+        "end": 60.22,
+        "freq": 3.942
+      },
+      {
+        "word": "just",
+        "start": 60.22,
+        "end": 60.46,
+        "freq": 5.384
+      }
+    ],
+    "word": "of the reason it's just",
+    "start": 59.42,
+    "end": 60.46,
+    "freq": 3.942
+  },
+  {
+    "words": [
+      {
+        "word": "generating",
+        "start": 60.46,
+        "end": 61.0,
+        "freq": 1.643
+      },
+      {
+        "word": "such",
+        "start": 61.0,
+        "end": 61.4,
+        "freq": 4.172
+      },
+      {
+        "word": "a",
+        "start": 61.4,
+        "end": 61.52,
+        "freq": 6.018
+      }
+    ],
+    "word": "generating such a",
+    "start": 60.46,
+    "end": 61.52,
+    "freq": 1.643
+  },
+  {
+    "words": [
+      {
+        "word": "firestorm.",
+        "start": 61.52,
+        "end": 62.14,
+        "freq": 0.845
+      },
+      {
+        "word": "OK,",
+        "start": 62.58,
+        "end": 62.64,
+        "freq": 4.414
+      },
+      {
+        "word": "let's",
+        "start": 62.8,
+        "end": 63.18,
+        "freq": 2.963
+      }
+    ],
+    "word": "firestorm. OK, let's",
+    "start": 61.52,
+    "end": 63.18,
+    "freq": 0.845
+  },
+  {
+    "words": [
+      {
+        "word": "start",
+        "start": 63.18,
+        "end": 63.54,
+        "freq": 4.239
+      },
+      {
+        "word": "there",
+        "start": 63.54,
+        "end": 63.94,
+        "freq": 5.346
+      },
+      {
+        "word": "with",
+        "start": 63.94,
+        "end": 64.2,
+        "freq": 5.411
+      },
+      {
+        "word": "the",
+        "start": 64.2,
+        "end": 64.42,
+        "freq": 6.177
+      }
+    ],
+    "word": "start there with the",
+    "start": 63.18,
+    "end": 64.42,
+    "freq": 4.239
+  },
+  {
+    "words": [
+      {
+        "word": "unusual",
+        "start": 64.42,
+        "end": 64.96,
+        "freq": 3.083
+      },
+      {
+        "word": "structure",
+        "start": 64.96,
+        "end": 65.64,
+        "freq": 2.716
+      }
+    ],
+    "word": "unusual structure",
+    "start": 64.42,
+    "end": 65.64,
+    "freq": 2.716
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 65.64,
+        "end": 66.24,
+        "freq": 5.771
+      },
+      {
+        "word": "it.",
+        "start": 66.24,
+        "end": 66.38,
+        "freq": 5.984
+      },
+      {
+        "word": "Just",
+        "start": 66.52,
+        "end": 66.66,
+        "freq": 5.384
+      },
+      {
+        "word": "explain",
+        "start": 66.66,
+        "end": 67.22,
+        "freq": 3.754
+      }
+    ],
+    "word": "of it. Just explain",
+    "start": 65.64,
+    "end": 67.22,
+    "freq": 3.754
+  },
+  {
+    "words": [
+      {
+        "word": "what",
+        "start": 67.22,
+        "end": 67.8,
+        "freq": 5.701
+      },
+      {
+        "word": "the",
+        "start": 67.8,
+        "end": 67.98,
+        "freq": 6.177
+      },
+      {
+        "word": "measure",
+        "start": 67.98,
+        "end": 68.28,
+        "freq": 2.731
+      },
+      {
+        "word": "would",
+        "start": 68.28,
+        "end": 68.48,
+        "freq": 4.955
+      },
+      {
+        "word": "do.",
+        "start": 68.48,
+        "end": 68.76,
+        "freq": 5.495
+      }
+    ],
+    "word": "what the measure would do.",
+    "start": 67.22,
+    "end": 68.76,
+    "freq": 2.731
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 68.76,
+        "end": 69.76,
+        "freq": 5.335
+      }
+    ],
+    "word": "So",
+    "start": 68.76,
+    "end": 69.76,
+    "freq": 5.335
+  },
+  {
+    "words": [
+      {
+        "word": "this",
+        "start": 69.76,
+        "end": 70.44,
+        "freq": 5.609
+      },
+      {
+        "word": "would",
+        "start": 70.44,
+        "end": 70.74,
+        "freq": 4.955
+      },
+      {
+        "word": "place",
+        "start": 70.74,
+        "end": 71.3,
+        "freq": 4.488
+      }
+    ],
+    "word": "this would place",
+    "start": 69.76,
+    "end": 71.3,
+    "freq": 4.488
+  },
+  {
+    "words": [
+      {
+        "word": "a",
+        "start": 71.3,
+        "end": 71.86,
+        "freq": 6.018
+      },
+      {
+        "word": "5",
+        "start": 71.86,
+        "end": 72.72,
+        "freq": -1
+      }
+    ],
+    "word": "a 5",
+    "start": 71.3,
+    "end": 72.72,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "%",
+        "start": 72.72,
+        "end": 73.12,
+        "freq": -1
+      },
+      {
+        "word": "tax",
+        "start": 73.12,
+        "end": 73.82,
+        "freq": 2.871
+      }
+    ],
+    "word": "% tax",
+    "start": 72.72,
+    "end": 73.82,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "on",
+        "start": 73.82,
+        "end": 74.76,
+        "freq": 5.55
+      },
+      {
+        "word": "the",
+        "start": 74.76,
+        "end": 75.34,
+        "freq": 6.177
+      }
+    ],
+    "word": "on the",
+    "start": 73.82,
+    "end": 75.34,
+    "freq": 5.55
+  },
+  {
+    "words": [
+      {
+        "word": "net",
+        "start": 75.34,
+        "end": 76.02,
+        "freq": 2.9
+      },
+      {
+        "word": "worth",
+        "start": 76.02,
+        "end": 76.48,
+        "freq": 3.746
+      }
+    ],
+    "word": "net worth",
+    "start": 75.34,
+    "end": 76.48,
+    "freq": 2.9
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 76.48,
+        "end": 77.42,
+        "freq": 5.771
+      },
+      {
+        "word": "any",
+        "start": 77.42,
+        "end": 77.92,
+        "freq": 4.749
+      }
+    ],
+    "word": "of any",
+    "start": 76.48,
+    "end": 77.92,
+    "freq": 4.749
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires",
+        "start": 77.92,
+        "end": 78.68,
+        "freq": -1
+      },
+      {
+        "word": "who",
+        "start": 78.68,
+        "end": 78.9,
+        "freq": 5.054
+      },
+      {
+        "word": "are",
+        "start": 78.9,
+        "end": 79.0,
+        "freq": 5.424
+      }
+    ],
+    "word": "billionaires who are",
+    "start": 77.92,
+    "end": 79.0,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "California",
+        "start": 79.0,
+        "end": 79.56,
+        "freq": 3.295
+      },
+      {
+        "word": "residents",
+        "start": 79.56,
+        "end": 80.08,
+        "freq": 2.425
+      }
+    ],
+    "word": "California residents",
+    "start": 79.0,
+    "end": 80.08,
+    "freq": 2.425
+  },
+  {
+    "words": [
+      {
+        "word": "as",
+        "start": 80.08,
+        "end": 80.7,
+        "freq": 5.053
+      },
+      {
+        "word": "of",
+        "start": 80.7,
+        "end": 80.84,
+        "freq": 5.771
+      },
+      {
+        "word": "January",
+        "start": 80.84,
+        "end": 81.24,
+        "freq": 2.534
+      }
+    ],
+    "word": "as of January",
+    "start": 80.08,
+    "end": 81.24,
+    "freq": 2.534
+  },
+  {
+    "words": [
+      {
+        "word": "1st",
+        "start": 81.24,
+        "end": 81.84,
+        "freq": -1
+      },
+      {
+        "word": "of",
+        "start": 81.84,
+        "end": 82.06,
+        "freq": 5.771
+      },
+      {
+        "word": "this",
+        "start": 82.06,
+        "end": 82.34,
+        "freq": 5.609
+      }
+    ],
+    "word": "1st of this",
+    "start": 81.24,
+    "end": 82.34,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "year.",
+        "start": 82.34,
+        "end": 82.7,
+        "freq": 4.152
+      },
+      {
+        "word": "The",
+        "start": 82.94,
+        "end": 83.64,
+        "freq": 6.177
+      }
+    ],
+    "word": "year. The",
+    "start": 82.34,
+    "end": 83.64,
+    "freq": 4.152
+  },
+  {
+    "words": [
+      {
+        "word": "money",
+        "start": 83.64,
+        "end": 84.0,
+        "freq": 4.514
+      },
+      {
+        "word": "would",
+        "start": 84.0,
+        "end": 84.56,
+        "freq": 4.955
+      },
+      {
+        "word": "go",
+        "start": 84.56,
+        "end": 84.98,
+        "freq": 5.287
+      }
+    ],
+    "word": "money would go",
+    "start": 83.64,
+    "end": 84.98,
+    "freq": 4.514
+  },
+  {
+    "words": [
+      {
+        "word": "into",
+        "start": 84.98,
+        "end": 85.46,
+        "freq": 4.634
+      },
+      {
+        "word": "a",
+        "start": 85.46,
+        "end": 86.02,
+        "freq": 6.018
+      }
+    ],
+    "word": "into a",
+    "start": 84.98,
+    "end": 86.02,
+    "freq": 4.634
+  },
+  {
+    "words": [
+      {
+        "word": "special",
+        "start": 86.02,
+        "end": 86.54,
+        "freq": 3.88
+      },
+      {
+        "word": "fund",
+        "start": 86.54,
+        "end": 87.16,
+        "freq": 2.734
+      }
+    ],
+    "word": "special fund",
+    "start": 86.02,
+    "end": 87.16,
+    "freq": 2.734
+  },
+  {
+    "words": [
+      {
+        "word": "at",
+        "start": 87.16,
+        "end": 87.6,
+        "freq": 5.215
+      },
+      {
+        "word": "the",
+        "start": 87.6,
+        "end": 87.78,
+        "freq": 6.177
+      },
+      {
+        "word": "state",
+        "start": 87.78,
+        "end": 88.06,
+        "freq": 3.74
+      },
+      {
+        "word": "level",
+        "start": 88.06,
+        "end": 88.5,
+        "freq": 3.421
+      }
+    ],
+    "word": "at the state level",
+    "start": 87.16,
+    "end": 88.5,
+    "freq": 3.421
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 88.5,
+        "end": 89.28,
+        "freq": 5.834
+      },
+      {
+        "word": "would",
+        "start": 89.28,
+        "end": 89.76,
+        "freq": 4.955
+      }
+    ],
+    "word": "and would",
+    "start": 88.5,
+    "end": 89.76,
+    "freq": 4.955
+  },
+  {
+    "words": [
+      {
+        "word": "have",
+        "start": 89.76,
+        "end": 90.06,
+        "freq": 5.497
+      },
+      {
+        "word": "to",
+        "start": 90.06,
+        "end": 90.24,
+        "freq": 6.063
+      },
+      {
+        "word": "be",
+        "start": 90.24,
+        "end": 90.46,
+        "freq": 5.467
+      },
+      {
+        "word": "spent",
+        "start": 90.46,
+        "end": 90.84,
+        "freq": 3.553
+      }
+    ],
+    "word": "have to be spent",
+    "start": 89.76,
+    "end": 90.84,
+    "freq": 3.553
+  },
+  {
+    "words": [
+      {
+        "word": "on",
+        "start": 90.84,
+        "end": 91.34,
+        "freq": 5.55
+      },
+      {
+        "word": "health",
+        "start": 91.34,
+        "end": 91.7,
+        "freq": 3.313
+      },
+      {
+        "word": "care",
+        "start": 91.7,
+        "end": 91.88,
+        "freq": 4.394
+      }
+    ],
+    "word": "on health care",
+    "start": 90.84,
+    "end": 91.88,
+    "freq": 3.313
+  },
+  {
+    "words": [
+      {
+        "word": "services.",
+        "start": 91.88,
+        "end": 92.5,
+        "freq": 3.023
+      },
+      {
+        "word": "It's",
+        "start": 93.32,
+        "end": 93.96,
+        "freq": 3.942
+      }
+    ],
+    "word": "services. It's",
+    "start": 91.88,
+    "end": 93.96,
+    "freq": 3.023
+  },
+  {
+    "words": [
+      {
+        "word": "unusual",
+        "start": 93.96,
+        "end": 94.66,
+        "freq": 3.083
+      },
+      {
+        "word": "to",
+        "start": 94.66,
+        "end": 95.12,
+        "freq": 6.063
+      }
+    ],
+    "word": "unusual to",
+    "start": 93.96,
+    "end": 95.12,
+    "freq": 3.083
+  },
+  {
+    "words": [
+      {
+        "word": "tax",
+        "start": 95.12,
+        "end": 95.62,
+        "freq": 2.871
+      },
+      {
+        "word": "the",
+        "start": 95.62,
+        "end": 96.4,
+        "freq": 6.177
+      }
+    ],
+    "word": "tax the",
+    "start": 95.12,
+    "end": 96.4,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "assets",
+        "start": 96.4,
+        "end": 97.0,
+        "freq": 2.417
+      },
+      {
+        "word": "of",
+        "start": 97.0,
+        "end": 97.4,
+        "freq": 5.771
+      },
+      {
+        "word": "a",
+        "start": 97.4,
+        "end": 97.5,
+        "freq": 6.018
+      }
+    ],
+    "word": "assets of a",
+    "start": 96.4,
+    "end": 97.5,
+    "freq": 2.417
+  },
+  {
+    "words": [
+      {
+        "word": "person",
+        "start": 97.5,
+        "end": 97.84,
+        "freq": 4.036
+      },
+      {
+        "word": "as",
+        "start": 97.84,
+        "end": 98.06,
+        "freq": 5.053
+      },
+      {
+        "word": "opposed",
+        "start": 98.06,
+        "end": 98.3,
+        "freq": 2.548
+      },
+      {
+        "word": "to",
+        "start": 98.3,
+        "end": 98.5,
+        "freq": 6.063
+      },
+      {
+        "word": "their",
+        "start": 98.5,
+        "end": 98.64,
+        "freq": 4.524
+      }
+    ],
+    "word": "person as opposed to their",
+    "start": 97.5,
+    "end": 98.64,
+    "freq": 2.548
+  },
+  {
+    "words": [
+      {
+        "word": "income.",
+        "start": 98.64,
+        "end": 99.08,
+        "freq": 2.579
+      },
+      {
+        "word": "So",
+        "start": 99.3,
+        "end": 99.36,
+        "freq": 5.335
+      },
+      {
+        "word": "their",
+        "start": 99.36,
+        "end": 99.52,
+        "freq": 4.524
+      },
+      {
+        "word": "assets",
+        "start": 99.52,
+        "end": 99.92,
+        "freq": 2.417
+      },
+      {
+        "word": "would",
+        "start": 99.92,
+        "end": 100.12,
+        "freq": 4.955
+      }
+    ],
+    "word": "income. So their assets would",
+    "start": 98.64,
+    "end": 100.12,
+    "freq": 2.417
+  },
+  {
+    "words": [
+      {
+        "word": "be,",
+        "start": 100.12,
+        "end": 100.44,
+        "freq": 5.467
+      },
+      {
+        "word": "you",
+        "start": 100.48,
+        "end": 100.98,
+        "freq": 6.329
+      },
+      {
+        "word": "know,",
+        "start": 100.98,
+        "end": 101.14,
+        "freq": 5.465
+      }
+    ],
+    "word": "be, you know,",
+    "start": 100.12,
+    "end": 101.14,
+    "freq": 5.465
+  },
+  {
+    "words": [
+      {
+        "word": "their",
+        "start": 101.32,
+        "end": 101.72,
+        "freq": 4.524
+      },
+      {
+        "word": "stocks,",
+        "start": 101.72,
+        "end": 102.48,
+        "freq": 2.32
+      }
+    ],
+    "word": "their stocks,",
+    "start": 101.32,
+    "end": 102.48,
+    "freq": 2.32
+  },
+  {
+    "words": [
+      {
+        "word": "the",
+        "start": 102.9,
+        "end": 103.1,
+        "freq": 6.177
+      },
+      {
+        "word": "jewelry",
+        "start": 103.1,
+        "end": 103.68,
+        "freq": 2.752
+      },
+      {
+        "word": "they",
+        "start": 103.68,
+        "end": 104.04,
+        "freq": 5.321
+      }
+    ],
+    "word": "the jewelry they",
+    "start": 102.9,
+    "end": 104.04,
+    "freq": 2.752
+  },
+  {
+    "words": [
+      {
+        "word": "own,",
+        "start": 104.04,
+        "end": 104.56,
+        "freq": 4.37
+      },
+      {
+        "word": "the",
+        "start": 104.72,
+        "end": 104.84,
+        "freq": 6.177
+      },
+      {
+        "word": "cars",
+        "start": 104.84,
+        "end": 105.22,
+        "freq": 3.367
+      },
+      {
+        "word": "in",
+        "start": 105.22,
+        "end": 105.46,
+        "freq": 5.698
+      },
+      {
+        "word": "their",
+        "start": 105.46,
+        "end": 105.66,
+        "freq": 4.524
+      }
+    ],
+    "word": "own, the cars in their",
+    "start": 104.04,
+    "end": 105.66,
+    "freq": 3.367
+  },
+  {
+    "words": [
+      {
+        "word": "garage,",
+        "start": 105.66,
+        "end": 106.18,
+        "freq": 3.143
+      },
+      {
+        "word": "the",
+        "start": 106.62,
+        "end": 106.72,
+        "freq": 6.177
+      }
+    ],
+    "word": "garage, the",
+    "start": 105.66,
+    "end": 106.72,
+    "freq": 3.143
+  },
+  {
+    "words": [
+      {
+        "word": "paintings,",
+        "start": 106.72,
+        "end": 107.36,
+        "freq": 2.76
+      },
+      {
+        "word": "anything",
+        "start": 107.8,
+        "end": 108.4,
+        "freq": 4.665
+      },
+      {
+        "word": "that",
+        "start": 108.4,
+        "end": 108.78,
+        "freq": 5.857
+      }
+    ],
+    "word": "paintings, anything that",
+    "start": 106.72,
+    "end": 108.78,
+    "freq": 2.76
+  },
+  {
+    "words": [
+      {
+        "word": "contributes",
+        "start": 108.78,
+        "end": 109.24,
+        "freq": 1.23
+      },
+      {
+        "word": "to",
+        "start": 109.24,
+        "end": 109.54,
+        "freq": 6.063
+      },
+      {
+        "word": "their",
+        "start": 109.54,
+        "end": 109.72,
+        "freq": 4.524
+      },
+      {
+        "word": "wealth.",
+        "start": 109.72,
+        "end": 110.12,
+        "freq": 2.512
+      }
+    ],
+    "word": "contributes to their wealth.",
+    "start": 108.78,
+    "end": 110.12,
+    "freq": 1.23
+  },
+  {
+    "words": [
+      {
+        "word": "Notably,",
+        "start": 110.42,
+        "end": 111.04,
+        "freq": 1.362
+      },
+      {
+        "word": "it",
+        "start": 111.28,
+        "end": 111.36,
+        "freq": 5.984
+      },
+      {
+        "word": "does",
+        "start": 111.36,
+        "end": 111.52,
+        "freq": 4.532
+      },
+      {
+        "word": "not",
+        "start": 111.52,
+        "end": 111.76,
+        "freq": 5.442
+      }
+    ],
+    "word": "Notably, it does not",
+    "start": 110.42,
+    "end": 111.76,
+    "freq": 1.362
+  },
+  {
+    "words": [
+      {
+        "word": "include",
+        "start": 111.76,
+        "end": 112.28,
+        "freq": 2.755
+      },
+      {
+        "word": "residential",
+        "start": 112.28,
+        "end": 113.02,
+        "freq": 1.964
+      }
+    ],
+    "word": "include residential",
+    "start": 111.76,
+    "end": 113.02,
+    "freq": 1.964
+  },
+  {
+    "words": [
+      {
+        "word": "property.",
+        "start": 113.02,
+        "end": 113.58,
+        "freq": 3.23
+      },
+      {
+        "word": "So",
+        "start": 113.58,
+        "end": 114.1,
+        "freq": 5.335
+      }
+    ],
+    "word": "property. So",
+    "start": 113.02,
+    "end": 114.1,
+    "freq": 3.23
+  },
+  {
+    "words": [
+      {
+        "word": "that's",
+        "start": 114.1,
+        "end": 114.58,
+        "freq": -1
+      },
+      {
+        "word": "kind",
+        "start": 114.58,
+        "end": 114.78,
+        "freq": 4.479
+      },
+      {
+        "word": "of",
+        "start": 114.78,
+        "end": 114.98,
+        "freq": 5.771
+      },
+      {
+        "word": "an",
+        "start": 114.98,
+        "end": 115.2,
+        "freq": 4.978
+      }
+    ],
+    "word": "that's kind of an",
+    "start": 114.1,
+    "end": 115.2,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "interesting",
+        "start": 115.2,
+        "end": 116.08,
+        "freq": 3.646
+      },
+      {
+        "word": "exemption.",
+        "start": 116.08,
+        "end": 116.98,
+        "freq": 1.322
+      }
+    ],
+    "word": "interesting exemption.",
+    "start": 115.2,
+    "end": 116.98,
+    "freq": 1.322
+  },
+  {
+    "words": [
+      {
+        "word": "And",
+        "start": 116.98,
+        "end": 117.86,
+        "freq": 5.834
+      },
+      {
+        "word": "then",
+        "start": 117.86,
+        "end": 118.02,
+        "freq": 4.881
+      },
+      {
+        "word": "it's",
+        "start": 118.02,
+        "end": 118.26,
+        "freq": 3.942
+      },
+      {
+        "word": "also",
+        "start": 118.26,
+        "end": 118.68,
+        "freq": 4.022
+      }
+    ],
+    "word": "And then it's also",
+    "start": 116.98,
+    "end": 118.68,
+    "freq": 3.942
+  },
+  {
+    "words": [
+      {
+        "word": "unusual",
+        "start": 118.68,
+        "end": 119.16,
+        "freq": 3.083
+      },
+      {
+        "word": "on",
+        "start": 119.16,
+        "end": 119.68,
+        "freq": 5.55
+      },
+      {
+        "word": "the",
+        "start": 119.68,
+        "end": 120.04,
+        "freq": 6.177
+      }
+    ],
+    "word": "unusual on the",
+    "start": 118.68,
+    "end": 120.04,
+    "freq": 3.083
+  },
+  {
+    "words": [
+      {
+        "word": "revenue",
+        "start": 120.04,
+        "end": 120.86,
+        "freq": 2.09
+      },
+      {
+        "word": "side",
+        "start": 120.86,
+        "end": 121.38,
+        "freq": 4.011
+      },
+      {
+        "word": "to",
+        "start": 121.38,
+        "end": 121.72,
+        "freq": 6.063
+      }
+    ],
+    "word": "revenue side to",
+    "start": 120.04,
+    "end": 121.72,
+    "freq": 2.09
+  },
+  {
+    "words": [
+      {
+        "word": "create",
+        "start": 121.72,
+        "end": 122.22,
+        "freq": 3.111
+      },
+      {
+        "word": "a",
+        "start": 122.22,
+        "end": 122.6,
+        "freq": 6.018
+      },
+      {
+        "word": "special",
+        "start": 122.6,
+        "end": 123.14,
+        "freq": 3.88
+      }
+    ],
+    "word": "create a special",
+    "start": 121.72,
+    "end": 123.14,
+    "freq": 3.111
+  },
+  {
+    "words": [
+      {
+        "word": "fund",
+        "start": 123.14,
+        "end": 123.74,
+        "freq": 2.734
+      },
+      {
+        "word": "where",
+        "start": 123.74,
+        "end": 124.02,
+        "freq": 4.97
+      },
+      {
+        "word": "the",
+        "start": 124.02,
+        "end": 124.18,
+        "freq": 6.177
+      },
+      {
+        "word": "money",
+        "start": 124.18,
+        "end": 124.46,
+        "freq": 4.514
+      },
+      {
+        "word": "would",
+        "start": 124.46,
+        "end": 124.7,
+        "freq": 4.955
+      }
+    ],
+    "word": "fund where the money would",
+    "start": 123.14,
+    "end": 124.7,
+    "freq": 2.734
+  },
+  {
+    "words": [
+      {
+        "word": "go",
+        "start": 124.7,
+        "end": 125.1,
+        "freq": 5.287
+      },
+      {
+        "word": "and",
+        "start": 125.1,
+        "end": 125.42,
+        "freq": 5.834
+      },
+      {
+        "word": "that",
+        "start": 125.42,
+        "end": 125.66,
+        "freq": 5.857
+      },
+      {
+        "word": "it",
+        "start": 125.66,
+        "end": 125.84,
+        "freq": 5.984
+      }
+    ],
+    "word": "go and that it",
+    "start": 124.7,
+    "end": 125.84,
+    "freq": 5.287
+  },
+  {
+    "words": [
+      {
+        "word": "could",
+        "start": 125.84,
+        "end": 126.0,
+        "freq": 4.92
+      },
+      {
+        "word": "only",
+        "start": 126.0,
+        "end": 126.32,
+        "freq": 4.742
+      },
+      {
+        "word": "be",
+        "start": 126.32,
+        "end": 126.56,
+        "freq": 5.467
+      },
+      {
+        "word": "used",
+        "start": 126.56,
+        "end": 126.94,
+        "freq": 4.244
+      }
+    ],
+    "word": "could only be used",
+    "start": 125.84,
+    "end": 126.94,
+    "freq": 4.244
+  },
+  {
+    "words": [
+      {
+        "word": "for",
+        "start": 126.94,
+        "end": 127.14,
+        "freq": 5.546
+      },
+      {
+        "word": "this",
+        "start": 127.14,
+        "end": 127.34,
+        "freq": 5.609
+      },
+      {
+        "word": "one",
+        "start": 127.34,
+        "end": 127.64,
+        "freq": 5.195
+      },
+      {
+        "word": "purpose.",
+        "start": 127.64,
+        "end": 128.12,
+        "freq": 3.253
+      }
+    ],
+    "word": "for this one purpose.",
+    "start": 126.94,
+    "end": 128.12,
+    "freq": 3.253
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 128.48,
+        "end": 129.06,
+        "freq": 5.335
+      },
+      {
+        "word": "unlike",
+        "start": 129.06,
+        "end": 129.54,
+        "freq": 2.725
+      }
+    ],
+    "word": "So unlike",
+    "start": 128.48,
+    "end": 129.54,
+    "freq": 2.725
+  },
+  {
+    "words": [
+      {
+        "word": "most",
+        "start": 129.54,
+        "end": 130.08,
+        "freq": 4.253
+      },
+      {
+        "word": "of",
+        "start": 130.08,
+        "end": 130.26,
+        "freq": 5.771
+      },
+      {
+        "word": "the",
+        "start": 130.26,
+        "end": 130.4,
+        "freq": 6.177
+      },
+      {
+        "word": "tax",
+        "start": 130.4,
+        "end": 130.72,
+        "freq": 2.871
+      }
+    ],
+    "word": "most of the tax",
+    "start": 129.54,
+    "end": 130.72,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "dollars",
+        "start": 130.72,
+        "end": 131.08,
+        "freq": 3.602
+      },
+      {
+        "word": "that",
+        "start": 131.08,
+        "end": 131.48,
+        "freq": 5.857
+      },
+      {
+        "word": "the",
+        "start": 131.48,
+        "end": 131.66,
+        "freq": 6.177
+      },
+      {
+        "word": "state",
+        "start": 131.66,
+        "end": 131.88,
+        "freq": 3.74
+      }
+    ],
+    "word": "dollars that the state",
+    "start": 130.72,
+    "end": 131.88,
+    "freq": 3.602
+  },
+  {
+    "words": [
+      {
+        "word": "collects,",
+        "start": 131.88,
+        "end": 132.4,
+        "freq": 1.959
+      },
+      {
+        "word": "which",
+        "start": 132.58,
+        "end": 132.7,
+        "freq": 4.386
+      },
+      {
+        "word": "go",
+        "start": 132.7,
+        "end": 132.94,
+        "freq": 5.287
+      }
+    ],
+    "word": "collects, which go",
+    "start": 131.88,
+    "end": 132.94,
+    "freq": 1.959
+  },
+  {
+    "words": [
+      {
+        "word": "into",
+        "start": 132.94,
+        "end": 133.16,
+        "freq": 4.634
+      },
+      {
+        "word": "what's",
+        "start": 133.16,
+        "end": 133.44,
+        "freq": -1
+      },
+      {
+        "word": "called",
+        "start": 133.44,
+        "end": 133.64,
+        "freq": 4.239
+      },
+      {
+        "word": "the",
+        "start": 133.64,
+        "end": 133.8,
+        "freq": 6.177
+      },
+      {
+        "word": "general",
+        "start": 133.8,
+        "end": 134.12,
+        "freq": 3.77
+      }
+    ],
+    "word": "into what's called the general",
+    "start": 132.94,
+    "end": 134.12,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "fund",
+        "start": 134.12,
+        "end": 134.64,
+        "freq": 2.734
+      },
+      {
+        "word": "and",
+        "start": 134.64,
+        "end": 134.88,
+        "freq": 5.834
+      },
+      {
+        "word": "then",
+        "start": 134.88,
+        "end": 135.1,
+        "freq": 4.881
+      },
+      {
+        "word": "the",
+        "start": 135.1,
+        "end": 135.5,
+        "freq": 6.177
+      }
+    ],
+    "word": "fund and then the",
+    "start": 134.12,
+    "end": 135.5,
+    "freq": 2.734
+  },
+  {
+    "words": [
+      {
+        "word": "elected",
+        "start": 135.5,
+        "end": 136.26,
+        "freq": 2.569
+      },
+      {
+        "word": "leaders",
+        "start": 136.26,
+        "end": 136.88,
+        "freq": 2.657
+      }
+    ],
+    "word": "elected leaders",
+    "start": 135.5,
+    "end": 136.88,
+    "freq": 2.569
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 136.88,
+        "end": 137.24,
+        "freq": 5.771
+      },
+      {
+        "word": "the",
+        "start": 137.24,
+        "end": 137.46,
+        "freq": 6.177
+      },
+      {
+        "word": "state",
+        "start": 137.46,
+        "end": 137.72,
+        "freq": 3.74
+      },
+      {
+        "word": "government",
+        "start": 137.72,
+        "end": 138.22,
+        "freq": 3.522
+      }
+    ],
+    "word": "of the state government",
+    "start": 136.88,
+    "end": 138.22,
+    "freq": 3.522
+  },
+  {
+    "words": [
+      {
+        "word": "decide",
+        "start": 138.22,
+        "end": 138.66,
+        "freq": 3.41
+      },
+      {
+        "word": "how",
+        "start": 138.66,
+        "end": 138.96,
+        "freq": 5.193
+      },
+      {
+        "word": "to",
+        "start": 138.96,
+        "end": 139.1,
+        "freq": 6.063
+      },
+      {
+        "word": "spend",
+        "start": 139.1,
+        "end": 139.38,
+        "freq": 3.677
+      }
+    ],
+    "word": "decide how to spend",
+    "start": 138.22,
+    "end": 139.38,
+    "freq": 3.41
+  },
+  {
+    "words": [
+      {
+        "word": "it,",
+        "start": 139.38,
+        "end": 139.7,
+        "freq": 5.984
+      },
+      {
+        "word": "this",
+        "start": 139.88,
+        "end": 140.52,
+        "freq": 5.609
+      },
+      {
+        "word": "is",
+        "start": 140.52,
+        "end": 140.86,
+        "freq": 5.662
+      }
+    ],
+    "word": "it, this is",
+    "start": 139.38,
+    "end": 140.86,
+    "freq": 5.609
+  },
+  {
+    "words": [
+      {
+        "word": "requiring",
+        "start": 140.86,
+        "end": 141.78,
+        "freq": 1.748
+      },
+      {
+        "word": "that",
+        "start": 141.78,
+        "end": 142.72,
+        "freq": 5.857
+      }
+    ],
+    "word": "requiring that",
+    "start": 140.86,
+    "end": 142.72,
+    "freq": 1.748
+  },
+  {
+    "words": [
+      {
+        "word": "90",
+        "start": 142.72,
+        "end": 143.24,
+        "freq": -1
+      },
+      {
+        "word": "percent",
+        "start": 143.24,
+        "end": 143.62,
+        "freq": 3.119
+      },
+      {
+        "word": "of",
+        "start": 143.62,
+        "end": 143.92,
+        "freq": 5.771
+      }
+    ],
+    "word": "90 percent of",
+    "start": 142.72,
+    "end": 143.92,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "it",
+        "start": 143.92,
+        "end": 144.14,
+        "freq": 5.984
+      },
+      {
+        "word": "be",
+        "start": 144.14,
+        "end": 144.62,
+        "freq": 5.467
+      },
+      {
+        "word": "spent",
+        "start": 144.62,
+        "end": 145.02,
+        "freq": 3.553
+      }
+    ],
+    "word": "it be spent",
+    "start": 143.92,
+    "end": 145.02,
+    "freq": 3.553
+  },
+  {
+    "words": [
+      {
+        "word": "specifically",
+        "start": 145.02,
+        "end": 145.78,
+        "freq": 2.72
+      },
+      {
+        "word": "on",
+        "start": 145.78,
+        "end": 146.12,
+        "freq": 5.55
+      },
+      {
+        "word": "health",
+        "start": 146.12,
+        "end": 146.36,
+        "freq": 3.313
+      }
+    ],
+    "word": "specifically on health",
+    "start": 145.02,
+    "end": 146.36,
+    "freq": 2.72
+  },
+  {
+    "words": [
+      {
+        "word": "care.",
+        "start": 146.36,
+        "end": 146.56,
+        "freq": 4.394
+      },
+      {
+        "word": "What",
+        "start": 146.98,
+        "end": 147.56,
+        "freq": 5.701
+      }
+    ],
+    "word": "care. What",
+    "start": 146.36,
+    "end": 147.56,
+    "freq": 4.394
+  },
+  {
+    "words": [
+      {
+        "word": "does",
+        "start": 147.56,
+        "end": 148.18,
+        "freq": 4.532
+      },
+      {
+        "word": "that",
+        "start": 148.18,
+        "end": 148.46,
+        "freq": 5.857
+      },
+      {
+        "word": "actually",
+        "start": 148.46,
+        "end": 148.92,
+        "freq": 4.216
+      }
+    ],
+    "word": "does that actually",
+    "start": 147.56,
+    "end": 148.92,
+    "freq": 4.216
+  },
+  {
+    "words": [
+      {
+        "word": "mean?",
+        "start": 148.92,
+        "end": 149.42,
+        "freq": 4.802
+      },
+      {
+        "word": "Like,",
+        "start": 149.88,
+        "end": 149.98,
+        "freq": 5.309
+      },
+      {
+        "word": "does",
+        "start": 150.06,
+        "end": 150.12,
+        "freq": 4.532
+      }
+    ],
+    "word": "mean? Like, does",
+    "start": 148.92,
+    "end": 150.12,
+    "freq": 4.532
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 150.12,
+        "end": 150.3,
+        "freq": 5.857
+      },
+      {
+        "word": "go",
+        "start": 150.3,
+        "end": 150.72,
+        "freq": 5.287
+      },
+      {
+        "word": "to",
+        "start": 150.72,
+        "end": 151.18,
+        "freq": 6.063
+      }
+    ],
+    "word": "that go to",
+    "start": 150.12,
+    "end": 151.18,
+    "freq": 5.287
+  },
+  {
+    "words": [
+      {
+        "word": "the",
+        "start": 151.18,
+        "end": 151.62,
+        "freq": 6.177
+      },
+      {
+        "word": "money",
+        "start": 151.62,
+        "end": 151.84,
+        "freq": 4.514
+      },
+      {
+        "word": "that",
+        "start": 151.84,
+        "end": 152.02,
+        "freq": 5.857
+      },
+      {
+        "word": "people",
+        "start": 152.02,
+        "end": 152.24,
+        "freq": 4.75
+      },
+      {
+        "word": "are",
+        "start": 152.24,
+        "end": 152.4,
+        "freq": 5.424
+      }
+    ],
+    "word": "the money that people are",
+    "start": 151.18,
+    "end": 152.4,
+    "freq": 4.514
+  },
+  {
+    "words": [
+      {
+        "word": "spending",
+        "start": 152.4,
+        "end": 152.84,
+        "freq": 3.102
+      },
+      {
+        "word": "on",
+        "start": 152.84,
+        "end": 153.2,
+        "freq": 5.55
+      },
+      {
+        "word": "their",
+        "start": 153.2,
+        "end": 153.34,
+        "freq": 4.524
+      },
+      {
+        "word": "health",
+        "start": 153.34,
+        "end": 153.54,
+        "freq": 3.313
+      }
+    ],
+    "word": "spending on their health",
+    "start": 152.4,
+    "end": 153.54,
+    "freq": 3.102
+  },
+  {
+    "words": [
+      {
+        "word": "care?",
+        "start": 153.54,
+        "end": 153.74,
+        "freq": 4.394
+      },
+      {
+        "word": "The",
+        "start": 154.52,
+        "end": 154.9,
+        "freq": 6.177
+      },
+      {
+        "word": "concept",
+        "start": 154.9,
+        "end": 155.4,
+        "freq": 2.744
+      }
+    ],
+    "word": "care? The concept",
+    "start": 153.54,
+    "end": 155.4,
+    "freq": 2.744
+  },
+  {
+    "words": [
+      {
+        "word": "is",
+        "start": 155.4,
+        "end": 156.04,
+        "freq": 5.662
+      },
+      {
+        "word": "that",
+        "start": 156.04,
+        "end": 156.48,
+        "freq": 5.857
+      },
+      {
+        "word": "the",
+        "start": 156.48,
+        "end": 156.68,
+        "freq": 6.177
+      }
+    ],
+    "word": "is that the",
+    "start": 155.4,
+    "end": 156.68,
+    "freq": 5.662
+  },
+  {
+    "words": [
+      {
+        "word": "supporters",
+        "start": 156.68,
+        "end": 157.16,
+        "freq": 1.732
+      },
+      {
+        "word": "of",
+        "start": 157.16,
+        "end": 157.54,
+        "freq": 5.771
+      },
+      {
+        "word": "this",
+        "start": 157.54,
+        "end": 157.8,
+        "freq": 5.609
+      }
+    ],
+    "word": "supporters of this",
+    "start": 156.68,
+    "end": 157.8,
+    "freq": 1.732
+  },
+  {
+    "words": [
+      {
+        "word": "tax",
+        "start": 157.8,
+        "end": 158.2,
+        "freq": 2.871
+      },
+      {
+        "word": "want",
+        "start": 158.2,
+        "end": 158.86,
+        "freq": 5.148
+      }
+    ],
+    "word": "tax want",
+    "start": 157.8,
+    "end": 158.86,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "to",
+        "start": 158.86,
+        "end": 159.28,
+        "freq": 6.063
+      },
+      {
+        "word": "make",
+        "start": 159.28,
+        "end": 159.82,
+        "freq": 4.85
+      },
+      {
+        "word": "up",
+        "start": 159.82,
+        "end": 160.04,
+        "freq": 5.272
+      }
+    ],
+    "word": "to make up",
+    "start": 158.86,
+    "end": 160.04,
+    "freq": 4.85
+  },
+  {
+    "words": [
+      {
+        "word": "for",
+        "start": 160.04,
+        "end": 160.54,
+        "freq": 5.546
+      },
+      {
+        "word": "the",
+        "start": 160.54,
+        "end": 161.04,
+        "freq": 6.177
+      }
+    ],
+    "word": "for the",
+    "start": 160.04,
+    "end": 161.04,
+    "freq": 5.546
+  },
+  {
+    "words": [
+      {
+        "word": "massive",
+        "start": 161.04,
+        "end": 161.46,
+        "freq": 2.707
+      },
+      {
+        "word": "amount",
+        "start": 161.46,
+        "end": 161.92,
+        "freq": 3.101
+      },
+      {
+        "word": "of",
+        "start": 161.92,
+        "end": 162.3,
+        "freq": 5.771
+      }
+    ],
+    "word": "massive amount of",
+    "start": 161.04,
+    "end": 162.3,
+    "freq": 2.707
+  },
+  {
+    "words": [
+      {
+        "word": "funding",
+        "start": 162.3,
+        "end": 162.68,
+        "freq": 2.212
+      },
+      {
+        "word": "that",
+        "start": 162.68,
+        "end": 163.12,
+        "freq": 5.857
+      },
+      {
+        "word": "has",
+        "start": 163.12,
+        "end": 163.34,
+        "freq": 4.762
+      },
+      {
+        "word": "been",
+        "start": 163.34,
+        "end": 163.6,
+        "freq": 4.947
+      }
+    ],
+    "word": "funding that has been",
+    "start": 162.3,
+    "end": 163.6,
+    "freq": 2.212
+  },
+  {
+    "words": [
+      {
+        "word": "cut",
+        "start": 163.6,
+        "end": 163.98,
+        "freq": 4.069
+      },
+      {
+        "word": "by",
+        "start": 163.98,
+        "end": 164.26,
+        "freq": 4.835
+      },
+      {
+        "word": "the",
+        "start": 164.26,
+        "end": 164.42,
+        "freq": 6.177
+      },
+      {
+        "word": "federal",
+        "start": 164.42,
+        "end": 164.68,
+        "freq": 3.07
+      }
+    ],
+    "word": "cut by the federal",
+    "start": 163.6,
+    "end": 164.68,
+    "freq": 3.07
+  },
+  {
+    "words": [
+      {
+        "word": "government",
+        "start": 164.68,
+        "end": 165.24,
+        "freq": 3.522
+      },
+      {
+        "word": "through",
+        "start": 165.24,
+        "end": 166.08,
+        "freq": 4.448
+      }
+    ],
+    "word": "government through",
+    "start": 164.68,
+    "end": 166.08,
+    "freq": 3.522
+  },
+  {
+    "words": [
+      {
+        "word": "what",
+        "start": 166.08,
+        "end": 166.58,
+        "freq": 5.701
+      },
+      {
+        "word": "Republicans",
+        "start": 166.58,
+        "end": 167.06,
+        "freq": 1.792
+      },
+      {
+        "word": "called",
+        "start": 167.06,
+        "end": 167.48,
+        "freq": 4.239
+      }
+    ],
+    "word": "what Republicans called",
+    "start": 166.08,
+    "end": 167.48,
+    "freq": 1.792
+  },
+  {
+    "words": [
+      {
+        "word": "their",
+        "start": 167.48,
+        "end": 167.72,
+        "freq": 4.524
+      },
+      {
+        "word": "big,",
+        "start": 167.72,
+        "end": 167.92,
+        "freq": 4.542
+      },
+      {
+        "word": "beautiful",
+        "start": 168.02,
+        "end": 168.34,
+        "freq": 4.154
+      },
+      {
+        "word": "bill.",
+        "start": 168.34,
+        "end": 168.7,
+        "freq": 3.781
+      }
+    ],
+    "word": "their big, beautiful bill.",
+    "start": 167.48,
+    "end": 168.7,
+    "freq": 3.781
+  },
+  {
+    "words": [
+      {
+        "word": "The",
+        "start": 168.7,
+        "end": 169.42,
+        "freq": 6.177
+      },
+      {
+        "word": "cuts",
+        "start": 169.42,
+        "end": 169.72,
+        "freq": 2.766
+      },
+      {
+        "word": "that",
+        "start": 169.72,
+        "end": 169.94,
+        "freq": 5.857
+      },
+      {
+        "word": "were",
+        "start": 169.94,
+        "end": 170.08,
+        "freq": 4.928
+      }
+    ],
+    "word": "The cuts that were",
+    "start": 168.7,
+    "end": 170.08,
+    "freq": 2.766
+  },
+  {
+    "words": [
+      {
+        "word": "in",
+        "start": 170.08,
+        "end": 170.34,
+        "freq": 5.698
+      },
+      {
+        "word": "that",
+        "start": 170.34,
+        "end": 170.62,
+        "freq": 5.857
+      },
+      {
+        "word": "bill",
+        "start": 170.62,
+        "end": 170.88,
+        "freq": 3.781
+      },
+      {
+        "word": "that",
+        "start": 170.88,
+        "end": 171.1,
+        "freq": 5.857
+      }
+    ],
+    "word": "in that bill that",
+    "start": 170.08,
+    "end": 171.1,
+    "freq": 3.781
+  },
+  {
+    "words": [
+      {
+        "word": "Trump",
+        "start": 171.1,
+        "end": 171.38,
+        "freq": 2.064
+      },
+      {
+        "word": "signed",
+        "start": 171.38,
+        "end": 171.72,
+        "freq": 3.265
+      },
+      {
+        "word": "last",
+        "start": 171.72,
+        "end": 172.02,
+        "freq": 4.567
+      },
+      {
+        "word": "year",
+        "start": 172.02,
+        "end": 172.34,
+        "freq": 4.152
+      }
+    ],
+    "word": "Trump signed last year",
+    "start": 171.1,
+    "end": 172.34,
+    "freq": 2.064
+  },
+  {
+    "words": [
+      {
+        "word": "were",
+        "start": 172.34,
+        "end": 173.2,
+        "freq": 4.928
+      },
+      {
+        "word": "related",
+        "start": 173.2,
+        "end": 173.74,
+        "freq": 2.809
+      },
+      {
+        "word": "to",
+        "start": 173.74,
+        "end": 174.16,
+        "freq": 6.063
+      }
+    ],
+    "word": "were related to",
+    "start": 172.34,
+    "end": 174.16,
+    "freq": 2.809
+  },
+  {
+    "words": [
+      {
+        "word": "Medicaid",
+        "start": 174.16,
+        "end": 174.72,
+        "freq": -1
+      },
+      {
+        "word": "and",
+        "start": 174.72,
+        "end": 175.62,
+        "freq": 5.834
+      }
+    ],
+    "word": "Medicaid and",
+    "start": 174.16,
+    "end": 175.62,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "Obamacare",
+        "start": 175.62,
+        "end": 176.9,
+        "freq": -1
+      }
+    ],
+    "word": "Obamacare",
+    "start": 175.62,
+    "end": 176.9,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "subsidies,",
+        "start": 176.9,
+        "end": 177.44,
+        "freq": 1.114
+      },
+      {
+        "word": "and",
+        "start": 177.44,
+        "end": 178.24,
+        "freq": 5.834
+      }
+    ],
+    "word": "subsidies, and",
+    "start": 176.9,
+    "end": 178.24,
+    "freq": 1.114
+  },
+  {
+    "words": [
+      {
+        "word": "those",
+        "start": 178.24,
+        "end": 178.98,
+        "freq": 4.584
+      },
+      {
+        "word": "health",
+        "start": 178.98,
+        "end": 179.42,
+        "freq": 3.313
+      },
+      {
+        "word": "insurance",
+        "start": 179.42,
+        "end": 179.92,
+        "freq": 3.291
+      }
+    ],
+    "word": "those health insurance",
+    "start": 178.24,
+    "end": 179.92,
+    "freq": 3.291
+  },
+  {
+    "words": [
+      {
+        "word": "programs",
+        "start": 179.92,
+        "end": 180.6,
+        "freq": 2.455
+      },
+      {
+        "word": "pumped",
+        "start": 180.6,
+        "end": 181.16,
+        "freq": 2.204
+      }
+    ],
+    "word": "programs pumped",
+    "start": 179.92,
+    "end": 181.16,
+    "freq": 2.204
+  },
+  {
+    "words": [
+      {
+        "word": "a",
+        "start": 181.16,
+        "end": 181.4,
+        "freq": 6.018
+      },
+      {
+        "word": "huge",
+        "start": 181.4,
+        "end": 181.82,
+        "freq": 3.392
+      },
+      {
+        "word": "amount",
+        "start": 181.82,
+        "end": 182.08,
+        "freq": 3.101
+      },
+      {
+        "word": "of",
+        "start": 182.08,
+        "end": 182.26,
+        "freq": 5.771
+      }
+    ],
+    "word": "a huge amount of",
+    "start": 181.16,
+    "end": 182.26,
+    "freq": 3.101
+  },
+  {
+    "words": [
+      {
+        "word": "money",
+        "start": 182.26,
+        "end": 182.52,
+        "freq": 4.514
+      },
+      {
+        "word": "into",
+        "start": 182.52,
+        "end": 183.08,
+        "freq": 4.634
+      },
+      {
+        "word": "the",
+        "start": 183.08,
+        "end": 183.4,
+        "freq": 6.177
+      }
+    ],
+    "word": "money into the",
+    "start": 182.26,
+    "end": 183.4,
+    "freq": 4.514
+  },
+  {
+    "words": [
+      {
+        "word": "health",
+        "start": 183.4,
+        "end": 183.66,
+        "freq": 3.313
+      },
+      {
+        "word": "care",
+        "start": 183.66,
+        "end": 183.86,
+        "freq": 4.394
+      },
+      {
+        "word": "system",
+        "start": 183.86,
+        "end": 184.56,
+        "freq": 3.669
+      }
+    ],
+    "word": "health care system",
+    "start": 183.4,
+    "end": 184.56,
+    "freq": 3.313
+  },
+  {
+    "words": [
+      {
+        "word": "writ",
+        "start": 184.56,
+        "end": 185.4,
+        "freq": 1.949
+      },
+      {
+        "word": "large.",
+        "start": 185.4,
+        "end": 185.94,
+        "freq": 3.325
+      }
+    ],
+    "word": "writ large.",
+    "start": 184.56,
+    "end": 185.94,
+    "freq": 1.949
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 185.94,
+        "end": 186.68,
+        "freq": 5.335
+      },
+      {
+        "word": "for",
+        "start": 186.68,
+        "end": 187.0,
+        "freq": 5.546
+      },
+      {
+        "word": "the",
+        "start": 187.0,
+        "end": 187.16,
+        "freq": 6.177
+      },
+      {
+        "word": "supporters",
+        "start": 187.16,
+        "end": 187.64,
+        "freq": 1.732
+      }
+    ],
+    "word": "So for the supporters",
+    "start": 185.94,
+    "end": 187.64,
+    "freq": 1.732
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 187.64,
+        "end": 187.92,
+        "freq": 5.771
+      },
+      {
+        "word": "this",
+        "start": 187.92,
+        "end": 188.12,
+        "freq": 5.609
+      },
+      {
+        "word": "tax,",
+        "start": 188.12,
+        "end": 188.48,
+        "freq": 2.871
+      },
+      {
+        "word": "they",
+        "start": 188.66,
+        "end": 188.74,
+        "freq": 5.321
+      }
+    ],
+    "word": "of this tax, they",
+    "start": 187.64,
+    "end": 188.74,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "say",
+        "start": 188.74,
+        "end": 188.98,
+        "freq": 4.922
+      },
+      {
+        "word": "this",
+        "start": 188.98,
+        "end": 189.2,
+        "freq": 5.609
+      },
+      {
+        "word": "money",
+        "start": 189.2,
+        "end": 189.48,
+        "freq": 4.514
+      },
+      {
+        "word": "is",
+        "start": 189.48,
+        "end": 189.78,
+        "freq": 5.662
+      }
+    ],
+    "word": "say this money is",
+    "start": 188.74,
+    "end": 189.78,
+    "freq": 4.514
+  },
+  {
+    "words": [
+      {
+        "word": "essential",
+        "start": 189.78,
+        "end": 190.38,
+        "freq": 2.394
+      },
+      {
+        "word": "to",
+        "start": 190.38,
+        "end": 190.94,
+        "freq": 6.063
+      }
+    ],
+    "word": "essential to",
+    "start": 189.78,
+    "end": 190.94,
+    "freq": 2.394
+  },
+  {
+    "words": [
+      {
+        "word": "keep",
+        "start": 190.94,
+        "end": 191.56,
+        "freq": 4.554
+      },
+      {
+        "word": "hospitals",
+        "start": 191.56,
+        "end": 192.18,
+        "freq": 2.5
+      }
+    ],
+    "word": "keep hospitals",
+    "start": 190.94,
+    "end": 192.18,
+    "freq": 2.5
+  },
+  {
+    "words": [
+      {
+        "word": "open,",
+        "start": 192.18,
+        "end": 192.62,
+        "freq": 4.213
+      },
+      {
+        "word": "to",
+        "start": 192.8,
+        "end": 192.86,
+        "freq": 6.063
+      },
+      {
+        "word": "keep",
+        "start": 192.86,
+        "end": 193.14,
+        "freq": 4.554
+      },
+      {
+        "word": "emergency",
+        "start": 193.14,
+        "end": 193.6,
+        "freq": 3.444
+      }
+    ],
+    "word": "open, to keep emergency",
+    "start": 192.18,
+    "end": 193.6,
+    "freq": 3.444
+  },
+  {
+    "words": [
+      {
+        "word": "rooms",
+        "start": 193.6,
+        "end": 194.16,
+        "freq": 3.123
+      },
+      {
+        "word": "operating",
+        "start": 194.16,
+        "end": 194.8,
+        "freq": 2.766
+      }
+    ],
+    "word": "rooms operating",
+    "start": 193.6,
+    "end": 194.8,
+    "freq": 2.766
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 194.8,
+        "end": 195.58,
+        "freq": 5.834
+      },
+      {
+        "word": "to",
+        "start": 195.58,
+        "end": 195.84,
+        "freq": 6.063
+      }
+    ],
+    "word": "and to",
+    "start": 194.8,
+    "end": 195.84,
+    "freq": 5.834
+  },
+  {
+    "words": [
+      {
+        "word": "keep",
+        "start": 195.84,
+        "end": 196.16,
+        "freq": 4.554
+      },
+      {
+        "word": "the",
+        "start": 196.16,
+        "end": 196.6,
+        "freq": 6.177
+      },
+      {
+        "word": "health",
+        "start": 196.6,
+        "end": 197.14,
+        "freq": 3.313
+      }
+    ],
+    "word": "keep the health",
+    "start": 195.84,
+    "end": 197.14,
+    "freq": 3.313
+  },
+  {
+    "words": [
+      {
+        "word": "care",
+        "start": 197.14,
+        "end": 197.44,
+        "freq": 4.394
+      },
+      {
+        "word": "system",
+        "start": 197.44,
+        "end": 198.28,
+        "freq": 3.669
+      }
+    ],
+    "word": "care system",
+    "start": 197.14,
+    "end": 198.28,
+    "freq": 3.669
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 198.28,
+        "end": 198.74,
+        "freq": 5.857
+      },
+      {
+        "word": "Californians",
+        "start": 198.74,
+        "end": 199.54,
+        "freq": 1.114
+      }
+    ],
+    "word": "that Californians",
+    "start": 198.28,
+    "end": 199.54,
+    "freq": 1.114
+  },
+  {
+    "words": [
+      {
+        "word": "rely",
+        "start": 199.54,
+        "end": 199.84,
+        "freq": 2.565
+      },
+      {
+        "word": "on",
+        "start": 199.84,
+        "end": 200.16,
+        "freq": 5.55
+      },
+      {
+        "word": "operating",
+        "start": 200.16,
+        "end": 200.68,
+        "freq": 2.766
+      }
+    ],
+    "word": "rely on operating",
+    "start": 199.54,
+    "end": 200.68,
+    "freq": 2.565
+  },
+  {
+    "words": [
+      {
+        "word": "at",
+        "start": 200.68,
+        "end": 200.92,
+        "freq": 5.215
+      },
+      {
+        "word": "the",
+        "start": 200.92,
+        "end": 201.08,
+        "freq": 6.177
+      },
+      {
+        "word": "same",
+        "start": 201.08,
+        "end": 201.38,
+        "freq": 4.328
+      },
+      {
+        "word": "level",
+        "start": 201.38,
+        "end": 201.8,
+        "freq": 3.421
+      }
+    ],
+    "word": "at the same level",
+    "start": 200.68,
+    "end": 201.8,
+    "freq": 3.421
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 201.8,
+        "end": 202.54,
+        "freq": 5.857
+      },
+      {
+        "word": "it",
+        "start": 202.54,
+        "end": 202.72,
+        "freq": 5.984
+      },
+      {
+        "word": "has",
+        "start": 202.72,
+        "end": 203.08,
+        "freq": 4.762
+      },
+      {
+        "word": "been",
+        "start": 203.08,
+        "end": 203.44,
+        "freq": 4.947
+      }
+    ],
+    "word": "that it has been",
+    "start": 201.8,
+    "end": 203.44,
+    "freq": 4.762
+  },
+  {
+    "words": [
+      {
+        "word": "before",
+        "start": 203.44,
+        "end": 204.18,
+        "freq": 4.607
+      },
+      {
+        "word": "these",
+        "start": 204.18,
+        "end": 204.76,
+        "freq": 4.664
+      }
+    ],
+    "word": "before these",
+    "start": 203.44,
+    "end": 204.76,
+    "freq": 4.607
+  },
+  {
+    "words": [
+      {
+        "word": "cuts",
+        "start": 204.76,
+        "end": 205.06,
+        "freq": 2.766
+      },
+      {
+        "word": "go",
+        "start": 205.06,
+        "end": 205.32,
+        "freq": 5.287
+      },
+      {
+        "word": "into",
+        "start": 205.32,
+        "end": 205.54,
+        "freq": 4.634
+      },
+      {
+        "word": "place.",
+        "start": 205.54,
+        "end": 205.94,
+        "freq": 4.488
+      }
+    ],
+    "word": "cuts go into place.",
+    "start": 204.76,
+    "end": 205.94,
+    "freq": 2.766
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 205.94,
+        "end": 206.58,
+        "freq": 5.335
+      },
+      {
+        "word": "just",
+        "start": 206.58,
+        "end": 206.94,
+        "freq": 5.384
+      }
+    ],
+    "word": "So just",
+    "start": 205.94,
+    "end": 206.94,
+    "freq": 5.335
+  },
+  {
+    "words": [
+      {
+        "word": "to",
+        "start": 206.94,
+        "end": 207.08,
+        "freq": 6.063
+      },
+      {
+        "word": "put",
+        "start": 207.08,
+        "end": 207.18,
+        "freq": 4.626
+      },
+      {
+        "word": "a",
+        "start": 207.18,
+        "end": 207.28,
+        "freq": 6.018
+      },
+      {
+        "word": "fine",
+        "start": 207.28,
+        "end": 207.48,
+        "freq": 4.484
+      },
+      {
+        "word": "point",
+        "start": 207.48,
+        "end": 207.72,
+        "freq": 4.082
+      },
+      {
+        "word": "on",
+        "start": 207.72,
+        "end": 207.88,
+        "freq": 5.55
+      },
+      {
+        "word": "it,",
+        "start": 207.88,
+        "end": 208.04,
+        "freq": 5.984
+      }
+    ],
+    "word": "to put a fine point on it,",
+    "start": 206.94,
+    "end": 208.04,
+    "freq": 4.082
+  },
+  {
+    "words": [
+      {
+        "word": "what's",
+        "start": 208.2,
+        "end": 208.56,
+        "freq": -1
+      },
+      {
+        "word": "unusual",
+        "start": 208.56,
+        "end": 209.14,
+        "freq": 3.083
+      },
+      {
+        "word": "about",
+        "start": 209.14,
+        "end": 209.52,
+        "freq": 5.268
+      }
+    ],
+    "word": "what's unusual about",
+    "start": 208.2,
+    "end": 209.52,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "this",
+        "start": 209.52,
+        "end": 209.76,
+        "freq": 5.609
+      },
+      {
+        "word": "initiative",
+        "start": 209.76,
+        "end": 210.12,
+        "freq": 2.149
+      },
+      {
+        "word": "is",
+        "start": 210.12,
+        "end": 210.38,
+        "freq": 5.662
+      },
+      {
+        "word": "that,",
+        "start": 210.38,
+        "end": 210.6,
+        "freq": 5.857
+      }
+    ],
+    "word": "this initiative is that,",
+    "start": 209.52,
+    "end": 210.6,
+    "freq": 2.149
+  },
+  {
+    "words": [
+      {
+        "word": "one,",
+        "start": 210.76,
+        "end": 210.96,
+        "freq": 5.195
+      },
+      {
+        "word": "it's",
+        "start": 211.16,
+        "end": 211.36,
+        "freq": 3.942
+      },
+      {
+        "word": "taxing",
+        "start": 211.36,
+        "end": 211.82,
+        "freq": 1.204
+      }
+    ],
+    "word": "one, it's taxing",
+    "start": 210.76,
+    "end": 211.82,
+    "freq": 1.204
+  },
+  {
+    "words": [
+      {
+        "word": "assets,",
+        "start": 211.82,
+        "end": 212.36,
+        "freq": 2.417
+      },
+      {
+        "word": "and",
+        "start": 212.36,
+        "end": 212.68,
+        "freq": 5.834
+      },
+      {
+        "word": "that's",
+        "start": 212.68,
+        "end": 212.92,
+        "freq": -1
+      },
+      {
+        "word": "really",
+        "start": 212.92,
+        "end": 213.24,
+        "freq": 4.884
+      }
+    ],
+    "word": "assets, and that's really",
+    "start": 211.82,
+    "end": 213.24,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "different.",
+        "start": 213.24,
+        "end": 213.7,
+        "freq": 4.029
+      },
+      {
+        "word": "Normally,",
+        "start": 213.92,
+        "end": 214.24,
+        "freq": 2.913
+      },
+      {
+        "word": "the",
+        "start": 214.34,
+        "end": 214.42,
+        "freq": 6.177
+      },
+      {
+        "word": "way",
+        "start": 214.42,
+        "end": 214.54,
+        "freq": 4.861
+      },
+      {
+        "word": "people",
+        "start": 214.54,
+        "end": 214.82,
+        "freq": 4.75
+      }
+    ],
+    "word": "different. Normally, the way people",
+    "start": 213.24,
+    "end": 214.82,
+    "freq": 2.913
+  },
+  {
+    "words": [
+      {
+        "word": "raise",
+        "start": 214.82,
+        "end": 215.4,
+        "freq": 3.45
+      },
+      {
+        "word": "taxes",
+        "start": 215.4,
+        "end": 215.88,
+        "freq": 2.697
+      },
+      {
+        "word": "on",
+        "start": 215.88,
+        "end": 216.06,
+        "freq": 5.55
+      },
+      {
+        "word": "rich",
+        "start": 216.06,
+        "end": 216.24,
+        "freq": 3.613
+      }
+    ],
+    "word": "raise taxes on rich",
+    "start": 214.82,
+    "end": 216.24,
+    "freq": 2.697
+  },
+  {
+    "words": [
+      {
+        "word": "people",
+        "start": 216.24,
+        "end": 216.5,
+        "freq": 4.75
+      },
+      {
+        "word": "is",
+        "start": 216.5,
+        "end": 216.74,
+        "freq": 5.662
+      },
+      {
+        "word": "to",
+        "start": 216.74,
+        "end": 216.88,
+        "freq": 6.063
+      },
+      {
+        "word": "tax",
+        "start": 216.88,
+        "end": 217.18,
+        "freq": 2.871
+      },
+      {
+        "word": "their",
+        "start": 217.18,
+        "end": 217.42,
+        "freq": 4.524
+      }
+    ],
+    "word": "people is to tax their",
+    "start": 216.24,
+    "end": 217.42,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "income.",
+        "start": 217.42,
+        "end": 217.92,
+        "freq": 2.579
+      },
+      {
+        "word": "And",
+        "start": 218.12,
+        "end": 218.54,
+        "freq": 5.834
+      },
+      {
+        "word": "the",
+        "start": 218.54,
+        "end": 218.64,
+        "freq": 6.177
+      }
+    ],
+    "word": "income. And the",
+    "start": 217.42,
+    "end": 218.64,
+    "freq": 2.579
+  },
+  {
+    "words": [
+      {
+        "word": "other",
+        "start": 218.64,
+        "end": 218.8,
+        "freq": 4.574
+      },
+      {
+        "word": "thing",
+        "start": 218.8,
+        "end": 219.08,
+        "freq": 4.745
+      },
+      {
+        "word": "that's",
+        "start": 219.08,
+        "end": 219.44,
+        "freq": -1
+      },
+      {
+        "word": "unusual",
+        "start": 219.44,
+        "end": 219.76,
+        "freq": 3.083
+      }
+    ],
+    "word": "other thing that's unusual",
+    "start": 218.64,
+    "end": 219.76,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "is",
+        "start": 219.76,
+        "end": 220.1,
+        "freq": 5.662
+      },
+      {
+        "word": "that",
+        "start": 220.1,
+        "end": 220.26,
+        "freq": 5.857
+      },
+      {
+        "word": "the",
+        "start": 220.26,
+        "end": 220.46,
+        "freq": 6.177
+      },
+      {
+        "word": "vast",
+        "start": 220.46,
+        "end": 220.92,
+        "freq": 2.494
+      }
+    ],
+    "word": "is that the vast",
+    "start": 219.76,
+    "end": 220.92,
+    "freq": 2.494
+  },
+  {
+    "words": [
+      {
+        "word": "majority",
+        "start": 220.92,
+        "end": 221.54,
+        "freq": 2.418
+      },
+      {
+        "word": "of",
+        "start": 221.54,
+        "end": 222.1,
+        "freq": 5.771
+      }
+    ],
+    "word": "majority of",
+    "start": 220.92,
+    "end": 222.1,
+    "freq": 2.418
+  },
+  {
+    "words": [
+      {
+        "word": "it,",
+        "start": 222.1,
+        "end": 222.32,
+        "freq": 5.984
+      },
+      {
+        "word": "90",
+        "start": 222.66,
+        "end": 222.96,
+        "freq": -1
+      },
+      {
+        "word": "percent",
+        "start": 222.96,
+        "end": 223.32,
+        "freq": 3.119
+      }
+    ],
+    "word": "it, 90 percent",
+    "start": 222.1,
+    "end": 223.32,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 223.32,
+        "end": 223.76,
+        "freq": 5.771
+      },
+      {
+        "word": "the",
+        "start": 223.76,
+        "end": 223.88,
+        "freq": 6.177
+      },
+      {
+        "word": "money,",
+        "start": 223.88,
+        "end": 224.12,
+        "freq": 4.514
+      },
+      {
+        "word": "would",
+        "start": 224.32,
+        "end": 224.72,
+        "freq": 4.955
+      }
+    ],
+    "word": "of the money, would",
+    "start": 223.32,
+    "end": 224.72,
+    "freq": 4.514
+  },
+  {
+    "words": [
+      {
+        "word": "go",
+        "start": 224.72,
+        "end": 224.98,
+        "freq": 5.287
+      },
+      {
+        "word": "to",
+        "start": 224.98,
+        "end": 225.18,
+        "freq": 6.063
+      },
+      {
+        "word": "this",
+        "start": 225.18,
+        "end": 225.38,
+        "freq": 5.609
+      },
+      {
+        "word": "one",
+        "start": 225.38,
+        "end": 225.88,
+        "freq": 5.195
+      }
+    ],
+    "word": "go to this one",
+    "start": 224.72,
+    "end": 225.88,
+    "freq": 5.195
+  },
+  {
+    "words": [
+      {
+        "word": "purpose,",
+        "start": 225.88,
+        "end": 226.6,
+        "freq": 3.253
+      },
+      {
+        "word": "health",
+        "start": 227.0,
+        "end": 227.22,
+        "freq": 3.313
+      },
+      {
+        "word": "care.",
+        "start": 227.22,
+        "end": 227.42,
+        "freq": 4.394
+      }
+    ],
+    "word": "purpose, health care.",
+    "start": 225.88,
+    "end": 227.42,
+    "freq": 3.253
+  },
+  {
+    "words": [
+      {
+        "word": "Right.",
+        "start": 227.42,
+        "end": 228.62,
+        "freq": 5.311
+      }
+    ],
+    "word": "Right.",
+    "start": 227.42,
+    "end": 228.62,
+    "freq": 5.311
+  },
+  {
+    "words": [
+      {
+        "word": "And",
+        "start": 228.96,
+        "end": 229.46,
+        "freq": 5.834
+      },
+      {
+        "word": "this",
+        "start": 229.46,
+        "end": 229.98,
+        "freq": 5.609
+      },
+      {
+        "word": "is",
+        "start": 229.98,
+        "end": 230.18,
+        "freq": 5.662
+      }
+    ],
+    "word": "And this is",
+    "start": 228.96,
+    "end": 230.18,
+    "freq": 5.609
+  },
+  {
+    "words": [
+      {
+        "word": "happening",
+        "start": 230.18,
+        "end": 230.58,
+        "freq": 3.664
+      },
+      {
+        "word": "in",
+        "start": 230.58,
+        "end": 230.8,
+        "freq": 5.698
+      },
+      {
+        "word": "a",
+        "start": 230.8,
+        "end": 230.96,
+        "freq": 6.018
+      },
+      {
+        "word": "state",
+        "start": 230.96,
+        "end": 231.32,
+        "freq": 3.74
+      }
+    ],
+    "word": "happening in a state",
+    "start": 230.18,
+    "end": 231.32,
+    "freq": 3.664
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 231.32,
+        "end": 231.76,
+        "freq": 5.857
+      },
+      {
+        "word": "has",
+        "start": 231.76,
+        "end": 232.32,
+        "freq": 4.762
+      },
+      {
+        "word": "more",
+        "start": 232.32,
+        "end": 232.74,
+        "freq": 4.821
+      }
+    ],
+    "word": "that has more",
+    "start": 231.32,
+    "end": 232.74,
+    "freq": 4.762
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires",
+        "start": 232.74,
+        "end": 233.28,
+        "freq": -1
+      },
+      {
+        "word": "than",
+        "start": 233.28,
+        "end": 233.5,
+        "freq": 4.576
+      },
+      {
+        "word": "any",
+        "start": 233.5,
+        "end": 233.8,
+        "freq": 4.749
+      },
+      {
+        "word": "other",
+        "start": 233.8,
+        "end": 234.06,
+        "freq": 4.574
+      }
+    ],
+    "word": "billionaires than any other",
+    "start": 232.74,
+    "end": 234.06,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "state.",
+        "start": 234.06,
+        "end": 234.54,
+        "freq": 3.74
+      },
+      {
+        "word": "So",
+        "start": 235.04,
+        "end": 235.68,
+        "freq": 5.335
+      }
+    ],
+    "word": "state. So",
+    "start": 234.06,
+    "end": 235.68,
+    "freq": 3.74
+  },
+  {
+    "words": [
+      {
+        "word": "the",
+        "start": 235.68,
+        "end": 236.32,
+        "freq": 6.177
+      },
+      {
+        "word": "supporters",
+        "start": 236.32,
+        "end": 236.78,
+        "freq": 1.732
+      }
+    ],
+    "word": "the supporters",
+    "start": 235.68,
+    "end": 236.78,
+    "freq": 1.732
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 236.78,
+        "end": 237.04,
+        "freq": 5.771
+      },
+      {
+        "word": "this",
+        "start": 237.04,
+        "end": 237.22,
+        "freq": 5.609
+      },
+      {
+        "word": "tax",
+        "start": 237.22,
+        "end": 237.54,
+        "freq": 2.871
+      },
+      {
+        "word": "say",
+        "start": 237.54,
+        "end": 237.88,
+        "freq": 4.922
+      }
+    ],
+    "word": "of this tax say",
+    "start": 236.78,
+    "end": 237.88,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 237.88,
+        "end": 238.2,
+        "freq": 5.857
+      },
+      {
+        "word": "it",
+        "start": 238.2,
+        "end": 238.76,
+        "freq": 5.984
+      },
+      {
+        "word": "would",
+        "start": 238.76,
+        "end": 238.96,
+        "freq": 4.955
+      }
+    ],
+    "word": "that it would",
+    "start": 237.88,
+    "end": 238.96,
+    "freq": 4.955
+  },
+  {
+    "words": [
+      {
+        "word": "affect",
+        "start": 238.96,
+        "end": 239.48,
+        "freq": 2.755
+      },
+      {
+        "word": "about",
+        "start": 239.48,
+        "end": 240.1,
+        "freq": 5.268
+      }
+    ],
+    "word": "affect about",
+    "start": 238.96,
+    "end": 240.1,
+    "freq": 2.755
+  },
+  {
+    "words": [
+      {
+        "word": "200",
+        "start": 240.1,
+        "end": 240.64,
+        "freq": -1
+      },
+      {
+        "word": "people.",
+        "start": 240.64,
+        "end": 241.24,
+        "freq": 4.75
+      }
+    ],
+    "word": "200 people.",
+    "start": 240.1,
+    "end": 241.24,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "However,",
+        "start": 241.44,
+        "end": 242.04,
+        "freq": 3.362
+      },
+      {
+        "word": "there",
+        "start": 242.48,
+        "end": 242.66,
+        "freq": 5.346
+      },
+      {
+        "word": "are,",
+        "start": 242.66,
+        "end": 243.06,
+        "freq": 5.424
+      }
+    ],
+    "word": "However, there are,",
+    "start": 241.44,
+    "end": 243.06,
+    "freq": 3.362
+  },
+  {
+    "words": [
+      {
+        "word": "you",
+        "start": 243.06,
+        "end": 243.48,
+        "freq": 6.329
+      },
+      {
+        "word": "know,",
+        "start": 243.48,
+        "end": 243.54,
+        "freq": 5.465
+      },
+      {
+        "word": "various",
+        "start": 243.64,
+        "end": 243.94,
+        "freq": 2.66
+      },
+      {
+        "word": "wealth",
+        "start": 243.94,
+        "end": 244.34,
+        "freq": 2.512
+      }
+    ],
+    "word": "you know, various wealth",
+    "start": 243.06,
+    "end": 244.34,
+    "freq": 2.512
+  },
+  {
+    "words": [
+      {
+        "word": "management",
+        "start": 244.34,
+        "end": 245.02,
+        "freq": 2.775
+      },
+      {
+        "word": "kind",
+        "start": 245.02,
+        "end": 245.38,
+        "freq": 4.479
+      }
+    ],
+    "word": "management kind",
+    "start": 244.34,
+    "end": 245.38,
+    "freq": 2.775
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 245.38,
+        "end": 245.52,
+        "freq": 5.771
+      },
+      {
+        "word": "experts",
+        "start": 245.52,
+        "end": 245.98,
+        "freq": 2.54
+      },
+      {
+        "word": "that",
+        "start": 245.98,
+        "end": 246.22,
+        "freq": 5.857
+      },
+      {
+        "word": "I've",
+        "start": 246.22,
+        "end": 246.4,
+        "freq": -1
+      }
+    ],
+    "word": "of experts that I've",
+    "start": 245.38,
+    "end": 246.4,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "interviewed",
+        "start": 246.4,
+        "end": 246.78,
+        "freq": 2.265
+      },
+      {
+        "word": "over",
+        "start": 246.78,
+        "end": 247.02,
+        "freq": 4.829
+      },
+      {
+        "word": "the",
+        "start": 247.02,
+        "end": 247.18,
+        "freq": 6.177
+      },
+      {
+        "word": "last",
+        "start": 247.18,
+        "end": 247.46,
+        "freq": 4.567
+      },
+      {
+        "word": "few",
+        "start": 247.46,
+        "end": 247.66,
+        "freq": 4.187
+      }
+    ],
+    "word": "interviewed over the last few",
+    "start": 246.4,
+    "end": 247.66,
+    "freq": 2.265
+  },
+  {
+    "words": [
+      {
+        "word": "months.",
+        "start": 247.66,
+        "end": 248.0,
+        "freq": 3.92
+      },
+      {
+        "word": "And",
+        "start": 248.16,
+        "end": 248.8,
+        "freq": 5.834
+      }
+    ],
+    "word": "months. And",
+    "start": 247.66,
+    "end": 248.8,
+    "freq": 3.92
+  },
+  {
+    "words": [
+      {
+        "word": "they've",
+        "start": 248.8,
+        "end": 249.3,
+        "freq": -1
+      },
+      {
+        "word": "told",
+        "start": 249.3,
+        "end": 249.5,
+        "freq": 4.552
+      },
+      {
+        "word": "me",
+        "start": 249.5,
+        "end": 249.62,
+        "freq": 5.673
+      },
+      {
+        "word": "they",
+        "start": 249.62,
+        "end": 249.8,
+        "freq": 5.321
+      },
+      {
+        "word": "think",
+        "start": 249.8,
+        "end": 250.02,
+        "freq": 5.138
+      },
+      {
+        "word": "the",
+        "start": 250.02,
+        "end": 250.2,
+        "freq": 6.177
+      }
+    ],
+    "word": "they've told me they think the",
+    "start": 248.8,
+    "end": 250.2,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "number",
+        "start": 250.2,
+        "end": 250.46,
+        "freq": 4.09
+      },
+      {
+        "word": "is",
+        "start": 250.46,
+        "end": 250.72,
+        "freq": 5.662
+      },
+      {
+        "word": "probably",
+        "start": 250.72,
+        "end": 251.26,
+        "freq": 4.156
+      }
+    ],
+    "word": "number is probably",
+    "start": 250.2,
+    "end": 251.26,
+    "freq": 4.09
+  },
+  {
+    "words": [
+      {
+        "word": "higher.",
+        "start": 251.26,
+        "end": 251.86,
+        "freq": 3.153
+      },
+      {
+        "word": "But",
+        "start": 252.08,
+        "end": 252.64,
+        "freq": 5.353
+      },
+      {
+        "word": "right",
+        "start": 252.64,
+        "end": 252.92,
+        "freq": 5.311
+      }
+    ],
+    "word": "higher. But right",
+    "start": 251.26,
+    "end": 252.92,
+    "freq": 3.153
+  },
+  {
+    "words": [
+      {
+        "word": "now,",
+        "start": 252.92,
+        "end": 253.34,
+        "freq": 5.213
+      },
+      {
+        "word": "you",
+        "start": 253.66,
+        "end": 253.74,
+        "freq": 6.329
+      },
+      {
+        "word": "know,",
+        "start": 253.74,
+        "end": 253.82,
+        "freq": 5.465
+      },
+      {
+        "word": "no",
+        "start": 253.88,
+        "end": 254.0,
+        "freq": 5.484
+      },
+      {
+        "word": "one",
+        "start": 254.0,
+        "end": 254.14,
+        "freq": 5.195
+      }
+    ],
+    "word": "now, you know, no one",
+    "start": 252.92,
+    "end": 254.14,
+    "freq": 5.195
+  },
+  {
+    "words": [
+      {
+        "word": "has",
+        "start": 254.14,
+        "end": 254.42,
+        "freq": 4.762
+      },
+      {
+        "word": "like",
+        "start": 254.42,
+        "end": 254.64,
+        "freq": 5.309
+      },
+      {
+        "word": "an",
+        "start": 254.64,
+        "end": 254.74,
+        "freq": 4.978
+      },
+      {
+        "word": "exact",
+        "start": 254.74,
+        "end": 255.18,
+        "freq": 3.063
+      }
+    ],
+    "word": "has like an exact",
+    "start": 254.14,
+    "end": 255.18,
+    "freq": 3.063
+  },
+  {
+    "words": [
+      {
+        "word": "count",
+        "start": 255.18,
+        "end": 255.54,
+        "freq": 3.662
+      },
+      {
+        "word": "on",
+        "start": 255.54,
+        "end": 255.8,
+        "freq": 5.55
+      },
+      {
+        "word": "how",
+        "start": 255.8,
+        "end": 255.98,
+        "freq": 5.193
+      },
+      {
+        "word": "many",
+        "start": 255.98,
+        "end": 256.18,
+        "freq": 4.263
+      },
+      {
+        "word": "people",
+        "start": 256.18,
+        "end": 256.52,
+        "freq": 4.75
+      }
+    ],
+    "word": "count on how many people",
+    "start": 255.18,
+    "end": 256.52,
+    "freq": 3.662
+  },
+  {
+    "words": [
+      {
+        "word": "would",
+        "start": 256.52,
+        "end": 256.72,
+        "freq": 4.955
+      },
+      {
+        "word": "have",
+        "start": 256.72,
+        "end": 256.86,
+        "freq": 5.497
+      },
+      {
+        "word": "to",
+        "start": 256.86,
+        "end": 256.98,
+        "freq": 6.063
+      },
+      {
+        "word": "pay",
+        "start": 256.98,
+        "end": 257.18,
+        "freq": 4.114
+      },
+      {
+        "word": "this.",
+        "start": 257.18,
+        "end": 257.52,
+        "freq": 5.609
+      }
+    ],
+    "word": "would have to pay this.",
+    "start": 256.52,
+    "end": 257.52,
+    "freq": 4.114
+  },
+  {
+    "words": [
+      {
+        "word": "And",
+        "start": 258.14,
+        "end": 258.62,
+        "freq": 5.834
+      },
+      {
+        "word": "so",
+        "start": 258.62,
+        "end": 258.88,
+        "freq": 5.335
+      },
+      {
+        "word": "how",
+        "start": 258.88,
+        "end": 259.56,
+        "freq": 5.193
+      }
+    ],
+    "word": "And so how",
+    "start": 258.14,
+    "end": 259.56,
+    "freq": 5.193
+  },
+  {
+    "words": [
+      {
+        "word": "has",
+        "start": 259.56,
+        "end": 260.08,
+        "freq": 4.762
+      },
+      {
+        "word": "this",
+        "start": 260.08,
+        "end": 260.3,
+        "freq": 5.609
+      },
+      {
+        "word": "been",
+        "start": 260.3,
+        "end": 260.64,
+        "freq": 4.947
+      }
+    ],
+    "word": "has this been",
+    "start": 259.56,
+    "end": 260.64,
+    "freq": 4.762
+  },
+  {
+    "words": [
+      {
+        "word": "received",
+        "start": 260.64,
+        "end": 261.56,
+        "freq": 3.158
+      },
+      {
+        "word": "in",
+        "start": 261.56,
+        "end": 262.04,
+        "freq": 5.698
+      },
+      {
+        "word": "California?",
+        "start": 262.04,
+        "end": 262.5,
+        "freq": 3.295
+      }
+    ],
+    "word": "received in California?",
+    "start": 260.64,
+    "end": 262.5,
+    "freq": 3.158
+  },
+  {
+    "words": [
+      {
+        "word": "Well,",
+        "start": 262.96,
+        "end": 263.58,
+        "freq": 5.183
+      },
+      {
+        "word": "you",
+        "start": 264.06,
+        "end": 264.24,
+        "freq": 6.329
+      }
+    ],
+    "word": "Well, you",
+    "start": 262.96,
+    "end": 264.24,
+    "freq": 5.183
+  },
+  {
+    "words": [
+      {
+        "word": "know,",
+        "start": 264.24,
+        "end": 264.34,
+        "freq": 5.465
+      },
+      {
+        "word": "it",
+        "start": 264.46,
+        "end": 264.56,
+        "freq": 5.984
+      },
+      {
+        "word": "got",
+        "start": 264.56,
+        "end": 264.92,
+        "freq": 5.227
+      },
+      {
+        "word": "on",
+        "start": 264.92,
+        "end": 265.3,
+        "freq": 5.55
+      }
+    ],
+    "word": "know, it got on",
+    "start": 264.24,
+    "end": 265.3,
+    "freq": 5.227
+  },
+  {
+    "words": [
+      {
+        "word": "1",
+        "start": 265.3,
+        "end": 265.9,
+        "freq": -1
+      },
+      {
+        "word": ".5",
+        "start": 265.9,
+        "end": 266.4,
+        "freq": -1
+      },
+      {
+        "word": "million",
+        "start": 266.4,
+        "end": 266.78,
+        "freq": 3.789
+      }
+    ],
+    "word": "1 .5 million",
+    "start": 265.3,
+    "end": 266.78,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "signatures.",
+        "start": 266.78,
+        "end": 267.5,
+        "freq": 2.167
+      },
+      {
+        "word": "So",
+        "start": 267.5,
+        "end": 268.04,
+        "freq": 5.335
+      },
+      {
+        "word": "there",
+        "start": 268.04,
+        "end": 268.28,
+        "freq": 5.346
+      }
+    ],
+    "word": "signatures. So there",
+    "start": 266.78,
+    "end": 268.28,
+    "freq": 2.167
+  },
+  {
+    "words": [
+      {
+        "word": "were",
+        "start": 268.28,
+        "end": 268.58,
+        "freq": 4.928
+      },
+      {
+        "word": "at",
+        "start": 268.58,
+        "end": 268.88,
+        "freq": 5.215
+      },
+      {
+        "word": "least",
+        "start": 268.88,
+        "end": 269.06,
+        "freq": 4.025
+      },
+      {
+        "word": "that",
+        "start": 269.06,
+        "end": 269.3,
+        "freq": 5.857
+      }
+    ],
+    "word": "were at least that",
+    "start": 268.28,
+    "end": 269.3,
+    "freq": 4.025
+  },
+  {
+    "words": [
+      {
+        "word": "many",
+        "start": 269.3,
+        "end": 269.54,
+        "freq": 4.263
+      },
+      {
+        "word": "people",
+        "start": 269.54,
+        "end": 269.86,
+        "freq": 4.75
+      },
+      {
+        "word": "who",
+        "start": 269.86,
+        "end": 270.08,
+        "freq": 5.054
+      },
+      {
+        "word": "liked",
+        "start": 270.08,
+        "end": 270.34,
+        "freq": 3.604
+      },
+      {
+        "word": "the",
+        "start": 270.34,
+        "end": 270.5,
+        "freq": 6.177
+      }
+    ],
+    "word": "many people who liked the",
+    "start": 269.3,
+    "end": 270.5,
+    "freq": 3.604
+  },
+  {
+    "words": [
+      {
+        "word": "idea",
+        "start": 270.5,
+        "end": 270.74,
+        "freq": 4.263
+      },
+      {
+        "word": "enough",
+        "start": 270.74,
+        "end": 271.06,
+        "freq": 4.408
+      },
+      {
+        "word": "to",
+        "start": 271.06,
+        "end": 271.24,
+        "freq": 6.063
+      },
+      {
+        "word": "sign",
+        "start": 271.24,
+        "end": 271.48,
+        "freq": 3.832
+      },
+      {
+        "word": "a",
+        "start": 271.48,
+        "end": 271.62,
+        "freq": 6.018
+      }
+    ],
+    "word": "idea enough to sign a",
+    "start": 270.5,
+    "end": 271.62,
+    "freq": 3.832
+  },
+  {
+    "words": [
+      {
+        "word": "petition.",
+        "start": 271.62,
+        "end": 272.06,
+        "freq": 2.334
+      },
+      {
+        "word": "You",
+        "start": 272.42,
+        "end": 272.98,
+        "freq": 6.329
+      },
+      {
+        "word": "know,",
+        "start": 272.98,
+        "end": 273.02,
+        "freq": 5.465
+      }
+    ],
+    "word": "petition. You know,",
+    "start": 271.62,
+    "end": 273.02,
+    "freq": 2.334
+  },
+  {
+    "words": [
+      {
+        "word": "I've",
+        "start": 273.1,
+        "end": 273.26,
+        "freq": -1
+      },
+      {
+        "word": "been",
+        "start": 273.26,
+        "end": 273.4,
+        "freq": 4.947
+      },
+      {
+        "word": "out",
+        "start": 273.4,
+        "end": 273.72,
+        "freq": 5.295
+      },
+      {
+        "word": "with",
+        "start": 273.72,
+        "end": 274.18,
+        "freq": 5.411
+      }
+    ],
+    "word": "I've been out with",
+    "start": 273.1,
+    "end": 274.18,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "different",
+        "start": 274.18,
+        "end": 274.64,
+        "freq": 4.029
+      },
+      {
+        "word": "petition",
+        "start": 274.64,
+        "end": 275.2,
+        "freq": 2.334
+      }
+    ],
+    "word": "different petition",
+    "start": 274.18,
+    "end": 275.2,
+    "freq": 2.334
+  },
+  {
+    "words": [
+      {
+        "word": "circulators",
+        "start": 275.2,
+        "end": 276.04,
+        "freq": -1
+      },
+      {
+        "word": "watching",
+        "start": 276.04,
+        "end": 276.52,
+        "freq": 3.706
+      },
+      {
+        "word": "this",
+        "start": 276.52,
+        "end": 277.0,
+        "freq": 5.609
+      }
+    ],
+    "word": "circulators watching this",
+    "start": 275.2,
+    "end": 277.0,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "thing",
+        "start": 277.0,
+        "end": 277.38,
+        "freq": 4.745
+      },
+      {
+        "word": "in",
+        "start": 277.38,
+        "end": 277.74,
+        "freq": 5.698
+      },
+      {
+        "word": "public",
+        "start": 277.74,
+        "end": 278.18,
+        "freq": 3.559
+      }
+    ],
+    "word": "thing in public",
+    "start": 277.0,
+    "end": 278.18,
+    "freq": 3.559
+  },
+  {
+    "words": [
+      {
+        "word": "parks",
+        "start": 278.18,
+        "end": 278.62,
+        "freq": 2.281
+      },
+      {
+        "word": "and",
+        "start": 278.62,
+        "end": 278.86,
+        "freq": 5.834
+      },
+      {
+        "word": "in",
+        "start": 278.86,
+        "end": 279.0,
+        "freq": 5.698
+      },
+      {
+        "word": "front",
+        "start": 279.0,
+        "end": 279.18,
+        "freq": 3.967
+      }
+    ],
+    "word": "parks and in front",
+    "start": 278.18,
+    "end": 279.18,
+    "freq": 2.281
+  },
+  {
+    "words": [
+      {
+        "word": "of",
+        "start": 279.18,
+        "end": 279.32,
+        "freq": 5.771
+      },
+      {
+        "word": "grocery",
+        "start": 279.32,
+        "end": 279.74,
+        "freq": 2.449
+      },
+      {
+        "word": "stores.",
+        "start": 279.74,
+        "end": 280.24,
+        "freq": 2.687
+      }
+    ],
+    "word": "of grocery stores.",
+    "start": 279.18,
+    "end": 280.24,
+    "freq": 2.449
+  },
+  {
+    "words": [
+      {
+        "word": "And",
+        "start": 280.24,
+        "end": 280.84,
+        "freq": 5.834
+      },
+      {
+        "word": "the",
+        "start": 280.84,
+        "end": 281.46,
+        "freq": 6.177
+      }
+    ],
+    "word": "And the",
+    "start": 280.24,
+    "end": 281.46,
+    "freq": 5.834
+  },
+  {
+    "words": [
+      {
+        "word": "idea",
+        "start": 281.46,
+        "end": 281.82,
+        "freq": 4.263
+      },
+      {
+        "word": "of",
+        "start": 281.82,
+        "end": 282.04,
+        "freq": 5.771
+      },
+      {
+        "word": "taxing",
+        "start": 282.04,
+        "end": 282.46,
+        "freq": 1.204
+      }
+    ],
+    "word": "idea of taxing",
+    "start": 281.46,
+    "end": 282.46,
+    "freq": 1.204
+  },
+  {
+    "words": [
+      {
+        "word": "billionaires,",
+        "start": 282.46,
+        "end": 283.02,
+        "freq": -1
+      },
+      {
+        "word": "especially",
+        "start": 283.18,
+        "end": 283.54,
+        "freq": 3.535
+      },
+      {
+        "word": "when",
+        "start": 283.54,
+        "end": 283.84,
+        "freq": 5.016
+      },
+      {
+        "word": "you",
+        "start": 283.84,
+        "end": 283.94,
+        "freq": 6.329
+      }
+    ],
+    "word": "billionaires, especially when you",
+    "start": 282.46,
+    "end": 283.94,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "just",
+        "start": 283.94,
+        "end": 284.14,
+        "freq": 5.384
+      },
+      {
+        "word": "kind",
+        "start": 284.14,
+        "end": 284.34,
+        "freq": 4.479
+      },
+      {
+        "word": "of",
+        "start": 284.34,
+        "end": 284.5,
+        "freq": 5.771
+      },
+      {
+        "word": "say",
+        "start": 284.5,
+        "end": 284.74,
+        "freq": 4.922
+      },
+      {
+        "word": "it",
+        "start": 284.74,
+        "end": 284.92,
+        "freq": 5.984
+      },
+      {
+        "word": "in",
+        "start": 284.92,
+        "end": 285.08,
+        "freq": 5.698
+      }
+    ],
+    "word": "just kind of say it in",
+    "start": 283.94,
+    "end": 285.08,
+    "freq": 4.479
+  },
+  {
+    "words": [
+      {
+        "word": "one",
+        "start": 285.08,
+        "end": 285.42,
+        "freq": 5.195
+      },
+      {
+        "word": "sentence",
+        "start": 285.42,
+        "end": 285.96,
+        "freq": 3.02
+      },
+      {
+        "word": "like",
+        "start": 285.96,
+        "end": 286.24,
+        "freq": 5.309
+      }
+    ],
+    "word": "one sentence like",
+    "start": 285.08,
+    "end": 286.24,
+    "freq": 3.02
+  },
+  {
+    "words": [
+      {
+        "word": "that,",
+        "start": 286.24,
+        "end": 286.48,
+        "freq": 5.857
+      },
+      {
+        "word": "it's",
+        "start": 286.6,
+        "end": 286.98,
+        "freq": 3.942
+      },
+      {
+        "word": "real",
+        "start": 286.98,
+        "end": 287.24,
+        "freq": 4.354
+      }
+    ],
+    "word": "that, it's real",
+    "start": 286.24,
+    "end": 287.24,
+    "freq": 3.942
+  },
+  {
+    "words": [
+      {
+        "word": "easy",
+        "start": 287.24,
+        "end": 287.56,
+        "freq": 4.132
+      },
+      {
+        "word": "for",
+        "start": 287.56,
+        "end": 287.78,
+        "freq": 5.546
+      },
+      {
+        "word": "people",
+        "start": 287.78,
+        "end": 288.14,
+        "freq": 4.75
+      },
+      {
+        "word": "to",
+        "start": 288.14,
+        "end": 288.46,
+        "freq": 6.063
+      }
+    ],
+    "word": "easy for people to",
+    "start": 287.24,
+    "end": 288.46,
+    "freq": 4.132
+  },
+  {
+    "words": [
+      {
+        "word": "sign",
+        "start": 288.46,
+        "end": 289.02,
+        "freq": 3.832
+      },
+      {
+        "word": "on",
+        "start": 289.02,
+        "end": 289.22,
+        "freq": 5.55
+      },
+      {
+        "word": "the",
+        "start": 289.22,
+        "end": 289.38,
+        "freq": 6.177
+      },
+      {
+        "word": "dotted",
+        "start": 289.38,
+        "end": 289.66,
+        "freq": 1.716
+      }
+    ],
+    "word": "sign on the dotted",
+    "start": 288.46,
+    "end": 289.66,
+    "freq": 1.716
+  },
+  {
+    "words": [
+      {
+        "word": "line.",
+        "start": 289.66,
+        "end": 290.04,
+        "freq": 4.022
+      },
+      {
+        "word": "And",
+        "start": 290.28,
+        "end": 290.86,
+        "freq": 5.834
+      },
+      {
+        "word": "polling",
+        "start": 290.86,
+        "end": 291.14,
+        "freq": 1.322
+      }
+    ],
+    "word": "line. And polling",
+    "start": 289.66,
+    "end": 291.14,
+    "freq": 1.322
+  },
+  {
+    "words": [
+      {
+        "word": "shows",
+        "start": 291.14,
+        "end": 291.66,
+        "freq": 3.326
+      },
+      {
+        "word": "that",
+        "start": 291.66,
+        "end": 292.14,
+        "freq": 5.857
+      }
+    ],
+    "word": "shows that",
+    "start": 291.14,
+    "end": 292.14,
+    "freq": 3.326
+  },
+  {
+    "words": [
+      {
+        "word": "more",
+        "start": 292.14,
+        "end": 292.48,
+        "freq": 4.821
+      },
+      {
+        "word": "than",
+        "start": 292.48,
+        "end": 292.64,
+        "freq": 4.576
+      },
+      {
+        "word": "half",
+        "start": 292.64,
+        "end": 292.9,
+        "freq": 4.007
+      },
+      {
+        "word": "of",
+        "start": 292.9,
+        "end": 293.06,
+        "freq": 5.771
+      },
+      {
+        "word": "voters",
+        "start": 293.06,
+        "end": 293.36,
+        "freq": 2.029
+      }
+    ],
+    "word": "more than half of voters",
+    "start": 292.14,
+    "end": 293.36,
+    "freq": 2.029
+  },
+  {
+    "words": [
+      {
+        "word": "support",
+        "start": 293.36,
+        "end": 293.84,
+        "freq": 3.413
+      },
+      {
+        "word": "it,",
+        "start": 293.84,
+        "end": 294.14,
+        "freq": 5.984
+      },
+      {
+        "word": "more",
+        "start": 294.42,
+        "end": 294.52,
+        "freq": 4.821
+      },
+      {
+        "word": "than",
+        "start": 294.52,
+        "end": 294.68,
+        "freq": 4.576
+      }
+    ],
+    "word": "support it, more than",
+    "start": 293.36,
+    "end": 294.68,
+    "freq": 3.413
+  },
+  {
+    "words": [
+      {
+        "word": "70",
+        "start": 294.68,
+        "end": 295.14,
+        "freq": -1
+      },
+      {
+        "word": "%",
+        "start": 295.14,
+        "end": 295.48,
+        "freq": -1
+      },
+      {
+        "word": "of",
+        "start": 295.48,
+        "end": 295.72,
+        "freq": 5.771
+      }
+    ],
+    "word": "70 % of",
+    "start": 294.68,
+    "end": 295.72,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "Democrats",
+        "start": 295.72,
+        "end": 296.16,
+        "freq": 1.839
+      },
+      {
+        "word": "support",
+        "start": 296.16,
+        "end": 296.7,
+        "freq": 3.413
+      },
+      {
+        "word": "it",
+        "start": 296.7,
+        "end": 296.82,
+        "freq": 5.984
+      },
+      {
+        "word": "in",
+        "start": 296.82,
+        "end": 296.96,
+        "freq": 5.698
+      }
+    ],
+    "word": "Democrats support it in",
+    "start": 295.72,
+    "end": 296.96,
+    "freq": 1.839
+  },
+  {
+    "words": [
+      {
+        "word": "California.",
+        "start": 296.96,
+        "end": 297.52,
+        "freq": 3.295
+      },
+      {
+        "word": "But",
+        "start": 298.36,
+        "end": 298.96,
+        "freq": 5.353
+      }
+    ],
+    "word": "California. But",
+    "start": 296.96,
+    "end": 298.96,
+    "freq": 3.295
+  },
+  {
+    "words": [
+      {
+        "word": "even",
+        "start": 298.96,
+        "end": 299.84,
+        "freq": 4.65
+      },
+      {
+        "word": "though",
+        "start": 299.84,
+        "end": 300.24,
+        "freq": 3.967
+      },
+      {
+        "word": "it",
+        "start": 300.24,
+        "end": 300.64,
+        "freq": 5.984
+      }
+    ],
+    "word": "even though it",
+    "start": 298.96,
+    "end": 300.64,
+    "freq": 3.967
+  },
+  {
+    "words": [
+      {
+        "word": "has",
+        "start": 300.64,
+        "end": 301.16,
+        "freq": 4.762
+      },
+      {
+        "word": "a",
+        "start": 301.16,
+        "end": 301.44,
+        "freq": 6.018
+      },
+      {
+        "word": "lot",
+        "start": 301.44,
+        "end": 301.6,
+        "freq": 4.463
+      },
+      {
+        "word": "of",
+        "start": 301.6,
+        "end": 301.9,
+        "freq": 5.771
+      }
+    ],
+    "word": "has a lot of",
+    "start": 300.64,
+    "end": 301.9,
+    "freq": 4.463
+  },
+  {
+    "words": [
+      {
+        "word": "support",
+        "start": 301.9,
+        "end": 302.66,
+        "freq": 3.413
+      },
+      {
+        "word": "seemingly",
+        "start": 302.66,
+        "end": 303.06,
+        "freq": 2.037
+      },
+      {
+        "word": "from",
+        "start": 303.06,
+        "end": 303.46,
+        "freq": 5.017
+      },
+      {
+        "word": "the",
+        "start": 303.46,
+        "end": 303.58,
+        "freq": 6.177
+      }
+    ],
+    "word": "support seemingly from the",
+    "start": 301.9,
+    "end": 303.58,
+    "freq": 2.037
+  },
+  {
+    "words": [
+      {
+        "word": "public,",
+        "start": 303.58,
+        "end": 303.88,
+        "freq": 3.559
+      },
+      {
+        "word": "there",
+        "start": 304.28,
+        "end": 304.42,
+        "freq": 5.346
+      },
+      {
+        "word": "are",
+        "start": 304.42,
+        "end": 304.76,
+        "freq": 5.424
+      },
+      {
+        "word": "a",
+        "start": 304.76,
+        "end": 305.06,
+        "freq": 6.018
+      }
+    ],
+    "word": "public, there are a",
+    "start": 303.58,
+    "end": 305.06,
+    "freq": 3.559
+  },
+  {
+    "words": [
+      {
+        "word": "lot",
+        "start": 305.06,
+        "end": 305.26,
+        "freq": 4.463
+      },
+      {
+        "word": "of",
+        "start": 305.26,
+        "end": 305.42,
+        "freq": 5.771
+      },
+      {
+        "word": "high",
+        "start": 305.42,
+        "end": 305.68,
+        "freq": 3.998
+      },
+      {
+        "word": "profile",
+        "start": 305.68,
+        "end": 306.16,
+        "freq": 2.818
+      }
+    ],
+    "word": "lot of high profile",
+    "start": 305.06,
+    "end": 306.16,
+    "freq": 2.818
+  },
+  {
+    "words": [
+      {
+        "word": "Democrats",
+        "start": 306.16,
+        "end": 307.2,
+        "freq": 1.839
+      },
+      {
+        "word": "who",
+        "start": 307.2,
+        "end": 307.66,
+        "freq": 5.054
+      },
+      {
+        "word": "have",
+        "start": 307.66,
+        "end": 307.78,
+        "freq": 5.497
+      },
+      {
+        "word": "come",
+        "start": 307.78,
+        "end": 308.0,
+        "freq": 5.205
+      }
+    ],
+    "word": "Democrats who have come",
+    "start": 306.16,
+    "end": 308.0,
+    "freq": 1.839
+  },
+  {
+    "words": [
+      {
+        "word": "out",
+        "start": 308.0,
+        "end": 308.22,
+        "freq": 5.295
+      },
+      {
+        "word": "against",
+        "start": 308.22,
+        "end": 308.64,
+        "freq": 4.012
+      },
+      {
+        "word": "it,",
+        "start": 308.64,
+        "end": 309.04,
+        "freq": 5.984
+      }
+    ],
+    "word": "out against it,",
+    "start": 308.0,
+    "end": 309.04,
+    "freq": 4.012
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 309.16,
+        "end": 309.9,
+        "freq": 5.834
+      },
+      {
+        "word": "a",
+        "start": 309.9,
+        "end": 310.64,
+        "freq": 6.018
+      }
+    ],
+    "word": "and a",
+    "start": 309.16,
+    "end": 310.64,
+    "freq": 5.834
+  },
+  {
+    "words": [
+      {
+        "word": "lot",
+        "start": 310.64,
+        "end": 310.82,
+        "freq": 4.463
+      },
+      {
+        "word": "of",
+        "start": 310.82,
+        "end": 310.98,
+        "freq": 5.771
+      },
+      {
+        "word": "unions",
+        "start": 310.98,
+        "end": 311.32,
+        "freq": 1.857
+      },
+      {
+        "word": "who",
+        "start": 311.32,
+        "end": 311.56,
+        "freq": 5.054
+      },
+      {
+        "word": "are",
+        "start": 311.56,
+        "end": 311.68,
+        "freq": 5.424
+      }
+    ],
+    "word": "lot of unions who are",
+    "start": 310.64,
+    "end": 311.68,
+    "freq": 1.857
+  },
+  {
+    "words": [
+      {
+        "word": "just",
+        "start": 311.68,
+        "end": 311.98,
+        "freq": 5.384
+      },
+      {
+        "word": "sitting",
+        "start": 311.98,
+        "end": 312.42,
+        "freq": 3.683
+      },
+      {
+        "word": "on",
+        "start": 312.42,
+        "end": 312.62,
+        "freq": 5.55
+      },
+      {
+        "word": "the",
+        "start": 312.62,
+        "end": 312.76,
+        "freq": 6.177
+      }
+    ],
+    "word": "just sitting on the",
+    "start": 311.68,
+    "end": 312.76,
+    "freq": 3.683
+  },
+  {
+    "words": [
+      {
+        "word": "sidelines.",
+        "start": 312.76,
+        "end": 313.38,
+        "freq": 1.763
+      },
+      {
+        "word": "And",
+        "start": 313.56,
+        "end": 313.98,
+        "freq": 5.834
+      },
+      {
+        "word": "some",
+        "start": 313.98,
+        "end": 314.22,
+        "freq": 4.945
+      },
+      {
+        "word": "of",
+        "start": 314.22,
+        "end": 314.34,
+        "freq": 5.771
+      }
+    ],
+    "word": "sidelines. And some of",
+    "start": 312.76,
+    "end": 314.34,
+    "freq": 1.763
+  },
+  {
+    "words": [
+      {
+        "word": "that",
+        "start": 314.34,
+        "end": 314.52,
+        "freq": 5.857
+      },
+      {
+        "word": "has",
+        "start": 314.52,
+        "end": 314.76,
+        "freq": 4.762
+      },
+      {
+        "word": "to",
+        "start": 314.76,
+        "end": 314.92,
+        "freq": 6.063
+      },
+      {
+        "word": "do",
+        "start": 314.92,
+        "end": 315.1,
+        "freq": 5.495
+      },
+      {
+        "word": "with",
+        "start": 315.1,
+        "end": 315.42,
+        "freq": 5.411
+      }
+    ],
+    "word": "that has to do with",
+    "start": 314.34,
+    "end": 315.42,
+    "freq": 4.762
+  },
+  {
+    "words": [
+      {
+        "word": "how",
+        "start": 315.42,
+        "end": 315.72,
+        "freq": 5.193
+      },
+      {
+        "word": "this",
+        "start": 315.72,
+        "end": 315.96,
+        "freq": 5.609
+      },
+      {
+        "word": "whole",
+        "start": 315.96,
+        "end": 316.14,
+        "freq": 4.294
+      },
+      {
+        "word": "thing",
+        "start": 316.14,
+        "end": 316.4,
+        "freq": 4.745
+      },
+      {
+        "word": "came",
+        "start": 316.4,
+        "end": 316.64,
+        "freq": 4.374
+      }
+    ],
+    "word": "how this whole thing came",
+    "start": 315.42,
+    "end": 316.64,
+    "freq": 4.294
+  },
+  {
+    "words": [
+      {
+        "word": "about.",
+        "start": 316.64,
+        "end": 316.92,
+        "freq": 5.268
+      },
+      {
+        "word": "Interesting.",
+        "start": 317.66,
+        "end": 317.92,
+        "freq": 3.646
+      }
+    ],
+    "word": "about. Interesting.",
+    "start": 316.64,
+    "end": 317.92,
+    "freq": 3.646
+  },
+  {
+    "words": [
+      {
+        "word": "So",
+        "start": 318.18,
+        "end": 318.32,
+        "freq": 5.335
+      },
+      {
+        "word": "how",
+        "start": 318.32,
+        "end": 319.18,
+        "freq": 5.193
+      }
+    ],
+    "word": "So how",
+    "start": 318.18,
+    "end": 319.18,
+    "freq": 5.193
+  },
+  {
+    "words": [
+      {
+        "word": "did",
+        "start": 319.18,
+        "end": 319.64,
+        "freq": 5.077
+      },
+      {
+        "word": "it",
+        "start": 319.64,
+        "end": 319.8,
+        "freq": 5.984
+      },
+      {
+        "word": "come",
+        "start": 319.8,
+        "end": 320.02,
+        "freq": 5.205
+      },
+      {
+        "word": "about?",
+        "start": 320.02,
+        "end": 320.3,
+        "freq": 5.268
+      }
+    ],
+    "word": "did it come about?",
+    "start": 319.18,
+    "end": 320.3,
+    "freq": 5.077
+  },
+  {
+    "words": [
+      {
+        "word": "This",
+        "start": 323.82,
+        "end": 324.42,
+        "freq": 5.609
+      },
+      {
+        "word": "tax",
+        "start": 324.42,
+        "end": 324.9,
+        "freq": 2.871
+      }
+    ],
+    "word": "This tax",
+    "start": 323.82,
+    "end": 324.9,
+    "freq": 2.871
+  },
+  {
+    "words": [
+      {
+        "word": "is",
+        "start": 324.9,
+        "end": 325.18,
+        "freq": 5.662
+      },
+      {
+        "word": "being",
+        "start": 325.18,
+        "end": 325.46,
+        "freq": 4.394
+      },
+      {
+        "word": "proposed",
+        "start": 325.46,
+        "end": 326.08,
+        "freq": 2.537
+      }
+    ],
+    "word": "is being proposed",
+    "start": 324.9,
+    "end": 326.08,
+    "freq": 2.537
+  },
+  {
+    "words": [
+      {
+        "word": "by",
+        "start": 326.08,
+        "end": 326.58,
+        "freq": 4.835
+      },
+      {
+        "word": "a",
+        "start": 326.58,
+        "end": 326.86,
+        "freq": 6.018
+      },
+      {
+        "word": "specific",
+        "start": 326.86,
+        "end": 327.34,
+        "freq": 2.959
+      }
+    ],
+    "word": "by a specific",
+    "start": 326.08,
+    "end": 327.34,
+    "freq": 2.959
+  },
+  {
+    "words": [
+      {
+        "word": "union",
+        "start": 327.34,
+        "end": 327.82,
+        "freq": 3.046
+      },
+      {
+        "word": "called",
+        "start": 327.82,
+        "end": 328.5,
+        "freq": 4.239
+      }
+    ],
+    "word": "union called",
+    "start": 327.34,
+    "end": 328.5,
+    "freq": 3.046
+  },
+  {
+    "words": [
+      {
+        "word": "the",
+        "start": 328.5,
+        "end": 328.98,
+        "freq": 6.177
+      },
+      {
+        "word": "SEIU",
+        "start": 328.98,
+        "end": 329.92,
+        "freq": -1
+      }
+    ],
+    "word": "the SEIU",
+    "start": 328.5,
+    "end": 329.92,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "-UHW,",
+        "start": 329.92,
+        "end": 330.9,
+        "freq": -1
+      },
+      {
+        "word": "stands",
+        "start": 331.12,
+        "end": 331.42,
+        "freq": 3.039
+      },
+      {
+        "word": "for",
+        "start": 331.42,
+        "end": 331.76,
+        "freq": 5.546
+      }
+    ],
+    "word": "-UHW, stands for",
+    "start": 329.92,
+    "end": 331.76,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "Service",
+        "start": 331.76,
+        "end": 332.18,
+        "freq": 3.61
+      },
+      {
+        "word": "Employees",
+        "start": 332.18,
+        "end": 333.1,
+        "freq": 2.786
+      }
+    ],
+    "word": "Service Employees",
+    "start": 331.76,
+    "end": 333.1,
+    "freq": 2.786
+  },
+  {
+    "words": [
+      {
+        "word": "International",
+        "start": 333.1,
+        "end": 333.48,
+        "freq": 2.861
+      },
+      {
+        "word": "Union,",
+        "start": 333.48,
+        "end": 334.26,
+        "freq": 3.046
+      }
+    ],
+    "word": "International Union,",
+    "start": 333.1,
+    "end": 334.26,
+    "freq": 2.861
+  },
+  {
+    "words": [
+      {
+        "word": "United",
+        "start": 334.56,
+        "end": 334.86,
+        "freq": 3.409
+      },
+      {
+        "word": "Healthcare",
+        "start": 334.86,
+        "end": 335.32,
+        "freq": -1
+      },
+      {
+        "word": "Workers",
+        "start": 335.32,
+        "end": 335.84,
+        "freq": 2.775
+      }
+    ],
+    "word": "United Healthcare Workers",
+    "start": 334.56,
+    "end": 335.84,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "West.",
+        "start": 335.84,
+        "end": 336.36,
+        "freq": 3.49
+      },
+      {
+        "word": "Kind",
+        "start": 336.58,
+        "end": 336.9,
+        "freq": 4.479
+      },
+      {
+        "word": "of",
+        "start": 336.9,
+        "end": 337.02,
+        "freq": 5.771
+      },
+      {
+        "word": "a",
+        "start": 337.02,
+        "end": 337.12,
+        "freq": 6.018
+      }
+    ],
+    "word": "West. Kind of a",
+    "start": 335.84,
+    "end": 337.12,
+    "freq": 3.49
+  },
+  {
+    "words": [
+      {
+        "word": "mouthful.",
+        "start": 337.12,
+        "end": 337.62,
+        "freq": 1.94
+      },
+      {
+        "word": "This",
+        "start": 338.0,
+        "end": 338.88,
+        "freq": 5.609
+      }
+    ],
+    "word": "mouthful. This",
+    "start": 337.12,
+    "end": 338.88,
+    "freq": 1.94
+  },
+  {
+    "words": [
+      {
+        "word": "union",
+        "start": 338.88,
+        "end": 339.24,
+        "freq": 3.046
+      },
+      {
+        "word": "represents",
+        "start": 339.24,
+        "end": 340.16,
+        "freq": 2.497
+      }
+    ],
+    "word": "union represents",
+    "start": 338.88,
+    "end": 340.16,
+    "freq": 2.497
+  },
+  {
+    "words": [
+      {
+        "word": "hospital",
+        "start": 340.16,
+        "end": 341.44,
+        "freq": 3.802
+      },
+      {
+        "word": "workers,",
+        "start": 341.44,
+        "end": 341.94,
+        "freq": 2.775
+      }
+    ],
+    "word": "hospital workers,",
+    "start": 340.16,
+    "end": 341.94,
+    "freq": 2.775
+  },
+  {
+    "words": [
+      {
+        "word": "including",
+        "start": 342.16,
+        "end": 342.54,
+        "freq": 3.148
+      },
+      {
+        "word": "janitors,",
+        "start": 342.54,
+        "end": 343.3,
+        "freq": 1.462
+      }
+    ],
+    "word": "including janitors,",
+    "start": 342.16,
+    "end": 343.3,
+    "freq": 1.462
+  },
+  {
+    "words": [
+      {
+        "word": "cooks,",
+        "start": 343.66,
+        "end": 343.98,
+        "freq": 2.286
+      },
+      {
+        "word": "some",
+        "start": 344.24,
+        "end": 344.34,
+        "freq": 4.945
+      },
+      {
+        "word": "various",
+        "start": 344.34,
+        "end": 344.7,
+        "freq": 2.66
+      }
+    ],
+    "word": "cooks, some various",
+    "start": 343.66,
+    "end": 344.7,
+    "freq": 2.286
+  },
+  {
+    "words": [
+      {
+        "word": "health",
+        "start": 344.7,
+        "end": 345.0,
+        "freq": 3.313
+      },
+      {
+        "word": "care",
+        "start": 345.0,
+        "end": 345.24,
+        "freq": 4.394
+      },
+      {
+        "word": "technicians,",
+        "start": 345.24,
+        "end": 345.86,
+        "freq": 1.857
+      }
+    ],
+    "word": "health care technicians,",
+    "start": 344.7,
+    "end": 345.86,
+    "freq": 1.857
+  },
+  {
+    "words": [
+      {
+        "word": "and",
+        "start": 345.86,
+        "end": 347.18,
+        "freq": 5.834
+      },
+      {
+        "word": "they're",
+        "start": 347.18,
+        "end": 347.78,
+        "freq": -1
+      },
+      {
+        "word": "really",
+        "start": 347.78,
+        "end": 348.06,
+        "freq": 4.884
+      }
+    ],
+    "word": "and they're really",
+    "start": 345.86,
+    "end": 348.06,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "concerned",
+        "start": 348.06,
+        "end": 348.7,
+        "freq": 3.354
+      },
+      {
+        "word": "that",
+        "start": 348.7,
+        "end": 349.3,
+        "freq": 5.857
+      },
+      {
+        "word": "the",
+        "start": 349.3,
+        "end": 349.56,
+        "freq": 6.177
+      }
+    ],
+    "word": "concerned that the",
+    "start": 348.06,
+    "end": 349.56,
+    "freq": 3.354
+  },
+  {
+    "words": [
+      {
+        "word": "Medicaid",
+        "start": 349.56,
+        "end": 349.94,
+        "freq": -1
+      },
+      {
+        "word": "cuts",
+        "start": 349.94,
+        "end": 350.58,
+        "freq": 2.766
+      }
+    ],
+    "word": "Medicaid cuts",
+    "start": 349.56,
+    "end": 350.58,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "from",
+        "start": 350.58,
+        "end": 351.22,
+        "freq": 5.017
+      },
+      {
+        "word": "President",
+        "start": 351.22,
+        "end": 351.84,
+        "freq": 3.856
+      }
+    ],
+    "word": "from President",
+    "start": 350.58,
+    "end": 351.84,
+    "freq": 3.856
+  },
+  {
+    "words": [
+      {
+        "word": "Trump",
+        "start": 351.84,
+        "end": 352.2,
+        "freq": 2.064
+      },
+      {
+        "word": "last",
+        "start": 352.2,
+        "end": 352.56,
+        "freq": 4.567
+      },
+      {
+        "word": "year",
+        "start": 352.56,
+        "end": 352.88,
+        "freq": 4.152
+      }
+    ],
+    "word": "Trump last year",
+    "start": 351.84,
+    "end": 352.88,
+    "freq": 2.064
+  },
+  {
+    "words": [
+      {
+        "word": "are",
+        "start": 352.88,
+        "end": 353.54,
+        "freq": 5.424
+      },
+      {
+        "word": "going",
+        "start": 353.54,
+        "end": 353.84,
+        "freq": 5.035
+      },
+      {
+        "word": "to",
+        "start": 353.84,
+        "end": 354.3,
+        "freq": 6.063
+      }
+    ],
+    "word": "are going to",
+    "start": 352.88,
+    "end": 354.3,
+    "freq": 5.035
+  },
+  {
+    "words": [
+      {
+        "word": "lead",
+        "start": 354.3,
+        "end": 354.82,
+        "freq": 3.628
+      },
+      {
+        "word": "to",
+        "start": 354.82,
+        "end": 355.12,
+        "freq": 6.063
+      },
+      {
+        "word": "widespread",
+        "start": 355.12,
+        "end": 355.78,
+        "freq": 1.681
+      }
+    ],
+    "word": "lead to widespread",
+    "start": 354.3,
+    "end": 355.78,
+    "freq": 1.681
+  },
+  {
+    "words": [
+      {
+        "word": "closures",
+        "start": 355.78,
+        "end": 356.74,
+        "freq": -1
+      },
+      {
+        "word": "of",
+        "start": 356.74,
+        "end": 357.06,
+        "freq": 5.771
+      },
+      {
+        "word": "ER",
+        "start": 357.06,
+        "end": 357.48,
+        "freq": -1
+      }
+    ],
+    "word": "closures of ER",
+    "start": 355.78,
+    "end": 357.48,
+    "freq": -1
+  },
+  {
+    "words": [
+      {
+        "word": "rooms",
+        "start": 357.48,
+        "end": 357.96,
+        "freq": 3.123
+      },
+      {
+        "word": "and",
+        "start": 357.96,
+        "end": 358.22,
+        "freq": 5.834
+      },
+      {
+        "word": "hospitals",
+        "start": 358.22,
+        "end": 358.82,
+        "freq": 2.5
+      }
+    ],
+    "word": "rooms and hospitals",
+    "start": 357.48,
+    "end": 358.82,
+    "freq": 2.5
+  },
+  {
+    "words": [
+      {
+        "word": "in",
+        "start": 358.82,
+        "end": 359.22,
+        "freq": 5.698
+      },
+      {
+        "word": "the",
+        "start": 359.22,
+        "end": 359.46,
+        "freq": 6.177
+      },
+      {
+        "word": "places.",
+        "start": 359.46,
+        "end": 359.9,
+        "freq": 3.433
+      }
+    ],
+    "word": "in the places.",
+    "start": 358.82,
+    "end": 359.9,
+    "freq": 3.433
+  }
+]

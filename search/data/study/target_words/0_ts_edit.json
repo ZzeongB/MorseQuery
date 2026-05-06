@@ -3,6 +3,7 @@
   "audio_start_time": 0.0,
   "target_window_seconds": 300.0,
   "search_window_end_time": 524.19,
+  "search_window_seconds": 60.0,
   "interruptions": [
     {
       "target_word": "hepatitis",

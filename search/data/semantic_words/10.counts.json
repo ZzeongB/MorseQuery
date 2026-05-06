@@ -1,0 +1,1542 @@
+[
+  {
+    "word": "Farnaz",
+    "time": 1.7600000000000007,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Natalie",
+    "time": 5.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Trump",
+    "time": 10.08,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "negotiations",
+    "time": 13.24,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Iran",
+    "time": 14.42,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "weekend",
+    "time": 16.42,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "team",
+    "time": 18.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "American",
+    "time": 18.66,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "airport",
+    "time": 21.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "weekend",
+    "time": 24.22,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Iranians",
+    "time": 25.36,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Americans",
+    "time": 26.14,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Islamabad",
+    "time": 27.62,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "round",
+    "time": 29.16,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "negotiations",
+    "time": 29.6,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "foreign",
+    "time": 31.28,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "minister",
+    "time": 31.48,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Islamabad",
+    "time": 32.74,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "U.S.",
+    "time": 34.24,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null
+  },
+  {
+    "word": "Envoy",
+    "time": 34.92,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Steve",
+    "time": 35.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Witkoff",
+    "time": 36.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "President",
+    "time": 36.9,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "son-in-law",
+    "time": 37.9,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null
+  },
+  {
+    "word": "Jared",
+    "time": 38.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Kushner",
+    "time": 38.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Pakistan",
+    "time": 41.68,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Saturday",
+    "time": 42.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "round",
+    "time": 45.32,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "talks",
+    "time": 45.78,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "messages",
+    "time": 48.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Iranians",
+    "time": 49.24,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Americans",
+    "time": 51.92,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "foreign",
+    "time": 52.8,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "minister",
+    "time": 53.06,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Pakistan",
+    "time": 53.72,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "President",
+    "time": 55.16,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Trump",
+    "time": 55.52,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "social",
+    "time": 57.24,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "media",
+    "time": 57.54,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "talks",
+    "time": 59.7,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "envoys",
+    "time": 61.18,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Iranians",
+    "time": 62.8,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "limbo",
+    "time": 65.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "talks",
+    "time": 66.7,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "unilateral",
+    "time": 68.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ceasefire",
+    "time": 68.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "President",
+    "time": 70.28,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Trump",
+    "time": 70.66,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "deadline",
+    "time": 72.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Iranians",
+    "time": 73.68,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "sea",
+    "time": 75.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "blockade",
+    "time": 75.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "situation",
+    "time": 76.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "fragile",
+    "time": 78.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "claim",
+    "time": 80.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "social",
+    "time": 81.66,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "media",
+    "time": 81.94,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "weekend",
+    "time": 82.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "regime",
+    "time": 85.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "disarray",
+    "time": 86.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "decisions",
+    "time": 89.46,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "country",
+    "time": 90.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "war",
+    "time": 92.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "questions",
+    "time": 94.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "running",
+    "time": 95.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Iran",
+    "time": 95.7,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "decisions",
+    "time": 96.92,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "new",
+    "time": 98.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "supreme",
+    "time": 98.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "leader",
+    "time": 98.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Moshtab",
+    "time": 99.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Khomeini",
+    "time": 99.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "divisions",
+    "time": 101.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "top",
+    "time": 102.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "reporting",
+    "time": 104.74,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "questions",
+    "time": 105.74,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Iran",
+    "time": 107.78,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Iran",
+    "time": 111.28,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "senior",
+    "time": 112.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "officials",
+    "time": 112.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Revolutionary",
+    "time": 115.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Guards",
+    "time": 115.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Mushtab",
+    "time": 117.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "al-Khamenei",
+    "time": 118.42,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null
+  },
+  {
+    "word": "Khamenei",
+    "time": 118.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "framework",
+    "time": 122.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "decisions",
+    "time": 123.4,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Iran",
+    "time": 124.64,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "country",
+    "time": 125.34,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "reporting",
+    "time": 132.68,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "decisions",
+    "time": 143.36,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "running",
+    "time": 144.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "country",
+    "time": 145.04,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "sepah",
+    "time": 147.16,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "sepah",
+    "time": 148.36,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "sepah",
+    "time": 149.26,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Revolutionary",
+    "time": 150.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Guards",
+    "time": 150.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Ayatollah",
+    "time": 153.26,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "supreme",
+    "time": 155.44,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "leader",
+    "time": 155.76,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "war",
+    "time": 161.26,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "senior",
+    "time": 162.42,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Ayatollah",
+    "time": 162.9,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Khamenei",
+    "time": 163.7,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "supreme",
+    "time": 164.9,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "leader",
+    "time": 165.24,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Iran",
+    "time": 165.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "decisions",
+    "time": 169.98,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "war",
+    "time": 173.96,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "decision",
+    "time": 176.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "Khamenei",
+    "time": 177.7,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "generals",
+    "time": 181.98,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "war",
+    "time": 183.66,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "senior",
+    "time": 185.72,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Revolutionary",
+    "time": 186.16,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "Guards",
+    "time": 187.5,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "generals",
+    "time": 187.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "running",
+    "time": 190.16,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "war",
+    "time": 191.74,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "running",
+    "time": 192.42,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "country",
+    "time": 193.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "supreme",
+    "time": 200.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "leader",
+    "time": 200.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Revolutionary",
+    "time": 207.98,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 208.66,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Revolutionary",
+    "time": 212.76,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 213.48,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "military",
+    "time": 215.08,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "force",
+    "time": 215.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Iran",
+    "time": 216.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
+  },
+  {
+    "word": "Islamic",
+    "time": 219.38,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Revolution",
+    "time": 219.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "regime",
+    "time": 223.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Islamic",
+    "time": 227.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "power",
+    "time": 229.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Revolutionary",
+    "time": 230.12,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "Guards",
+    "time": 230.84,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 10
+  },
+  {
+    "word": "power",
+    "time": 234.54,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "military",
+    "time": 237.18,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "force",
+    "time": 237.58,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "military",
+    "time": 240.52,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "military",
+    "time": 241.84,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "decisions",
+    "time": 242.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "Revolutionary",
+    "time": 244.18,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 244.82,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "Iran",
+    "time": 246.72,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "government",
+    "time": 249.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "lawmakers",
+    "time": 250.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ministers",
+    "time": 252.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "presidents",
+    "time": 253.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Revolutionary",
+    "time": 255.24,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 256.12,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "Speaker",
+    "time": 256.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Parliament",
+    "time": 257.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "negotiations",
+    "time": 259.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "U.S.",
+    "time": 260.7,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null
+  },
+  {
+    "word": "commander",
+    "time": 261.26,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Revolutionary",
+    "time": 262.0,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 262.64,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "National",
+    "time": 264.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Security",
+    "time": 264.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Council",
+    "time": 264.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Revolutionary",
+    "time": 266.06,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "Guards",
+    "time": 266.62,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11
+  },
+  {
+    "word": "commander",
+    "time": 266.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "footprint",
+    "time": 269.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "economy",
+    "time": 271.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "conglomerate",
+    "time": 273.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "economic",
+    "time": 275.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "energy",
+    "time": 276.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "transportation",
+    "time": 277.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "tourism",
+    "time": 278.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "parallel",
+    "time": 282.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "power",
+    "time": 283.38,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "Iran",
+    "time": 284.46,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "war",
+    "time": 286.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "dominant",
+    "time": 287.12,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "power",
+    "time": 287.56,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3
+  },
+  {
+    "word": "country",
+    "time": 291.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "militarized",
+    "time": 292.94,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "clerics",
+    "time": 295.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "ubiquity",
+    "time": 298.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Guards",
+    "time": 299.78,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9
+  },
+  {
+    "word": "new",
+    "time": 304.34,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "new",
+    "time": 306.62,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "dominant",
+    "time": 308.7,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Revolutionary",
+    "time": 309.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "Guards",
+    "time": 310.56,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 6,
+    "duplicate_count_3m": 8
+  },
+  {
+    "word": "supreme",
+    "time": 313.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "leader",
+    "time": 314.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "borders",
+    "time": 318.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "proxy",
+    "time": 322.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "militant",
+    "time": 323.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "groups",
+    "time": 323.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "region",
+    "time": 324.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Iran",
+    "time": 326.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "ideologically",
+    "time": 326.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Hezbollah",
+    "time": 328.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Lebanon",
+    "time": 329.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Hamas",
+    "time": 330.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Gaza",
+    "time": 330.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Shia",
+    "time": 331.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "militia",
+    "time": 332.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Iraq",
+    "time": 332.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "uprising",
+    "time": 335.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "country",
+    "time": 336.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "protests",
+    "time": 337.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "government",
+    "time": 338.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Guards",
+    "time": 339.4,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "Security",
+    "time": 340.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "protests",
+    "time": 341.84,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "Guards",
+    "time": 345.02,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6
+  },
+  {
+    "word": "politics",
+    "time": 347.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "economy",
+    "time": 349.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "empowered",
+    "time": 351.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "military",
+    "time": 355.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "role",
+    "time": 355.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Iran",
+    "time": 356.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 4
+  }
+]

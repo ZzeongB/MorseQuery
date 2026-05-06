@@ -151,6 +151,12 @@ def build_parser() -> argparse.ArgumentParser:
         help="Allowed +/- window around each slot second for minute_slots mode.",
     )
     parser.add_argument(
+        "--search-window-seconds",
+        type=float,
+        default=60.0,
+        help="Search/navigation window size exposed to the study UI.",
+    )
+    parser.add_argument(
         "--allow-partial",
         action="store_true",
         help="Write as many valid interruptions as possible instead of failing.",
@@ -266,6 +272,8 @@ def main() -> None:
         args.slot_seconds,
         "--slot-tolerance-seconds",
         str(args.slot_tolerance_seconds),
+        "--search-window-seconds",
+        str(args.search_window_seconds),
     ]
     if args.seed is not None:
         generate_cmd.extend(["--seed", str(args.seed)])

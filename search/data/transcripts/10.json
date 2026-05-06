@@ -1,0 +1,8006 @@
+{
+  "text": " Farnaz, it's wonderful to have you back on the show. Thank you for having me, Natalie. So what do we know about what just happened, where we saw Trump suddenly back away from face-to-face negotiations with Iran? It almost seemed like over the weekend he kind of turned the team of American negotiators around as they were basically on their way to the airport. We started this weekend thinking that Iranians and Americans were going to meet in Islamabad for a second round of negotiations. Iran's foreign minister went to Islamabad and the U.S. Special Envoy Steve Witkoff and President Trump's son-in-law, Jared Kushner, were scheduled to also fly to Pakistan on Saturday, and everyone anticipated another round of talks. And then we started getting mixed messages. The Iranians said, oh, well, we're not meeting directly with the Americans. And the foreign minister left Pakistan. And President Trump abruptly announced on social media that he was canceling the talks and not sending his envoys to meet with the Iranians. And now we're in a state of limbo. There's no talks. There's a unilateral ceasefire declared by President Trump without a set deadline. And the Iranians are under a sea blockade. So the situation, I think, is very fragile. And what about the president's claim, which he made on social media over the weekend and he's made before, that the Iranian regime is in complete disarray and that he doesn't even know who's making the decisions in the country? Well, since the start of this war, some of the big questions have been who's running Iran, who's making the decisions, where is the new supreme leader, Moshtab Khomeini, and are there divisions at the top? I spent the past month reporting these questions, talking to sources inside Iran. I interviewed 22 people inside Iran. Some of them were senior officials. Some were members of the Revolutionary Guards. Some of them know Mushtab al-Khamenei or his father. And all of them understand the framework of how decisions are being made in Iran and how the country is being run. And that has helped me answer this puzzle. Through just extraordinarily deep reporting. So what have you learned? Well, I'll tell you, in my interviews over the past month, every time I would ask that question from sources, I would say, who is making the decisions? Who's running the country? And I would hear sepah. Sepah. Sepah means the Revolutionary Guards. No one said the Ayatollah. No one said it's the supreme leader. And that was just such a difference to how things were done before the war, where the senior Ayatollah Khamenei, the supreme leader of Iran for 37 years, always had the last word on all decisions that were critical to the state. And, you know, before the war, whenever I would ask who's making the decision, it would say we're waiting for Mr. Khamenei to decide. We're waiting for him to say yes or no. And now it's the generals. Since the war started, a cohort of senior Revolutionary Guards generals have sort of taken over running and managing the war and running the country. Okay, you're saying something that's actually pretty stark, which is worth just lingering on for a moment, which is that the supreme leader is not the one calling the shots here. And so I have to ask, when we say the Revolutionary Guards are, who are they? Who are we talking about? The Revolutionary Guards are the most elite military force in Iran. They were created in the aftermath of the 1979 Islamic Revolution as sort of a line of defense for the regime. But over the past nearly half a century that the Islamic Republic's been in power, the Revolutionary Guards have expanded their reach and expanded their power. When we here think about a military force, we think of people in uniform who are in military bases and making military decisions. Right. But the Revolutionary Guards are all over the place in Iran. They hold key positions in the government. Many lawmakers, ministers, presidents have been former Revolutionary Guards. The current Speaker of Parliament was leading the negotiations with the U.S. as a commander of the Revolutionary Guards. The head of the National Security Council is a Revolutionary Guards commander. And they also have a big footprint in Iran's economy, right? They have a huge conglomerate in every economic sector from energy to transportation to even tourism that you can think of. So they really are the parallel power in Iran. And now as a result of the war, they've become the dominant power. That's fascinating. You know, it's part of a pattern of the country becoming more and more militarized and the influence of the clerics fading. So this ubiquity of the guards, that's something that's been developing over time, their presence everywhere. This isn't new, per se. Right. It's not new, but it's never been this dominant. The Revolutionary Guards have been rising for years. The former supreme leader really relied on them for securing Iran's borders, for navigating and cultivating relationships with proxy militant groups in the region that were aligned with Iran ideologically, such as Hezbollah in Lebanon or Hamas in Gaza and the Shia militia in Iraq. And also, whenever there was an uprising inside the country and protests against the government, it was the guards that took over security and crushed those protests. And in exchange, the guards were sort of given more of a free hand to enter politics and to enter the economy. And that empowered them in ways that was far beyond their military role in Iran. But they could only rise so far.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 1.7600000000000007,
+      "end": 3.88,
+      "text": " Farnaz, it's wonderful to have you back on the show.",
+      "tokens": [
+        50365,
+        9067,
+        629,
+        89,
+        11,
+        309,
+        311,
+        3715,
+        281,
+        362,
+        291,
+        646,
+        322,
+        264,
+        855,
+        13,
+        50559
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13965402024515558,
+      "compression_ratio": 1.506276150627615,
+      "no_speech_prob": 1.2775317912924744e-12,
+      "words": [
+        {
+          "word": " Farnaz,",
+          "start": 1.7600000000000007,
+          "end": 2.24,
+          "probability": 0.8985571066538492
+        },
+        {
+          "word": " it's",
+          "start": 2.42,
+          "end": 2.62,
+          "probability": 0.9999029636383057
+        },
+        {
+          "word": " wonderful",
+          "start": 2.62,
+          "end": 2.88,
+          "probability": 0.9998703002929688
+        },
+        {
+          "word": " to",
+          "start": 2.88,
+          "end": 3.04,
+          "probability": 0.9999710321426392
+        },
+        {
+          "word": " have",
+          "start": 3.04,
+          "end": 3.16,
+          "probability": 0.999984622001648
+        },
+        {
+          "word": " you",
+          "start": 3.16,
+          "end": 3.24,
+          "probability": 0.9999768733978271
+        },
+        {
+          "word": " back",
+          "start": 3.24,
+          "end": 3.42,
+          "probability": 0.9999302625656128
+        },
+        {
+          "word": " on",
+          "start": 3.42,
+          "end": 3.56,
+          "probability": 0.9999454021453857
+        },
+        {
+          "word": " the",
+          "start": 3.56,
+          "end": 3.66,
+          "probability": 0.9999873638153076
+        },
+        {
+          "word": " show.",
+          "start": 3.66,
+          "end": 3.88,
+          "probability": 0.99998939037323
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 4.5,
+      "end": 5.62,
+      "text": " Thank you for having me, Natalie.",
+      "tokens": [
+        50588,
+        1044,
+        291,
+        337,
+        1419,
+        385,
+        11,
+        29574,
+        13,
+        50647
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13965402024515558,
+      "compression_ratio": 1.506276150627615,
+      "no_speech_prob": 1.2775317912924744e-12,
+      "words": [
+        {
+          "word": " Thank",
+          "start": 4.5,
+          "end": 4.6,
+          "probability": 0.9967302083969116
+        },
+        {
+          "word": " you",
+          "start": 4.6,
+          "end": 4.76,
+          "probability": 0.9999902248382568
+        },
+        {
+          "word": " for",
+          "start": 4.76,
+          "end": 4.9,
+          "probability": 0.9998917579650879
+        },
+        {
+          "word": " having",
+          "start": 4.9,
+          "end": 5.14,
+          "probability": 0.9999634027481079
+        },
+        {
+          "word": " me,",
+          "start": 5.14,
+          "end": 5.34,
+          "probability": 0.9999610185623169
+        },
+        {
+          "word": " Natalie.",
+          "start": 5.4,
+          "end": 5.62,
+          "probability": 0.8941848278045654
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 6.260000000000001,
+      "end": 14.82,
+      "text": " So what do we know about what just happened, where we saw Trump suddenly back away from face-to-face negotiations with Iran?",
+      "tokens": [
+        50669,
+        407,
+        437,
+        360,
+        321,
+        458,
+        466,
+        437,
+        445,
+        2011,
+        11,
+        689,
+        321,
+        1866,
+        3899,
+        5800,
+        646,
+        1314,
+        490,
+        1851,
+        12,
+        1353,
+        12,
+        2868,
+        20476,
+        365,
+        8283,
+        30,
+        51111
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13965402024515558,
+      "compression_ratio": 1.506276150627615,
+      "no_speech_prob": 1.2775317912924744e-12,
+      "words": [
+        {
+          "word": " So",
+          "start": 6.260000000000001,
+          "end": 6.74,
+          "probability": 0.9977360963821411
+        },
+        {
+          "word": " what",
+          "start": 6.74,
+          "end": 7.22,
+          "probability": 0.9383875727653503
+        },
+        {
+          "word": " do",
+          "start": 7.22,
+          "end": 7.34,
+          "probability": 0.9999359846115112
+        },
+        {
+          "word": " we",
+          "start": 7.34,
+          "end": 7.44,
+          "probability": 0.9999918937683105
+        },
+        {
+          "word": " know",
+          "start": 7.44,
+          "end": 7.74,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " about",
+          "start": 7.74,
+          "end": 8.14,
+          "probability": 0.9999579191207886
+        },
+        {
+          "word": " what",
+          "start": 8.14,
+          "end": 8.56,
+          "probability": 0.9998642206192017
+        },
+        {
+          "word": " just",
+          "start": 8.56,
+          "end": 8.8,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " happened,",
+          "start": 8.8,
+          "end": 9.1,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " where",
+          "start": 9.24,
+          "end": 9.36,
+          "probability": 0.9994329810142517
+        },
+        {
+          "word": " we",
+          "start": 9.36,
+          "end": 9.8,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " saw",
+          "start": 9.8,
+          "end": 10.08,
+          "probability": 0.9999641180038452
+        },
+        {
+          "word": " Trump",
+          "start": 10.08,
+          "end": 10.44,
+          "probability": 0.99991774559021
+        },
+        {
+          "word": " suddenly",
+          "start": 10.44,
+          "end": 11.1,
+          "probability": 0.9998736381530762
+        },
+        {
+          "word": " back",
+          "start": 11.1,
+          "end": 11.74,
+          "probability": 0.999942421913147
+        },
+        {
+          "word": " away",
+          "start": 11.74,
+          "end": 12.18,
+          "probability": 0.9998637437820435
+        },
+        {
+          "word": " from",
+          "start": 12.18,
+          "end": 12.5,
+          "probability": 0.9999616146087646
+        },
+        {
+          "word": " face",
+          "start": 12.5,
+          "end": 12.84,
+          "probability": 0.9999066591262817
+        },
+        {
+          "word": "-to",
+          "start": 12.84,
+          "end": 12.98,
+          "probability": 0.982658863067627
+        },
+        {
+          "word": "-face",
+          "start": 12.98,
+          "end": 13.24,
+          "probability": 0.9998489916324615
+        },
+        {
+          "word": " negotiations",
+          "start": 13.24,
+          "end": 13.92,
+          "probability": 0.9997598528862
+        },
+        {
+          "word": " with",
+          "start": 13.92,
+          "end": 14.42,
+          "probability": 0.9998020529747009
+        },
+        {
+          "word": " Iran?",
+          "start": 14.42,
+          "end": 14.82,
+          "probability": 0.9997933506965637
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 15.16,
+      "end": 22.16,
+      "text": " It almost seemed like over the weekend he kind of turned the team of American negotiators around as they were basically on their way to the airport.",
+      "tokens": [
+        51125,
+        467,
+        1920,
+        6576,
+        411,
+        670,
+        264,
+        6711,
+        415,
+        733,
+        295,
+        3574,
+        264,
+        1469,
+        295,
+        2665,
+        9542,
+        3391,
+        926,
+        382,
+        436,
+        645,
+        1936,
+        322,
+        641,
+        636,
+        281,
+        264,
+        10155,
+        13,
+        51470
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13965402024515558,
+      "compression_ratio": 1.506276150627615,
+      "no_speech_prob": 1.2775317912924744e-12,
+      "words": [
+        {
+          "word": " It",
+          "start": 15.16,
+          "end": 15.64,
+          "probability": 0.9997112154960632
+        },
+        {
+          "word": " almost",
+          "start": 15.64,
+          "end": 15.82,
+          "probability": 0.9998478889465332
+        },
+        {
+          "word": " seemed",
+          "start": 15.82,
+          "end": 16.0,
+          "probability": 0.9986176490783691
+        },
+        {
+          "word": " like",
+          "start": 16.0,
+          "end": 16.16,
+          "probability": 0.9999842643737793
+        },
+        {
+          "word": " over",
+          "start": 16.16,
+          "end": 16.3,
+          "probability": 0.9942936301231384
+        },
+        {
+          "word": " the",
+          "start": 16.3,
+          "end": 16.42,
+          "probability": 0.99998939037323
+        },
+        {
+          "word": " weekend",
+          "start": 16.42,
+          "end": 16.72,
+          "probability": 0.9997954964637756
+        },
+        {
+          "word": " he",
+          "start": 16.72,
+          "end": 17.1,
+          "probability": 0.634543240070343
+        },
+        {
+          "word": " kind",
+          "start": 17.1,
+          "end": 17.5,
+          "probability": 0.9992340803146362
+        },
+        {
+          "word": " of",
+          "start": 17.5,
+          "end": 17.64,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " turned",
+          "start": 17.64,
+          "end": 18.06,
+          "probability": 0.9998878240585327
+        },
+        {
+          "word": " the",
+          "start": 18.06,
+          "end": 18.24,
+          "probability": 0.9990624785423279
+        },
+        {
+          "word": " team",
+          "start": 18.24,
+          "end": 18.5,
+          "probability": 0.9995399713516235
+        },
+        {
+          "word": " of",
+          "start": 18.5,
+          "end": 18.66,
+          "probability": 0.9995194673538208
+        },
+        {
+          "word": " American",
+          "start": 18.66,
+          "end": 19.06,
+          "probability": 0.9984123706817627
+        },
+        {
+          "word": " negotiators",
+          "start": 19.06,
+          "end": 19.64,
+          "probability": 0.9998024702072144
+        },
+        {
+          "word": " around",
+          "start": 19.64,
+          "end": 19.9,
+          "probability": 0.9997397065162659
+        },
+        {
+          "word": " as",
+          "start": 19.9,
+          "end": 20.12,
+          "probability": 0.9995976090431213
+        },
+        {
+          "word": " they",
+          "start": 20.12,
+          "end": 20.24,
+          "probability": 0.9999529123306274
+        },
+        {
+          "word": " were",
+          "start": 20.24,
+          "end": 20.4,
+          "probability": 0.9999109506607056
+        },
+        {
+          "word": " basically",
+          "start": 20.4,
+          "end": 21.02,
+          "probability": 0.9998077750205994
+        },
+        {
+          "word": " on",
+          "start": 21.02,
+          "end": 21.26,
+          "probability": 0.9999178647994995
+        },
+        {
+          "word": " their",
+          "start": 21.26,
+          "end": 21.38,
+          "probability": 0.999687910079956
+        },
+        {
+          "word": " way",
+          "start": 21.38,
+          "end": 21.52,
+          "probability": 0.9995637536048889
+        },
+        {
+          "word": " to",
+          "start": 21.52,
+          "end": 21.64,
+          "probability": 0.9997586607933044
+        },
+        {
+          "word": " the",
+          "start": 21.64,
+          "end": 21.76,
+          "probability": 0.9996799230575562
+        },
+        {
+          "word": " airport.",
+          "start": 21.76,
+          "end": 22.16,
+          "probability": 0.9997343420982361
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 2216,
+      "start": 22.98,
+      "end": 28.2,
+      "text": " We started this weekend thinking that Iranians and Americans were going to meet in Islamabad",
+      "tokens": [
+        50405,
+        492,
+        1409,
+        341,
+        6711,
+        1953,
+        300,
+        8283,
+        2567,
+        293,
+        6280,
+        645,
+        516,
+        281,
+        1677,
+        294,
+        8571,
+        32776,
+        50666
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " We",
+          "start": 22.98,
+          "end": 23.62,
+          "probability": 0.986778736114502
+        },
+        {
+          "word": " started",
+          "start": 23.62,
+          "end": 23.98,
+          "probability": 0.9998713731765747
+        },
+        {
+          "word": " this",
+          "start": 23.98,
+          "end": 24.22,
+          "probability": 0.9999712705612183
+        },
+        {
+          "word": " weekend",
+          "start": 24.22,
+          "end": 24.58,
+          "probability": 0.9999303817749023
+        },
+        {
+          "word": " thinking",
+          "start": 24.58,
+          "end": 24.98,
+          "probability": 0.9999336004257202
+        },
+        {
+          "word": " that",
+          "start": 24.98,
+          "end": 25.36,
+          "probability": 0.9999709129333496
+        },
+        {
+          "word": " Iranians",
+          "start": 25.36,
+          "end": 26.0,
+          "probability": 0.999206155538559
+        },
+        {
+          "word": " and",
+          "start": 26.0,
+          "end": 26.14,
+          "probability": 0.9999861717224121
+        },
+        {
+          "word": " Americans",
+          "start": 26.14,
+          "end": 26.56,
+          "probability": 0.9998842477798462
+        },
+        {
+          "word": " were",
+          "start": 26.56,
+          "end": 26.86,
+          "probability": 0.999768078327179
+        },
+        {
+          "word": " going",
+          "start": 26.86,
+          "end": 27.04,
+          "probability": 0.9999785423278809
+        },
+        {
+          "word": " to",
+          "start": 27.04,
+          "end": 27.2,
+          "probability": 0.9999953508377075
+        },
+        {
+          "word": " meet",
+          "start": 27.2,
+          "end": 27.48,
+          "probability": 0.9997739195823669
+        },
+        {
+          "word": " in",
+          "start": 27.48,
+          "end": 27.62,
+          "probability": 0.9997188448905945
+        },
+        {
+          "word": " Islamabad",
+          "start": 27.62,
+          "end": 28.2,
+          "probability": 0.9994494915008545
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 2216,
+      "start": 28.2,
+      "end": 30.34,
+      "text": " for a second round of negotiations.",
+      "tokens": [
+        50666,
+        337,
+        257,
+        1150,
+        3098,
+        295,
+        20476,
+        13,
+        50772
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " for",
+          "start": 28.2,
+          "end": 28.52,
+          "probability": 0.9996732473373413
+        },
+        {
+          "word": " a",
+          "start": 28.52,
+          "end": 28.9,
+          "probability": 0.9999768733978271
+        },
+        {
+          "word": " second",
+          "start": 28.9,
+          "end": 29.16,
+          "probability": 0.9999167919158936
+        },
+        {
+          "word": " round",
+          "start": 29.16,
+          "end": 29.44,
+          "probability": 0.9999734163284302
+        },
+        {
+          "word": " of",
+          "start": 29.44,
+          "end": 29.6,
+          "probability": 0.9999572038650513
+        },
+        {
+          "word": " negotiations.",
+          "start": 29.6,
+          "end": 30.34,
+          "probability": 0.999976634979248
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 2216,
+      "start": 30.68,
+      "end": 36.9,
+      "text": " Iran's foreign minister went to Islamabad and the U.S. Special Envoy Steve Witkoff and",
+      "tokens": [
+        50805,
+        8283,
+        311,
+        5329,
+        10563,
+        1437,
+        281,
+        8571,
+        32776,
+        293,
+        264,
+        624,
+        13,
+        50,
+        13,
+        11863,
+        2193,
+        35176,
+        7466,
+        42299,
+        4093,
+        602,
+        293,
+        51102
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " Iran's",
+          "start": 30.68,
+          "end": 31.28,
+          "probability": 0.9997619986534119
+        },
+        {
+          "word": " foreign",
+          "start": 31.28,
+          "end": 31.48,
+          "probability": 0.9717785120010376
+        },
+        {
+          "word": " minister",
+          "start": 31.48,
+          "end": 31.98,
+          "probability": 0.9999374151229858
+        },
+        {
+          "word": " went",
+          "start": 31.98,
+          "end": 32.58,
+          "probability": 0.9997808337211609
+        },
+        {
+          "word": " to",
+          "start": 32.58,
+          "end": 32.74,
+          "probability": 0.9999223947525024
+        },
+        {
+          "word": " Islamabad",
+          "start": 32.74,
+          "end": 33.48,
+          "probability": 0.9999698400497437
+        },
+        {
+          "word": " and",
+          "start": 33.48,
+          "end": 33.86,
+          "probability": 0.8272721171379089
+        },
+        {
+          "word": " the",
+          "start": 33.86,
+          "end": 34.24,
+          "probability": 0.9998373985290527
+        },
+        {
+          "word": " U",
+          "start": 34.24,
+          "end": 34.4,
+          "probability": 0.870465874671936
+        },
+        {
+          "word": ".S.",
+          "start": 34.4,
+          "end": 34.58,
+          "probability": 0.9999205470085144
+        },
+        {
+          "word": " Special",
+          "start": 34.76,
+          "end": 34.92,
+          "probability": 0.7107651233673096
+        },
+        {
+          "word": " Envoy",
+          "start": 34.92,
+          "end": 35.38,
+          "probability": 0.9972756206989288
+        },
+        {
+          "word": " Steve",
+          "start": 35.38,
+          "end": 36.06,
+          "probability": 0.9570736289024353
+        },
+        {
+          "word": " Witkoff",
+          "start": 36.06,
+          "end": 36.66,
+          "probability": 0.7408659259478251
+        },
+        {
+          "word": " and",
+          "start": 36.66,
+          "end": 36.9,
+          "probability": 0.9998999834060669
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 2216,
+      "start": 36.9,
+      "end": 42.4,
+      "text": " President Trump's son-in-law, Jared Kushner, were scheduled to also fly to Pakistan on",
+      "tokens": [
+        51102,
+        3117,
+        3899,
+        311,
+        1872,
+        12,
+        259,
+        12,
+        5901,
+        11,
+        24160,
+        49709,
+        1193,
+        11,
+        645,
+        15678,
+        281,
+        611,
+        3603,
+        281,
+        15985,
+        322,
+        51379
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " President",
+          "start": 36.9,
+          "end": 37.44,
+          "probability": 0.9996607303619385
+        },
+        {
+          "word": " Trump's",
+          "start": 37.44,
+          "end": 37.9,
+          "probability": 0.9990032315254211
+        },
+        {
+          "word": " son",
+          "start": 37.9,
+          "end": 38.04,
+          "probability": 0.9969596862792969
+        },
+        {
+          "word": "-in",
+          "start": 38.04,
+          "end": 38.18,
+          "probability": 0.9610985219478607
+        },
+        {
+          "word": "-law,",
+          "start": 38.18,
+          "end": 38.3,
+          "probability": 0.9970487356185913
+        },
+        {
+          "word": " Jared",
+          "start": 38.38,
+          "end": 38.56,
+          "probability": 0.994097113609314
+        },
+        {
+          "word": " Kushner,",
+          "start": 38.56,
+          "end": 39.04,
+          "probability": 0.9993502199649811
+        },
+        {
+          "word": " were",
+          "start": 39.24,
+          "end": 39.44,
+          "probability": 0.9996755123138428
+        },
+        {
+          "word": " scheduled",
+          "start": 39.44,
+          "end": 40.34,
+          "probability": 0.9999545812606812
+        },
+        {
+          "word": " to",
+          "start": 40.34,
+          "end": 40.78,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " also",
+          "start": 40.78,
+          "end": 41.22,
+          "probability": 0.9998975992202759
+        },
+        {
+          "word": " fly",
+          "start": 41.22,
+          "end": 41.52,
+          "probability": 0.9998065829277039
+        },
+        {
+          "word": " to",
+          "start": 41.52,
+          "end": 41.68,
+          "probability": 0.9999873638153076
+        },
+        {
+          "word": " Pakistan",
+          "start": 41.68,
+          "end": 42.1,
+          "probability": 0.9997544884681702
+        },
+        {
+          "word": " on",
+          "start": 42.1,
+          "end": 42.4,
+          "probability": 0.9999096393585205
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 2216,
+      "start": 42.4,
+      "end": 46.14,
+      "text": " Saturday, and everyone anticipated another round of talks.",
+      "tokens": [
+        51379,
+        8803,
+        11,
+        293,
+        1518,
+        23267,
+        1071,
+        3098,
+        295,
+        6686,
+        13,
+        51565
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " Saturday,",
+          "start": 42.4,
+          "end": 42.82,
+          "probability": 0.9998798370361328
+        },
+        {
+          "word": " and",
+          "start": 42.82,
+          "end": 43.14,
+          "probability": 0.9999650716781616
+        },
+        {
+          "word": " everyone",
+          "start": 43.14,
+          "end": 43.46,
+          "probability": 0.999915361404419
+        },
+        {
+          "word": " anticipated",
+          "start": 43.46,
+          "end": 44.26,
+          "probability": 0.9999508857727051
+        },
+        {
+          "word": " another",
+          "start": 44.26,
+          "end": 45.32,
+          "probability": 0.999813973903656
+        },
+        {
+          "word": " round",
+          "start": 45.32,
+          "end": 45.62,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " of",
+          "start": 45.62,
+          "end": 45.78,
+          "probability": 0.9999504089355469
+        },
+        {
+          "word": " talks.",
+          "start": 45.78,
+          "end": 46.14,
+          "probability": 0.9999511241912842
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 2216,
+      "start": 46.32,
+      "end": 48.88,
+      "text": " And then we started getting mixed messages.",
+      "tokens": [
+        51585,
+        400,
+        550,
+        321,
+        1409,
+        1242,
+        7467,
+        7897,
+        13,
+        51701
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12937343481815222,
+      "compression_ratio": 1.569767441860465,
+      "no_speech_prob": 1.1113198035428429e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 46.32,
+          "end": 46.86,
+          "probability": 0.9973994493484497
+        },
+        {
+          "word": " then",
+          "start": 46.86,
+          "end": 47.08,
+          "probability": 0.99996018409729
+        },
+        {
+          "word": " we",
+          "start": 47.08,
+          "end": 47.38,
+          "probability": 0.9997027516365051
+        },
+        {
+          "word": " started",
+          "start": 47.38,
+          "end": 47.66,
+          "probability": 0.9999654293060303
+        },
+        {
+          "word": " getting",
+          "start": 47.66,
+          "end": 47.98,
+          "probability": 0.9999586343765259
+        },
+        {
+          "word": " mixed",
+          "start": 47.98,
+          "end": 48.44,
+          "probability": 0.9999343156814575
+        },
+        {
+          "word": " messages.",
+          "start": 48.44,
+          "end": 48.88,
+          "probability": 0.9998273253440857
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 4888,
+      "start": 48.88,
+      "end": 52.32,
+      "text": " The Iranians said, oh, well, we're not meeting directly with the Americans.",
+      "tokens": [
+        50365,
+        440,
+        8283,
+        2567,
+        848,
+        11,
+        1954,
+        11,
+        731,
+        11,
+        321,
+        434,
+        406,
+        3440,
+        3838,
+        365,
+        264,
+        6280,
+        13,
+        50538
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " The",
+          "start": 48.88,
+          "end": 49.24,
+          "probability": 0.8766718506813049
+        },
+        {
+          "word": " Iranians",
+          "start": 49.24,
+          "end": 49.64,
+          "probability": 0.9624783098697662
+        },
+        {
+          "word": " said,",
+          "start": 49.64,
+          "end": 49.82,
+          "probability": 0.9996896982192993
+        },
+        {
+          "word": " oh,",
+          "start": 49.92,
+          "end": 49.94,
+          "probability": 0.994931161403656
+        },
+        {
+          "word": " well,",
+          "start": 50.04,
+          "end": 50.14,
+          "probability": 0.9999874830245972
+        },
+        {
+          "word": " we're",
+          "start": 50.22,
+          "end": 50.34,
+          "probability": 0.9999868869781494
+        },
+        {
+          "word": " not",
+          "start": 50.34,
+          "end": 50.58,
+          "probability": 0.9999970197677612
+        },
+        {
+          "word": " meeting",
+          "start": 50.58,
+          "end": 50.98,
+          "probability": 0.9999290704727173
+        },
+        {
+          "word": " directly",
+          "start": 50.98,
+          "end": 51.46,
+          "probability": 0.999975323677063
+        },
+        {
+          "word": " with",
+          "start": 51.46,
+          "end": 51.76,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " the",
+          "start": 51.76,
+          "end": 51.92,
+          "probability": 0.9999892711639404
+        },
+        {
+          "word": " Americans.",
+          "start": 51.92,
+          "end": 52.32,
+          "probability": 0.9998843669891357
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 4888,
+      "start": 52.32,
+      "end": 54.38,
+      "text": " And the foreign minister left Pakistan.",
+      "tokens": [
+        50538,
+        400,
+        264,
+        5329,
+        10563,
+        1411,
+        15985,
+        13,
+        50637
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 52.32,
+          "end": 52.7,
+          "probability": 0.998506486415863
+        },
+        {
+          "word": " the",
+          "start": 52.7,
+          "end": 52.8,
+          "probability": 0.9999514818191528
+        },
+        {
+          "word": " foreign",
+          "start": 52.8,
+          "end": 53.06,
+          "probability": 0.9937047362327576
+        },
+        {
+          "word": " minister",
+          "start": 53.06,
+          "end": 53.36,
+          "probability": 0.9996447563171387
+        },
+        {
+          "word": " left",
+          "start": 53.36,
+          "end": 53.72,
+          "probability": 0.9999446868896484
+        },
+        {
+          "word": " Pakistan.",
+          "start": 53.72,
+          "end": 54.38,
+          "probability": 0.9999196529388428
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 4888,
+      "start": 54.64,
+      "end": 63.34,
+      "text": " And President Trump abruptly announced on social media that he was canceling the talks and not sending his envoys to meet with the Iranians.",
+      "tokens": [
+        50677,
+        400,
+        3117,
+        3899,
+        49642,
+        7548,
+        322,
+        2093,
+        3021,
+        300,
+        415,
+        390,
+        10373,
+        278,
+        264,
+        6686,
+        293,
+        406,
+        7750,
+        702,
+        2267,
+        44131,
+        281,
+        1677,
+        365,
+        264,
+        8283,
+        2567,
+        13,
+        51089
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 54.64,
+          "end": 55.16,
+          "probability": 0.9999517202377319
+        },
+        {
+          "word": " President",
+          "start": 55.16,
+          "end": 55.52,
+          "probability": 0.9964632391929626
+        },
+        {
+          "word": " Trump",
+          "start": 55.52,
+          "end": 55.84,
+          "probability": 0.9999510049819946
+        },
+        {
+          "word": " abruptly",
+          "start": 55.84,
+          "end": 56.42,
+          "probability": 0.9999834299087524
+        },
+        {
+          "word": " announced",
+          "start": 56.42,
+          "end": 57.0,
+          "probability": 0.9999890327453613
+        },
+        {
+          "word": " on",
+          "start": 57.0,
+          "end": 57.24,
+          "probability": 0.9999979734420776
+        },
+        {
+          "word": " social",
+          "start": 57.24,
+          "end": 57.54,
+          "probability": 0.9999802112579346
+        },
+        {
+          "word": " media",
+          "start": 57.54,
+          "end": 57.9,
+          "probability": 0.9999946355819702
+        },
+        {
+          "word": " that",
+          "start": 57.9,
+          "end": 58.14,
+          "probability": 0.9999806880950928
+        },
+        {
+          "word": " he",
+          "start": 58.14,
+          "end": 58.24,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " was",
+          "start": 58.24,
+          "end": 58.42,
+          "probability": 0.9999986886978149
+        },
+        {
+          "word": " canceling",
+          "start": 58.42,
+          "end": 59.12,
+          "probability": 0.9036516547203064
+        },
+        {
+          "word": " the",
+          "start": 59.12,
+          "end": 59.7,
+          "probability": 0.9999732971191406
+        },
+        {
+          "word": " talks",
+          "start": 59.7,
+          "end": 60.08,
+          "probability": 0.9999001026153564
+        },
+        {
+          "word": " and",
+          "start": 60.08,
+          "end": 60.34,
+          "probability": 0.9995404481887817
+        },
+        {
+          "word": " not",
+          "start": 60.34,
+          "end": 60.58,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " sending",
+          "start": 60.58,
+          "end": 60.94,
+          "probability": 0.9999769926071167
+        },
+        {
+          "word": " his",
+          "start": 60.94,
+          "end": 61.18,
+          "probability": 0.999993085861206
+        },
+        {
+          "word": " envoys",
+          "start": 61.18,
+          "end": 61.7,
+          "probability": 0.9938249886035919
+        },
+        {
+          "word": " to",
+          "start": 61.7,
+          "end": 62.3,
+          "probability": 0.999944806098938
+        },
+        {
+          "word": " meet",
+          "start": 62.3,
+          "end": 62.48,
+          "probability": 0.9999481439590454
+        },
+        {
+          "word": " with",
+          "start": 62.48,
+          "end": 62.66,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " the",
+          "start": 62.66,
+          "end": 62.8,
+          "probability": 0.9961411356925964
+        },
+        {
+          "word": " Iranians.",
+          "start": 62.8,
+          "end": 63.34,
+          "probability": 0.9998544752597809
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 4888,
+      "start": 63.74,
+      "end": 65.88,
+      "text": " And now we're in a state of limbo.",
+      "tokens": [
+        51108,
+        400,
+        586,
+        321,
+        434,
+        294,
+        257,
+        1785,
+        295,
+        2364,
+        1763,
+        13,
+        51216
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 63.74,
+          "end": 64.34,
+          "probability": 0.9984676241874695
+        },
+        {
+          "word": " now",
+          "start": 64.34,
+          "end": 64.58,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " we're",
+          "start": 64.58,
+          "end": 64.8,
+          "probability": 0.9999803304672241
+        },
+        {
+          "word": " in",
+          "start": 64.8,
+          "end": 64.92,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " a",
+          "start": 64.92,
+          "end": 65.04,
+          "probability": 0.9999990463256836
+        },
+        {
+          "word": " state",
+          "start": 65.04,
+          "end": 65.28,
+          "probability": 0.9999350309371948
+        },
+        {
+          "word": " of",
+          "start": 65.28,
+          "end": 65.44,
+          "probability": 0.9999996423721313
+        },
+        {
+          "word": " limbo.",
+          "start": 65.44,
+          "end": 65.88,
+          "probability": 0.999854177236557
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 4888,
+      "start": 66.14,
+      "end": 67.2,
+      "text": " There's no talks.",
+      "tokens": [
+        51233,
+        821,
+        311,
+        572,
+        6686,
+        13,
+        51284
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " There's",
+          "start": 66.14,
+          "end": 66.52,
+          "probability": 0.9999757409095764
+        },
+        {
+          "word": " no",
+          "start": 66.52,
+          "end": 66.7,
+          "probability": 0.9999898672103882
+        },
+        {
+          "word": " talks.",
+          "start": 66.7,
+          "end": 67.2,
+          "probability": 0.9999222755432129
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 4888,
+      "start": 67.5,
+      "end": 72.62,
+      "text": " There's a unilateral ceasefire declared by President Trump without a set deadline.",
+      "tokens": [
+        51301,
+        821,
+        311,
+        257,
+        517,
+        37751,
+        27887,
+        12037,
+        15489,
+        538,
+        3117,
+        3899,
+        1553,
+        257,
+        992,
+        20615,
+        13,
+        51559
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " There's",
+          "start": 67.5,
+          "end": 67.82,
+          "probability": 0.9999856948852539
+        },
+        {
+          "word": " a",
+          "start": 67.82,
+          "end": 68.2,
+          "probability": 0.9999791383743286
+        },
+        {
+          "word": " unilateral",
+          "start": 68.2,
+          "end": 68.86,
+          "probability": 0.9998920559883118
+        },
+        {
+          "word": " ceasefire",
+          "start": 68.86,
+          "end": 69.58,
+          "probability": 0.9994523525238037
+        },
+        {
+          "word": " declared",
+          "start": 69.58,
+          "end": 70.0,
+          "probability": 0.9998971223831177
+        },
+        {
+          "word": " by",
+          "start": 70.0,
+          "end": 70.28,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " President",
+          "start": 70.28,
+          "end": 70.66,
+          "probability": 0.9995273351669312
+        },
+        {
+          "word": " Trump",
+          "start": 70.66,
+          "end": 71.04,
+          "probability": 0.9999499320983887
+        },
+        {
+          "word": " without",
+          "start": 71.04,
+          "end": 71.38,
+          "probability": 0.999902606010437
+        },
+        {
+          "word": " a",
+          "start": 71.38,
+          "end": 71.74,
+          "probability": 0.9999922513961792
+        },
+        {
+          "word": " set",
+          "start": 71.74,
+          "end": 72.2,
+          "probability": 0.999642014503479
+        },
+        {
+          "word": " deadline.",
+          "start": 72.2,
+          "end": 72.62,
+          "probability": 0.9999804496765137
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 4888,
+      "start": 72.92,
+      "end": 75.92,
+      "text": " And the Iranians are under a sea blockade.",
+      "tokens": [
+        51570,
+        400,
+        264,
+        8283,
+        2567,
+        366,
+        833,
+        257,
+        4158,
+        3461,
+        762,
+        13,
+        51721
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 72.92,
+          "end": 73.52,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " the",
+          "start": 73.52,
+          "end": 73.68,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " Iranians",
+          "start": 73.68,
+          "end": 74.14,
+          "probability": 0.9999098777770996
+        },
+        {
+          "word": " are",
+          "start": 74.14,
+          "end": 74.3,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " under",
+          "start": 74.3,
+          "end": 74.66,
+          "probability": 0.9999939203262329
+        },
+        {
+          "word": " a",
+          "start": 74.66,
+          "end": 75.18,
+          "probability": 0.9999885559082031
+        },
+        {
+          "word": " sea",
+          "start": 75.18,
+          "end": 75.32,
+          "probability": 0.9432068467140198
+        },
+        {
+          "word": " blockade.",
+          "start": 75.32,
+          "end": 75.92,
+          "probability": 0.9985411465167999
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 4888,
+      "start": 76.18,
+      "end": 78.44,
+      "text": " So the situation, I think, is very fragile.",
+      "tokens": [
+        51721,
+        407,
+        264,
+        2590,
+        11,
+        286,
+        519,
+        11,
+        307,
+        588,
+        23847,
+        13,
+        51846
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12444240816177861,
+      "compression_ratio": 1.698581560283688,
+      "no_speech_prob": 1.0077660277454936e-12,
+      "words": [
+        {
+          "word": " So",
+          "start": 76.18,
+          "end": 76.36,
+          "probability": 0.9983592629432678
+        },
+        {
+          "word": " the",
+          "start": 76.36,
+          "end": 76.84,
+          "probability": 0.9947795867919922
+        },
+        {
+          "word": " situation,",
+          "start": 76.84,
+          "end": 77.26,
+          "probability": 0.9999866485595703
+        },
+        {
+          "word": " I",
+          "start": 77.28,
+          "end": 77.5,
+          "probability": 0.9999977350234985
+        },
+        {
+          "word": " think,",
+          "start": 77.5,
+          "end": 77.68,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " is",
+          "start": 77.74,
+          "end": 77.86,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " very",
+          "start": 77.86,
+          "end": 78.06,
+          "probability": 0.9999955892562866
+        },
+        {
+          "word": " fragile.",
+          "start": 78.06,
+          "end": 78.44,
+          "probability": 0.9999798536300659
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 7888,
+      "start": 78.88,
+      "end": 90.58,
+      "text": " And what about the president's claim, which he made on social media over the weekend and he's made before, that the Iranian regime is in complete disarray and that he doesn't even know who's making the decisions in the country?",
+      "tokens": [
+        50365,
+        400,
+        437,
+        466,
+        264,
+        3868,
+        311,
+        3932,
+        11,
+        597,
+        415,
+        1027,
+        322,
+        2093,
+        3021,
+        670,
+        264,
+        6711,
+        293,
+        415,
+        311,
+        1027,
+        949,
+        11,
+        300,
+        264,
+        24934,
+        13120,
+        307,
+        294,
+        3566,
+        717,
+        2284,
+        320,
+        293,
+        300,
+        415,
+        1177,
+        380,
+        754,
+        458,
+        567,
+        311,
+        1455,
+        264,
+        5327,
+        294,
+        264,
+        1941,
+        30,
+        50952
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1114718854919938,
+      "compression_ratio": 1.7636986301369864,
+      "no_speech_prob": 7.141610978804447e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 78.88,
+          "end": 79.22,
+          "probability": 0.9878111481666565
+        },
+        {
+          "word": " what",
+          "start": 79.22,
+          "end": 79.38,
+          "probability": 0.9999830722808838
+        },
+        {
+          "word": " about",
+          "start": 79.38,
+          "end": 79.64,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " the",
+          "start": 79.64,
+          "end": 79.86,
+          "probability": 0.9999837875366211
+        },
+        {
+          "word": " president's",
+          "start": 79.86,
+          "end": 80.38,
+          "probability": 0.9961856007575989
+        },
+        {
+          "word": " claim,",
+          "start": 80.38,
+          "end": 80.68,
+          "probability": 0.9999538660049438
+        },
+        {
+          "word": " which",
+          "start": 80.84,
+          "end": 80.92,
+          "probability": 0.9999920129776001
+        },
+        {
+          "word": " he",
+          "start": 80.92,
+          "end": 81.12,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " made",
+          "start": 81.12,
+          "end": 81.54,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " on",
+          "start": 81.54,
+          "end": 81.66,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " social",
+          "start": 81.66,
+          "end": 81.94,
+          "probability": 0.9999765157699585
+        },
+        {
+          "word": " media",
+          "start": 81.94,
+          "end": 82.22,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " over",
+          "start": 82.22,
+          "end": 82.5,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " the",
+          "start": 82.5,
+          "end": 82.6,
+          "probability": 0.9999856948852539
+        },
+        {
+          "word": " weekend",
+          "start": 82.6,
+          "end": 82.9,
+          "probability": 0.9996761083602905
+        },
+        {
+          "word": " and",
+          "start": 82.9,
+          "end": 83.14,
+          "probability": 0.8999936580657959
+        },
+        {
+          "word": " he's",
+          "start": 83.14,
+          "end": 83.38,
+          "probability": 0.9998487532138824
+        },
+        {
+          "word": " made",
+          "start": 83.38,
+          "end": 83.56,
+          "probability": 0.999751627445221
+        },
+        {
+          "word": " before,",
+          "start": 83.56,
+          "end": 84.06,
+          "probability": 0.9999299049377441
+        },
+        {
+          "word": " that",
+          "start": 84.34,
+          "end": 84.76,
+          "probability": 0.9999548196792603
+        },
+        {
+          "word": " the",
+          "start": 84.76,
+          "end": 85.2,
+          "probability": 0.9999698400497437
+        },
+        {
+          "word": " Iranian",
+          "start": 85.2,
+          "end": 85.56,
+          "probability": 0.9998601675033569
+        },
+        {
+          "word": " regime",
+          "start": 85.56,
+          "end": 86.0,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " is",
+          "start": 86.0,
+          "end": 86.3,
+          "probability": 0.9999958276748657
+        },
+        {
+          "word": " in",
+          "start": 86.3,
+          "end": 86.46,
+          "probability": 0.9999878406524658
+        },
+        {
+          "word": " complete",
+          "start": 86.46,
+          "end": 86.96,
+          "probability": 0.9998952150344849
+        },
+        {
+          "word": " disarray",
+          "start": 86.96,
+          "end": 87.74,
+          "probability": 0.9998356699943542
+        },
+        {
+          "word": " and",
+          "start": 87.74,
+          "end": 87.98,
+          "probability": 0.998002827167511
+        },
+        {
+          "word": " that",
+          "start": 87.98,
+          "end": 88.08,
+          "probability": 0.9999852180480957
+        },
+        {
+          "word": " he",
+          "start": 88.08,
+          "end": 88.2,
+          "probability": 0.9999943971633911
+        },
+        {
+          "word": " doesn't",
+          "start": 88.2,
+          "end": 88.48,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " even",
+          "start": 88.48,
+          "end": 88.62,
+          "probability": 0.9999687671661377
+        },
+        {
+          "word": " know",
+          "start": 88.62,
+          "end": 88.84,
+          "probability": 0.9999809265136719
+        },
+        {
+          "word": " who's",
+          "start": 88.84,
+          "end": 89.1,
+          "probability": 0.9999790787696838
+        },
+        {
+          "word": " making",
+          "start": 89.1,
+          "end": 89.34,
+          "probability": 0.999880313873291
+        },
+        {
+          "word": " the",
+          "start": 89.34,
+          "end": 89.46,
+          "probability": 0.9999701976776123
+        },
+        {
+          "word": " decisions",
+          "start": 89.46,
+          "end": 89.86,
+          "probability": 0.9998631477355957
+        },
+        {
+          "word": " in",
+          "start": 89.86,
+          "end": 90.14,
+          "probability": 0.9998202919960022
+        },
+        {
+          "word": " the",
+          "start": 90.14,
+          "end": 90.24,
+          "probability": 0.9999810457229614
+        },
+        {
+          "word": " country?",
+          "start": 90.24,
+          "end": 90.58,
+          "probability": 0.9999173879623413
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 7888,
+      "start": 91.24,
+      "end": 102.98,
+      "text": " Well, since the start of this war, some of the big questions have been who's running Iran, who's making the decisions, where is the new supreme leader, Moshtab Khomeini, and are there divisions at the top?",
+      "tokens": [
+        50972,
+        1042,
+        11,
+        1670,
+        264,
+        722,
+        295,
+        341,
+        1516,
+        11,
+        512,
+        295,
+        264,
+        955,
+        1651,
+        362,
+        668,
+        567,
+        311,
+        2614,
+        8283,
+        11,
+        567,
+        311,
+        1455,
+        264,
+        5327,
+        11,
+        689,
+        307,
+        264,
+        777,
+        27756,
+        5263,
+        11,
+        19430,
+        357,
+        455,
+        11681,
+        423,
+        3812,
+        11,
+        293,
+        366,
+        456,
+        24328,
+        412,
+        264,
+        1192,
+        30,
+        51572
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1114718854919938,
+      "compression_ratio": 1.7636986301369864,
+      "no_speech_prob": 7.141610978804447e-13,
+      "words": [
+        {
+          "word": " Well,",
+          "start": 91.24,
+          "end": 91.66,
+          "probability": 0.998516857624054
+        },
+        {
+          "word": " since",
+          "start": 91.94,
+          "end": 92.18,
+          "probability": 0.999957799911499
+        },
+        {
+          "word": " the",
+          "start": 92.18,
+          "end": 92.36,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " start",
+          "start": 92.36,
+          "end": 92.6,
+          "probability": 0.9999083280563354
+        },
+        {
+          "word": " of",
+          "start": 92.6,
+          "end": 92.74,
+          "probability": 0.9999992847442627
+        },
+        {
+          "word": " this",
+          "start": 92.74,
+          "end": 92.94,
+          "probability": 0.9999786615371704
+        },
+        {
+          "word": " war,",
+          "start": 92.94,
+          "end": 93.26,
+          "probability": 0.9998947381973267
+        },
+        {
+          "word": " some",
+          "start": 93.52,
+          "end": 93.76,
+          "probability": 0.9999755620956421
+        },
+        {
+          "word": " of",
+          "start": 93.76,
+          "end": 93.86,
+          "probability": 0.9999992847442627
+        },
+        {
+          "word": " the",
+          "start": 93.86,
+          "end": 93.94,
+          "probability": 0.9999903440475464
+        },
+        {
+          "word": " big",
+          "start": 93.94,
+          "end": 94.1,
+          "probability": 0.9999520778656006
+        },
+        {
+          "word": " questions",
+          "start": 94.1,
+          "end": 94.58,
+          "probability": 0.9999775886535645
+        },
+        {
+          "word": " have",
+          "start": 94.58,
+          "end": 94.84,
+          "probability": 0.9999850988388062
+        },
+        {
+          "word": " been",
+          "start": 94.84,
+          "end": 95.08,
+          "probability": 0.9999861717224121
+        },
+        {
+          "word": " who's",
+          "start": 95.08,
+          "end": 95.44,
+          "probability": 0.8483423292636871
+        },
+        {
+          "word": " running",
+          "start": 95.44,
+          "end": 95.7,
+          "probability": 0.9998488426208496
+        },
+        {
+          "word": " Iran,",
+          "start": 95.7,
+          "end": 96.04,
+          "probability": 0.9998724460601807
+        },
+        {
+          "word": " who's",
+          "start": 96.2,
+          "end": 96.42,
+          "probability": 0.9999806880950928
+        },
+        {
+          "word": " making",
+          "start": 96.42,
+          "end": 96.68,
+          "probability": 0.9998559951782227
+        },
+        {
+          "word": " the",
+          "start": 96.68,
+          "end": 96.92,
+          "probability": 0.9999897480010986
+        },
+        {
+          "word": " decisions,",
+          "start": 96.92,
+          "end": 97.34,
+          "probability": 0.9998654127120972
+        },
+        {
+          "word": " where",
+          "start": 97.34,
+          "end": 97.9,
+          "probability": 0.999643087387085
+        },
+        {
+          "word": " is",
+          "start": 97.9,
+          "end": 98.12,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " the",
+          "start": 98.12,
+          "end": 98.28,
+          "probability": 0.9999696016311646
+        },
+        {
+          "word": " new",
+          "start": 98.28,
+          "end": 98.46,
+          "probability": 0.9997132420539856
+        },
+        {
+          "word": " supreme",
+          "start": 98.46,
+          "end": 98.78,
+          "probability": 0.7592871189117432
+        },
+        {
+          "word": " leader,",
+          "start": 98.78,
+          "end": 99.18,
+          "probability": 0.999934196472168
+        },
+        {
+          "word": " Moshtab",
+          "start": 99.32,
+          "end": 99.66,
+          "probability": 0.6579877932866415
+        },
+        {
+          "word": " Khomeini,",
+          "start": 99.66,
+          "end": 100.14,
+          "probability": 0.6841696500778198
+        },
+        {
+          "word": " and",
+          "start": 100.52,
+          "end": 101.2,
+          "probability": 0.9999303817749023
+        },
+        {
+          "word": " are",
+          "start": 101.2,
+          "end": 101.64,
+          "probability": 0.9999738931655884
+        },
+        {
+          "word": " there",
+          "start": 101.64,
+          "end": 101.82,
+          "probability": 0.986201822757721
+        },
+        {
+          "word": " divisions",
+          "start": 101.82,
+          "end": 102.28,
+          "probability": 0.9998113512992859
+        },
+        {
+          "word": " at",
+          "start": 102.28,
+          "end": 102.58,
+          "probability": 0.9999485015869141
+        },
+        {
+          "word": " the",
+          "start": 102.58,
+          "end": 102.68,
+          "probability": 0.9999747276306152
+        },
+        {
+          "word": " top?",
+          "start": 102.68,
+          "end": 102.98,
+          "probability": 0.9980904459953308
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 7888,
+      "start": 103.24,
+      "end": 108.22,
+      "text": " I spent the past month reporting these questions, talking to sources inside Iran.",
+      "tokens": [
+        51595,
+        286,
+        4418,
+        264,
+        1791,
+        1618,
+        10031,
+        613,
+        1651,
+        11,
+        1417,
+        281,
+        7139,
+        1854,
+        8283,
+        13,
+        51833
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1114718854919938,
+      "compression_ratio": 1.7636986301369864,
+      "no_speech_prob": 7.141610978804447e-13,
+      "words": [
+        {
+          "word": " I",
+          "start": 103.24,
+          "end": 103.76,
+          "probability": 0.9997991919517517
+        },
+        {
+          "word": " spent",
+          "start": 103.76,
+          "end": 104.02,
+          "probability": 0.9998416900634766
+        },
+        {
+          "word": " the",
+          "start": 104.02,
+          "end": 104.18,
+          "probability": 0.9999942779541016
+        },
+        {
+          "word": " past",
+          "start": 104.18,
+          "end": 104.48,
+          "probability": 0.999805748462677
+        },
+        {
+          "word": " month",
+          "start": 104.48,
+          "end": 104.74,
+          "probability": 0.9997332692146301
+        },
+        {
+          "word": " reporting",
+          "start": 104.74,
+          "end": 105.26,
+          "probability": 0.999602735042572
+        },
+        {
+          "word": " these",
+          "start": 105.26,
+          "end": 105.74,
+          "probability": 0.9999042749404907
+        },
+        {
+          "word": " questions,",
+          "start": 105.74,
+          "end": 106.26,
+          "probability": 0.9999570846557617
+        },
+        {
+          "word": " talking",
+          "start": 106.52,
+          "end": 106.78,
+          "probability": 0.9998687505722046
+        },
+        {
+          "word": " to",
+          "start": 106.78,
+          "end": 107.0,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " sources",
+          "start": 107.0,
+          "end": 107.36,
+          "probability": 0.9998620748519897
+        },
+        {
+          "word": " inside",
+          "start": 107.36,
+          "end": 107.78,
+          "probability": 0.9998645782470703
+        },
+        {
+          "word": " Iran.",
+          "start": 107.78,
+          "end": 108.22,
+          "probability": 0.9998550415039062
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 10822,
+      "start": 108.22,
+      "end": 111.64,
+      "text": " I interviewed 22 people inside Iran.",
+      "tokens": [
+        50365,
+        286,
+        19770,
+        5853,
+        561,
+        1854,
+        8283,
+        13,
+        50538
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " I",
+          "start": 108.22,
+          "end": 108.58,
+          "probability": 0.9993877410888672
+        },
+        {
+          "word": " interviewed",
+          "start": 108.58,
+          "end": 109.18,
+          "probability": 0.9999594688415527
+        },
+        {
+          "word": " 22",
+          "start": 109.18,
+          "end": 110.06,
+          "probability": 0.9995613694190979
+        },
+        {
+          "word": " people",
+          "start": 110.06,
+          "end": 110.92,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " inside",
+          "start": 110.92,
+          "end": 111.28,
+          "probability": 0.9999481439590454
+        },
+        {
+          "word": " Iran.",
+          "start": 111.28,
+          "end": 111.64,
+          "probability": 0.9999412298202515
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 10822,
+      "start": 111.82,
+      "end": 113.62,
+      "text": " Some of them were senior officials.",
+      "tokens": [
+        50546,
+        2188,
+        295,
+        552,
+        645,
+        7965,
+        9798,
+        13,
+        50637
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " Some",
+          "start": 111.82,
+          "end": 111.98,
+          "probability": 0.9999374151229858
+        },
+        {
+          "word": " of",
+          "start": 111.98,
+          "end": 112.1,
+          "probability": 0.9999982118606567
+        },
+        {
+          "word": " them",
+          "start": 112.1,
+          "end": 112.28,
+          "probability": 0.9999951124191284
+        },
+        {
+          "word": " were",
+          "start": 112.28,
+          "end": 112.5,
+          "probability": 0.9999948740005493
+        },
+        {
+          "word": " senior",
+          "start": 112.5,
+          "end": 112.86,
+          "probability": 0.9999814033508301
+        },
+        {
+          "word": " officials.",
+          "start": 112.86,
+          "end": 113.62,
+          "probability": 0.9999639987945557
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 10822,
+      "start": 113.62,
+      "end": 116.08,
+      "text": " Some were members of the Revolutionary Guards.",
+      "tokens": [
+        50652,
+        2188,
+        645,
+        2679,
+        295,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        13,
+        50759
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " Some",
+          "start": 113.62,
+          "end": 114.08,
+          "probability": 0.9999589920043945
+        },
+        {
+          "word": " were",
+          "start": 114.08,
+          "end": 114.32,
+          "probability": 0.9999487400054932
+        },
+        {
+          "word": " members",
+          "start": 114.32,
+          "end": 114.7,
+          "probability": 0.9999709129333496
+        },
+        {
+          "word": " of",
+          "start": 114.7,
+          "end": 114.86,
+          "probability": 0.9999982118606567
+        },
+        {
+          "word": " the",
+          "start": 114.86,
+          "end": 115.0,
+          "probability": 0.999984860420227
+        },
+        {
+          "word": " Revolutionary",
+          "start": 115.0,
+          "end": 115.68,
+          "probability": 0.9817352890968323
+        },
+        {
+          "word": " Guards.",
+          "start": 115.68,
+          "end": 116.08,
+          "probability": 0.992097407579422
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 10822,
+      "start": 116.26,
+      "end": 119.84,
+      "text": " Some of them know Mushtab al-Khamenei or his father.",
+      "tokens": [
+        50783,
+        2188,
+        295,
+        552,
+        458,
+        3569,
+        357,
+        455,
+        419,
+        12,
+        42,
+        4822,
+        1450,
+        72,
+        420,
+        702,
+        3086,
+        13,
+        50946
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " Some",
+          "start": 116.26,
+          "end": 116.74,
+          "probability": 0.9998680353164673
+        },
+        {
+          "word": " of",
+          "start": 116.74,
+          "end": 116.9,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " them",
+          "start": 116.9,
+          "end": 117.16,
+          "probability": 0.9999841451644897
+        },
+        {
+          "word": " know",
+          "start": 117.16,
+          "end": 117.66,
+          "probability": 0.9329003095626831
+        },
+        {
+          "word": " Mushtab",
+          "start": 117.66,
+          "end": 118.42,
+          "probability": 0.6103469828764597
+        },
+        {
+          "word": " al",
+          "start": 118.42,
+          "end": 118.54,
+          "probability": 0.33194470405578613
+        },
+        {
+          "word": "-Khamenei",
+          "start": 118.54,
+          "end": 118.98,
+          "probability": 0.9565142631530762
+        },
+        {
+          "word": " or",
+          "start": 118.98,
+          "end": 119.2,
+          "probability": 0.9994996786117554
+        },
+        {
+          "word": " his",
+          "start": 119.2,
+          "end": 119.44,
+          "probability": 0.9999884366989136
+        },
+        {
+          "word": " father.",
+          "start": 119.44,
+          "end": 119.84,
+          "probability": 0.9999701976776123
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 10822,
+      "start": 120.12,
+      "end": 126.26,
+      "text": " And all of them understand the framework of how decisions are being made in Iran and how the country is being run.",
+      "tokens": [
+        50966,
+        400,
+        439,
+        295,
+        552,
+        1223,
+        264,
+        8388,
+        295,
+        577,
+        5327,
+        366,
+        885,
+        1027,
+        294,
+        8283,
+        293,
+        577,
+        264,
+        1941,
+        307,
+        885,
+        1190,
+        13,
+        51269
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 120.12,
+          "end": 120.7,
+          "probability": 0.9996689558029175
+        },
+        {
+          "word": " all",
+          "start": 120.7,
+          "end": 121.06,
+          "probability": 0.9999908208847046
+        },
+        {
+          "word": " of",
+          "start": 121.06,
+          "end": 121.18,
+          "probability": 0.9999992847442627
+        },
+        {
+          "word": " them",
+          "start": 121.18,
+          "end": 121.3,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " understand",
+          "start": 121.3,
+          "end": 121.76,
+          "probability": 0.9999724626541138
+        },
+        {
+          "word": " the",
+          "start": 121.76,
+          "end": 122.06,
+          "probability": 0.9999957084655762
+        },
+        {
+          "word": " framework",
+          "start": 122.06,
+          "end": 122.48,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " of",
+          "start": 122.48,
+          "end": 123.0,
+          "probability": 0.9999704360961914
+        },
+        {
+          "word": " how",
+          "start": 123.0,
+          "end": 123.4,
+          "probability": 0.9999850988388062
+        },
+        {
+          "word": " decisions",
+          "start": 123.4,
+          "end": 123.8,
+          "probability": 0.9999727010726929
+        },
+        {
+          "word": " are",
+          "start": 123.8,
+          "end": 124.02,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " being",
+          "start": 124.02,
+          "end": 124.22,
+          "probability": 0.9999920129776001
+        },
+        {
+          "word": " made",
+          "start": 124.22,
+          "end": 124.48,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " in",
+          "start": 124.48,
+          "end": 124.64,
+          "probability": 0.9999878406524658
+        },
+        {
+          "word": " Iran",
+          "start": 124.64,
+          "end": 124.88,
+          "probability": 0.9999030828475952
+        },
+        {
+          "word": " and",
+          "start": 124.88,
+          "end": 125.06,
+          "probability": 0.9983215928077698
+        },
+        {
+          "word": " how",
+          "start": 125.06,
+          "end": 125.2,
+          "probability": 0.9999946355819702
+        },
+        {
+          "word": " the",
+          "start": 125.2,
+          "end": 125.34,
+          "probability": 0.9984431862831116
+        },
+        {
+          "word": " country",
+          "start": 125.34,
+          "end": 125.66,
+          "probability": 0.9999172687530518
+        },
+        {
+          "word": " is",
+          "start": 125.66,
+          "end": 125.82,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " being",
+          "start": 125.82,
+          "end": 126.02,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " run.",
+          "start": 126.02,
+          "end": 126.26,
+          "probability": 0.999663233757019
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 10822,
+      "start": 126.44,
+      "end": 129.5,
+      "text": " And that has helped me answer this puzzle.",
+      "tokens": [
+        51287,
+        400,
+        300,
+        575,
+        4254,
+        385,
+        1867,
+        341,
+        12805,
+        13,
+        51429
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 126.44,
+          "end": 126.94,
+          "probability": 0.999951958656311
+        },
+        {
+          "word": " that",
+          "start": 126.94,
+          "end": 127.16,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " has",
+          "start": 127.16,
+          "end": 127.44,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " helped",
+          "start": 127.44,
+          "end": 127.72,
+          "probability": 0.9999533891677856
+        },
+        {
+          "word": " me",
+          "start": 127.72,
+          "end": 128.04,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " answer",
+          "start": 128.04,
+          "end": 128.62,
+          "probability": 0.999976634979248
+        },
+        {
+          "word": " this",
+          "start": 128.62,
+          "end": 129.16,
+          "probability": 0.9999938011169434
+        },
+        {
+          "word": " puzzle.",
+          "start": 129.16,
+          "end": 129.5,
+          "probability": 0.999955415725708
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 10822,
+      "start": 130.26,
+      "end": 133.4,
+      "text": " Through just extraordinarily deep reporting.",
+      "tokens": [
+        51467,
+        8927,
+        445,
+        34557,
+        2452,
+        10031,
+        13,
+        51625
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " Through",
+          "start": 130.01999999999998,
+          "end": 130.32,
+          "probability": 0.9978687763214111
+        },
+        {
+          "word": " just",
+          "start": 130.32,
+          "end": 130.94,
+          "probability": 0.999975323677063
+        },
+        {
+          "word": " extraordinarily",
+          "start": 130.94,
+          "end": 131.92,
+          "probability": 0.9998939037322998
+        },
+        {
+          "word": " deep",
+          "start": 131.92,
+          "end": 132.68,
+          "probability": 0.9999898672103882
+        },
+        {
+          "word": " reporting.",
+          "start": 132.68,
+          "end": 133.4,
+          "probability": 0.9999513626098633
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 10822,
+      "start": 133.78,
+      "end": 135.02,
+      "text": " So what have you learned?",
+      "tokens": [
+        51646,
+        407,
+        437,
+        362,
+        291,
+        3264,
+        30,
+        51708
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1839814787929498,
+      "compression_ratio": 1.5912698412698412,
+      "no_speech_prob": 7.274526575735962e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 133.78,
+          "end": 134.36,
+          "probability": 0.9999325275421143
+        },
+        {
+          "word": " what",
+          "start": 134.36,
+          "end": 134.52,
+          "probability": 0.9846253395080566
+        },
+        {
+          "word": " have",
+          "start": 134.52,
+          "end": 134.64,
+          "probability": 0.9999922513961792
+        },
+        {
+          "word": " you",
+          "start": 134.64,
+          "end": 134.72,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " learned?",
+          "start": 134.72,
+          "end": 135.02,
+          "probability": 0.999944806098938
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 13502,
+      "start": 135.02,
+      "end": 151.42,
+      "text": " Well, I'll tell you, in my interviews over the past month, every time I would ask that question from sources, I would say, who is making the decisions? Who's running the country? And I would hear sepah. Sepah. Sepah means the Revolutionary Guards.",
+      "tokens": [
+        50365,
+        1042,
+        11,
+        286,
+        603,
+        980,
+        291,
+        11,
+        294,
+        452,
+        12318,
+        670,
+        264,
+        1791,
+        1618,
+        11,
+        633,
+        565,
+        286,
+        576,
+        1029,
+        300,
+        1168,
+        490,
+        7139,
+        11,
+        286,
+        576,
+        584,
+        11,
+        567,
+        307,
+        1455,
+        264,
+        5327,
+        30,
+        2102,
+        311,
+        2614,
+        264,
+        1941,
+        30,
+        400,
+        286,
+        576,
+        1568,
+        369,
+        79,
+        545,
+        13,
+        22012,
+        545,
+        13,
+        22012,
+        545,
+        1355,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        13,
+        51186
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11078362098106971,
+      "compression_ratio": 1.4615384615384615,
+      "no_speech_prob": 7.199621216043284e-13,
+      "words": [
+        {
+          "word": " Well,",
+          "start": 135.02,
+          "end": 135.86,
+          "probability": 0.936050534248352
+        },
+        {
+          "word": " I'll",
+          "start": 135.96,
+          "end": 136.04,
+          "probability": 0.9998829066753387
+        },
+        {
+          "word": " tell",
+          "start": 136.04,
+          "end": 136.24,
+          "probability": 0.9999809265136719
+        },
+        {
+          "word": " you,",
+          "start": 136.24,
+          "end": 136.5,
+          "probability": 0.9999986886978149
+        },
+        {
+          "word": " in",
+          "start": 136.9,
+          "end": 137.02,
+          "probability": 0.9999697208404541
+        },
+        {
+          "word": " my",
+          "start": 137.02,
+          "end": 137.38,
+          "probability": 0.9999961853027344
+        },
+        {
+          "word": " interviews",
+          "start": 137.38,
+          "end": 137.96,
+          "probability": 0.9999679327011108
+        },
+        {
+          "word": " over",
+          "start": 137.96,
+          "end": 138.52,
+          "probability": 0.999736487865448
+        },
+        {
+          "word": " the",
+          "start": 138.52,
+          "end": 138.66,
+          "probability": 0.9999990463256836
+        },
+        {
+          "word": " past",
+          "start": 138.66,
+          "end": 138.92,
+          "probability": 0.9999197721481323
+        },
+        {
+          "word": " month,",
+          "start": 138.92,
+          "end": 139.3,
+          "probability": 0.9998716115951538
+        },
+        {
+          "word": " every",
+          "start": 139.52,
+          "end": 139.68,
+          "probability": 0.9998825788497925
+        },
+        {
+          "word": " time",
+          "start": 139.68,
+          "end": 139.88,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " I",
+          "start": 139.88,
+          "end": 140.04,
+          "probability": 0.9999957084655762
+        },
+        {
+          "word": " would",
+          "start": 140.04,
+          "end": 140.2,
+          "probability": 0.9999700784683228
+        },
+        {
+          "word": " ask",
+          "start": 140.2,
+          "end": 140.42,
+          "probability": 0.9999357461929321
+        },
+        {
+          "word": " that",
+          "start": 140.42,
+          "end": 140.58,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " question",
+          "start": 140.58,
+          "end": 141.08,
+          "probability": 0.9997150301933289
+        },
+        {
+          "word": " from",
+          "start": 141.08,
+          "end": 141.5,
+          "probability": 0.9971401691436768
+        },
+        {
+          "word": " sources,",
+          "start": 141.5,
+          "end": 141.86,
+          "probability": 0.9999409914016724
+        },
+        {
+          "word": " I",
+          "start": 141.88,
+          "end": 142.1,
+          "probability": 0.999936580657959
+        },
+        {
+          "word": " would",
+          "start": 142.1,
+          "end": 142.24,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " say,",
+          "start": 142.24,
+          "end": 142.44,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " who",
+          "start": 142.62,
+          "end": 142.68,
+          "probability": 0.987983226776123
+        },
+        {
+          "word": " is",
+          "start": 142.68,
+          "end": 142.9,
+          "probability": 0.9999368190765381
+        },
+        {
+          "word": " making",
+          "start": 142.9,
+          "end": 143.16,
+          "probability": 0.9999673366546631
+        },
+        {
+          "word": " the",
+          "start": 143.16,
+          "end": 143.36,
+          "probability": 0.9999940395355225
+        },
+        {
+          "word": " decisions?",
+          "start": 143.36,
+          "end": 143.78,
+          "probability": 0.9999479055404663
+        },
+        {
+          "word": " Who's",
+          "start": 144.1,
+          "end": 144.62,
+          "probability": 0.989367812871933
+        },
+        {
+          "word": " running",
+          "start": 144.62,
+          "end": 144.86,
+          "probability": 0.9999309778213501
+        },
+        {
+          "word": " the",
+          "start": 144.86,
+          "end": 145.04,
+          "probability": 0.9999891519546509
+        },
+        {
+          "word": " country?",
+          "start": 145.04,
+          "end": 145.44,
+          "probability": 0.9999603033065796
+        },
+        {
+          "word": " And",
+          "start": 145.84,
+          "end": 146.36,
+          "probability": 0.9997391104698181
+        },
+        {
+          "word": " I",
+          "start": 146.36,
+          "end": 146.7,
+          "probability": 0.9999605417251587
+        },
+        {
+          "word": " would",
+          "start": 146.7,
+          "end": 146.92,
+          "probability": 0.9999918937683105
+        },
+        {
+          "word": " hear",
+          "start": 146.92,
+          "end": 147.16,
+          "probability": 0.9996047616004944
+        },
+        {
+          "word": " sepah.",
+          "start": 147.16,
+          "end": 147.72,
+          "probability": 0.8651842872301737
+        },
+        {
+          "word": " Sepah.",
+          "start": 148.36,
+          "end": 148.88,
+          "probability": 0.8802414536476135
+        },
+        {
+          "word": " Sepah",
+          "start": 149.26,
+          "end": 149.78,
+          "probability": 0.9984011352062225
+        },
+        {
+          "word": " means",
+          "start": 149.78,
+          "end": 150.12,
+          "probability": 0.999725878238678
+        },
+        {
+          "word": " the",
+          "start": 150.12,
+          "end": 150.32,
+          "probability": 0.9993460774421692
+        },
+        {
+          "word": " Revolutionary",
+          "start": 150.32,
+          "end": 150.98,
+          "probability": 0.9289886355400085
+        },
+        {
+          "word": " Guards.",
+          "start": 150.98,
+          "end": 151.42,
+          "probability": 0.9940508008003235
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 15142,
+      "start": 152.06,
+      "end": 172.56,
+      "text": " No one said the Ayatollah. No one said it's the supreme leader. And that was just such a difference to how things were done before the war, where the senior Ayatollah Khamenei, the supreme leader of Iran for 37 years, always had the last word on all decisions that were critical to the state.",
+      "tokens": [
+        50365,
+        883,
+        472,
+        848,
+        264,
+        9081,
+        267,
+        1833,
+        545,
+        13,
+        883,
+        472,
+        848,
+        309,
+        311,
+        264,
+        27756,
+        5263,
+        13,
+        400,
+        300,
+        390,
+        445,
+        1270,
+        257,
+        2649,
+        281,
+        577,
+        721,
+        645,
+        1096,
+        949,
+        264,
+        1516,
+        11,
+        689,
+        264,
+        7965,
+        9081,
+        267,
+        1833,
+        545,
+        591,
+        4822,
+        1450,
+        72,
+        11,
+        264,
+        27756,
+        5263,
+        295,
+        8283,
+        337,
+        13435,
+        924,
+        11,
+        1009,
+        632,
+        264,
+        1036,
+        1349,
+        322,
+        439,
+        5327,
+        300,
+        645,
+        4924,
+        281,
+        264,
+        1785,
+        13,
+        51424
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05790046743444494,
+      "compression_ratio": 1.5698924731182795,
+      "no_speech_prob": 1.0376390502039867e-12,
+      "words": [
+        {
+          "word": " No",
+          "start": 152.06,
+          "end": 152.62,
+          "probability": 0.8862178921699524
+        },
+        {
+          "word": " one",
+          "start": 152.62,
+          "end": 152.84,
+          "probability": 0.9997909665107727
+        },
+        {
+          "word": " said",
+          "start": 152.84,
+          "end": 153.1,
+          "probability": 0.9999744892120361
+        },
+        {
+          "word": " the",
+          "start": 153.1,
+          "end": 153.26,
+          "probability": 0.9996622800827026
+        },
+        {
+          "word": " Ayatollah.",
+          "start": 153.26,
+          "end": 153.88,
+          "probability": 0.9912913143634796
+        },
+        {
+          "word": " No",
+          "start": 154.1,
+          "end": 154.66,
+          "probability": 0.9998952150344849
+        },
+        {
+          "word": " one",
+          "start": 154.66,
+          "end": 154.86,
+          "probability": 0.9999943971633911
+        },
+        {
+          "word": " said",
+          "start": 154.86,
+          "end": 155.12,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " it's",
+          "start": 155.12,
+          "end": 155.32,
+          "probability": 0.9995622038841248
+        },
+        {
+          "word": " the",
+          "start": 155.32,
+          "end": 155.44,
+          "probability": 0.9999649524688721
+        },
+        {
+          "word": " supreme",
+          "start": 155.44,
+          "end": 155.76,
+          "probability": 0.8143356442451477
+        },
+        {
+          "word": " leader.",
+          "start": 155.76,
+          "end": 156.14,
+          "probability": 0.9999704360961914
+        },
+        {
+          "word": " And",
+          "start": 156.38,
+          "end": 156.46,
+          "probability": 0.9977769255638123
+        },
+        {
+          "word": " that",
+          "start": 156.46,
+          "end": 156.62,
+          "probability": 0.9999756813049316
+        },
+        {
+          "word": " was",
+          "start": 156.62,
+          "end": 156.78,
+          "probability": 0.9999972581863403
+        },
+        {
+          "word": " just",
+          "start": 156.78,
+          "end": 156.94,
+          "probability": 0.9999098777770996
+        },
+        {
+          "word": " such",
+          "start": 156.94,
+          "end": 157.18,
+          "probability": 0.9999866485595703
+        },
+        {
+          "word": " a",
+          "start": 157.18,
+          "end": 157.3,
+          "probability": 0.9999915361404419
+        },
+        {
+          "word": " difference",
+          "start": 157.3,
+          "end": 158.14,
+          "probability": 0.9998749494552612
+        },
+        {
+          "word": " to",
+          "start": 158.14,
+          "end": 158.7,
+          "probability": 0.9999442100524902
+        },
+        {
+          "word": " how",
+          "start": 158.7,
+          "end": 159.22,
+          "probability": 0.9999921321868896
+        },
+        {
+          "word": " things",
+          "start": 159.22,
+          "end": 159.52,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " were",
+          "start": 159.52,
+          "end": 159.82,
+          "probability": 0.9999959468841553
+        },
+        {
+          "word": " done",
+          "start": 159.82,
+          "end": 160.54,
+          "probability": 0.9999442100524902
+        },
+        {
+          "word": " before",
+          "start": 160.54,
+          "end": 161.02,
+          "probability": 0.9999743700027466
+        },
+        {
+          "word": " the",
+          "start": 161.02,
+          "end": 161.26,
+          "probability": 0.9999921321868896
+        },
+        {
+          "word": " war,",
+          "start": 161.26,
+          "end": 161.54,
+          "probability": 0.9999287128448486
+        },
+        {
+          "word": " where",
+          "start": 161.74,
+          "end": 161.92,
+          "probability": 0.999864935874939
+        },
+        {
+          "word": " the",
+          "start": 161.92,
+          "end": 162.42,
+          "probability": 0.9999951124191284
+        },
+        {
+          "word": " senior",
+          "start": 162.42,
+          "end": 162.9,
+          "probability": 0.9999371767044067
+        },
+        {
+          "word": " Ayatollah",
+          "start": 162.9,
+          "end": 163.7,
+          "probability": 0.999807819724083
+        },
+        {
+          "word": " Khamenei,",
+          "start": 163.7,
+          "end": 164.24,
+          "probability": 0.9823782444000244
+        },
+        {
+          "word": " the",
+          "start": 164.66,
+          "end": 164.9,
+          "probability": 0.9999324083328247
+        },
+        {
+          "word": " supreme",
+          "start": 164.9,
+          "end": 165.24,
+          "probability": 0.9936324954032898
+        },
+        {
+          "word": " leader",
+          "start": 165.24,
+          "end": 165.5,
+          "probability": 0.9999805688858032
+        },
+        {
+          "word": " of",
+          "start": 165.5,
+          "end": 165.74,
+          "probability": 0.9999885559082031
+        },
+        {
+          "word": " Iran",
+          "start": 165.74,
+          "end": 166.1,
+          "probability": 0.9998204112052917
+        },
+        {
+          "word": " for",
+          "start": 166.1,
+          "end": 166.5,
+          "probability": 0.9980273842811584
+        },
+        {
+          "word": " 37",
+          "start": 166.5,
+          "end": 167.0,
+          "probability": 0.9983585476875305
+        },
+        {
+          "word": " years,",
+          "start": 167.0,
+          "end": 167.58,
+          "probability": 0.9999902248382568
+        },
+        {
+          "word": " always",
+          "start": 167.82,
+          "end": 168.04,
+          "probability": 0.9997760653495789
+        },
+        {
+          "word": " had",
+          "start": 168.04,
+          "end": 168.44,
+          "probability": 0.9999938011169434
+        },
+        {
+          "word": " the",
+          "start": 168.44,
+          "end": 168.72,
+          "probability": 0.9999974966049194
+        },
+        {
+          "word": " last",
+          "start": 168.72,
+          "end": 169.06,
+          "probability": 0.9999922513961792
+        },
+        {
+          "word": " word",
+          "start": 169.06,
+          "end": 169.46,
+          "probability": 0.9999219179153442
+        },
+        {
+          "word": " on",
+          "start": 169.46,
+          "end": 169.68,
+          "probability": 0.9999904632568359
+        },
+        {
+          "word": " all",
+          "start": 169.68,
+          "end": 169.98,
+          "probability": 0.9994438290596008
+        },
+        {
+          "word": " decisions",
+          "start": 169.98,
+          "end": 170.72,
+          "probability": 0.9999322891235352
+        },
+        {
+          "word": " that",
+          "start": 170.72,
+          "end": 171.48,
+          "probability": 0.9997033476829529
+        },
+        {
+          "word": " were",
+          "start": 171.48,
+          "end": 171.62,
+          "probability": 0.9999756813049316
+        },
+        {
+          "word": " critical",
+          "start": 171.62,
+          "end": 171.94,
+          "probability": 0.9999711513519287
+        },
+        {
+          "word": " to",
+          "start": 171.94,
+          "end": 172.16,
+          "probability": 0.9999855756759644
+        },
+        {
+          "word": " the",
+          "start": 172.16,
+          "end": 172.3,
+          "probability": 0.9999548196792603
+        },
+        {
+          "word": " state.",
+          "start": 172.3,
+          "end": 172.56,
+          "probability": 0.9996943473815918
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 17256,
+      "start": 172.56,
+      "end": 178.6,
+      "text": " And, you know, before the war, whenever I would ask who's making the decision, it would say we're waiting for Mr. Khamenei to decide.",
+      "tokens": [
+        50365,
+        400,
+        11,
+        291,
+        458,
+        11,
+        949,
+        264,
+        1516,
+        11,
+        5699,
+        286,
+        576,
+        1029,
+        567,
+        311,
+        1455,
+        264,
+        3537,
+        11,
+        309,
+        576,
+        584,
+        321,
+        434,
+        3806,
+        337,
+        2221,
+        13,
+        591,
+        4822,
+        1450,
+        72,
+        281,
+        4536,
+        13,
+        50668
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11864794855532439,
+      "compression_ratio": 1.6129032258064515,
+      "no_speech_prob": 1.1609428696157664e-12,
+      "words": [
+        {
+          "word": " And,",
+          "start": 172.56,
+          "end": 172.96,
+          "probability": 0.9855378270149231
+        },
+        {
+          "word": " you",
+          "start": 173.24,
+          "end": 173.32,
+          "probability": 0.9999847412109375
+        },
+        {
+          "word": " know,",
+          "start": 173.32,
+          "end": 173.36,
+          "probability": 0.9999977350234985
+        },
+        {
+          "word": " before",
+          "start": 173.48,
+          "end": 173.78,
+          "probability": 0.9999849796295166
+        },
+        {
+          "word": " the",
+          "start": 173.78,
+          "end": 173.96,
+          "probability": 0.9999943971633911
+        },
+        {
+          "word": " war,",
+          "start": 173.96,
+          "end": 174.14,
+          "probability": 0.999955415725708
+        },
+        {
+          "word": " whenever",
+          "start": 174.26,
+          "end": 174.46,
+          "probability": 0.9999748468399048
+        },
+        {
+          "word": " I",
+          "start": 174.46,
+          "end": 174.66,
+          "probability": 0.999993085861206
+        },
+        {
+          "word": " would",
+          "start": 174.66,
+          "end": 174.82,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " ask",
+          "start": 174.82,
+          "end": 175.14,
+          "probability": 0.9999818801879883
+        },
+        {
+          "word": " who's",
+          "start": 175.14,
+          "end": 175.7,
+          "probability": 0.9943181574344635
+        },
+        {
+          "word": " making",
+          "start": 175.7,
+          "end": 175.96,
+          "probability": 0.999982476234436
+        },
+        {
+          "word": " the",
+          "start": 175.96,
+          "end": 176.1,
+          "probability": 0.993803858757019
+        },
+        {
+          "word": " decision,",
+          "start": 176.1,
+          "end": 176.32,
+          "probability": 0.9998031258583069
+        },
+        {
+          "word": " it",
+          "start": 176.5,
+          "end": 176.5,
+          "probability": 0.6928401589393616
+        },
+        {
+          "word": " would",
+          "start": 176.5,
+          "end": 176.58,
+          "probability": 0.9976073503494263
+        },
+        {
+          "word": " say",
+          "start": 176.58,
+          "end": 176.68,
+          "probability": 0.9996825456619263
+        },
+        {
+          "word": " we're",
+          "start": 176.68,
+          "end": 176.88,
+          "probability": 0.7714772522449493
+        },
+        {
+          "word": " waiting",
+          "start": 176.88,
+          "end": 177.16,
+          "probability": 0.9999679327011108
+        },
+        {
+          "word": " for",
+          "start": 177.16,
+          "end": 177.36,
+          "probability": 0.9999973773956299
+        },
+        {
+          "word": " Mr.",
+          "start": 177.36,
+          "end": 177.62,
+          "probability": 0.9993257522583008
+        },
+        {
+          "word": " Khamenei",
+          "start": 177.7,
+          "end": 178.04,
+          "probability": 0.9754762202501297
+        },
+        {
+          "word": " to",
+          "start": 178.04,
+          "end": 178.24,
+          "probability": 0.9999557733535767
+        },
+        {
+          "word": " decide.",
+          "start": 178.24,
+          "end": 178.6,
+          "probability": 0.9998632669448853
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "seek": 17256,
+      "start": 178.78,
+      "end": 180.58,
+      "text": " We're waiting for him to say yes or no.",
+      "tokens": [
+        50674,
+        492,
+        434,
+        3806,
+        337,
+        796,
+        281,
+        584,
+        2086,
+        420,
+        572,
+        13,
+        50767
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11864794855532439,
+      "compression_ratio": 1.6129032258064515,
+      "no_speech_prob": 1.1609428696157664e-12,
+      "words": [
+        {
+          "word": " We're",
+          "start": 178.78,
+          "end": 178.84,
+          "probability": 0.9999595880508423
+        },
+        {
+          "word": " waiting",
+          "start": 178.84,
+          "end": 179.08,
+          "probability": 0.9999502897262573
+        },
+        {
+          "word": " for",
+          "start": 179.08,
+          "end": 179.28,
+          "probability": 0.9999979734420776
+        },
+        {
+          "word": " him",
+          "start": 179.28,
+          "end": 179.46,
+          "probability": 0.9999874830245972
+        },
+        {
+          "word": " to",
+          "start": 179.46,
+          "end": 179.64,
+          "probability": 0.9999979734420776
+        },
+        {
+          "word": " say",
+          "start": 179.64,
+          "end": 179.84,
+          "probability": 0.9999909400939941
+        },
+        {
+          "word": " yes",
+          "start": 179.84,
+          "end": 180.1,
+          "probability": 0.9999722242355347
+        },
+        {
+          "word": " or",
+          "start": 180.1,
+          "end": 180.28,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " no.",
+          "start": 180.28,
+          "end": 180.58,
+          "probability": 0.9999943971633911
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "seek": 17256,
+      "start": 180.74,
+      "end": 182.42,
+      "text": " And now it's the generals.",
+      "tokens": [
+        50788,
+        400,
+        586,
+        309,
+        311,
+        264,
+        41346,
+        13,
+        50858
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11864794855532439,
+      "compression_ratio": 1.6129032258064515,
+      "no_speech_prob": 1.1609428696157664e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 180.74,
+          "end": 181.24,
+          "probability": 0.9999260902404785
+        },
+        {
+          "word": " now",
+          "start": 181.24,
+          "end": 181.52,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " it's",
+          "start": 181.52,
+          "end": 181.84,
+          "probability": 0.9999927878379822
+        },
+        {
+          "word": " the",
+          "start": 181.84,
+          "end": 181.98,
+          "probability": 0.9999802112579346
+        },
+        {
+          "word": " generals.",
+          "start": 181.98,
+          "end": 182.42,
+          "probability": 0.9993031024932861
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "seek": 17256,
+      "start": 182.98,
+      "end": 193.54,
+      "text": " Since the war started, a cohort of senior Revolutionary Guards generals have sort of taken over running and managing the war and running the country.",
+      "tokens": [
+        50886,
+        4162,
+        264,
+        1516,
+        1409,
+        11,
+        257,
+        28902,
+        295,
+        7965,
+        16617,
+        822,
+        2694,
+        2287,
+        41346,
+        362,
+        1333,
+        295,
+        2726,
+        670,
+        2614,
+        293,
+        11642,
+        264,
+        1516,
+        293,
+        2614,
+        264,
+        1941,
+        13,
+        51416
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11864794855532439,
+      "compression_ratio": 1.6129032258064515,
+      "no_speech_prob": 1.1609428696157664e-12,
+      "words": [
+        {
+          "word": " Since",
+          "start": 182.98,
+          "end": 183.5,
+          "probability": 0.9626856446266174
+        },
+        {
+          "word": " the",
+          "start": 183.5,
+          "end": 183.66,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " war",
+          "start": 183.66,
+          "end": 183.84,
+          "probability": 0.9999511241912842
+        },
+        {
+          "word": " started,",
+          "start": 183.84,
+          "end": 184.28,
+          "probability": 0.9999898672103882
+        },
+        {
+          "word": " a",
+          "start": 184.68,
+          "end": 185.12,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " cohort",
+          "start": 185.12,
+          "end": 185.5,
+          "probability": 0.9999524354934692
+        },
+        {
+          "word": " of",
+          "start": 185.5,
+          "end": 185.72,
+          "probability": 0.9999995231628418
+        },
+        {
+          "word": " senior",
+          "start": 185.72,
+          "end": 186.16,
+          "probability": 0.9999434947967529
+        },
+        {
+          "word": " Revolutionary",
+          "start": 186.16,
+          "end": 187.5,
+          "probability": 0.8643094301223755
+        },
+        {
+          "word": " Guards",
+          "start": 187.5,
+          "end": 187.86,
+          "probability": 0.8832704126834869
+        },
+        {
+          "word": " generals",
+          "start": 187.86,
+          "end": 188.22,
+          "probability": 0.9869040250778198
+        },
+        {
+          "word": " have",
+          "start": 188.22,
+          "end": 189.06,
+          "probability": 0.9998711347579956
+        },
+        {
+          "word": " sort",
+          "start": 189.06,
+          "end": 189.28,
+          "probability": 0.9999803304672241
+        },
+        {
+          "word": " of",
+          "start": 189.28,
+          "end": 189.4,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " taken",
+          "start": 189.4,
+          "end": 189.68,
+          "probability": 0.9999537467956543
+        },
+        {
+          "word": " over",
+          "start": 189.68,
+          "end": 190.16,
+          "probability": 0.9999881982803345
+        },
+        {
+          "word": " running",
+          "start": 190.16,
+          "end": 190.8,
+          "probability": 0.966930091381073
+        },
+        {
+          "word": " and",
+          "start": 190.8,
+          "end": 191.08,
+          "probability": 0.9999843835830688
+        },
+        {
+          "word": " managing",
+          "start": 191.08,
+          "end": 191.5,
+          "probability": 0.9999724626541138
+        },
+        {
+          "word": " the",
+          "start": 191.5,
+          "end": 191.74,
+          "probability": 0.9999970197677612
+        },
+        {
+          "word": " war",
+          "start": 191.74,
+          "end": 192.04,
+          "probability": 0.9999605417251587
+        },
+        {
+          "word": " and",
+          "start": 192.04,
+          "end": 192.42,
+          "probability": 0.9995068311691284
+        },
+        {
+          "word": " running",
+          "start": 192.42,
+          "end": 192.94,
+          "probability": 0.9999752044677734
+        },
+        {
+          "word": " the",
+          "start": 192.94,
+          "end": 193.14,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " country.",
+          "start": 193.14,
+          "end": 193.54,
+          "probability": 0.999975323677063
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "seek": 19354,
+      "start": 193.54,
+      "end": 212.0,
+      "text": " Okay, you're saying something that's actually pretty stark, which is worth just lingering on for a moment, which is that the supreme leader is not the one calling the shots here. And so I have to ask, when we say the Revolutionary Guards are, who are they? Who are we talking about?",
+      "tokens": [
+        50365,
+        1033,
+        11,
+        291,
+        434,
+        1566,
+        746,
+        300,
+        311,
+        767,
+        1238,
+        17417,
+        11,
+        597,
+        307,
+        3163,
+        445,
+        49542,
+        322,
+        337,
+        257,
+        1623,
+        11,
+        597,
+        307,
+        300,
+        264,
+        27756,
+        5263,
+        307,
+        406,
+        264,
+        472,
+        5141,
+        264,
+        8305,
+        510,
+        13,
+        400,
+        370,
+        286,
+        362,
+        281,
+        1029,
+        11,
+        562,
+        321,
+        584,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        366,
+        11,
+        567,
+        366,
+        436,
+        30,
+        2102,
+        366,
+        321,
+        1417,
+        466,
+        30,
+        51290
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.06992910188787124,
+      "compression_ratio": 1.5243243243243243,
+      "no_speech_prob": 1.2205560997666232e-12,
+      "words": [
+        {
+          "word": " Okay,",
+          "start": 193.54,
+          "end": 194.5,
+          "probability": 0.7404382824897766
+        },
+        {
+          "word": " you're",
+          "start": 194.62,
+          "end": 194.76,
+          "probability": 0.9998885989189148
+        },
+        {
+          "word": " saying",
+          "start": 194.76,
+          "end": 194.96,
+          "probability": 0.9999790191650391
+        },
+        {
+          "word": " something",
+          "start": 194.96,
+          "end": 195.24,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " that's",
+          "start": 195.24,
+          "end": 195.52,
+          "probability": 0.9998850524425507
+        },
+        {
+          "word": " actually",
+          "start": 195.52,
+          "end": 195.9,
+          "probability": 0.999950647354126
+        },
+        {
+          "word": " pretty",
+          "start": 195.9,
+          "end": 196.32,
+          "probability": 0.9999573230743408
+        },
+        {
+          "word": " stark,",
+          "start": 196.32,
+          "end": 196.9,
+          "probability": 0.9998652935028076
+        },
+        {
+          "word": " which",
+          "start": 196.9,
+          "end": 197.44,
+          "probability": 0.9999542236328125
+        },
+        {
+          "word": " is",
+          "start": 197.44,
+          "end": 197.58,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " worth",
+          "start": 197.58,
+          "end": 197.8,
+          "probability": 0.9999322891235352
+        },
+        {
+          "word": " just",
+          "start": 197.8,
+          "end": 198.04,
+          "probability": 0.9999529123306274
+        },
+        {
+          "word": " lingering",
+          "start": 198.04,
+          "end": 198.32,
+          "probability": 0.9997513890266418
+        },
+        {
+          "word": " on",
+          "start": 198.32,
+          "end": 198.56,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " for",
+          "start": 198.56,
+          "end": 198.68,
+          "probability": 0.9999408721923828
+        },
+        {
+          "word": " a",
+          "start": 198.68,
+          "end": 198.78,
+          "probability": 0.999977707862854
+        },
+        {
+          "word": " moment,",
+          "start": 198.78,
+          "end": 198.98,
+          "probability": 0.9994515776634216
+        },
+        {
+          "word": " which",
+          "start": 199.12,
+          "end": 199.22,
+          "probability": 0.999561607837677
+        },
+        {
+          "word": " is",
+          "start": 199.22,
+          "end": 199.36,
+          "probability": 0.9999943971633911
+        },
+        {
+          "word": " that",
+          "start": 199.36,
+          "end": 199.56,
+          "probability": 0.9997854828834534
+        },
+        {
+          "word": " the",
+          "start": 199.56,
+          "end": 200.04,
+          "probability": 0.999927282333374
+        },
+        {
+          "word": " supreme",
+          "start": 200.04,
+          "end": 200.38,
+          "probability": 0.6328718662261963
+        },
+        {
+          "word": " leader",
+          "start": 200.38,
+          "end": 200.88,
+          "probability": 0.9999525547027588
+        },
+        {
+          "word": " is",
+          "start": 200.88,
+          "end": 201.28,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " not",
+          "start": 201.28,
+          "end": 201.68,
+          "probability": 0.9999775886535645
+        },
+        {
+          "word": " the",
+          "start": 201.68,
+          "end": 201.92,
+          "probability": 0.9999821186065674
+        },
+        {
+          "word": " one",
+          "start": 201.92,
+          "end": 202.26,
+          "probability": 0.9999586343765259
+        },
+        {
+          "word": " calling",
+          "start": 202.26,
+          "end": 202.98,
+          "probability": 0.9996048808097839
+        },
+        {
+          "word": " the",
+          "start": 202.98,
+          "end": 203.44,
+          "probability": 0.9999828338623047
+        },
+        {
+          "word": " shots",
+          "start": 203.44,
+          "end": 203.8,
+          "probability": 0.9999406337738037
+        },
+        {
+          "word": " here.",
+          "start": 203.8,
+          "end": 204.1,
+          "probability": 0.9999363422393799
+        },
+        {
+          "word": " And",
+          "start": 204.3,
+          "end": 204.84,
+          "probability": 0.9961334466934204
+        },
+        {
+          "word": " so",
+          "start": 204.84,
+          "end": 205.36,
+          "probability": 0.9998968839645386
+        },
+        {
+          "word": " I",
+          "start": 205.36,
+          "end": 205.76,
+          "probability": 0.9730132222175598
+        },
+        {
+          "word": " have",
+          "start": 205.76,
+          "end": 205.96,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " to",
+          "start": 205.96,
+          "end": 206.1,
+          "probability": 0.9999974966049194
+        },
+        {
+          "word": " ask,",
+          "start": 206.1,
+          "end": 206.5,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " when",
+          "start": 206.66,
+          "end": 207.0,
+          "probability": 0.9999806880950928
+        },
+        {
+          "word": " we",
+          "start": 207.0,
+          "end": 207.22,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " say",
+          "start": 207.22,
+          "end": 207.64,
+          "probability": 0.9999910593032837
+        },
+        {
+          "word": " the",
+          "start": 207.64,
+          "end": 207.98,
+          "probability": 0.9999363422393799
+        },
+        {
+          "word": " Revolutionary",
+          "start": 207.98,
+          "end": 208.66,
+          "probability": 0.9521805942058563
+        },
+        {
+          "word": " Guards",
+          "start": 208.66,
+          "end": 209.04,
+          "probability": 0.9977574348449707
+        },
+        {
+          "word": " are,",
+          "start": 209.04,
+          "end": 209.5,
+          "probability": 0.9981006979942322
+        },
+        {
+          "word": " who",
+          "start": 209.78,
+          "end": 210.3,
+          "probability": 0.9999524354934692
+        },
+        {
+          "word": " are",
+          "start": 210.3,
+          "end": 210.54,
+          "probability": 0.9999972581863403
+        },
+        {
+          "word": " they?",
+          "start": 210.54,
+          "end": 210.8,
+          "probability": 0.9998704195022583
+        },
+        {
+          "word": " Who",
+          "start": 211.0,
+          "end": 211.24,
+          "probability": 0.9996028542518616
+        },
+        {
+          "word": " are",
+          "start": 211.24,
+          "end": 211.36,
+          "probability": 0.9999903440475464
+        },
+        {
+          "word": " we",
+          "start": 211.36,
+          "end": 211.46,
+          "probability": 0.9999527931213379
+        },
+        {
+          "word": " talking",
+          "start": 211.46,
+          "end": 211.72,
+          "probability": 0.9999500513076782
+        },
+        {
+          "word": " about?",
+          "start": 211.72,
+          "end": 212.0,
+          "probability": 0.9999905824661255
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "seek": 21200,
+      "start": 212.0,
+      "end": 216.44,
+      "text": " The Revolutionary Guards are the most elite military force in Iran.",
+      "tokens": [
+        50365,
+        440,
+        16617,
+        822,
+        2694,
+        2287,
+        366,
+        264,
+        881,
+        17801,
+        4632,
+        3464,
+        294,
+        8283,
+        13,
+        50589
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12872225443522137,
+      "compression_ratio": 1.6407766990291262,
+      "no_speech_prob": 9.964163825634809e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 212.0,
+          "end": 212.76,
+          "probability": 0.9663178324699402
+        },
+        {
+          "word": " Revolutionary",
+          "start": 212.76,
+          "end": 213.48,
+          "probability": 0.9649354815483093
+        },
+        {
+          "word": " Guards",
+          "start": 213.48,
+          "end": 213.84,
+          "probability": 0.9982632398605347
+        },
+        {
+          "word": " are",
+          "start": 213.84,
+          "end": 214.28,
+          "probability": 0.9996891021728516
+        },
+        {
+          "word": " the",
+          "start": 214.28,
+          "end": 214.48,
+          "probability": 0.99998939037323
+        },
+        {
+          "word": " most",
+          "start": 214.48,
+          "end": 214.72,
+          "probability": 0.9999508857727051
+        },
+        {
+          "word": " elite",
+          "start": 214.72,
+          "end": 215.08,
+          "probability": 0.9997751116752625
+        },
+        {
+          "word": " military",
+          "start": 215.08,
+          "end": 215.5,
+          "probability": 0.9999544620513916
+        },
+        {
+          "word": " force",
+          "start": 215.5,
+          "end": 215.98,
+          "probability": 0.9999616146087646
+        },
+        {
+          "word": " in",
+          "start": 215.98,
+          "end": 216.18,
+          "probability": 0.9999622106552124
+        },
+        {
+          "word": " Iran.",
+          "start": 216.18,
+          "end": 216.44,
+          "probability": 0.9996628761291504
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "seek": 21200,
+      "start": 216.7,
+      "end": 224.2,
+      "text": " They were created in the aftermath of the 1979 Islamic Revolution as sort of a line of defense for the regime.",
+      "tokens": [
+        50599,
+        814,
+        645,
+        2942,
+        294,
+        264,
+        34095,
+        295,
+        264,
+        30595,
+        17970,
+        16617,
+        382,
+        1333,
+        295,
+        257,
+        1622,
+        295,
+        7654,
+        337,
+        264,
+        13120,
+        13,
+        50977
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12872225443522137,
+      "compression_ratio": 1.6407766990291262,
+      "no_speech_prob": 9.964163825634809e-13,
+      "words": [
+        {
+          "word": " They",
+          "start": 216.7,
+          "end": 216.8,
+          "probability": 0.9999099969863892
+        },
+        {
+          "word": " were",
+          "start": 216.8,
+          "end": 216.94,
+          "probability": 0.999992847442627
+        },
+        {
+          "word": " created",
+          "start": 216.94,
+          "end": 217.42,
+          "probability": 0.9999715089797974
+        },
+        {
+          "word": " in",
+          "start": 217.42,
+          "end": 217.64,
+          "probability": 0.9996708631515503
+        },
+        {
+          "word": " the",
+          "start": 217.64,
+          "end": 217.76,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " aftermath",
+          "start": 217.76,
+          "end": 218.16,
+          "probability": 0.9997627139091492
+        },
+        {
+          "word": " of",
+          "start": 218.16,
+          "end": 218.46,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " the",
+          "start": 218.46,
+          "end": 218.6,
+          "probability": 0.9999895095825195
+        },
+        {
+          "word": " 1979",
+          "start": 218.6,
+          "end": 219.38,
+          "probability": 0.999079704284668
+        },
+        {
+          "word": " Islamic",
+          "start": 219.38,
+          "end": 219.84,
+          "probability": 0.9999477863311768
+        },
+        {
+          "word": " Revolution",
+          "start": 219.84,
+          "end": 220.64,
+          "probability": 0.9817964434623718
+        },
+        {
+          "word": " as",
+          "start": 220.64,
+          "end": 221.6,
+          "probability": 0.9974772334098816
+        },
+        {
+          "word": " sort",
+          "start": 221.6,
+          "end": 221.88,
+          "probability": 0.999795138835907
+        },
+        {
+          "word": " of",
+          "start": 221.88,
+          "end": 222.02,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " a",
+          "start": 222.02,
+          "end": 222.32,
+          "probability": 0.9999979734420776
+        },
+        {
+          "word": " line",
+          "start": 222.32,
+          "end": 222.74,
+          "probability": 0.9999591112136841
+        },
+        {
+          "word": " of",
+          "start": 222.74,
+          "end": 222.88,
+          "probability": 0.9999916553497314
+        },
+        {
+          "word": " defense",
+          "start": 222.88,
+          "end": 223.26,
+          "probability": 0.9771915674209595
+        },
+        {
+          "word": " for",
+          "start": 223.26,
+          "end": 223.66,
+          "probability": 0.9999231100082397
+        },
+        {
+          "word": " the",
+          "start": 223.66,
+          "end": 223.8,
+          "probability": 0.999982476234436
+        },
+        {
+          "word": " regime.",
+          "start": 223.8,
+          "end": 224.2,
+          "probability": 0.9999356269836426
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "seek": 21200,
+      "start": 224.38,
+      "end": 234.94,
+      "text": " But over the past nearly half a century that the Islamic Republic's been in power, the Revolutionary Guards have expanded their reach and expanded their power.",
+      "tokens": [
+        50977,
+        583,
+        670,
+        264,
+        1791,
+        6217,
+        1922,
+        257,
+        4901,
+        300,
+        264,
+        17970,
+        5564,
+        311,
+        668,
+        294,
+        1347,
+        11,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        362,
+        14342,
+        641,
+        2524,
+        293,
+        14342,
+        641,
+        1347,
+        13,
+        51515
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12872225443522137,
+      "compression_ratio": 1.6407766990291262,
+      "no_speech_prob": 9.964163825634809e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 224.38,
+          "end": 224.78,
+          "probability": 0.9997908473014832
+        },
+        {
+          "word": " over",
+          "start": 224.78,
+          "end": 225.06,
+          "probability": 0.9999603033065796
+        },
+        {
+          "word": " the",
+          "start": 225.06,
+          "end": 225.2,
+          "probability": 0.9999972581863403
+        },
+        {
+          "word": " past",
+          "start": 225.2,
+          "end": 225.64,
+          "probability": 0.99989914894104
+        },
+        {
+          "word": " nearly",
+          "start": 225.64,
+          "end": 226.12,
+          "probability": 0.991004228591919
+        },
+        {
+          "word": " half",
+          "start": 226.12,
+          "end": 226.92,
+          "probability": 0.9999594688415527
+        },
+        {
+          "word": " a",
+          "start": 226.92,
+          "end": 227.06,
+          "probability": 0.9999791383743286
+        },
+        {
+          "word": " century",
+          "start": 227.06,
+          "end": 227.4,
+          "probability": 0.999984622001648
+        },
+        {
+          "word": " that",
+          "start": 227.4,
+          "end": 227.7,
+          "probability": 0.9994242191314697
+        },
+        {
+          "word": " the",
+          "start": 227.7,
+          "end": 227.88,
+          "probability": 0.9999161958694458
+        },
+        {
+          "word": " Islamic",
+          "start": 227.88,
+          "end": 228.14,
+          "probability": 0.9998109936714172
+        },
+        {
+          "word": " Republic's",
+          "start": 228.14,
+          "end": 228.78,
+          "probability": 0.916955441236496
+        },
+        {
+          "word": " been",
+          "start": 228.78,
+          "end": 228.96,
+          "probability": 0.9998279809951782
+        },
+        {
+          "word": " in",
+          "start": 228.96,
+          "end": 229.14,
+          "probability": 0.9999650716781616
+        },
+        {
+          "word": " power,",
+          "start": 229.14,
+          "end": 229.46,
+          "probability": 0.9999442100524902
+        },
+        {
+          "word": " the",
+          "start": 229.74,
+          "end": 230.12,
+          "probability": 0.999886155128479
+        },
+        {
+          "word": " Revolutionary",
+          "start": 230.12,
+          "end": 230.84,
+          "probability": 0.9993822872638702
+        },
+        {
+          "word": " Guards",
+          "start": 230.84,
+          "end": 231.32,
+          "probability": 0.9995509684085846
+        },
+        {
+          "word": " have",
+          "start": 231.32,
+          "end": 231.88,
+          "probability": 0.999954104423523
+        },
+        {
+          "word": " expanded",
+          "start": 231.88,
+          "end": 232.9,
+          "probability": 0.9998863935470581
+        },
+        {
+          "word": " their",
+          "start": 232.9,
+          "end": 233.22,
+          "probability": 0.9988179802894592
+        },
+        {
+          "word": " reach",
+          "start": 233.22,
+          "end": 233.6,
+          "probability": 0.9999057054519653
+        },
+        {
+          "word": " and",
+          "start": 233.6,
+          "end": 233.76,
+          "probability": 0.999819815158844
+        },
+        {
+          "word": " expanded",
+          "start": 233.76,
+          "end": 234.3,
+          "probability": 0.9997760653495789
+        },
+        {
+          "word": " their",
+          "start": 234.3,
+          "end": 234.54,
+          "probability": 0.9999451637268066
+        },
+        {
+          "word": " power.",
+          "start": 234.54,
+          "end": 234.94,
+          "probability": 0.9999386072158813
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "seek": 23494,
+      "start": 234.94,
+      "end": 243.26,
+      "text": " When we here think about a military force, we think of people in uniform who are in military bases and making military decisions.",
+      "tokens": [
+        50365,
+        1133,
+        321,
+        510,
+        519,
+        466,
+        257,
+        4632,
+        3464,
+        11,
+        321,
+        519,
+        295,
+        561,
+        294,
+        9452,
+        567,
+        366,
+        294,
+        4632,
+        17949,
+        293,
+        1455,
+        4632,
+        5327,
+        13,
+        50781
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " When",
+          "start": 234.94,
+          "end": 235.82,
+          "probability": 0.9733012318611145
+        },
+        {
+          "word": " we",
+          "start": 235.82,
+          "end": 236.04,
+          "probability": 0.9999403953552246
+        },
+        {
+          "word": " here",
+          "start": 236.04,
+          "end": 236.32,
+          "probability": 0.8882666230201721
+        },
+        {
+          "word": " think",
+          "start": 236.32,
+          "end": 236.58,
+          "probability": 0.9994483590126038
+        },
+        {
+          "word": " about",
+          "start": 236.58,
+          "end": 236.96,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " a",
+          "start": 236.96,
+          "end": 237.18,
+          "probability": 0.9999312162399292
+        },
+        {
+          "word": " military",
+          "start": 237.18,
+          "end": 237.58,
+          "probability": 0.9999836683273315
+        },
+        {
+          "word": " force,",
+          "start": 237.58,
+          "end": 238.02,
+          "probability": 0.9999710321426392
+        },
+        {
+          "word": " we",
+          "start": 238.22,
+          "end": 238.26,
+          "probability": 0.9999767541885376
+        },
+        {
+          "word": " think",
+          "start": 238.26,
+          "end": 238.48,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " of",
+          "start": 238.48,
+          "end": 238.62,
+          "probability": 0.9999958276748657
+        },
+        {
+          "word": " people",
+          "start": 238.62,
+          "end": 238.9,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " in",
+          "start": 238.9,
+          "end": 239.1,
+          "probability": 0.9999877214431763
+        },
+        {
+          "word": " uniform",
+          "start": 239.1,
+          "end": 239.58,
+          "probability": 0.9999699592590332
+        },
+        {
+          "word": " who",
+          "start": 239.58,
+          "end": 239.94,
+          "probability": 0.9986158609390259
+        },
+        {
+          "word": " are",
+          "start": 239.94,
+          "end": 240.26,
+          "probability": 0.9999988079071045
+        },
+        {
+          "word": " in",
+          "start": 240.26,
+          "end": 240.52,
+          "probability": 0.999583899974823
+        },
+        {
+          "word": " military",
+          "start": 240.52,
+          "end": 240.92,
+          "probability": 0.9999758005142212
+        },
+        {
+          "word": " bases",
+          "start": 240.92,
+          "end": 241.32,
+          "probability": 0.9986182451248169
+        },
+        {
+          "word": " and",
+          "start": 241.32,
+          "end": 241.56,
+          "probability": 0.9999765157699585
+        },
+        {
+          "word": " making",
+          "start": 241.56,
+          "end": 241.84,
+          "probability": 0.9999351501464844
+        },
+        {
+          "word": " military",
+          "start": 241.84,
+          "end": 242.38,
+          "probability": 0.9999401569366455
+        },
+        {
+          "word": " decisions.",
+          "start": 242.38,
+          "end": 243.26,
+          "probability": 0.9999432563781738
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "seek": 23494,
+      "start": 243.6,
+      "end": 243.74,
+      "text": " Right.",
+      "tokens": [
+        50802,
+        1779,
+        13,
+        50808
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " Right.",
+          "start": 243.6,
+          "end": 243.74,
+          "probability": 0.5742862820625305
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "seek": 23494,
+      "start": 243.92,
+      "end": 247.0,
+      "text": " But the Revolutionary Guards are all over the place in Iran.",
+      "tokens": [
+        50815,
+        583,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        366,
+        439,
+        670,
+        264,
+        1081,
+        294,
+        8283,
+        13,
+        50969
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 243.92,
+          "end": 244.04,
+          "probability": 0.9994051456451416
+        },
+        {
+          "word": " the",
+          "start": 244.04,
+          "end": 244.18,
+          "probability": 0.999940037727356
+        },
+        {
+          "word": " Revolutionary",
+          "start": 244.18,
+          "end": 244.82,
+          "probability": 0.953972190618515
+        },
+        {
+          "word": " Guards",
+          "start": 244.82,
+          "end": 245.12,
+          "probability": 0.9972680509090424
+        },
+        {
+          "word": " are",
+          "start": 245.12,
+          "end": 245.32,
+          "probability": 0.9999899864196777
+        },
+        {
+          "word": " all",
+          "start": 245.32,
+          "end": 245.64,
+          "probability": 0.999995231628418
+        },
+        {
+          "word": " over",
+          "start": 245.64,
+          "end": 245.96,
+          "probability": 0.9999877214431763
+        },
+        {
+          "word": " the",
+          "start": 245.96,
+          "end": 246.24,
+          "probability": 0.9999393224716187
+        },
+        {
+          "word": " place",
+          "start": 246.24,
+          "end": 246.56,
+          "probability": 0.9999904632568359
+        },
+        {
+          "word": " in",
+          "start": 246.56,
+          "end": 246.72,
+          "probability": 0.9999302625656128
+        },
+        {
+          "word": " Iran.",
+          "start": 246.72,
+          "end": 247.0,
+          "probability": 0.999911904335022
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "seek": 23494,
+      "start": 247.24,
+      "end": 250.14,
+      "text": " They hold key positions in the government.",
+      "tokens": [
+        50990,
+        814,
+        1797,
+        2141,
+        8432,
+        294,
+        264,
+        2463,
+        13,
+        51120
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " They",
+          "start": 247.24,
+          "end": 247.6,
+          "probability": 0.9998527765274048
+        },
+        {
+          "word": " hold",
+          "start": 247.6,
+          "end": 247.96,
+          "probability": 0.9999388456344604
+        },
+        {
+          "word": " key",
+          "start": 247.96,
+          "end": 248.32,
+          "probability": 0.9999704360961914
+        },
+        {
+          "word": " positions",
+          "start": 248.32,
+          "end": 249.04,
+          "probability": 0.9999687671661377
+        },
+        {
+          "word": " in",
+          "start": 249.04,
+          "end": 249.52,
+          "probability": 0.9999723434448242
+        },
+        {
+          "word": " the",
+          "start": 249.52,
+          "end": 249.62,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " government.",
+          "start": 249.62,
+          "end": 250.14,
+          "probability": 0.9999336004257202
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "seek": 23494,
+      "start": 250.38,
+      "end": 256.46,
+      "text": " Many lawmakers, ministers, presidents have been former Revolutionary Guards.",
+      "tokens": [
+        51146,
+        5126,
+        40988,
+        11,
+        26220,
+        11,
+        27611,
+        362,
+        668,
+        5819,
+        16617,
+        822,
+        2694,
+        2287,
+        13,
+        51441
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " Many",
+          "start": 250.38,
+          "end": 250.86,
+          "probability": 0.9994725584983826
+        },
+        {
+          "word": " lawmakers,",
+          "start": 250.86,
+          "end": 251.86,
+          "probability": 0.9995582699775696
+        },
+        {
+          "word": " ministers,",
+          "start": 252.46,
+          "end": 252.96,
+          "probability": 0.9999510049819946
+        },
+        {
+          "word": " presidents",
+          "start": 253.64,
+          "end": 254.22,
+          "probability": 0.9997590184211731
+        },
+        {
+          "word": " have",
+          "start": 254.22,
+          "end": 254.56,
+          "probability": 0.9998986721038818
+        },
+        {
+          "word": " been",
+          "start": 254.56,
+          "end": 254.76,
+          "probability": 0.9999624490737915
+        },
+        {
+          "word": " former",
+          "start": 254.76,
+          "end": 255.24,
+          "probability": 0.9999516010284424
+        },
+        {
+          "word": " Revolutionary",
+          "start": 255.24,
+          "end": 256.12,
+          "probability": 0.9913193881511688
+        },
+        {
+          "word": " Guards.",
+          "start": 256.12,
+          "end": 256.46,
+          "probability": 0.9997127950191498
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "seek": 23494,
+      "start": 256.58,
+      "end": 263.1,
+      "text": " The current Speaker of Parliament was leading the negotiations with the U.S. as a commander of the Revolutionary Guards.",
+      "tokens": [
+        51447,
+        440,
+        2190,
+        8454,
+        295,
+        15538,
+        390,
+        5775,
+        264,
+        20476,
+        365,
+        264,
+        624,
+        13,
+        50,
+        13,
+        382,
+        257,
+        17885,
+        295,
+        264,
+        16617,
+        822,
+        2694,
+        2287,
+        13,
+        51773
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1291948767269359,
+      "compression_ratio": 1.7109375,
+      "no_speech_prob": 8.530434388379082e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 256.58,
+          "end": 256.66,
+          "probability": 0.9990542531013489
+        },
+        {
+          "word": " current",
+          "start": 256.66,
+          "end": 256.94,
+          "probability": 0.9995079040527344
+        },
+        {
+          "word": " Speaker",
+          "start": 256.94,
+          "end": 257.26,
+          "probability": 0.93044114112854
+        },
+        {
+          "word": " of",
+          "start": 257.26,
+          "end": 257.52,
+          "probability": 0.9999967813491821
+        },
+        {
+          "word": " Parliament",
+          "start": 257.52,
+          "end": 258.0,
+          "probability": 0.9989457726478577
+        },
+        {
+          "word": " was",
+          "start": 258.0,
+          "end": 258.4,
+          "probability": 0.6333016157150269
+        },
+        {
+          "word": " leading",
+          "start": 258.4,
+          "end": 258.8,
+          "probability": 0.9999557733535767
+        },
+        {
+          "word": " the",
+          "start": 258.8,
+          "end": 259.16,
+          "probability": 0.9999775886535645
+        },
+        {
+          "word": " negotiations",
+          "start": 259.16,
+          "end": 260.2,
+          "probability": 0.9999555349349976
+        },
+        {
+          "word": " with",
+          "start": 260.2,
+          "end": 260.56,
+          "probability": 0.9999772310256958
+        },
+        {
+          "word": " the",
+          "start": 260.56,
+          "end": 260.7,
+          "probability": 0.9999587535858154
+        },
+        {
+          "word": " U",
+          "start": 260.7,
+          "end": 260.88,
+          "probability": 0.8996166586875916
+        },
+        {
+          "word": ".S.",
+          "start": 260.88,
+          "end": 261.0,
+          "probability": 0.9999530911445618
+        },
+        {
+          "word": " as",
+          "start": 261.0,
+          "end": 261.16,
+          "probability": 0.9991180300712585
+        },
+        {
+          "word": " a",
+          "start": 261.16,
+          "end": 261.26,
+          "probability": 0.9883859157562256
+        },
+        {
+          "word": " commander",
+          "start": 261.26,
+          "end": 261.66,
+          "probability": 0.9989994168281555
+        },
+        {
+          "word": " of",
+          "start": 261.66,
+          "end": 261.86,
+          "probability": 0.9999756813049316
+        },
+        {
+          "word": " the",
+          "start": 261.86,
+          "end": 262.0,
+          "probability": 0.9999841451644897
+        },
+        {
+          "word": " Revolutionary",
+          "start": 262.0,
+          "end": 262.64,
+          "probability": 0.9998186230659485
+        },
+        {
+          "word": " Guards.",
+          "start": 262.64,
+          "end": 263.1,
+          "probability": 0.9996382594108582
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "seek": 26310,
+      "start": 263.1,
+      "end": 267.3,
+      "text": " The head of the National Security Council is a Revolutionary Guards commander.",
+      "tokens": [
+        50365,
+        440,
+        1378,
+        295,
+        264,
+        4862,
+        11164,
+        7076,
+        307,
+        257,
+        16617,
+        822,
+        2694,
+        2287,
+        17885,
+        13,
+        50578
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 263.1,
+          "end": 263.72,
+          "probability": 0.9075220823287964
+        },
+        {
+          "word": " head",
+          "start": 263.72,
+          "end": 263.92,
+          "probability": 0.9998492002487183
+        },
+        {
+          "word": " of",
+          "start": 263.92,
+          "end": 264.06,
+          "probability": 0.9999996423721313
+        },
+        {
+          "word": " the",
+          "start": 264.06,
+          "end": 264.18,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " National",
+          "start": 264.18,
+          "end": 264.48,
+          "probability": 0.998992383480072
+        },
+        {
+          "word": " Security",
+          "start": 264.48,
+          "end": 264.98,
+          "probability": 0.9998730421066284
+        },
+        {
+          "word": " Council",
+          "start": 264.98,
+          "end": 265.52,
+          "probability": 0.9998946189880371
+        },
+        {
+          "word": " is",
+          "start": 265.52,
+          "end": 265.9,
+          "probability": 0.9999591112136841
+        },
+        {
+          "word": " a",
+          "start": 265.9,
+          "end": 266.06,
+          "probability": 0.9967653751373291
+        },
+        {
+          "word": " Revolutionary",
+          "start": 266.06,
+          "end": 266.62,
+          "probability": 0.9831175208091736
+        },
+        {
+          "word": " Guards",
+          "start": 266.62,
+          "end": 266.88,
+          "probability": 0.9090179204940796
+        },
+        {
+          "word": " commander.",
+          "start": 266.88,
+          "end": 267.3,
+          "probability": 0.9283044338226318
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "seek": 26310,
+      "start": 267.54,
+      "end": 272.3,
+      "text": " And they also have a big footprint in Iran's economy, right?",
+      "tokens": [
+        50607,
+        400,
+        436,
+        611,
+        362,
+        257,
+        955,
+        24222,
+        294,
+        8283,
+        311,
+        5010,
+        11,
+        558,
+        30,
+        50827
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 267.54,
+          "end": 268.16,
+          "probability": 0.9998470544815063
+        },
+        {
+          "word": " they",
+          "start": 268.16,
+          "end": 268.3,
+          "probability": 0.999996542930603
+        },
+        {
+          "word": " also",
+          "start": 268.3,
+          "end": 268.66,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " have",
+          "start": 268.66,
+          "end": 269.22,
+          "probability": 0.9999992847442627
+        },
+        {
+          "word": " a",
+          "start": 269.22,
+          "end": 269.76,
+          "probability": 0.9999984502792358
+        },
+        {
+          "word": " big",
+          "start": 269.76,
+          "end": 269.98,
+          "probability": 0.9999669790267944
+        },
+        {
+          "word": " footprint",
+          "start": 269.98,
+          "end": 270.48,
+          "probability": 0.9999868869781494
+        },
+        {
+          "word": " in",
+          "start": 270.48,
+          "end": 270.9,
+          "probability": 0.999995231628418
+        },
+        {
+          "word": " Iran's",
+          "start": 270.9,
+          "end": 271.32,
+          "probability": 0.9999664425849915
+        },
+        {
+          "word": " economy,",
+          "start": 271.32,
+          "end": 271.88,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " right?",
+          "start": 272.2,
+          "end": 272.3,
+          "probability": 0.9998805522918701
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "seek": 26310,
+      "start": 272.44,
+      "end": 280.78,
+      "text": " They have a huge conglomerate in every economic sector from energy to transportation to even tourism that you can think of.",
+      "tokens": [
+        50832,
+        814,
+        362,
+        257,
+        2603,
+        416,
+        7191,
+        14301,
+        473,
+        294,
+        633,
+        4836,
+        6977,
+        490,
+        2281,
+        281,
+        11328,
+        281,
+        754,
+        21832,
+        300,
+        291,
+        393,
+        519,
+        295,
+        13,
+        51251
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " They",
+          "start": 272.44,
+          "end": 272.54,
+          "probability": 0.9998726844787598
+        },
+        {
+          "word": " have",
+          "start": 272.54,
+          "end": 272.72,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " a",
+          "start": 272.72,
+          "end": 272.82,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " huge",
+          "start": 272.82,
+          "end": 273.2,
+          "probability": 0.9999723434448242
+        },
+        {
+          "word": " conglomerate",
+          "start": 273.2,
+          "end": 274.44,
+          "probability": 0.9996461421251297
+        },
+        {
+          "word": " in",
+          "start": 274.44,
+          "end": 274.8,
+          "probability": 0.9999855756759644
+        },
+        {
+          "word": " every",
+          "start": 274.8,
+          "end": 275.54,
+          "probability": 0.9999750852584839
+        },
+        {
+          "word": " economic",
+          "start": 275.54,
+          "end": 276.2,
+          "probability": 0.999924898147583
+        },
+        {
+          "word": " sector",
+          "start": 276.2,
+          "end": 276.64,
+          "probability": 0.9999810457229614
+        },
+        {
+          "word": " from",
+          "start": 276.64,
+          "end": 276.92,
+          "probability": 0.6321134567260742
+        },
+        {
+          "word": " energy",
+          "start": 276.92,
+          "end": 277.36,
+          "probability": 0.9999847412109375
+        },
+        {
+          "word": " to",
+          "start": 277.36,
+          "end": 277.6,
+          "probability": 0.9968057870864868
+        },
+        {
+          "word": " transportation",
+          "start": 277.6,
+          "end": 278.18,
+          "probability": 0.9999282360076904
+        },
+        {
+          "word": " to",
+          "start": 278.18,
+          "end": 278.56,
+          "probability": 0.9796947836875916
+        },
+        {
+          "word": " even",
+          "start": 278.56,
+          "end": 278.74,
+          "probability": 0.9999619722366333
+        },
+        {
+          "word": " tourism",
+          "start": 278.74,
+          "end": 279.28,
+          "probability": 0.9999749660491943
+        },
+        {
+          "word": " that",
+          "start": 279.28,
+          "end": 280.0,
+          "probability": 0.9998624324798584
+        },
+        {
+          "word": " you",
+          "start": 280.0,
+          "end": 280.16,
+          "probability": 0.9999980926513672
+        },
+        {
+          "word": " can",
+          "start": 280.16,
+          "end": 280.34,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " think",
+          "start": 280.34,
+          "end": 280.56,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " of.",
+          "start": 280.56,
+          "end": 280.78,
+          "probability": 0.9999922513961792
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "seek": 26310,
+      "start": 280.88,
+      "end": 284.74,
+      "text": " So they really are the parallel power in Iran.",
+      "tokens": [
+        51254,
+        407,
+        436,
+        534,
+        366,
+        264,
+        8952,
+        1347,
+        294,
+        8283,
+        13,
+        51450
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 280.88,
+          "end": 280.96,
+          "probability": 0.9998050332069397
+        },
+        {
+          "word": " they",
+          "start": 280.96,
+          "end": 281.16,
+          "probability": 0.9904683232307434
+        },
+        {
+          "word": " really",
+          "start": 281.16,
+          "end": 281.5,
+          "probability": 0.9999953508377075
+        },
+        {
+          "word": " are",
+          "start": 281.5,
+          "end": 282.06,
+          "probability": 0.9999984502792358
+        },
+        {
+          "word": " the",
+          "start": 282.06,
+          "end": 282.84,
+          "probability": 0.9999961853027344
+        },
+        {
+          "word": " parallel",
+          "start": 282.84,
+          "end": 283.38,
+          "probability": 0.9998884201049805
+        },
+        {
+          "word": " power",
+          "start": 283.38,
+          "end": 283.9,
+          "probability": 0.9999791383743286
+        },
+        {
+          "word": " in",
+          "start": 283.9,
+          "end": 284.46,
+          "probability": 0.9999456405639648
+        },
+        {
+          "word": " Iran.",
+          "start": 284.46,
+          "end": 284.74,
+          "probability": 0.9999511241912842
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "seek": 26310,
+      "start": 284.74,
+      "end": 288.0,
+      "text": " And now as a result of the war, they've become the dominant power.",
+      "tokens": [
+        51459,
+        400,
+        586,
+        382,
+        257,
+        1874,
+        295,
+        264,
+        1516,
+        11,
+        436,
+        600,
+        1813,
+        264,
+        15657,
+        1347,
+        13,
+        51612
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 284.74,
+          "end": 285.16,
+          "probability": 0.9999361038208008
+        },
+        {
+          "word": " now",
+          "start": 285.16,
+          "end": 285.44,
+          "probability": 0.9999951124191284
+        },
+        {
+          "word": " as",
+          "start": 285.44,
+          "end": 285.66,
+          "probability": 0.7445655465126038
+        },
+        {
+          "word": " a",
+          "start": 285.66,
+          "end": 285.74,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " result",
+          "start": 285.74,
+          "end": 286.0,
+          "probability": 0.9999388456344604
+        },
+        {
+          "word": " of",
+          "start": 286.0,
+          "end": 286.18,
+          "probability": 0.9999551773071289
+        },
+        {
+          "word": " the",
+          "start": 286.18,
+          "end": 286.26,
+          "probability": 0.988997757434845
+        },
+        {
+          "word": " war,",
+          "start": 286.26,
+          "end": 286.44,
+          "probability": 0.9906973838806152
+        },
+        {
+          "word": " they've",
+          "start": 286.58,
+          "end": 286.74,
+          "probability": 0.9999090433120728
+        },
+        {
+          "word": " become",
+          "start": 286.74,
+          "end": 286.96,
+          "probability": 0.9999513626098633
+        },
+        {
+          "word": " the",
+          "start": 286.96,
+          "end": 287.12,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " dominant",
+          "start": 287.12,
+          "end": 287.56,
+          "probability": 0.9999524354934692
+        },
+        {
+          "word": " power.",
+          "start": 287.56,
+          "end": 288.0,
+          "probability": 0.9999891519546509
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "seek": 26310,
+      "start": 288.22,
+      "end": 288.9,
+      "text": " That's fascinating.",
+      "tokens": [
+        51627,
+        663,
+        311,
+        10343,
+        13,
+        51655
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.09966225526770767,
+      "compression_ratio": 1.5568627450980392,
+      "no_speech_prob": 8.728255206265356e-13,
+      "words": [
+        {
+          "word": " That's",
+          "start": 288.22,
+          "end": 288.44,
+          "probability": 0.99927619099617
+        },
+        {
+          "word": " fascinating.",
+          "start": 288.44,
+          "end": 288.9,
+          "probability": 0.9999721050262451
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "seek": 28890,
+      "start": 288.9,
+      "end": 296.82,
+      "text": " You know, it's part of a pattern of the country becoming more and more militarized and the influence of the clerics fading.",
+      "tokens": [
+        50365,
+        509,
+        458,
+        11,
+        309,
+        311,
+        644,
+        295,
+        257,
+        5102,
+        295,
+        264,
+        1941,
+        5617,
+        544,
+        293,
+        544,
+        30653,
+        1602,
+        293,
+        264,
+        6503,
+        295,
+        264,
+        25902,
+        1167,
+        38644,
+        13,
+        50762
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12234941783704256,
+      "compression_ratio": 1.6123348017621146,
+      "no_speech_prob": 7.518557716516827e-13,
+      "words": [
+        {
+          "word": " You",
+          "start": 288.9,
+          "end": 289.34,
+          "probability": 0.9923427700996399
+        },
+        {
+          "word": " know,",
+          "start": 289.34,
+          "end": 289.44,
+          "probability": 0.9999959468841553
+        },
+        {
+          "word": " it's",
+          "start": 289.54,
+          "end": 289.7,
+          "probability": 0.9999671578407288
+        },
+        {
+          "word": " part",
+          "start": 289.7,
+          "end": 290.0,
+          "probability": 0.9999953508377075
+        },
+        {
+          "word": " of",
+          "start": 290.0,
+          "end": 290.14,
+          "probability": 0.9999996423721313
+        },
+        {
+          "word": " a",
+          "start": 290.14,
+          "end": 290.26,
+          "probability": 0.9999967813491821
+        },
+        {
+          "word": " pattern",
+          "start": 290.26,
+          "end": 290.66,
+          "probability": 0.9999898672103882
+        },
+        {
+          "word": " of",
+          "start": 290.66,
+          "end": 291.06,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " the",
+          "start": 291.06,
+          "end": 291.2,
+          "probability": 0.9999974966049194
+        },
+        {
+          "word": " country",
+          "start": 291.2,
+          "end": 291.6,
+          "probability": 0.9999833106994629
+        },
+        {
+          "word": " becoming",
+          "start": 291.6,
+          "end": 292.12,
+          "probability": 0.9999700784683228
+        },
+        {
+          "word": " more",
+          "start": 292.12,
+          "end": 292.52,
+          "probability": 0.9999963045120239
+        },
+        {
+          "word": " and",
+          "start": 292.52,
+          "end": 292.62,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " more",
+          "start": 292.62,
+          "end": 292.94,
+          "probability": 0.9999790191650391
+        },
+        {
+          "word": " militarized",
+          "start": 292.94,
+          "end": 294.28,
+          "probability": 0.9996605217456818
+        },
+        {
+          "word": " and",
+          "start": 294.28,
+          "end": 294.68,
+          "probability": 0.9382237792015076
+        },
+        {
+          "word": " the",
+          "start": 294.68,
+          "end": 294.86,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " influence",
+          "start": 294.86,
+          "end": 295.32,
+          "probability": 0.999969482421875
+        },
+        {
+          "word": " of",
+          "start": 295.32,
+          "end": 295.54,
+          "probability": 0.9999990463256836
+        },
+        {
+          "word": " the",
+          "start": 295.54,
+          "end": 295.7,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " clerics",
+          "start": 295.7,
+          "end": 296.36,
+          "probability": 0.9994934499263763
+        },
+        {
+          "word": " fading.",
+          "start": 296.36,
+          "end": 296.82,
+          "probability": 0.9995539784431458
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "seek": 28890,
+      "start": 297.18,
+      "end": 303.6,
+      "text": " So this ubiquity of the guards, that's something that's been developing over time, their presence everywhere.",
+      "tokens": [
+        50776,
+        407,
+        341,
+        43868,
+        507,
+        295,
+        264,
+        17652,
+        11,
+        300,
+        311,
+        746,
+        300,
+        311,
+        668,
+        6416,
+        670,
+        565,
+        11,
+        641,
+        6814,
+        5315,
+        13,
+        51102
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12234941783704256,
+      "compression_ratio": 1.6123348017621146,
+      "no_speech_prob": 7.518557716516827e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 297.18,
+          "end": 297.7,
+          "probability": 0.9996857643127441
+        },
+        {
+          "word": " this",
+          "start": 297.7,
+          "end": 298.44,
+          "probability": 0.9762767553329468
+        },
+        {
+          "word": " ubiquity",
+          "start": 298.44,
+          "end": 299.32,
+          "probability": 0.9998337924480438
+        },
+        {
+          "word": " of",
+          "start": 299.32,
+          "end": 299.64,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " the",
+          "start": 299.64,
+          "end": 299.78,
+          "probability": 0.9999822378158569
+        },
+        {
+          "word": " guards,",
+          "start": 299.78,
+          "end": 300.1,
+          "probability": 0.9506998062133789
+        },
+        {
+          "word": " that's",
+          "start": 300.28,
+          "end": 300.42,
+          "probability": 0.9999980330467224
+        },
+        {
+          "word": " something",
+          "start": 300.42,
+          "end": 300.66,
+          "probability": 0.999903678894043
+        },
+        {
+          "word": " that's",
+          "start": 300.66,
+          "end": 300.9,
+          "probability": 0.9999975562095642
+        },
+        {
+          "word": " been",
+          "start": 300.9,
+          "end": 301.02,
+          "probability": 0.999962329864502
+        },
+        {
+          "word": " developing",
+          "start": 301.02,
+          "end": 301.5,
+          "probability": 0.9999755620956421
+        },
+        {
+          "word": " over",
+          "start": 301.5,
+          "end": 301.84,
+          "probability": 0.9999868869781494
+        },
+        {
+          "word": " time,",
+          "start": 301.84,
+          "end": 302.4,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " their",
+          "start": 302.62,
+          "end": 302.72,
+          "probability": 0.9998550415039062
+        },
+        {
+          "word": " presence",
+          "start": 302.72,
+          "end": 303.14,
+          "probability": 0.9999749660491943
+        },
+        {
+          "word": " everywhere.",
+          "start": 303.14,
+          "end": 303.6,
+          "probability": 0.9999697208404541
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "seek": 28890,
+      "start": 303.8,
+      "end": 305.46,
+      "text": " This isn't new, per se.",
+      "tokens": [
+        51111,
+        639,
+        1943,
+        380,
+        777,
+        11,
+        680,
+        369,
+        13,
+        51195
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12234941783704256,
+      "compression_ratio": 1.6123348017621146,
+      "no_speech_prob": 7.518557716516827e-13,
+      "words": [
+        {
+          "word": " This",
+          "start": 303.8,
+          "end": 303.96,
+          "probability": 0.999977707862854
+        },
+        {
+          "word": " isn't",
+          "start": 303.96,
+          "end": 304.34,
+          "probability": 0.9999853372573853
+        },
+        {
+          "word": " new,",
+          "start": 304.34,
+          "end": 304.86,
+          "probability": 0.9999630451202393
+        },
+        {
+          "word": " per",
+          "start": 304.98,
+          "end": 305.28,
+          "probability": 0.9999865293502808
+        },
+        {
+          "word": " se.",
+          "start": 305.28,
+          "end": 305.46,
+          "probability": 0.9996726512908936
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "seek": 28890,
+      "start": 305.88,
+      "end": 309.1,
+      "text": " Right. It's not new, but it's never been this dominant.",
+      "tokens": [
+        51215,
+        1779,
+        13,
+        467,
+        311,
+        406,
+        777,
+        11,
+        457,
+        309,
+        311,
+        1128,
+        668,
+        341,
+        15657,
+        13,
+        51376
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12234941783704256,
+      "compression_ratio": 1.6123348017621146,
+      "no_speech_prob": 7.518557716516827e-13,
+      "words": [
+        {
+          "word": " Right.",
+          "start": 305.88,
+          "end": 306.1,
+          "probability": 0.999405026435852
+        },
+        {
+          "word": " It's",
+          "start": 306.22,
+          "end": 306.42,
+          "probability": 0.9998917877674103
+        },
+        {
+          "word": " not",
+          "start": 306.42,
+          "end": 306.62,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " new,",
+          "start": 306.62,
+          "end": 306.98,
+          "probability": 0.9999929666519165
+        },
+        {
+          "word": " but",
+          "start": 307.26,
+          "end": 307.72,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " it's",
+          "start": 307.72,
+          "end": 307.96,
+          "probability": 0.9999991059303284
+        },
+        {
+          "word": " never",
+          "start": 307.96,
+          "end": 308.22,
+          "probability": 0.9999867677688599
+        },
+        {
+          "word": " been",
+          "start": 308.22,
+          "end": 308.48,
+          "probability": 0.9999963045120239
+        },
+        {
+          "word": " this",
+          "start": 308.48,
+          "end": 308.7,
+          "probability": 0.9999037981033325
+        },
+        {
+          "word": " dominant.",
+          "start": 308.7,
+          "end": 309.1,
+          "probability": 0.9999721050262451
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "seek": 28890,
+      "start": 309.48,
+      "end": 312.42,
+      "text": " The Revolutionary Guards have been rising for years.",
+      "tokens": [
+        51406,
+        440,
+        16617,
+        822,
+        2694,
+        2287,
+        362,
+        668,
+        11636,
+        337,
+        924,
+        13,
+        51542
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.12234941783704256,
+      "compression_ratio": 1.6123348017621146,
+      "no_speech_prob": 7.518557716516827e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 309.48,
+          "end": 309.92,
+          "probability": 0.9998501539230347
+        },
+        {
+          "word": " Revolutionary",
+          "start": 309.92,
+          "end": 310.56,
+          "probability": 0.9823230803012848
+        },
+        {
+          "word": " Guards",
+          "start": 310.56,
+          "end": 310.88,
+          "probability": 0.9960892200469971
+        },
+        {
+          "word": " have",
+          "start": 310.88,
+          "end": 311.08,
+          "probability": 0.9997335076332092
+        },
+        {
+          "word": " been",
+          "start": 311.08,
+          "end": 311.26,
+          "probability": 0.9999858140945435
+        },
+        {
+          "word": " rising",
+          "start": 311.26,
+          "end": 311.66,
+          "probability": 0.9999476671218872
+        },
+        {
+          "word": " for",
+          "start": 311.66,
+          "end": 311.96,
+          "probability": 0.9999949932098389
+        },
+        {
+          "word": " years.",
+          "start": 311.96,
+          "end": 312.42,
+          "probability": 0.9999884366989136
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "seek": 31242,
+      "start": 312.42,
+      "end": 333.2,
+      "text": " The former supreme leader really relied on them for securing Iran's borders, for navigating and cultivating relationships with proxy militant groups in the region that were aligned with Iran ideologically, such as Hezbollah in Lebanon or Hamas in Gaza and the Shia militia in Iraq.",
+      "tokens": [
+        50365,
+        440,
+        5819,
+        27756,
+        5263,
+        534,
+        35463,
+        322,
+        552,
+        337,
+        33640,
+        8283,
+        311,
+        16287,
+        11,
+        337,
+        32054,
+        293,
+        15298,
+        990,
+        6159,
+        365,
+        29690,
+        19142,
+        394,
+        3935,
+        294,
+        264,
+        4458,
+        300,
+        645,
+        17962,
+        365,
+        8283,
+        1153,
+        17157,
+        11,
+        1270,
+        382,
+        634,
+        89,
+        1763,
+        31884,
+        294,
+        29532,
+        420,
+        8234,
+        296,
+        294,
+        37800,
+        293,
+        264,
+        1160,
+        654,
+        19142,
+        654,
+        294,
+        11818,
+        13,
+        51405
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.062149359333899715,
+      "compression_ratio": 1.4789473684210526,
+      "no_speech_prob": 6.518325375987066e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 312.42,
+          "end": 313.3,
+          "probability": 0.7523221373558044
+        },
+        {
+          "word": " former",
+          "start": 313.3,
+          "end": 313.8,
+          "probability": 0.9999862909317017
+        },
+        {
+          "word": " supreme",
+          "start": 313.8,
+          "end": 314.16,
+          "probability": 0.5750223398208618
+        },
+        {
+          "word": " leader",
+          "start": 314.16,
+          "end": 314.54,
+          "probability": 0.999919056892395
+        },
+        {
+          "word": " really",
+          "start": 314.54,
+          "end": 314.98,
+          "probability": 0.9999399185180664
+        },
+        {
+          "word": " relied",
+          "start": 314.98,
+          "end": 315.8,
+          "probability": 0.9999892711639404
+        },
+        {
+          "word": " on",
+          "start": 315.8,
+          "end": 316.02,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " them",
+          "start": 316.02,
+          "end": 316.32,
+          "probability": 0.9999852180480957
+        },
+        {
+          "word": " for",
+          "start": 316.32,
+          "end": 316.76,
+          "probability": 0.9999649524688721
+        },
+        {
+          "word": " securing",
+          "start": 316.76,
+          "end": 317.68,
+          "probability": 0.9999500513076782
+        },
+        {
+          "word": " Iran's",
+          "start": 317.68,
+          "end": 318.18,
+          "probability": 0.999971330165863
+        },
+        {
+          "word": " borders,",
+          "start": 318.18,
+          "end": 318.54,
+          "probability": 0.99993896484375
+        },
+        {
+          "word": " for",
+          "start": 318.54,
+          "end": 319.62,
+          "probability": 0.999993085861206
+        },
+        {
+          "word": " navigating",
+          "start": 319.62,
+          "end": 320.36,
+          "probability": 0.9999854564666748
+        },
+        {
+          "word": " and",
+          "start": 320.36,
+          "end": 320.74,
+          "probability": 0.999984860420227
+        },
+        {
+          "word": " cultivating",
+          "start": 320.74,
+          "end": 321.42,
+          "probability": 0.999936580657959
+        },
+        {
+          "word": " relationships",
+          "start": 321.42,
+          "end": 322.06,
+          "probability": 0.9998779296875
+        },
+        {
+          "word": " with",
+          "start": 322.06,
+          "end": 322.62,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " proxy",
+          "start": 322.62,
+          "end": 323.2,
+          "probability": 0.9999599456787109
+        },
+        {
+          "word": " militant",
+          "start": 323.2,
+          "end": 323.88,
+          "probability": 0.9997281134128571
+        },
+        {
+          "word": " groups",
+          "start": 323.88,
+          "end": 324.18,
+          "probability": 0.9999775886535645
+        },
+        {
+          "word": " in",
+          "start": 324.18,
+          "end": 324.34,
+          "probability": 0.9999954700469971
+        },
+        {
+          "word": " the",
+          "start": 324.34,
+          "end": 324.46,
+          "probability": 0.9999916553497314
+        },
+        {
+          "word": " region",
+          "start": 324.46,
+          "end": 324.78,
+          "probability": 0.9999066591262817
+        },
+        {
+          "word": " that",
+          "start": 324.78,
+          "end": 325.28,
+          "probability": 0.9998339414596558
+        },
+        {
+          "word": " were",
+          "start": 325.28,
+          "end": 325.62,
+          "probability": 0.9999896287918091
+        },
+        {
+          "word": " aligned",
+          "start": 325.62,
+          "end": 325.98,
+          "probability": 0.9998169541358948
+        },
+        {
+          "word": " with",
+          "start": 325.98,
+          "end": 326.2,
+          "probability": 0.9999924898147583
+        },
+        {
+          "word": " Iran",
+          "start": 326.2,
+          "end": 326.56,
+          "probability": 0.9999743700027466
+        },
+        {
+          "word": " ideologically,",
+          "start": 326.56,
+          "end": 327.44,
+          "probability": 0.9997976422309875
+        },
+        {
+          "word": " such",
+          "start": 328.1,
+          "end": 328.5,
+          "probability": 0.9999336004257202
+        },
+        {
+          "word": " as",
+          "start": 328.5,
+          "end": 328.64,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " Hezbollah",
+          "start": 328.64,
+          "end": 329.08,
+          "probability": 0.99816033244133
+        },
+        {
+          "word": " in",
+          "start": 329.08,
+          "end": 329.3,
+          "probability": 0.9999638795852661
+        },
+        {
+          "word": " Lebanon",
+          "start": 329.3,
+          "end": 329.7,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " or",
+          "start": 329.7,
+          "end": 330.02,
+          "probability": 0.9963535070419312
+        },
+        {
+          "word": " Hamas",
+          "start": 330.02,
+          "end": 330.52,
+          "probability": 0.9978475272655487
+        },
+        {
+          "word": " in",
+          "start": 330.52,
+          "end": 330.72,
+          "probability": 0.9999221563339233
+        },
+        {
+          "word": " Gaza",
+          "start": 330.72,
+          "end": 331.08,
+          "probability": 0.9999688863754272
+        },
+        {
+          "word": " and",
+          "start": 331.08,
+          "end": 331.72,
+          "probability": 0.9058271646499634
+        },
+        {
+          "word": " the",
+          "start": 331.72,
+          "end": 331.86,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " Shia",
+          "start": 331.86,
+          "end": 332.1,
+          "probability": 0.9938198328018188
+        },
+        {
+          "word": " militia",
+          "start": 332.1,
+          "end": 332.54,
+          "probability": 0.9997462630271912
+        },
+        {
+          "word": " in",
+          "start": 332.54,
+          "end": 332.76,
+          "probability": 0.9999841451644897
+        },
+        {
+          "word": " Iraq.",
+          "start": 332.76,
+          "end": 333.2,
+          "probability": 0.9997305274009705
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "seek": 33320,
+      "start": 333.96,
+      "end": 338.44,
+      "text": " And also, whenever there was an uprising inside the country and protests against the government,",
+      "tokens": [
+        50403,
+        400,
+        611,
+        11,
+        5699,
+        456,
+        390,
+        364,
+        49144,
+        1854,
+        264,
+        1941,
+        293,
+        20174,
+        1970,
+        264,
+        2463,
+        11,
+        50628
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1629244557927164,
+      "compression_ratio": 1.7074235807860263,
+      "no_speech_prob": 7.049581187898446e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 333.82,
+          "end": 334.12,
+          "probability": 0.9762001633644104
+        },
+        {
+          "word": " also,",
+          "start": 334.12,
+          "end": 334.38,
+          "probability": 0.9998879432678223
+        },
+        {
+          "word": " whenever",
+          "start": 334.52,
+          "end": 334.76,
+          "probability": 0.9999653100967407
+        },
+        {
+          "word": " there",
+          "start": 334.76,
+          "end": 335.0,
+          "probability": 0.9999887943267822
+        },
+        {
+          "word": " was",
+          "start": 335.0,
+          "end": 335.18,
+          "probability": 0.9999954700469971
+        },
+        {
+          "word": " an",
+          "start": 335.18,
+          "end": 335.3,
+          "probability": 0.9999833106994629
+        },
+        {
+          "word": " uprising",
+          "start": 335.3,
+          "end": 335.8,
+          "probability": 0.999873161315918
+        },
+        {
+          "word": " inside",
+          "start": 335.8,
+          "end": 336.24,
+          "probability": 0.9998544454574585
+        },
+        {
+          "word": " the",
+          "start": 336.24,
+          "end": 336.52,
+          "probability": 0.9999918937683105
+        },
+        {
+          "word": " country",
+          "start": 336.52,
+          "end": 336.86,
+          "probability": 0.9999793767929077
+        },
+        {
+          "word": " and",
+          "start": 336.86,
+          "end": 337.1,
+          "probability": 0.9974517226219177
+        },
+        {
+          "word": " protests",
+          "start": 337.1,
+          "end": 337.56,
+          "probability": 0.9620603322982788
+        },
+        {
+          "word": " against",
+          "start": 337.56,
+          "end": 337.82,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " the",
+          "start": 337.82,
+          "end": 338.08,
+          "probability": 0.9999754428863525
+        },
+        {
+          "word": " government,",
+          "start": 338.08,
+          "end": 338.44,
+          "probability": 0.9998555183410645
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "seek": 33320,
+      "start": 338.74,
+      "end": 342.44,
+      "text": " it was the guards that took over security and crushed those protests.",
+      "tokens": [
+        50628,
+        309,
+        390,
+        264,
+        17652,
+        300,
+        1890,
+        670,
+        3825,
+        293,
+        19889,
+        729,
+        20174,
+        13,
+        50831
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1629244557927164,
+      "compression_ratio": 1.7074235807860263,
+      "no_speech_prob": 7.049581187898446e-13,
+      "words": [
+        {
+          "word": " it",
+          "start": 338.74,
+          "end": 339.1,
+          "probability": 0.9998810291290283
+        },
+        {
+          "word": " was",
+          "start": 339.1,
+          "end": 339.24,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " the",
+          "start": 339.24,
+          "end": 339.4,
+          "probability": 0.999956488609314
+        },
+        {
+          "word": " guards",
+          "start": 339.4,
+          "end": 339.72,
+          "probability": 0.9769328832626343
+        },
+        {
+          "word": " that",
+          "start": 339.72,
+          "end": 339.94,
+          "probability": 0.9999638795852661
+        },
+        {
+          "word": " took",
+          "start": 339.94,
+          "end": 340.14,
+          "probability": 0.9999507665634155
+        },
+        {
+          "word": " over",
+          "start": 340.14,
+          "end": 340.4,
+          "probability": 0.9999716281890869
+        },
+        {
+          "word": " security",
+          "start": 340.4,
+          "end": 340.88,
+          "probability": 0.9998428821563721
+        },
+        {
+          "word": " and",
+          "start": 340.88,
+          "end": 341.16,
+          "probability": 0.9998748302459717
+        },
+        {
+          "word": " crushed",
+          "start": 341.16,
+          "end": 341.54,
+          "probability": 0.9989100694656372
+        },
+        {
+          "word": " those",
+          "start": 341.54,
+          "end": 341.84,
+          "probability": 0.9999786615371704
+        },
+        {
+          "word": " protests.",
+          "start": 341.84,
+          "end": 342.44,
+          "probability": 0.999971866607666
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "seek": 33320,
+      "start": 342.86,
+      "end": 350.34,
+      "text": " And in exchange, the guards were sort of given more of a free hand to enter politics and to enter the economy.",
+      "tokens": [
+        50870,
+        400,
+        294,
+        7742,
+        11,
+        264,
+        17652,
+        645,
+        1333,
+        295,
+        2212,
+        544,
+        295,
+        257,
+        1737,
+        1011,
+        281,
+        3242,
+        7341,
+        293,
+        281,
+        3242,
+        264,
+        5010,
+        13,
+        51226
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1629244557927164,
+      "compression_ratio": 1.7074235807860263,
+      "no_speech_prob": 7.049581187898446e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 342.86,
+          "end": 343.46,
+          "probability": 0.999829888343811
+        },
+        {
+          "word": " in",
+          "start": 343.46,
+          "end": 343.94,
+          "probability": 0.99895179271698
+        },
+        {
+          "word": " exchange,",
+          "start": 343.94,
+          "end": 344.38,
+          "probability": 0.9999605417251587
+        },
+        {
+          "word": " the",
+          "start": 344.76,
+          "end": 345.02,
+          "probability": 0.9999765157699585
+        },
+        {
+          "word": " guards",
+          "start": 345.02,
+          "end": 345.32,
+          "probability": 0.999941349029541
+        },
+        {
+          "word": " were",
+          "start": 345.32,
+          "end": 345.5,
+          "probability": 0.9999829530715942
+        },
+        {
+          "word": " sort",
+          "start": 345.5,
+          "end": 345.7,
+          "probability": 0.9997430443763733
+        },
+        {
+          "word": " of",
+          "start": 345.7,
+          "end": 345.88,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " given",
+          "start": 345.88,
+          "end": 346.14,
+          "probability": 0.9998599290847778
+        },
+        {
+          "word": " more",
+          "start": 346.14,
+          "end": 346.6,
+          "probability": 0.9999465942382812
+        },
+        {
+          "word": " of",
+          "start": 346.6,
+          "end": 346.74,
+          "probability": 0.9999874830245972
+        },
+        {
+          "word": " a",
+          "start": 346.74,
+          "end": 346.84,
+          "probability": 0.9999356269836426
+        },
+        {
+          "word": " free",
+          "start": 346.84,
+          "end": 347.02,
+          "probability": 0.9999555349349976
+        },
+        {
+          "word": " hand",
+          "start": 347.02,
+          "end": 347.3,
+          "probability": 0.997804582118988
+        },
+        {
+          "word": " to",
+          "start": 347.3,
+          "end": 347.48,
+          "probability": 0.9998987913131714
+        },
+        {
+          "word": " enter",
+          "start": 347.48,
+          "end": 347.76,
+          "probability": 0.9996738433837891
+        },
+        {
+          "word": " politics",
+          "start": 347.76,
+          "end": 348.32,
+          "probability": 0.9999384880065918
+        },
+        {
+          "word": " and",
+          "start": 348.32,
+          "end": 348.76,
+          "probability": 0.999322772026062
+        },
+        {
+          "word": " to",
+          "start": 348.76,
+          "end": 348.9,
+          "probability": 0.9999020099639893
+        },
+        {
+          "word": " enter",
+          "start": 348.9,
+          "end": 349.24,
+          "probability": 0.9990645051002502
+        },
+        {
+          "word": " the",
+          "start": 349.24,
+          "end": 349.88,
+          "probability": 0.9999189376831055
+        },
+        {
+          "word": " economy.",
+          "start": 349.88,
+          "end": 350.34,
+          "probability": 0.9999550580978394
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "seek": 33320,
+      "start": 350.44,
+      "end": 357.1,
+      "text": " And that empowered them in ways that was far beyond their military role in Iran.",
+      "tokens": [
+        51247,
+        400,
+        300,
+        27898,
+        552,
+        294,
+        2098,
+        300,
+        390,
+        1400,
+        4399,
+        641,
+        4632,
+        3090,
+        294,
+        8283,
+        13,
+        51561
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1629244557927164,
+      "compression_ratio": 1.7074235807860263,
+      "no_speech_prob": 7.049581187898446e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 350.44,
+          "end": 351.04,
+          "probability": 0.9999173879623413
+        },
+        {
+          "word": " that",
+          "start": 351.04,
+          "end": 351.6,
+          "probability": 0.9999892711639404
+        },
+        {
+          "word": " empowered",
+          "start": 351.6,
+          "end": 352.48,
+          "probability": 0.9998792409896851
+        },
+        {
+          "word": " them",
+          "start": 352.48,
+          "end": 352.86,
+          "probability": 0.9999940395355225
+        },
+        {
+          "word": " in",
+          "start": 352.86,
+          "end": 353.18,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " ways",
+          "start": 353.18,
+          "end": 353.54,
+          "probability": 0.9999853372573853
+        },
+        {
+          "word": " that",
+          "start": 353.54,
+          "end": 353.72,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " was",
+          "start": 353.72,
+          "end": 353.9,
+          "probability": 0.9911880493164062
+        },
+        {
+          "word": " far",
+          "start": 353.9,
+          "end": 354.32,
+          "probability": 0.9999855756759644
+        },
+        {
+          "word": " beyond",
+          "start": 354.32,
+          "end": 354.8,
+          "probability": 0.9999133348464966
+        },
+        {
+          "word": " their",
+          "start": 354.8,
+          "end": 355.5,
+          "probability": 0.9999074935913086
+        },
+        {
+          "word": " military",
+          "start": 355.5,
+          "end": 355.92,
+          "probability": 0.9998551607131958
+        },
+        {
+          "word": " role",
+          "start": 355.92,
+          "end": 356.4,
+          "probability": 0.9999504089355469
+        },
+        {
+          "word": " in",
+          "start": 356.4,
+          "end": 356.82,
+          "probability": 0.9982972741127014
+        },
+        {
+          "word": " Iran.",
+          "start": 356.82,
+          "end": 357.1,
+          "probability": 0.9996534585952759
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "seek": 33320,
+      "start": 357.38,
+      "end": 359.72,
+      "text": " But they could only rise so far.",
+      "tokens": [
+        51589,
+        583,
+        436,
+        727,
+        787,
+        6272,
+        370,
+        1400,
+        13,
+        51702
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1629244557927164,
+      "compression_ratio": 1.7074235807860263,
+      "no_speech_prob": 7.049581187898446e-13,
+      "words": [
+        {
+          "word": " But",
+          "start": 357.38,
+          "end": 357.98,
+          "probability": 0.999923586845398
+        },
+        {
+          "word": " they",
+          "start": 357.98,
+          "end": 358.52,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " could",
+          "start": 358.52,
+          "end": 358.66,
+          "probability": 0.9999825954437256
+        },
+        {
+          "word": " only",
+          "start": 358.66,
+          "end": 358.92,
+          "probability": 0.9999840259552002
+        },
+        {
+          "word": " rise",
+          "start": 358.92,
+          "end": 359.26,
+          "probability": 0.9998624324798584
+        },
+        {
+          "word": " so",
+          "start": 359.26,
+          "end": 359.48,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " far.",
+          "start": 359.48,
+          "end": 359.72,
+          "probability": 0.999990701675415
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

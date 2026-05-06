@@ -7,6 +7,11 @@
     "2": { "audio_start_time": 66 },
     "3": { "audio_start_time": 86 },
     "4": { "audio_start_time": 81 },
-    "5": { "audio_start_time": 123 }
+    "5": { "audio_start_time": 123 },
+    "6": { "audio_start_time": 0 },
+    "7": { "audio_start_time": 0 },
+    "8": { "audio_start_time": 0 },
+    "9": { "audio_start_time": 0 },
+    "10": { "audio_start_time": 0 }
   }
 }

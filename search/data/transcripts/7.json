@@ -1,0 +1,7374 @@
+{
+  "text": " In the midst of a cascade of violent acts against political figures. It happened in Minnesota, the murder of a state representative and her husband in what's being called a politically motivated attack. This morning, a man is charged in connection with an arson at the Pennsylvania governor's residence while Governor Shapiro and his family slept inside. Charlie Kirk has been shot. The latest from the White House Correspondent Center. The Secret Service has a person in custody after shots were fired. And in the wake of what appears to be the third assassination attempt against President Trump. The Times reports the suspected shooter's 1,000-word manifesto says Trump administration figures were his targets. The question that keeps coming up is how do we get here? And how much worse could it really get? So last week, I called University of Chicago professor Robert Pape. For decades, he's been one of the country's leading experts on political violence, and he's advised every White House from 2001 to 2024. We talked about why violence from the right and the left is on the rise, and what it would take to stop it. It's Monday, May 4th. Professor Pape, we started thinking about doing a conversation like this after a series of what felt like extraordinary instances of political violence. The president's two assassination attempts and then Charlie Kirk's assassination. So we at The Daily have been talking to you in the background for some time now. And then there was another act of violence apparently directed at the Trump administration. And so we thought now is the time. So thanks for being here. Thank you very much for having me. I want to start with this theory that you have, which is that we are in an age of what you call violent populism. This is something you have a book coming out on, and you say that this violent populism represents a bigger risk to American democracy than anything else. No terrorist group or foreign country comes close in your eyes. So first of all, what is violent populism and why is it such a risk? The most important fact about political violence in America today is this. Tens of millions of Americans on both sides of the aisle see political violence as acceptable. And once you have tens of millions of Americans, not a fringe, not a few militia groups who see violence as acceptable, this changes everything about the risks of attack. It makes the individuals who are volatile for their own psychosocial reasons, it pushes those volatile individuals over the edge because what they see is the prospect of social approval for their acts. And when you have tens of millions of Americans who support political violence, it makes tips to the FBI very, very difficult to get because the more support there is for political violence, the more people will simply look the other way. They'll discount what they see. And this is what I mean by the era of violent populism, which is once we have tens of millions of Americans supporting political violence for their own causes, this can then create spirals. You can see it on the debate. Is this a mostly right-wing phenomenon, a left-wing phenomenon? Well, we have all the cases here, and the cases are, let me just go over the last 12 months. So we saw in June 2025 the assassination murder of a Democratic leader in Minnesota. You saw the assassination murder of Charlie Kirk a few months later. Then in January, you saw the killing by ICE agents of two American citizens. We also have Governor Shapiro in Pennsylvania. We, of course, have multiple President Trump assassination attempts. So what you are seeing is clearly the rise of political violence on both sides. But the really important thing to say about this is not just that it's rising on both sides, but it's now starting to spiral. If I understand what you're saying, it's not just the violent people who are implicated in this. It's the broader social acceptance that they are finding in a significant portion of American society. So it's not just them. It's many of the rest of us. In a way, this acceptance you're saying fuels the violence itself. That's exactly right. And we have conducted 20 nationally represented surveys of Americans over the last five years. We conduct them at the University of Chicago Project on Security and Threats, and we started doing it in the summer of 2021. And then the most recent one was in the end of January of this year. So we understand quite a bit about the attitudes of Americans on political violence. And just to say very clearly what that data shows, the social acceptance of political violence is up by how much exactly? Lay out what we know. So for most of the years of the Biden administration, so this would be from, say, 2021 to the end of the Biden administration, our surveys found 10 percent of the body politics supported political violence to restore Donald Trump to the presidency. see. And then we did focus groups and we did further survey research. What do people think they mean by the use of force? And what we found.",
+  "segments": [
+    {
+      "id": 0,
+      "seek": 0,
+      "start": 1.3799999999999994,
+      "end": 5.86,
+      "text": " In the midst of a cascade of violent acts against political figures.",
+      "tokens": [
+        50365,
+        682,
+        264,
+        18629,
+        295,
+        257,
+        50080,
+        295,
+        11867,
+        10672,
+        1970,
+        3905,
+        9624,
+        13,
+        50659
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " In",
+          "start": 1.3799999999999994,
+          "end": 2.02,
+          "probability": 0.902501106262207
+        },
+        {
+          "word": " the",
+          "start": 2.02,
+          "end": 2.12,
+          "probability": 0.9992107152938843
+        },
+        {
+          "word": " midst",
+          "start": 2.12,
+          "end": 2.32,
+          "probability": 0.9996001124382019
+        },
+        {
+          "word": " of",
+          "start": 2.32,
+          "end": 2.46,
+          "probability": 0.9999598264694214
+        },
+        {
+          "word": " a",
+          "start": 2.46,
+          "end": 2.56,
+          "probability": 0.999729335308075
+        },
+        {
+          "word": " cascade",
+          "start": 2.56,
+          "end": 3.1,
+          "probability": 0.9997380375862122
+        },
+        {
+          "word": " of",
+          "start": 3.1,
+          "end": 3.5,
+          "probability": 0.9998691082000732
+        },
+        {
+          "word": " violent",
+          "start": 3.5,
+          "end": 3.9,
+          "probability": 0.9996429681777954
+        },
+        {
+          "word": " acts",
+          "start": 3.9,
+          "end": 4.42,
+          "probability": 0.9999369382858276
+        },
+        {
+          "word": " against",
+          "start": 4.42,
+          "end": 4.8,
+          "probability": 0.9982328414916992
+        },
+        {
+          "word": " political",
+          "start": 4.8,
+          "end": 5.24,
+          "probability": 0.9999465942382812
+        },
+        {
+          "word": " figures.",
+          "start": 5.24,
+          "end": 5.86,
+          "probability": 0.9999622106552124
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "seek": 0,
+      "start": 6.06,
+      "end": 10.62,
+      "text": " It happened in Minnesota, the murder of a state representative and her husband",
+      "tokens": [
+        50682,
+        467,
+        2011,
+        294,
+        13996,
+        11,
+        264,
+        6568,
+        295,
+        257,
+        1785,
+        12424,
+        293,
+        720,
+        5213,
+        50896
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " It",
+          "start": 6.06,
+          "end": 6.36,
+          "probability": 0.9951070547103882
+        },
+        {
+          "word": " happened",
+          "start": 6.36,
+          "end": 6.76,
+          "probability": 0.9999374151229858
+        },
+        {
+          "word": " in",
+          "start": 6.76,
+          "end": 6.98,
+          "probability": 0.9999855756759644
+        },
+        {
+          "word": " Minnesota,",
+          "start": 6.98,
+          "end": 7.48,
+          "probability": 0.999854326248169
+        },
+        {
+          "word": " the",
+          "start": 7.48,
+          "end": 7.9,
+          "probability": 0.9999629259109497
+        },
+        {
+          "word": " murder",
+          "start": 7.9,
+          "end": 8.18,
+          "probability": 0.9999078512191772
+        },
+        {
+          "word": " of",
+          "start": 8.18,
+          "end": 8.42,
+          "probability": 0.9999935626983643
+        },
+        {
+          "word": " a",
+          "start": 8.42,
+          "end": 8.56,
+          "probability": 0.9999754428863525
+        },
+        {
+          "word": " state",
+          "start": 8.56,
+          "end": 8.88,
+          "probability": 0.9997580647468567
+        },
+        {
+          "word": " representative",
+          "start": 8.88,
+          "end": 9.58,
+          "probability": 0.9999217987060547
+        },
+        {
+          "word": " and",
+          "start": 9.58,
+          "end": 9.94,
+          "probability": 0.9999314546585083
+        },
+        {
+          "word": " her",
+          "start": 9.94,
+          "end": 10.14,
+          "probability": 0.9999289512634277
+        },
+        {
+          "word": " husband",
+          "start": 10.14,
+          "end": 10.62,
+          "probability": 0.9998618364334106
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "seek": 0,
+      "start": 10.62,
+      "end": 13.88,
+      "text": " in what's being called a politically motivated attack.",
+      "tokens": [
+        50896,
+        294,
+        437,
+        311,
+        885,
+        1219,
+        257,
+        21154,
+        14515,
+        2690,
+        13,
+        51061
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " in",
+          "start": 10.62,
+          "end": 11.2,
+          "probability": 0.5756986737251282
+        },
+        {
+          "word": " what's",
+          "start": 11.2,
+          "end": 11.52,
+          "probability": 0.9998473227024078
+        },
+        {
+          "word": " being",
+          "start": 11.52,
+          "end": 11.72,
+          "probability": 0.99928218126297
+        },
+        {
+          "word": " called",
+          "start": 11.72,
+          "end": 12.06,
+          "probability": 0.999947190284729
+        },
+        {
+          "word": " a",
+          "start": 12.06,
+          "end": 12.28,
+          "probability": 0.9999579191207886
+        },
+        {
+          "word": " politically",
+          "start": 12.28,
+          "end": 12.84,
+          "probability": 0.9998540878295898
+        },
+        {
+          "word": " motivated",
+          "start": 12.84,
+          "end": 13.54,
+          "probability": 0.997329831123352
+        },
+        {
+          "word": " attack.",
+          "start": 13.54,
+          "end": 13.88,
+          "probability": 0.9996316432952881
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "seek": 0,
+      "start": 14.02,
+      "end": 18.42,
+      "text": " This morning, a man is charged in connection with an arson at the Pennsylvania governor's residence",
+      "tokens": [
+        51061,
+        639,
+        2446,
+        11,
+        257,
+        587,
+        307,
+        11109,
+        294,
+        4984,
+        365,
+        364,
+        594,
+        3015,
+        412,
+        264,
+        17963,
+        12965,
+        311,
+        19607,
+        51286
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " This",
+          "start": 14.02,
+          "end": 14.14,
+          "probability": 0.9978049397468567
+        },
+        {
+          "word": " morning,",
+          "start": 14.14,
+          "end": 14.34,
+          "probability": 0.9999347925186157
+        },
+        {
+          "word": " a",
+          "start": 14.4,
+          "end": 14.5,
+          "probability": 0.9999501705169678
+        },
+        {
+          "word": " man",
+          "start": 14.5,
+          "end": 14.66,
+          "probability": 0.99992835521698
+        },
+        {
+          "word": " is",
+          "start": 14.66,
+          "end": 14.84,
+          "probability": 0.9997004270553589
+        },
+        {
+          "word": " charged",
+          "start": 14.84,
+          "end": 15.12,
+          "probability": 0.9995381832122803
+        },
+        {
+          "word": " in",
+          "start": 15.12,
+          "end": 15.26,
+          "probability": 0.9995322227478027
+        },
+        {
+          "word": " connection",
+          "start": 15.26,
+          "end": 15.56,
+          "probability": 0.9993483424186707
+        },
+        {
+          "word": " with",
+          "start": 15.56,
+          "end": 15.9,
+          "probability": 0.9999239444732666
+        },
+        {
+          "word": " an",
+          "start": 15.9,
+          "end": 16.06,
+          "probability": 0.9999583959579468
+        },
+        {
+          "word": " arson",
+          "start": 16.06,
+          "end": 16.48,
+          "probability": 0.9989239871501923
+        },
+        {
+          "word": " at",
+          "start": 16.48,
+          "end": 16.68,
+          "probability": 0.999679684638977
+        },
+        {
+          "word": " the",
+          "start": 16.68,
+          "end": 16.82,
+          "probability": 0.9996936321258545
+        },
+        {
+          "word": " Pennsylvania",
+          "start": 16.82,
+          "end": 17.46,
+          "probability": 0.9997989535331726
+        },
+        {
+          "word": " governor's",
+          "start": 17.46,
+          "end": 18.08,
+          "probability": 0.9954266846179962
+        },
+        {
+          "word": " residence",
+          "start": 18.08,
+          "end": 18.42,
+          "probability": 0.9998376369476318
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "seek": 0,
+      "start": 18.42,
+      "end": 21.7,
+      "text": " while Governor Shapiro and his family slept inside.",
+      "tokens": [
+        51286,
+        1339,
+        14550,
+        44160,
+        5182,
+        293,
+        702,
+        1605,
+        17400,
+        1854,
+        13,
+        51463
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " while",
+          "start": 18.42,
+          "end": 18.66,
+          "probability": 0.9347622394561768
+        },
+        {
+          "word": " Governor",
+          "start": 18.66,
+          "end": 19.04,
+          "probability": 0.9924161434173584
+        },
+        {
+          "word": " Shapiro",
+          "start": 19.04,
+          "end": 19.76,
+          "probability": 0.9987583756446838
+        },
+        {
+          "word": " and",
+          "start": 19.76,
+          "end": 20.02,
+          "probability": 0.9998754262924194
+        },
+        {
+          "word": " his",
+          "start": 20.02,
+          "end": 20.24,
+          "probability": 0.999873161315918
+        },
+        {
+          "word": " family",
+          "start": 20.24,
+          "end": 20.6,
+          "probability": 0.9995666146278381
+        },
+        {
+          "word": " slept",
+          "start": 20.6,
+          "end": 21.04,
+          "probability": 0.9998537302017212
+        },
+        {
+          "word": " inside.",
+          "start": 21.04,
+          "end": 21.7,
+          "probability": 0.9996833801269531
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "seek": 0,
+      "start": 22.14,
+      "end": 24.98,
+      "text": " Charlie Kirk has been shot.",
+      "tokens": [
+        51480,
+        13754,
+        27834,
+        575,
+        668,
+        3347,
+        13,
+        51621
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " Charlie",
+          "start": 22.14,
+          "end": 22.72,
+          "probability": 0.9989497065544128
+        },
+        {
+          "word": " Kirk",
+          "start": 22.72,
+          "end": 23.42,
+          "probability": 0.9994311928749084
+        },
+        {
+          "word": " has",
+          "start": 23.42,
+          "end": 24.02,
+          "probability": 0.9984305500984192
+        },
+        {
+          "word": " been",
+          "start": 24.02,
+          "end": 24.46,
+          "probability": 0.9996694326400757
+        },
+        {
+          "word": " shot.",
+          "start": 24.46,
+          "end": 24.98,
+          "probability": 0.9992119073867798
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "seek": 0,
+      "start": 25.26,
+      "end": 27.28,
+      "text": " The latest from the White House Correspondent Center.",
+      "tokens": [
+        51629,
+        440,
+        6792,
+        490,
+        264,
+        5552,
+        4928,
+        3925,
+        6663,
+        317,
+        5169,
+        13,
+        51730
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.1739760697490037,
+      "compression_ratio": 1.5571428571428572,
+      "no_speech_prob": 2.4934713582086543e-12,
+      "words": [
+        {
+          "word": " The",
+          "start": 25.26,
+          "end": 25.48,
+          "probability": 0.9986311793327332
+        },
+        {
+          "word": " latest",
+          "start": 25.48,
+          "end": 25.84,
+          "probability": 0.9994375109672546
+        },
+        {
+          "word": " from",
+          "start": 25.84,
+          "end": 26.06,
+          "probability": 0.9994634985923767
+        },
+        {
+          "word": " the",
+          "start": 26.06,
+          "end": 26.14,
+          "probability": 0.9996861219406128
+        },
+        {
+          "word": " White",
+          "start": 26.14,
+          "end": 26.26,
+          "probability": 0.999261200428009
+        },
+        {
+          "word": " House",
+          "start": 26.26,
+          "end": 26.44,
+          "probability": 0.9998182654380798
+        },
+        {
+          "word": " Correspondent",
+          "start": 26.44,
+          "end": 27.02,
+          "probability": 0.847613255182902
+        },
+        {
+          "word": " Center.",
+          "start": 27.02,
+          "end": 27.28,
+          "probability": 0.9460251927375793
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "seek": 2728,
+      "start": 27.28,
+      "end": 31.46,
+      "text": " The Secret Service has a person in custody after shots were fired.",
+      "tokens": [
+        50365,
+        440,
+        7400,
+        9561,
+        575,
+        257,
+        954,
+        294,
+        26976,
+        934,
+        8305,
+        645,
+        11777,
+        13,
+        50578
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 27.28,
+          "end": 27.64,
+          "probability": 0.7883972525596619
+        },
+        {
+          "word": " Secret",
+          "start": 27.64,
+          "end": 27.86,
+          "probability": 0.9731796383857727
+        },
+        {
+          "word": " Service",
+          "start": 27.86,
+          "end": 28.24,
+          "probability": 0.9997958540916443
+        },
+        {
+          "word": " has",
+          "start": 28.24,
+          "end": 28.42,
+          "probability": 0.9998152852058411
+        },
+        {
+          "word": " a",
+          "start": 28.42,
+          "end": 28.58,
+          "probability": 0.9999926090240479
+        },
+        {
+          "word": " person",
+          "start": 28.58,
+          "end": 28.98,
+          "probability": 0.9999344348907471
+        },
+        {
+          "word": " in",
+          "start": 28.98,
+          "end": 29.26,
+          "probability": 0.9998313188552856
+        },
+        {
+          "word": " custody",
+          "start": 29.26,
+          "end": 29.76,
+          "probability": 0.999982476234436
+        },
+        {
+          "word": " after",
+          "start": 29.76,
+          "end": 30.14,
+          "probability": 0.9995648264884949
+        },
+        {
+          "word": " shots",
+          "start": 30.14,
+          "end": 30.66,
+          "probability": 0.9998552799224854
+        },
+        {
+          "word": " were",
+          "start": 30.66,
+          "end": 30.94,
+          "probability": 0.999983549118042
+        },
+        {
+          "word": " fired.",
+          "start": 30.94,
+          "end": 31.46,
+          "probability": 0.9998461008071899
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "seek": 2728,
+      "start": 31.72,
+      "end": 36.46,
+      "text": " And in the wake of what appears to be the third assassination attempt against President Trump.",
+      "tokens": [
+        50594,
+        400,
+        294,
+        264,
+        6634,
+        295,
+        437,
+        7038,
+        281,
+        312,
+        264,
+        2636,
+        40195,
+        5217,
+        1970,
+        3117,
+        3899,
+        13,
+        50823
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 31.72,
+          "end": 31.94,
+          "probability": 0.988985538482666
+        },
+        {
+          "word": " in",
+          "start": 31.94,
+          "end": 32.04,
+          "probability": 0.9999643564224243
+        },
+        {
+          "word": " the",
+          "start": 32.04,
+          "end": 32.12,
+          "probability": 0.9999842643737793
+        },
+        {
+          "word": " wake",
+          "start": 32.12,
+          "end": 32.4,
+          "probability": 0.9999222755432129
+        },
+        {
+          "word": " of",
+          "start": 32.4,
+          "end": 32.58,
+          "probability": 0.999991774559021
+        },
+        {
+          "word": " what",
+          "start": 32.58,
+          "end": 32.7,
+          "probability": 0.9999226331710815
+        },
+        {
+          "word": " appears",
+          "start": 32.7,
+          "end": 33.1,
+          "probability": 0.9999582767486572
+        },
+        {
+          "word": " to",
+          "start": 33.1,
+          "end": 33.28,
+          "probability": 0.9999957084655762
+        },
+        {
+          "word": " be",
+          "start": 33.28,
+          "end": 33.38,
+          "probability": 0.9999947547912598
+        },
+        {
+          "word": " the",
+          "start": 33.38,
+          "end": 33.56,
+          "probability": 0.9999041557312012
+        },
+        {
+          "word": " third",
+          "start": 33.56,
+          "end": 33.92,
+          "probability": 0.9996708631515503
+        },
+        {
+          "word": " assassination",
+          "start": 33.92,
+          "end": 34.6,
+          "probability": 0.999934196472168
+        },
+        {
+          "word": " attempt",
+          "start": 34.6,
+          "end": 35.22,
+          "probability": 0.999958872795105
+        },
+        {
+          "word": " against",
+          "start": 35.22,
+          "end": 35.7,
+          "probability": 0.9996623992919922
+        },
+        {
+          "word": " President",
+          "start": 35.7,
+          "end": 36.12,
+          "probability": 0.9978273510932922
+        },
+        {
+          "word": " Trump.",
+          "start": 36.12,
+          "end": 36.46,
+          "probability": 0.9994068145751953
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "seek": 2728,
+      "start": 36.7,
+      "end": 42.92,
+      "text": " The Times reports the suspected shooter's 1,000-word manifesto says Trump administration figures were his targets.",
+      "tokens": [
+        50823,
+        440,
+        11366,
+        7122,
+        264,
+        26439,
+        24680,
+        311,
+        502,
+        11,
+        1360,
+        12,
+        7462,
+        10067,
+        78,
+        1619,
+        3899,
+        7236,
+        9624,
+        645,
+        702,
+        12911,
+        13,
+        51149
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 36.7,
+          "end": 36.7,
+          "probability": 0.39650893211364746
+        },
+        {
+          "word": " Times",
+          "start": 36.7,
+          "end": 36.7,
+          "probability": 0.4528809189796448
+        },
+        {
+          "word": " reports",
+          "start": 36.7,
+          "end": 37.06,
+          "probability": 0.9977124929428101
+        },
+        {
+          "word": " the",
+          "start": 37.06,
+          "end": 37.28,
+          "probability": 0.9990097284317017
+        },
+        {
+          "word": " suspected",
+          "start": 37.28,
+          "end": 37.68,
+          "probability": 0.9997102618217468
+        },
+        {
+          "word": " shooter's",
+          "start": 37.68,
+          "end": 38.3,
+          "probability": 0.9985498785972595
+        },
+        {
+          "word": " 1",
+          "start": 38.3,
+          "end": 38.58,
+          "probability": 0.9679294228553772
+        },
+        {
+          "word": ",000",
+          "start": 38.58,
+          "end": 39.1,
+          "probability": 0.9999657273292542
+        },
+        {
+          "word": "-word",
+          "start": 39.1,
+          "end": 39.32,
+          "probability": 0.9549159407615662
+        },
+        {
+          "word": " manifesto",
+          "start": 39.32,
+          "end": 40.02,
+          "probability": 0.9998578727245331
+        },
+        {
+          "word": " says",
+          "start": 40.02,
+          "end": 40.58,
+          "probability": 0.8928878307342529
+        },
+        {
+          "word": " Trump",
+          "start": 40.58,
+          "end": 40.92,
+          "probability": 0.9998152852058411
+        },
+        {
+          "word": " administration",
+          "start": 40.92,
+          "end": 41.48,
+          "probability": 0.9724149107933044
+        },
+        {
+          "word": " figures",
+          "start": 41.48,
+          "end": 42.06,
+          "probability": 0.9999488592147827
+        },
+        {
+          "word": " were",
+          "start": 42.06,
+          "end": 42.36,
+          "probability": 0.9999381303787231
+        },
+        {
+          "word": " his",
+          "start": 42.36,
+          "end": 42.54,
+          "probability": 0.9999626874923706
+        },
+        {
+          "word": " targets.",
+          "start": 42.54,
+          "end": 42.92,
+          "probability": 0.9121849536895752
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "seek": 2728,
+      "start": 43.14,
+      "end": 46.76,
+      "text": " The question that keeps coming up is how do we get here?",
+      "tokens": [
+        51166,
+        440,
+        1168,
+        300,
+        5965,
+        1348,
+        493,
+        307,
+        577,
+        360,
+        321,
+        483,
+        510,
+        30,
+        51341
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " The",
+          "start": 43.14,
+          "end": 43.46,
+          "probability": 0.9997902512550354
+        },
+        {
+          "word": " question",
+          "start": 43.46,
+          "end": 43.82,
+          "probability": 0.9999269247055054
+        },
+        {
+          "word": " that",
+          "start": 43.82,
+          "end": 44.02,
+          "probability": 0.9999861717224121
+        },
+        {
+          "word": " keeps",
+          "start": 44.02,
+          "end": 44.36,
+          "probability": 0.9998830556869507
+        },
+        {
+          "word": " coming",
+          "start": 44.36,
+          "end": 44.74,
+          "probability": 0.9999749660491943
+        },
+        {
+          "word": " up",
+          "start": 44.74,
+          "end": 45.14,
+          "probability": 0.9999946355819702
+        },
+        {
+          "word": " is",
+          "start": 45.14,
+          "end": 45.72,
+          "probability": 0.999955415725708
+        },
+        {
+          "word": " how",
+          "start": 45.72,
+          "end": 45.9,
+          "probability": 0.9395225644111633
+        },
+        {
+          "word": " do",
+          "start": 45.9,
+          "end": 46.02,
+          "probability": 0.8333341479301453
+        },
+        {
+          "word": " we",
+          "start": 46.02,
+          "end": 46.18,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " get",
+          "start": 46.18,
+          "end": 46.42,
+          "probability": 0.9999932050704956
+        },
+        {
+          "word": " here?",
+          "start": 46.42,
+          "end": 46.76,
+          "probability": 0.9999871253967285
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "seek": 2728,
+      "start": 46.94,
+      "end": 49.24,
+      "text": " And how much worse could it really get?",
+      "tokens": [
+        51364,
+        400,
+        577,
+        709,
+        5324,
+        727,
+        309,
+        534,
+        483,
+        30,
+        51465
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 46.94,
+          "end": 47.42,
+          "probability": 0.999942421913147
+        },
+        {
+          "word": " how",
+          "start": 47.42,
+          "end": 47.56,
+          "probability": 0.9999719858169556
+        },
+        {
+          "word": " much",
+          "start": 47.56,
+          "end": 47.82,
+          "probability": 0.9999514818191528
+        },
+        {
+          "word": " worse",
+          "start": 47.82,
+          "end": 48.18,
+          "probability": 0.9999527931213379
+        },
+        {
+          "word": " could",
+          "start": 48.18,
+          "end": 48.56,
+          "probability": 0.9999489784240723
+        },
+        {
+          "word": " it",
+          "start": 48.56,
+          "end": 48.68,
+          "probability": 0.9999916553497314
+        },
+        {
+          "word": " really",
+          "start": 48.68,
+          "end": 48.96,
+          "probability": 0.9999877214431763
+        },
+        {
+          "word": " get?",
+          "start": 48.96,
+          "end": 49.24,
+          "probability": 0.9999572038650513
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "seek": 2728,
+      "start": 52.08,
+      "end": 56.56,
+      "text": " So last week, I called University of Chicago professor Robert Pape.",
+      "tokens": [
+        51609,
+        407,
+        1036,
+        1243,
+        11,
+        286,
+        1219,
+        3535,
+        295,
+        9525,
+        8304,
+        7977,
+        3426,
+        494,
+        13,
+        51830
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.18474270315731273,
+      "compression_ratio": 1.5365853658536586,
+      "no_speech_prob": 6.203383618418046e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 52.08,
+          "end": 52.76,
+          "probability": 0.9992589354515076
+        },
+        {
+          "word": " last",
+          "start": 52.76,
+          "end": 53.04,
+          "probability": 0.9886960983276367
+        },
+        {
+          "word": " week,",
+          "start": 53.04,
+          "end": 53.3,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " I",
+          "start": 53.34,
+          "end": 53.72,
+          "probability": 0.9999785423278809
+        },
+        {
+          "word": " called",
+          "start": 53.72,
+          "end": 53.94,
+          "probability": 0.9999171495437622
+        },
+        {
+          "word": " University",
+          "start": 53.94,
+          "end": 54.4,
+          "probability": 0.9996153116226196
+        },
+        {
+          "word": " of",
+          "start": 54.4,
+          "end": 54.6,
+          "probability": 0.9999774694442749
+        },
+        {
+          "word": " Chicago",
+          "start": 54.6,
+          "end": 55.02,
+          "probability": 0.9999196529388428
+        },
+        {
+          "word": " professor",
+          "start": 55.02,
+          "end": 55.5,
+          "probability": 0.9649201035499573
+        },
+        {
+          "word": " Robert",
+          "start": 55.5,
+          "end": 56.06,
+          "probability": 0.9992924928665161
+        },
+        {
+          "word": " Pape.",
+          "start": 56.06,
+          "end": 56.56,
+          "probability": 0.9833625257015228
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "seek": 5656,
+      "start": 57.1,
+      "end": 61.66,
+      "text": " For decades, he's been one of the country's leading experts on political violence,",
+      "tokens": [
+        50392,
+        1171,
+        7878,
+        11,
+        415,
+        311,
+        668,
+        472,
+        295,
+        264,
+        1941,
+        311,
+        5775,
+        8572,
+        322,
+        3905,
+        6270,
+        11,
+        50629
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " For",
+          "start": 57.1,
+          "end": 57.5,
+          "probability": 0.9934758543968201
+        },
+        {
+          "word": " decades,",
+          "start": 57.5,
+          "end": 57.88,
+          "probability": 0.9999847412109375
+        },
+        {
+          "word": " he's",
+          "start": 58.24,
+          "end": 58.44,
+          "probability": 0.9998134076595306
+        },
+        {
+          "word": " been",
+          "start": 58.44,
+          "end": 58.58,
+          "probability": 0.9999693632125854
+        },
+        {
+          "word": " one",
+          "start": 58.58,
+          "end": 58.72,
+          "probability": 0.9999382495880127
+        },
+        {
+          "word": " of",
+          "start": 58.72,
+          "end": 58.8,
+          "probability": 0.9999899864196777
+        },
+        {
+          "word": " the",
+          "start": 58.8,
+          "end": 58.9,
+          "probability": 0.9999711513519287
+        },
+        {
+          "word": " country's",
+          "start": 58.9,
+          "end": 59.32,
+          "probability": 0.9997328817844391
+        },
+        {
+          "word": " leading",
+          "start": 59.32,
+          "end": 59.62,
+          "probability": 0.9998356103897095
+        },
+        {
+          "word": " experts",
+          "start": 59.62,
+          "end": 60.24,
+          "probability": 0.9999673366546631
+        },
+        {
+          "word": " on",
+          "start": 60.24,
+          "end": 60.6,
+          "probability": 0.9998261332511902
+        },
+        {
+          "word": " political",
+          "start": 60.6,
+          "end": 61.06,
+          "probability": 0.9998973608016968
+        },
+        {
+          "word": " violence,",
+          "start": 61.06,
+          "end": 61.66,
+          "probability": 0.9998225569725037
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "seek": 5656,
+      "start": 61.66,
+      "end": 66.4,
+      "text": " and he's advised every White House from 2001 to 2024.",
+      "tokens": [
+        50629,
+        293,
+        415,
+        311,
+        26269,
+        633,
+        5552,
+        4928,
+        490,
+        16382,
+        281,
+        45237,
+        13,
+        50861
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " and",
+          "start": 61.66,
+          "end": 62.4,
+          "probability": 0.9999175071716309
+        },
+        {
+          "word": " he's",
+          "start": 62.4,
+          "end": 62.62,
+          "probability": 0.9999557733535767
+        },
+        {
+          "word": " advised",
+          "start": 62.62,
+          "end": 62.98,
+          "probability": 0.9999220371246338
+        },
+        {
+          "word": " every",
+          "start": 62.98,
+          "end": 63.38,
+          "probability": 0.9999206066131592
+        },
+        {
+          "word": " White",
+          "start": 63.38,
+          "end": 63.62,
+          "probability": 0.9979456067085266
+        },
+        {
+          "word": " House",
+          "start": 63.62,
+          "end": 64.0,
+          "probability": 0.9996466636657715
+        },
+        {
+          "word": " from",
+          "start": 64.0,
+          "end": 64.34,
+          "probability": 0.9997363686561584
+        },
+        {
+          "word": " 2001",
+          "start": 64.34,
+          "end": 65.06,
+          "probability": 0.9994603991508484
+        },
+        {
+          "word": " to",
+          "start": 65.06,
+          "end": 65.78,
+          "probability": 0.9998847246170044
+        },
+        {
+          "word": " 2024.",
+          "start": 65.78,
+          "end": 66.4,
+          "probability": 0.9990413784980774
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "seek": 5656,
+      "start": 67.02,
+      "end": 71.82,
+      "text": " We talked about why violence from the right and the left is on the rise,",
+      "tokens": [
+        50908,
+        492,
+        2825,
+        466,
+        983,
+        6270,
+        490,
+        264,
+        558,
+        293,
+        264,
+        1411,
+        307,
+        322,
+        264,
+        6272,
+        11,
+        51132
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " We",
+          "start": 67.02,
+          "end": 67.74,
+          "probability": 0.9998636245727539
+        },
+        {
+          "word": " talked",
+          "start": 67.74,
+          "end": 68.0,
+          "probability": 0.9999270439147949
+        },
+        {
+          "word": " about",
+          "start": 68.0,
+          "end": 68.26,
+          "probability": 0.9999915361404419
+        },
+        {
+          "word": " why",
+          "start": 68.26,
+          "end": 68.52,
+          "probability": 0.9988623857498169
+        },
+        {
+          "word": " violence",
+          "start": 68.52,
+          "end": 69.0,
+          "probability": 0.9998515844345093
+        },
+        {
+          "word": " from",
+          "start": 69.0,
+          "end": 69.22,
+          "probability": 0.999915361404419
+        },
+        {
+          "word": " the",
+          "start": 69.22,
+          "end": 69.38,
+          "probability": 0.9999724626541138
+        },
+        {
+          "word": " right",
+          "start": 69.38,
+          "end": 69.68,
+          "probability": 0.9989657402038574
+        },
+        {
+          "word": " and",
+          "start": 69.68,
+          "end": 70.18,
+          "probability": 0.9998328685760498
+        },
+        {
+          "word": " the",
+          "start": 70.18,
+          "end": 70.38,
+          "probability": 0.9999336004257202
+        },
+        {
+          "word": " left",
+          "start": 70.38,
+          "end": 70.78,
+          "probability": 0.9998564720153809
+        },
+        {
+          "word": " is",
+          "start": 70.78,
+          "end": 71.06,
+          "probability": 0.9998859167098999
+        },
+        {
+          "word": " on",
+          "start": 71.06,
+          "end": 71.24,
+          "probability": 0.9997532963752747
+        },
+        {
+          "word": " the",
+          "start": 71.24,
+          "end": 71.36,
+          "probability": 0.9999465942382812
+        },
+        {
+          "word": " rise,",
+          "start": 71.36,
+          "end": 71.82,
+          "probability": 0.9998538494110107
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "seek": 5656,
+      "start": 71.82,
+      "end": 74.56,
+      "text": " and what it would take to stop it.",
+      "tokens": [
+        51143,
+        293,
+        437,
+        309,
+        576,
+        747,
+        281,
+        1590,
+        309,
+        13,
+        51267
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " and",
+          "start": 71.82,
+          "end": 72.66,
+          "probability": 0.9999289512634277
+        },
+        {
+          "word": " what",
+          "start": 72.66,
+          "end": 72.84,
+          "probability": 0.9998181462287903
+        },
+        {
+          "word": " it",
+          "start": 72.84,
+          "end": 72.94,
+          "probability": 0.9999879598617554
+        },
+        {
+          "word": " would",
+          "start": 72.94,
+          "end": 73.1,
+          "probability": 0.9999451637268066
+        },
+        {
+          "word": " take",
+          "start": 73.1,
+          "end": 73.48,
+          "probability": 0.9998501539230347
+        },
+        {
+          "word": " to",
+          "start": 73.48,
+          "end": 73.9,
+          "probability": 0.9999028444290161
+        },
+        {
+          "word": " stop",
+          "start": 73.9,
+          "end": 74.3,
+          "probability": 0.9997866749763489
+        },
+        {
+          "word": " it.",
+          "start": 74.3,
+          "end": 74.56,
+          "probability": 0.9999476671218872
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "seek": 5656,
+      "start": 75.54,
+      "end": 77.64,
+      "text": " It's Monday, May 4th.",
+      "tokens": [
+        51320,
+        467,
+        311,
+        8138,
+        11,
+        1891,
+        1017,
+        392,
+        13,
+        51429
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " It's",
+          "start": 75.54,
+          "end": 76.26,
+          "probability": 0.9998001754283905
+        },
+        {
+          "word": " Monday,",
+          "start": 76.26,
+          "end": 76.62,
+          "probability": 0.9998468160629272
+        },
+        {
+          "word": " May",
+          "start": 76.98,
+          "end": 77.1,
+          "probability": 0.9997517466545105
+        },
+        {
+          "word": " 4th.",
+          "start": 77.1,
+          "end": 77.64,
+          "probability": 0.9827523529529572
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "seek": 5656,
+      "start": 81.64,
+      "end": 85.5,
+      "text": " Professor Pape, we started thinking about doing a conversation like this",
+      "tokens": [
+        51623,
+        8419,
+        3426,
+        494,
+        11,
+        321,
+        1409,
+        1953,
+        466,
+        884,
+        257,
+        3761,
+        411,
+        341,
+        51813
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.19066066956252195,
+      "compression_ratio": 1.4933920704845816,
+      "no_speech_prob": 4.1625955612099863e-13,
+      "words": [
+        {
+          "word": " Professor",
+          "start": 81.64,
+          "end": 82.36,
+          "probability": 0.935056746006012
+        },
+        {
+          "word": " Pape,",
+          "start": 82.36,
+          "end": 82.66,
+          "probability": 0.9743845760822296
+        },
+        {
+          "word": " we",
+          "start": 82.78,
+          "end": 83.0,
+          "probability": 0.9995868802070618
+        },
+        {
+          "word": " started",
+          "start": 83.0,
+          "end": 83.3,
+          "probability": 0.999824583530426
+        },
+        {
+          "word": " thinking",
+          "start": 83.3,
+          "end": 83.74,
+          "probability": 0.9996871948242188
+        },
+        {
+          "word": " about",
+          "start": 83.74,
+          "end": 84.0,
+          "probability": 0.999907374382019
+        },
+        {
+          "word": " doing",
+          "start": 84.0,
+          "end": 84.2,
+          "probability": 0.9996422529220581
+        },
+        {
+          "word": " a",
+          "start": 84.2,
+          "end": 84.38,
+          "probability": 0.999686598777771
+        },
+        {
+          "word": " conversation",
+          "start": 84.38,
+          "end": 84.86,
+          "probability": 0.9996466636657715
+        },
+        {
+          "word": " like",
+          "start": 84.86,
+          "end": 85.22,
+          "probability": 0.9997062087059021
+        },
+        {
+          "word": " this",
+          "start": 85.22,
+          "end": 85.5,
+          "probability": 0.9999520778656006
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "seek": 8550,
+      "start": 85.5,
+      "end": 90.92,
+      "text": " after a series of what felt like extraordinary instances of political violence.",
+      "tokens": [
+        50365,
+        934,
+        257,
+        2638,
+        295,
+        437,
+        2762,
+        411,
+        10581,
+        14519,
+        295,
+        3905,
+        6270,
+        13,
+        50638
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " after",
+          "start": 85.5,
+          "end": 86.16,
+          "probability": 0.8895825743675232
+        },
+        {
+          "word": " a",
+          "start": 86.16,
+          "end": 86.48,
+          "probability": 0.9999881982803345
+        },
+        {
+          "word": " series",
+          "start": 86.48,
+          "end": 86.84,
+          "probability": 0.9999754428863525
+        },
+        {
+          "word": " of",
+          "start": 86.84,
+          "end": 87.18,
+          "probability": 0.9999946355819702
+        },
+        {
+          "word": " what",
+          "start": 87.18,
+          "end": 87.34,
+          "probability": 0.9999754428863525
+        },
+        {
+          "word": " felt",
+          "start": 87.34,
+          "end": 87.56,
+          "probability": 0.9999878406524658
+        },
+        {
+          "word": " like",
+          "start": 87.56,
+          "end": 87.8,
+          "probability": 0.9999817609786987
+        },
+        {
+          "word": " extraordinary",
+          "start": 87.8,
+          "end": 88.56,
+          "probability": 0.9999253749847412
+        },
+        {
+          "word": " instances",
+          "start": 88.56,
+          "end": 89.38,
+          "probability": 0.9999566078186035
+        },
+        {
+          "word": " of",
+          "start": 89.38,
+          "end": 89.94,
+          "probability": 0.9999748468399048
+        },
+        {
+          "word": " political",
+          "start": 89.94,
+          "end": 90.38,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " violence.",
+          "start": 90.38,
+          "end": 90.92,
+          "probability": 0.9999717473983765
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "seek": 8550,
+      "start": 91.12,
+      "end": 95.7,
+      "text": " The president's two assassination attempts and then Charlie Kirk's assassination.",
+      "tokens": [
+        50659,
+        440,
+        3868,
+        311,
+        732,
+        40195,
+        15257,
+        293,
+        550,
+        13754,
+        27834,
+        311,
+        40195,
+        13,
+        50872
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " The",
+          "start": 91.12,
+          "end": 91.54,
+          "probability": 0.9997497200965881
+        },
+        {
+          "word": " president's",
+          "start": 91.54,
+          "end": 92.12,
+          "probability": 0.9559827744960785
+        },
+        {
+          "word": " two",
+          "start": 92.12,
+          "end": 92.58,
+          "probability": 0.999230146408081
+        },
+        {
+          "word": " assassination",
+          "start": 92.58,
+          "end": 93.22,
+          "probability": 0.9999291896820068
+        },
+        {
+          "word": " attempts",
+          "start": 93.22,
+          "end": 93.82,
+          "probability": 0.9999608993530273
+        },
+        {
+          "word": " and",
+          "start": 93.82,
+          "end": 94.06,
+          "probability": 0.8253313899040222
+        },
+        {
+          "word": " then",
+          "start": 94.06,
+          "end": 94.26,
+          "probability": 0.9999346733093262
+        },
+        {
+          "word": " Charlie",
+          "start": 94.26,
+          "end": 94.64,
+          "probability": 0.9997676014900208
+        },
+        {
+          "word": " Kirk's",
+          "start": 94.64,
+          "end": 95.12,
+          "probability": 0.9985614717006683
+        },
+        {
+          "word": " assassination.",
+          "start": 95.12,
+          "end": 95.7,
+          "probability": 0.9999120235443115
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "seek": 8550,
+      "start": 96.08,
+      "end": 100.96,
+      "text": " So we at The Daily have been talking to you in the background for some time now.",
+      "tokens": [
+        50902,
+        407,
+        321,
+        412,
+        440,
+        19685,
+        362,
+        668,
+        1417,
+        281,
+        291,
+        294,
+        264,
+        3678,
+        337,
+        512,
+        565,
+        586,
+        13,
+        51139
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " So",
+          "start": 96.08,
+          "end": 96.44,
+          "probability": 0.999546468257904
+        },
+        {
+          "word": " we",
+          "start": 96.44,
+          "end": 97.12,
+          "probability": 0.9099065065383911
+        },
+        {
+          "word": " at",
+          "start": 97.12,
+          "end": 97.46,
+          "probability": 0.9205021858215332
+        },
+        {
+          "word": " The",
+          "start": 97.46,
+          "end": 97.58,
+          "probability": 0.9269729852676392
+        },
+        {
+          "word": " Daily",
+          "start": 97.58,
+          "end": 97.86,
+          "probability": 0.9956984519958496
+        },
+        {
+          "word": " have",
+          "start": 97.86,
+          "end": 98.24,
+          "probability": 0.9999767541885376
+        },
+        {
+          "word": " been",
+          "start": 98.24,
+          "end": 98.44,
+          "probability": 0.9999812841415405
+        },
+        {
+          "word": " talking",
+          "start": 98.44,
+          "end": 98.86,
+          "probability": 0.9999531507492065
+        },
+        {
+          "word": " to",
+          "start": 98.86,
+          "end": 99.12,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " you",
+          "start": 99.12,
+          "end": 99.3,
+          "probability": 0.9999716281890869
+        },
+        {
+          "word": " in",
+          "start": 99.3,
+          "end": 99.48,
+          "probability": 0.9998579025268555
+        },
+        {
+          "word": " the",
+          "start": 99.48,
+          "end": 99.58,
+          "probability": 0.9999731779098511
+        },
+        {
+          "word": " background",
+          "start": 99.58,
+          "end": 99.94,
+          "probability": 0.9997305274009705
+        },
+        {
+          "word": " for",
+          "start": 99.94,
+          "end": 100.2,
+          "probability": 0.9999302625656128
+        },
+        {
+          "word": " some",
+          "start": 100.2,
+          "end": 100.46,
+          "probability": 0.9999836683273315
+        },
+        {
+          "word": " time",
+          "start": 100.46,
+          "end": 100.68,
+          "probability": 0.9999874830245972
+        },
+        {
+          "word": " now.",
+          "start": 100.68,
+          "end": 100.96,
+          "probability": 0.9999438524246216
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "seek": 8550,
+      "start": 101.08,
+      "end": 106.16,
+      "text": " And then there was another act of violence apparently directed at the Trump administration.",
+      "tokens": [
+        51139,
+        400,
+        550,
+        456,
+        390,
+        1071,
+        605,
+        295,
+        6270,
+        7970,
+        12898,
+        412,
+        264,
+        3899,
+        7236,
+        13,
+        51398
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 101.08,
+          "end": 101.48,
+          "probability": 0.9997119307518005
+        },
+        {
+          "word": " then",
+          "start": 101.48,
+          "end": 101.68,
+          "probability": 0.99996018409729
+        },
+        {
+          "word": " there",
+          "start": 101.68,
+          "end": 102.22,
+          "probability": 0.9999023675918579
+        },
+        {
+          "word": " was",
+          "start": 102.22,
+          "end": 102.46,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " another",
+          "start": 102.46,
+          "end": 102.92,
+          "probability": 0.9999508857727051
+        },
+        {
+          "word": " act",
+          "start": 102.92,
+          "end": 103.32,
+          "probability": 0.9999364614486694
+        },
+        {
+          "word": " of",
+          "start": 103.32,
+          "end": 103.52,
+          "probability": 0.9999901056289673
+        },
+        {
+          "word": " violence",
+          "start": 103.52,
+          "end": 104.02,
+          "probability": 0.9999191761016846
+        },
+        {
+          "word": " apparently",
+          "start": 104.02,
+          "end": 104.68,
+          "probability": 0.9190969467163086
+        },
+        {
+          "word": " directed",
+          "start": 104.68,
+          "end": 105.18,
+          "probability": 0.9999409914016724
+        },
+        {
+          "word": " at",
+          "start": 105.18,
+          "end": 105.38,
+          "probability": 0.9999715089797974
+        },
+        {
+          "word": " the",
+          "start": 105.38,
+          "end": 105.48,
+          "probability": 0.9999427795410156
+        },
+        {
+          "word": " Trump",
+          "start": 105.48,
+          "end": 105.68,
+          "probability": 0.9994797110557556
+        },
+        {
+          "word": " administration.",
+          "start": 105.68,
+          "end": 106.16,
+          "probability": 0.9998689889907837
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "seek": 8550,
+      "start": 106.16,
+      "end": 109.26,
+      "text": " And so we thought now is the time.",
+      "tokens": [
+        51398,
+        400,
+        370,
+        321,
+        1194,
+        586,
+        307,
+        264,
+        565,
+        13,
+        51555
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " And",
+          "start": 106.16,
+          "end": 106.6,
+          "probability": 0.9995309114456177
+        },
+        {
+          "word": " so",
+          "start": 106.6,
+          "end": 106.84,
+          "probability": 0.9999619722366333
+        },
+        {
+          "word": " we",
+          "start": 106.84,
+          "end": 107.48,
+          "probability": 0.9995200634002686
+        },
+        {
+          "word": " thought",
+          "start": 107.48,
+          "end": 107.8,
+          "probability": 0.9999803304672241
+        },
+        {
+          "word": " now",
+          "start": 107.8,
+          "end": 108.32,
+          "probability": 0.9018425941467285
+        },
+        {
+          "word": " is",
+          "start": 108.32,
+          "end": 108.84,
+          "probability": 0.999995231628418
+        },
+        {
+          "word": " the",
+          "start": 108.84,
+          "end": 108.96,
+          "probability": 0.9999905824661255
+        },
+        {
+          "word": " time.",
+          "start": 108.96,
+          "end": 109.26,
+          "probability": 0.9999798536300659
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "seek": 8550,
+      "start": 109.38,
+      "end": 110.5,
+      "text": " So thanks for being here.",
+      "tokens": [
+        51559,
+        407,
+        3231,
+        337,
+        885,
+        510,
+        13,
+        51617
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " So",
+          "start": 109.38,
+          "end": 109.8,
+          "probability": 0.9998354911804199
+        },
+        {
+          "word": " thanks",
+          "start": 109.8,
+          "end": 110.0,
+          "probability": 0.9990559220314026
+        },
+        {
+          "word": " for",
+          "start": 110.0,
+          "end": 110.14,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " being",
+          "start": 110.14,
+          "end": 110.3,
+          "probability": 0.9999364614486694
+        },
+        {
+          "word": " here.",
+          "start": 110.3,
+          "end": 110.5,
+          "probability": 0.9999701976776123
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "seek": 8550,
+      "start": 111.34,
+      "end": 112.88,
+      "text": " Thank you very much for having me.",
+      "tokens": [
+        51664,
+        1044,
+        291,
+        588,
+        709,
+        337,
+        1419,
+        385,
+        13,
+        51737
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.16200159033950495,
+      "compression_ratio": 1.6412213740458015,
+      "no_speech_prob": 1.0422151423133963e-12,
+      "words": [
+        {
+          "word": " Thank",
+          "start": 111.34,
+          "end": 111.46,
+          "probability": 0.910099446773529
+        },
+        {
+          "word": " you",
+          "start": 111.46,
+          "end": 111.62,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " very",
+          "start": 111.62,
+          "end": 111.84,
+          "probability": 0.9998078942298889
+        },
+        {
+          "word": " much",
+          "start": 111.84,
+          "end": 112.14,
+          "probability": 0.999971866607666
+        },
+        {
+          "word": " for",
+          "start": 112.14,
+          "end": 112.32,
+          "probability": 0.9998995065689087
+        },
+        {
+          "word": " having",
+          "start": 112.32,
+          "end": 112.66,
+          "probability": 0.9999467134475708
+        },
+        {
+          "word": " me.",
+          "start": 112.66,
+          "end": 112.88,
+          "probability": 0.9999692440032959
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "seek": 11288,
+      "start": 112.88,
+      "end": 120.84,
+      "text": " I want to start with this theory that you have, which is that we are in an age of what you call violent populism.",
+      "tokens": [
+        50365,
+        286,
+        528,
+        281,
+        722,
+        365,
+        341,
+        5261,
+        300,
+        291,
+        362,
+        11,
+        597,
+        307,
+        300,
+        321,
+        366,
+        294,
+        364,
+        3205,
+        295,
+        437,
+        291,
+        818,
+        11867,
+        24017,
+        1434,
+        13,
+        50764
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11583900451660156,
+      "compression_ratio": 1.684873949579832,
+      "no_speech_prob": 8.876012446736026e-13,
+      "words": [
+        {
+          "word": " I",
+          "start": 112.88,
+          "end": 113.36,
+          "probability": 0.9374741911888123
+        },
+        {
+          "word": " want",
+          "start": 113.36,
+          "end": 113.52,
+          "probability": 0.9971298575401306
+        },
+        {
+          "word": " to",
+          "start": 113.52,
+          "end": 113.64,
+          "probability": 0.9999978542327881
+        },
+        {
+          "word": " start",
+          "start": 113.64,
+          "end": 114.08,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " with",
+          "start": 114.08,
+          "end": 114.46,
+          "probability": 0.9999964237213135
+        },
+        {
+          "word": " this",
+          "start": 114.46,
+          "end": 114.72,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " theory",
+          "start": 114.72,
+          "end": 115.1,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " that",
+          "start": 115.1,
+          "end": 115.5,
+          "probability": 0.9999388456344604
+        },
+        {
+          "word": " you",
+          "start": 115.5,
+          "end": 115.64,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " have,",
+          "start": 115.64,
+          "end": 115.94,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " which",
+          "start": 116.1,
+          "end": 116.24,
+          "probability": 0.9999955892562866
+        },
+        {
+          "word": " is",
+          "start": 116.24,
+          "end": 116.36,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " that",
+          "start": 116.36,
+          "end": 116.56,
+          "probability": 0.9999990463256836
+        },
+        {
+          "word": " we",
+          "start": 116.56,
+          "end": 117.32,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " are",
+          "start": 117.32,
+          "end": 117.66,
+          "probability": 0.9999982118606567
+        },
+        {
+          "word": " in",
+          "start": 117.66,
+          "end": 117.92,
+          "probability": 0.9999991655349731
+        },
+        {
+          "word": " an",
+          "start": 117.92,
+          "end": 118.1,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " age",
+          "start": 118.1,
+          "end": 118.5,
+          "probability": 0.9999866485595703
+        },
+        {
+          "word": " of",
+          "start": 118.5,
+          "end": 118.68,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " what",
+          "start": 118.68,
+          "end": 118.84,
+          "probability": 0.9999887943267822
+        },
+        {
+          "word": " you",
+          "start": 118.84,
+          "end": 119.0,
+          "probability": 0.9999922513961792
+        },
+        {
+          "word": " call",
+          "start": 119.0,
+          "end": 119.38,
+          "probability": 0.9999842643737793
+        },
+        {
+          "word": " violent",
+          "start": 119.38,
+          "end": 120.04,
+          "probability": 0.9998862743377686
+        },
+        {
+          "word": " populism.",
+          "start": 120.04,
+          "end": 120.84,
+          "probability": 0.9999112486839294
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "seek": 11288,
+      "start": 121.0,
+      "end": 130.44,
+      "text": " This is something you have a book coming out on, and you say that this violent populism represents a bigger risk to American democracy than anything else.",
+      "tokens": [
+        50777,
+        639,
+        307,
+        746,
+        291,
+        362,
+        257,
+        1446,
+        1348,
+        484,
+        322,
+        11,
+        293,
+        291,
+        584,
+        300,
+        341,
+        11867,
+        24017,
+        1434,
+        8855,
+        257,
+        3801,
+        3148,
+        281,
+        2665,
+        10528,
+        813,
+        1340,
+        1646,
+        13,
+        51244
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11583900451660156,
+      "compression_ratio": 1.684873949579832,
+      "no_speech_prob": 8.876012446736026e-13,
+      "words": [
+        {
+          "word": " This",
+          "start": 121.0,
+          "end": 121.28,
+          "probability": 0.9999275207519531
+        },
+        {
+          "word": " is",
+          "start": 121.28,
+          "end": 121.38,
+          "probability": 0.9999977350234985
+        },
+        {
+          "word": " something",
+          "start": 121.38,
+          "end": 121.62,
+          "probability": 0.9999929666519165
+        },
+        {
+          "word": " you",
+          "start": 121.62,
+          "end": 122.04,
+          "probability": 0.9992296695709229
+        },
+        {
+          "word": " have",
+          "start": 122.04,
+          "end": 122.18,
+          "probability": 0.9999994039535522
+        },
+        {
+          "word": " a",
+          "start": 122.18,
+          "end": 122.32,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " book",
+          "start": 122.32,
+          "end": 122.62,
+          "probability": 0.9999833106994629
+        },
+        {
+          "word": " coming",
+          "start": 122.62,
+          "end": 123.12,
+          "probability": 0.9999791383743286
+        },
+        {
+          "word": " out",
+          "start": 123.12,
+          "end": 123.36,
+          "probability": 0.9999985694885254
+        },
+        {
+          "word": " on,",
+          "start": 123.36,
+          "end": 123.54,
+          "probability": 0.9999896287918091
+        },
+        {
+          "word": " and",
+          "start": 123.64,
+          "end": 123.72,
+          "probability": 0.9999884366989136
+        },
+        {
+          "word": " you",
+          "start": 123.72,
+          "end": 123.86,
+          "probability": 0.9999942779541016
+        },
+        {
+          "word": " say",
+          "start": 123.86,
+          "end": 124.2,
+          "probability": 0.9999933242797852
+        },
+        {
+          "word": " that",
+          "start": 124.2,
+          "end": 124.64,
+          "probability": 0.9999960660934448
+        },
+        {
+          "word": " this",
+          "start": 124.64,
+          "end": 125.06,
+          "probability": 0.9999790191650391
+        },
+        {
+          "word": " violent",
+          "start": 125.06,
+          "end": 125.84,
+          "probability": 0.9999270439147949
+        },
+        {
+          "word": " populism",
+          "start": 125.84,
+          "end": 126.5,
+          "probability": 0.9999497532844543
+        },
+        {
+          "word": " represents",
+          "start": 126.5,
+          "end": 126.98,
+          "probability": 0.9999445676803589
+        },
+        {
+          "word": " a",
+          "start": 126.98,
+          "end": 127.28,
+          "probability": 0.9999963045120239
+        },
+        {
+          "word": " bigger",
+          "start": 127.28,
+          "end": 127.54,
+          "probability": 0.9999016523361206
+        },
+        {
+          "word": " risk",
+          "start": 127.54,
+          "end": 127.96,
+          "probability": 0.9999698400497437
+        },
+        {
+          "word": " to",
+          "start": 127.96,
+          "end": 128.2,
+          "probability": 0.9999951124191284
+        },
+        {
+          "word": " American",
+          "start": 128.2,
+          "end": 128.56,
+          "probability": 0.999925971031189
+        },
+        {
+          "word": " democracy",
+          "start": 128.56,
+          "end": 129.18,
+          "probability": 0.999958872795105
+        },
+        {
+          "word": " than",
+          "start": 129.18,
+          "end": 129.64,
+          "probability": 0.9999631643295288
+        },
+        {
+          "word": " anything",
+          "start": 129.64,
+          "end": 130.08,
+          "probability": 0.9999798536300659
+        },
+        {
+          "word": " else.",
+          "start": 130.08,
+          "end": 130.44,
+          "probability": 0.9999845027923584
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "seek": 11288,
+      "start": 130.68,
+      "end": 134.34,
+      "text": " No terrorist group or foreign country comes close in your eyes.",
+      "tokens": [
+        51265,
+        883,
+        20342,
+        1594,
+        420,
+        5329,
+        1941,
+        1487,
+        1998,
+        294,
+        428,
+        2575,
+        13,
+        51439
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11583900451660156,
+      "compression_ratio": 1.684873949579832,
+      "no_speech_prob": 8.876012446736026e-13,
+      "words": [
+        {
+          "word": " No",
+          "start": 130.68,
+          "end": 131.08,
+          "probability": 0.9999395608901978
+        },
+        {
+          "word": " terrorist",
+          "start": 131.08,
+          "end": 131.5,
+          "probability": 0.9999197721481323
+        },
+        {
+          "word": " group",
+          "start": 131.5,
+          "end": 131.82,
+          "probability": 0.9999823570251465
+        },
+        {
+          "word": " or",
+          "start": 131.82,
+          "end": 132.04,
+          "probability": 0.9999901056289673
+        },
+        {
+          "word": " foreign",
+          "start": 132.04,
+          "end": 132.34,
+          "probability": 0.999969482421875
+        },
+        {
+          "word": " country",
+          "start": 132.34,
+          "end": 132.68,
+          "probability": 0.9999547004699707
+        },
+        {
+          "word": " comes",
+          "start": 132.68,
+          "end": 132.98,
+          "probability": 0.9999699592590332
+        },
+        {
+          "word": " close",
+          "start": 132.98,
+          "end": 133.48,
+          "probability": 0.9999740123748779
+        },
+        {
+          "word": " in",
+          "start": 133.48,
+          "end": 133.86,
+          "probability": 0.9607342481613159
+        },
+        {
+          "word": " your",
+          "start": 133.86,
+          "end": 134.02,
+          "probability": 0.9999798536300659
+        },
+        {
+          "word": " eyes.",
+          "start": 134.02,
+          "end": 134.34,
+          "probability": 0.9999744892120361
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "seek": 11288,
+      "start": 134.54,
+      "end": 139.76,
+      "text": " So first of all, what is violent populism and why is it such a risk?",
+      "tokens": [
+        51453,
+        407,
+        700,
+        295,
+        439,
+        11,
+        437,
+        307,
+        11867,
+        24017,
+        1434,
+        293,
+        983,
+        307,
+        309,
+        1270,
+        257,
+        3148,
+        30,
+        51713
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.11583900451660156,
+      "compression_ratio": 1.684873949579832,
+      "no_speech_prob": 8.876012446736026e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 134.54,
+          "end": 135.14,
+          "probability": 0.9992163181304932
+        },
+        {
+          "word": " first",
+          "start": 135.14,
+          "end": 135.38,
+          "probability": 0.8079398274421692
+        },
+        {
+          "word": " of",
+          "start": 135.38,
+          "end": 135.5,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " all,",
+          "start": 135.5,
+          "end": 135.68,
+          "probability": 0.9999971389770508
+        },
+        {
+          "word": " what",
+          "start": 135.96,
+          "end": 136.42,
+          "probability": 0.9999862909317017
+        },
+        {
+          "word": " is",
+          "start": 136.42,
+          "end": 136.88,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " violent",
+          "start": 136.88,
+          "end": 137.48,
+          "probability": 0.9999600648880005
+        },
+        {
+          "word": " populism",
+          "start": 137.48,
+          "end": 138.22,
+          "probability": 0.9999482035636902
+        },
+        {
+          "word": " and",
+          "start": 138.22,
+          "end": 138.44,
+          "probability": 0.7380114197731018
+        },
+        {
+          "word": " why",
+          "start": 138.44,
+          "end": 138.78,
+          "probability": 0.9999918937683105
+        },
+        {
+          "word": " is",
+          "start": 138.78,
+          "end": 139.0,
+          "probability": 0.9999934434890747
+        },
+        {
+          "word": " it",
+          "start": 139.0,
+          "end": 139.1,
+          "probability": 0.9999716281890869
+        },
+        {
+          "word": " such",
+          "start": 139.1,
+          "end": 139.32,
+          "probability": 0.9999854564666748
+        },
+        {
+          "word": " a",
+          "start": 139.32,
+          "end": 139.42,
+          "probability": 0.9999915361404419
+        },
+        {
+          "word": " risk?",
+          "start": 139.42,
+          "end": 139.76,
+          "probability": 0.9998857975006104
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "seek": 13976,
+      "start": 139.76,
+      "end": 150.78,
+      "text": " The most important fact about political violence in America today is this. Tens of millions of",
+      "tokens": [
+        50365,
+        440,
+        881,
+        1021,
+        1186,
+        466,
+        3905,
+        6270,
+        294,
+        3374,
+        965,
+        307,
+        341,
+        13,
+        314,
+        694,
+        295,
+        6803,
+        295,
+        50917
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.067936948629526,
+      "compression_ratio": 1.80625,
+      "no_speech_prob": 1.0223943002971025e-12,
+      "words": [
+        {
+          "word": " The",
+          "start": 139.76,
+          "end": 141.0,
+          "probability": 0.9865664839744568
+        },
+        {
+          "word": " most",
+          "start": 141.0,
+          "end": 141.36,
+          "probability": 0.9999369382858276
+        },
+        {
+          "word": " important",
+          "start": 141.36,
+          "end": 141.9,
+          "probability": 0.9999865293502808
+        },
+        {
+          "word": " fact",
+          "start": 141.9,
+          "end": 142.68,
+          "probability": 0.9998219609260559
+        },
+        {
+          "word": " about",
+          "start": 142.68,
+          "end": 143.58,
+          "probability": 0.9999567270278931
+        },
+        {
+          "word": " political",
+          "start": 143.58,
+          "end": 144.14,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " violence",
+          "start": 144.14,
+          "end": 144.8,
+          "probability": 0.9999842643737793
+        },
+        {
+          "word": " in",
+          "start": 144.8,
+          "end": 145.24,
+          "probability": 0.9999836683273315
+        },
+        {
+          "word": " America",
+          "start": 145.24,
+          "end": 145.76,
+          "probability": 0.999921441078186
+        },
+        {
+          "word": " today",
+          "start": 145.76,
+          "end": 146.2,
+          "probability": 0.9999264478683472
+        },
+        {
+          "word": " is",
+          "start": 146.2,
+          "end": 147.26,
+          "probability": 0.9998596906661987
+        },
+        {
+          "word": " this.",
+          "start": 147.26,
+          "end": 147.78,
+          "probability": 0.9999877214431763
+        },
+        {
+          "word": " Tens",
+          "start": 148.12,
+          "end": 149.12,
+          "probability": 0.9989508390426636
+        },
+        {
+          "word": " of",
+          "start": 149.12,
+          "end": 149.48,
+          "probability": 0.9999949932098389
+        },
+        {
+          "word": " millions",
+          "start": 149.48,
+          "end": 150.1,
+          "probability": 0.99996018409729
+        },
+        {
+          "word": " of",
+          "start": 150.1,
+          "end": 150.78,
+          "probability": 0.9999960660934448
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "seek": 13976,
+      "start": 150.78,
+      "end": 159.78,
+      "text": " Americans on both sides of the aisle see political violence as acceptable. And once you have tens",
+      "tokens": [
+        50917,
+        6280,
+        322,
+        1293,
+        4881,
+        295,
+        264,
+        30916,
+        536,
+        3905,
+        6270,
+        382,
+        15513,
+        13,
+        400,
+        1564,
+        291,
+        362,
+        10688,
+        51372
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.067936948629526,
+      "compression_ratio": 1.80625,
+      "no_speech_prob": 1.0223943002971025e-12,
+      "words": [
+        {
+          "word": " Americans",
+          "start": 150.78,
+          "end": 151.42,
+          "probability": 0.9999767541885376
+        },
+        {
+          "word": " on",
+          "start": 151.42,
+          "end": 152.2,
+          "probability": 0.9996949434280396
+        },
+        {
+          "word": " both",
+          "start": 152.2,
+          "end": 152.58,
+          "probability": 0.9999927282333374
+        },
+        {
+          "word": " sides",
+          "start": 152.58,
+          "end": 153.08,
+          "probability": 0.9999885559082031
+        },
+        {
+          "word": " of",
+          "start": 153.08,
+          "end": 153.4,
+          "probability": 0.9999957084655762
+        },
+        {
+          "word": " the",
+          "start": 153.4,
+          "end": 153.54,
+          "probability": 0.9999563694000244
+        },
+        {
+          "word": " aisle",
+          "start": 153.54,
+          "end": 154.0,
+          "probability": 0.9999589920043945
+        },
+        {
+          "word": " see",
+          "start": 154.0,
+          "end": 154.82,
+          "probability": 0.9990371465682983
+        },
+        {
+          "word": " political",
+          "start": 154.82,
+          "end": 155.4,
+          "probability": 0.9999825954437256
+        },
+        {
+          "word": " violence",
+          "start": 155.4,
+          "end": 156.08,
+          "probability": 0.9999727010726929
+        },
+        {
+          "word": " as",
+          "start": 156.08,
+          "end": 156.6,
+          "probability": 0.9999887943267822
+        },
+        {
+          "word": " acceptable.",
+          "start": 156.6,
+          "end": 157.22,
+          "probability": 0.9999059438705444
+        },
+        {
+          "word": " And",
+          "start": 157.44,
+          "end": 158.44,
+          "probability": 0.996825098991394
+        },
+        {
+          "word": " once",
+          "start": 158.44,
+          "end": 158.78,
+          "probability": 0.9999265670776367
+        },
+        {
+          "word": " you",
+          "start": 158.78,
+          "end": 158.96,
+          "probability": 0.999996542930603
+        },
+        {
+          "word": " have",
+          "start": 158.96,
+          "end": 159.28,
+          "probability": 0.9999929666519165
+        },
+        {
+          "word": " tens",
+          "start": 159.28,
+          "end": 159.78,
+          "probability": 0.9997896552085876
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "seek": 13976,
+      "start": 159.78,
+      "end": 167.3,
+      "text": " of millions of Americans, not a fringe, not a few militia groups who see violence as acceptable,",
+      "tokens": [
+        51372,
+        295,
+        6803,
+        295,
+        6280,
+        11,
+        406,
+        257,
+        38764,
+        11,
+        406,
+        257,
+        1326,
+        19142,
+        654,
+        3935,
+        567,
+        536,
+        6270,
+        382,
+        15513,
+        11,
+        51743
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.067936948629526,
+      "compression_ratio": 1.80625,
+      "no_speech_prob": 1.0223943002971025e-12,
+      "words": [
+        {
+          "word": " of",
+          "start": 159.78,
+          "end": 160.24,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " millions",
+          "start": 160.24,
+          "end": 160.74,
+          "probability": 0.9999600648880005
+        },
+        {
+          "word": " of",
+          "start": 160.74,
+          "end": 161.22,
+          "probability": 0.9999936819076538
+        },
+        {
+          "word": " Americans,",
+          "start": 161.22,
+          "end": 161.78,
+          "probability": 0.9999583959579468
+        },
+        {
+          "word": " not",
+          "start": 161.78,
+          "end": 162.18,
+          "probability": 0.9999097585678101
+        },
+        {
+          "word": " a",
+          "start": 162.18,
+          "end": 162.32,
+          "probability": 0.999846339225769
+        },
+        {
+          "word": " fringe,",
+          "start": 162.32,
+          "end": 162.72,
+          "probability": 0.9888863563537598
+        },
+        {
+          "word": " not",
+          "start": 163.22,
+          "end": 163.62,
+          "probability": 0.9999306201934814
+        },
+        {
+          "word": " a",
+          "start": 163.62,
+          "end": 163.76,
+          "probability": 0.9999786615371704
+        },
+        {
+          "word": " few",
+          "start": 163.76,
+          "end": 164.0,
+          "probability": 0.9998328685760498
+        },
+        {
+          "word": " militia",
+          "start": 164.0,
+          "end": 164.54,
+          "probability": 0.999908447265625
+        },
+        {
+          "word": " groups",
+          "start": 164.54,
+          "end": 164.94,
+          "probability": 0.9997920393943787
+        },
+        {
+          "word": " who",
+          "start": 164.94,
+          "end": 165.68,
+          "probability": 0.38575291633605957
+        },
+        {
+          "word": " see",
+          "start": 165.68,
+          "end": 165.96,
+          "probability": 0.9998592138290405
+        },
+        {
+          "word": " violence",
+          "start": 165.96,
+          "end": 166.48,
+          "probability": 0.9999160766601562
+        },
+        {
+          "word": " as",
+          "start": 166.48,
+          "end": 166.76,
+          "probability": 0.9999172687530518
+        },
+        {
+          "word": " acceptable,",
+          "start": 166.76,
+          "end": 167.3,
+          "probability": 0.9998231530189514
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "seek": 16730,
+      "start": 167.3,
+      "end": 177.24,
+      "text": " this changes everything about the risks of attack. It makes the individuals who are volatile for",
+      "tokens": [
+        50365,
+        341,
+        2962,
+        1203,
+        466,
+        264,
+        10888,
+        295,
+        2690,
+        13,
+        467,
+        1669,
+        264,
+        5346,
+        567,
+        366,
+        34377,
+        337,
+        50863
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04510811508678999,
+      "compression_ratio": 1.5856353591160222,
+      "no_speech_prob": 7.429440092646122e-13,
+      "words": [
+        {
+          "word": " this",
+          "start": 167.3,
+          "end": 168.08,
+          "probability": 0.6756909489631653
+        },
+        {
+          "word": " changes",
+          "start": 168.08,
+          "end": 168.62,
+          "probability": 0.999936580657959
+        },
+        {
+          "word": " everything",
+          "start": 168.62,
+          "end": 169.64,
+          "probability": 0.9999828338623047
+        },
+        {
+          "word": " about",
+          "start": 169.64,
+          "end": 170.64,
+          "probability": 0.999906063079834
+        },
+        {
+          "word": " the",
+          "start": 170.64,
+          "end": 170.9,
+          "probability": 0.9999966621398926
+        },
+        {
+          "word": " risks",
+          "start": 170.9,
+          "end": 171.32,
+          "probability": 0.9999524354934692
+        },
+        {
+          "word": " of",
+          "start": 171.32,
+          "end": 171.88,
+          "probability": 0.9999889135360718
+        },
+        {
+          "word": " attack.",
+          "start": 171.88,
+          "end": 172.26,
+          "probability": 0.9998039603233337
+        },
+        {
+          "word": " It",
+          "start": 172.48,
+          "end": 173.12,
+          "probability": 0.9999657869338989
+        },
+        {
+          "word": " makes",
+          "start": 173.12,
+          "end": 173.58,
+          "probability": 0.9999673366546631
+        },
+        {
+          "word": " the",
+          "start": 173.58,
+          "end": 174.06,
+          "probability": 0.9999902248382568
+        },
+        {
+          "word": " individuals",
+          "start": 174.06,
+          "end": 175.04,
+          "probability": 0.9999533891677856
+        },
+        {
+          "word": " who",
+          "start": 175.04,
+          "end": 175.74,
+          "probability": 0.9998619556427002
+        },
+        {
+          "word": " are",
+          "start": 175.74,
+          "end": 176.2,
+          "probability": 0.9999967813491821
+        },
+        {
+          "word": " volatile",
+          "start": 176.2,
+          "end": 176.9,
+          "probability": 0.9998921155929565
+        },
+        {
+          "word": " for",
+          "start": 176.9,
+          "end": 177.24,
+          "probability": 0.9998757839202881
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "seek": 16730,
+      "start": 177.24,
+      "end": 184.92,
+      "text": " their own psychosocial reasons, it pushes those volatile individuals over the edge because what",
+      "tokens": [
+        50863,
+        641,
+        1065,
+        4681,
+        9869,
+        1013,
+        4112,
+        11,
+        309,
+        21020,
+        729,
+        34377,
+        5346,
+        670,
+        264,
+        4691,
+        570,
+        437,
+        51247
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04510811508678999,
+      "compression_ratio": 1.5856353591160222,
+      "no_speech_prob": 7.429440092646122e-13,
+      "words": [
+        {
+          "word": " their",
+          "start": 177.24,
+          "end": 177.42,
+          "probability": 0.9999678134918213
+        },
+        {
+          "word": " own",
+          "start": 177.42,
+          "end": 177.62,
+          "probability": 0.9998725652694702
+        },
+        {
+          "word": " psychosocial",
+          "start": 177.62,
+          "end": 178.46,
+          "probability": 0.9994645913441976
+        },
+        {
+          "word": " reasons,",
+          "start": 178.46,
+          "end": 179.04,
+          "probability": 0.9999585151672363
+        },
+        {
+          "word": " it",
+          "start": 179.04,
+          "end": 179.86,
+          "probability": 0.9998075366020203
+        },
+        {
+          "word": " pushes",
+          "start": 179.86,
+          "end": 180.26,
+          "probability": 0.9999806880950928
+        },
+        {
+          "word": " those",
+          "start": 180.26,
+          "end": 180.76,
+          "probability": 0.9999765157699585
+        },
+        {
+          "word": " volatile",
+          "start": 180.76,
+          "end": 181.18,
+          "probability": 0.9998883008956909
+        },
+        {
+          "word": " individuals",
+          "start": 181.18,
+          "end": 181.86,
+          "probability": 0.9999655485153198
+        },
+        {
+          "word": " over",
+          "start": 181.86,
+          "end": 182.62,
+          "probability": 0.9999661445617676
+        },
+        {
+          "word": " the",
+          "start": 182.62,
+          "end": 182.92,
+          "probability": 0.9999839067459106
+        },
+        {
+          "word": " edge",
+          "start": 182.92,
+          "end": 183.6,
+          "probability": 0.9998328685760498
+        },
+        {
+          "word": " because",
+          "start": 183.6,
+          "end": 184.34,
+          "probability": 0.7072017192840576
+        },
+        {
+          "word": " what",
+          "start": 184.34,
+          "end": 184.92,
+          "probability": 0.9999444484710693
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "seek": 16730,
+      "start": 184.92,
+      "end": 192.84,
+      "text": " they see is the prospect of social approval for their acts. And when you have tens of millions",
+      "tokens": [
+        51247,
+        436,
+        536,
+        307,
+        264,
+        15005,
+        295,
+        2093,
+        13317,
+        337,
+        641,
+        10672,
+        13,
+        400,
+        562,
+        291,
+        362,
+        10688,
+        295,
+        6803,
+        51642
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04510811508678999,
+      "compression_ratio": 1.5856353591160222,
+      "no_speech_prob": 7.429440092646122e-13,
+      "words": [
+        {
+          "word": " they",
+          "start": 184.92,
+          "end": 185.22,
+          "probability": 0.9999935626983643
+        },
+        {
+          "word": " see",
+          "start": 185.22,
+          "end": 185.68,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " is",
+          "start": 185.68,
+          "end": 186.08,
+          "probability": 0.9999904632568359
+        },
+        {
+          "word": " the",
+          "start": 186.08,
+          "end": 186.22,
+          "probability": 0.9999799728393555
+        },
+        {
+          "word": " prospect",
+          "start": 186.22,
+          "end": 186.78,
+          "probability": 0.9995636343955994
+        },
+        {
+          "word": " of",
+          "start": 186.78,
+          "end": 187.42,
+          "probability": 0.9999878406524658
+        },
+        {
+          "word": " social",
+          "start": 187.42,
+          "end": 188.54,
+          "probability": 0.9996961355209351
+        },
+        {
+          "word": " approval",
+          "start": 188.54,
+          "end": 189.34,
+          "probability": 0.9999613761901855
+        },
+        {
+          "word": " for",
+          "start": 189.34,
+          "end": 189.86,
+          "probability": 0.9998606443405151
+        },
+        {
+          "word": " their",
+          "start": 189.86,
+          "end": 190.08,
+          "probability": 0.9999767541885376
+        },
+        {
+          "word": " acts.",
+          "start": 190.08,
+          "end": 190.52,
+          "probability": 0.9992221593856812
+        },
+        {
+          "word": " And",
+          "start": 190.62,
+          "end": 191.26,
+          "probability": 0.9869606494903564
+        },
+        {
+          "word": " when",
+          "start": 191.26,
+          "end": 191.58,
+          "probability": 0.9997740387916565
+        },
+        {
+          "word": " you",
+          "start": 191.58,
+          "end": 191.68,
+          "probability": 0.9999903440475464
+        },
+        {
+          "word": " have",
+          "start": 191.68,
+          "end": 191.86,
+          "probability": 0.9999724626541138
+        },
+        {
+          "word": " tens",
+          "start": 191.86,
+          "end": 192.18,
+          "probability": 0.997337281703949
+        },
+        {
+          "word": " of",
+          "start": 192.18,
+          "end": 192.48,
+          "probability": 0.9999516010284424
+        },
+        {
+          "word": " millions",
+          "start": 192.48,
+          "end": 192.84,
+          "probability": 0.9997435212135315
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "seek": 19284,
+      "start": 192.84,
+      "end": 200.16,
+      "text": " of Americans who support political violence, it makes tips to the FBI very, very difficult to get",
+      "tokens": [
+        50365,
+        295,
+        6280,
+        567,
+        1406,
+        3905,
+        6270,
+        11,
+        309,
+        1669,
+        6082,
+        281,
+        264,
+        17441,
+        588,
+        11,
+        588,
+        2252,
+        281,
+        483,
+        50732
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04426388797305879,
+      "compression_ratio": 1.7293577981651376,
+      "no_speech_prob": 7.920803227721984e-13,
+      "words": [
+        {
+          "word": " of",
+          "start": 192.84,
+          "end": 193.1,
+          "probability": 0.9964287877082825
+        },
+        {
+          "word": " Americans",
+          "start": 193.1,
+          "end": 193.58,
+          "probability": 0.9988147020339966
+        },
+        {
+          "word": " who",
+          "start": 193.58,
+          "end": 194.0,
+          "probability": 0.9995754361152649
+        },
+        {
+          "word": " support",
+          "start": 194.0,
+          "end": 194.48,
+          "probability": 0.9999756813049316
+        },
+        {
+          "word": " political",
+          "start": 194.48,
+          "end": 194.88,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " violence,",
+          "start": 194.88,
+          "end": 195.4,
+          "probability": 0.9999798536300659
+        },
+        {
+          "word": " it",
+          "start": 195.4,
+          "end": 196.08,
+          "probability": 0.9999788999557495
+        },
+        {
+          "word": " makes",
+          "start": 196.08,
+          "end": 196.46,
+          "probability": 0.9999725818634033
+        },
+        {
+          "word": " tips",
+          "start": 196.46,
+          "end": 196.92,
+          "probability": 0.9998021721839905
+        },
+        {
+          "word": " to",
+          "start": 196.92,
+          "end": 197.48,
+          "probability": 0.9999889135360718
+        },
+        {
+          "word": " the",
+          "start": 197.48,
+          "end": 197.66,
+          "probability": 0.9999791383743286
+        },
+        {
+          "word": " FBI",
+          "start": 197.66,
+          "end": 198.16,
+          "probability": 0.9997656941413879
+        },
+        {
+          "word": " very,",
+          "start": 198.16,
+          "end": 198.88,
+          "probability": 0.9926500916481018
+        },
+        {
+          "word": " very",
+          "start": 199.04,
+          "end": 199.2,
+          "probability": 0.9997653365135193
+        },
+        {
+          "word": " difficult",
+          "start": 199.2,
+          "end": 199.54,
+          "probability": 0.9999301433563232
+        },
+        {
+          "word": " to",
+          "start": 199.54,
+          "end": 199.92,
+          "probability": 0.9999755620956421
+        },
+        {
+          "word": " get",
+          "start": 199.92,
+          "end": 200.16,
+          "probability": 0.9997801184654236
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "seek": 19284,
+      "start": 200.16,
+      "end": 205.54,
+      "text": " because the more support there is for political violence, the more people will simply look the",
+      "tokens": [
+        50732,
+        570,
+        264,
+        544,
+        1406,
+        456,
+        307,
+        337,
+        3905,
+        6270,
+        11,
+        264,
+        544,
+        561,
+        486,
+        2935,
+        574,
+        264,
+        51002
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04426388797305879,
+      "compression_ratio": 1.7293577981651376,
+      "no_speech_prob": 7.920803227721984e-13,
+      "words": [
+        {
+          "word": " because",
+          "start": 200.16,
+          "end": 200.62,
+          "probability": 0.5660924315452576
+        },
+        {
+          "word": " the",
+          "start": 200.62,
+          "end": 200.92,
+          "probability": 0.9999685287475586
+        },
+        {
+          "word": " more",
+          "start": 200.92,
+          "end": 201.2,
+          "probability": 0.9996764659881592
+        },
+        {
+          "word": " support",
+          "start": 201.2,
+          "end": 201.66,
+          "probability": 0.9999614953994751
+        },
+        {
+          "word": " there",
+          "start": 201.66,
+          "end": 201.88,
+          "probability": 0.9999514818191528
+        },
+        {
+          "word": " is",
+          "start": 201.88,
+          "end": 202.06,
+          "probability": 0.9997668862342834
+        },
+        {
+          "word": " for",
+          "start": 202.06,
+          "end": 202.22,
+          "probability": 0.999911904335022
+        },
+        {
+          "word": " political",
+          "start": 202.22,
+          "end": 202.58,
+          "probability": 0.9999523162841797
+        },
+        {
+          "word": " violence,",
+          "start": 202.58,
+          "end": 203.18,
+          "probability": 0.9999794960021973
+        },
+        {
+          "word": " the",
+          "start": 203.34,
+          "end": 203.66,
+          "probability": 0.9999672174453735
+        },
+        {
+          "word": " more",
+          "start": 203.66,
+          "end": 203.82,
+          "probability": 0.9999796152114868
+        },
+        {
+          "word": " people",
+          "start": 203.82,
+          "end": 204.18,
+          "probability": 0.9999963045120239
+        },
+        {
+          "word": " will",
+          "start": 204.18,
+          "end": 204.46,
+          "probability": 0.9999779462814331
+        },
+        {
+          "word": " simply",
+          "start": 204.46,
+          "end": 204.9,
+          "probability": 0.9999507665634155
+        },
+        {
+          "word": " look",
+          "start": 204.9,
+          "end": 205.28,
+          "probability": 0.9999762773513794
+        },
+        {
+          "word": " the",
+          "start": 205.28,
+          "end": 205.54,
+          "probability": 0.9999765157699585
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "seek": 19284,
+      "start": 205.54,
+      "end": 211.34,
+      "text": " other way. They'll discount what they see. And this is what I mean by the era of violent populism,",
+      "tokens": [
+        51002,
+        661,
+        636,
+        13,
+        814,
+        603,
+        11635,
+        437,
+        436,
+        536,
+        13,
+        400,
+        341,
+        307,
+        437,
+        286,
+        914,
+        538,
+        264,
+        4249,
+        295,
+        11867,
+        24017,
+        1434,
+        11,
+        51291
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04426388797305879,
+      "compression_ratio": 1.7293577981651376,
+      "no_speech_prob": 7.920803227721984e-13,
+      "words": [
+        {
+          "word": " other",
+          "start": 205.54,
+          "end": 205.86,
+          "probability": 0.9998588562011719
+        },
+        {
+          "word": " way.",
+          "start": 205.86,
+          "end": 206.3,
+          "probability": 0.9999748468399048
+        },
+        {
+          "word": " They'll",
+          "start": 206.48,
+          "end": 206.66,
+          "probability": 0.999891996383667
+        },
+        {
+          "word": " discount",
+          "start": 206.66,
+          "end": 207.28,
+          "probability": 0.9996399879455566
+        },
+        {
+          "word": " what",
+          "start": 207.28,
+          "end": 207.66,
+          "probability": 0.9999678134918213
+        },
+        {
+          "word": " they",
+          "start": 207.66,
+          "end": 207.88,
+          "probability": 0.9999605417251587
+        },
+        {
+          "word": " see.",
+          "start": 207.88,
+          "end": 208.36,
+          "probability": 0.9999210834503174
+        },
+        {
+          "word": " And",
+          "start": 208.48,
+          "end": 208.82,
+          "probability": 0.9934616088867188
+        },
+        {
+          "word": " this",
+          "start": 208.82,
+          "end": 208.98,
+          "probability": 0.9999276399612427
+        },
+        {
+          "word": " is",
+          "start": 208.98,
+          "end": 209.12,
+          "probability": 0.9998390674591064
+        },
+        {
+          "word": " what",
+          "start": 209.12,
+          "end": 209.22,
+          "probability": 0.9998059868812561
+        },
+        {
+          "word": " I",
+          "start": 209.22,
+          "end": 209.32,
+          "probability": 0.999943733215332
+        },
+        {
+          "word": " mean",
+          "start": 209.32,
+          "end": 209.48,
+          "probability": 0.9997636675834656
+        },
+        {
+          "word": " by",
+          "start": 209.48,
+          "end": 209.64,
+          "probability": 0.9999481439590454
+        },
+        {
+          "word": " the",
+          "start": 209.64,
+          "end": 209.78,
+          "probability": 0.9990673661231995
+        },
+        {
+          "word": " era",
+          "start": 209.78,
+          "end": 210.1,
+          "probability": 0.9796659350395203
+        },
+        {
+          "word": " of",
+          "start": 210.1,
+          "end": 210.32,
+          "probability": 0.9711053371429443
+        },
+        {
+          "word": " violent",
+          "start": 210.32,
+          "end": 210.6,
+          "probability": 0.9853000044822693
+        },
+        {
+          "word": " populism,",
+          "start": 210.6,
+          "end": 211.34,
+          "probability": 0.9997988343238831
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "seek": 19284,
+      "start": 211.48,
+      "end": 216.78,
+      "text": " which is once we have tens of millions of Americans supporting political violence for",
+      "tokens": [
+        51291,
+        597,
+        307,
+        1564,
+        321,
+        362,
+        10688,
+        295,
+        6803,
+        295,
+        6280,
+        7231,
+        3905,
+        6270,
+        337,
+        51562
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.04426388797305879,
+      "compression_ratio": 1.7293577981651376,
+      "no_speech_prob": 7.920803227721984e-13,
+      "words": [
+        {
+          "word": " which",
+          "start": 211.48,
+          "end": 211.54,
+          "probability": 0.9992960691452026
+        },
+        {
+          "word": " is",
+          "start": 211.54,
+          "end": 211.7,
+          "probability": 0.9996861219406128
+        },
+        {
+          "word": " once",
+          "start": 211.7,
+          "end": 212.04,
+          "probability": 0.9974216222763062
+        },
+        {
+          "word": " we",
+          "start": 212.04,
+          "end": 212.3,
+          "probability": 0.9999860525131226
+        },
+        {
+          "word": " have",
+          "start": 212.3,
+          "end": 213.04,
+          "probability": 0.9999691247940063
+        },
+        {
+          "word": " tens",
+          "start": 213.04,
+          "end": 213.6,
+          "probability": 0.9976028800010681
+        },
+        {
+          "word": " of",
+          "start": 213.6,
+          "end": 213.86,
+          "probability": 0.9999772310256958
+        },
+        {
+          "word": " millions",
+          "start": 213.86,
+          "end": 214.2,
+          "probability": 0.999651312828064
+        },
+        {
+          "word": " of",
+          "start": 214.2,
+          "end": 214.38,
+          "probability": 0.9999490976333618
+        },
+        {
+          "word": " Americans",
+          "start": 214.38,
+          "end": 214.86,
+          "probability": 0.9995080232620239
+        },
+        {
+          "word": " supporting",
+          "start": 214.86,
+          "end": 215.54,
+          "probability": 0.9998229146003723
+        },
+        {
+          "word": " political",
+          "start": 215.54,
+          "end": 216.1,
+          "probability": 0.9998248219490051
+        },
+        {
+          "word": " violence",
+          "start": 216.1,
+          "end": 216.54,
+          "probability": 0.9997619986534119
+        },
+        {
+          "word": " for",
+          "start": 216.54,
+          "end": 216.78,
+          "probability": 0.9998983144760132
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "seek": 21678,
+      "start": 216.78,
+      "end": 224.42,
+      "text": " their own causes, this can then create spirals. You can see it on the debate. Is this a mostly",
+      "tokens": [
+        50365,
+        641,
+        1065,
+        7700,
+        11,
+        341,
+        393,
+        550,
+        1884,
+        10733,
+        1124,
+        13,
+        509,
+        393,
+        536,
+        309,
+        322,
+        264,
+        7958,
+        13,
+        1119,
+        341,
+        257,
+        5240,
+        50747
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.041527115671258226,
+      "compression_ratio": 1.6422413793103448,
+      "no_speech_prob": 9.452005150789589e-13,
+      "words": [
+        {
+          "word": " their",
+          "start": 216.78,
+          "end": 216.98,
+          "probability": 0.9953244924545288
+        },
+        {
+          "word": " own",
+          "start": 216.98,
+          "end": 217.24,
+          "probability": 0.9999690055847168
+        },
+        {
+          "word": " causes,",
+          "start": 217.24,
+          "end": 217.76,
+          "probability": 0.9998623132705688
+        },
+        {
+          "word": " this",
+          "start": 218.04,
+          "end": 218.66,
+          "probability": 0.9999712705612183
+        },
+        {
+          "word": " can",
+          "start": 218.66,
+          "end": 218.98,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " then",
+          "start": 218.98,
+          "end": 219.3,
+          "probability": 0.9999852180480957
+        },
+        {
+          "word": " create",
+          "start": 219.3,
+          "end": 220.04,
+          "probability": 0.9999761581420898
+        },
+        {
+          "word": " spirals.",
+          "start": 220.04,
+          "end": 221.14,
+          "probability": 0.9999461770057678
+        },
+        {
+          "word": " You",
+          "start": 221.34,
+          "end": 221.92,
+          "probability": 0.998823344707489
+        },
+        {
+          "word": " can",
+          "start": 221.92,
+          "end": 222.08,
+          "probability": 0.9999868869781494
+        },
+        {
+          "word": " see",
+          "start": 222.08,
+          "end": 222.3,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " it",
+          "start": 222.3,
+          "end": 222.44,
+          "probability": 0.999974250793457
+        },
+        {
+          "word": " on",
+          "start": 222.44,
+          "end": 222.68,
+          "probability": 0.9999638795852661
+        },
+        {
+          "word": " the",
+          "start": 222.68,
+          "end": 223.06,
+          "probability": 0.9992504715919495
+        },
+        {
+          "word": " debate.",
+          "start": 223.06,
+          "end": 223.38,
+          "probability": 0.9999418258666992
+        },
+        {
+          "word": " Is",
+          "start": 223.38,
+          "end": 223.64,
+          "probability": 0.9999366998672485
+        },
+        {
+          "word": " this",
+          "start": 223.64,
+          "end": 223.86,
+          "probability": 0.9999555349349976
+        },
+        {
+          "word": " a",
+          "start": 223.86,
+          "end": 224.14,
+          "probability": 0.9517763257026672
+        },
+        {
+          "word": " mostly",
+          "start": 224.14,
+          "end": 224.42,
+          "probability": 0.9994826316833496
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "seek": 21678,
+      "start": 224.42,
+      "end": 229.02,
+      "text": " right-wing phenomenon, a left-wing phenomenon? Well, we have all the cases here, and the cases",
+      "tokens": [
+        50747,
+        558,
+        12,
+        7904,
+        14029,
+        11,
+        257,
+        1411,
+        12,
+        7904,
+        14029,
+        30,
+        1042,
+        11,
+        321,
+        362,
+        439,
+        264,
+        3331,
+        510,
+        11,
+        293,
+        264,
+        3331,
+        50978
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.041527115671258226,
+      "compression_ratio": 1.6422413793103448,
+      "no_speech_prob": 9.452005150789589e-13,
+      "words": [
+        {
+          "word": " right",
+          "start": 224.42,
+          "end": 224.7,
+          "probability": 0.9999392032623291
+        },
+        {
+          "word": "-wing",
+          "start": 224.7,
+          "end": 224.98,
+          "probability": 0.9541061818599701
+        },
+        {
+          "word": " phenomenon,",
+          "start": 224.98,
+          "end": 225.48,
+          "probability": 0.9967674016952515
+        },
+        {
+          "word": " a",
+          "start": 225.66,
+          "end": 225.74,
+          "probability": 0.9824763536453247
+        },
+        {
+          "word": " left",
+          "start": 225.74,
+          "end": 225.88,
+          "probability": 0.999964714050293
+        },
+        {
+          "word": "-wing",
+          "start": 225.88,
+          "end": 226.06,
+          "probability": 0.9999546408653259
+        },
+        {
+          "word": " phenomenon?",
+          "start": 226.06,
+          "end": 226.54,
+          "probability": 0.9999852180480957
+        },
+        {
+          "word": " Well,",
+          "start": 226.78,
+          "end": 227.08,
+          "probability": 0.999804675579071
+        },
+        {
+          "word": " we",
+          "start": 227.12,
+          "end": 227.2,
+          "probability": 0.9999774694442749
+        },
+        {
+          "word": " have",
+          "start": 227.2,
+          "end": 227.4,
+          "probability": 0.9999817609786987
+        },
+        {
+          "word": " all",
+          "start": 227.4,
+          "end": 227.54,
+          "probability": 0.999945878982544
+        },
+        {
+          "word": " the",
+          "start": 227.54,
+          "end": 227.66,
+          "probability": 0.9994425177574158
+        },
+        {
+          "word": " cases",
+          "start": 227.66,
+          "end": 228.04,
+          "probability": 0.999606192111969
+        },
+        {
+          "word": " here,",
+          "start": 228.04,
+          "end": 228.48,
+          "probability": 0.999916672706604
+        },
+        {
+          "word": " and",
+          "start": 228.52,
+          "end": 228.62,
+          "probability": 0.999778687953949
+        },
+        {
+          "word": " the",
+          "start": 228.62,
+          "end": 228.72,
+          "probability": 0.9996674060821533
+        },
+        {
+          "word": " cases",
+          "start": 228.72,
+          "end": 229.02,
+          "probability": 0.9990785121917725
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "seek": 21678,
+      "start": 229.02,
+      "end": 238.16,
+      "text": " are, let me just go over the last 12 months. So we saw in June 2025 the assassination murder of",
+      "tokens": [
+        50978,
+        366,
+        11,
+        718,
+        385,
+        445,
+        352,
+        670,
+        264,
+        1036,
+        2272,
+        2493,
+        13,
+        407,
+        321,
+        1866,
+        294,
+        6928,
+        39209,
+        264,
+        40195,
+        6568,
+        295,
+        51435
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.041527115671258226,
+      "compression_ratio": 1.6422413793103448,
+      "no_speech_prob": 9.452005150789589e-13,
+      "words": [
+        {
+          "word": " are,",
+          "start": 229.02,
+          "end": 229.42,
+          "probability": 0.9998722076416016
+        },
+        {
+          "word": " let",
+          "start": 229.58,
+          "end": 229.96,
+          "probability": 0.9998470544815063
+        },
+        {
+          "word": " me",
+          "start": 229.96,
+          "end": 230.1,
+          "probability": 0.9999772310256958
+        },
+        {
+          "word": " just",
+          "start": 230.1,
+          "end": 230.32,
+          "probability": 0.9999604225158691
+        },
+        {
+          "word": " go",
+          "start": 230.32,
+          "end": 230.52,
+          "probability": 0.9999581575393677
+        },
+        {
+          "word": " over",
+          "start": 230.52,
+          "end": 230.76,
+          "probability": 0.9999659061431885
+        },
+        {
+          "word": " the",
+          "start": 230.76,
+          "end": 230.92,
+          "probability": 0.9999896287918091
+        },
+        {
+          "word": " last",
+          "start": 230.92,
+          "end": 231.28,
+          "probability": 0.9997145533561707
+        },
+        {
+          "word": " 12",
+          "start": 231.28,
+          "end": 231.58,
+          "probability": 0.9983863830566406
+        },
+        {
+          "word": " months.",
+          "start": 231.58,
+          "end": 232.04,
+          "probability": 0.9999722242355347
+        },
+        {
+          "word": " So",
+          "start": 232.22,
+          "end": 232.38,
+          "probability": 0.9812395572662354
+        },
+        {
+          "word": " we",
+          "start": 232.38,
+          "end": 232.82,
+          "probability": 0.7341209053993225
+        },
+        {
+          "word": " saw",
+          "start": 232.82,
+          "end": 233.18,
+          "probability": 0.9999896287918091
+        },
+        {
+          "word": " in",
+          "start": 233.18,
+          "end": 233.62,
+          "probability": 0.9991957545280457
+        },
+        {
+          "word": " June",
+          "start": 233.62,
+          "end": 234.16,
+          "probability": 0.9999051094055176
+        },
+        {
+          "word": " 2025",
+          "start": 234.16,
+          "end": 235.38,
+          "probability": 0.9072869420051575
+        },
+        {
+          "word": " the",
+          "start": 235.38,
+          "end": 236.52,
+          "probability": 0.659490704536438
+        },
+        {
+          "word": " assassination",
+          "start": 236.52,
+          "end": 237.12,
+          "probability": 0.9998840093612671
+        },
+        {
+          "word": " murder",
+          "start": 237.12,
+          "end": 237.7,
+          "probability": 0.98197340965271
+        },
+        {
+          "word": " of",
+          "start": 237.7,
+          "end": 238.16,
+          "probability": 0.9999916553497314
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "seek": 21678,
+      "start": 238.16,
+      "end": 244.6,
+      "text": " a Democratic leader in Minnesota. You saw the assassination murder of Charlie Kirk a few months",
+      "tokens": [
+        51435,
+        257,
+        14928,
+        5263,
+        294,
+        13996,
+        13,
+        509,
+        1866,
+        264,
+        40195,
+        6568,
+        295,
+        13754,
+        27834,
+        257,
+        1326,
+        2493,
+        51757
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.041527115671258226,
+      "compression_ratio": 1.6422413793103448,
+      "no_speech_prob": 9.452005150789589e-13,
+      "words": [
+        {
+          "word": " a",
+          "start": 238.16,
+          "end": 238.32,
+          "probability": 0.999961256980896
+        },
+        {
+          "word": " Democratic",
+          "start": 238.32,
+          "end": 238.68,
+          "probability": 0.9849660396575928
+        },
+        {
+          "word": " leader",
+          "start": 238.68,
+          "end": 239.32,
+          "probability": 0.9994693398475647
+        },
+        {
+          "word": " in",
+          "start": 239.32,
+          "end": 239.7,
+          "probability": 0.9999823570251465
+        },
+        {
+          "word": " Minnesota.",
+          "start": 239.7,
+          "end": 240.1,
+          "probability": 0.9999134540557861
+        },
+        {
+          "word": " You",
+          "start": 240.22,
+          "end": 240.8,
+          "probability": 0.9999103546142578
+        },
+        {
+          "word": " saw",
+          "start": 240.8,
+          "end": 241.04,
+          "probability": 0.9999654293060303
+        },
+        {
+          "word": " the",
+          "start": 241.04,
+          "end": 241.24,
+          "probability": 0.9999866485595703
+        },
+        {
+          "word": " assassination",
+          "start": 241.24,
+          "end": 241.88,
+          "probability": 0.9997391104698181
+        },
+        {
+          "word": " murder",
+          "start": 241.88,
+          "end": 242.56,
+          "probability": 0.9999088048934937
+        },
+        {
+          "word": " of",
+          "start": 242.56,
+          "end": 243.06,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " Charlie",
+          "start": 243.06,
+          "end": 243.48,
+          "probability": 0.999776303768158
+        },
+        {
+          "word": " Kirk",
+          "start": 243.48,
+          "end": 243.9,
+          "probability": 0.9991779923439026
+        },
+        {
+          "word": " a",
+          "start": 243.9,
+          "end": 244.12,
+          "probability": 0.9998712539672852
+        },
+        {
+          "word": " few",
+          "start": 244.12,
+          "end": 244.28,
+          "probability": 0.9998693466186523
+        },
+        {
+          "word": " months",
+          "start": 244.28,
+          "end": 244.6,
+          "probability": 0.9996697902679443
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "seek": 24460,
+      "start": 244.6,
+      "end": 254.02,
+      "text": " later. Then in January, you saw the killing by ICE agents of two American citizens. We also have",
+      "tokens": [
+        50365,
+        1780,
+        13,
+        1396,
+        294,
+        7061,
+        11,
+        291,
+        1866,
+        264,
+        8011,
+        538,
+        43337,
+        12554,
+        295,
+        732,
+        2665,
+        7180,
+        13,
+        492,
+        611,
+        362,
+        50837
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.0463177648822913,
+      "compression_ratio": 1.54,
+      "no_speech_prob": 8.97258233423931e-13,
+      "words": [
+        {
+          "word": " later.",
+          "start": 244.6,
+          "end": 245.0,
+          "probability": 0.9698155522346497
+        },
+        {
+          "word": " Then",
+          "start": 245.2,
+          "end": 245.74,
+          "probability": 0.9997979998588562
+        },
+        {
+          "word": " in",
+          "start": 245.74,
+          "end": 245.94,
+          "probability": 0.9971911311149597
+        },
+        {
+          "word": " January,",
+          "start": 245.94,
+          "end": 246.48,
+          "probability": 0.9999545812606812
+        },
+        {
+          "word": " you",
+          "start": 246.48,
+          "end": 247.26,
+          "probability": 0.9999914169311523
+        },
+        {
+          "word": " saw",
+          "start": 247.26,
+          "end": 247.7,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " the",
+          "start": 247.7,
+          "end": 248.1,
+          "probability": 0.9999984502792358
+        },
+        {
+          "word": " killing",
+          "start": 248.1,
+          "end": 248.64,
+          "probability": 0.9999570846557617
+        },
+        {
+          "word": " by",
+          "start": 248.64,
+          "end": 249.3,
+          "probability": 0.9999657869338989
+        },
+        {
+          "word": " ICE",
+          "start": 249.3,
+          "end": 249.68,
+          "probability": 0.998573899269104
+        },
+        {
+          "word": " agents",
+          "start": 249.68,
+          "end": 250.14,
+          "probability": 0.9999066591262817
+        },
+        {
+          "word": " of",
+          "start": 250.14,
+          "end": 250.68,
+          "probability": 0.9999945163726807
+        },
+        {
+          "word": " two",
+          "start": 250.68,
+          "end": 251.02,
+          "probability": 0.9999591112136841
+        },
+        {
+          "word": " American",
+          "start": 251.02,
+          "end": 251.7,
+          "probability": 0.9999213218688965
+        },
+        {
+          "word": " citizens.",
+          "start": 251.7,
+          "end": 252.58,
+          "probability": 0.999969482421875
+        },
+        {
+          "word": " We",
+          "start": 252.64,
+          "end": 253.34,
+          "probability": 0.9999762773513794
+        },
+        {
+          "word": " also",
+          "start": 253.34,
+          "end": 253.7,
+          "probability": 0.9999822378158569
+        },
+        {
+          "word": " have",
+          "start": 253.7,
+          "end": 254.02,
+          "probability": 0.999992847442627
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "seek": 24460,
+      "start": 254.02,
+      "end": 258.6,
+      "text": " Governor Shapiro in Pennsylvania. We, of course, have multiple President Trump assassination",
+      "tokens": [
+        50837,
+        14550,
+        44160,
+        5182,
+        294,
+        17963,
+        13,
+        492,
+        11,
+        295,
+        1164,
+        11,
+        362,
+        3866,
+        3117,
+        3899,
+        40195,
+        51065
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.0463177648822913,
+      "compression_ratio": 1.54,
+      "no_speech_prob": 8.97258233423931e-13,
+      "words": [
+        {
+          "word": " Governor",
+          "start": 254.02,
+          "end": 254.3,
+          "probability": 0.9920943379402161
+        },
+        {
+          "word": " Shapiro",
+          "start": 254.3,
+          "end": 254.78,
+          "probability": 0.9985649883747101
+        },
+        {
+          "word": " in",
+          "start": 254.78,
+          "end": 255.04,
+          "probability": 0.9999275207519531
+        },
+        {
+          "word": " Pennsylvania.",
+          "start": 255.04,
+          "end": 255.56,
+          "probability": 0.9999727010726929
+        },
+        {
+          "word": " We,",
+          "start": 255.56,
+          "end": 256.04,
+          "probability": 0.999981164932251
+        },
+        {
+          "word": " of",
+          "start": 256.12,
+          "end": 256.2,
+          "probability": 0.9998793601989746
+        },
+        {
+          "word": " course,",
+          "start": 256.2,
+          "end": 256.3,
+          "probability": 0.9999462366104126
+        },
+        {
+          "word": " have",
+          "start": 256.4,
+          "end": 256.54,
+          "probability": 0.9998370409011841
+        },
+        {
+          "word": " multiple",
+          "start": 256.54,
+          "end": 257.02,
+          "probability": 0.9997513890266418
+        },
+        {
+          "word": " President",
+          "start": 257.02,
+          "end": 257.72,
+          "probability": 0.9987413287162781
+        },
+        {
+          "word": " Trump",
+          "start": 257.72,
+          "end": 258.08,
+          "probability": 0.9998712539672852
+        },
+        {
+          "word": " assassination",
+          "start": 258.08,
+          "end": 258.6,
+          "probability": 0.9998594522476196
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "seek": 24460,
+      "start": 258.6,
+      "end": 264.36,
+      "text": " attempts. So what you are seeing is clearly the rise of political violence on both sides. But the",
+      "tokens": [
+        51065,
+        15257,
+        13,
+        407,
+        437,
+        291,
+        366,
+        2577,
+        307,
+        4448,
+        264,
+        6272,
+        295,
+        3905,
+        6270,
+        322,
+        1293,
+        4881,
+        13,
+        583,
+        264,
+        51354
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.0463177648822913,
+      "compression_ratio": 1.54,
+      "no_speech_prob": 8.97258233423931e-13,
+      "words": [
+        {
+          "word": " attempts.",
+          "start": 258.6,
+          "end": 259.1,
+          "probability": 0.9997684359550476
+        },
+        {
+          "word": " So",
+          "start": 259.28,
+          "end": 259.62,
+          "probability": 0.9982982277870178
+        },
+        {
+          "word": " what",
+          "start": 259.62,
+          "end": 259.92,
+          "probability": 0.9686799049377441
+        },
+        {
+          "word": " you",
+          "start": 259.92,
+          "end": 260.06,
+          "probability": 0.9999889135360718
+        },
+        {
+          "word": " are",
+          "start": 260.06,
+          "end": 260.24,
+          "probability": 0.9999898672103882
+        },
+        {
+          "word": " seeing",
+          "start": 260.24,
+          "end": 260.58,
+          "probability": 0.9996604919433594
+        },
+        {
+          "word": " is",
+          "start": 260.58,
+          "end": 260.84,
+          "probability": 0.999991774559021
+        },
+        {
+          "word": " clearly",
+          "start": 260.84,
+          "end": 261.38,
+          "probability": 0.9999310970306396
+        },
+        {
+          "word": " the",
+          "start": 261.38,
+          "end": 261.84,
+          "probability": 0.9999865293502808
+        },
+        {
+          "word": " rise",
+          "start": 261.84,
+          "end": 262.16,
+          "probability": 0.999880313873291
+        },
+        {
+          "word": " of",
+          "start": 262.16,
+          "end": 262.34,
+          "probability": 0.9999332427978516
+        },
+        {
+          "word": " political",
+          "start": 262.34,
+          "end": 262.6,
+          "probability": 0.9997766613960266
+        },
+        {
+          "word": " violence",
+          "start": 262.6,
+          "end": 263.02,
+          "probability": 0.9998987913131714
+        },
+        {
+          "word": " on",
+          "start": 263.02,
+          "end": 263.54,
+          "probability": 0.9998855590820312
+        },
+        {
+          "word": " both",
+          "start": 263.54,
+          "end": 263.74,
+          "probability": 0.999943733215332
+        },
+        {
+          "word": " sides.",
+          "start": 263.74,
+          "end": 264.0,
+          "probability": 0.9999573230743408
+        },
+        {
+          "word": " But",
+          "start": 264.12,
+          "end": 264.18,
+          "probability": 0.999407172203064
+        },
+        {
+          "word": " the",
+          "start": 264.18,
+          "end": 264.36,
+          "probability": 0.9999568462371826
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "seek": 24460,
+      "start": 264.36,
+      "end": 270.84,
+      "text": " really important thing to say about this is not just that it's rising on both sides, but it's now",
+      "tokens": [
+        51354,
+        534,
+        1021,
+        551,
+        281,
+        584,
+        466,
+        341,
+        307,
+        406,
+        445,
+        300,
+        309,
+        311,
+        11636,
+        322,
+        1293,
+        4881,
+        11,
+        457,
+        309,
+        311,
+        586,
+        51681
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.0463177648822913,
+      "compression_ratio": 1.54,
+      "no_speech_prob": 8.97258233423931e-13,
+      "words": [
+        {
+          "word": " really",
+          "start": 264.36,
+          "end": 264.64,
+          "probability": 0.9989296793937683
+        },
+        {
+          "word": " important",
+          "start": 264.64,
+          "end": 265.1,
+          "probability": 0.9999810457229614
+        },
+        {
+          "word": " thing",
+          "start": 265.1,
+          "end": 265.36,
+          "probability": 0.9999713897705078
+        },
+        {
+          "word": " to",
+          "start": 265.36,
+          "end": 265.54,
+          "probability": 0.9999387264251709
+        },
+        {
+          "word": " say",
+          "start": 265.54,
+          "end": 265.88,
+          "probability": 0.9999430179595947
+        },
+        {
+          "word": " about",
+          "start": 265.88,
+          "end": 266.26,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " this",
+          "start": 266.26,
+          "end": 266.72,
+          "probability": 0.9999865293502808
+        },
+        {
+          "word": " is",
+          "start": 266.72,
+          "end": 266.96,
+          "probability": 0.9999727010726929
+        },
+        {
+          "word": " not",
+          "start": 266.96,
+          "end": 267.44,
+          "probability": 0.9995120763778687
+        },
+        {
+          "word": " just",
+          "start": 267.44,
+          "end": 267.8,
+          "probability": 0.9999774694442749
+        },
+        {
+          "word": " that",
+          "start": 267.8,
+          "end": 268.08,
+          "probability": 0.9999872446060181
+        },
+        {
+          "word": " it's",
+          "start": 268.08,
+          "end": 268.38,
+          "probability": 0.9999663233757019
+        },
+        {
+          "word": " rising",
+          "start": 268.38,
+          "end": 268.76,
+          "probability": 0.9992362260818481
+        },
+        {
+          "word": " on",
+          "start": 268.76,
+          "end": 268.98,
+          "probability": 0.9999722242355347
+        },
+        {
+          "word": " both",
+          "start": 268.98,
+          "end": 269.24,
+          "probability": 0.9999061822891235
+        },
+        {
+          "word": " sides,",
+          "start": 269.24,
+          "end": 269.64,
+          "probability": 0.9999366998672485
+        },
+        {
+          "word": " but",
+          "start": 269.64,
+          "end": 270.08,
+          "probability": 0.999839186668396
+        },
+        {
+          "word": " it's",
+          "start": 270.08,
+          "end": 270.32,
+          "probability": 0.9999944567680359
+        },
+        {
+          "word": " now",
+          "start": 270.32,
+          "end": 270.84,
+          "probability": 0.9999144077301025
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "seek": 27084,
+      "start": 270.84,
+      "end": 277.46,
+      "text": " starting to spiral. If I understand what you're saying, it's not just the violent people who are",
+      "tokens": [
+        50365,
+        2891,
+        281,
+        25165,
+        13,
+        759,
+        286,
+        1223,
+        437,
+        291,
+        434,
+        1566,
+        11,
+        309,
+        311,
+        406,
+        445,
+        264,
+        11867,
+        561,
+        567,
+        366,
+        50697
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05530339415355395,
+      "compression_ratio": 1.6754385964912282,
+      "no_speech_prob": 1.190345023070749e-12,
+      "words": [
+        {
+          "word": " starting",
+          "start": 270.84,
+          "end": 271.6,
+          "probability": 0.9367860555648804
+        },
+        {
+          "word": " to",
+          "start": 271.6,
+          "end": 272.02,
+          "probability": 0.9999769926071167
+        },
+        {
+          "word": " spiral.",
+          "start": 272.02,
+          "end": 272.82,
+          "probability": 0.9998701810836792
+        },
+        {
+          "word": " If",
+          "start": 273.1,
+          "end": 273.46,
+          "probability": 0.9120228886604309
+        },
+        {
+          "word": " I",
+          "start": 273.46,
+          "end": 273.58,
+          "probability": 0.9999128580093384
+        },
+        {
+          "word": " understand",
+          "start": 273.58,
+          "end": 273.82,
+          "probability": 0.9999586343765259
+        },
+        {
+          "word": " what",
+          "start": 273.82,
+          "end": 273.96,
+          "probability": 0.9999781847000122
+        },
+        {
+          "word": " you're",
+          "start": 273.96,
+          "end": 274.1,
+          "probability": 0.9999489784240723
+        },
+        {
+          "word": " saying,",
+          "start": 274.1,
+          "end": 274.36,
+          "probability": 0.9999740123748779
+        },
+        {
+          "word": " it's",
+          "start": 274.6,
+          "end": 275.12,
+          "probability": 0.9999814629554749
+        },
+        {
+          "word": " not",
+          "start": 275.12,
+          "end": 275.42,
+          "probability": 0.9999613761901855
+        },
+        {
+          "word": " just",
+          "start": 275.42,
+          "end": 275.82,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " the",
+          "start": 275.82,
+          "end": 276.14,
+          "probability": 0.9999794960021973
+        },
+        {
+          "word": " violent",
+          "start": 276.14,
+          "end": 276.58,
+          "probability": 0.9996249675750732
+        },
+        {
+          "word": " people",
+          "start": 276.58,
+          "end": 277.1,
+          "probability": 0.9999827146530151
+        },
+        {
+          "word": " who",
+          "start": 277.1,
+          "end": 277.32,
+          "probability": 0.9999557733535767
+        },
+        {
+          "word": " are",
+          "start": 277.32,
+          "end": 277.46,
+          "probability": 0.999823272228241
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "seek": 27084,
+      "start": 277.46,
+      "end": 283.8,
+      "text": " implicated in this. It's the broader social acceptance that they are finding in a significant",
+      "tokens": [
+        50697,
+        8484,
+        3587,
+        294,
+        341,
+        13,
+        467,
+        311,
+        264,
+        13227,
+        2093,
+        20351,
+        300,
+        436,
+        366,
+        5006,
+        294,
+        257,
+        4776,
+        51011
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05530339415355395,
+      "compression_ratio": 1.6754385964912282,
+      "no_speech_prob": 1.190345023070749e-12,
+      "words": [
+        {
+          "word": " implicated",
+          "start": 277.46,
+          "end": 277.94,
+          "probability": 0.9997385740280151
+        },
+        {
+          "word": " in",
+          "start": 277.94,
+          "end": 278.14,
+          "probability": 0.9999771118164062
+        },
+        {
+          "word": " this.",
+          "start": 278.14,
+          "end": 278.36,
+          "probability": 0.9999337196350098
+        },
+        {
+          "word": " It's",
+          "start": 278.48,
+          "end": 279.02,
+          "probability": 0.9999854564666748
+        },
+        {
+          "word": " the",
+          "start": 279.02,
+          "end": 279.28,
+          "probability": 0.9998958110809326
+        },
+        {
+          "word": " broader",
+          "start": 279.28,
+          "end": 279.76,
+          "probability": 0.9998880624771118
+        },
+        {
+          "word": " social",
+          "start": 279.76,
+          "end": 280.42,
+          "probability": 0.9999167919158936
+        },
+        {
+          "word": " acceptance",
+          "start": 280.42,
+          "end": 281.22,
+          "probability": 0.9999374151229858
+        },
+        {
+          "word": " that",
+          "start": 281.22,
+          "end": 281.58,
+          "probability": 0.9999891519546509
+        },
+        {
+          "word": " they",
+          "start": 281.58,
+          "end": 281.76,
+          "probability": 0.9999368190765381
+        },
+        {
+          "word": " are",
+          "start": 281.76,
+          "end": 281.92,
+          "probability": 0.9999469518661499
+        },
+        {
+          "word": " finding",
+          "start": 281.92,
+          "end": 282.5,
+          "probability": 0.9999403953552246
+        },
+        {
+          "word": " in",
+          "start": 282.5,
+          "end": 283.28,
+          "probability": 0.9998239874839783
+        },
+        {
+          "word": " a",
+          "start": 283.28,
+          "end": 283.4,
+          "probability": 0.9998244643211365
+        },
+        {
+          "word": " significant",
+          "start": 283.4,
+          "end": 283.8,
+          "probability": 0.999265730381012
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "seek": 27084,
+      "start": 283.8,
+      "end": 292.54,
+      "text": " portion of American society. So it's not just them. It's many of the rest of us. In a way,",
+      "tokens": [
+        51011,
+        8044,
+        295,
+        2665,
+        4086,
+        13,
+        407,
+        309,
+        311,
+        406,
+        445,
+        552,
+        13,
+        467,
+        311,
+        867,
+        295,
+        264,
+        1472,
+        295,
+        505,
+        13,
+        682,
+        257,
+        636,
+        11,
+        51452
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05530339415355395,
+      "compression_ratio": 1.6754385964912282,
+      "no_speech_prob": 1.190345023070749e-12,
+      "words": [
+        {
+          "word": " portion",
+          "start": 283.8,
+          "end": 284.24,
+          "probability": 0.9996840953826904
+        },
+        {
+          "word": " of",
+          "start": 284.24,
+          "end": 284.64,
+          "probability": 0.9999699592590332
+        },
+        {
+          "word": " American",
+          "start": 284.64,
+          "end": 284.96,
+          "probability": 0.999283492565155
+        },
+        {
+          "word": " society.",
+          "start": 284.96,
+          "end": 285.4,
+          "probability": 0.9999077320098877
+        },
+        {
+          "word": " So",
+          "start": 285.4,
+          "end": 285.72,
+          "probability": 0.995743453502655
+        },
+        {
+          "word": " it's",
+          "start": 285.72,
+          "end": 286.6,
+          "probability": 0.9880947768688202
+        },
+        {
+          "word": " not",
+          "start": 286.6,
+          "end": 286.88,
+          "probability": 0.9999001026153564
+        },
+        {
+          "word": " just",
+          "start": 286.88,
+          "end": 287.28,
+          "probability": 0.9999818801879883
+        },
+        {
+          "word": " them.",
+          "start": 287.28,
+          "end": 287.88,
+          "probability": 0.999911904335022
+        },
+        {
+          "word": " It's",
+          "start": 287.88,
+          "end": 288.5,
+          "probability": 0.9999516010284424
+        },
+        {
+          "word": " many",
+          "start": 288.5,
+          "end": 289.28,
+          "probability": 0.9997840523719788
+        },
+        {
+          "word": " of",
+          "start": 289.28,
+          "end": 289.9,
+          "probability": 0.9999710321426392
+        },
+        {
+          "word": " the",
+          "start": 289.9,
+          "end": 290.5,
+          "probability": 0.9999186992645264
+        },
+        {
+          "word": " rest",
+          "start": 290.5,
+          "end": 290.9,
+          "probability": 0.9999377727508545
+        },
+        {
+          "word": " of",
+          "start": 290.9,
+          "end": 291.18,
+          "probability": 0.9999557733535767
+        },
+        {
+          "word": " us.",
+          "start": 291.18,
+          "end": 291.58,
+          "probability": 0.9997358918190002
+        },
+        {
+          "word": " In",
+          "start": 291.78,
+          "end": 292.16,
+          "probability": 0.9999154806137085
+        },
+        {
+          "word": " a",
+          "start": 292.16,
+          "end": 292.3,
+          "probability": 0.9999568462371826
+        },
+        {
+          "word": " way,",
+          "start": 292.3,
+          "end": 292.54,
+          "probability": 0.9998098015785217
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "seek": 27084,
+      "start": 292.82,
+      "end": 299.2,
+      "text": " this acceptance you're saying fuels the violence itself. That's exactly right. And we have conducted",
+      "tokens": [
+        51452,
+        341,
+        20351,
+        291,
+        434,
+        1566,
+        24616,
+        264,
+        6270,
+        2564,
+        13,
+        663,
+        311,
+        2293,
+        558,
+        13,
+        400,
+        321,
+        362,
+        13809,
+        51783
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05530339415355395,
+      "compression_ratio": 1.6754385964912282,
+      "no_speech_prob": 1.190345023070749e-12,
+      "words": [
+        {
+          "word": " this",
+          "start": 292.82,
+          "end": 292.98,
+          "probability": 0.9999325275421143
+        },
+        {
+          "word": " acceptance",
+          "start": 292.98,
+          "end": 293.48,
+          "probability": 0.9999581575393677
+        },
+        {
+          "word": " you're",
+          "start": 293.48,
+          "end": 293.74,
+          "probability": 0.9148772656917572
+        },
+        {
+          "word": " saying",
+          "start": 293.74,
+          "end": 293.96,
+          "probability": 0.9933678507804871
+        },
+        {
+          "word": " fuels",
+          "start": 293.96,
+          "end": 294.58,
+          "probability": 0.9995682835578918
+        },
+        {
+          "word": " the",
+          "start": 294.58,
+          "end": 294.8,
+          "probability": 0.9999101161956787
+        },
+        {
+          "word": " violence",
+          "start": 294.8,
+          "end": 295.22,
+          "probability": 0.9991859793663025
+        },
+        {
+          "word": " itself.",
+          "start": 295.22,
+          "end": 295.64,
+          "probability": 0.9997541308403015
+        },
+        {
+          "word": " That's",
+          "start": 295.86,
+          "end": 296.28,
+          "probability": 0.9981476366519928
+        },
+        {
+          "word": " exactly",
+          "start": 296.28,
+          "end": 296.82,
+          "probability": 0.9996147155761719
+        },
+        {
+          "word": " right.",
+          "start": 296.82,
+          "end": 297.36,
+          "probability": 0.9998565912246704
+        },
+        {
+          "word": " And",
+          "start": 297.4,
+          "end": 298.14,
+          "probability": 0.9992364645004272
+        },
+        {
+          "word": " we",
+          "start": 298.14,
+          "end": 298.36,
+          "probability": 0.9999222755432129
+        },
+        {
+          "word": " have",
+          "start": 298.36,
+          "end": 298.56,
+          "probability": 0.9999001026153564
+        },
+        {
+          "word": " conducted",
+          "start": 298.56,
+          "end": 299.2,
+          "probability": 0.9994599223136902
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "seek": 29920,
+      "start": 299.2,
+      "end": 306.34,
+      "text": " 20 nationally represented surveys of Americans over the last five years. We conduct them at",
+      "tokens": [
+        50365,
+        945,
+        27652,
+        10379,
+        22711,
+        295,
+        6280,
+        670,
+        264,
+        1036,
+        1732,
+        924,
+        13,
+        492,
+        6018,
+        552,
+        412,
+        50723
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.06698947548866271,
+      "compression_ratio": 1.5394736842105263,
+      "no_speech_prob": 1.0888697712582718e-12,
+      "words": [
+        {
+          "word": " 20",
+          "start": 299.2,
+          "end": 300.06,
+          "probability": 0.9683994054794312
+        },
+        {
+          "word": " nationally",
+          "start": 300.06,
+          "end": 300.82,
+          "probability": 0.99982088804245
+        },
+        {
+          "word": " represented",
+          "start": 300.82,
+          "end": 301.42,
+          "probability": 0.7622666954994202
+        },
+        {
+          "word": " surveys",
+          "start": 301.42,
+          "end": 302.02,
+          "probability": 0.9986529350280762
+        },
+        {
+          "word": " of",
+          "start": 302.02,
+          "end": 302.98,
+          "probability": 0.9997265934944153
+        },
+        {
+          "word": " Americans",
+          "start": 302.98,
+          "end": 303.76,
+          "probability": 0.9993433356285095
+        },
+        {
+          "word": " over",
+          "start": 303.76,
+          "end": 304.48,
+          "probability": 0.9908466935157776
+        },
+        {
+          "word": " the",
+          "start": 304.48,
+          "end": 304.6,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " last",
+          "start": 304.6,
+          "end": 304.92,
+          "probability": 0.9999409914016724
+        },
+        {
+          "word": " five",
+          "start": 304.92,
+          "end": 305.16,
+          "probability": 0.9979789853096008
+        },
+        {
+          "word": " years.",
+          "start": 305.16,
+          "end": 305.4,
+          "probability": 0.9999886751174927
+        },
+        {
+          "word": " We",
+          "start": 305.54,
+          "end": 305.64,
+          "probability": 0.9997127652168274
+        },
+        {
+          "word": " conduct",
+          "start": 305.64,
+          "end": 306.06,
+          "probability": 0.9972692131996155
+        },
+        {
+          "word": " them",
+          "start": 306.06,
+          "end": 306.22,
+          "probability": 0.9999817609786987
+        },
+        {
+          "word": " at",
+          "start": 306.22,
+          "end": 306.34,
+          "probability": 0.999982476234436
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "seek": 29920,
+      "start": 306.34,
+      "end": 311.42,
+      "text": " the University of Chicago Project on Security and Threats, and we started doing it in the summer of",
+      "tokens": [
+        50723,
+        264,
+        3535,
+        295,
+        9525,
+        9849,
+        322,
+        11164,
+        293,
+        334,
+        620,
+        82,
+        11,
+        293,
+        321,
+        1409,
+        884,
+        309,
+        294,
+        264,
+        4266,
+        295,
+        50977
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.06698947548866271,
+      "compression_ratio": 1.5394736842105263,
+      "no_speech_prob": 1.0888697712582718e-12,
+      "words": [
+        {
+          "word": " the",
+          "start": 306.34,
+          "end": 306.44,
+          "probability": 0.9998225569725037
+        },
+        {
+          "word": " University",
+          "start": 306.44,
+          "end": 306.76,
+          "probability": 0.9996373653411865
+        },
+        {
+          "word": " of",
+          "start": 306.76,
+          "end": 306.96,
+          "probability": 0.9999916553497314
+        },
+        {
+          "word": " Chicago",
+          "start": 306.96,
+          "end": 307.4,
+          "probability": 0.9999252557754517
+        },
+        {
+          "word": " Project",
+          "start": 307.4,
+          "end": 307.92,
+          "probability": 0.5600153207778931
+        },
+        {
+          "word": " on",
+          "start": 307.92,
+          "end": 308.6,
+          "probability": 0.9996019005775452
+        },
+        {
+          "word": " Security",
+          "start": 308.6,
+          "end": 309.06,
+          "probability": 0.7290240526199341
+        },
+        {
+          "word": " and",
+          "start": 309.06,
+          "end": 309.32,
+          "probability": 0.9997636675834656
+        },
+        {
+          "word": " Threats,",
+          "start": 309.32,
+          "end": 309.58,
+          "probability": 0.9878802498181661
+        },
+        {
+          "word": " and",
+          "start": 309.64,
+          "end": 309.7,
+          "probability": 0.9993211030960083
+        },
+        {
+          "word": " we",
+          "start": 309.7,
+          "end": 309.8,
+          "probability": 0.9999200105667114
+        },
+        {
+          "word": " started",
+          "start": 309.8,
+          "end": 310.08,
+          "probability": 0.9999383687973022
+        },
+        {
+          "word": " doing",
+          "start": 310.08,
+          "end": 310.36,
+          "probability": 0.9999620914459229
+        },
+        {
+          "word": " it",
+          "start": 310.36,
+          "end": 310.62,
+          "probability": 0.9999815225601196
+        },
+        {
+          "word": " in",
+          "start": 310.62,
+          "end": 310.82,
+          "probability": 0.9999120235443115
+        },
+        {
+          "word": " the",
+          "start": 310.82,
+          "end": 310.96,
+          "probability": 0.9994359612464905
+        },
+        {
+          "word": " summer",
+          "start": 310.96,
+          "end": 311.24,
+          "probability": 0.9996356964111328
+        },
+        {
+          "word": " of",
+          "start": 311.24,
+          "end": 311.42,
+          "probability": 0.9999817609786987
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "seek": 29920,
+      "start": 311.42,
+      "end": 318.66,
+      "text": " 2021. And then the most recent one was in the end of January of this year. So we understand",
+      "tokens": [
+        50977,
+        7201,
+        13,
+        400,
+        550,
+        264,
+        881,
+        5162,
+        472,
+        390,
+        294,
+        264,
+        917,
+        295,
+        7061,
+        295,
+        341,
+        1064,
+        13,
+        407,
+        321,
+        1223,
+        51341
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.06698947548866271,
+      "compression_ratio": 1.5394736842105263,
+      "no_speech_prob": 1.0888697712582718e-12,
+      "words": [
+        {
+          "word": " 2021.",
+          "start": 311.42,
+          "end": 312.3,
+          "probability": 0.9995774626731873
+        },
+        {
+          "word": " And",
+          "start": 312.58,
+          "end": 313.22,
+          "probability": 0.9985125660896301
+        },
+        {
+          "word": " then",
+          "start": 313.22,
+          "end": 313.44,
+          "probability": 0.9998582601547241
+        },
+        {
+          "word": " the",
+          "start": 313.44,
+          "end": 313.84,
+          "probability": 0.998877227306366
+        },
+        {
+          "word": " most",
+          "start": 313.84,
+          "end": 314.06,
+          "probability": 0.9999334812164307
+        },
+        {
+          "word": " recent",
+          "start": 314.06,
+          "end": 314.38,
+          "probability": 0.999902606010437
+        },
+        {
+          "word": " one",
+          "start": 314.38,
+          "end": 314.62,
+          "probability": 0.9999363422393799
+        },
+        {
+          "word": " was",
+          "start": 314.62,
+          "end": 314.96,
+          "probability": 0.9999274015426636
+        },
+        {
+          "word": " in",
+          "start": 314.96,
+          "end": 315.32,
+          "probability": 0.9998878240585327
+        },
+        {
+          "word": " the",
+          "start": 315.32,
+          "end": 315.9,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " end",
+          "start": 315.9,
+          "end": 316.22,
+          "probability": 0.9999754428863525
+        },
+        {
+          "word": " of",
+          "start": 316.22,
+          "end": 316.32,
+          "probability": 0.9999923706054688
+        },
+        {
+          "word": " January",
+          "start": 316.32,
+          "end": 316.78,
+          "probability": 0.9995989203453064
+        },
+        {
+          "word": " of",
+          "start": 316.78,
+          "end": 317.3,
+          "probability": 0.9996999502182007
+        },
+        {
+          "word": " this",
+          "start": 317.3,
+          "end": 317.54,
+          "probability": 0.999981164932251
+        },
+        {
+          "word": " year.",
+          "start": 317.54,
+          "end": 317.76,
+          "probability": 0.9998917579650879
+        },
+        {
+          "word": " So",
+          "start": 317.9,
+          "end": 317.98,
+          "probability": 0.9966716766357422
+        },
+        {
+          "word": " we",
+          "start": 317.98,
+          "end": 318.18,
+          "probability": 0.9740616083145142
+        },
+        {
+          "word": " understand",
+          "start": 318.18,
+          "end": 318.66,
+          "probability": 0.9999759197235107
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "seek": 29920,
+      "start": 318.66,
+      "end": 324.1,
+      "text": " quite a bit about the attitudes of Americans on political violence.",
+      "tokens": [
+        51341,
+        1596,
+        257,
+        857,
+        466,
+        264,
+        25853,
+        295,
+        6280,
+        322,
+        3905,
+        6270,
+        13,
+        51611
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.06698947548866271,
+      "compression_ratio": 1.5394736842105263,
+      "no_speech_prob": 1.0888697712582718e-12,
+      "words": [
+        {
+          "word": " quite",
+          "start": 318.66,
+          "end": 319.18,
+          "probability": 0.9998844861984253
+        },
+        {
+          "word": " a",
+          "start": 319.18,
+          "end": 319.4,
+          "probability": 0.9999933242797852
+        },
+        {
+          "word": " bit",
+          "start": 319.4,
+          "end": 319.54,
+          "probability": 0.9996180534362793
+        },
+        {
+          "word": " about",
+          "start": 319.54,
+          "end": 320.04,
+          "probability": 0.9997802376747131
+        },
+        {
+          "word": " the",
+          "start": 320.04,
+          "end": 320.66,
+          "probability": 0.999751627445221
+        },
+        {
+          "word": " attitudes",
+          "start": 320.66,
+          "end": 321.22,
+          "probability": 0.9998086094856262
+        },
+        {
+          "word": " of",
+          "start": 321.22,
+          "end": 321.58,
+          "probability": 0.9999650716781616
+        },
+        {
+          "word": " Americans",
+          "start": 321.58,
+          "end": 322.2,
+          "probability": 0.999927282333374
+        },
+        {
+          "word": " on",
+          "start": 322.2,
+          "end": 322.96,
+          "probability": 0.9998646974563599
+        },
+        {
+          "word": " political",
+          "start": 322.96,
+          "end": 323.5,
+          "probability": 0.9998464584350586
+        },
+        {
+          "word": " violence.",
+          "start": 323.5,
+          "end": 324.1,
+          "probability": 0.9999200105667114
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "seek": 32410,
+      "start": 324.1,
+      "end": 333.98,
+      "text": " And just to say very clearly what that data shows, the social acceptance of political violence is up by how much exactly? Lay out what we know.",
+      "tokens": [
+        50365,
+        400,
+        445,
+        281,
+        584,
+        588,
+        4448,
+        437,
+        300,
+        1412,
+        3110,
+        11,
+        264,
+        2093,
+        20351,
+        295,
+        3905,
+        6270,
+        307,
+        493,
+        538,
+        577,
+        709,
+        2293,
+        30,
+        20084,
+        484,
+        437,
+        321,
+        458,
+        13,
+        50861
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05817285605839321,
+      "compression_ratio": 1.6680851063829787,
+      "no_speech_prob": 8.655563787408893e-13,
+      "words": [
+        {
+          "word": " And",
+          "start": 324.1,
+          "end": 324.4,
+          "probability": 0.9821348190307617
+        },
+        {
+          "word": " just",
+          "start": 324.4,
+          "end": 324.62,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " to",
+          "start": 324.62,
+          "end": 324.8,
+          "probability": 0.9999991655349731
+        },
+        {
+          "word": " say",
+          "start": 324.8,
+          "end": 325.0,
+          "probability": 0.9999920129776001
+        },
+        {
+          "word": " very",
+          "start": 325.0,
+          "end": 325.32,
+          "probability": 0.999992847442627
+        },
+        {
+          "word": " clearly",
+          "start": 325.32,
+          "end": 325.8,
+          "probability": 0.9999845027923584
+        },
+        {
+          "word": " what",
+          "start": 325.8,
+          "end": 326.24,
+          "probability": 0.9999115467071533
+        },
+        {
+          "word": " that",
+          "start": 326.24,
+          "end": 326.52,
+          "probability": 0.9999970197677612
+        },
+        {
+          "word": " data",
+          "start": 326.52,
+          "end": 326.82,
+          "probability": 0.9999812841415405
+        },
+        {
+          "word": " shows,",
+          "start": 326.82,
+          "end": 327.48,
+          "probability": 0.9999784231185913
+        },
+        {
+          "word": " the",
+          "start": 327.82,
+          "end": 328.32,
+          "probability": 0.9999428987503052
+        },
+        {
+          "word": " social",
+          "start": 328.32,
+          "end": 328.7,
+          "probability": 0.999864935874939
+        },
+        {
+          "word": " acceptance",
+          "start": 328.7,
+          "end": 329.28,
+          "probability": 0.9999818801879883
+        },
+        {
+          "word": " of",
+          "start": 329.28,
+          "end": 329.54,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " political",
+          "start": 329.54,
+          "end": 329.9,
+          "probability": 0.999968409538269
+        },
+        {
+          "word": " violence",
+          "start": 329.9,
+          "end": 330.36,
+          "probability": 0.9999759197235107
+        },
+        {
+          "word": " is",
+          "start": 330.36,
+          "end": 330.66,
+          "probability": 0.999991774559021
+        },
+        {
+          "word": " up",
+          "start": 330.66,
+          "end": 331.0,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " by",
+          "start": 331.0,
+          "end": 331.4,
+          "probability": 0.9951602816581726
+        },
+        {
+          "word": " how",
+          "start": 331.4,
+          "end": 331.74,
+          "probability": 0.9999653100967407
+        },
+        {
+          "word": " much",
+          "start": 331.74,
+          "end": 332.08,
+          "probability": 0.9999880790710449
+        },
+        {
+          "word": " exactly?",
+          "start": 332.08,
+          "end": 332.48,
+          "probability": 0.998702883720398
+        },
+        {
+          "word": " Lay",
+          "start": 332.64,
+          "end": 332.78,
+          "probability": 0.999148964881897
+        },
+        {
+          "word": " out",
+          "start": 332.78,
+          "end": 333.06,
+          "probability": 0.9976769089698792
+        },
+        {
+          "word": " what",
+          "start": 333.06,
+          "end": 333.6,
+          "probability": 0.9998704195022583
+        },
+        {
+          "word": " we",
+          "start": 333.6,
+          "end": 333.76,
+          "probability": 0.999998927116394
+        },
+        {
+          "word": " know.",
+          "start": 333.76,
+          "end": 333.98,
+          "probability": 0.999992847442627
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "seek": 32410,
+      "start": 334.14,
+      "end": 351.36,
+      "text": " So for most of the years of the Biden administration, so this would be from, say, 2021 to the end of the Biden administration, our surveys found 10 percent of the body politics supported political violence to restore Donald Trump to the presidency.",
+      "tokens": [
+        50861,
+        407,
+        337,
+        881,
+        295,
+        264,
+        924,
+        295,
+        264,
+        9877,
+        7236,
+        11,
+        370,
+        341,
+        576,
+        312,
+        490,
+        11,
+        584,
+        11,
+        7201,
+        281,
+        264,
+        917,
+        295,
+        264,
+        9877,
+        7236,
+        11,
+        527,
+        22711,
+        1352,
+        1266,
+        3043,
+        295,
+        264,
+        1772,
+        7341,
+        8104,
+        3905,
+        6270,
+        281,
+        15227,
+        8632,
+        3899,
+        281,
+        264,
+        26702,
+        13,
+        51733
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.05817285605839321,
+      "compression_ratio": 1.6680851063829787,
+      "no_speech_prob": 8.655563787408893e-13,
+      "words": [
+        {
+          "word": " So",
+          "start": 334.14,
+          "end": 334.64,
+          "probability": 0.9979872703552246
+        },
+        {
+          "word": " for",
+          "start": 334.64,
+          "end": 335.06,
+          "probability": 0.988171398639679
+        },
+        {
+          "word": " most",
+          "start": 335.06,
+          "end": 335.56,
+          "probability": 0.9999879598617554
+        },
+        {
+          "word": " of",
+          "start": 335.56,
+          "end": 335.68,
+          "probability": 0.9999991655349731
+        },
+        {
+          "word": " the",
+          "start": 335.68,
+          "end": 335.76,
+          "probability": 0.9999961853027344
+        },
+        {
+          "word": " years",
+          "start": 335.76,
+          "end": 336.02,
+          "probability": 0.9999618530273438
+        },
+        {
+          "word": " of",
+          "start": 336.02,
+          "end": 336.16,
+          "probability": 0.999997615814209
+        },
+        {
+          "word": " the",
+          "start": 336.16,
+          "end": 336.24,
+          "probability": 0.999988317489624
+        },
+        {
+          "word": " Biden",
+          "start": 336.24,
+          "end": 336.56,
+          "probability": 0.9997949004173279
+        },
+        {
+          "word": " administration,",
+          "start": 336.56,
+          "end": 337.04,
+          "probability": 0.9999045133590698
+        },
+        {
+          "word": " so",
+          "start": 337.3,
+          "end": 337.38,
+          "probability": 0.9999797344207764
+        },
+        {
+          "word": " this",
+          "start": 337.38,
+          "end": 337.56,
+          "probability": 0.9999969005584717
+        },
+        {
+          "word": " would",
+          "start": 337.56,
+          "end": 337.72,
+          "probability": 0.9999902248382568
+        },
+        {
+          "word": " be",
+          "start": 337.72,
+          "end": 337.88,
+          "probability": 0.9999653100967407
+        },
+        {
+          "word": " from,",
+          "start": 337.88,
+          "end": 338.16,
+          "probability": 0.9999693632125854
+        },
+        {
+          "word": " say,",
+          "start": 338.3,
+          "end": 338.38,
+          "probability": 0.9999457597732544
+        },
+        {
+          "word": " 2021",
+          "start": 338.48,
+          "end": 339.26,
+          "probability": 0.9980326294898987
+        },
+        {
+          "word": " to",
+          "start": 339.26,
+          "end": 339.92,
+          "probability": 0.999950647354126
+        },
+        {
+          "word": " the",
+          "start": 339.92,
+          "end": 340.1,
+          "probability": 0.9999983310699463
+        },
+        {
+          "word": " end",
+          "start": 340.1,
+          "end": 340.28,
+          "probability": 0.9999825954437256
+        },
+        {
+          "word": " of",
+          "start": 340.28,
+          "end": 340.38,
+          "probability": 0.999994158744812
+        },
+        {
+          "word": " the",
+          "start": 340.38,
+          "end": 340.46,
+          "probability": 0.9997223019599915
+        },
+        {
+          "word": " Biden",
+          "start": 340.46,
+          "end": 340.76,
+          "probability": 0.9977380037307739
+        },
+        {
+          "word": " administration,",
+          "start": 340.76,
+          "end": 341.44,
+          "probability": 0.9999517202377319
+        },
+        {
+          "word": " our",
+          "start": 341.88,
+          "end": 342.16,
+          "probability": 0.9995100498199463
+        },
+        {
+          "word": " surveys",
+          "start": 342.16,
+          "end": 342.84,
+          "probability": 0.9999525547027588
+        },
+        {
+          "word": " found",
+          "start": 342.84,
+          "end": 343.74,
+          "probability": 0.9999822378158569
+        },
+        {
+          "word": " 10",
+          "start": 343.74,
+          "end": 344.48,
+          "probability": 0.9961375594139099
+        },
+        {
+          "word": " percent",
+          "start": 344.48,
+          "end": 344.94,
+          "probability": 0.9311851859092712
+        },
+        {
+          "word": " of",
+          "start": 344.94,
+          "end": 345.9,
+          "probability": 0.9999891519546509
+        },
+        {
+          "word": " the",
+          "start": 345.9,
+          "end": 346.04,
+          "probability": 0.999087929725647
+        },
+        {
+          "word": " body",
+          "start": 346.04,
+          "end": 346.36,
+          "probability": 0.966989278793335
+        },
+        {
+          "word": " politics",
+          "start": 346.36,
+          "end": 346.96,
+          "probability": 0.9974532723426819
+        },
+        {
+          "word": " supported",
+          "start": 346.96,
+          "end": 347.66,
+          "probability": 0.9993116855621338
+        },
+        {
+          "word": " political",
+          "start": 347.66,
+          "end": 348.12,
+          "probability": 0.9999451637268066
+        },
+        {
+          "word": " violence",
+          "start": 348.12,
+          "end": 348.78,
+          "probability": 0.9999371767044067
+        },
+        {
+          "word": " to",
+          "start": 348.78,
+          "end": 349.06,
+          "probability": 0.9995593428611755
+        },
+        {
+          "word": " restore",
+          "start": 349.06,
+          "end": 349.58,
+          "probability": 0.9998598098754883
+        },
+        {
+          "word": " Donald",
+          "start": 349.58,
+          "end": 349.9,
+          "probability": 0.9999120235443115
+        },
+        {
+          "word": " Trump",
+          "start": 349.9,
+          "end": 350.22,
+          "probability": 0.9999501705169678
+        },
+        {
+          "word": " to",
+          "start": 350.22,
+          "end": 350.74,
+          "probability": 0.9991137385368347
+        },
+        {
+          "word": " the",
+          "start": 350.74,
+          "end": 350.86,
+          "probability": 0.9999772310256958
+        },
+        {
+          "word": " presidency.",
+          "start": 350.86,
+          "end": 351.36,
+          "probability": 0.9999738931655884
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "seek": 35136,
+      "start": 351.36,
+      "end": 356.96,
+      "text": " see. And then we did focus groups and we did further survey research. What do people think",
+      "tokens": [
+        50365,
+        536,
+        13,
+        400,
+        550,
+        321,
+        630,
+        1879,
+        3935,
+        293,
+        321,
+        630,
+        3052,
+        8984,
+        2132,
+        13,
+        708,
+        360,
+        561,
+        519,
+        50646
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13044157543697874,
+      "compression_ratio": 1.2727272727272727,
+      "no_speech_prob": 1.9511811871070206e-12,
+      "words": [
+        {
+          "word": " see.",
+          "start": 351.36,
+          "end": 351.7,
+          "probability": 0.2931593060493469
+        },
+        {
+          "word": " And",
+          "start": 351.86,
+          "end": 352.28,
+          "probability": 0.9766218066215515
+        },
+        {
+          "word": " then",
+          "start": 352.28,
+          "end": 352.42,
+          "probability": 0.9998403787612915
+        },
+        {
+          "word": " we",
+          "start": 352.42,
+          "end": 352.64,
+          "probability": 0.9968191385269165
+        },
+        {
+          "word": " did",
+          "start": 352.64,
+          "end": 352.88,
+          "probability": 0.9999502897262573
+        },
+        {
+          "word": " focus",
+          "start": 352.88,
+          "end": 353.22,
+          "probability": 0.999647855758667
+        },
+        {
+          "word": " groups",
+          "start": 353.22,
+          "end": 353.66,
+          "probability": 0.9999730587005615
+        },
+        {
+          "word": " and",
+          "start": 353.66,
+          "end": 353.86,
+          "probability": 0.8099259734153748
+        },
+        {
+          "word": " we",
+          "start": 353.86,
+          "end": 353.96,
+          "probability": 0.9999030828475952
+        },
+        {
+          "word": " did",
+          "start": 353.96,
+          "end": 354.16,
+          "probability": 0.9999804496765137
+        },
+        {
+          "word": " further",
+          "start": 354.16,
+          "end": 354.6,
+          "probability": 0.9999792575836182
+        },
+        {
+          "word": " survey",
+          "start": 354.6,
+          "end": 355.18,
+          "probability": 0.9998626708984375
+        },
+        {
+          "word": " research.",
+          "start": 355.18,
+          "end": 355.68,
+          "probability": 0.9999266862869263
+        },
+        {
+          "word": " What",
+          "start": 355.68,
+          "end": 356.12,
+          "probability": 0.9997236132621765
+        },
+        {
+          "word": " do",
+          "start": 356.12,
+          "end": 356.2,
+          "probability": 0.9994969367980957
+        },
+        {
+          "word": " people",
+          "start": 356.2,
+          "end": 356.52,
+          "probability": 0.9987233281135559
+        },
+        {
+          "word": " think",
+          "start": 356.52,
+          "end": 356.96,
+          "probability": 0.999921441078186
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "seek": 35136,
+      "start": 356.96,
+      "end": 359.88,
+      "text": " they mean by the use of force? And what we found.",
+      "tokens": [
+        50646,
+        436,
+        914,
+        538,
+        264,
+        764,
+        295,
+        3464,
+        30,
+        400,
+        437,
+        321,
+        1352,
+        13,
+        50796
+      ],
+      "temperature": 0.0,
+      "avg_logprob": -0.13044157543697874,
+      "compression_ratio": 1.2727272727272727,
+      "no_speech_prob": 1.9511811871070206e-12,
+      "words": [
+        {
+          "word": " they",
+          "start": 356.96,
+          "end": 357.16,
+          "probability": 0.9995236396789551
+        },
+        {
+          "word": " mean",
+          "start": 357.16,
+          "end": 357.44,
+          "probability": 0.9999145269393921
+        },
+        {
+          "word": " by",
+          "start": 357.44,
+          "end": 357.68,
+          "probability": 0.9997320771217346
+        },
+        {
+          "word": " the",
+          "start": 357.68,
+          "end": 357.86,
+          "probability": 0.9983391761779785
+        },
+        {
+          "word": " use",
+          "start": 357.86,
+          "end": 358.16,
+          "probability": 0.999278724193573
+        },
+        {
+          "word": " of",
+          "start": 358.16,
+          "end": 358.38,
+          "probability": 0.9991740584373474
+        },
+        {
+          "word": " force?",
+          "start": 358.38,
+          "end": 358.78,
+          "probability": 0.9993799924850464
+        },
+        {
+          "word": " And",
+          "start": 358.96,
+          "end": 359.32,
+          "probability": 0.9985933899879456
+        },
+        {
+          "word": " what",
+          "start": 359.32,
+          "end": 359.46,
+          "probability": 0.9994016885757446
+        },
+        {
+          "word": " we",
+          "start": 359.46,
+          "end": 359.62,
+          "probability": 0.9999183416366577
+        },
+        {
+          "word": " found.",
+          "start": 359.62,
+          "end": 359.88,
+          "probability": 0.999527096748352
+        }
+      ]
+    }
+  ],
+  "language": "en"
+}

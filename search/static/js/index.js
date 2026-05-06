@@ -589,9 +589,16 @@ function applySearchPlaybackRate() {
 function moveToSearchIntervalStart(action, extra = {}) {
     const interval = getActiveSearchInterval();
     if (!interval) return false;
-    // If already at or near interval start, treat as blocked
+    // Show blocked cue since we're constrained by the interval
+    showBlockedNavigationCue();
+    // If already at or near interval start, don't move
     if (Math.abs(audio.currentTime - interval.min) < 0.1) {
-        return false;
+        logNavigationEvent(action + '_already_at_start', audio.currentTime, audio.currentTime, {
+            blocked: true,
+            intervalStart: interval.min,
+            ...extra,
+        });
+        return true;
     }
     setAudioTime(interval.min, action, {
         intervalStart: interval.min,
@@ -838,6 +845,14 @@ function jumpToPreviousSentence() {
         sentenceIndex: targetIndex,
         sentenceStart: target.start,
     }) === null) {
+        // Target sentence is outside interval, move to interval start instead
+        if (moveToSearchIntervalStart('sentence_prev_to_interval_start', {
+            currentTime,
+            targetSentenceStart: target.start,
+        })) {
+            applySearchPlaybackRate();
+            audio.play();
+        }
         return;
     }
     applySearchPlaybackRate();

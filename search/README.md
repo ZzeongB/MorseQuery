@@ -4,7 +4,11 @@
 3. https://www.youtube.com/watch?v=aTftyFboC_M&list=PLu1SSkiDv4IA4teU_EdI7sHKEhTgHdzyI&index=6 1:26~
 4. https://www.youtube.com/watch?v=fxZWtc0mYpQ&list=PL8dPuuaLjXtOPRKzVLY0jJY-uHOH9KVU6&index=7 1:21~
 5. https://www.youtube.com/watch?v=i5tR3csCWYo&list=PL8dPuuaLjXtOAKed_MxxWBNaPno5h3Zs8&index=3 2:03~
-6. https://www.youtube.com/watch?v=2Zvv9VpDQKo&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=1
+6. https://www.youtube.com/watch?v=2Zvv9VpDQKo&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=1 00:55~
+7. https://www.youtube.com/watch?v=bWKZpQSgokg&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=1 00:10~
+8. http://youtube.com/watch?v=mbBOlZgLlik&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=3 1:38~
+9. https://www.youtube.com/watch?v=DnytFXNrv3U&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=4 1:26
+10. https://www.youtube.com/watch?v=-bwY5CdqYAs&list=PLdMrbgYfVl-s16D_iT2BJCJ90pWtTO1A4&index=5 1:04
 
 ## Start time
 1. 1:05

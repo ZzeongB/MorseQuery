@@ -1,5 +1,5 @@
 {
-  "video_id": "6",
+  "video_id": "8",
   "audio_start_time": 0.0,
   "target_window_seconds": 300.0,
   "search_window_end_time": 300.0,
@@ -7,46 +7,46 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "Act",
-      "target_word_time": 10.66,
-      "delay_type": "long",
-      "delay_seconds": 49.34,
+      "target_word": "electorate",
+      "target_word_time": 32.7,
+      "delay_type": "short",
+      "delay_seconds": 27.3,
       "search_start_time": 60.0,
-      "slot_second": 10.0,
+      "slot_second": 50.0,
       "id": 1
     },
     {
-      "target_word": "jurisdictions",
-      "target_word_time": 116.82,
+      "target_word": "exemption",
+      "target_word_time": 116.08,
       "delay_type": "short",
-      "delay_seconds": 3.18,
+      "delay_seconds": 3.92,
       "search_start_time": 120.0,
       "slot_second": 50.0,
       "id": 2
     },
     {
-      "target_word": "election",
-      "target_word_time": 134.6,
-      "delay_type": "long",
-      "delay_seconds": 45.4,
+      "target_word": "insurance",
+      "target_word_time": 179.42,
+      "delay_type": "short",
+      "delay_seconds": 0.58,
       "search_start_time": 180.0,
-      "slot_second": 10.0,
+      "slot_second": 50.0,
       "id": 3
     },
     {
-      "target_word": "state",
-      "target_word_time": 183.0,
+      "target_word": "hospitals",
+      "target_word_time": 191.56,
       "delay_type": "long",
-      "delay_seconds": 57.0,
+      "delay_seconds": 48.44,
       "search_start_time": 240.0,
       "slot_second": 10.0,
       "id": 4
     },
     {
-      "target_word": "congressional",
-      "target_word_time": 291.22,
+      "target_word": "voters",
+      "target_word_time": 293.06,
       "delay_type": "short",
-      "delay_seconds": 8.78,
+      "delay_seconds": 6.94,
       "search_start_time": 300.0,
       "slot_second": 50.0,
       "id": 5
