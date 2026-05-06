@@ -30,3 +30,6 @@ srt/
 
 prev_log/
 quiz_sessions/
+
+.claude/
+.matplotlib/
