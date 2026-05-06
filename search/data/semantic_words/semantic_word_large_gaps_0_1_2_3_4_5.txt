@@ -1,3 +1,0 @@
-1: 1.json gaps > 30s
-  hexapoda (512.719127) -> BIOLOGRAPHY (547.079543) | gap=34.360416
-  dragonfly (580.279543) -> wings (632.019543) | gap=51.740000

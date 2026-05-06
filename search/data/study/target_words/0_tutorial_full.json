@@ -17,9 +17,9 @@
     {
       "target_word": "anxiety",
       "target_word_time": 62.66012834821428,
-      "delay_seconds": 5,
+      "delay_seconds": 6,
       "delay_type": "short",
-      "search_start_time": 67.66012834821427,
+      "search_start_time": 68.66012834821427,
       "id": 2
     },
     {
@@ -33,26 +33,10 @@
     {
       "target_word": "deviant",
       "target_word_time": 74.36012834821427,
-      "delay_seconds": 5,
+      "delay_seconds": 6,
       "delay_type": "short",
-      "search_start_time": 79.36012834821427,
+      "search_start_time": 80.36012834821427,
       "id": 4
-    },
-    {
-      "target_word": "healthy",
-      "target_word_time": 42.457167038690464,
-      "delay_seconds": 43,
-      "delay_type": "long",
-      "search_start_time": 85.45716703869047,
-      "id": 5
-    },
-    {
-      "target_word": "phobic",
-      "target_word_time": 87.66142485119046,
-      "delay_seconds": 3,
-      "delay_type": "short",
-      "search_start_time": 90.66142485119046,
-      "id": 6
     },
     {
       "target_word": "fear",
@@ -60,7 +44,7 @@
       "delay_seconds": 28,
       "delay_type": "long",
       "search_start_time": 94.88012834821427,
-      "id": 7
+      "id": 5
     },
     {
       "target_word": "distressful",
@@ -68,7 +52,7 @@
       "delay_seconds": 25,
       "delay_type": "short",
       "search_start_time": 100.04012834821428,
-      "id": 8
+      "id": 6
     },
     {
       "target_word": "symptoms",
@@ -76,7 +60,7 @@
       "delay_seconds": 52,
       "delay_type": "long",
       "search_start_time": 105.65716703869047,
-      "id": 9
+      "id": 7
     },
     {
       "target_word": "causes",
@@ -84,7 +68,7 @@
       "delay_seconds": 55,
       "delay_type": "short",
       "search_start_time": 109.83716703869047,
-      "id": 10
+      "id": 8
     }
   ]
 }
