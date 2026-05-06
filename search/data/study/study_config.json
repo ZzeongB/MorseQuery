@@ -16,5 +16,17 @@
     "9.mp3",
     "10.mp3"
   ],
-  "features": ["discontinuous", "keyword", "keyword2", "word", "sentence"]
+  "features": ["discontinuous", "keyword", "keyword2", "word", "sentence"],
+  "tutorial_configs": {
+    "0_tutorial_full": {
+      "audio_file": "0.mp3",
+      "display_name": "Tutorial (Full)",
+      "transcript_id": "0_ts_edit"
+    },
+    "0_tutorial_50": {
+      "audio_file": "0.mp3",
+      "display_name": "Tutorial (50초부터)",
+      "transcript_id": "0_ts_edit"
+    }
+  }
 }

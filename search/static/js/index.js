@@ -139,10 +139,11 @@ function getSearchWindowSeconds() {
 function getActiveSearchInterval() {
     if (!studyMode || !taskActive || activeTargetTime === null) return null;
     const playbackBounds = getStudyPlaybackBounds();
-    const minTime = playbackBounds ? playbackBounds.min : 0;
+    // Use navigation_min_time if specified, otherwise fall back to audio_start_time
+    const navigationMin = studyInterruptions?.navigation_min_time ?? playbackBounds?.min ?? 0;
 
     return {
-        min: Math.max(minTime, activeTargetTime - getSearchWindowSeconds()),
+        min: Math.max(navigationMin, activeTargetTime - getSearchWindowSeconds()),
         max: activeTargetTime,
     };
 }
@@ -1014,12 +1015,32 @@ async function loadStudyConfig() {
         });
 
         studyAudio.innerHTML = '<option value="">-- Select Audio --</option>';
+
+        // Add tutorial options first if available
+        if (studyConfig.tutorial_configs) {
+            const tutorialGroup = document.createElement('optgroup');
+            tutorialGroup.label = 'Tutorial';
+            Object.entries(studyConfig.tutorial_configs).forEach(([id, config]) => {
+                const opt = document.createElement('option');
+                opt.value = `tutorial:${id}`;
+                opt.textContent = config.display_name;
+                opt.dataset.audioFile = config.audio_file;
+                opt.dataset.transcriptId = config.transcript_id;
+                tutorialGroup.appendChild(opt);
+            });
+            studyAudio.appendChild(tutorialGroup);
+        }
+
+        // Add regular audio files
+        const audioGroup = document.createElement('optgroup');
+        audioGroup.label = 'Study Audio';
         studyConfig.audio_files.forEach((f) => {
             const opt = document.createElement('option');
             opt.value = f;
             opt.textContent = f;
-            studyAudio.appendChild(opt);
+            audioGroup.appendChild(opt);
         });
+        studyAudio.appendChild(audioGroup);
     } catch (err) {
         console.error('Failed to load study config:', err);
     }
@@ -1126,22 +1147,35 @@ function setAudioTimeFromArrow(targetTime, action, blockedAction, extra = {}) {
 async function startStudySession() {
     const participant = studyParticipant.value.trim();
     const feature = studyFeature.value;
-    const audioFile = studyAudio.value;
+    const audioSelection = studyAudio.value;
 
-    if (!participant || !feature || !audioFile) {
+    if (!participant || !feature || !audioSelection) {
         alert('Please fill in all fields (Participant, Feature, Audio)');
         return;
     }
 
-    const videoId = getVideoIdFromAudioFilename(audioFile);
+    // Check if this is a tutorial selection
+    const isTutorial = audioSelection.startsWith('tutorial:');
+    let actualAudioFile, interruptionId, transcriptId;
 
-    currentFilename = audioFile;
-    audio.src = `/mp3/${audioFile}`;
+    if (isTutorial) {
+        const selectedOption = studyAudio.selectedOptions[0];
+        actualAudioFile = selectedOption.dataset.audioFile;
+        interruptionId = audioSelection.replace('tutorial:', '');
+        transcriptId = selectedOption.dataset.transcriptId;
+    } else {
+        actualAudioFile = audioSelection;
+        interruptionId = getVideoIdFromAudioFilename(audioSelection);
+        transcriptId = interruptionId;
+    }
+
+    currentFilename = actualAudioFile;
+    audio.src = `/mp3/${actualAudioFile}`;
 
     try {
-        const res = await fetch(`/api/study/interruptions/${videoId}`);
+        const res = await fetch(`/api/study/interruptions/${interruptionId}`);
         if (!res.ok) {
-            alert(`Interruptions config not found for ${videoId}`);
+            alert(`Interruptions config not found for ${interruptionId}`);
             return;
         }
         studyInterruptions = await res.json();
@@ -1156,7 +1190,7 @@ async function startStudySession() {
     taskActive = false;
     sessionTasks = [];
     sessionStartTime = Date.now();
-    studyLogBaseName = buildStudyLogBaseName(participant, feature, audioFile, sessionStartTime);
+    studyLogBaseName = buildStudyLogBaseName(participant, feature, audioSelection, sessionStartTime);
     const audioStartTime = studyInterruptions.audio_start_time ?? 0;
     audio.currentTime = audioStartTime;
     resetPlaybackProgressLock(audioStartTime);
@@ -1164,7 +1198,7 @@ async function startStudySession() {
 
     setMode(feature);
 
-    await loadTranscript(videoId);
+    await loadTranscript(transcriptId);
 
     document.body.classList.add('study-active');
     btnStartStudy.style.display = 'none';
@@ -1173,8 +1207,11 @@ async function startStudySession() {
 
     await logStudyEvent('session_start', {
         feature,
-        audio: audioFile,
-        videoId,
+        audio: actualAudioFile,
+        audioSelection,
+        interruptionId,
+        transcriptId,
+        isTutorial,
         audioStartTime,
         playbackEndTime: studyInterruptions.playback_end_time,
         totalTasks: studyInterruptions.interruptions.length,
