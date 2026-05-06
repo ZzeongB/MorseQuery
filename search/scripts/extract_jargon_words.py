@@ -20,32 +20,32 @@ if str(ROOT_DIR) not in sys.path:
 
 SYSTEM_PROMPT = """You classify which candidate words are jargon.
 
-Jargon means domain-specific technical vocabulary that an average general audience
-is less likely to use in everyday conversation.
+Jargon means domain-specific or subject-matter vocabulary that helps anchor
+understanding of a particular topic, field, or discipline.
 
-Prefer:
+Prefer (be inclusive):
 - technical or specialized terminology
 - discipline-specific concepts
 - words whose meaning depends on subject-matter knowledge
 - terms that are useful as subject-matter anchors
+- domain-relevant proper nouns (people, laws, cases, organizations)
+- words that would benefit from a search to understand context
 
-Avoid:
-- common everyday words
-- broad academic words that are not domain-specific by themselves
-- proper nouns unless they are clearly tied to the subject matter
-- ordinary descriptive words that are not meaningfully domain-specific
+Avoid only:
+- very common everyday words (e.g., "good", "thing", "people")
+- generic time/place words (e.g., "today", "here")
 
-Examples of NOT jargon:
-- primary
-- nervous
-- lungs
-- function
-
-Examples of jargon:
+Examples of jargon (include these kinds of words):
 - homeostasis
 - multicellular
-- compartmentalizing
-- specialization
+- federal
+- congressional
+- jurisdiction
+- discrimination
+- conservative
+- legislature
+
+When in doubt, INCLUDE the word.
 
 Return only valid JSON in this format:
 {"jargon_ids": [1, 4, 9]}"""
@@ -264,10 +264,11 @@ def select_jargon_ids(
     prompt = (
         "Candidate words:\n"
         f"{word_list}\n\n"
-        "Keep the bar moderately selective.\n"
+        "Be inclusive - include words that are relevant to the subject matter.\n"
         "Multi-word technical terms are allowed.\n"
-        "Common school-science vocabulary is allowed if it is still meaningfully domain-specific.\n"
-        "Judge from the terms themselves; do not rely on transcript context.\n\n"
+        "Domain-specific vocabulary at any level (basic to advanced) should be included.\n"
+        "Proper nouns tied to the topic should be included.\n"
+        "When in doubt, include the word.\n\n"
         + "\n".join(lines)
     )
     response = client.responses.create(

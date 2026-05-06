@@ -143,55 +143,57 @@ def pick_minute_slot_interruption(
     used_indexes,
     rng: random.Random,
     *,
-    minute_start_time: float,
     search_start_time: float,
-    slot_seconds: list[float],
-    slot_tolerance_seconds: float,
+    forced_delay_type: str,
+    short_delay_mean: float,
+    short_delay_tolerance: float,
+    long_delay_mean: float,
+    long_delay_tolerance: float,
 ):
+    # Determine target delay range based on delay_type
+    if forced_delay_type == "short":
+        delay_min = short_delay_mean - short_delay_tolerance
+        delay_max = short_delay_mean + short_delay_tolerance
+    else:  # long
+        delay_min = long_delay_mean - long_delay_tolerance
+        delay_max = long_delay_mean + long_delay_tolerance
+
+    # Target word must be in range: [search_start_time - delay_max, search_start_time - delay_min]
+    target_time_min = search_start_time - delay_max
+    target_time_max = search_start_time - delay_min
+
     scored_candidates = []
     for idx, item in enumerate(candidates):
         if idx in used_indexes:
             continue
         target_time = float(item["time"])
-        best_slot_second = None
-        best_distance = None
-        for slot_second in slot_seconds:
-            slot_time = minute_start_time + slot_second
-            distance = abs(target_time - slot_time)
-            if distance > slot_tolerance_seconds:
-                continue
-            if best_distance is None or distance < best_distance:
-                best_distance = distance
-                best_slot_second = slot_second
-        if best_slot_second is None or best_distance is None:
+        if target_time < target_time_min or target_time > target_time_max:
             continue
-        scored_candidates.append((best_distance, idx, best_slot_second))
+        # Score by how close to the mean delay
+        delay = search_start_time - target_time
+        if forced_delay_type == "short":
+            distance = abs(delay - short_delay_mean)
+        else:
+            distance = abs(delay - long_delay_mean)
+        scored_candidates.append((distance, idx, target_time))
 
     if not scored_candidates:
-        raise ValueError("Could not find a valid minute-slot interruption")
+        raise ValueError(f"Could not find a valid {forced_delay_type} interruption")
 
     best_distance = min(item[0] for item in scored_candidates)
     closest = [item for item in scored_candidates if item[0] == best_distance]
-    _distance, chosen_idx, chosen_slot_second = rng.choice(closest)
+    _distance, chosen_idx, target_time = rng.choice(closest)
     chosen = candidates[chosen_idx]
-    target_word_time = round(float(chosen["time"]), 2)
+    target_word_time = round(target_time, 2)
     fixed_search_start_time = round(search_start_time, 2)
-    earliest_slot_second = min(slot_seconds)
-    latest_slot_second = max(slot_seconds)
-    if chosen_slot_second == earliest_slot_second:
-        delay_type = "long"
-    elif chosen_slot_second == latest_slot_second:
-        delay_type = "short"
-    else:
-        midpoint = (earliest_slot_second + latest_slot_second) / 2.0
-        delay_type = "long" if chosen_slot_second <= midpoint else "short"
+    delay_seconds = round(fixed_search_start_time - target_word_time, 2)
+
     return chosen_idx, {
         "target_word": chosen["word"],
         "target_word_time": target_word_time,
-        "delay_type": delay_type,
-        "delay_seconds": round(fixed_search_start_time - target_word_time, 2),
+        "delay_type": forced_delay_type,
+        "delay_seconds": delay_seconds,
         "search_start_time": fixed_search_start_time,
-        "slot_second": chosen_slot_second,
     }
 
 
@@ -257,35 +259,142 @@ def generate_minute_slot_interruptions(
     *,
     audio_start_time: float,
     target_window_seconds: float,
-    slot_seconds: list[float],
-    slot_tolerance_seconds: float,
     allow_partial: bool,
+    long_count: int = 3,
+    short_count: int = 3,
+    short_delay_mean: float = 10.0,
+    short_delay_tolerance: float = 5.0,
+    long_delay_mean: float = 50.0,
+    long_delay_tolerance: float = 5.0,
 ):
-    used_indexes = set()
-    interruptions = []
     minute_count = max(1, math.floor(target_window_seconds / 60.0))
+    total_count = long_count + short_count
 
+    if minute_count != total_count and not allow_partial:
+        raise ValueError(
+            f"minute_count ({minute_count}) must equal long_count + short_count ({total_count})"
+        )
+
+    # Step 1: Build candidate sets for each minute and delay type
+    short_min_delay = short_delay_mean - short_delay_tolerance
+    short_max_delay = short_delay_mean + short_delay_tolerance
+    long_min_delay = long_delay_mean - long_delay_tolerance
+    long_max_delay = long_delay_mean + long_delay_tolerance
+
+    # For each minute, collect eligible candidates for long and short
+    minute_candidates = []  # list of (minute_idx, search_start_time, long_candidates, short_candidates)
     for minute_idx in range(minute_count):
-        minute_start_time = audio_start_time + minute_idx * 60.0
         search_start_time = audio_start_time + (minute_idx + 1) * 60.0
-        try:
-            chosen_idx, interruption = pick_minute_slot_interruption(
-                candidates,
-                used_indexes,
-                rng,
-                minute_start_time=minute_start_time,
-                search_start_time=search_start_time,
-                slot_seconds=slot_seconds,
-                slot_tolerance_seconds=slot_tolerance_seconds,
-            )
-        except ValueError:
-            if not allow_partial:
-                raise ValueError(
-                    f"Could not find a valid interruption for minute {minute_idx + 1}"
-                ) from None
-            continue
+
+        long_cands = []
+        short_cands = []
+        for idx, item in enumerate(candidates):
+            target_time = float(item["time"])
+            delay = search_start_time - target_time
+
+            # Check long eligibility
+            if long_min_delay <= delay <= long_max_delay:
+                distance = abs(delay - long_delay_mean)
+                long_cands.append((distance, idx, target_time, delay))
+
+            # Check short eligibility
+            if short_min_delay <= delay <= short_max_delay:
+                distance = abs(delay - short_delay_mean)
+                short_cands.append((distance, idx, target_time, delay))
+
+        minute_candidates.append({
+            "minute_idx": minute_idx,
+            "search_start_time": search_start_time,
+            "long": long_cands,
+            "short": short_cands,
+        })
+
+    # Step 2: Greedy selection with priority for constrained minutes
+    # If a minute only has candidates for one type, assign that type first
+    used_indexes = set()
+    used_minutes = set()
+    interruptions = []
+    long_selected = 0
+    short_selected = 0
+
+    def pick_best_candidate(mc, delay_type):
+        available = [c for c in mc[delay_type] if c[1] not in used_indexes]
+        if not available:
+            return None
+        return min(available, key=lambda c: c[0])
+
+    def add_interruption(mc, delay_type, candidate):
+        nonlocal long_selected, short_selected
+        _distance, chosen_idx, target_time, delay = candidate
         used_indexes.add(chosen_idx)
-        interruptions.append(interruption)
+        used_minutes.add(mc["minute_idx"])
+        if delay_type == "long":
+            long_selected += 1
+        else:
+            short_selected += 1
+        chosen = candidates[chosen_idx]
+        interruptions.append({
+            "target_word": chosen["word"],
+            "target_word_time": round(target_time, 2),
+            "delay_type": delay_type,
+            "delay_seconds": round(delay, 2),
+            "search_start_time": round(mc["search_start_time"], 2),
+        })
+
+    # Phase 1: Assign minutes that only have one type available
+    for mc in minute_candidates:
+        if mc["minute_idx"] in used_minutes:
+            continue
+        has_long = any(c[1] not in used_indexes for c in mc["long"])
+        has_short = any(c[1] not in used_indexes for c in mc["short"])
+
+        if has_long and not has_short and long_selected < long_count:
+            # Only long available - must use long
+            candidate = pick_best_candidate(mc, "long")
+            if candidate:
+                add_interruption(mc, "long", candidate)
+        elif has_short and not has_long and short_selected < short_count:
+            # Only short available - must use short
+            candidate = pick_best_candidate(mc, "short")
+            if candidate:
+                add_interruption(mc, "short", candidate)
+
+    # Phase 2: Fill remaining from flexible minutes (have both types)
+    # Prioritize by scarcity of the needed type
+    remaining_long = long_count - long_selected
+    remaining_short = short_count - short_selected
+
+    flexible_minutes = [
+        mc for mc in minute_candidates
+        if mc["minute_idx"] not in used_minutes
+        and any(c[1] not in used_indexes for c in mc["long"])
+        and any(c[1] not in used_indexes for c in mc["short"])
+    ]
+
+    # Assign longs first if more longs needed, otherwise shorts first
+    if remaining_long >= remaining_short:
+        order = [("long", remaining_long), ("short", remaining_short)]
+    else:
+        order = [("short", remaining_short), ("long", remaining_long)]
+
+    for delay_type, needed in order:
+        sorted_minutes = sorted(
+            [mc for mc in flexible_minutes if mc["minute_idx"] not in used_minutes],
+            key=lambda m: len([c for c in m[delay_type] if c[1] not in used_indexes])
+        )
+        for mc in sorted_minutes:
+            if (delay_type == "long" and long_selected >= long_count) or \
+               (delay_type == "short" and short_selected >= short_count):
+                break
+            candidate = pick_best_candidate(mc, delay_type)
+            if candidate:
+                add_interruption(mc, delay_type, candidate)
+
+    if not allow_partial:
+        if long_selected < long_count:
+            raise ValueError(f"Could only find {long_selected}/{long_count} long interruptions")
+        if short_selected < short_count:
+            raise ValueError(f"Could only find {short_selected}/{short_count} short interruptions")
 
     interruptions.sort(key=lambda item: item["target_word_time"])
     for idx, interruption in enumerate(interruptions, start=1):
@@ -336,20 +445,26 @@ def main():
     parser.add_argument(
         "--short-mean",
         type=float,
-        default=15.0,
-        help="Short delay Gaussian mean in seconds",
+        default=10.0,
+        help="Short delay mean in seconds",
     )
     parser.add_argument(
         "--long-mean",
         type=float,
         default=50.0,
-        help="Long delay Gaussian mean in seconds",
+        help="Long delay mean in seconds",
     )
     parser.add_argument(
         "--delay-sigma",
         type=float,
         default=5.0,
-        help="Delay Gaussian sigma in seconds",
+        help="Delay Gaussian sigma in seconds (for gaussian_delay mode)",
+    )
+    parser.add_argument(
+        "--delay-tolerance",
+        type=float,
+        default=5.0,
+        help="Delay tolerance in seconds (for minute_slots mode): delay = mean ± tolerance",
     )
     parser.add_argument(
         "--min-search-offset-seconds",
@@ -393,21 +508,15 @@ def main():
         help="How to select target words from jargon candidates.",
     )
     parser.add_argument(
-        "--slot-seconds",
-        default="10,50",
-        help="Comma-separated second marks within each minute for minute_slots mode.",
-    )
-    parser.add_argument(
-        "--slot-tolerance-seconds",
-        type=float,
-        default=5.0,
-        help="Allowed +/- window around each slot second for minute_slots mode.",
-    )
-    parser.add_argument(
         "--search-window-seconds",
         type=float,
         default=60.0,
         help="Search/navigation window size exposed to the study UI.",
+    )
+    parser.add_argument(
+        "--strip-video-suffix",
+        default=None,
+        help="Suffix to strip from video_id for output filename (e.g., '.zero').",
     )
     args = parser.parse_args()
 
@@ -421,9 +530,6 @@ def main():
         audio_windows.get("default_target_window_seconds", 300)
     )
     video_configs = audio_windows.get("videos", {})
-    slot_seconds = [
-        float(item.strip()) for item in args.slot_seconds.split(",") if item.strip()
-    ]
 
     keyword_paths = sorted(keywords_dir.glob(f"*{args.keywords_suffix}"))
     if args.stems:
@@ -449,9 +555,13 @@ def main():
                 rng,
                 audio_start_time=audio_start_time,
                 target_window_seconds=target_window_seconds,
-                slot_seconds=slot_seconds,
-                slot_tolerance_seconds=args.slot_tolerance_seconds,
                 allow_partial=args.allow_partial,
+                long_count=args.long_count,
+                short_count=args.short_count,
+                short_delay_mean=args.short_mean,
+                short_delay_tolerance=args.delay_tolerance,
+                long_delay_mean=args.long_mean,
+                long_delay_tolerance=args.delay_tolerance,
             )
         else:
             interruptions, search_window_end_time = generate_interruptions(
@@ -470,9 +580,13 @@ def main():
                 allow_partial=args.allow_partial,
             )
 
-        output_path = output_dir / f"{video_id}.json"
+        output_video_id = video_id
+        if args.strip_video_suffix and video_id.endswith(args.strip_video_suffix):
+            output_video_id = video_id[: -len(args.strip_video_suffix)]
+
+        output_path = output_dir / f"{output_video_id}.json"
         payload = {
-            "video_id": video_id,
+            "video_id": output_video_id,
             "audio_start_time": audio_start_time,
             "target_window_seconds": target_window_seconds,
             "search_window_end_time": search_window_end_time,
