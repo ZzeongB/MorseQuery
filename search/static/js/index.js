@@ -120,8 +120,13 @@ function clampToPlayedTime(targetTime) {
 function getStudyPlaybackBounds() {
     if (!studyMode || !studyInterruptions) return null;
 
+    // When task is active and navigation_min_time is set, allow navigating before audio_start_time
+    const minTime = taskActive && studyInterruptions.navigation_min_time !== undefined
+        ? studyInterruptions.navigation_min_time
+        : studyInterruptions.audio_start_time ?? 0;
+
     return {
-        min: studyInterruptions.audio_start_time ?? 0,
+        min: minTime,
         max: studyInterruptions.playback_end_time ?? Infinity,
     };
 }

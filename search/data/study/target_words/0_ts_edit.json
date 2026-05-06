@@ -23,7 +23,7 @@
     },
     {
       "target_word": "phobic",
-      "target_word_time":  87.66142485119046,
+      "target_word_time": 87.66142485119046,
       "delay_type": "short",
       "delay_seconds": 12,
       "search_start_time": 99.66142485119046,
@@ -34,7 +34,7 @@
       "target_word_time": 62.66012834821428,
       "delay_type": "long",
       "delay_seconds": 48,
-      "search_start_time": 110.66012834821428,
+      "search_start_time": 110.66012834821429,
       "id": 4
     },
     {
