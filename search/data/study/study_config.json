@@ -25,7 +25,7 @@
     },
     "0_tutorial_50": {
       "audio_file": "0.mp3",
-      "display_name": "Tutorial (50초부터)",
+      "display_name": "Tutorial (50sec)",
       "transcript_id": "0_ts_edit"
     }
   }
