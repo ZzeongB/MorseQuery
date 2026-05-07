@@ -9,7 +9,10 @@
       "Bash(ls:*)",
       "Bash(grep:*)",
       "Bash(ffprobe:*)",
-      "Bash(ffmpeg:*)"
+      "Bash(ffmpeg:*)",
+      "mcp__ide__executeCode",
+      "Bash(done)",
+      "Bash(curl:*)"
     ]
   }
 }
