@@ -1,0 +1,16 @@
+condition,word_search_type,n_trials,n_success,n_failure,success_rate,mean_word_search_time_sec
+discontinuous,all,6,6,0,1.0,18.645833333333332
+discontinuous,long,3,3,0,1.0,15.748
+discontinuous,short,3,3,0,1.0,21.543666666666667
+keyword,all,6,6,0,1.0,17.860333333333333
+keyword,long,3,3,0,1.0,26.989
+keyword,short,3,3,0,1.0,8.731666666666667
+keyword2,all,6,5,1,0.8333333333333334,26.706
+keyword2,long,3,3,0,1.0,40.181999999999995
+keyword2,short,3,2,1,0.6666666666666666,6.492
+sentence,all,6,6,0,1.0,21.25216666666667
+sentence,long,3,3,0,1.0,22.139333333333337
+sentence,short,3,3,0,1.0,20.365
+word,all,6,4,2,0.6666666666666666,20.235
+word,long,3,1,2,0.3333333333333333,58.924
+word,short,3,3,0,1.0,7.338666666666666
