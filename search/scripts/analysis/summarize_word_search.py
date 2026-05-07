@@ -2,9 +2,9 @@
 """Summarize word search outcomes from study logs.
 
 Usage:
-    python scripts/summarize_word_search.py           # All participants aggregated
-    python scripts/summarize_word_search.py --id p0   # Only participant p0
-    python scripts/summarize_word_search.py --id all  # Per-participant + aggregate
+    python scripts/analysis/summarize_word_search.py           # All participants aggregated
+    python scripts/analysis/summarize_word_search.py --id p0   # Only participant p0
+    python scripts/analysis/summarize_word_search.py --id all  # Per-participant + aggregate
 """
 
 from __future__ import annotations

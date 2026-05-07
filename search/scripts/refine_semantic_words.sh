@@ -12,7 +12,7 @@ else
 fi
 
 for stem in "${stems[@]}"; do
-  "$PYTHON_BIN" "$ROOT_DIR/scripts/filter_semantic_words_constraints.py" \
+  "$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/filter_semantic_words_constraints.py" \
     --semantic-json "$ROOT_DIR/data/semantic_words/${stem}.json" \
     --transcript-json "$ROOT_DIR/data/transcripts/${stem}.json" \
     --min-word-gap 3 \

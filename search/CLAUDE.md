@@ -19,23 +19,23 @@ python app.py    # http://localhost:5003
 ### Data Processing Scripts
 ```bash
 # Transcribe MP3 files with Whisper
-python scripts/transcribe_mp3_with_whisper.py
+python scripts/study_data/transcribe_mp3_with_whisper.py
 
 # Extract semantic keywords (GPT-based, pipeline 1)
-python scripts/extract_semantic_words.py
+python scripts/study_data/extract_semantic_words.py
 
 # Extract semantic keywords (pipeline 2)
-python scripts/build_semantic_words2.py
+python scripts/study_data/build_semantic_words2.py
 
 # Extract jargon/technical terms
-python scripts/extract_jargon_words.py
+python scripts/study_data/extract_jargon_words.py
 
 # Generate target words for study interruptions
-python scripts/generate_target_words.py
-python scripts/build_target_word_pipeline.py
+python scripts/study_data/generate_target_words.py
+python scripts/study_data/build_target_word_pipeline.py
 
 # Generate quiz questions
-python scripts/generate_true_false_quiz.py
+python scripts/study_data/generate_true_false_quiz.py
 ```
 
 ### Dependencies
@@ -89,7 +89,7 @@ data/
 3. Prioritize: words not in lexicon (-1) > low frequency (< 3.0)
 4. Return top-K rarest words
 
-**GPT-Based** (scripts/extract_semantic_words.py):
+**GPT-Based** (scripts/study_data/extract_semantic_words.py):
 - Sends context to GPT with prompts from `scripts/prompts/`
 - Returns semantic keywords with descriptions and timestamps
 

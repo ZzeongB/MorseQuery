@@ -11,14 +11,14 @@ else
   stems=("$@")
 fi
 
-"$PYTHON_BIN" "$ROOT_DIR/scripts/generate_target_words.py" \
+"$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/generate_target_words.py" \
   --keywords-dir "$ROOT_DIR/data/semantic_words" \
   --keywords-suffix ".zero.jargon.json" \
   --audio-windows "$ROOT_DIR/data/study/audio_windows.json" \
   --output-dir "$ROOT_DIR/data/study/target_words" \
   --stems "${stems[@]}"
 
-"$PYTHON_BIN" "$ROOT_DIR/scripts/build_semantic_words2.py" \
+"$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/build_semantic_words2.py" \
   --semantic-dir "$ROOT_DIR/data/semantic_words" \
   --target-dir "$ROOT_DIR/data/study/target_words" \
   --output-dir "$ROOT_DIR/data/semantic_words2" \
