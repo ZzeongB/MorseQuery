@@ -26,6 +26,7 @@ from config import (
 
 app = Flask(__name__)
 TERM_RE = re.compile(r"[a-z0-9']+")
+MERGED_WORD_MIN_DURATION_SECONDS = 2.0
 
 
 def _slugify_filename_part(value: str, default: str = "unknown") -> str:
@@ -369,7 +370,9 @@ def load_or_create_sentences(video_id: str, segments: list[dict]) -> list[dict]:
     return sentences
 
 
-def merge_words_min_duration(words: list[dict], min_duration: float = 1.0) -> list[dict]:
+def merge_words_min_duration(
+    words: list[dict], min_duration: float = MERGED_WORD_MIN_DURATION_SECONDS
+) -> list[dict]:
     """Merge words from the end so each group has duration >= min_duration."""
     if not words:
         return []
@@ -421,7 +424,9 @@ def build_merged_words(segments: list[dict]) -> list[dict]:
             })
 
     all_words.sort(key=lambda x: x["start"])
-    return merge_words_min_duration(all_words, min_duration=1.0)
+    return merge_words_min_duration(
+        all_words, min_duration=MERGED_WORD_MIN_DURATION_SECONDS
+    )
 
 
 def load_or_create_merged_words(video_id: str, segments: list[dict]) -> list[dict]:
@@ -431,11 +436,24 @@ def load_or_create_merged_words(video_id: str, segments: list[dict]) -> list[dic
 
     if words_path.exists():
         with open(words_path) as f:
-            return json.load(f)
+            cached = json.load(f)
+        if (
+            isinstance(cached, dict)
+            and cached.get("min_duration_seconds") == MERGED_WORD_MIN_DURATION_SECONDS
+            and isinstance(cached.get("items"), list)
+        ):
+            return cached["items"]
 
     merged_words = build_merged_words(segments)
     with open(words_path, "w") as f:
-        json.dump(merged_words, f, indent=2)
+        json.dump(
+            {
+                "min_duration_seconds": MERGED_WORD_MIN_DURATION_SECONDS,
+                "items": merged_words,
+            },
+            f,
+            indent=2,
+        )
 
     return merged_words
 

@@ -2,56 +2,56 @@
   "video_id": "8",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 222.71,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
-    {
-      "target_word": "dollars",
-      "target_word_time": 52.14,
-      "delay_type": "short",
-      "delay_seconds": 7.86,
-      "search_start_time": 60.0,
-      "id": 1
-    },
     {
       "target_word": "wealth",
       "target_word_time": 109.72,
       "delay_type": "short",
-      "delay_seconds": 10.28,
-      "search_start_time": 120.0,
+      "delay_seconds": 11.15,
+      "search_start_time": 120.87,
+      "id": 1
+    },
+    {
+      "target_word": "measure",
+      "target_word_time": 67.98,
+      "delay_type": "long",
+      "delay_seconds": 55.05,
+      "search_start_time": 123.03,
       "id": 2
     },
     {
-      "target_word": "revenue",
-      "target_word_time": 120.04,
-      "delay_type": "long",
-      "delay_seconds": 59.96,
-      "search_start_time": 180.0,
+      "target_word": "residential",
+      "target_word_time": 112.28,
+      "delay_type": "short",
+      "delay_seconds": 11.53,
+      "search_start_time": 123.81,
       "id": 3
     },
     {
-      "target_word": "hospitals",
-      "target_word_time": 191.56,
+      "target_word": "net",
+      "target_word_time": 75.34,
       "delay_type": "long",
-      "delay_seconds": 48.44,
-      "search_start_time": 240.0,
+      "delay_seconds": 60.78,
+      "search_start_time": 136.12,
       "id": 4
     },
     {
-      "target_word": "management",
-      "target_word_time": 244.34,
-      "delay_type": "long",
-      "delay_seconds": 55.66,
-      "search_start_time": 300.0,
+      "target_word": "Californians",
+      "target_word_time": 198.74,
+      "delay_type": "short",
+      "delay_seconds": 11.95,
+      "search_start_time": 210.69,
       "id": 5
     },
     {
-      "target_word": "President",
-      "target_word_time": 351.22,
-      "delay_type": "short",
-      "delay_seconds": 8.78,
-      "search_start_time": 360.0,
+      "target_word": "subsidies",
+      "target_word_time": 176.9,
+      "delay_type": "long",
+      "delay_seconds": 45.81,
+      "search_start_time": 222.71,
       "id": 6
     }
   ]

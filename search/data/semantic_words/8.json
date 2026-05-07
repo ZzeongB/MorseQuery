@@ -8,10 +8,6 @@
     "time": 9.28
   },
   {
-    "word": "billionaires",
-    "time": 10.7
-  },
-  {
     "word": "signatures",
     "time": 12.26
   },
@@ -20,16 +16,8 @@
     "time": 14.44
   },
   {
-    "word": "November",
-    "time": 16.1
-  },
-  {
     "word": "anxiety",
     "time": 25.22
-  },
-  {
-    "word": "economic",
-    "time": 26.48
   },
   {
     "word": "affordability",
@@ -37,18 +25,11 @@
   },
   {
     "word": "electorate",
-    "time": 32.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "time": 32.7
   },
   {
     "word": "angry",
     "time": 35.36
-  },
-  {
-    "word": "cuts",
-    "time": 37.2
   },
   {
     "word": "favoring",
@@ -67,28 +48,16 @@
     "time": 47.64
   },
   {
-    "word": "billionaires",
-    "time": 49.28
-  },
-  {
     "word": "millions",
     "time": 51.54
-  },
-  {
-    "word": "fight",
-    "time": 52.84
   },
   {
     "word": "scope",
     "time": 54.62
   },
   {
-    "word": "structure",
-    "time": 56.4
-  },
-  {
-    "word": "unusual",
-    "time": 58.14
+    "word": "tax",
+    "time": 57.28
   },
   {
     "word": "firestorm",
@@ -103,8 +72,8 @@
     "time": 67.98
   },
   {
-    "word": "tax",
-    "time": 73.12
+    "word": "5%",
+    "time": 71.86
   },
   {
     "word": "net",
@@ -115,10 +84,6 @@
     "time": 77.92
   },
   {
-    "word": "California",
-    "time": 79.0
-  },
-  {
     "word": "January",
     "time": 80.84
   },
@@ -127,12 +92,8 @@
     "time": 83.64
   },
   {
-    "word": "fund",
-    "time": 86.54
-  },
-  {
-    "word": "state",
-    "time": 87.78
+    "word": "special",
+    "time": 86.02
   },
   {
     "word": "health",
@@ -141,10 +102,6 @@
   {
     "word": "unusual",
     "time": 93.96
-  },
-  {
-    "word": "tax",
-    "time": 95.12
   },
   {
     "word": "assets",
@@ -159,16 +116,8 @@
     "time": 101.72
   },
   {
-    "word": "jewelry",
-    "time": 103.1
-  },
-  {
     "word": "cars",
     "time": 104.84
-  },
-  {
-    "word": "paintings",
-    "time": 106.72
   },
   {
     "word": "wealth",
@@ -187,16 +136,8 @@
     "time": 118.68
   },
   {
-    "word": "revenue",
-    "time": 120.04
-  },
-  {
-    "word": "fund",
-    "time": 123.14
-  },
-  {
-    "word": "money",
-    "time": 124.18
+    "word": "special",
+    "time": 122.6
   },
   {
     "word": "purpose",
@@ -207,44 +148,28 @@
     "time": 130.4
   },
   {
-    "word": "dollars",
-    "time": 130.72
-  },
-  {
-    "word": "state",
-    "time": 131.66
-  },
-  {
     "word": "general",
     "time": 133.8
   },
   {
-    "word": "elected",
-    "time": 135.5
+    "word": "leaders",
+    "time": 136.26
   },
   {
-    "word": "state",
-    "time": 137.46
+    "word": "requiring",
+    "time": 140.86
   },
   {
-    "word": "health",
-    "time": 146.12
+    "word": "specifically",
+    "time": 145.02
   },
   {
     "word": "money",
     "time": 151.62
   },
   {
-    "word": "health",
-    "time": 153.34
-  },
-  {
     "word": "supporters",
     "time": 156.68
-  },
-  {
-    "word": "tax",
-    "time": 157.8
   },
   {
     "word": "funding",
@@ -259,40 +184,28 @@
     "time": 166.58
   },
   {
-    "word": "bill",
-    "time": 168.34
-  },
-  {
     "word": "cuts",
     "time": 169.42
   },
   {
-    "word": "bill",
-    "time": 170.62
+    "word": "year",
+    "time": 172.02
   },
   {
     "word": "Medicaid",
     "time": 174.16
   },
   {
-    "word": "Obamacare",
-    "time": 175.62
-  },
-  {
     "word": "subsidies",
     "time": 176.9
   },
   {
-    "word": "insurance",
-    "time": 179.42
+    "word": "health",
+    "time": 178.98
   },
   {
     "word": "money",
     "time": 182.26
-  },
-  {
-    "word": "health",
-    "time": 183.4
   },
   {
     "word": "supporters",
@@ -307,8 +220,8 @@
     "time": 191.56
   },
   {
-    "word": "emergency",
-    "time": 193.14
+    "word": "rooms",
+    "time": 193.6
   },
   {
     "word": "health",
@@ -327,10 +240,6 @@
     "time": 208.56
   },
   {
-    "word": "initiative",
-    "time": 209.76
-  },
-  {
     "word": "taxing",
     "time": 211.36
   },
@@ -343,24 +252,16 @@
     "time": 219.44
   },
   {
-    "word": "money",
-    "time": 223.88
+    "word": "90%",
+    "time": 222.66
   },
   {
     "word": "purpose",
     "time": 225.88
   },
   {
-    "word": "health",
-    "time": 227.0
-  },
-  {
     "word": "state",
     "time": 230.96
-  },
-  {
-    "word": "billionaires",
-    "time": 232.74
   },
   {
     "word": "state",
@@ -371,20 +272,16 @@
     "time": 236.32
   },
   {
-    "word": "management",
-    "time": 244.34
-  },
-  {
-    "word": "experts",
-    "time": 245.52
+    "word": "wealth",
+    "time": 243.94
   },
   {
     "word": "California",
     "time": 262.04
   },
   {
-    "word": "signatures",
-    "time": 266.78
+    "word": "5%",
+    "time": 265.9
   },
   {
     "word": "petition",
@@ -399,8 +296,8 @@
     "time": 277.74
   },
   {
-    "word": "grocery",
-    "time": 279.32
+    "word": "stores",
+    "time": 279.74
   },
   {
     "word": "taxing",
@@ -419,28 +316,16 @@
     "time": 295.72
   },
   {
-    "word": "California",
-    "time": 296.96
-  },
-  {
     "word": "support",
     "time": 301.9
   },
   {
-    "word": "public",
-    "time": 303.58
-  },
-  {
-    "word": "Democrats",
-    "time": 306.16
+    "word": "high",
+    "time": 305.42
   },
   {
     "word": "unions",
     "time": 310.98
-  },
-  {
-    "word": "sidelines",
-    "time": 312.76
   },
   {
     "word": "tax",
@@ -451,64 +336,36 @@
     "time": 327.34
   },
   {
-    "word": "SEIU-UHW",
-    "time": 328.98
-  },
-  {
     "word": "Service",
     "time": 331.76
-  },
-  {
-    "word": "International",
-    "time": 333.1
   },
   {
     "word": "United",
     "time": 334.56
   },
   {
-    "word": "West",
-    "time": 335.84
-  },
-  {
     "word": "union",
     "time": 338.88
-  },
-  {
-    "word": "hospital",
-    "time": 340.16
   },
   {
     "word": "Workers",
     "time": 341.44
   },
   {
-    "word": "janitors",
-    "time": 342.54
-  },
-  {
     "word": "cooks",
     "time": 343.66
-  },
-  {
-    "word": "technicians",
-    "time": 345.24
   },
   {
     "word": "Medicaid",
     "time": 349.56
   },
   {
-    "word": "President",
-    "time": 351.22
+    "word": "Trump",
+    "time": 351.84
   },
   {
     "word": "closures",
     "time": 355.78
-  },
-  {
-    "word": "ER",
-    "time": 357.06
   },
   {
     "word": "hospitals",

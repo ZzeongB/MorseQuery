@@ -14,22 +14,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "murder",
-    "time": 7.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "representative",
-    "time": 8.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "attack",
-    "time": 13.54,
+    "word": "politically",
+    "time": 12.28,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -42,15 +28,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Pennsylvania",
-    "time": 16.82,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Shapiro",
-    "time": 19.04,
+    "word": "residence",
+    "time": 18.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -63,46 +42,11 @@
     "duplicate_count_3m": 1
   },
   {
-    "word": "Correspondent",
-    "time": 26.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Center",
-    "time": 27.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Secret",
-    "time": 27.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Service",
-    "time": 27.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "custody",
     "time": 29.26,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
-  },
-  {
-    "word": "Times",
-    "time": 36.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2
   },
   {
     "word": "manifesto",
@@ -112,22 +56,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "administration",
-    "time": 40.92,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
     "word": "University",
     "time": 53.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Chicago",
-    "time": 54.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -140,50 +70,15 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "2001",
-    "time": 64.34,
+    "word": "administration",
+    "time": 105.68,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "2024",
-    "time": 65.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "right",
-    "time": 69.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "left",
-    "time": 70.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Trump",
-    "time": 105.48,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 1
   },
   {
     "word": "theory",
     "time": 114.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "democracy",
-    "time": 128.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -196,36 +91,15 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "foreign",
-    "time": 132.04,
+    "word": "fringe",
+    "time": 162.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "country",
-    "time": 132.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "America",
-    "time": 145.24,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "militia",
-    "time": 164.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "psychosocial",
-    "time": 177.62,
+    "word": "social",
+    "time": 187.42,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -238,29 +112,29 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "populism",
-    "time": 210.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "Democratic",
-    "time": 238.32,
+    "word": "era",
+    "time": 209.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "Charlie",
-    "time": 243.06,
+    "word": "debate",
+    "time": 223.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "ICE",
-    "time": 249.3,
+    "word": "left",
+    "time": 225.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "killing",
+    "time": 248.1,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -287,29 +161,15 @@
     "duplicate_count_3m": 1
   },
   {
-    "word": "implicated",
-    "time": 277.46,
+    "word": "right",
+    "time": 296.82,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Project",
-    "time": 307.4,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 1
   },
   {
     "word": "Security",
     "time": 308.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Threats",
-    "time": 309.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -329,29 +189,15 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "politics",
-    "time": 346.36,
+    "word": "percent",
+    "time": 344.48,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "Donald",
-    "time": 349.58,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "presidency",
-    "time": 350.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "groups",
-    "time": 353.22,
+    "word": "Trump",
+    "time": 349.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0

@@ -12,12 +12,8 @@
     "time": 5.8
   },
   {
-    "word": "Act",
-    "time": 10.66
-  },
-  {
-    "word": "legislative",
-    "time": 14.2
+    "word": "Voting",
+    "time": 10.16
   },
   {
     "word": "civil",
@@ -40,16 +36,16 @@
     "time": 30.14
   },
   {
-    "word": "grandfather",
-    "time": 32.1
+    "word": "clauses",
+    "time": 32.6
   },
   {
     "word": "black",
     "time": 34.82
   },
   {
-    "word": "Voting",
-    "time": 36.78
+    "word": "booth",
+    "time": 37.02
   },
   {
     "word": "minority",
@@ -72,12 +68,8 @@
     "time": 53.44
   },
   {
-    "word": "voter",
+    "word": "Voter",
     "time": 56.38
-  },
-  {
-    "word": "voter",
-    "time": 57.56
   },
   {
     "word": "Southern",
@@ -96,16 +88,12 @@
     "time": 75.62
   },
   {
-    "word": "protecting",
-    "time": 79.06
+    "word": "minority",
+    "time": 79.42
   },
   {
-    "word": "protecting",
-    "time": 81.0
-  },
-  {
-    "word": "correlation",
-    "time": 84.64
+    "word": "Democratic",
+    "time": 81.52
   },
   {
     "word": "ruling",
@@ -116,24 +104,12 @@
     "time": 97.3
   },
   {
-    "word": "Supreme",
-    "time": 98.72
-  },
-  {
     "word": "Wednesday",
     "time": 99.9
   },
   {
     "word": "trilogy",
     "time": 102.72
-  },
-  {
-    "word": "decisions",
-    "time": 103.74
-  },
-  {
-    "word": "hollowed",
-    "time": 106.2
   },
   {
     "word": "Voting",
@@ -148,32 +124,20 @@
     "time": 115.06
   },
   {
-    "word": "jurisdictions",
-    "time": 116.82
-  },
-  {
     "word": "discrimination",
     "time": 118.56
   },
   {
-    "word": "federal",
-    "time": 120.22
-  },
-  {
-    "word": "Voting",
-    "time": 122.02
+    "word": "approval",
+    "time": 120.56
   },
   {
     "word": "Voting",
     "time": 130.1
   },
   {
-    "word": "vote",
-    "time": 131.94
-  },
-  {
-    "word": "claims",
-    "time": 133.52
+    "word": "denial",
+    "time": 132.24
   },
   {
     "word": "election",
@@ -182,10 +146,6 @@
   {
     "word": "vote",
     "time": 136.64
-  },
-  {
-    "word": "voter",
-    "time": 138.12
   },
   {
     "word": "decision",
@@ -204,8 +164,8 @@
     "time": 150.68
   },
   {
-    "word": "minority",
-    "time": 152.14
+    "word": "voters",
+    "time": 152.78
   },
   {
     "word": "elect",
@@ -216,10 +176,6 @@
     "time": 164.28
   },
   {
-    "word": "Wednesday",
-    "time": 165.9
-  },
-  {
     "word": "trilogy",
     "time": 167.36
   },
@@ -228,16 +184,12 @@
     "time": 172.04
   },
   {
-    "word": "louisiana",
-    "time": 173.12
-  },
-  {
     "word": "majority",
     "time": 175.12
   },
   {
-    "word": "Voting",
-    "time": 176.72
+    "word": "districts",
+    "time": 177.18
   },
   {
     "word": "congressional",
@@ -248,10 +200,6 @@
     "time": 183.0
   },
   {
-    "word": "maps",
-    "time": 184.18
-  },
-  {
     "word": "black",
     "time": 185.76
   },
@@ -260,36 +208,28 @@
     "time": 188.18
   },
   {
-    "word": "louisiana",
+    "word": "Louisiana",
     "time": 190.5
-  },
-  {
-    "word": "black",
-    "time": 192.12
   },
   {
     "word": "Court",
     "time": 198.7
   },
   {
-    "word": "race",
-    "time": 200.34
+    "word": "unlawful",
+    "time": 202.1
   },
   {
     "word": "congressional",
     "time": 204.14
   },
   {
-    "word": "black",
-    "time": 205.58
+    "word": "voters",
+    "time": 206.24
   },
   {
-    "word": "majority",
-    "time": 206.7
-  },
-  {
-    "word": "Court",
-    "time": 207.78
+    "word": "unlawful",
+    "time": 208.72
   },
   {
     "word": "Voting",
@@ -304,16 +244,12 @@
     "time": 216.8
   },
   {
-    "word": "voter",
+    "word": "Voter",
     "time": 223.28
   },
   {
-    "word": "vote",
-    "time": 224.9
-  },
-  {
-    "word": "voters",
-    "time": 227.28
+    "word": "community",
+    "time": 226.42
   },
   {
     "word": "voters",
@@ -328,48 +264,32 @@
     "time": 236.5
   },
   {
-    "word": "vote",
-    "time": 238.08
-  },
-  {
     "word": "Republican",
     "time": 239.4
   },
   {
-    "word": "majority",
-    "time": 241.08
-  },
-  {
-    "word": "dissent",
-    "time": 243.08
+    "word": "Democratic",
+    "time": 241.66
   },
   {
     "word": "Court",
     "time": 244.44
   },
   {
-    "word": "test",
-    "time": 245.82
-  },
-  {
     "word": "race",
     "time": 249.34
   },
   {
-    "word": "drawing",
-    "time": 251.24
+    "word": "Voting",
+    "time": 251.52
   },
   {
     "word": "test",
     "time": 254.14
   },
   {
-    "word": "Court",
-    "time": 255.6
-  },
-  {
-    "word": "Rights",
-    "time": 256.68
+    "word": "Voting",
+    "time": 256.4
   },
   {
     "word": "lawmakers",
@@ -380,24 +300,16 @@
     "time": 262.08
   },
   {
-    "word": "minority",
-    "time": 263.48
+    "word": "voters",
+    "time": 264.1
   },
   {
     "word": "intentional",
     "time": 269.78
   },
   {
-    "word": "discrimination",
-    "time": 271.1
-  },
-  {
     "word": "Court",
     "time": 277.48
-  },
-  {
-    "word": "legal",
-    "time": 279.86
   },
   {
     "word": "criteria",
@@ -408,40 +320,32 @@
     "time": 289.88
   },
   {
-    "word": "congressional",
-    "time": 291.22
-  },
-  {
     "word": "VRA",
     "time": 293.42
-  },
-  {
-    "word": "protecting",
-    "time": 295.22
   },
   {
     "word": "criteria",
     "time": 297.24
   },
   {
-    "word": "people",
-    "time": 298.96
+    "word": "district",
+    "time": 299.8
   },
   {
     "word": "stage",
     "time": 302.04
   },
   {
-    "word": "black",
-    "time": 305.92
+    "word": "district",
+    "time": 304.84
   },
   {
     "word": "discriminate",
     "time": 309.32
   },
   {
-    "word": "black",
-    "time": 314.18
+    "word": "district",
+    "time": 312.9
   },
   {
     "word": "lawmaker",
@@ -452,10 +356,6 @@
     "time": 323.84
   },
   {
-    "word": "people",
-    "time": 325.16
-  },
-  {
     "word": "discriminate",
     "time": 326.16
   },
@@ -464,12 +364,8 @@
     "time": 329.52
   },
   {
-    "word": "Supreme",
-    "time": 331.46
-  },
-  {
-    "word": "case",
-    "time": 332.7
+    "word": "Court",
+    "time": 331.76
   },
   {
     "word": "review",
@@ -484,24 +380,16 @@
     "time": 343.94
   },
   {
-    "word": "power",
-    "time": 345.44
+    "word": "candidates",
+    "time": 346.32
   },
   {
     "word": "peril",
     "time": 348.74
   },
   {
-    "word": "country",
-    "time": 349.92
-  },
-  {
     "word": "rationale",
     "time": 352.2
-  },
-  {
-    "word": "conservative",
-    "time": 353.72
   },
   {
     "word": "ruling",

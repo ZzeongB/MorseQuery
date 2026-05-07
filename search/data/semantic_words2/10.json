@@ -4,6 +4,10 @@
     "time": 1.7600000000000007
   },
   {
+    "word": "Natalie",
+    "time": 5.4
+  },
+  {
     "word": "Trump",
     "time": 10.08
   },
@@ -12,16 +16,12 @@
     "time": 13.24
   },
   {
-    "word": "Iran",
-    "time": 14.42
-  },
-  {
     "word": "weekend",
     "time": 16.42
   },
   {
-    "word": "team",
-    "time": 18.24
+    "word": "American",
+    "time": 18.66
   },
   {
     "word": "airport",
@@ -32,40 +32,24 @@
     "time": 24.22
   },
   {
-    "word": "Iranians",
-    "time": 25.36
-  },
-  {
     "word": "Islamabad",
     "time": 27.62
   },
   {
-    "word": "round",
-    "time": 29.16
-  },
-  {
-    "word": "foreign",
-    "time": 31.28
+    "word": "Iran's",
+    "time": 30.68
   },
   {
     "word": "Islamabad",
     "time": 32.74
   },
   {
-    "word": "U.S.",
-    "time": 34.24
-  },
-  {
-    "word": "Steve",
-    "time": 35.38
+    "word": "Special",
+    "time": 34.76
   },
   {
     "word": "President",
     "time": 36.9
-  },
-  {
-    "word": "son-in-law",
-    "time": 37.9
   },
   {
     "word": "Pakistan",
@@ -84,10 +68,6 @@
     "time": 51.92
   },
   {
-    "word": "minister",
-    "time": 53.06
-  },
-  {
     "word": "President",
     "time": 55.16
   },
@@ -100,10 +80,6 @@
     "time": 59.7
   },
   {
-    "word": "envoys",
-    "time": 61.18
-  },
-  {
     "word": "Iranians",
     "time": 62.8
   },
@@ -112,48 +88,28 @@
     "time": 65.44
   },
   {
-    "word": "talks",
-    "time": 66.7
-  },
-  {
-    "word": "unilateral",
-    "time": 68.2
-  },
-  {
     "word": "President",
     "time": 70.28
-  },
-  {
-    "word": "deadline",
-    "time": 72.2
   },
   {
     "word": "Iranians",
     "time": 73.68
   },
   {
-    "word": "sea",
-    "time": 75.18
-  },
-  {
     "word": "situation",
     "time": 76.84
-  },
-  {
-    "word": "fragile",
-    "time": 78.06
   },
   {
     "word": "claim",
     "time": 80.38
   },
   {
-    "word": "social",
-    "time": 81.66
+    "word": "weekend",
+    "time": 82.6
   },
   {
-    "word": "disarray",
-    "time": 86.96
+    "word": "regime",
+    "time": 85.56
   },
   {
     "word": "decisions",
@@ -164,72 +120,56 @@
     "time": 92.94
   },
   {
-    "word": "questions",
-    "time": 94.1
-  },
-  {
     "word": "running",
     "time": 95.44
-  },
-  {
-    "word": "decisions",
-    "time": 96.92
   },
   {
     "word": "new",
     "time": 98.28
   },
   {
-    "word": "Moshtab",
-    "time": 99.32
-  },
-  {
-    "word": "divisions",
-    "time": 101.82
-  },
-  {
     "word": "reporting",
     "time": 104.74
   },
   {
-    "word": "questions",
-    "time": 105.74
-  },
-  {
-    "word": "Iran",
-    "time": 107.78
+    "word": "sources",
+    "time": 107.0
   },
   {
     "word": "Iran",
     "time": 111.28
   },
   {
-    "word": "senior",
-    "time": 112.5
+    "word": "members",
+    "time": 114.32
   },
   {
-    "word": "Revolutionary",
-    "time": 115.0
-  },
-  {
-    "word": "Mushtab",
-    "time": 117.66
-  },
-  {
-    "word": "decisions",
-    "time": 123.4
+    "word": "framework",
+    "time": 122.06
   },
   {
     "word": "Iran",
     "time": 124.64
   },
   {
+    "word": "puzzle",
+    "time": 129.16
+  },
+  {
     "word": "reporting",
     "time": 132.68
   },
   {
-    "word": "decisions",
-    "time": 143.36
+    "word": "learned",
+    "time": 134.72
+  },
+  {
+    "word": "interviews",
+    "time": 137.38
+  },
+  {
+    "word": "sources",
+    "time": 141.5
   },
   {
     "word": "running",
@@ -238,10 +178,6 @@
   {
     "word": "sepah",
     "time": 147.16
-  },
-  {
-    "word": "sepah",
-    "time": 148.36
   },
   {
     "word": "Revolutionary",
@@ -260,16 +196,12 @@
     "time": 161.26
   },
   {
-    "word": "senior",
-    "time": 162.42
-  },
-  {
     "word": "Khamenei",
     "time": 163.7
   },
   {
-    "word": "supreme",
-    "time": 164.9
+    "word": "Iran",
+    "time": 165.74
   },
   {
     "word": "decisions",
@@ -284,40 +216,32 @@
     "time": 176.1
   },
   {
-    "word": "Khamenei",
-    "time": 177.7
-  },
-  {
     "word": "generals",
     "time": 181.98
-  },
-  {
-    "word": "war",
-    "time": 183.66
   },
   {
     "word": "senior",
     "time": 185.72
   },
   {
-    "word": "Guards",
-    "time": 187.5
+    "word": "generals",
+    "time": 187.86
   },
   {
     "word": "running",
     "time": 190.16
   },
   {
-    "word": "war",
-    "time": 191.74
-  },
-  {
-    "word": "country",
-    "time": 193.14
+    "word": "running",
+    "time": 192.42
   },
   {
     "word": "supreme",
     "time": 200.04
+  },
+  {
+    "word": "shots",
+    "time": 203.44
   },
   {
     "word": "Revolutionary",
@@ -332,24 +256,16 @@
     "time": 215.08
   },
   {
-    "word": "Iran",
-    "time": 216.18
-  },
-  {
-    "word": "Revolution",
-    "time": 219.84
+    "word": "regime",
+    "time": 223.8
   },
   {
     "word": "Islamic",
     "time": 227.88
   },
   {
-    "word": "power",
-    "time": 229.14
-  },
-  {
-    "word": "Guards",
-    "time": 230.84
+    "word": "Revolutionary",
+    "time": 230.12
   },
   {
     "word": "power",
@@ -364,10 +280,6 @@
     "time": 240.52
   },
   {
-    "word": "military",
-    "time": 241.84
-  },
-  {
     "word": "Revolutionary",
     "time": 244.18
   },
@@ -376,44 +288,24 @@
     "time": 246.72
   },
   {
-    "word": "government",
-    "time": 249.62
-  },
-  {
-    "word": "lawmakers",
-    "time": 250.86
-  },
-  {
     "word": "ministers",
     "time": 252.46
-  },
-  {
-    "word": "presidents",
-    "time": 253.64
   },
   {
     "word": "Revolutionary",
     "time": 255.24
   },
   {
-    "word": "Speaker",
-    "time": 256.94
-  },
-  {
-    "word": "negotiations",
-    "time": 259.16
+    "word": "Parliament",
+    "time": 257.52
   },
   {
     "word": "U.S.",
     "time": 260.7
   },
   {
-    "word": "Revolutionary",
-    "time": 262.0
-  },
-  {
-    "word": "National",
-    "time": 264.18
+    "word": "head",
+    "time": 263.72
   },
   {
     "word": "Revolutionary",
@@ -424,10 +316,6 @@
     "time": 269.98
   },
   {
-    "word": "economy",
-    "time": 271.32
-  },
-  {
     "word": "conglomerate",
     "time": 273.2
   },
@@ -436,28 +324,12 @@
     "time": 275.54
   },
   {
-    "word": "energy",
-    "time": 276.92
-  },
-  {
-    "word": "tourism",
-    "time": 278.74
-  },
-  {
     "word": "parallel",
     "time": 282.84
   },
   {
-    "word": "Iran",
-    "time": 284.46
-  },
-  {
     "word": "war",
     "time": 286.26
-  },
-  {
-    "word": "power",
-    "time": 287.56
   },
   {
     "word": "country",
@@ -472,10 +344,6 @@
     "time": 298.44
   },
   {
-    "word": "Guards",
-    "time": 299.78
-  },
-  {
     "word": "new",
     "time": 304.34
   },
@@ -488,24 +356,16 @@
     "time": 308.7
   },
   {
-    "word": "Revolutionary",
-    "time": 309.92
-  },
-  {
     "word": "supreme",
     "time": 313.8
   },
   {
-    "word": "borders",
-    "time": 318.18
+    "word": "Iran's",
+    "time": 317.68
   },
   {
     "word": "proxy",
     "time": 322.62
-  },
-  {
-    "word": "groups",
-    "time": 323.88
   },
   {
     "word": "Iran",
@@ -516,55 +376,35 @@
     "time": 328.64
   },
   {
-    "word": "Hamas",
-    "time": 330.02
+    "word": "Gaza",
+    "time": 330.72
   },
   {
-    "word": "Shia",
-    "time": 331.86
+    "word": "Iraq",
+    "time": 332.76
   },
   {
     "word": "uprising",
     "time": 335.3
   },
   {
-    "word": "country",
-    "time": 336.52
-  },
-  {
-    "word": "government",
-    "time": 338.08
-  },
-  {
-    "word": "Guards",
-    "time": 339.4
-  },
-  {
     "word": "Security",
     "time": 340.4
-  },
-  {
-    "word": "protests",
-    "time": 341.84
   },
   {
     "word": "Guards",
     "time": 345.02
   },
   {
+    "word": "politics",
+    "time": 347.76
+  },
+  {
     "word": "economy",
     "time": 349.88
   },
   {
-    "word": "empowered",
-    "time": 351.6
-  },
-  {
     "word": "military",
     "time": 355.5
-  },
-  {
-    "word": "Iran",
-    "time": 356.82
   }
 ]

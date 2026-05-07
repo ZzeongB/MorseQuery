@@ -1,12 +1,5 @@
 [
   {
-    "word": "Barrett",
-    "time": 1.82,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "shooter",
     "time": 6.6,
     "duplicate_count_1m": 0,
@@ -14,71 +7,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "White",
-    "time": 8.5,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "House",
     "time": 8.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Justice",
-    "time": 14.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Department",
-    "time": 14.96,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Times",
-    "time": 15.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Cole",
-    "time": 23.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Allen",
-    "time": 23.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "assassinate",
-    "time": 28.12,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "president",
-    "time": 28.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "sentence",
-    "time": 36.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -98,22 +28,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "commerce",
-    "time": 43.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "discharge",
     "time": 50.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violence",
-    "time": 52.86,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -133,36 +49,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Torrance",
-    "time": 90.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "California",
-    "time": 90.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "master's",
-    "time": 95.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "computer",
     "time": 96.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "science",
-    "time": 97.14,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -182,13 +70,6 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "academic",
-    "time": 130.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "radicalized",
     "time": 160.84,
     "duplicate_count_1m": 0,
@@ -198,20 +79,6 @@
   {
     "word": "weapons",
     "time": 167.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "political",
-    "time": 188.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "administration",
-    "time": 193.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -231,8 +98,22 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "mindset",
+    "time": 217.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "attack",
     "time": 227.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "motivation",
+    "time": 254.72,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -245,43 +126,8 @@
     "duplicate_count_3m": 1
   },
   {
-    "word": "shooting",
-    "time": 269.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "shotgun",
-    "time": 279.3,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": ".38",
-    "time": 281.76,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "caliber",
-    "time": 282.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "pistol",
-    "time": 283.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Correspondents",
-    "time": 306.06,
+    "word": "planning",
+    "time": 293.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -289,6 +135,13 @@
   {
     "word": "Association",
     "time": 306.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "capital",
+    "time": 311.3,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -310,34 +163,6 @@
   {
     "word": "Los",
     "time": 333.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Angeles",
-    "time": 333.46,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "ticket",
-    "time": 338.12,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Hilton",
-    "time": 346.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "event",
-    "time": 356.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0

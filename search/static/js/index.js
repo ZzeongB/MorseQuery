@@ -284,7 +284,7 @@ async function loadTranscript(videoId) {
         });
     }
     allWords = sortItemsByTime(allWords, (item) => item.start);
-    // Use server-provided merged_words (duration >= 1s per group)
+    // Use server-provided merged_words (duration >= 2s per group)
     if (transcript.merged_words && transcript.merged_words.length > 0) {
         navigableWords = sortItemsByTime(transcript.merged_words, (item) => item.start);
     } else {

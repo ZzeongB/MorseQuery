@@ -1,5 +1,12 @@
 [
   {
+    "word": "Laurel",
+    "time": 1.659999999999997,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "signatures",
     "time": 12.26,
     "duplicate_count_1m": 0,
@@ -9,20 +16,6 @@
   {
     "word": "voters",
     "time": 14.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "economic",
-    "time": 26.48,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "inequality",
-    "time": 27.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -42,20 +35,6 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Trump",
-    "time": 33.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "cuts",
-    "time": 37.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "pushback",
     "time": 47.64,
     "duplicate_count_1m": 0,
@@ -63,22 +42,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "dollars",
-    "time": 52.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
     "word": "scope",
     "time": 54.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "firestorm",
-    "time": 61.52,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -91,22 +56,15 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "5%",
+    "time": 71.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "net",
     "time": 75.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "worth",
-    "time": 76.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "services",
-    "time": 91.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -140,22 +98,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "property",
-    "time": 113.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "exemption",
     "time": 116.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "revenue",
-    "time": 120.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -189,29 +133,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Obamacare",
-    "time": 175.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "subsidies",
     "time": 176.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "insurance",
-    "time": 179.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "programs",
-    "time": 179.92,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -224,22 +147,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "emergency",
-    "time": 193.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "Californians",
     "time": 198.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "initiative",
-    "time": 209.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -250,20 +159,6 @@
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1
-  },
-  {
-    "word": "assets",
-    "time": 211.82,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "management",
-    "time": 244.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
   },
   {
     "word": "polling",
@@ -280,15 +175,8 @@
     "duplicate_count_3m": 1
   },
   {
-    "word": "Employees",
-    "time": 332.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "International",
-    "time": 333.1,
+    "word": "Service",
+    "time": 331.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -301,36 +189,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "healthcare",
-    "time": 334.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "health",
-    "time": 344.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "care",
-    "time": 345.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "technicians",
-    "time": 345.24,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "President",
-    "time": 351.22,
+    "word": "Trump",
+    "time": 351.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -338,13 +198,6 @@
   {
     "word": "closures",
     "time": 355.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "ER",
-    "time": 357.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0

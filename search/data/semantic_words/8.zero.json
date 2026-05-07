@@ -28,29 +28,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "November",
-    "time": 16.1,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "anxiety",
     "time": 25.22,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "economic",
-    "time": 26.48,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "inequality",
-    "time": 27.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -70,22 +49,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Trump",
-    "time": 33.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "angry",
     "time": 35.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "cuts",
-    "time": 37.2,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -105,13 +70,6 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "ignited",
-    "time": 46.04,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "pushback",
     "time": 47.64,
     "duplicate_count_1m": 0,
@@ -121,20 +79,6 @@
   {
     "word": "millions",
     "time": 51.54,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "dollars",
-    "time": 52.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "fight",
-    "time": 52.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -161,6 +105,13 @@
     "duplicate_count_3m": 0
   },
   {
+    "word": "5%",
+    "time": 71.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
     "word": "net",
     "time": 75.34,
     "duplicate_count_1m": 0,
@@ -168,29 +119,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "worth",
-    "time": 76.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "residents",
-    "time": 79.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "January",
     "time": 80.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "services",
-    "time": 91.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -210,29 +140,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "jewelry",
-    "time": 103.1,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "cars",
     "time": 104.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "garage",
-    "time": 105.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "paintings",
-    "time": 106.72,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -252,22 +161,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "property",
-    "time": 113.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "exemption",
     "time": 116.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "revenue",
-    "time": 120.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -280,13 +175,6 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "dollars",
-    "time": 130.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
     "word": "general",
     "time": 133.8,
     "duplicate_count_1m": 0,
@@ -294,15 +182,22 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "elected",
-    "time": 135.5,
+    "word": "leaders",
+    "time": 136.26,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "leaders",
-    "time": 136.26,
+    "word": "requiring",
+    "time": 140.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "specifically",
+    "time": 145.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -329,22 +224,15 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Trump",
-    "time": 171.1,
+    "word": "year",
+    "time": 172.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 1
   },
   {
     "word": "Medicaid",
     "time": 174.16,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Obamacare",
-    "time": 175.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -357,29 +245,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "insurance",
-    "time": 179.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "programs",
-    "time": 179.92,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "hospitals",
     "time": 191.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "emergency",
-    "time": 193.14,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -399,13 +266,6 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "initiative",
-    "time": 209.76,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "taxing",
     "time": 211.36,
     "duplicate_count_1m": 0,
@@ -413,18 +273,11 @@
     "duplicate_count_3m": 1
   },
   {
-    "word": "assets",
-    "time": 211.82,
+    "word": "90%",
+    "time": 222.66,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "income",
-    "time": 217.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 1
   },
   {
     "word": "purpose",
@@ -441,36 +294,15 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "management",
-    "time": 244.34,
+    "word": "5%",
+    "time": 265.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "experts",
-    "time": 245.52,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "signatures",
-    "time": 266.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "parks",
-    "time": 278.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "grocery",
-    "time": 279.32,
+    "word": "stores",
+    "time": 279.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -497,8 +329,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "sidelines",
-    "time": 312.76,
+    "word": "high",
+    "time": 305.42,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -518,43 +350,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "Employees",
-    "time": 332.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "International",
-    "time": 333.1,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "United",
     "time": 334.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "healthcare",
-    "time": 334.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "West",
-    "time": 335.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "janitors",
-    "time": 342.54,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -567,43 +364,8 @@
     "duplicate_count_3m": 0
   },
   {
-    "word": "health",
-    "time": 344.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "care",
-    "time": 345.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "technicians",
-    "time": 345.24,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "Medicaid",
     "time": 349.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "cuts",
-    "time": 349.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "President",
-    "time": 351.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
@@ -618,20 +380,6 @@
   {
     "word": "closures",
     "time": 355.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "ER",
-    "time": 357.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "rooms",
-    "time": 357.48,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0

@@ -2,56 +2,56 @@
   "video_id": "9",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 271.43,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
-    {
-      "target_word": "discharge",
-      "target_word_time": 50.02,
-      "delay_type": "short",
-      "delay_seconds": 9.98,
-      "search_start_time": 60.0,
-      "id": 1
-    },
     {
       "target_word": "evidence",
       "target_word_time": 71.28,
       "delay_type": "long",
-      "delay_seconds": 48.72,
-      "search_start_time": 120.0,
+      "delay_seconds": 55.87,
+      "search_start_time": 127.15,
+      "id": 1
+    },
+    {
+      "target_word": "Protestant",
+      "target_word_time": 104.54,
+      "delay_type": "long",
+      "delay_seconds": 56.61,
+      "search_start_time": 161.15,
       "id": 2
     },
     {
-      "target_word": "academic",
-      "target_word_time": 130.7,
-      "delay_type": "long",
-      "delay_seconds": 49.3,
-      "search_start_time": 180.0,
+      "target_word": "weapons",
+      "target_word_time": 167.86,
+      "delay_type": "short",
+      "delay_seconds": 4.53,
+      "search_start_time": 172.39,
       "id": 3
     },
     {
-      "target_word": "political",
-      "target_word_time": 188.06,
-      "delay_type": "long",
-      "delay_seconds": 51.94,
-      "search_start_time": 240.0,
+      "target_word": "radicalized",
+      "target_word_time": 160.84,
+      "delay_type": "short",
+      "delay_seconds": 11.6,
+      "search_start_time": 172.44,
       "id": 4
     },
     {
-      "target_word": "pistol",
-      "target_word_time": 283.02,
+      "target_word": "motivation",
+      "target_word_time": 254.72,
       "delay_type": "short",
-      "delay_seconds": 16.98,
-      "search_start_time": 300.0,
+      "delay_seconds": 13.14,
+      "search_start_time": 267.86,
       "id": 5
     },
     {
-      "target_word": "Hilton",
-      "target_word_time": 346.2,
-      "delay_type": "short",
-      "delay_seconds": 13.8,
-      "search_start_time": 360.0,
+      "target_word": "mindset",
+      "target_word_time": 217.18,
+      "delay_type": "long",
+      "delay_seconds": 54.25,
+      "search_start_time": 271.43,
       "id": 6
     }
   ]
