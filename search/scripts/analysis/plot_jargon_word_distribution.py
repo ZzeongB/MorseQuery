@@ -93,7 +93,7 @@ def draw_word_rectangles(ax, items, y, color, height, width, alpha, zorder):
 
 
 def main():
-    output_path = Path("result/jargon_word_distribution.png")
+    output_path = Path("result/data/jargon_word_distribution.png")
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     semantic_color = "#111111"

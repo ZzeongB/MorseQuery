@@ -11,12 +11,22 @@ else
   stems=("$@")
 fi
 
-"$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/generate_target_words.py" \
-  --keywords-dir "$ROOT_DIR/data/semantic_words" \
-  --keywords-suffix ".zero.jargon.json" \
-  --audio-windows "$ROOT_DIR/data/study/audio_windows.json" \
-  --output-dir "$ROOT_DIR/data/study/target_words" \
-  --stems "${stems[@]}"
+for stem in "${stems[@]}"; do
+  extra_args=()
+  if [ "$stem" = "10" ]; then
+    extra_args+=(--allow-partial)
+  fi
+
+  "$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/generate_target_words.py" \
+    --keywords-dir "$ROOT_DIR/data/semantic_words" \
+    --keywords-suffix ".zero.jargon.json" \
+    --audio-windows "$ROOT_DIR/data/study/audio_windows.json" \
+    --output-dir "$ROOT_DIR/data/study/target_words" \
+    --selection-mode minute_slots \
+    --delay-tolerance 10 \
+    "${extra_args[@]}" \
+    --stems "$stem"
+done
 
 "$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/build_semantic_words2.py" \
   --semantic-dir "$ROOT_DIR/data/semantic_words" \

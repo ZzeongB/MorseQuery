@@ -2,56 +2,56 @@
   "video_id": "7",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 291.59,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
-  "selection_mode": "gaussian_delay",
+  "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "theory",
-      "target_word_time": 114.72,
-      "delay_type": "long",
-      "delay_seconds": 53.5,
-      "search_start_time": 168.22,
+      "target_word": "University",
+      "target_word_time": 53.94,
+      "delay_type": "short",
+      "delay_seconds": 6.06,
+      "search_start_time": 60.0,
       "id": 1
+    },
+    {
+      "target_word": "administration",
+      "target_word_time": 105.68,
+      "delay_type": "short",
+      "delay_seconds": 14.32,
+      "search_start_time": 120.0,
+      "id": 2
     },
     {
       "target_word": "terrorist",
       "target_word_time": 131.08,
       "delay_type": "long",
-      "delay_seconds": 48.46,
-      "search_start_time": 179.54,
-      "id": 2
-    },
-    {
-      "target_word": "FBI",
-      "target_word_time": 197.66,
-      "delay_type": "short",
-      "delay_seconds": 16.03,
-      "search_start_time": 213.69,
+      "delay_seconds": 48.92,
+      "search_start_time": 180.0,
       "id": 3
     },
     {
-      "target_word": "era",
-      "target_word_time": 209.78,
-      "delay_type": "short",
-      "delay_seconds": 7.45,
-      "search_start_time": 217.23,
+      "target_word": "social",
+      "target_word_time": 187.42,
+      "delay_type": "long",
+      "delay_seconds": 52.58,
+      "search_start_time": 240.0,
       "id": 4
     },
     {
-      "target_word": "left",
-      "target_word_time": 225.74,
+      "target_word": "right",
+      "target_word_time": 296.82,
       "delay_type": "short",
-      "delay_seconds": 19.49,
-      "search_start_time": 245.23,
+      "delay_seconds": 3.18,
+      "search_start_time": 300.0,
       "id": 5
     },
     {
-      "target_word": "killing",
-      "target_word_time": 248.1,
+      "target_word": "Security",
+      "target_word_time": 308.6,
       "delay_type": "long",
-      "delay_seconds": 43.49,
-      "search_start_time": 291.59,
+      "delay_seconds": 51.4,
+      "search_start_time": 360.0,
       "id": 6
     }
   ]

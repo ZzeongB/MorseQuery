@@ -8,10 +8,6 @@
     "time": 6.6
   },
   {
-    "word": "House",
-    "time": 8.64
-  },
-  {
     "word": "Devlin",
     "time": 13.56
   },
@@ -78,6 +74,10 @@
   {
     "word": "charges",
     "time": 68.98
+  },
+  {
+    "word": "evidence",
+    "time": 71.28
   },
   {
     "word": "suspect",
@@ -156,6 +156,10 @@
     "time": 156.22
   },
   {
+    "word": "radicalized",
+    "time": 160.84
+  },
+  {
     "word": "angry",
     "time": 164.54
   },
@@ -212,12 +216,12 @@
     "time": 215.0
   },
   {
-    "word": "goals",
-    "time": 219.64
+    "word": "mindset",
+    "time": 217.18
   },
   {
-    "word": "attack",
-    "time": 227.86
+    "word": "goals",
+    "time": 219.64
   },
   {
     "word": "target",
@@ -286,10 +290,6 @@
   {
     "word": "production",
     "time": 309.16
-  },
-  {
-    "word": "capital",
-    "time": 311.3
   },
   {
     "word": "president",

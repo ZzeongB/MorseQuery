@@ -2,56 +2,56 @@
   "video_id": "10",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 285.82,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
-  "selection_mode": "gaussian_delay",
+  "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "Mushtab",
-      "target_word_time": 117.66,
-      "delay_type": "short",
-      "delay_seconds": 4.18,
-      "search_start_time": 121.84,
+      "target_word": "Natalie",
+      "target_word_time": 5.4,
+      "delay_type": "long",
+      "delay_seconds": 54.6,
+      "search_start_time": 60.0,
       "id": 1
     },
     {
       "target_word": "unilateral",
       "target_word_time": 68.2,
       "delay_type": "long",
-      "delay_seconds": 63.23,
-      "search_start_time": 131.43,
+      "delay_seconds": 51.8,
+      "search_start_time": 120.0,
       "id": 2
     },
     {
-      "target_word": "divisions",
-      "target_word_time": 101.82,
+      "target_word": "framework",
+      "target_word_time": 122.06,
       "delay_type": "long",
-      "delay_seconds": 49.39,
-      "search_start_time": 151.21,
+      "delay_seconds": 57.94,
+      "search_start_time": 180.0,
       "id": 3
     },
     {
-      "target_word": "government",
-      "target_word_time": 249.62,
+      "target_word": "regime",
+      "target_word_time": 223.8,
       "delay_type": "short",
-      "delay_seconds": 11.77,
-      "search_start_time": 261.39,
+      "delay_seconds": 16.2,
+      "search_start_time": 240.0,
       "id": 4
     },
     {
-      "target_word": "1979",
-      "target_word_time": 218.6,
-      "delay_type": "long",
-      "delay_seconds": 55.19,
-      "search_start_time": 273.79,
+      "target_word": "clerics",
+      "target_word_time": 295.7,
+      "delay_type": "short",
+      "delay_seconds": 4.3,
+      "search_start_time": 300.0,
       "id": 5
     },
     {
-      "target_word": "transportation",
-      "target_word_time": 277.6,
+      "target_word": "economy",
+      "target_word_time": 349.88,
       "delay_type": "short",
-      "delay_seconds": 8.22,
-      "search_start_time": 285.82,
+      "delay_seconds": 10.12,
+      "search_start_time": 360.0,
       "id": 6
     }
   ]

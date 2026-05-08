@@ -60,10 +60,6 @@
     "time": 47.78
   },
   {
-    "word": "President",
-    "time": 50.78
-  },
-  {
     "word": "freedom",
     "time": 53.44
   },
@@ -88,6 +84,10 @@
     "time": 79.42
   },
   {
+    "word": "Democratic",
+    "time": 81.52
+  },
+  {
     "word": "ruling",
     "time": 92.0
   },
@@ -98,6 +98,10 @@
   {
     "word": "Wednesday",
     "time": 99.9
+  },
+  {
+    "word": "trilogy",
+    "time": 102.72
   },
   {
     "word": "Voting",
@@ -112,6 +116,10 @@
     "time": 115.06
   },
   {
+    "word": "discrimination",
+    "time": 118.56
+  },
+  {
     "word": "approval",
     "time": 120.56
   },
@@ -122,10 +130,6 @@
   {
     "word": "denial",
     "time": 132.24
-  },
-  {
-    "word": "election",
-    "time": 134.6
   },
   {
     "word": "vote",
@@ -158,6 +162,10 @@
   {
     "word": "case",
     "time": 164.28
+  },
+  {
+    "word": "trilogy",
+    "time": 167.36
   },
   {
     "word": "case",
@@ -244,6 +252,10 @@
     "time": 239.4
   },
   {
+    "word": "Democratic",
+    "time": 241.66
+  },
+  {
     "word": "Court",
     "time": 244.44
   },
@@ -276,6 +288,10 @@
     "time": 264.1
   },
   {
+    "word": "intentional",
+    "time": 269.78
+  },
+  {
     "word": "Court",
     "time": 277.48
   },
@@ -286,10 +302,6 @@
   {
     "word": "black",
     "time": 289.88
-  },
-  {
-    "word": "VRA",
-    "time": 293.42
   },
   {
     "word": "criteria",
@@ -354,10 +366,6 @@
   {
     "word": "peril",
     "time": 348.74
-  },
-  {
-    "word": "rationale",
-    "time": 352.2
   },
   {
     "word": "ruling",
