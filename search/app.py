@@ -398,15 +398,27 @@ def merge_words_min_duration(
             })
             current_group = []
 
-    # Handle remaining words (duration < min_duration but no more words to add)
+    # Fold a short leading remainder into the first finalized group so every
+    # generated group still respects the minimum duration when possible.
     if current_group:
-        groups.insert(0, {
-            "words": list(current_group),
-            "word": " ".join(x["word"] for x in current_group),
-            "start": current_group[0]["start"],
-            "end": current_group[-1]["end"],
-            "freq": min(x.get("freq", -1) for x in current_group),
-        })
+        if groups:
+            first_group = groups[0]
+            merged_words = list(current_group) + list(first_group["words"])
+            groups[0] = {
+                "words": merged_words,
+                "word": " ".join(x["word"] for x in merged_words),
+                "start": merged_words[0]["start"],
+                "end": merged_words[-1]["end"],
+                "freq": min(x.get("freq", -1) for x in merged_words),
+            }
+        else:
+            groups.insert(0, {
+                "words": list(current_group),
+                "word": " ".join(x["word"] for x in current_group),
+                "start": current_group[0]["start"],
+                "end": current_group[-1]["end"],
+                "freq": min(x.get("freq", -1) for x in current_group),
+            })
 
     return groups
 

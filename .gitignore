@@ -25,6 +25,8 @@ arctic-*.json
 # Session logs
 logs/
 study_data/
+!search/scripts/study_data/
+!search/scripts/study_data/validate_user_study_material.py
 ./data/
 srt/
 
