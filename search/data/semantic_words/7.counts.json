@@ -1,709 +1,702 @@
 [
   {
-    "word": "cascade",
-    "time": 2.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "political",
-    "time": 4.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "Minnesota",
-    "time": 6.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "husband",
-    "time": 10.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "politically",
-    "time": 12.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "arson",
-    "time": 16.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "residence",
-    "time": 18.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "family",
-    "time": 20.24,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Kirk",
-    "time": 22.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "White",
-    "time": 26.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "custody",
-    "time": 29.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "assassination",
-    "time": 33.92,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "Trump",
-    "time": 36.12,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "manifesto",
-    "time": 39.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "figures",
-    "time": 41.48,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "University",
-    "time": 53.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Pape",
-    "time": 56.06,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "experts",
-    "time": 59.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "White",
-    "time": 63.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "2024",
-    "time": 65.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violence",
-    "time": 68.52,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 5
-  },
-  {
-    "word": "rise",
-    "time": 71.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Monday",
-    "time": 76.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
     "word": "Professor",
-    "time": 81.64,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
+    "time": 0.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
   },
   {
     "word": "conversation",
-    "time": 84.38,
+    "time": 3.38,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "extraordinary",
-    "time": 87.8,
+    "time": 6.8,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "political",
-    "time": 89.94,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 4
-  },
-  {
-    "word": "assassination",
-    "time": 92.58,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "assassination",
-    "time": 95.12,
-    "duplicate_count_1m": 1,
+    "time": 8.94,
+    "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 2
   },
   {
+    "word": "assassination",
+    "time": 11.56,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "assassination",
+    "time": 14.12,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
     "word": "Daily",
-    "time": 97.58,
+    "time": 16.58,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "violence",
-    "time": 103.52,
+    "time": 22.52,
     "duplicate_count_1m": 1,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 6
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4
   },
   {
     "word": "administration",
-    "time": 105.68,
+    "time": 24.68,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 0
   },
   {
     "word": "theory",
-    "time": 114.72,
+    "time": 33.72,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "violent",
-    "time": 119.38,
+    "time": 38.38,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "book",
-    "time": 122.32,
+    "time": 41.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "violent",
-    "time": 125.06,
+    "time": 44.06,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 3
   },
   {
     "word": "risk",
-    "time": 127.54,
+    "time": 46.54,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "terrorist",
-    "time": 131.08,
+    "time": 50.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "violent",
-    "time": 136.88,
+    "time": 55.88,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 3
   },
   {
     "word": "risk",
-    "time": 139.42,
+    "time": 58.42,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "political",
-    "time": 143.58,
+    "time": 62.58,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 4,
-    "duplicate_count_3m": 6
+    "duplicate_count_3m": 5
   },
   {
     "word": "millions",
-    "time": 149.48,
+    "time": 68.48,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 3
   },
   {
-    "word": "sides",
-    "time": 152.58,
+    "word": "both",
+    "time": 71.2,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "political",
-    "time": 154.82,
+    "time": 73.82,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 5
   },
   {
     "word": "millions",
-    "time": 160.24,
+    "time": 79.24,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 3
   },
   {
     "word": "fringe",
-    "time": 162.32,
+    "time": 81.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "groups",
-    "time": 164.54,
+    "time": 83.54,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "acceptable",
-    "time": 166.76,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "risks",
-    "time": 170.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "volatile",
-    "time": 176.2,
+    "time": 85.76,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "volatile",
-    "time": 180.76,
+    "time": 95.2,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
-    "word": "social",
-    "time": 187.42,
+    "word": "volatile",
+    "time": 99.76,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1
+  },
+  {
+    "word": "prospect",
+    "time": 105.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "acts",
-    "time": 190.08,
+    "word": "approval",
+    "time": 107.54,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 0
   },
   {
     "word": "millions",
-    "time": 192.48,
+    "time": 111.48,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 3
   },
   {
     "word": "political",
-    "time": 194.48,
+    "time": 113.48,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 4,
     "duplicate_count_3m": 5
   },
   {
     "word": "FBI",
-    "time": 197.66,
+    "time": 116.66,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "support",
-    "time": 201.2,
+    "time": 120.2,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "people",
-    "time": 203.82,
+    "time": 122.82,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1
   },
   {
-    "word": "discount",
-    "time": 206.66,
+    "word": "violent",
+    "time": 129.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "era",
-    "time": 209.78,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 3
   },
   {
     "word": "millions",
-    "time": 213.86,
+    "time": 132.86,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 3
   },
   {
     "word": "violence",
-    "time": 216.1,
+    "time": 135.1,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 4,
     "duplicate_count_3m": 7
   },
   {
     "word": "spirals",
-    "time": 220.04,
+    "time": 139.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "debate",
-    "time": 223.06,
+    "time": 142.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "left",
-    "time": 225.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "word": "left-wing",
+    "time": 144.74,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null
   },
   {
     "word": "cases",
-    "time": 228.72,
+    "time": 147.72,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "June",
-    "time": 233.62,
+    "time": 152.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "assassination",
-    "time": 236.52,
+    "time": 155.52,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "Minnesota",
-    "time": 239.7,
+    "time": 158.7,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "murder",
-    "time": 241.88,
+    "time": 160.88,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "January",
-    "time": 245.94,
+    "time": 164.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1
   },
   {
     "word": "killing",
-    "time": 248.1,
+    "time": 167.1,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "American",
-    "time": 251.02,
+    "time": 170.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 4,
     "duplicate_count_3m": 6
   },
   {
-    "word": "governor",
-    "time": 254.02,
+    "word": "Governor",
+    "time": 173.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "President",
-    "time": 257.02,
+    "time": 176.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "rise",
-    "time": 261.84,
+    "time": 180.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "sides",
-    "time": 269.24,
+    "word": "both",
+    "time": 187.98,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "spiral",
-    "time": 272.02,
+    "time": 191.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "violent",
-    "time": 276.14,
+    "time": 195.14,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1
   },
   {
     "word": "social",
-    "time": 279.76,
+    "time": 198.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "American",
-    "time": 284.64,
+    "time": 203.64,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 4
   },
   {
     "word": "acceptance",
-    "time": 292.98,
+    "time": 211.98,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
-    "word": "right",
-    "time": 296.82,
+    "word": "conducted",
+    "time": 217.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 0
   },
   {
     "word": "surveys",
-    "time": 301.42,
+    "time": 220.42,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "University",
-    "time": 306.44,
+    "time": 225.44,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "Security",
-    "time": 308.6,
+    "time": 227.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "summer",
-    "time": 310.96,
+    "time": 229.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "January",
-    "time": 316.32,
+    "time": 235.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1
   },
   {
     "word": "attitudes",
-    "time": 320.66,
+    "time": 239.66,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "political",
-    "time": 322.96,
+    "time": 241.96,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 3
   },
   {
     "word": "data",
-    "time": 326.52,
+    "time": 245.52,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "acceptance",
-    "time": 328.7,
+    "time": 247.7,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2
   },
   {
     "word": "Biden",
-    "time": 336.24,
+    "time": 255.24,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "2021",
-    "time": 338.48,
+    "time": 257.48,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "administration",
-    "time": 340.76,
+    "time": 259.76,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1
   },
   {
     "word": "percent",
-    "time": 344.48,
+    "time": 263.48,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "supported",
+    "time": 265.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
-    "word": "political",
-    "time": 347.66,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "Trump",
-    "time": 349.9,
+    "word": "restore",
+    "time": 268.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "focus",
-    "time": 352.88,
+    "time": 271.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "research",
-    "time": 355.18,
+    "time": 274.18,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
   },
   {
     "word": "force",
-    "time": 358.38,
+    "time": 277.38,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "percent",
+    "time": 279.7,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "force",
+    "time": 282.2,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "force",
+    "time": 285.34,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "percent",
+    "time": 289.66,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "assassination",
+    "time": 292.12,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "percentage",
+    "time": 295.98,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0
+  },
+  {
+    "word": "percent",
+    "time": 301.08,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "election",
+    "time": 306.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "example",
+    "time": 312.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "September",
+    "time": 317.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "acceptable",
+    "time": 320.44,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "acceptable",
+    "time": 324.28,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "attempted",
+    "time": 327.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "result",
+    "time": 329.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "percent",
+    "time": 332.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 5
+  },
+  {
+    "word": "million",
+    "time": 335.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "acceptable",
+    "time": 338.62,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "people",
+    "time": 344.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "political",
+    "time": 346.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "increasing",
+    "time": 348.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "Pape",
+    "time": 351.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "political",
+    "time": 353.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2
+  },
+  {
+    "word": "periods",
+    "time": 355.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0
+  },
+  {
+    "word": "violence",
+    "time": 358.92,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2
   }
 ]
