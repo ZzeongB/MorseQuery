@@ -2,7 +2,17 @@
 """Plot semantic, jargon, and target words across time for selected videos."""
 
 import json
+import os
 from pathlib import Path
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+MPLCONFIGDIR = Path("/tmp") / "morsequery-matplotlib"
+XDG_CACHE_HOME = Path("/tmp") / "morsequery-cache"
+MPLCONFIGDIR.mkdir(parents=True, exist_ok=True)
+XDG_CACHE_HOME.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLBACKEND", "Agg")
+os.environ.setdefault("MPLCONFIGDIR", str(MPLCONFIGDIR))
+os.environ.setdefault("XDG_CACHE_HOME", str(XDG_CACHE_HOME))
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -93,7 +103,7 @@ def draw_word_rectangles(ax, items, y, color, height, width, alpha, zorder):
 
 
 def main():
-    output_path = Path("result/data/jargon_word_distribution.png")
+    output_path = ROOT_DIR / "result" / "data" / "jargon_word_distribution.png"
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
     semantic_color = "#111111"

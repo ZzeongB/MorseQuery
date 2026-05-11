@@ -86,7 +86,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=30,
+        default=20,
         help="Number of candidate words to classify per request.",
     )
     parser.add_argument(

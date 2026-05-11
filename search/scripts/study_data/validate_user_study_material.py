@@ -169,7 +169,53 @@ def build_word_group(words: list[dict[str, Any]]) -> dict[str, Any]:
     }
 
 
-def build_generated_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
+def word_group_duration(group: dict[str, Any]) -> float:
+    return float(group["end"]) - float(group["start"])
+
+
+def word_group_starts_with_target(group: dict[str, Any], target_words: set[str]) -> bool:
+    words = group.get("words")
+    if not isinstance(words, list) or not words:
+        return False
+    first_word = words[0]
+    if not isinstance(first_word, dict):
+        return False
+    return bool(first_word.get("is_target"))
+
+
+def collect_target_occurrences(interruptions: list[dict[str, Any]]) -> list[tuple[str, float]]:
+    occurrences: list[tuple[str, float]] = []
+    for item in interruptions:
+        token = normalize_token(item.get("target_word"))
+        time = item.get("target_word_time")
+        if token and isinstance(time, (int, float)):
+            occurrences.append((token, float(time)))
+    return occurrences
+
+
+def mark_generated_word_targets(
+    words: list[dict[str, Any]], target_occurrences: list[tuple[str, float]]
+) -> list[dict[str, Any]]:
+    occurrences_by_token: dict[str, list[float]] = {}
+    for token, time in sorted(target_occurrences, key=lambda item: (item[0], item[1])):
+        occurrences_by_token.setdefault(token, []).append(time)
+
+    marked_words: list[dict[str, Any]] = []
+    for word in words:
+        token = normalize_token(word.get("word"))
+        start = float(word.get("start", 0.0))
+        candidates = occurrences_by_token.get(token, [])
+        copied = dict(word)
+        if candidates and abs(candidates[0] - start) <= MATCH_TOLERANCE:
+            copied["is_target"] = True
+            candidates.pop(0)
+        marked_words.append(copied)
+    return marked_words
+
+
+def build_generated_words(
+    transcript: dict[str, Any], target_occurrences: list[tuple[str, float]]
+) -> list[dict[str, Any]]:
     words: list[dict[str, Any]] = []
     for segment in transcript.get("segments", []):
         for word in segment.get("words", []):
@@ -186,7 +232,95 @@ def build_generated_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
                 }
             )
     words.sort(key=lambda item: item["start"])
+    words = mark_generated_word_targets(words, target_occurrences)
     return merge_words_min_duration(words, WORD_MIN_DURATION)
+
+
+def split_generated_words_on_targets(
+    groups: list[dict[str, Any]]
+) -> list[dict[str, Any]]:
+    if not groups:
+        return groups
+
+    split_groups: list[dict[str, Any]] = []
+    pending_words: list[dict[str, Any]] = []
+    for group in groups:
+        words = group.get("words")
+        if not isinstance(words, list) or not words:
+            split_groups.append(group)
+            continue
+
+        merged_words = pending_words + list(words)
+        pending_words = []
+
+        target_positions = [idx for idx, word in enumerate(merged_words) if idx > 0 and word.get("is_target")]
+
+        if not target_positions:
+            split_groups.append(build_word_group(merged_words))
+            continue
+
+        first_target_idx = target_positions[0]
+        split_groups.append(build_word_group(merged_words[:first_target_idx]))
+
+        for start_idx, end_idx in zip(target_positions, target_positions[1:]):
+            split_groups.append(build_word_group(merged_words[start_idx:end_idx]))
+
+        pending_words = merged_words[target_positions[-1]:]
+
+    if pending_words:
+        split_groups.append(build_word_group(pending_words))
+
+    return split_groups
+
+
+def rebalance_generated_words(
+    groups: list[dict[str, Any]], target_words: set[str]
+) -> list[dict[str, Any]]:
+    if not groups:
+        return groups
+
+    balanced_groups: list[dict[str, Any]] = []
+    pending_groups = list(groups)
+    index = 0
+
+    while index < len(pending_groups):
+        group = pending_groups[index]
+        duration = word_group_duration(group)
+        starts_with_target = word_group_starts_with_target(group, target_words)
+
+        if duration >= WORD_MIN_DURATION:
+            balanced_groups.append(group)
+            index += 1
+            continue
+
+        if starts_with_target and index + 1 < len(pending_groups):
+            pending_groups[index + 1] = build_word_group(
+                list(group["words"]) + list(pending_groups[index + 1]["words"])
+            )
+            index += 1
+            continue
+
+        if not starts_with_target and balanced_groups:
+            balanced_groups[-1] = build_word_group(
+                list(balanced_groups[-1]["words"]) + list(group["words"])
+            )
+            index += 1
+            continue
+
+        if not starts_with_target and index + 1 < len(pending_groups):
+            if word_group_starts_with_target(pending_groups[index + 1], target_words):
+                index += 1
+                continue
+            pending_groups[index + 1] = build_word_group(
+                list(group["words"]) + list(pending_groups[index + 1]["words"])
+            )
+            index += 1
+            continue
+
+        balanced_groups.append(group)
+        index += 1
+
+    return balanced_groups
 
 
 def validate_target_words(
@@ -337,6 +471,21 @@ def validate_word_groups(
     groups: list[dict[str, Any]],
     issues: list[ValidationIssue],
 ) -> None:
+    for group in groups:
+        start = group.get("start")
+        end = group.get("end")
+        if not isinstance(start, (int, float)) or not isinstance(end, (int, float)):
+            issues.append(ValidationIssue(scope, f"{label} contains non-numeric start/end times"))
+            return
+        duration = float(end) - float(start)
+        if duration < WORD_MIN_DURATION:
+            issues.append(
+                ValidationIssue(
+                    scope,
+                    f"{label} duration {duration:.2f}s < {WORD_MIN_DURATION:.2f}s for {group.get('word')!r}",
+                )
+            )
+
     for prev, curr in zip(groups, groups[1:]):
         prev_start = prev.get("start")
         curr_start = curr.get("start")
@@ -353,9 +502,47 @@ def validate_word_groups(
             )
 
 
+def validate_target_word_group_starts(
+    scope: str,
+    label: str,
+    groups: list[dict[str, Any]],
+    target_occurrences: list[tuple[str, float]],
+    issues: list[ValidationIssue],
+) -> None:
+    if not target_occurrences:
+        return
+
+    for token, time in target_occurrences:
+        matched = False
+        for group in groups:
+            words = group.get("words")
+            if not isinstance(words, list) or not words:
+                continue
+            first_word = words[0]
+            if not isinstance(first_word, dict):
+                continue
+            if normalize_token(first_word.get("word")) != token:
+                continue
+            start = first_word.get("start")
+            if not isinstance(start, (int, float)):
+                continue
+            if abs(float(start) - time) <= MATCH_TOLERANCE:
+                matched = True
+                break
+        if not matched:
+            issues.append(
+                ValidationIssue(
+                    scope,
+                    f"{label} does not start a group at target word={token!r} time={time:.2f}",
+                )
+            )
+
+
 def validate_words_cache_and_generation(
     stem: str,
     transcript: dict[str, Any],
+    target_words: set[str],
+    target_occurrences: list[tuple[str, float]],
     issues: list[ValidationIssue],
 ) -> None:
     words_path = resolve_related_path(WORDS_DIR, stem)
@@ -366,9 +553,20 @@ def validate_words_cache_and_generation(
             issues.append(ValidationIssue(stem, f"words cache must contain an items list: {words_path.name}"))
         else:
             validate_word_groups(stem, f"words cache ({words_path.name})", items, issues)
+            validate_target_word_group_starts(
+                stem, f"words cache ({words_path.name})", items, target_occurrences, issues
+            )
 
-    generated_groups = build_generated_words(transcript)
+    generated_groups = rebalance_generated_words(
+        split_generated_words_on_targets(
+            build_generated_words(transcript, target_occurrences)
+        ),
+        target_words,
+    )
     validate_word_groups(stem, "generated words", generated_groups, issues)
+    validate_target_word_group_starts(
+        stem, "generated words", generated_groups, target_occurrences, issues
+    )
 
 
 def validate_target_bundle(target_path: Path) -> list[ValidationIssue]:
@@ -411,9 +609,12 @@ def validate_target_bundle(target_path: Path) -> list[ValidationIssue]:
     target_words = validate_semantic_contains_targets(
         stem, semantic_words, interruptions, issues
     )
+    target_occurrences = collect_target_occurrences(interruptions)
     validate_semantic2_excludes_targets(stem, semantic_words2, target_words, issues)
     validate_semantic_gaps(stem, semantic_words, transcript, issues)
-    validate_words_cache_and_generation(stem, transcript, issues)
+    validate_words_cache_and_generation(
+        stem, transcript, target_words, target_occurrences, issues
+    )
     return issues
 
 

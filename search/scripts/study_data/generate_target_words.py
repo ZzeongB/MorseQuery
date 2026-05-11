@@ -2,9 +2,12 @@ import argparse
 import json
 import random
 import math
+import subprocess
+import sys
 from pathlib import Path
 
 STRICT_MAX_SEARCH_OFFSET_SECONDS = 299.99
+ROOT_DIR = Path(__file__).resolve().parents[2]
 
 
 def load_json(path: Path):
@@ -463,7 +466,7 @@ def main():
     parser.add_argument(
         "--delay-tolerance",
         type=float,
-        default=5.0,
+        default=10.0,
         help="Delay tolerance in seconds (for minute_slots mode): delay = mean ± tolerance",
     )
     parser.add_argument(
@@ -601,6 +604,9 @@ def main():
         print(
             f"{video_id}: wrote {len(interruptions)} interruptions to {output_path}"
         )
+
+    plot_script = ROOT_DIR / "scripts" / "analysis" / "plot_jargon_word_distribution.py"
+    subprocess.run([sys.executable, str(plot_script)], check=True, cwd=ROOT_DIR)
 
 
 if __name__ == "__main__":
