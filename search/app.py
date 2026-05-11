@@ -27,6 +27,11 @@ from config import (
 app = Flask(__name__)
 TERM_RE = re.compile(r"[a-z0-9']+")
 MERGED_WORD_MIN_DURATION_SECONDS = 2.0
+MIN_SENTENCE_DURATION_SECONDS = 2.0
+MERGED_WORDS_CACHE_VERSION = 9
+TARGET_TIME_TOLERANCE_SECONDS = 0.05
+RARE_WORD_MAX_FREQ = 4.0
+MAX_WORD_GROUP_DURATION_SECONDS = 3.0
 
 
 def _slugify_filename_part(value: str, default: str = "unknown") -> str:
@@ -351,7 +356,57 @@ def build_sentence_units(segments: list[dict]) -> list[dict]:
                 flush_sentence()
 
     flush_sentence()
-    return units
+    return rebalance_sentence_units(units)
+
+
+def sentence_unit_duration(unit: dict) -> float:
+    return float(unit["end"]) - float(unit["start"])
+
+
+def build_sentence_unit(text: str, start: float, end: float) -> dict:
+    return {"text": text.strip(), "start": start, "end": end}
+
+
+def merge_sentence_units(left: dict, right: dict) -> dict:
+    return build_sentence_unit(
+        f'{left.get("text", "").strip()} {right.get("text", "").strip()}'.strip(),
+        float(left["start"]),
+        float(right["end"]),
+    )
+
+
+def rebalance_sentence_units(units: list[dict]) -> list[dict]:
+    if not units:
+        return []
+
+    pending_units = [
+        build_sentence_unit(str(unit.get("text", "")), float(unit["start"]), float(unit["end"]))
+        for unit in units
+    ]
+    balanced_units: list[dict] = []
+    index = 0
+
+    while index < len(pending_units):
+        unit = pending_units[index]
+        if sentence_unit_duration(unit) >= MIN_SENTENCE_DURATION_SECONDS:
+            balanced_units.append(unit)
+            index += 1
+            continue
+
+        if index + 1 < len(pending_units):
+            pending_units[index + 1] = merge_sentence_units(unit, pending_units[index + 1])
+            index += 1
+            continue
+
+        if balanced_units:
+            balanced_units[-1] = merge_sentence_units(balanced_units[-1], unit)
+            index += 1
+            continue
+
+        balanced_units.append(unit)
+        index += 1
+
+    return balanced_units
 
 
 def load_or_create_sentences(video_id: str, segments: list[dict]) -> list[dict]:
@@ -361,7 +416,13 @@ def load_or_create_sentences(video_id: str, segments: list[dict]) -> list[dict]:
 
     if sentence_path.exists():
         with open(sentence_path) as f:
-            return json.load(f)
+            cached = json.load(f)
+        if isinstance(cached, list):
+            rebalanced = rebalance_sentence_units(cached)
+            if rebalanced != cached:
+                with open(sentence_path, "w") as f:
+                    json.dump(rebalanced, f, indent=2)
+            return rebalanced
 
     sentences = build_sentence_units(segments)
     with open(sentence_path, "w") as f:
@@ -423,7 +484,273 @@ def merge_words_min_duration(
     return groups
 
 
-def build_merged_words(segments: list[dict]) -> list[dict]:
+def build_word_group(words: list[dict]) -> dict:
+    return {
+        "words": list(words),
+        "word": " ".join(x["word"] for x in words),
+        "start": words[0]["start"],
+        "end": words[-1]["end"],
+        "freq": min(x.get("freq", -1) for x in words),
+    }
+
+
+def word_group_duration(group: dict) -> float:
+    return float(group["end"]) - float(group["start"])
+
+
+def word_group_starts_with_target(group: dict) -> bool:
+    words = group.get("words", [])
+    if not isinstance(words, list) or not words:
+        return False
+    return bool(words[0].get("is_target"))
+
+
+def is_candidate_word(word: dict) -> bool:
+    token = normalize_token(str(word.get("word", "")))
+    if not token or len(token) <= 2 or token in STOPWORDS:
+        return False
+
+    freq = word.get("freq", -1)
+    if not isinstance(freq, (int, float)):
+        return False
+    return float(freq) < 0 or float(freq) < RARE_WORD_MAX_FREQ
+
+
+def load_target_word_occurrences(video_id: str) -> list[tuple[str, float]]:
+    target_path = preferred_data_path(INTERRUPTIONS_DIR, video_id)
+    if not target_path.exists():
+        return []
+
+    with open(target_path) as f:
+        data = json.load(f)
+
+    interruptions = data.get("interruptions") if isinstance(data, dict) else None
+    if not isinstance(interruptions, list):
+        return []
+
+    occurrences = []
+    for item in interruptions:
+        if not isinstance(item, dict):
+            continue
+        token = normalize_token(str(item.get("target_word", "")))
+        time = item.get("target_word_time")
+        if token and isinstance(time, (int, float)):
+            occurrences.append((token, float(time)))
+    return occurrences
+
+
+def mark_target_word_occurrences(
+    words: list[dict], target_occurrences: list[tuple[str, float]]
+) -> list[dict]:
+    occurrences_by_token: dict[str, list[float]] = {}
+    for token, time in sorted(target_occurrences, key=lambda item: (item[0], item[1])):
+        occurrences_by_token.setdefault(token, []).append(time)
+
+    marked_words = []
+    for word in words:
+        token = normalize_token(str(word.get("word", "")))
+        start = float(word.get("start", 0.0))
+        candidates = occurrences_by_token.get(token, [])
+        is_target = False
+        if candidates and abs(candidates[0] - start) <= TARGET_TIME_TOLERANCE_SECONDS:
+            is_target = True
+            candidates.pop(0)
+
+        marked_word = dict(word)
+        if is_target:
+            marked_word["is_target"] = True
+        marked_words.append(marked_word)
+
+    return marked_words
+
+
+def split_merged_words_on_target_words(groups: list[dict]) -> list[dict]:
+    if not groups:
+        return groups
+
+    split_groups = []
+    pending_words: list[dict] = []
+    for group in groups:
+        words = group.get("words", [])
+        if not isinstance(words, list) or not words:
+            split_groups.append(group)
+            continue
+
+        merged_words = pending_words + list(words)
+        pending_words = []
+
+        target_positions = [idx for idx, word in enumerate(merged_words) if idx > 0 and word.get("is_target")]
+
+        if not target_positions:
+            split_groups.append(build_word_group(merged_words))
+            continue
+
+        first_target_idx = target_positions[0]
+        split_groups.append(build_word_group(merged_words[:first_target_idx]))
+
+        for start_idx, end_idx in zip(target_positions, target_positions[1:]):
+            split_groups.append(build_word_group(merged_words[start_idx:end_idx]))
+
+        pending_words = merged_words[target_positions[-1] :]
+
+    if pending_words:
+        split_groups.append(build_word_group(pending_words))
+
+    return split_groups
+
+
+def rebalance_merged_word_groups(groups: list[dict]) -> list[dict]:
+    if not groups:
+        return groups
+
+    balanced_groups: list[dict] = []
+    pending_groups = list(groups)
+    index = 0
+
+    while index < len(pending_groups):
+        group = pending_groups[index]
+        duration = word_group_duration(group)
+        starts_with_target = word_group_starts_with_target(group)
+
+        if duration >= MERGED_WORD_MIN_DURATION_SECONDS:
+            balanced_groups.append(group)
+            index += 1
+            continue
+
+        if starts_with_target and index + 1 < len(pending_groups):
+            pending_groups[index + 1] = build_word_group(
+                list(group["words"]) + list(pending_groups[index + 1]["words"])
+            )
+            index += 1
+            continue
+
+        if not starts_with_target and balanced_groups:
+            balanced_groups[-1] = build_word_group(
+                list(balanced_groups[-1]["words"]) + list(group["words"])
+            )
+            index += 1
+            continue
+
+        if not starts_with_target and index + 1 < len(pending_groups):
+            if word_group_starts_with_target(pending_groups[index + 1]):
+                index += 1
+                continue
+            pending_groups[index + 1] = build_word_group(
+                list(group["words"]) + list(pending_groups[index + 1]["words"])
+            )
+            index += 1
+            continue
+
+        balanced_groups.append(group)
+        index += 1
+
+    return balanced_groups
+
+
+def build_candidate_anchor_groups(words: list[dict]) -> list[dict]:
+    anchor_indices = [
+        idx for idx, word in enumerate(words) if word.get("is_target") or is_candidate_word(word)
+    ]
+    if not anchor_indices:
+        return []
+
+    atomic_groups = []
+    for position, start_idx in enumerate(anchor_indices):
+        next_start = anchor_indices[position + 1] if position + 1 < len(anchor_indices) else len(words)
+        end_idx = max(start_idx, next_start - 1)
+        atomic_groups.append(build_word_group(words[start_idx : end_idx + 1]))
+
+    merged_groups: list[dict] = []
+    index = 0
+    while index < len(atomic_groups):
+        current_group = atomic_groups[index]
+
+        while (
+            word_group_duration(current_group) < MERGED_WORD_MIN_DURATION_SECONDS
+            and index + 1 < len(atomic_groups)
+        ):
+            current_group = build_word_group(
+                list(current_group["words"]) + list(atomic_groups[index + 1]["words"])
+            )
+            index += 1
+
+        if (
+            word_group_duration(current_group) < MERGED_WORD_MIN_DURATION_SECONDS
+            and merged_groups
+            and not word_group_starts_with_target(current_group)
+        ):
+            merged_groups[-1] = build_word_group(
+                list(merged_groups[-1]["words"]) + list(current_group["words"])
+            )
+        else:
+            merged_groups.append(current_group)
+
+        index += 1
+
+    return merged_groups
+
+
+def split_word_group_if_needed(group: dict) -> list[dict]:
+    duration = word_group_duration(group)
+    if duration <= MAX_WORD_GROUP_DURATION_SECONDS:
+        return [group]
+
+    words = group.get("words", [])
+    if not isinstance(words, list) or len(words) < 2:
+        return [group]
+
+    candidates = []
+    for split_idx in range(1, len(words)):
+        left_group = build_word_group(words[:split_idx])
+        right_group = build_word_group(words[split_idx:])
+        left_duration = word_group_duration(left_group)
+        right_duration = word_group_duration(right_group)
+        if (
+            left_duration < MERGED_WORD_MIN_DURATION_SECONDS
+            or right_duration < MERGED_WORD_MIN_DURATION_SECONDS
+        ):
+            continue
+
+        prev_word = str(words[split_idx - 1].get("word", ""))
+        next_word = str(words[split_idx].get("word", ""))
+        punctuation_bonus = 0
+        if any(mark in prev_word for mark in [".", "?", "!"]):
+            punctuation_bonus = -2
+        elif any(mark in prev_word for mark in [",", ";", ":"]):
+            punctuation_bonus = -1
+        if next_word[:1].isupper():
+            punctuation_bonus -= 0.5
+
+        candidates.append(
+            (
+                max(left_duration, right_duration),
+                abs(left_duration - right_duration),
+                punctuation_bonus,
+                split_idx,
+                left_group,
+                right_group,
+            )
+        )
+
+    if not candidates:
+        return [group]
+
+    _, _, _, _, left_group, right_group = min(
+        candidates, key=lambda item: (item[0], item[1], item[2])
+    )
+    return split_word_group_if_needed(left_group) + split_word_group_if_needed(right_group)
+
+
+def split_long_word_groups(groups: list[dict]) -> list[dict]:
+    split_groups: list[dict] = []
+    for group in groups:
+        split_groups.extend(split_word_group_if_needed(group))
+    return split_groups
+
+
+def build_merged_words(
+    segments: list[dict], target_occurrences: list[tuple[str, float]] | None = None
+) -> list[dict]:
     """Build list of merged words from transcript segments."""
     all_words = []
     for seg in segments:
@@ -436,30 +763,35 @@ def build_merged_words(segments: list[dict]) -> list[dict]:
             })
 
     all_words.sort(key=lambda x: x["start"])
-    return merge_words_min_duration(
-        all_words, min_duration=MERGED_WORD_MIN_DURATION_SECONDS
-    )
+    all_words = mark_target_word_occurrences(all_words, target_occurrences or [])
+    candidate_groups = build_candidate_anchor_groups(all_words)
+    split_words = split_merged_words_on_target_words(candidate_groups)
+    rebalanced_words = rebalance_merged_word_groups(split_words)
+    return split_long_word_groups(rebalanced_words)
 
 
 def load_or_create_merged_words(video_id: str, segments: list[dict]) -> list[dict]:
     """Load merged words cache or create it from transcript segments."""
     WORDS_DIR.mkdir(parents=True, exist_ok=True)
     words_path = WORDS_DIR / f"{video_id}.json"
+    target_occurrences = load_target_word_occurrences(video_id)
 
     if words_path.exists():
         with open(words_path) as f:
             cached = json.load(f)
         if (
             isinstance(cached, dict)
+            and cached.get("version") == MERGED_WORDS_CACHE_VERSION
             and cached.get("min_duration_seconds") == MERGED_WORD_MIN_DURATION_SECONDS
             and isinstance(cached.get("items"), list)
         ):
             return cached["items"]
 
-    merged_words = build_merged_words(segments)
+    merged_words = build_merged_words(segments, target_occurrences)
     with open(words_path, "w") as f:
         json.dump(
             {
+                "version": MERGED_WORDS_CACHE_VERSION,
                 "min_duration_seconds": MERGED_WORD_MIN_DURATION_SECONDS,
                 "items": merged_words,
             },

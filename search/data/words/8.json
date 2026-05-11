@@ -1,4 +1,5 @@
 {
+  "version": 9,
   "min_duration_seconds": 2.0,
   "items": [
     {
@@ -68,15 +69,7 @@
           "start": 3.86,
           "end": 3.94,
           "freq": 6.329
-        }
-      ],
-      "word": "Laurel, welcome back to the show. It's great to have you",
-      "start": 1.659999999999997,
-      "end": 3.94,
-      "freq": 2.276
-    },
-    {
-      "words": [
+        },
         {
           "word": "here.",
           "start": 3.94,
@@ -118,21 +111,21 @@
           "start": 5.28,
           "end": 5.5,
           "freq": 6.329
-        },
+        }
+      ],
+      "word": "Laurel, welcome back to the show. It's great to have you here. Great to be here. Thank you.",
+      "start": 1.659999999999997,
+      "end": 5.5,
+      "freq": 2.276
+    },
+    {
+      "words": [
         {
           "word": "So",
           "start": 5.86,
           "end": 6.26,
           "freq": 5.335
-        }
-      ],
-      "word": "here. Great to be here. Thank you. So",
-      "start": 3.94,
-      "end": 6.26,
-      "freq": 4.622
-    },
-    {
-      "words": [
+        },
         {
           "word": "we",
           "start": 6.26,
@@ -186,15 +179,7 @@
           "start": 8.32,
           "end": 8.52,
           "freq": 5.609
-        }
-      ],
-      "word": "we have you here because we got word this",
-      "start": 6.26,
-      "end": 8.52,
-      "freq": 4.08
-    },
-    {
-      "words": [
+        },
         {
           "word": "week",
           "start": 8.52,
@@ -212,7 +197,15 @@
           "start": 9.0,
           "end": 9.28,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "So we have you here because we got word this week that a",
+      "start": 5.86,
+      "end": 9.28,
+      "freq": 4.08
+    },
+    {
+      "words": [
         {
           "word": "historic",
           "start": 9.28,
@@ -230,15 +223,7 @@
           "start": 10.48,
           "end": 10.7,
           "freq": 5.55
-        }
-      ],
-      "word": "week that a historic tax on",
-      "start": 8.52,
-      "end": 10.7,
-      "freq": 2.269
-    },
-    {
-      "words": [
+        },
         {
           "word": "billionaires",
           "start": 10.7,
@@ -274,21 +259,22 @@
           "start": 11.98,
           "end": 12.26,
           "freq": 4.408
-        },
-        {
-          "word": "signatures",
-          "start": 12.26,
-          "end": 12.8,
-          "freq": 2.167
         }
       ],
-      "word": "billionaires appears to have gotten enough signatures",
-      "start": 10.7,
-      "end": 12.8,
+      "word": "historic tax on billionaires appears to have gotten enough",
+      "start": 9.28,
+      "end": 12.26,
       "freq": -1
     },
     {
       "words": [
+        {
+          "word": "signatures",
+          "start": 12.26,
+          "end": 12.8,
+          "freq": 2.167,
+          "is_target": true
+        },
         {
           "word": "to",
           "start": 12.8,
@@ -324,21 +310,21 @@
           "start": 14.76,
           "end": 15.04,
           "freq": 5.698
-        }
-      ],
-      "word": "to be put to voters in",
-      "start": 12.8,
-      "end": 15.04,
-      "freq": 2.029
-    },
-    {
-      "words": [
+        },
         {
           "word": "California",
           "start": 15.04,
           "end": 15.64,
           "freq": 3.295
-        },
+        }
+      ],
+      "word": "signatures to be put to voters in California",
+      "start": 12.26,
+      "end": 15.64,
+      "freq": 2.029
+    },
+    {
+      "words": [
         {
           "word": "in",
           "start": 15.64,
@@ -356,15 +342,7 @@
           "start": 16.88,
           "end": 17.4,
           "freq": 5.335
-        }
-      ],
-      "word": "California in November. So",
-      "start": 15.04,
-      "end": 17.4,
-      "freq": 2.651
-    },
-    {
-      "words": [
+        },
         {
           "word": "just",
           "start": 17.4,
@@ -396,10 +374,10 @@
           "freq": 5.857
         }
       ],
-      "word": "just tell us why that",
-      "start": 17.4,
+      "word": "in November. So just tell us why that",
+      "start": 15.64,
       "end": 19.48,
-      "freq": 4.937
+      "freq": 2.651
     },
     {
       "words": [
@@ -438,15 +416,7 @@
           "start": 21.62,
           "end": 21.8,
           "freq": 5.183
-        }
-      ],
-      "word": "matters at a fundamental level. Well,",
-      "start": 19.48,
-      "end": 21.8,
-      "freq": 2.225
-    },
-    {
-      "words": [
+        },
         {
           "word": "this",
           "start": 22.04,
@@ -476,7 +446,15 @@
           "start": 23.32,
           "end": 23.44,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "matters at a fundamental level. Well, this is coming at a",
+      "start": 19.48,
+      "end": 23.44,
+      "freq": 2.225
+    },
+    {
+      "words": [
         {
           "word": "moment",
           "start": 23.44,
@@ -494,15 +472,7 @@
           "start": 24.0,
           "end": 24.22,
           "freq": 5.346
-        }
-      ],
-      "word": "this is coming at a moment when there",
-      "start": 22.04,
-      "end": 24.22,
-      "freq": 3.979
-    },
-    {
-      "words": [
+        },
         {
           "word": "is",
           "start": 24.22,
@@ -540,8 +510,8 @@
           "freq": 5.268
         }
       ],
-      "word": "is a lot of anxiety about",
-      "start": 24.22,
+      "word": "moment when there is a lot of anxiety about",
+      "start": 23.44,
       "end": 26.48,
       "freq": 2.539
     },
@@ -594,21 +564,21 @@
           "start": 28.78,
           "end": 29.0,
           "freq": 4.75
-        }
-      ],
-      "word": "economic inequality. You know, a lot of people",
-      "start": 26.48,
-      "end": 29.0,
-      "freq": 0.602
-    },
-    {
-      "words": [
+        },
         {
           "word": "are",
           "start": 29.0,
           "end": 29.16,
           "freq": 5.424
-        },
+        }
+      ],
+      "word": "economic inequality. You know, a lot of people are",
+      "start": 26.48,
+      "end": 29.16,
+      "freq": 0.602
+    },
+    {
+      "words": [
         {
           "word": "feeling",
           "start": 29.16,
@@ -632,21 +602,21 @@
           "start": 30.28,
           "end": 31.02,
           "freq": -1
-        }
-      ],
-      "word": "are feeling squeezed about affordability.",
-      "start": 29.0,
-      "end": 31.02,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "In",
           "start": 31.34,
           "end": 31.9,
           "freq": 5.698
-        },
+        }
+      ],
+      "word": "feeling squeezed about affordability. In",
+      "start": 29.16,
+      "end": 31.9,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "California,",
           "start": 31.9,
@@ -676,15 +646,7 @@
           "start": 33.3,
           "end": 33.52,
           "freq": 4.801
-        }
-      ],
-      "word": "In California, the electorate is very",
-      "start": 31.34,
-      "end": 33.52,
-      "freq": 1.0
-    },
-    {
-      "words": [
+        },
         {
           "word": "anti",
           "start": 33.52,
@@ -702,7 +664,15 @@
           "start": 34.28,
           "end": 34.5,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "California, the electorate is very anti -Trump and",
+      "start": 31.9,
+      "end": 34.5,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "feeling",
           "start": 34.5,
@@ -720,15 +690,7 @@
           "start": 35.36,
           "end": 35.7,
           "freq": 3.478
-        }
-      ],
-      "word": "anti -Trump and feeling somewhat angry",
-      "start": 33.52,
-      "end": 35.7,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "about",
           "start": 35.7,
@@ -752,7 +714,15 @@
           "start": 37.08,
           "end": 37.2,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "feeling somewhat angry about some of the",
+      "start": 34.5,
+      "end": 37.2,
+      "freq": 2.667
+    },
+    {
+      "words": [
         {
           "word": "cuts",
           "start": 37.2,
@@ -764,15 +734,7 @@
           "start": 37.5,
           "end": 37.7,
           "freq": 5.857
-        }
-      ],
-      "word": "about some of the cuts that",
-      "start": 35.7,
-      "end": 37.7,
-      "freq": 2.766
-    },
-    {
-      "words": [
+        },
         {
           "word": "he's",
           "start": 37.7,
@@ -814,21 +776,21 @@
           "start": 39.3,
           "end": 39.48,
           "freq": 5.59
-        },
+        }
+      ],
+      "word": "cuts that he's done and the ways that he",
+      "start": 37.2,
+      "end": 39.48,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "seems",
           "start": 39.48,
           "end": 39.76,
           "freq": 3.932
-        }
-      ],
-      "word": "he's done and the ways that he seems",
-      "start": 37.7,
-      "end": 39.76,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "to",
           "start": 39.76,
@@ -864,15 +826,7 @@
           "start": 41.58,
           "end": 41.76,
           "freq": 5.335
-        }
-      ],
-      "word": "to be favoring billionaires. And so",
-      "start": 39.76,
-      "end": 41.76,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "people",
           "start": 41.76,
@@ -884,7 +838,15 @@
           "start": 42.1,
           "end": 42.4,
           "freq": 5.424
-        },
+        }
+      ],
+      "word": "seems to be favoring billionaires. And so people are",
+      "start": 39.48,
+      "end": 42.4,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "feeling",
           "start": 42.4,
@@ -908,15 +870,7 @@
           "start": 43.52,
           "end": 43.78,
           "freq": 5.857
-        }
-      ],
-      "word": "people are feeling emotional about that.",
-      "start": 41.76,
-      "end": 43.78,
-      "freq": 3.034
-    },
-    {
-      "words": [
+        },
         {
           "word": "And",
           "start": 43.78,
@@ -928,7 +882,15 @@
           "start": 44.66,
           "end": 45.12,
           "freq": 5.609
-        },
+        }
+      ],
+      "word": "feeling emotional about that. And this",
+      "start": 42.4,
+      "end": 45.12,
+      "freq": 3.034
+    },
+    {
+      "words": [
         {
           "word": "tax",
           "start": 45.12,
@@ -940,15 +902,7 @@
           "start": 45.62,
           "end": 46.04,
           "freq": 4.762
-        }
-      ],
-      "word": "And this tax has",
-      "start": 43.78,
-      "end": 46.04,
-      "freq": 2.871
-    },
-    {
-      "words": [
+        },
         {
           "word": "ignited",
           "start": 46.04,
@@ -966,7 +920,15 @@
           "start": 47.42,
           "end": 47.64,
           "freq": 4.542
-        },
+        }
+      ],
+      "word": "tax has ignited a big",
+      "start": 45.12,
+      "end": 47.64,
+      "freq": 1.477
+    },
+    {
+      "words": [
         {
           "word": "pushback",
           "start": 47.64,
@@ -978,15 +940,7 @@
           "start": 48.28,
           "end": 48.76,
           "freq": 5.017
-        }
-      ],
-      "word": "ignited a big pushback from",
-      "start": 46.04,
-      "end": 48.76,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "many",
           "start": 48.76,
@@ -1010,7 +964,15 @@
           "start": 50.22,
           "end": 50.38,
           "freq": 5.424
-        },
+        }
+      ],
+      "word": "pushback from many billionaires who are",
+      "start": 47.64,
+      "end": 50.38,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "spending",
           "start": 50.38,
@@ -1022,15 +984,7 @@
           "start": 50.84,
           "end": 51.2,
           "freq": 2.061
-        }
-      ],
-      "word": "many billionaires who are spending tens",
-      "start": 48.76,
-      "end": 51.2,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 51.2,
@@ -1054,7 +1008,15 @@
           "start": 52.14,
           "end": 52.52,
           "freq": 3.602
-        },
+        }
+      ],
+      "word": "spending tens of millions of dollars",
+      "start": 50.38,
+      "end": 52.52,
+      "freq": 2.061
+    },
+    {
+      "words": [
         {
           "word": "to",
           "start": 52.52,
@@ -1066,15 +1028,7 @@
           "start": 52.84,
           "end": 53.2,
           "freq": 4.011
-        }
-      ],
-      "word": "of millions of dollars to fight",
-      "start": 51.2,
-      "end": 53.2,
-      "freq": 3.06
-    },
-    {
-      "words": [
+        },
         {
           "word": "it.",
           "start": 53.2,
@@ -1092,7 +1046,15 @@
           "start": 54.2,
           "end": 54.62,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "to fight it. And the",
+      "start": 52.52,
+      "end": 54.62,
+      "freq": 4.011
+    },
+    {
+      "words": [
         {
           "word": "scope",
           "start": 54.62,
@@ -1104,15 +1066,7 @@
           "start": 54.98,
           "end": 55.2,
           "freq": 5.771
-        }
-      ],
-      "word": "it. And the scope of",
-      "start": 53.2,
-      "end": 55.2,
-      "freq": 2.458
-    },
-    {
-      "words": [
+        },
         {
           "word": "this",
           "start": 55.2,
@@ -1156,10 +1110,10 @@
           "freq": 5.609
         }
       ],
-      "word": "this tax and the structure of this",
-      "start": 55.2,
+      "word": "scope of this tax and the structure of this",
+      "start": 54.62,
       "end": 57.28,
-      "freq": 2.716
+      "freq": 2.458
     },
     {
       "words": [
@@ -1210,21 +1164,21 @@
           "start": 59.42,
           "end": 59.52,
           "freq": 5.771
-        }
-      ],
-      "word": "tax is very unusual. And that's part of",
-      "start": 57.28,
-      "end": 59.52,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 59.52,
           "end": 59.64,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "tax is very unusual. And that's part of the",
+      "start": 57.28,
+      "end": 59.64,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "reason",
           "start": 59.64,
@@ -1260,15 +1214,7 @@
           "start": 61.4,
           "end": 61.52,
           "freq": 6.018
-        }
-      ],
-      "word": "the reason it's just generating such a",
-      "start": 59.52,
-      "end": 61.52,
-      "freq": 1.643
-    },
-    {
-      "words": [
+        },
         {
           "word": "firestorm.",
           "start": 61.52,
@@ -1280,7 +1226,15 @@
           "start": 62.58,
           "end": 62.64,
           "freq": 4.414
-        },
+        }
+      ],
+      "word": "reason it's just generating such a firestorm. OK,",
+      "start": 59.64,
+      "end": 62.64,
+      "freq": 0.845
+    },
+    {
+      "words": [
         {
           "word": "let's",
           "start": 62.8,
@@ -1310,21 +1264,21 @@
           "start": 64.2,
           "end": 64.42,
           "freq": 6.177
-        }
-      ],
-      "word": "firestorm. OK, let's start there with the",
-      "start": 61.52,
-      "end": 64.42,
-      "freq": 0.845
-    },
-    {
-      "words": [
+        },
         {
           "word": "unusual",
           "start": 64.42,
           "end": 64.96,
           "freq": 3.083
-        },
+        }
+      ],
+      "word": "let's start there with the unusual",
+      "start": 62.8,
+      "end": 64.96,
+      "freq": 2.963
+    },
+    {
+      "words": [
         {
           "word": "structure",
           "start": 64.96,
@@ -1348,15 +1302,7 @@
           "start": 66.52,
           "end": 66.66,
           "freq": 5.384
-        }
-      ],
-      "word": "unusual structure of it. Just",
-      "start": 64.42,
-      "end": 66.66,
-      "freq": 2.716
-    },
-    {
-      "words": [
+        },
         {
           "word": "explain",
           "start": 66.66,
@@ -1374,7 +1320,15 @@
           "start": 67.8,
           "end": 67.98,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "structure of it. Just explain what the",
+      "start": 64.96,
+      "end": 67.98,
+      "freq": 2.716
+    },
+    {
+      "words": [
         {
           "word": "measure",
           "start": 67.98,
@@ -1392,15 +1346,7 @@
           "start": 68.48,
           "end": 68.76,
           "freq": 5.495
-        }
-      ],
-      "word": "explain what the measure would do.",
-      "start": 66.66,
-      "end": 68.76,
-      "freq": 2.731
-    },
-    {
-      "words": [
+        },
         {
           "word": "So",
           "start": 68.76,
@@ -1424,26 +1370,27 @@
           "start": 70.74,
           "end": 71.3,
           "freq": 4.488
-        }
-      ],
-      "word": "So this would place",
-      "start": 68.76,
-      "end": 71.3,
-      "freq": 4.488
-    },
-    {
-      "words": [
+        },
         {
           "word": "a",
           "start": 71.3,
           "end": 71.86,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "measure would do. So this would place a",
+      "start": 67.98,
+      "end": 71.86,
+      "freq": 2.731
+    },
+    {
+      "words": [
         {
           "word": "5",
           "start": 71.86,
           "end": 72.72,
-          "freq": -1
+          "freq": -1,
+          "is_target": true
         },
         {
           "word": "%",
@@ -1456,15 +1403,7 @@
           "start": 73.12,
           "end": 73.82,
           "freq": 2.871
-        }
-      ],
-      "word": "a 5 % tax",
-      "start": 71.3,
-      "end": 73.82,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "on",
           "start": 73.82,
@@ -1476,7 +1415,15 @@
           "start": 74.76,
           "end": 75.34,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "5 % tax on the",
+      "start": 71.86,
+      "end": 75.34,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "net",
           "start": 75.34,
@@ -1488,15 +1435,7 @@
           "start": 76.02,
           "end": 76.48,
           "freq": 3.746
-        }
-      ],
-      "word": "on the net worth",
-      "start": 73.82,
-      "end": 76.48,
-      "freq": 2.9
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 76.48,
@@ -1508,21 +1447,21 @@
           "start": 77.42,
           "end": 77.92,
           "freq": 4.749
-        },
+        }
+      ],
+      "word": "net worth of any",
+      "start": 75.34,
+      "end": 77.92,
+      "freq": 2.9
+    },
+    {
+      "words": [
         {
           "word": "billionaires",
           "start": 77.92,
           "end": 78.68,
           "freq": -1
-        }
-      ],
-      "word": "of any billionaires",
-      "start": 76.48,
-      "end": 78.68,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "who",
           "start": 78.68,
@@ -1552,21 +1491,21 @@
           "start": 80.08,
           "end": 80.7,
           "freq": 5.053
-        }
-      ],
-      "word": "who are California residents as",
-      "start": 78.68,
-      "end": 80.7,
-      "freq": 2.425
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 80.7,
           "end": 80.84,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "billionaires who are California residents as of",
+      "start": 77.92,
+      "end": 80.84,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "January",
           "start": 80.84,
@@ -1596,21 +1535,21 @@
           "start": 82.34,
           "end": 82.7,
           "freq": 4.152
-        }
-      ],
-      "word": "of January 1st of this year.",
-      "start": 80.7,
-      "end": 82.7,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "The",
           "start": 82.94,
           "end": 83.64,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "January 1st of this year. The",
+      "start": 80.84,
+      "end": 83.64,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "money",
           "start": 83.64,
@@ -1634,21 +1573,21 @@
           "start": 84.98,
           "end": 85.46,
           "freq": 4.634
-        }
-      ],
-      "word": "The money would go into",
-      "start": 82.94,
-      "end": 85.46,
-      "freq": 4.514
-    },
-    {
-      "words": [
+        },
         {
           "word": "a",
           "start": 85.46,
           "end": 86.02,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "money would go into a",
+      "start": 83.64,
+      "end": 86.02,
+      "freq": 4.514
+    },
+    {
+      "words": [
         {
           "word": "special",
           "start": 86.02,
@@ -1666,15 +1605,7 @@
           "start": 87.16,
           "end": 87.6,
           "freq": 5.215
-        }
-      ],
-      "word": "a special fund at",
-      "start": 85.46,
-      "end": 87.6,
-      "freq": 2.734
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 87.6,
@@ -1686,7 +1617,15 @@
           "start": 87.78,
           "end": 88.06,
           "freq": 3.74
-        },
+        }
+      ],
+      "word": "special fund at the state",
+      "start": 86.02,
+      "end": 88.06,
+      "freq": 2.734
+    },
+    {
+      "words": [
         {
           "word": "level",
           "start": 88.06,
@@ -1704,15 +1643,7 @@
           "start": 89.28,
           "end": 89.76,
           "freq": 4.955
-        }
-      ],
-      "word": "the state level and would",
-      "start": 87.6,
-      "end": 89.76,
-      "freq": 3.421
-    },
-    {
-      "words": [
+        },
         {
           "word": "have",
           "start": 89.76,
@@ -1730,7 +1661,15 @@
           "start": 90.24,
           "end": 90.46,
           "freq": 5.467
-        },
+        }
+      ],
+      "word": "level and would have to be",
+      "start": 88.06,
+      "end": 90.46,
+      "freq": 3.421
+    },
+    {
+      "words": [
         {
           "word": "spent",
           "start": 90.46,
@@ -1754,21 +1693,21 @@
           "start": 91.7,
           "end": 91.88,
           "freq": 4.394
-        }
-      ],
-      "word": "have to be spent on health care",
-      "start": 89.76,
-      "end": 91.88,
-      "freq": 3.313
-    },
-    {
-      "words": [
+        },
         {
           "word": "services.",
           "start": 91.88,
           "end": 92.5,
           "freq": 3.023
-        },
+        }
+      ],
+      "word": "spent on health care services.",
+      "start": 90.46,
+      "end": 92.5,
+      "freq": 3.023
+    },
+    {
+      "words": [
         {
           "word": "It's",
           "start": 93.32,
@@ -1786,15 +1725,7 @@
           "start": 94.66,
           "end": 95.12,
           "freq": 6.063
-        }
-      ],
-      "word": "services. It's unusual to",
-      "start": 91.88,
-      "end": 95.12,
-      "freq": 3.023
-    },
-    {
-      "words": [
+        },
         {
           "word": "tax",
           "start": 95.12,
@@ -1806,7 +1737,15 @@
           "start": 95.62,
           "end": 96.4,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "It's unusual to tax the",
+      "start": 93.32,
+      "end": 96.4,
+      "freq": 2.871
+    },
+    {
+      "words": [
         {
           "word": "assets",
           "start": 96.4,
@@ -1824,15 +1763,7 @@
           "start": 97.4,
           "end": 97.5,
           "freq": 6.018
-        }
-      ],
-      "word": "tax the assets of a",
-      "start": 95.12,
-      "end": 97.5,
-      "freq": 2.417
-    },
-    {
-      "words": [
+        },
         {
           "word": "person",
           "start": 97.5,
@@ -1862,7 +1793,15 @@
           "start": 98.5,
           "end": 98.64,
           "freq": 4.524
-        },
+        }
+      ],
+      "word": "assets of a person as opposed to their",
+      "start": 96.4,
+      "end": 98.64,
+      "freq": 2.417
+    },
+    {
+      "words": [
         {
           "word": "income.",
           "start": 98.64,
@@ -1880,15 +1819,7 @@
           "start": 99.36,
           "end": 99.52,
           "freq": 4.524
-        }
-      ],
-      "word": "person as opposed to their income. So their",
-      "start": 97.5,
-      "end": 99.52,
-      "freq": 2.548
-    },
-    {
-      "words": [
+        },
         {
           "word": "assets",
           "start": 99.52,
@@ -1926,8 +1857,8 @@
           "freq": 4.524
         }
       ],
-      "word": "assets would be, you know, their",
-      "start": 99.52,
+      "word": "income. So their assets would be, you know, their",
+      "start": 98.64,
       "end": 101.72,
       "freq": 2.417
     },
@@ -1962,21 +1893,21 @@
           "start": 104.04,
           "end": 104.56,
           "freq": 4.37
-        }
-      ],
-      "word": "stocks, the jewelry they own,",
-      "start": 101.72,
-      "end": 104.56,
-      "freq": 2.32
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 104.72,
           "end": 104.84,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "stocks, the jewelry they own, the",
+      "start": 101.72,
+      "end": 104.84,
+      "freq": 2.32
+    },
+    {
+      "words": [
         {
           "word": "cars",
           "start": 104.84,
@@ -2006,15 +1937,7 @@
           "start": 106.62,
           "end": 106.72,
           "freq": 6.177
-        }
-      ],
-      "word": "the cars in their garage, the",
-      "start": 104.72,
-      "end": 106.72,
-      "freq": 3.143
-    },
-    {
-      "words": [
+        },
         {
           "word": "paintings,",
           "start": 106.72,
@@ -2032,7 +1955,15 @@
           "start": 108.4,
           "end": 108.78,
           "freq": 5.857
-        },
+        }
+      ],
+      "word": "cars in their garage, the paintings, anything that",
+      "start": 104.84,
+      "end": 108.78,
+      "freq": 2.76
+    },
+    {
+      "words": [
         {
           "word": "contributes",
           "start": 108.78,
@@ -2050,15 +1981,7 @@
           "start": 109.54,
           "end": 109.72,
           "freq": 4.524
-        }
-      ],
-      "word": "paintings, anything that contributes to their",
-      "start": 106.72,
-      "end": 109.72,
-      "freq": 1.23
-    },
-    {
-      "words": [
+        },
         {
           "word": "wealth.",
           "start": 109.72,
@@ -2088,21 +2011,21 @@
           "start": 111.52,
           "end": 111.76,
           "freq": 5.442
-        },
+        }
+      ],
+      "word": "contributes to their wealth. Notably, it does not",
+      "start": 108.78,
+      "end": 111.76,
+      "freq": 1.23
+    },
+    {
+      "words": [
         {
           "word": "include",
           "start": 111.76,
           "end": 112.28,
           "freq": 2.755
-        }
-      ],
-      "word": "wealth. Notably, it does not include",
-      "start": 109.72,
-      "end": 112.28,
-      "freq": 1.362
-    },
-    {
-      "words": [
+        },
         {
           "word": "residential",
           "start": 112.28,
@@ -2120,7 +2043,15 @@
           "start": 113.58,
           "end": 114.1,
           "freq": 5.335
-        },
+        }
+      ],
+      "word": "include residential property. So",
+      "start": 111.76,
+      "end": 114.1,
+      "freq": 1.964
+    },
+    {
+      "words": [
         {
           "word": "that's",
           "start": 114.1,
@@ -2138,15 +2069,7 @@
           "start": 114.78,
           "end": 114.98,
           "freq": 5.771
-        }
-      ],
-      "word": "residential property. So that's kind of",
-      "start": 112.28,
-      "end": 114.98,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "an",
           "start": 114.98,
@@ -2164,15 +2087,7 @@
           "start": 116.08,
           "end": 116.98,
           "freq": 1.322
-        }
-      ],
-      "word": "an interesting exemption.",
-      "start": 114.98,
-      "end": 116.98,
-      "freq": 1.322
-    },
-    {
-      "words": [
+        },
         {
           "word": "And",
           "start": 116.98,
@@ -2184,7 +2099,15 @@
           "start": 117.86,
           "end": 118.02,
           "freq": 4.881
-        },
+        }
+      ],
+      "word": "that's kind of an interesting exemption. And then",
+      "start": 114.1,
+      "end": 118.02,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "it's",
           "start": 118.02,
@@ -2208,21 +2131,21 @@
           "start": 119.16,
           "end": 119.68,
           "freq": 5.55
-        }
-      ],
-      "word": "And then it's also unusual on",
-      "start": 116.98,
-      "end": 119.68,
-      "freq": 3.083
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 119.68,
           "end": 120.04,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "it's also unusual on the",
+      "start": 118.02,
+      "end": 120.04,
+      "freq": 3.083
+    },
+    {
+      "words": [
         {
           "word": "revenue",
           "start": 120.04,
@@ -2240,15 +2163,7 @@
           "start": 121.38,
           "end": 121.72,
           "freq": 6.063
-        }
-      ],
-      "word": "the revenue side to",
-      "start": 119.68,
-      "end": 121.72,
-      "freq": 2.09
-    },
-    {
-      "words": [
+        },
         {
           "word": "create",
           "start": 121.72,
@@ -2260,7 +2175,15 @@
           "start": 122.22,
           "end": 122.6,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "revenue side to create a",
+      "start": 120.04,
+      "end": 122.6,
+      "freq": 2.09
+    },
+    {
+      "words": [
         {
           "word": "special",
           "start": 122.6,
@@ -2272,15 +2195,7 @@
           "start": 123.14,
           "end": 123.74,
           "freq": 2.734
-        }
-      ],
-      "word": "create a special fund",
-      "start": 121.72,
-      "end": 123.74,
-      "freq": 2.734
-    },
-    {
-      "words": [
+        },
         {
           "word": "where",
           "start": 123.74,
@@ -2310,7 +2225,15 @@
           "start": 124.7,
           "end": 125.1,
           "freq": 5.287
-        },
+        }
+      ],
+      "word": "special fund where the money would go",
+      "start": 122.6,
+      "end": 125.1,
+      "freq": 2.734
+    },
+    {
+      "words": [
         {
           "word": "and",
           "start": 125.1,
@@ -2334,15 +2257,7 @@
           "start": 125.84,
           "end": 126.0,
           "freq": 4.92
-        }
-      ],
-      "word": "where the money would go and that it could",
-      "start": 123.74,
-      "end": 126.0,
-      "freq": 4.514
-    },
-    {
-      "words": [
+        },
         {
           "word": "only",
           "start": 126.0,
@@ -2378,21 +2293,21 @@
           "start": 127.34,
           "end": 127.64,
           "freq": 5.195
-        },
+        }
+      ],
+      "word": "and that it could only be used for this one",
+      "start": 125.1,
+      "end": 127.64,
+      "freq": 4.244
+    },
+    {
+      "words": [
         {
           "word": "purpose.",
           "start": 127.64,
           "end": 128.12,
           "freq": 3.253
-        }
-      ],
-      "word": "only be used for this one purpose.",
-      "start": 126.0,
-      "end": 128.12,
-      "freq": 3.253
-    },
-    {
-      "words": [
+        },
         {
           "word": "So",
           "start": 128.48,
@@ -2422,21 +2337,21 @@
           "start": 130.26,
           "end": 130.4,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "purpose. So unlike most of the",
+      "start": 127.64,
+      "end": 130.4,
+      "freq": 2.725
+    },
+    {
+      "words": [
         {
           "word": "tax",
           "start": 130.4,
           "end": 130.72,
           "freq": 2.871
-        }
-      ],
-      "word": "So unlike most of the tax",
-      "start": 128.48,
-      "end": 130.72,
-      "freq": 2.725
-    },
-    {
-      "words": [
+        },
         {
           "word": "dollars",
           "start": 130.72,
@@ -2478,21 +2393,21 @@
           "start": 132.7,
           "end": 132.94,
           "freq": 5.287
-        }
-      ],
-      "word": "dollars that the state collects, which go",
-      "start": 130.72,
-      "end": 132.94,
-      "freq": 1.959
-    },
-    {
-      "words": [
+        },
         {
           "word": "into",
           "start": 132.94,
           "end": 133.16,
           "freq": 4.634
-        },
+        }
+      ],
+      "word": "tax dollars that the state collects, which go into",
+      "start": 130.4,
+      "end": 133.16,
+      "freq": 1.959
+    },
+    {
+      "words": [
         {
           "word": "what's",
           "start": 133.16,
@@ -2534,21 +2449,21 @@
           "start": 134.88,
           "end": 135.1,
           "freq": 4.881
-        }
-      ],
-      "word": "into what's called the general fund and then",
-      "start": 132.94,
-      "end": 135.1,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 135.1,
           "end": 135.5,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "what's called the general fund and then the",
+      "start": 133.16,
+      "end": 135.5,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "elected",
           "start": 135.5,
@@ -2566,15 +2481,7 @@
           "start": 136.88,
           "end": 137.24,
           "freq": 5.771
-        }
-      ],
-      "word": "the elected leaders of",
-      "start": 135.1,
-      "end": 137.24,
-      "freq": 2.569
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 137.24,
@@ -2586,7 +2493,15 @@
           "start": 137.46,
           "end": 137.72,
           "freq": 3.74
-        },
+        }
+      ],
+      "word": "elected leaders of the state",
+      "start": 135.5,
+      "end": 137.72,
+      "freq": 2.569
+    },
+    {
+      "words": [
         {
           "word": "government",
           "start": 137.72,
@@ -2616,15 +2531,7 @@
           "start": 139.1,
           "end": 139.38,
           "freq": 3.677
-        }
-      ],
-      "word": "the state government decide how to spend",
-      "start": 137.24,
-      "end": 139.38,
-      "freq": 3.41
-    },
-    {
-      "words": [
+        },
         {
           "word": "it,",
           "start": 139.38,
@@ -2642,21 +2549,21 @@
           "start": 140.52,
           "end": 140.86,
           "freq": 5.662
-        },
+        }
+      ],
+      "word": "government decide how to spend it, this is",
+      "start": 137.72,
+      "end": 140.86,
+      "freq": 3.41
+    },
+    {
+      "words": [
         {
           "word": "requiring",
           "start": 140.86,
           "end": 141.78,
           "freq": 1.748
-        }
-      ],
-      "word": "it, this is requiring",
-      "start": 139.38,
-      "end": 141.78,
-      "freq": 1.748
-    },
-    {
-      "words": [
+        },
         {
           "word": "that",
           "start": 141.78,
@@ -2668,7 +2575,15 @@
           "start": 142.72,
           "end": 143.24,
           "freq": -1
-        },
+        }
+      ],
+      "word": "requiring that 90",
+      "start": 140.86,
+      "end": 143.24,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "percent",
           "start": 143.24,
@@ -2686,15 +2601,7 @@
           "start": 143.92,
           "end": 144.14,
           "freq": 5.984
-        }
-      ],
-      "word": "that 90 percent of it",
-      "start": 141.78,
-      "end": 144.14,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "be",
           "start": 144.14,
@@ -2718,21 +2625,21 @@
           "start": 145.78,
           "end": 146.12,
           "freq": 5.55
-        },
+        }
+      ],
+      "word": "percent of it be spent specifically on",
+      "start": 143.24,
+      "end": 146.12,
+      "freq": 2.72
+    },
+    {
+      "words": [
         {
           "word": "health",
           "start": 146.12,
           "end": 146.36,
           "freq": 3.313
-        }
-      ],
-      "word": "be spent specifically on health",
-      "start": 144.14,
-      "end": 146.36,
-      "freq": 2.72
-    },
-    {
-      "words": [
+        },
         {
           "word": "care.",
           "start": 146.36,
@@ -2762,21 +2669,21 @@
           "start": 148.46,
           "end": 148.92,
           "freq": 4.216
-        }
-      ],
-      "word": "care. What does that actually",
-      "start": 146.36,
-      "end": 148.92,
-      "freq": 4.216
-    },
-    {
-      "words": [
+        },
         {
           "word": "mean?",
           "start": 148.92,
           "end": 149.42,
           "freq": 4.802
-        },
+        }
+      ],
+      "word": "health care. What does that actually mean?",
+      "start": 146.12,
+      "end": 149.42,
+      "freq": 3.313
+    },
+    {
+      "words": [
         {
           "word": "Like,",
           "start": 149.88,
@@ -2806,15 +2713,7 @@
           "start": 150.72,
           "end": 151.18,
           "freq": 6.063
-        }
-      ],
-      "word": "mean? Like, does that go to",
-      "start": 148.92,
-      "end": 151.18,
-      "freq": 4.532
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 151.18,
@@ -2844,7 +2743,15 @@
           "start": 152.24,
           "end": 152.4,
           "freq": 5.424
-        },
+        }
+      ],
+      "word": "Like, does that go to the money that people are",
+      "start": 149.88,
+      "end": 152.4,
+      "freq": 4.514
+    },
+    {
+      "words": [
         {
           "word": "spending",
           "start": 152.4,
@@ -2862,15 +2769,7 @@
           "start": 153.2,
           "end": 153.34,
           "freq": 4.524
-        }
-      ],
-      "word": "the money that people are spending on their",
-      "start": 151.18,
-      "end": 153.34,
-      "freq": 3.102
-    },
-    {
-      "words": [
+        },
         {
           "word": "health",
           "start": 153.34,
@@ -2888,21 +2787,21 @@
           "start": 154.52,
           "end": 154.9,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "spending on their health care? The",
+      "start": 152.4,
+      "end": 154.9,
+      "freq": 3.102
+    },
+    {
+      "words": [
         {
           "word": "concept",
           "start": 154.9,
           "end": 155.4,
           "freq": 2.744
-        }
-      ],
-      "word": "health care? The concept",
-      "start": 153.34,
-      "end": 155.4,
-      "freq": 2.744
-    },
-    {
-      "words": [
+        },
         {
           "word": "is",
           "start": 155.4,
@@ -2940,8 +2839,8 @@
           "freq": 5.609
         }
       ],
-      "word": "is that the supporters of this",
-      "start": 155.4,
+      "word": "concept is that the supporters of this",
+      "start": 154.9,
       "end": 157.8,
       "freq": 1.732
     },
@@ -2970,15 +2869,7 @@
           "start": 159.28,
           "end": 159.82,
           "freq": 4.85
-        }
-      ],
-      "word": "tax want to make",
-      "start": 157.8,
-      "end": 159.82,
-      "freq": 2.871
-    },
-    {
-      "words": [
+        },
         {
           "word": "up",
           "start": 159.82,
@@ -2996,7 +2887,15 @@
           "start": 160.54,
           "end": 161.04,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "tax want to make up for the",
+      "start": 157.8,
+      "end": 161.04,
+      "freq": 2.871
+    },
+    {
+      "words": [
         {
           "word": "massive",
           "start": 161.04,
@@ -3008,15 +2907,7 @@
           "start": 161.46,
           "end": 161.92,
           "freq": 3.101
-        }
-      ],
-      "word": "up for the massive amount",
-      "start": 159.82,
-      "end": 161.92,
-      "freq": 2.707
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 161.92,
@@ -3052,15 +2943,7 @@
           "start": 163.6,
           "end": 163.98,
           "freq": 4.069
-        }
-      ],
-      "word": "of funding that has been cut",
-      "start": 161.92,
-      "end": 163.98,
-      "freq": 2.212
-    },
-    {
-      "words": [
+        },
         {
           "word": "by",
           "start": 163.98,
@@ -3072,7 +2955,15 @@
           "start": 164.26,
           "end": 164.42,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "massive amount of funding that has been cut by the",
+      "start": 161.04,
+      "end": 164.42,
+      "freq": 2.212
+    },
+    {
+      "words": [
         {
           "word": "federal",
           "start": 164.42,
@@ -3090,26 +2981,27 @@
           "start": 165.24,
           "end": 166.08,
           "freq": 4.448
-        }
-      ],
-      "word": "by the federal government through",
-      "start": 163.98,
-      "end": 166.08,
-      "freq": 3.07
-    },
-    {
-      "words": [
+        },
         {
           "word": "what",
           "start": 166.08,
           "end": 166.58,
           "freq": 5.701
-        },
+        }
+      ],
+      "word": "federal government through what",
+      "start": 164.42,
+      "end": 166.58,
+      "freq": 3.07
+    },
+    {
+      "words": [
         {
           "word": "Republicans",
           "start": 166.58,
           "end": 167.06,
-          "freq": 1.792
+          "freq": 1.792,
+          "is_target": true
         },
         {
           "word": "called",
@@ -3134,15 +3026,7 @@
           "start": 168.02,
           "end": 168.34,
           "freq": 4.154
-        }
-      ],
-      "word": "what Republicans called their big, beautiful",
-      "start": 166.08,
-      "end": 168.34,
-      "freq": 1.792
-    },
-    {
-      "words": [
+        },
         {
           "word": "bill.",
           "start": 168.34,
@@ -3154,7 +3038,15 @@
           "start": 168.7,
           "end": 169.42,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "Republicans called their big, beautiful bill. The",
+      "start": 166.58,
+      "end": 169.42,
+      "freq": 1.792
+    },
+    {
+      "words": [
         {
           "word": "cuts",
           "start": 169.42,
@@ -3178,15 +3070,7 @@
           "start": 170.08,
           "end": 170.34,
           "freq": 5.698
-        }
-      ],
-      "word": "bill. The cuts that were in",
-      "start": 168.34,
-      "end": 170.34,
-      "freq": 2.766
-    },
-    {
-      "words": [
+        },
         {
           "word": "that",
           "start": 170.34,
@@ -3228,21 +3112,21 @@
           "start": 172.02,
           "end": 172.34,
           "freq": 4.152
-        }
-      ],
-      "word": "that bill that Trump signed last year",
-      "start": 170.34,
-      "end": 172.34,
-      "freq": 2.064
-    },
-    {
-      "words": [
+        },
         {
           "word": "were",
           "start": 172.34,
           "end": 173.2,
           "freq": 4.928
-        },
+        }
+      ],
+      "word": "cuts that were in that bill that Trump signed last year were",
+      "start": 169.42,
+      "end": 173.2,
+      "freq": 2.064
+    },
+    {
+      "words": [
         {
           "word": "related",
           "start": 173.2,
@@ -3260,21 +3144,21 @@
           "start": 174.16,
           "end": 174.72,
           "freq": -1
-        }
-      ],
-      "word": "were related to Medicaid",
-      "start": 172.34,
-      "end": 174.72,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 174.72,
           "end": 175.62,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "related to Medicaid and",
+      "start": 173.2,
+      "end": 175.62,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Obamacare",
           "start": 175.62,
@@ -3286,15 +3170,7 @@
           "start": 176.9,
           "end": 177.44,
           "freq": 1.114
-        }
-      ],
-      "word": "and Obamacare subsidies,",
-      "start": 174.72,
-      "end": 177.44,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 177.44,
@@ -3306,7 +3182,15 @@
           "start": 178.24,
           "end": 178.98,
           "freq": 4.584
-        },
+        }
+      ],
+      "word": "Obamacare subsidies, and those",
+      "start": 175.62,
+      "end": 178.98,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "health",
           "start": 178.98,
@@ -3318,15 +3202,7 @@
           "start": 179.42,
           "end": 179.92,
           "freq": 3.291
-        }
-      ],
-      "word": "and those health insurance",
-      "start": 177.44,
-      "end": 179.92,
-      "freq": 3.291
-    },
-    {
-      "words": [
+        },
         {
           "word": "programs",
           "start": 179.92,
@@ -3344,7 +3220,15 @@
           "start": 181.16,
           "end": 181.4,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "health insurance programs pumped a",
+      "start": 178.98,
+      "end": 181.4,
+      "freq": 2.204
+    },
+    {
+      "words": [
         {
           "word": "huge",
           "start": 181.4,
@@ -3368,15 +3252,7 @@
           "start": 182.26,
           "end": 182.52,
           "freq": 4.514
-        }
-      ],
-      "word": "programs pumped a huge amount of money",
-      "start": 179.92,
-      "end": 182.52,
-      "freq": 2.204
-    },
-    {
-      "words": [
+        },
         {
           "word": "into",
           "start": 182.52,
@@ -3388,7 +3264,15 @@
           "start": 183.08,
           "end": 183.4,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "huge amount of money into the",
+      "start": 181.4,
+      "end": 183.4,
+      "freq": 3.101
+    },
+    {
+      "words": [
         {
           "word": "health",
           "start": 183.4,
@@ -3406,21 +3290,21 @@
           "start": 183.86,
           "end": 184.56,
           "freq": 3.669
-        }
-      ],
-      "word": "into the health care system",
-      "start": 182.52,
-      "end": 184.56,
-      "freq": 3.313
-    },
-    {
-      "words": [
+        },
         {
           "word": "writ",
           "start": 184.56,
           "end": 185.4,
           "freq": 1.949
-        },
+        }
+      ],
+      "word": "health care system writ",
+      "start": 183.4,
+      "end": 185.4,
+      "freq": 1.949
+    },
+    {
+      "words": [
         {
           "word": "large.",
           "start": 185.4,
@@ -3444,15 +3328,7 @@
           "start": 187.0,
           "end": 187.16,
           "freq": 6.177
-        }
-      ],
-      "word": "writ large. So for the",
-      "start": 184.56,
-      "end": 187.16,
-      "freq": 1.949
-    },
-    {
-      "words": [
+        },
         {
           "word": "supporters",
           "start": 187.16,
@@ -3470,7 +3346,15 @@
           "start": 187.92,
           "end": 188.12,
           "freq": 5.609
-        },
+        }
+      ],
+      "word": "large. So for the supporters of this",
+      "start": 185.4,
+      "end": 188.12,
+      "freq": 1.732
+    },
+    {
+      "words": [
         {
           "word": "tax,",
           "start": 188.12,
@@ -3500,15 +3384,7 @@
           "start": 189.2,
           "end": 189.48,
           "freq": 4.514
-        }
-      ],
-      "word": "supporters of this tax, they say this money",
-      "start": 187.16,
-      "end": 189.48,
-      "freq": 1.732
-    },
-    {
-      "words": [
+        },
         {
           "word": "is",
           "start": 189.48,
@@ -3534,8 +3410,8 @@
           "freq": 4.554
         }
       ],
-      "word": "is essential to keep",
-      "start": 189.48,
+      "word": "tax, they say this money is essential to keep",
+      "start": 188.12,
       "end": 191.56,
       "freq": 2.394
     },
@@ -3545,7 +3421,8 @@
           "word": "hospitals",
           "start": 191.56,
           "end": 192.18,
-          "freq": 2.5
+          "freq": 2.5,
+          "is_target": true
         },
         {
           "word": "open,",
@@ -3570,21 +3447,21 @@
           "start": 193.14,
           "end": 193.6,
           "freq": 3.444
-        },
+        }
+      ],
+      "word": "hospitals open, to keep emergency",
+      "start": 191.56,
+      "end": 193.6,
+      "freq": 2.5
+    },
+    {
+      "words": [
         {
           "word": "rooms",
           "start": 193.6,
           "end": 194.16,
           "freq": 3.123
-        }
-      ],
-      "word": "hospitals open, to keep emergency rooms",
-      "start": 191.56,
-      "end": 194.16,
-      "freq": 2.5
-    },
-    {
-      "words": [
+        },
         {
           "word": "operating",
           "start": 194.16,
@@ -3616,8 +3493,8 @@
           "freq": 6.177
         }
       ],
-      "word": "operating and to keep the",
-      "start": 194.16,
+      "word": "rooms operating and to keep the",
+      "start": 193.6,
       "end": 196.6,
       "freq": 2.766
     },
@@ -3734,15 +3611,7 @@
           "start": 203.08,
           "end": 203.44,
           "freq": 4.947
-        }
-      ],
-      "word": "level that it has been",
-      "start": 201.38,
-      "end": 203.44,
-      "freq": 3.421
-    },
-    {
-      "words": [
+        },
         {
           "word": "before",
           "start": 203.44,
@@ -3754,7 +3623,15 @@
           "start": 204.18,
           "end": 204.76,
           "freq": 4.664
-        },
+        }
+      ],
+      "word": "level that it has been before these",
+      "start": 201.38,
+      "end": 204.76,
+      "freq": 3.421
+    },
+    {
+      "words": [
         {
           "word": "cuts",
           "start": 204.76,
@@ -3772,15 +3649,7 @@
           "start": 205.32,
           "end": 205.54,
           "freq": 4.634
-        }
-      ],
-      "word": "before these cuts go into",
-      "start": 203.44,
-      "end": 205.54,
-      "freq": 2.766
-    },
-    {
-      "words": [
+        },
         {
           "word": "place.",
           "start": 205.54,
@@ -3834,21 +3703,21 @@
           "start": 207.72,
           "end": 207.88,
           "freq": 5.55
-        }
-      ],
-      "word": "place. So just to put a fine point on",
-      "start": 205.54,
-      "end": 207.88,
-      "freq": 4.082
-    },
-    {
-      "words": [
+        },
         {
           "word": "it,",
           "start": 207.88,
           "end": 208.04,
           "freq": 5.984
-        },
+        }
+      ],
+      "word": "cuts go into place. So just to put a fine point on it,",
+      "start": 204.76,
+      "end": 208.04,
+      "freq": 2.766
+    },
+    {
+      "words": [
         {
           "word": "what's",
           "start": 208.2,
@@ -3878,15 +3747,7 @@
           "start": 209.76,
           "end": 210.12,
           "freq": 2.149
-        }
-      ],
-      "word": "it, what's unusual about this initiative",
-      "start": 207.88,
-      "end": 210.12,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "is",
           "start": 210.12,
@@ -3904,7 +3765,15 @@
           "start": 210.76,
           "end": 210.96,
           "freq": 5.195
-        },
+        }
+      ],
+      "word": "what's unusual about this initiative is that, one,",
+      "start": 208.2,
+      "end": 210.96,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "it's",
           "start": 211.16,
@@ -3922,15 +3791,7 @@
           "start": 211.82,
           "end": 212.36,
           "freq": 2.417
-        }
-      ],
-      "word": "is that, one, it's taxing assets,",
-      "start": 210.12,
-      "end": 212.36,
-      "freq": 1.204
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 212.36,
@@ -3954,7 +3815,15 @@
           "start": 213.24,
           "end": 213.7,
           "freq": 4.029
-        },
+        }
+      ],
+      "word": "it's taxing assets, and that's really different.",
+      "start": 211.16,
+      "end": 213.7,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Normally,",
           "start": 213.92,
@@ -3972,15 +3841,7 @@
           "start": 214.42,
           "end": 214.54,
           "freq": 4.861
-        }
-      ],
-      "word": "and that's really different. Normally, the way",
-      "start": 212.36,
-      "end": 214.54,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "people",
           "start": 214.54,
@@ -4004,7 +3865,15 @@
           "start": 215.88,
           "end": 216.06,
           "freq": 5.55
-        },
+        }
+      ],
+      "word": "Normally, the way people raise taxes on",
+      "start": 213.92,
+      "end": 216.06,
+      "freq": 2.697
+    },
+    {
+      "words": [
         {
           "word": "rich",
           "start": 216.06,
@@ -4022,15 +3891,7 @@
           "start": 216.5,
           "end": 216.74,
           "freq": 5.662
-        }
-      ],
-      "word": "people raise taxes on rich people is",
-      "start": 214.54,
-      "end": 216.74,
-      "freq": 2.697
-    },
-    {
-      "words": [
+        },
         {
           "word": "to",
           "start": 216.74,
@@ -4072,21 +3933,21 @@
           "start": 218.64,
           "end": 218.8,
           "freq": 4.574
-        }
-      ],
-      "word": "to tax their income. And the other",
-      "start": 216.74,
-      "end": 218.8,
-      "freq": 2.579
-    },
-    {
-      "words": [
+        },
         {
           "word": "thing",
           "start": 218.8,
           "end": 219.08,
           "freq": 4.745
-        },
+        }
+      ],
+      "word": "rich people is to tax their income. And the other thing",
+      "start": 216.06,
+      "end": 219.08,
+      "freq": 2.579
+    },
+    {
+      "words": [
         {
           "word": "that's",
           "start": 219.08,
@@ -4122,15 +3983,7 @@
           "start": 220.46,
           "end": 220.92,
           "freq": 2.494
-        }
-      ],
-      "word": "thing that's unusual is that the vast",
-      "start": 218.8,
-      "end": 220.92,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "majority",
           "start": 220.92,
@@ -4154,21 +4007,21 @@
           "start": 222.66,
           "end": 222.96,
           "freq": -1
-        },
+        }
+      ],
+      "word": "that's unusual is that the vast majority of it, 90",
+      "start": 219.08,
+      "end": 222.96,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "percent",
           "start": 222.96,
           "end": 223.32,
           "freq": 3.119
-        }
-      ],
-      "word": "majority of it, 90 percent",
-      "start": 220.92,
-      "end": 223.32,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 223.32,
@@ -4210,21 +4063,21 @@
           "start": 225.18,
           "end": 225.38,
           "freq": 5.609
-        }
-      ],
-      "word": "of the money, would go to this",
-      "start": 223.32,
-      "end": 225.38,
-      "freq": 4.514
-    },
-    {
-      "words": [
+        },
         {
           "word": "one",
           "start": 225.38,
           "end": 225.88,
           "freq": 5.195
-        },
+        }
+      ],
+      "word": "percent of the money, would go to this one",
+      "start": 222.96,
+      "end": 225.88,
+      "freq": 3.119
+    },
+    {
+      "words": [
         {
           "word": "purpose,",
           "start": 225.88,
@@ -4242,15 +4095,7 @@
           "start": 227.22,
           "end": 227.42,
           "freq": 4.394
-        }
-      ],
-      "word": "one purpose, health care.",
-      "start": 225.38,
-      "end": 227.42,
-      "freq": 3.253
-    },
-    {
-      "words": [
+        },
         {
           "word": "Right.",
           "start": 227.42,
@@ -4262,15 +4107,7 @@
           "start": 228.96,
           "end": 229.46,
           "freq": 5.834
-        }
-      ],
-      "word": "Right. And",
-      "start": 227.42,
-      "end": 229.46,
-      "freq": 5.311
-    },
-    {
-      "words": [
+        },
         {
           "word": "this",
           "start": 229.46,
@@ -4282,7 +4119,15 @@
           "start": 229.98,
           "end": 230.18,
           "freq": 5.662
-        },
+        }
+      ],
+      "word": "purpose, health care. Right. And this is",
+      "start": 225.88,
+      "end": 230.18,
+      "freq": 3.253
+    },
+    {
+      "words": [
         {
           "word": "happening",
           "start": 230.18,
@@ -4312,15 +4157,7 @@
           "start": 231.32,
           "end": 231.76,
           "freq": 5.857
-        }
-      ],
-      "word": "this is happening in a state that",
-      "start": 229.46,
-      "end": 231.76,
-      "freq": 3.664
-    },
-    {
-      "words": [
+        },
         {
           "word": "has",
           "start": 231.76,
@@ -4332,7 +4169,15 @@
           "start": 232.32,
           "end": 232.74,
           "freq": 4.821
-        },
+        }
+      ],
+      "word": "happening in a state that has more",
+      "start": 230.18,
+      "end": 232.74,
+      "freq": 3.664
+    },
+    {
+      "words": [
         {
           "word": "billionaires",
           "start": 232.74,
@@ -4356,15 +4201,7 @@
           "start": 233.8,
           "end": 234.06,
           "freq": 4.574
-        }
-      ],
-      "word": "has more billionaires than any other",
-      "start": 231.76,
-      "end": 234.06,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "state.",
           "start": 234.06,
@@ -4382,21 +4219,21 @@
           "start": 235.68,
           "end": 236.32,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "billionaires than any other state. So the",
+      "start": 232.74,
+      "end": 236.32,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "supporters",
           "start": 236.32,
           "end": 236.78,
           "freq": 1.732
-        }
-      ],
-      "word": "state. So the supporters",
-      "start": 234.06,
-      "end": 236.78,
-      "freq": 1.732
-    },
-    {
-      "words": [
+        },
         {
           "word": "of",
           "start": 236.78,
@@ -4440,10 +4277,10 @@
           "freq": 4.955
         }
       ],
-      "word": "of this tax say that it would",
-      "start": 236.78,
+      "word": "supporters of this tax say that it would",
+      "start": 236.32,
       "end": 238.96,
-      "freq": 2.871
+      "freq": 1.732
     },
     {
       "words": [
@@ -4508,21 +4345,21 @@
           "start": 243.48,
           "end": 243.54,
           "freq": 5.465
-        },
+        }
+      ],
+      "word": "However, there are, you know,",
+      "start": 241.44,
+      "end": 243.54,
+      "freq": 3.362
+    },
+    {
+      "words": [
         {
           "word": "various",
           "start": 243.64,
           "end": 243.94,
           "freq": 2.66
-        }
-      ],
-      "word": "However, there are, you know, various",
-      "start": 241.44,
-      "end": 243.94,
-      "freq": 2.66
-    },
-    {
-      "words": [
+        },
         {
           "word": "wealth",
           "start": 243.94,
@@ -4552,21 +4389,21 @@
           "start": 245.52,
           "end": 245.98,
           "freq": 2.54
-        }
-      ],
-      "word": "wealth management kind of experts",
-      "start": 243.94,
-      "end": 245.98,
-      "freq": 2.512
-    },
-    {
-      "words": [
+        },
         {
           "word": "that",
           "start": 245.98,
           "end": 246.22,
           "freq": 5.857
-        },
+        }
+      ],
+      "word": "various wealth management kind of experts that",
+      "start": 243.64,
+      "end": 246.22,
+      "freq": 2.512
+    },
+    {
+      "words": [
         {
           "word": "I've",
           "start": 246.22,
@@ -4608,21 +4445,21 @@
           "start": 247.66,
           "end": 248.0,
           "freq": 3.92
-        }
-      ],
-      "word": "that I've interviewed over the last few months.",
-      "start": 245.98,
-      "end": 248.0,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "And",
           "start": 248.16,
           "end": 248.8,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "I've interviewed over the last few months. And",
+      "start": 246.22,
+      "end": 248.8,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "they've",
           "start": 248.8,
@@ -4670,21 +4507,21 @@
           "start": 250.46,
           "end": 250.72,
           "freq": 5.662
-        }
-      ],
-      "word": "And they've told me they think the number is",
-      "start": 248.16,
-      "end": 250.72,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "probably",
           "start": 250.72,
           "end": 251.26,
           "freq": 4.156
-        },
+        }
+      ],
+      "word": "they've told me they think the number is probably",
+      "start": 248.8,
+      "end": 251.26,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "higher.",
           "start": 251.26,
@@ -4702,15 +4539,7 @@
           "start": 252.64,
           "end": 252.92,
           "freq": 5.311
-        }
-      ],
-      "word": "probably higher. But right",
-      "start": 250.72,
-      "end": 252.92,
-      "freq": 3.153
-    },
-    {
-      "words": [
+        },
         {
           "word": "now,",
           "start": 252.92,
@@ -4758,21 +4587,21 @@
           "start": 254.64,
           "end": 254.74,
           "freq": 4.978
-        },
+        }
+      ],
+      "word": "higher. But right now, you know, no one has like an",
+      "start": 251.26,
+      "end": 254.74,
+      "freq": 3.153
+    },
+    {
+      "words": [
         {
           "word": "exact",
           "start": 254.74,
           "end": 255.18,
           "freq": 3.063
-        }
-      ],
-      "word": "now, you know, no one has like an exact",
-      "start": 252.92,
-      "end": 255.18,
-      "freq": 3.063
-    },
-    {
-      "words": [
+        },
         {
           "word": "count",
           "start": 255.18,
@@ -4834,10 +4663,10 @@
           "freq": 5.609
         }
       ],
-      "word": "count on how many people would have to pay this.",
-      "start": 255.18,
+      "word": "exact count on how many people would have to pay this.",
+      "start": 254.74,
       "end": 257.52,
-      "freq": 3.662
+      "freq": 3.063
     },
     {
       "words": [
@@ -4870,21 +4699,21 @@
           "start": 260.08,
           "end": 260.3,
           "freq": 5.609
-        }
-      ],
-      "word": "And so how has this",
-      "start": 258.14,
-      "end": 260.3,
-      "freq": 4.762
-    },
-    {
-      "words": [
+        },
         {
           "word": "been",
           "start": 260.3,
           "end": 260.64,
           "freq": 4.947
-        },
+        }
+      ],
+      "word": "And so how has this been",
+      "start": 258.14,
+      "end": 260.64,
+      "freq": 4.762
+    },
+    {
+      "words": [
         {
           "word": "received",
           "start": 260.64,
@@ -4902,21 +4731,21 @@
           "start": 262.04,
           "end": 262.5,
           "freq": 3.295
-        }
-      ],
-      "word": "been received in California?",
-      "start": 260.3,
-      "end": 262.5,
-      "freq": 3.158
-    },
-    {
-      "words": [
+        },
         {
           "word": "Well,",
           "start": 262.96,
           "end": 263.58,
           "freq": 5.183
-        },
+        }
+      ],
+      "word": "received in California? Well,",
+      "start": 260.64,
+      "end": 263.58,
+      "freq": 3.158
+    },
+    {
+      "words": [
         {
           "word": "you",
           "start": 264.06,
@@ -4946,15 +4775,7 @@
           "start": 264.92,
           "end": 265.3,
           "freq": 5.55
-        }
-      ],
-      "word": "Well, you know, it got on",
-      "start": 262.96,
-      "end": 265.3,
-      "freq": 5.183
-    },
-    {
-      "words": [
+        },
         {
           "word": "1",
           "start": 265.3,
@@ -4966,7 +4787,15 @@
           "start": 265.9,
           "end": 266.4,
           "freq": -1
-        },
+        }
+      ],
+      "word": "you know, it got on 1 .5",
+      "start": 264.06,
+      "end": 266.4,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "million",
           "start": 266.4,
@@ -4978,15 +4807,7 @@
           "start": 266.78,
           "end": 267.5,
           "freq": 2.167
-        }
-      ],
-      "word": "1 .5 million signatures.",
-      "start": 265.3,
-      "end": 267.5,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "So",
           "start": 267.5,
@@ -5028,15 +4849,7 @@
           "start": 269.3,
           "end": 269.54,
           "freq": 4.263
-        }
-      ],
-      "word": "So there were at least that many",
-      "start": 267.5,
-      "end": 269.54,
-      "freq": 4.025
-    },
-    {
-      "words": [
+        },
         {
           "word": "people",
           "start": 269.54,
@@ -5048,7 +4861,15 @@
           "start": 269.86,
           "end": 270.08,
           "freq": 5.054
-        },
+        }
+      ],
+      "word": "million signatures. So there were at least that many people who",
+      "start": 266.4,
+      "end": 270.08,
+      "freq": 2.167
+    },
+    {
+      "words": [
         {
           "word": "liked",
           "start": 270.08,
@@ -5090,15 +4911,7 @@
           "start": 271.48,
           "end": 271.62,
           "freq": 6.018
-        }
-      ],
-      "word": "people who liked the idea enough to sign a",
-      "start": 269.54,
-      "end": 271.62,
-      "freq": 3.604
-    },
-    {
-      "words": [
+        },
         {
           "word": "petition.",
           "start": 271.62,
@@ -5116,7 +4929,15 @@
           "start": 272.98,
           "end": 273.02,
           "freq": 5.465
-        },
+        }
+      ],
+      "word": "liked the idea enough to sign a petition. You know,",
+      "start": 270.08,
+      "end": 273.02,
+      "freq": 2.334
+    },
+    {
+      "words": [
         {
           "word": "I've",
           "start": 273.1,
@@ -5140,15 +4961,7 @@
           "start": 273.72,
           "end": 274.18,
           "freq": 5.411
-        }
-      ],
-      "word": "petition. You know, I've been out with",
-      "start": 271.62,
-      "end": 274.18,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "different",
           "start": 274.18,
@@ -5160,7 +4973,15 @@
           "start": 274.64,
           "end": 275.2,
           "freq": 2.334
-        },
+        }
+      ],
+      "word": "I've been out with different petition",
+      "start": 273.1,
+      "end": 275.2,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "circulators",
           "start": 275.2,
@@ -5172,15 +4993,7 @@
           "start": 276.04,
           "end": 276.52,
           "freq": 3.706
-        }
-      ],
-      "word": "different petition circulators watching",
-      "start": 274.18,
-      "end": 276.52,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "this",
           "start": 276.52,
@@ -5198,7 +5011,15 @@
           "start": 277.38,
           "end": 277.74,
           "freq": 5.698
-        },
+        }
+      ],
+      "word": "circulators watching this thing in",
+      "start": 275.2,
+      "end": 277.74,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "public",
           "start": 277.74,
@@ -5210,15 +5031,7 @@
           "start": 278.18,
           "end": 278.62,
           "freq": 2.281
-        }
-      ],
-      "word": "this thing in public parks",
-      "start": 276.52,
-      "end": 278.62,
-      "freq": 2.281
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 278.62,
@@ -5248,7 +5061,15 @@
           "start": 279.32,
           "end": 279.74,
           "freq": 2.449
-        },
+        }
+      ],
+      "word": "public parks and in front of grocery",
+      "start": 277.74,
+      "end": 279.74,
+      "freq": 2.281
+    },
+    {
+      "words": [
         {
           "word": "stores.",
           "start": 279.74,
@@ -5260,15 +5081,7 @@
           "start": 280.24,
           "end": 280.84,
           "freq": 5.834
-        }
-      ],
-      "word": "and in front of grocery stores. And",
-      "start": 278.62,
-      "end": 280.84,
-      "freq": 2.449
-    },
-    {
-      "words": [
+        },
         {
           "word": "the",
           "start": 280.84,
@@ -5286,7 +5099,15 @@
           "start": 281.82,
           "end": 282.04,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "stores. And the idea of",
+      "start": 279.74,
+      "end": 282.04,
+      "freq": 2.687
+    },
+    {
+      "words": [
         {
           "word": "taxing",
           "start": 282.04,
@@ -5298,15 +5119,7 @@
           "start": 282.46,
           "end": 283.02,
           "freq": -1
-        }
-      ],
-      "word": "the idea of taxing billionaires,",
-      "start": 280.84,
-      "end": 283.02,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "especially",
           "start": 283.18,
@@ -5368,10 +5181,10 @@
           "freq": 5.195
         }
       ],
-      "word": "especially when you just kind of say it in one",
-      "start": 283.18,
+      "word": "taxing billionaires, especially when you just kind of say it in one",
+      "start": 282.04,
       "end": 285.42,
-      "freq": 3.535
+      "freq": -1
     },
     {
       "words": [
@@ -5416,15 +5229,7 @@
           "start": 287.56,
           "end": 287.78,
           "freq": 5.546
-        }
-      ],
-      "word": "sentence like that, it's real easy for",
-      "start": 285.42,
-      "end": 287.78,
-      "freq": 3.02
-    },
-    {
-      "words": [
+        },
         {
           "word": "people",
           "start": 287.78,
@@ -5436,7 +5241,15 @@
           "start": 288.14,
           "end": 288.46,
           "freq": 6.063
-        },
+        }
+      ],
+      "word": "sentence like that, it's real easy for people to",
+      "start": 285.42,
+      "end": 288.46,
+      "freq": 3.02
+    },
+    {
+      "words": [
         {
           "word": "sign",
           "start": 288.46,
@@ -5466,26 +5279,27 @@
           "start": 289.66,
           "end": 290.04,
           "freq": 4.022
-        }
-      ],
-      "word": "people to sign on the dotted line.",
-      "start": 287.78,
-      "end": 290.04,
-      "freq": 1.716
-    },
-    {
-      "words": [
+        },
         {
           "word": "And",
           "start": 290.28,
           "end": 290.86,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "sign on the dotted line. And",
+      "start": 288.46,
+      "end": 290.86,
+      "freq": 1.716
+    },
+    {
+      "words": [
         {
           "word": "polling",
           "start": 290.86,
           "end": 291.14,
-          "freq": 1.322
+          "freq": 1.322,
+          "is_target": true
         },
         {
           "word": "shows",
@@ -5510,15 +5324,7 @@
           "start": 292.48,
           "end": 292.64,
           "freq": 4.576
-        }
-      ],
-      "word": "And polling shows that more than",
-      "start": 290.28,
-      "end": 292.64,
-      "freq": 1.322
-    },
-    {
-      "words": [
+        },
         {
           "word": "half",
           "start": 292.64,
@@ -5530,7 +5336,15 @@
           "start": 292.9,
           "end": 293.06,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "polling shows that more than half of",
+      "start": 290.86,
+      "end": 293.06,
+      "freq": 1.322
+    },
+    {
+      "words": [
         {
           "word": "voters",
           "start": 293.06,
@@ -5560,15 +5374,7 @@
           "start": 294.52,
           "end": 294.68,
           "freq": 4.576
-        }
-      ],
-      "word": "half of voters support it, more than",
-      "start": 292.64,
-      "end": 294.68,
-      "freq": 2.029
-    },
-    {
-      "words": [
+        },
         {
           "word": "70",
           "start": 294.68,
@@ -5586,7 +5392,15 @@
           "start": 295.48,
           "end": 295.72,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "voters support it, more than 70 % of",
+      "start": 293.06,
+      "end": 295.72,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Democrats",
           "start": 295.72,
@@ -5610,15 +5424,7 @@
           "start": 296.82,
           "end": 296.96,
           "freq": 5.698
-        }
-      ],
-      "word": "70 % of Democrats support it in",
-      "start": 294.68,
-      "end": 296.96,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "California.",
           "start": 296.96,
@@ -5630,21 +5436,21 @@
           "start": 298.36,
           "end": 298.96,
           "freq": 5.353
-        }
-      ],
-      "word": "California. But",
-      "start": 296.96,
-      "end": 298.96,
-      "freq": 3.295
-    },
-    {
-      "words": [
+        },
         {
           "word": "even",
           "start": 298.96,
           "end": 299.84,
           "freq": 4.65
-        },
+        }
+      ],
+      "word": "Democrats support it in California. But even",
+      "start": 295.72,
+      "end": 299.84,
+      "freq": 1.839
+    },
+    {
+      "words": [
         {
           "word": "though",
           "start": 299.84,
@@ -5668,15 +5474,7 @@
           "start": 301.16,
           "end": 301.44,
           "freq": 6.018
-        }
-      ],
-      "word": "even though it has a",
-      "start": 298.96,
-      "end": 301.44,
-      "freq": 3.967
-    },
-    {
-      "words": [
+        },
         {
           "word": "lot",
           "start": 301.44,
@@ -5688,7 +5486,15 @@
           "start": 301.6,
           "end": 301.9,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "though it has a lot of",
+      "start": 299.84,
+      "end": 301.9,
+      "freq": 3.967
+    },
+    {
+      "words": [
         {
           "word": "support",
           "start": 301.9,
@@ -5712,15 +5518,7 @@
           "start": 303.46,
           "end": 303.58,
           "freq": 6.177
-        }
-      ],
-      "word": "lot of support seemingly from the",
-      "start": 301.44,
-      "end": 303.58,
-      "freq": 2.037
-    },
-    {
-      "words": [
+        },
         {
           "word": "public,",
           "start": 303.58,
@@ -5756,7 +5554,15 @@
           "start": 305.26,
           "end": 305.42,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "support seemingly from the public, there are a lot of",
+      "start": 301.9,
+      "end": 305.42,
+      "freq": 2.037
+    },
+    {
+      "words": [
         {
           "word": "high",
           "start": 305.42,
@@ -5768,15 +5574,7 @@
           "start": 305.68,
           "end": 306.16,
           "freq": 2.818
-        }
-      ],
-      "word": "public, there are a lot of high profile",
-      "start": 303.58,
-      "end": 306.16,
-      "freq": 2.818
-    },
-    {
-      "words": [
+        },
         {
           "word": "Democrats",
           "start": 306.16,
@@ -5806,21 +5604,21 @@
           "start": 308.0,
           "end": 308.22,
           "freq": 5.295
-        },
+        }
+      ],
+      "word": "high profile Democrats who have come out",
+      "start": 305.42,
+      "end": 308.22,
+      "freq": 1.839
+    },
+    {
+      "words": [
         {
           "word": "against",
           "start": 308.22,
           "end": 308.64,
           "freq": 4.012
-        }
-      ],
-      "word": "Democrats who have come out against",
-      "start": 306.16,
-      "end": 308.64,
-      "freq": 1.839
-    },
-    {
-      "words": [
+        },
         {
           "word": "it,",
           "start": 308.64,
@@ -5838,15 +5636,7 @@
           "start": 309.9,
           "end": 310.64,
           "freq": 6.018
-        }
-      ],
-      "word": "it, and a",
-      "start": 308.64,
-      "end": 310.64,
-      "freq": 5.834
-    },
-    {
-      "words": [
+        },
         {
           "word": "lot",
           "start": 310.64,
@@ -5858,7 +5648,15 @@
           "start": 310.82,
           "end": 310.98,
           "freq": 5.771
-        },
+        }
+      ],
+      "word": "against it, and a lot of",
+      "start": 308.22,
+      "end": 310.98,
+      "freq": 4.012
+    },
+    {
+      "words": [
         {
           "word": "unions",
           "start": 310.98,
@@ -5900,15 +5698,7 @@
           "start": 312.62,
           "end": 312.76,
           "freq": 6.177
-        }
-      ],
-      "word": "lot of unions who are just sitting on the",
-      "start": 310.64,
-      "end": 312.76,
-      "freq": 1.857
-    },
-    {
-      "words": [
+        },
         {
           "word": "sidelines.",
           "start": 312.76,
@@ -5920,7 +5710,15 @@
           "start": 313.56,
           "end": 313.98,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "unions who are just sitting on the sidelines. And",
+      "start": 310.98,
+      "end": 313.98,
+      "freq": 1.763
+    },
+    {
+      "words": [
         {
           "word": "some",
           "start": 313.98,
@@ -5950,15 +5748,7 @@
           "start": 314.76,
           "end": 314.92,
           "freq": 6.063
-        }
-      ],
-      "word": "sidelines. And some of that has to",
-      "start": 312.76,
-      "end": 314.92,
-      "freq": 1.763
-    },
-    {
-      "words": [
+        },
         {
           "word": "do",
           "start": 314.92,
@@ -6008,8 +5798,8 @@
           "freq": 5.268
         }
       ],
-      "word": "do with how this whole thing came about.",
-      "start": 314.92,
+      "word": "some of that has to do with how this whole thing came about.",
+      "start": 313.98,
       "end": 316.92,
       "freq": 4.294
     },
@@ -6070,7 +5860,15 @@
           "start": 323.82,
           "end": 324.42,
           "freq": 5.609
-        },
+        }
+      ],
+      "word": "about? This",
+      "start": 320.02,
+      "end": 324.42,
+      "freq": 5.268
+    },
+    {
+      "words": [
         {
           "word": "tax",
           "start": 324.42,
@@ -6088,15 +5886,7 @@
           "start": 325.18,
           "end": 325.46,
           "freq": 4.394
-        }
-      ],
-      "word": "about? This tax is being",
-      "start": 320.02,
-      "end": 325.46,
-      "freq": 2.871
-    },
-    {
-      "words": [
+        },
         {
           "word": "proposed",
           "start": 325.46,
@@ -6114,7 +5904,15 @@
           "start": 326.58,
           "end": 326.86,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "tax is being proposed by a",
+      "start": 324.42,
+      "end": 326.86,
+      "freq": 2.537
+    },
+    {
+      "words": [
         {
           "word": "specific",
           "start": 326.86,
@@ -6126,15 +5924,7 @@
           "start": 327.34,
           "end": 327.82,
           "freq": 3.046
-        }
-      ],
-      "word": "proposed by a specific union",
-      "start": 325.46,
-      "end": 327.82,
-      "freq": 2.537
-    },
-    {
-      "words": [
+        },
         {
           "word": "called",
           "start": 327.82,
@@ -6146,21 +5936,21 @@
           "start": 328.5,
           "end": 328.98,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "specific union called the",
+      "start": 326.86,
+      "end": 328.98,
+      "freq": 2.959
+    },
+    {
+      "words": [
         {
           "word": "SEIU",
           "start": 328.98,
           "end": 329.92,
           "freq": -1
-        }
-      ],
-      "word": "called the SEIU",
-      "start": 327.82,
-      "end": 329.92,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "-UHW,",
           "start": 329.92,
@@ -6178,7 +5968,15 @@
           "start": 331.42,
           "end": 331.76,
           "freq": 5.546
-        },
+        }
+      ],
+      "word": "SEIU -UHW, stands for",
+      "start": 328.98,
+      "end": 331.76,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Service",
           "start": 331.76,
@@ -6190,15 +5988,7 @@
           "start": 332.18,
           "end": 333.1,
           "freq": 2.786
-        }
-      ],
-      "word": "-UHW, stands for Service Employees",
-      "start": 329.92,
-      "end": 333.1,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "International",
           "start": 333.1,
@@ -6210,7 +6000,15 @@
           "start": 333.48,
           "end": 334.26,
           "freq": 3.046
-        },
+        }
+      ],
+      "word": "Service Employees International Union,",
+      "start": 331.76,
+      "end": 334.26,
+      "freq": 2.786
+    },
+    {
+      "words": [
         {
           "word": "United",
           "start": 334.56,
@@ -6222,15 +6020,7 @@
           "start": 334.86,
           "end": 335.32,
           "freq": -1
-        }
-      ],
-      "word": "International Union, United Healthcare",
-      "start": 333.1,
-      "end": 335.32,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "Workers",
           "start": 335.32,
@@ -6260,21 +6050,21 @@
           "start": 337.02,
           "end": 337.12,
           "freq": 6.018
-        },
+        }
+      ],
+      "word": "United Healthcare Workers West. Kind of a",
+      "start": 334.56,
+      "end": 337.12,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "mouthful.",
           "start": 337.12,
           "end": 337.62,
           "freq": 1.94
-        }
-      ],
-      "word": "Workers West. Kind of a mouthful.",
-      "start": 335.32,
-      "end": 337.62,
-      "freq": 1.94
-    },
-    {
-      "words": [
+        },
         {
           "word": "This",
           "start": 338.0,
@@ -6286,27 +6076,35 @@
           "start": 338.88,
           "end": 339.24,
           "freq": 3.046
-        },
+        }
+      ],
+      "word": "mouthful. This union",
+      "start": 337.12,
+      "end": 339.24,
+      "freq": 1.94
+    },
+    {
+      "words": [
         {
           "word": "represents",
           "start": 339.24,
           "end": 340.16,
           "freq": 2.497
-        }
-      ],
-      "word": "This union represents",
-      "start": 338.0,
-      "end": 340.16,
-      "freq": 2.497
-    },
-    {
-      "words": [
+        },
         {
           "word": "hospital",
           "start": 340.16,
           "end": 341.44,
           "freq": 3.802
-        },
+        }
+      ],
+      "word": "represents hospital",
+      "start": 339.24,
+      "end": 341.44,
+      "freq": 2.497
+    },
+    {
+      "words": [
         {
           "word": "workers,",
           "start": 341.44,
@@ -6324,15 +6122,7 @@
           "start": 342.54,
           "end": 343.3,
           "freq": 1.462
-        }
-      ],
-      "word": "hospital workers, including janitors,",
-      "start": 340.16,
-      "end": 343.3,
-      "freq": 1.462
-    },
-    {
-      "words": [
+        },
         {
           "word": "cooks,",
           "start": 343.66,
@@ -6344,7 +6134,15 @@
           "start": 344.24,
           "end": 344.34,
           "freq": 4.945
-        },
+        }
+      ],
+      "word": "workers, including janitors, cooks, some",
+      "start": 341.44,
+      "end": 344.34,
+      "freq": 1.462
+    },
+    {
+      "words": [
         {
           "word": "various",
           "start": 344.34,
@@ -6368,21 +6166,21 @@
           "start": 345.24,
           "end": 345.86,
           "freq": 1.857
-        }
-      ],
-      "word": "cooks, some various health care technicians,",
-      "start": 343.66,
-      "end": 345.86,
-      "freq": 1.857
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 345.86,
           "end": 347.18,
           "freq": 5.834
-        },
+        }
+      ],
+      "word": "various health care technicians, and",
+      "start": 344.34,
+      "end": 347.18,
+      "freq": 1.857
+    },
+    {
+      "words": [
         {
           "word": "they're",
           "start": 347.18,
@@ -6394,15 +6192,7 @@
           "start": 347.78,
           "end": 348.06,
           "freq": 4.884
-        }
-      ],
-      "word": "and they're really",
-      "start": 345.86,
-      "end": 348.06,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "concerned",
           "start": 348.06,
@@ -6420,7 +6210,15 @@
           "start": 349.3,
           "end": 349.56,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "they're really concerned that the",
+      "start": 347.18,
+      "end": 349.56,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Medicaid",
           "start": 349.56,
@@ -6432,15 +6230,7 @@
           "start": 349.94,
           "end": 350.58,
           "freq": 2.766
-        }
-      ],
-      "word": "concerned that the Medicaid cuts",
-      "start": 348.06,
-      "end": 350.58,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "from",
           "start": 350.58,
@@ -6452,12 +6242,21 @@
           "start": 351.22,
           "end": 351.84,
           "freq": 3.856
-        },
+        }
+      ],
+      "word": "Medicaid cuts from President",
+      "start": 349.56,
+      "end": 351.84,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "Trump",
           "start": 351.84,
           "end": 352.2,
-          "freq": 2.064
+          "freq": 2.064,
+          "is_target": true
         },
         {
           "word": "last",
@@ -6470,15 +6269,7 @@
           "start": 352.56,
           "end": 352.88,
           "freq": 4.152
-        }
-      ],
-      "word": "from President Trump last year",
-      "start": 350.58,
-      "end": 352.88,
-      "freq": 2.064
-    },
-    {
-      "words": [
+        },
         {
           "word": "are",
           "start": 352.88,
@@ -6496,7 +6287,15 @@
           "start": 353.84,
           "end": 354.3,
           "freq": 6.063
-        },
+        }
+      ],
+      "word": "Trump last year are going to",
+      "start": 351.84,
+      "end": 354.3,
+      "freq": 2.064
+    },
+    {
+      "words": [
         {
           "word": "lead",
           "start": 354.3,
@@ -6508,15 +6307,7 @@
           "start": 354.82,
           "end": 355.12,
           "freq": 6.063
-        }
-      ],
-      "word": "are going to lead to",
-      "start": 352.88,
-      "end": 355.12,
-      "freq": 3.628
-    },
-    {
-      "words": [
+        },
         {
           "word": "widespread",
           "start": 355.12,
@@ -6542,8 +6333,8 @@
           "freq": -1
         }
       ],
-      "word": "widespread closures of ER",
-      "start": 355.12,
+      "word": "lead to widespread closures of ER",
+      "start": 354.3,
       "end": 357.48,
       "freq": -1
     },
