@@ -7,52 +7,58 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "signatures",
-      "target_word_time": 12.26,
-      "delay_type": "long",
-      "delay_seconds": 47.74,
-      "search_start_time": 60.0,
-      "id": 1
-    },
-    {
-      "target_word": "5%",
-      "target_word_time": 71.86,
-      "delay_type": "long",
-      "delay_seconds": 48.14,
-      "search_start_time": 120.0,
-      "id": 2
-    },
-    {
-      "target_word": "Republicans",
-      "target_word_time": 166.58,
-      "delay_type": "short",
-      "delay_seconds": 13.42,
-      "search_start_time": 180.0,
-      "id": 3
-    },
-    {
-      "target_word": "hospitals",
-      "target_word_time": 191.56,
-      "delay_type": "long",
-      "delay_seconds": 48.44,
-      "search_start_time": 240.0,
-      "id": 4
-    },
-    {
       "target_word": "polling",
-      "target_word_time": 290.86,
-      "delay_type": "short",
-      "delay_seconds": 9.14,
-      "search_start_time": 300.0,
-      "id": 5
+      "target_word_time": 13.4,
+      "delay_type": "long",
+      "delay_seconds": 46.6,
+      "search_start_time": 60.0,
+      "id": 1,
+      "target_word_uniqueness": 5.6777999999999995
     },
     {
-      "target_word": "Trump",
-      "target_word_time": 351.84,
+      "target_word": "Medicaid",
+      "target_word_time": 72.08,
+      "delay_type": "long",
+      "delay_seconds": 47.92,
+      "search_start_time": 120.0,
+      "id": 2,
+      "target_word_uniqueness": 5.4201999999999995
+    },
+    {
+      "target_word": "deadline",
+      "target_word_time": 165.02,
       "delay_type": "short",
-      "delay_seconds": 8.16,
+      "delay_seconds": 14.98,
+      "search_start_time": 180.0,
+      "id": 3,
+      "target_word_uniqueness": 4.5229
+    },
+    {
+      "target_word": "founders",
+      "target_word_time": 191.12,
+      "delay_type": "long",
+      "delay_seconds": 48.88,
+      "search_start_time": 240.0,
+      "id": 4,
+      "target_word_uniqueness": 5.4089
+    },
+    {
+      "target_word": "Aspen",
+      "target_word_time": 283.3,
+      "delay_type": "short",
+      "delay_seconds": 16.7,
+      "search_start_time": 300.0,
+      "id": 5,
+      "target_word_uniqueness": 5.0132
+    },
+    {
+      "target_word": "retroactive",
+      "target_word_time": 354.1,
+      "delay_type": "short",
+      "delay_seconds": 5.9,
       "search_start_time": 360.0,
-      "id": 6
+      "id": 6,
+      "target_word_uniqueness": 5.6777999999999995
     }
   ]
 }

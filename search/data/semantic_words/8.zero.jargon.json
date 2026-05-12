@@ -1,205 +1,362 @@
 [
   {
-    "word": "Laurel",
-    "time": 1.659999999999997,
+    "word": "polling",
+    "time": 13.4,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "signatures",
-    "time": 12.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.6777999999999995
   },
   {
     "word": "voters",
-    "time": 14.44,
+    "time": 15.58,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "affordability",
-    "time": 30.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "electorate",
-    "time": 32.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "pushback",
-    "time": 47.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "scope",
-    "time": 54.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "measure",
-    "time": 67.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "5%",
-    "time": 71.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "net",
-    "time": 75.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "income",
-    "time": 98.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "stocks",
-    "time": 101.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "wealth",
-    "time": 109.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "residential",
-    "time": 112.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "exemption",
-    "time": 116.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "funding",
-    "time": 162.3,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "federal",
-    "time": 164.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Republicans",
-    "time": 166.58,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Medicaid",
-    "time": 174.16,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "subsidies",
-    "time": 176.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "hospitals",
-    "time": 191.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Californians",
-    "time": 198.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "taxing",
-    "time": 211.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "polling",
-    "time": 290.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.9706
   },
   {
     "word": "tax",
-    "time": 324.42,
+    "time": 46.94,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.129
   },
   {
     "word": "Service",
-    "time": 331.76,
+    "time": 54.28,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.3897
   },
   {
     "word": "United",
-    "time": 334.56,
+    "time": 57.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.5909
+  },
+  {
+    "word": "Workers",
+    "time": 63.98,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.2248
+  },
+  {
+    "word": "Medicaid",
+    "time": 72.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.4201999999999995
   },
   {
     "word": "Trump",
-    "time": 351.84,
+    "time": 74.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.9355
   },
   {
-    "word": "closures",
-    "time": 355.78,
+    "word": "ballot",
+    "time": 92.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.1549
+  },
+  {
+    "word": "labor",
+    "time": 94.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.2062
+  },
+  {
+    "word": "economists",
+    "time": 105.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 6.1549
+  },
+  {
+    "word": "universities",
+    "time": 107.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.1427
+  },
+  {
+    "word": "proposal",
+    "time": 110.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.347799999999999
+  },
+  {
+    "word": "Bernie",
+    "time": 127.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 7.0
+  },
+  {
+    "word": "rally",
+    "time": 130.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.433
+  },
+  {
+    "word": "union",
+    "time": 134.96,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 5,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.9539
+  },
+  {
+    "word": "market",
+    "time": 144.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.7331
+  },
+  {
+    "word": "momentum",
+    "time": 158.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0555
+  },
+  {
+    "word": "deadline",
+    "time": 165.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.5229
+  },
+  {
+    "word": "jockeying",
+    "time": 179.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 6.0
+  },
+  {
+    "word": "state",
+    "time": 186.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.2596
+  },
+  {
+    "word": "founders",
+    "time": 191.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.4089
+  },
+  {
+    "word": "Sergey",
+    "time": 193.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 7.0
+  },
+  {
+    "word": "Tahoe",
+    "time": 195.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 7.0
+  },
+  {
+    "word": "Florida",
+    "time": 198.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.0273
+  },
+  {
+    "word": "investing",
+    "time": 204.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0506
+  },
+  {
+    "word": "California",
+    "time": 232.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.7049
+  },
+  {
+    "word": "residence",
+    "time": 235.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.3747
+  },
+  {
+    "word": "jewels",
+    "time": 253.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.4306
+  },
+  {
+    "word": "conference",
+    "time": 260.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.8871
+  },
+  {
+    "word": "clients",
+    "time": 273.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.9698
+  },
+  {
+    "word": "Picasso",
+    "time": 279.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.699
+  },
+  {
+    "word": "Aspen",
+    "time": 283.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0132
+  },
+  {
+    "word": "diamond",
+    "time": 291.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.9772
+  },
+  {
+    "word": "taxed",
+    "time": 297.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.9586
+  },
+  {
+    "word": "drilling",
+    "time": 323.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.928100000000001
+  },
+  {
+    "word": "taxpayer",
+    "time": 335.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.5229
+  },
+  {
+    "word": "billionaire",
+    "time": 339.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0044
+  },
+  {
+    "word": "property",
+    "time": 345.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.7698
+  },
+  {
+    "word": "retroactive",
+    "time": 354.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.6777999999999995
   }
 ]

@@ -1,702 +1,834 @@
 [
   {
-    "word": "Professor",
-    "time": 0.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "word": "country",
+    "time": 1.18,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "conversation",
-    "time": 3.38,
+    "word": "radicalization",
+    "time": 4.1,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "extraordinary",
-    "time": 6.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "political",
-    "time": 8.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "assassination",
-    "time": 11.56,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "assassination",
-    "time": 14.12,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "Daily",
-    "time": 16.58,
+    "time": 7.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violence",
-    "time": 22.52,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 4
-  },
-  {
-    "word": "administration",
-    "time": 24.68,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "theory",
-    "time": 33.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violent",
-    "time": 38.38,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "book",
-    "time": 41.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violent",
-    "time": 44.06,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "risk",
-    "time": 46.54,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "terrorist",
-    "time": 50.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violent",
-    "time": 55.88,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "risk",
-    "time": 58.42,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "political",
-    "time": 62.58,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 5
-  },
-  {
-    "word": "millions",
-    "time": 68.48,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "both",
-    "time": 71.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "political",
-    "time": 73.82,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 5
-  },
-  {
-    "word": "millions",
-    "time": 79.24,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "fringe",
-    "time": 81.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "groups",
-    "time": 83.54,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "acceptable",
-    "time": 85.76,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "volatile",
-    "time": 95.2,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "volatile",
-    "time": 99.76,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "prospect",
-    "time": 105.22,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "approval",
-    "time": 107.54,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "millions",
-    "time": 111.48,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "political",
-    "time": 113.48,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 5
-  },
-  {
-    "word": "FBI",
-    "time": 116.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "support",
-    "time": 120.2,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "people",
-    "time": 122.82,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "violent",
-    "time": 129.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "millions",
-    "time": 132.86,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "violence",
-    "time": 135.1,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 7
-  },
-  {
-    "word": "spirals",
-    "time": 139.04,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "debate",
-    "time": 142.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "left-wing",
-    "time": 144.74,
-    "duplicate_count_1m": null,
-    "duplicate_count_2m": null,
-    "duplicate_count_3m": null
-  },
-  {
-    "word": "cases",
-    "time": 147.72,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "June",
-    "time": 152.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "assassination",
-    "time": 155.52,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "Minnesota",
-    "time": 158.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "murder",
-    "time": 160.88,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "January",
-    "time": 164.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "killing",
-    "time": 167.1,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "American",
-    "time": 170.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 6
-  },
-  {
-    "word": "Governor",
-    "time": 173.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "President",
-    "time": 176.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "rise",
-    "time": 180.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "both",
-    "time": 187.98,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "spiral",
-    "time": 191.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "violent",
-    "time": 195.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "social",
-    "time": 198.76,
-    "duplicate_count_1m": 0,
+    "time": 10.74,
+    "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "American",
-    "time": 203.64,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 4
-  },
-  {
-    "word": "acceptance",
-    "time": 211.98,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "conducted",
-    "time": 217.56,
+    "word": "United",
+    "time": 12.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "social",
+    "time": 18.74,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "history",
+    "time": 22.74,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "white",
+    "time": 25.3,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "white",
+    "time": 27.58,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "history",
+    "time": 34.34,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "percent",
+    "time": 38.3,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "non-Hispanic",
+    "time": 40.62,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null,
+    "duplicate_count_minute_bucket": null
+  },
+  {
+    "word": "percent",
+    "time": 45.74,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "change",
+    "time": 47.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 5,
+    "duplicate_count_3m": 9,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "percent",
+    "time": 51.2,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "immigration",
+    "time": 56.4,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "tipping",
+    "time": 62.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "transitioning",
+    "time": 64.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "white",
+    "time": 67.54,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 4,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "period",
+    "time": 70.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "immigration",
+    "time": 72.68,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "lightning",
+    "time": 75.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "America",
+    "time": 78.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "right",
+    "time": 81.84,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "right",
+    "time": 83.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "change",
+    "time": 86.0,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 11,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "established",
+    "time": 89.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "stop",
+    "time": 91.82,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "change",
+    "time": 93.88,
+    "duplicate_count_1m": 4,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 11,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "political",
+    "time": 97.92,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "economic",
+    "time": 100.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "impact",
+    "time": 103.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "group",
+    "time": 109.44,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "change",
+    "time": 111.48,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 9,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "change",
+    "time": 114.64,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 9,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "stop",
+    "time": 117.48,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "lightning",
+    "time": 121.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "change",
+    "time": 123.92,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 8,
+    "duplicate_count_3m": 9,
+    "duplicate_count_minute_bucket": 3
+  },
+  {
+    "word": "support",
+    "time": 126.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "surveys",
-    "time": 220.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "University",
-    "time": 225.44,
+    "time": 129.46,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Security",
-    "time": 227.6,
+    "word": "upheaval",
+    "time": 132.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "summer",
-    "time": 229.96,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "January",
-    "time": 235.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "attitudes",
-    "time": 239.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "political",
-    "time": 241.96,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3
-  },
-  {
-    "word": "data",
-    "time": 245.52,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "acceptance",
-    "time": 247.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "Biden",
-    "time": 255.24,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "2021",
-    "time": 257.48,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "administration",
-    "time": 259.76,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "percent",
-    "time": 263.48,
+    "word": "demographic",
+    "time": 135.84,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 3,
-    "duplicate_count_3m": 5
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "supported",
-    "time": 265.96,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "restore",
-    "time": 268.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "focus",
-    "time": 271.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "research",
-    "time": 274.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "force",
-    "time": 277.38,
+    "word": "shift",
+    "time": 140.82,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "percent",
-    "time": 279.7,
+    "word": "impact",
+    "time": 143.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "change",
+    "time": 146.26,
     "duplicate_count_1m": 3,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 5
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 9,
+    "duplicate_count_minute_bucket": 3
   },
   {
-    "word": "force",
-    "time": 282.2,
+    "word": "demographic",
+    "time": 149.64,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "force",
-    "time": 285.34,
+    "word": "wealth",
+    "time": 151.74,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "percent",
-    "time": 289.66,
-    "duplicate_count_1m": 3,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 5
+    "word": "mid-1980s",
+    "time": 155.22,
+    "duplicate_count_1m": null,
+    "duplicate_count_2m": null,
+    "duplicate_count_3m": null,
+    "duplicate_count_minute_bucket": null
   },
   {
-    "word": "assassination",
-    "time": 292.12,
+    "word": "party",
+    "time": 157.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "bottom",
+    "time": 161.32,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "percentage",
-    "time": 295.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "word": "top",
+    "time": 164.36,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
     "word": "percent",
-    "time": 301.08,
+    "time": 168.72,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 7,
+    "duplicate_count_minute_bucket": 5
+  },
+  {
+    "word": "top",
+    "time": 171.98,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 5
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "election",
-    "time": 306.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "word": "wealth",
+    "time": 174.64,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "example",
-    "time": 312.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "September",
-    "time": 317.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "acceptable",
-    "time": 320.44,
+    "word": "bottom",
+    "time": 178.12,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "acceptable",
-    "time": 324.28,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "attempted",
-    "time": 327.54,
+    "word": "quintiles",
+    "time": 182.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "result",
-    "time": 329.82,
+    "word": "political",
+    "time": 185.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 6,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "Republican",
+    "time": 191.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "percent",
-    "time": 332.88,
+    "word": "bottom",
+    "time": 193.98,
     "duplicate_count_1m": 1,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 5
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "million",
-    "time": 335.18,
+    "word": "economic",
+    "time": 197.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "acceptable",
+    "word": "clobbered",
+    "time": 199.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "shift",
+    "time": 206.52,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "percent",
+    "time": 208.72,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 7,
+    "duplicate_count_3m": 7,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "fuel",
+    "time": 214.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "rise",
+    "time": 217.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "shift",
+    "time": 221.24,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "influence",
+    "time": 223.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "future",
+    "time": 230.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "power",
+    "time": 235.88,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "right",
+    "time": 237.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "support",
+    "time": 242.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "losers",
+    "time": 244.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "marginal",
+    "time": 246.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 250.72,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 5,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "surveys",
+    "time": 254.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "educated",
+    "time": 258.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "middle",
+    "time": 260.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "middle",
+    "time": 262.4,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "supporting",
+    "time": 264.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "halves",
+    "time": 267.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "future",
+    "time": 272.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "committing",
+    "time": 277.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "position",
+    "time": 282.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "stature",
+    "time": 287.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "fastest",
+    "time": 289.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "naive",
+    "time": 292.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "suburb",
+    "time": 298.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "educated",
+    "time": 301.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "resort",
+    "time": 304.18,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "influence",
+    "time": 307.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "resort",
+    "time": 310.46,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "options",
+    "time": 312.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "profile",
+    "time": 315.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "means",
+    "time": 318.36,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "left",
+    "time": 322.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "fear",
+    "time": 327.56,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "minority",
+    "time": 332.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "grievances",
+    "time": 335.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "politics",
     "time": 338.62,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "people",
-    "time": 344.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "political",
-    "time": 346.1,
+    "word": "President",
+    "time": 346.46,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "increasing",
-    "time": 348.8,
+    "word": "seizing",
+    "time": 350.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Pape",
-    "time": 351.24,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "political",
-    "time": 353.5,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "periods",
-    "time": 355.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "violence",
-    "time": 358.92,
+    "word": "fear",
+    "time": 353.92,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "transitional",
+    "time": 357.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "period",
+    "time": 359.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   }
 ]

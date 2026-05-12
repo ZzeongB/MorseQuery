@@ -7,52 +7,49 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "House",
-      "target_word_time": 8.64,
-      "delay_type": "long",
-      "delay_seconds": 51.36,
+      "target_word": "gunman",
+      "target_word_time": 49.6,
+      "delay_type": "short",
+      "delay_seconds": 10.4,
       "search_start_time": 60.0,
-      "id": 1
+      "id": 1,
+      "target_word_uniqueness": 4.9706
     },
     {
-      "target_word": "Protestant",
-      "target_word_time": 104.54,
+      "target_word": "agencies",
+      "target_word_time": 168.36,
       "delay_type": "short",
-      "delay_seconds": 15.46,
-      "search_start_time": 120.0,
-      "id": 2
-    },
-    {
-      "target_word": "weapons",
-      "target_word_time": 167.86,
-      "delay_type": "short",
-      "delay_seconds": 12.14,
+      "delay_seconds": 11.64,
       "search_start_time": 180.0,
-      "id": 3
+      "id": 2,
+      "target_word_uniqueness": 4.782500000000001
     },
     {
-      "target_word": "attack",
-      "target_word_time": 227.86,
+      "target_word": "staffers",
+      "target_word_time": 221.02,
       "delay_type": "short",
-      "delay_seconds": 12.14,
+      "delay_seconds": 18.98,
       "search_start_time": 240.0,
-      "id": 4
+      "id": 3,
+      "target_word_uniqueness": 5.8861
     },
     {
-      "target_word": "motivation",
-      "target_word_time": 254.72,
+      "target_word": "politicians",
+      "target_word_time": 250.58,
       "delay_type": "long",
-      "delay_seconds": 45.28,
+      "delay_seconds": 49.42,
       "search_start_time": 300.0,
-      "id": 5
+      "id": 4,
+      "target_word_uniqueness": 4.556
     },
     {
-      "target_word": "capital",
-      "target_word_time": 311.3,
+      "target_word": "measurement",
+      "target_word_time": 305.8,
       "delay_type": "long",
-      "delay_seconds": 48.7,
+      "delay_seconds": 54.2,
       "search_start_time": 360.0,
-      "id": 6
+      "id": 5,
+      "target_word_uniqueness": 5.5527999999999995
     }
   ]
 }

@@ -7,52 +7,49 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "President",
-      "target_word_time": 50.78,
+      "target_word": "ruling",
+      "target_word_time": 108.76,
       "delay_type": "short",
-      "delay_seconds": 9.22,
-      "search_start_time": 60.0,
-      "id": 1
-    },
-    {
-      "target_word": "Republicans",
-      "target_word_time": 75.62,
-      "delay_type": "long",
-      "delay_seconds": 44.38,
+      "delay_seconds": 11.24,
       "search_start_time": 120.0,
-      "id": 2
+      "id": 1,
+      "target_word_uniqueness": 4.6777999999999995
     },
     {
-      "target_word": "election",
-      "target_word_time": 134.6,
+      "target_word": "minority",
+      "target_word_time": 135.4,
       "delay_type": "long",
-      "delay_seconds": 45.4,
+      "delay_seconds": 44.6,
       "search_start_time": 180.0,
-      "id": 3
+      "id": 2,
+      "target_word_uniqueness": 4.943099999999999
     },
     {
-      "target_word": "state",
-      "target_word_time": 183.0,
+      "target_word": "midterms",
+      "target_word_time": 184.4,
       "delay_type": "long",
-      "delay_seconds": 57.0,
+      "delay_seconds": 55.6,
       "search_start_time": 240.0,
-      "id": 4
+      "id": 3,
+      "target_word_uniqueness": 5.3279
     },
     {
-      "target_word": "VRA",
-      "target_word_time": 293.42,
+      "target_word": "provision",
+      "target_word_time": 293.58,
       "delay_type": "short",
-      "delay_seconds": 6.58,
+      "delay_seconds": 6.42,
       "search_start_time": 300.0,
-      "id": 5
+      "id": 4,
+      "target_word_uniqueness": 5.3872
     },
     {
-      "target_word": "rationale",
-      "target_word_time": 352.2,
-      "delay_type": "short",
-      "delay_seconds": 7.8,
+      "target_word": "Missouri",
+      "target_word_time": 302.42,
+      "delay_type": "long",
+      "delay_seconds": 57.58,
       "search_start_time": 360.0,
-      "id": 6
+      "id": 5,
+      "target_word_uniqueness": 4.6459
     }
   ]
 }

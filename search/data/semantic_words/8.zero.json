@@ -1,387 +1,450 @@
 [
   {
-    "word": "Laurel",
-    "time": 1.659999999999997,
+    "word": "parks",
+    "time": 0.7,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "historic",
-    "time": 9.28,
+    "word": "idea",
+    "time": 4.0,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "signatures",
-    "time": 12.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "voters",
-    "time": 14.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "anxiety",
-    "time": 25.22,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "affordability",
-    "time": 30.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "electorate",
-    "time": 32.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "angry",
-    "time": 35.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "favoring",
-    "time": 40.12,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "emotional",
-    "time": 42.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "pushback",
-    "time": 47.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "millions",
-    "time": 51.54,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "scope",
-    "time": 54.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "firestorm",
-    "time": 61.52,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "measure",
-    "time": 67.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "5%",
-    "time": 71.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "net",
-    "time": 75.34,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "January",
-    "time": 80.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "income",
-    "time": 98.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "stocks",
-    "time": 101.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "cars",
-    "time": 104.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "wealth",
-    "time": 109.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "residential",
-    "time": 112.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "exemption",
-    "time": 116.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "purpose",
-    "time": 127.64,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "general",
-    "time": 133.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "leaders",
-    "time": 136.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "requiring",
-    "time": 140.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "specifically",
-    "time": 145.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "funding",
-    "time": 162.3,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "federal",
-    "time": 164.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Republicans",
-    "time": 166.58,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "year",
-    "time": 172.02,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "Medicaid",
-    "time": 174.16,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "subsidies",
-    "time": 176.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "hospitals",
-    "time": 191.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "rooms",
-    "time": 193.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Californians",
-    "time": 198.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "taxing",
-    "time": 211.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "90%",
-    "time": 222.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "purpose",
-    "time": 225.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "wealth",
-    "time": 243.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "5%",
-    "time": 265.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "stores",
-    "time": 279.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "taxing",
-    "time": 282.04,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "polling",
-    "time": 290.86,
+    "time": 13.4,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "voters",
-    "time": 293.06,
+    "time": 15.58,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "high",
-    "time": 305.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "tax",
-    "time": 324.42,
+    "time": 46.94,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Service",
-    "time": 331.76,
+    "time": 54.28,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "United",
-    "time": 334.56,
+    "time": 57.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Workers",
+    "time": 63.98,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "cooks",
-    "time": 343.66,
+    "time": 66.2,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Medicaid",
-    "time": 349.56,
+    "time": 72.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Trump",
-    "time": 351.84,
+    "time": 74.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "closures",
-    "time": 355.78,
+    "time": 78.34,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "ballot",
+    "time": 92.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "labor",
+    "time": 94.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "idea",
+    "time": 99.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "economists",
+    "time": 105.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "universities",
+    "time": 107.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "proposal",
+    "time": 110.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "maverick",
+    "time": 116.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Bernie",
+    "time": 127.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "rally",
+    "time": 130.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "union",
+    "time": 134.96,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 5,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "market",
+    "time": 144.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "clipboard",
+    "time": 149.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "momentum",
+    "time": 158.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "deadline",
+    "time": 165.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "jockeying",
+    "time": 179.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "state",
+    "time": 186.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "founders",
+    "time": 191.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Sergey",
+    "time": 193.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Tahoe",
+    "time": 195.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Florida",
+    "time": 198.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "investing",
+    "time": 204.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "David",
+    "time": 207.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Peter",
+    "time": 209.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "wealthy",
+    "time": 214.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "tax",
+    "time": 219.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "California",
+    "time": 232.5,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "residence",
+    "time": 235.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "California",
+    "time": 240.3,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "jewels",
+    "time": 253.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "conference",
+    "time": 260.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "clients",
+    "time": 273.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Picasso",
+    "time": 279.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Aspen",
+    "time": 283.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "diamond",
+    "time": 291.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "taxed",
+    "time": 297.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "pay",
+    "time": 307.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "fighting",
+    "time": 312.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "argument",
+    "time": 314.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "drilling",
+    "time": 323.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "taxpayer",
+    "time": 335.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "billionaire",
+    "time": 339.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "property",
+    "time": 345.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "retroactive",
+    "time": 354.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "January",
+    "time": 358.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   }
 ]

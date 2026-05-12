@@ -7,52 +7,58 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "terrorist",
-      "target_word_time": 50.08,
+      "target_word": "immigration",
+      "target_word_time": 56.4,
       "delay_type": "short",
-      "delay_seconds": 9.92,
+      "delay_seconds": 3.6,
       "search_start_time": 60.0,
-      "id": 1
+      "id": 1,
+      "target_word_uniqueness": 4.8894
     },
     {
-      "target_word": "FBI",
-      "target_word_time": 116.66,
+      "target_word": "economic",
+      "target_word_time": 100.76,
       "delay_type": "short",
-      "delay_seconds": 3.34,
+      "delay_seconds": 19.24,
       "search_start_time": 120.0,
-      "id": 2
+      "id": 2,
+      "target_word_uniqueness": 4.5952
     },
     {
-      "target_word": "violent",
-      "target_word_time": 129.32,
+      "target_word": "surveys",
+      "target_word_time": 129.46,
       "delay_type": "long",
-      "delay_seconds": 50.68,
+      "delay_seconds": 50.54,
       "search_start_time": 180.0,
-      "id": 3
+      "id": 3,
+      "target_word_uniqueness": 5.5376
     },
     {
-      "target_word": "Security",
-      "target_word_time": 227.6,
-      "delay_type": "short",
-      "delay_seconds": 12.4,
+      "target_word": "Republican",
+      "target_word_time": 191.36,
+      "delay_type": "long",
+      "delay_seconds": 48.64,
       "search_start_time": 240.0,
-      "id": 4
+      "id": 4,
+      "target_word_uniqueness": 4.684
     },
     {
-      "target_word": "data",
-      "target_word_time": 245.52,
+      "target_word": "marginal",
+      "target_word_time": 246.48,
       "delay_type": "long",
-      "delay_seconds": 54.48,
+      "delay_seconds": 53.52,
       "search_start_time": 300.0,
-      "id": 5
+      "id": 5,
+      "target_word_uniqueness": 5.5376
     },
     {
-      "target_word": "election",
-      "target_word_time": 306.14,
-      "delay_type": "long",
-      "delay_seconds": 53.86,
+      "target_word": "transitional",
+      "target_word_time": 357.36,
+      "delay_type": "short",
+      "delay_seconds": 2.64,
       "search_start_time": 360.0,
-      "id": 6
+      "id": 6,
+      "target_word_uniqueness": 5.6198
     }
   ]
 }

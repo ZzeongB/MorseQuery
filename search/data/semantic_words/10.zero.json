@@ -1,317 +1,546 @@
 [
   {
-    "word": "Farnaz",
-    "time": 1.7600000000000007,
+    "word": "cohort",
+    "time": 7.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Natalie",
-    "time": 5.4,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "airport",
-    "time": 21.76,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Special",
-    "time": 34.76,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "messages",
-    "time": 48.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "limbo",
-    "time": 65.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "unilateral",
-    "time": 68.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "situation",
-    "time": 76.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "claim",
-    "time": 80.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "regime",
-    "time": 85.56,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "war",
-    "time": 92.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2
-  },
-  {
-    "word": "new",
-    "time": 98.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "divisions",
-    "time": 101.82,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "members",
-    "time": 114.32,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Mushtab",
-    "time": 117.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "framework",
-    "time": 122.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "puzzle",
-    "time": 129.16,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "learned",
-    "time": 134.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "interviews",
-    "time": 137.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "shots",
-    "time": 203.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "1979",
-    "time": 218.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "regime",
-    "time": 223.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "government",
-    "time": 249.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
-  },
-  {
-    "word": "ministers",
-    "time": 252.46,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "Parliament",
-    "time": 257.52,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "head",
-    "time": 263.72,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "footprint",
-    "time": 269.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "conglomerate",
-    "time": 273.2,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "economic",
-    "time": 275.54,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "transportation",
-    "time": 277.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "parallel",
-    "time": 282.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "war",
-    "time": 286.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "clerics",
-    "time": 295.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
-  },
-  {
-    "word": "ubiquity",
-    "time": 298.44,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "supreme",
-    "time": 313.8,
+    "time": 21.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "proxy",
-    "time": 322.62,
+    "word": "shots",
+    "time": 25.34,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Hezbollah",
-    "time": 328.64,
+    "word": "aftermath",
+    "time": 39.68,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Gaza",
-    "time": 330.72,
+    "word": "revolution",
+    "time": 41.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Iraq",
-    "time": 332.76,
+    "word": "defense",
+    "time": 44.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "uprising",
-    "time": 335.3,
+    "word": "half",
+    "time": 48.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "place",
+    "time": 68.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "government",
-    "time": 338.08,
+    "time": 71.54,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "ministers",
+    "time": 74.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Parliament",
+    "time": 79.42,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "National",
+    "time": 86.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "footprint",
+    "time": 91.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "conglomerate",
+    "time": 95.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "economic",
+    "time": 97.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "transportation",
+    "time": 99.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "parallel",
+    "time": 104.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "war",
+    "time": 108.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "country",
+    "time": 113.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "clerics",
+    "time": 117.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "ubiquity",
+    "time": 120.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "dominant",
+    "time": 130.6,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "supreme",
+    "time": 135.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "borders",
+    "time": 140.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "proxy",
+    "time": 144.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Hezbollah",
+    "time": 150.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Gaza",
+    "time": 152.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Iraq",
+    "time": 154.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "uprising",
+    "time": 157.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "government",
+    "time": 159.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Security",
-    "time": 340.4,
+    "time": 162.3,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "politics",
-    "time": 347.76,
+    "time": 169.68,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "economy",
-    "time": 349.88,
+    "time": 171.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "military",
-    "time": 355.5,
+    "time": 177.4,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "leadership",
+    "time": 182.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "father",
+    "time": 185.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "authority",
+    "time": 188.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Israel",
+    "time": 201.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "rule",
+    "time": 213.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "show",
+    "time": 217.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "younger",
+    "time": 220.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "succession",
+    "time": 229.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Thrones",
+    "time": 231.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "son",
+    "time": 238.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "position",
+    "time": 256.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Israeli",
+    "time": 272.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "military",
+    "time": 274.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Iran",
+    "time": 276.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "existential",
+    "time": 279.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "confident",
+    "time": 282.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "cracking",
+    "time": 286.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Islamic",
+    "time": 289.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "injuries",
+    "time": 297.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gravely",
+    "time": 299.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "targeted",
+    "time": 302.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "question",
+    "time": 305.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "amputated",
+    "time": 313.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "prosthetic",
+    "time": 317.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "arms",
+    "time": 320.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "lips",
+    "time": 322.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "burns",
+    "time": 325.9,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "speak",
+    "time": 328.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "voice",
+    "time": 332.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "clout",
+    "time": 341.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "sources",
+    "time": 345.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "weak",
+    "time": 350.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "address",
+    "time": 352.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "audio",
+    "time": 355.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   }
 ]

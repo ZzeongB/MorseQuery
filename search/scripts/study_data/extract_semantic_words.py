@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import re
+import subprocess
 import sys
 from pathlib import Path
 from typing import Any
@@ -89,6 +90,31 @@ def normalize_tokens(text: str) -> list[str]:
 
 def read_transcript(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def plot_semantic_word_gap_distribution(output_json: Path) -> None:
+    stem = output_json.stem
+    output_dir = ROOT_DIR / "result" / "data"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    plot_script = (
+        ROOT_DIR / "scripts" / "analysis" / "plot_semantic_word_time_gap_distribution.py"
+    )
+    subprocess.run(
+        [
+            sys.executable,
+            str(plot_script),
+            "--semantic-dir",
+            str(output_json.parent),
+            "--ids",
+            stem,
+            "--output",
+            str(output_dir / f"{stem}_semantic_words_gap_distribution.png"),
+            "--large-gap-output",
+            str(output_dir / f"{stem}_semantic_words_large_gaps.txt"),
+        ],
+        check=True,
+        cwd=ROOT_DIR,
+    )
 
 
 def transcript_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
@@ -268,6 +294,7 @@ def main() -> None:
         json.dumps(semantic_words, indent=2, ensure_ascii=False),
         encoding="utf-8",
     )
+    plot_semantic_word_gap_distribution(args.output_json)
     print(f"Wrote semantic words: {args.output_json}")
     print(f"Extracted {len(semantic_words)} semantic terms")
 

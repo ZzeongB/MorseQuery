@@ -1,374 +1,338 @@
 [
   {
-    "word": "Laurel",
-    "time": 1.659999999999997
+    "word": "parks",
+    "time": 0.7
   },
   {
-    "word": "historic",
-    "time": 9.28
-  },
-  {
-    "word": "signatures",
-    "time": 12.26
-  },
-  {
-    "word": "voters",
-    "time": 14.44
-  },
-  {
-    "word": "anxiety",
-    "time": 25.22
-  },
-  {
-    "word": "affordability",
-    "time": 30.28
-  },
-  {
-    "word": "electorate",
-    "time": 32.7
-  },
-  {
-    "word": "angry",
-    "time": 35.36
-  },
-  {
-    "word": "favoring",
-    "time": 40.12
-  },
-  {
-    "word": "emotional",
-    "time": 42.8
-  },
-  {
-    "word": "tax",
-    "time": 45.12
-  },
-  {
-    "word": "pushback",
-    "time": 47.64
-  },
-  {
-    "word": "millions",
-    "time": 51.54
-  },
-  {
-    "word": "scope",
-    "time": 54.62
-  },
-  {
-    "word": "tax",
-    "time": 57.28
-  },
-  {
-    "word": "firestorm",
-    "time": 61.52
-  },
-  {
-    "word": "unusual",
-    "time": 64.42
-  },
-  {
-    "word": "measure",
-    "time": 67.98
-  },
-  {
-    "word": "5%",
-    "time": 71.86
-  },
-  {
-    "word": "net",
-    "time": 75.34
-  },
-  {
-    "word": "billionaires",
-    "time": 77.92
-  },
-  {
-    "word": "January",
-    "time": 80.84
-  },
-  {
-    "word": "money",
-    "time": 83.64
-  },
-  {
-    "word": "special",
-    "time": 86.02
-  },
-  {
-    "word": "health",
-    "time": 91.34
-  },
-  {
-    "word": "unusual",
-    "time": 93.96
-  },
-  {
-    "word": "assets",
-    "time": 96.4
-  },
-  {
-    "word": "income",
-    "time": 98.64
-  },
-  {
-    "word": "stocks",
-    "time": 101.72
-  },
-  {
-    "word": "cars",
-    "time": 104.84
-  },
-  {
-    "word": "wealth",
-    "time": 109.72
-  },
-  {
-    "word": "residential",
-    "time": 112.28
-  },
-  {
-    "word": "exemption",
-    "time": 116.08
-  },
-  {
-    "word": "unusual",
-    "time": 118.68
-  },
-  {
-    "word": "special",
-    "time": 122.6
-  },
-  {
-    "word": "purpose",
-    "time": 127.64
-  },
-  {
-    "word": "tax",
-    "time": 130.4
-  },
-  {
-    "word": "general",
-    "time": 133.8
-  },
-  {
-    "word": "leaders",
-    "time": 136.26
-  },
-  {
-    "word": "requiring",
-    "time": 140.86
-  },
-  {
-    "word": "specifically",
-    "time": 145.02
-  },
-  {
-    "word": "money",
-    "time": 151.62
-  },
-  {
-    "word": "supporters",
-    "time": 156.68
-  },
-  {
-    "word": "funding",
-    "time": 162.3
-  },
-  {
-    "word": "federal",
-    "time": 164.42
-  },
-  {
-    "word": "Republicans",
-    "time": 166.58
-  },
-  {
-    "word": "cuts",
-    "time": 169.42
-  },
-  {
-    "word": "year",
-    "time": 172.02
-  },
-  {
-    "word": "Medicaid",
-    "time": 174.16
-  },
-  {
-    "word": "subsidies",
-    "time": 176.9
-  },
-  {
-    "word": "health",
-    "time": 178.98
-  },
-  {
-    "word": "money",
-    "time": 182.26
-  },
-  {
-    "word": "supporters",
-    "time": 187.16
-  },
-  {
-    "word": "money",
-    "time": 189.2
-  },
-  {
-    "word": "hospitals",
-    "time": 191.56
-  },
-  {
-    "word": "rooms",
-    "time": 193.6
-  },
-  {
-    "word": "health",
-    "time": 196.6
-  },
-  {
-    "word": "Californians",
-    "time": 198.74
-  },
-  {
-    "word": "cuts",
-    "time": 204.76
-  },
-  {
-    "word": "unusual",
-    "time": 208.56
-  },
-  {
-    "word": "taxing",
-    "time": 211.36
-  },
-  {
-    "word": "tax",
-    "time": 216.88
-  },
-  {
-    "word": "unusual",
-    "time": 219.44
-  },
-  {
-    "word": "90%",
-    "time": 222.66
-  },
-  {
-    "word": "purpose",
-    "time": 225.88
-  },
-  {
-    "word": "state",
-    "time": 230.96
-  },
-  {
-    "word": "state",
-    "time": 234.06
-  },
-  {
-    "word": "supporters",
-    "time": 236.32
-  },
-  {
-    "word": "wealth",
-    "time": 243.94
-  },
-  {
-    "word": "California",
-    "time": 262.04
-  },
-  {
-    "word": "5%",
-    "time": 265.9
-  },
-  {
-    "word": "petition",
-    "time": 271.62
-  },
-  {
-    "word": "petition",
-    "time": 274.64
-  },
-  {
-    "word": "public",
-    "time": 277.74
-  },
-  {
-    "word": "stores",
-    "time": 279.74
-  },
-  {
-    "word": "taxing",
-    "time": 282.04
+    "word": "idea",
+    "time": 4.0
   },
   {
     "word": "polling",
-    "time": 290.86
+    "time": 13.4
   },
   {
     "word": "voters",
-    "time": 293.06
+    "time": 15.58
   },
   {
     "word": "Democrats",
-    "time": 295.72
+    "time": 18.26
   },
   {
     "word": "support",
-    "time": 301.9
+    "time": 24.44
   },
   {
-    "word": "high",
-    "time": 305.42
+    "word": "high-profile",
+    "time": 27.96
   },
   {
     "word": "unions",
-    "time": 310.98
+    "time": 33.5
   },
   {
     "word": "tax",
-    "time": 324.42
+    "time": 46.94
   },
   {
     "word": "union",
-    "time": 327.34
+    "time": 49.86
   },
   {
     "word": "Service",
-    "time": 331.76
+    "time": 54.28
   },
   {
     "word": "United",
-    "time": 334.56
+    "time": 57.12
   },
   {
     "word": "union",
-    "time": 338.88
+    "time": 61.42
   },
   {
     "word": "Workers",
-    "time": 341.44
+    "time": 63.98
   },
   {
     "word": "cooks",
-    "time": 343.66
+    "time": 66.2
   },
   {
     "word": "Medicaid",
-    "time": 349.56
+    "time": 72.08
   },
   {
     "word": "Trump",
-    "time": 351.84
+    "time": 74.36
   },
   {
     "word": "closures",
-    "time": 355.78
+    "time": 78.34
   },
   {
     "word": "hospitals",
-    "time": 358.22
+    "time": 80.74
+  },
+  {
+    "word": "union",
+    "time": 84.84
+  },
+  {
+    "word": "ballot",
+    "time": 92.04
+  },
+  {
+    "word": "labor",
+    "time": 94.88
+  },
+  {
+    "word": "idea",
+    "time": 99.84
+  },
+  {
+    "word": "economists",
+    "time": 105.16
+  },
+  {
+    "word": "universities",
+    "time": 107.6
+  },
+  {
+    "word": "proposal",
+    "time": 110.76
+  },
+  {
+    "word": "maverick",
+    "time": 116.62
+  },
+  {
+    "word": "coalition",
+    "time": 121.74
+  },
+  {
+    "word": "coalition",
+    "time": 125.36
+  },
+  {
+    "word": "Bernie",
+    "time": 127.64
+  },
+  {
+    "word": "rally",
+    "time": 130.48
+  },
+  {
+    "word": "union",
+    "time": 134.96
+  },
+  {
+    "word": "signatures",
+    "time": 138.22
+  },
+  {
+    "word": "market",
+    "time": 144.46
+  },
+  {
+    "word": "clipboard",
+    "time": 149.54
+  },
+  {
+    "word": "tax",
+    "time": 151.76
+  },
+  {
+    "word": "billionaires",
+    "time": 154.28
+  },
+  {
+    "word": "momentum",
+    "time": 158.02
+  },
+  {
+    "word": "year",
+    "time": 162.38
+  },
+  {
+    "word": "deadline",
+    "time": 165.02
+  },
+  {
+    "word": "California",
+    "time": 170.84
+  },
+  {
+    "word": "year",
+    "time": 173.14
+  },
+  {
+    "word": "year",
+    "time": 177.26
+  },
+  {
+    "word": "jockeying",
+    "time": 179.66
+  },
+  {
+    "word": "high-profile",
+    "time": 182.48
+  },
+  {
+    "word": "state",
+    "time": 186.86
+  },
+  {
+    "word": "founders",
+    "time": 191.12
+  },
+  {
+    "word": "Sergey",
+    "time": 193.18
+  },
+  {
+    "word": "Tahoe",
+    "time": 195.58
+  },
+  {
+    "word": "Florida",
+    "time": 198.22
+  },
+  {
+    "word": "investing",
+    "time": 204.44
+  },
+  {
+    "word": "David",
+    "time": 207.1
+  },
+  {
+    "word": "Peter",
+    "time": 209.2
+  },
+  {
+    "word": "wealthy",
+    "time": 214.7
+  },
+  {
+    "word": "tax",
+    "time": 219.28
+  },
+  {
+    "word": "California",
+    "time": 232.5
+  },
+  {
+    "word": "residence",
+    "time": 235.16
+  },
+  {
+    "word": "billionaires",
+    "time": 238.1
+  },
+  {
+    "word": "California",
+    "time": 240.3
+  },
+  {
+    "word": "tax",
+    "time": 249.6
+  },
+  {
+    "word": "jewels",
+    "time": 253.6
+  },
+  {
+    "word": "conference",
+    "time": 260.96
+  },
+  {
+    "word": "tax",
+    "time": 265.4
+  },
+  {
+    "word": "clients",
+    "time": 273.38
+  },
+  {
+    "word": "Picasso",
+    "time": 279.86
+  },
+  {
+    "word": "Aspen",
+    "time": 283.3
+  },
+  {
+    "word": "insurance",
+    "time": 286.74
+  },
+  {
+    "word": "diamond",
+    "time": 291.3
+  },
+  {
+    "word": "insurance",
+    "time": 294.26
+  },
+  {
+    "word": "taxed",
+    "time": 297.6
+  },
+  {
+    "word": "California",
+    "time": 304.64
+  },
+  {
+    "word": "pay",
+    "time": 307.84
+  },
+  {
+    "word": "fighting",
+    "time": 312.16
+  },
+  {
+    "word": "argument",
+    "time": 314.18
+  },
+  {
+    "word": "tax",
+    "time": 316.58
+  },
+  {
+    "word": "drilling",
+    "time": 323.72
+  },
+  {
+    "word": "idea",
+    "time": 328.8
+  },
+  {
+    "word": "taxpayer",
+    "time": 335.44
+  },
+  {
+    "word": "billionaire",
+    "time": 339.48
+  },
+  {
+    "word": "declare",
+    "time": 343.06
+  },
+  {
+    "word": "property",
+    "time": 345.5
+  },
+  {
+    "word": "retroactive",
+    "time": 354.1
+  },
+  {
+    "word": "tax",
+    "time": 356.3
+  },
+  {
+    "word": "January",
+    "time": 358.34
   }
 ]

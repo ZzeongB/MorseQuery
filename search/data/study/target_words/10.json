@@ -7,52 +7,58 @@
   "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "Natalie",
-      "target_word_time": 5.4,
+      "target_word": "cohort",
+      "target_word_time": 7.02,
       "delay_type": "long",
-      "delay_seconds": 54.6,
+      "delay_seconds": 52.98,
       "search_start_time": 60.0,
-      "id": 1
+      "id": 1,
+      "target_word_uniqueness": 5.9586
     },
     {
-      "target_word": "unilateral",
-      "target_word_time": 68.2,
+      "target_word": "ministers",
+      "target_word_time": 74.38,
       "delay_type": "long",
-      "delay_seconds": 51.8,
+      "delay_seconds": 45.62,
       "search_start_time": 120.0,
-      "id": 2
-    },
-    {
-      "target_word": "framework",
-      "target_word_time": 122.06,
-      "delay_type": "long",
-      "delay_seconds": 57.94,
-      "search_start_time": 180.0,
-      "id": 3
-    },
-    {
-      "target_word": "regime",
-      "target_word_time": 223.8,
-      "delay_type": "short",
-      "delay_seconds": 16.2,
-      "search_start_time": 240.0,
-      "id": 4
-    },
-    {
-      "target_word": "clerics",
-      "target_word_time": 295.7,
-      "delay_type": "short",
-      "delay_seconds": 4.3,
-      "search_start_time": 300.0,
-      "id": 5
+      "id": 2,
+      "target_word_uniqueness": 5.1192
     },
     {
       "target_word": "economy",
-      "target_word_time": 349.88,
+      "target_word_time": 171.78,
       "delay_type": "short",
-      "delay_seconds": 10.12,
+      "delay_seconds": 8.22,
+      "search_start_time": 180.0,
+      "id": 3,
+      "target_word_uniqueness": 4.527200000000001
+    },
+    {
+      "target_word": "leadership",
+      "target_word_time": 182.78,
+      "delay_type": "long",
+      "delay_seconds": 57.22,
+      "search_start_time": 240.0,
+      "id": 4,
+      "target_word_uniqueness": 4.6021
+    },
+    {
+      "target_word": "Islamic",
+      "target_word_time": 289.84,
+      "delay_type": "short",
+      "delay_seconds": 10.16,
+      "search_start_time": 300.0,
+      "id": 5,
+      "target_word_uniqueness": 6.1549
+    },
+    {
+      "target_word": "audio",
+      "target_word_time": 355.18,
+      "delay_type": "short",
+      "delay_seconds": 4.82,
       "search_start_time": 360.0,
-      "id": 6
+      "id": 6,
+      "target_word_uniqueness": 4.5451999999999995
     }
   ]
 }

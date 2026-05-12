@@ -1,402 +1,418 @@
 [
   {
-    "word": "Professor",
-    "time": 0.74
+    "word": "country",
+    "time": 1.18
   },
   {
-    "word": "conversation",
-    "time": 3.38
-  },
-  {
-    "word": "extraordinary",
-    "time": 6.8
+    "word": "radicalization",
+    "time": 4.1
   },
   {
     "word": "political",
-    "time": 8.94
-  },
-  {
-    "word": "assassination",
-    "time": 11.56
-  },
-  {
-    "word": "assassination",
-    "time": 14.12
-  },
-  {
-    "word": "Daily",
-    "time": 16.58
-  },
-  {
-    "word": "violence",
-    "time": 22.52
-  },
-  {
-    "word": "administration",
-    "time": 24.68
-  },
-  {
-    "word": "theory",
-    "time": 33.72
-  },
-  {
-    "word": "violent",
-    "time": 38.38
-  },
-  {
-    "word": "book",
-    "time": 41.32
-  },
-  {
-    "word": "violent",
-    "time": 44.06
-  },
-  {
-    "word": "risk",
-    "time": 46.54
-  },
-  {
-    "word": "terrorist",
-    "time": 50.08
-  },
-  {
-    "word": "violent",
-    "time": 55.88
-  },
-  {
-    "word": "risk",
-    "time": 58.42
-  },
-  {
-    "word": "political",
-    "time": 62.58
-  },
-  {
-    "word": "millions",
-    "time": 68.48
-  },
-  {
-    "word": "both",
-    "time": 71.2
-  },
-  {
-    "word": "political",
-    "time": 73.82
-  },
-  {
-    "word": "millions",
-    "time": 79.24
-  },
-  {
-    "word": "fringe",
-    "time": 81.32
-  },
-  {
-    "word": "groups",
-    "time": 83.54
-  },
-  {
-    "word": "acceptable",
-    "time": 85.76
-  },
-  {
-    "word": "volatile",
-    "time": 95.2
-  },
-  {
-    "word": "volatile",
-    "time": 99.76
-  },
-  {
-    "word": "prospect",
-    "time": 105.22
-  },
-  {
-    "word": "approval",
-    "time": 107.54
-  },
-  {
-    "word": "millions",
-    "time": 111.48
-  },
-  {
-    "word": "political",
-    "time": 113.48
-  },
-  {
-    "word": "FBI",
-    "time": 116.66
-  },
-  {
-    "word": "support",
-    "time": 120.2
-  },
-  {
-    "word": "people",
-    "time": 122.82
-  },
-  {
-    "word": "violent",
-    "time": 129.32
-  },
-  {
-    "word": "millions",
-    "time": 132.86
-  },
-  {
-    "word": "violence",
-    "time": 135.1
-  },
-  {
-    "word": "spirals",
-    "time": 139.04
-  },
-  {
-    "word": "debate",
-    "time": 142.06
-  },
-  {
-    "word": "left-wing",
-    "time": 144.74
-  },
-  {
-    "word": "cases",
-    "time": 147.72
-  },
-  {
-    "word": "June",
-    "time": 152.62
-  },
-  {
-    "word": "assassination",
-    "time": 155.52
-  },
-  {
-    "word": "Minnesota",
-    "time": 158.7
-  },
-  {
-    "word": "murder",
-    "time": 160.88
-  },
-  {
-    "word": "January",
-    "time": 164.94
-  },
-  {
-    "word": "killing",
-    "time": 167.1
-  },
-  {
-    "word": "American",
-    "time": 170.02
-  },
-  {
-    "word": "Governor",
-    "time": 173.02
-  },
-  {
-    "word": "President",
-    "time": 176.02
-  },
-  {
-    "word": "rise",
-    "time": 180.84
-  },
-  {
-    "word": "both",
-    "time": 187.98
-  },
-  {
-    "word": "spiral",
-    "time": 191.02
-  },
-  {
-    "word": "violent",
-    "time": 195.14
+    "time": 7.88
   },
   {
     "word": "social",
-    "time": 198.76
+    "time": 10.74
   },
   {
-    "word": "American",
-    "time": 203.64
+    "word": "United",
+    "time": 12.88
   },
   {
-    "word": "acceptance",
-    "time": 211.98
+    "word": "social",
+    "time": 18.74
   },
   {
-    "word": "conducted",
-    "time": 217.56
+    "word": "history",
+    "time": 22.74
+  },
+  {
+    "word": "white",
+    "time": 25.3
+  },
+  {
+    "word": "white",
+    "time": 27.58
+  },
+  {
+    "word": "history",
+    "time": 34.34
+  },
+  {
+    "word": "percent",
+    "time": 38.3
+  },
+  {
+    "word": "non-Hispanic",
+    "time": 40.62
+  },
+  {
+    "word": "percent",
+    "time": 45.74
+  },
+  {
+    "word": "change",
+    "time": 47.88
+  },
+  {
+    "word": "percent",
+    "time": 51.2
+  },
+  {
+    "word": "immigration",
+    "time": 56.4
+  },
+  {
+    "word": "tipping",
+    "time": 62.48
+  },
+  {
+    "word": "transitioning",
+    "time": 64.82
+  },
+  {
+    "word": "white",
+    "time": 67.54
+  },
+  {
+    "word": "period",
+    "time": 70.22
+  },
+  {
+    "word": "immigration",
+    "time": 72.68
+  },
+  {
+    "word": "lightning",
+    "time": 75.84
+  },
+  {
+    "word": "America",
+    "time": 78.34
+  },
+  {
+    "word": "right",
+    "time": 81.84
+  },
+  {
+    "word": "right",
+    "time": 83.86
+  },
+  {
+    "word": "change",
+    "time": 86.0
+  },
+  {
+    "word": "established",
+    "time": 89.28
+  },
+  {
+    "word": "stop",
+    "time": 91.82
+  },
+  {
+    "word": "change",
+    "time": 93.88
+  },
+  {
+    "word": "political",
+    "time": 97.92
+  },
+  {
+    "word": "economic",
+    "time": 100.76
+  },
+  {
+    "word": "impact",
+    "time": 103.92
+  },
+  {
+    "word": "group",
+    "time": 109.44
+  },
+  {
+    "word": "change",
+    "time": 111.48
+  },
+  {
+    "word": "change",
+    "time": 114.64
+  },
+  {
+    "word": "stop",
+    "time": 117.48
+  },
+  {
+    "word": "lightning",
+    "time": 121.3
+  },
+  {
+    "word": "change",
+    "time": 123.92
+  },
+  {
+    "word": "support",
+    "time": 126.88
   },
   {
     "word": "surveys",
-    "time": 220.42
+    "time": 129.46
   },
   {
-    "word": "University",
-    "time": 225.44
+    "word": "upheaval",
+    "time": 132.9
   },
   {
-    "word": "Security",
-    "time": 227.6
+    "word": "demographic",
+    "time": 135.84
   },
   {
-    "word": "summer",
-    "time": 229.96
+    "word": "shift",
+    "time": 140.82
   },
   {
-    "word": "January",
-    "time": 235.32
+    "word": "impact",
+    "time": 143.12
   },
   {
-    "word": "attitudes",
-    "time": 239.66
+    "word": "change",
+    "time": 146.26
+  },
+  {
+    "word": "demographic",
+    "time": 149.64
+  },
+  {
+    "word": "wealth",
+    "time": 151.74
+  },
+  {
+    "word": "mid-1980s",
+    "time": 155.22
+  },
+  {
+    "word": "party",
+    "time": 157.68
+  },
+  {
+    "word": "bottom",
+    "time": 161.32
+  },
+  {
+    "word": "top",
+    "time": 164.36
+  },
+  {
+    "word": "percent",
+    "time": 168.72
+  },
+  {
+    "word": "top",
+    "time": 171.98
+  },
+  {
+    "word": "wealth",
+    "time": 174.64
+  },
+  {
+    "word": "bottom",
+    "time": 178.12
+  },
+  {
+    "word": "quintiles",
+    "time": 182.56
   },
   {
     "word": "political",
-    "time": 241.96
+    "time": 185.66
   },
   {
-    "word": "data",
-    "time": 245.52
+    "word": "Republican",
+    "time": 191.36
   },
   {
-    "word": "acceptance",
-    "time": 247.7
+    "word": "bottom",
+    "time": 193.98
   },
   {
-    "word": "Biden",
-    "time": 255.24
+    "word": "economic",
+    "time": 197.56
   },
   {
-    "word": "2021",
-    "time": 257.48
+    "word": "clobbered",
+    "time": 199.64
   },
   {
-    "word": "administration",
-    "time": 259.76
-  },
-  {
-    "word": "percent",
-    "time": 263.48
-  },
-  {
-    "word": "supported",
-    "time": 265.96
-  },
-  {
-    "word": "restore",
-    "time": 268.06
-  },
-  {
-    "word": "focus",
-    "time": 271.88
-  },
-  {
-    "word": "research",
-    "time": 274.18
-  },
-  {
-    "word": "force",
-    "time": 277.38
+    "word": "shift",
+    "time": 206.52
   },
   {
     "word": "percent",
-    "time": 279.7
+    "time": 208.72
   },
   {
-    "word": "force",
-    "time": 282.2
+    "word": "fuel",
+    "time": 214.04
   },
   {
-    "word": "force",
-    "time": 285.34
+    "word": "rise",
+    "time": 217.34
   },
   {
-    "word": "percent",
-    "time": 289.66
+    "word": "shift",
+    "time": 221.24
   },
   {
-    "word": "assassination",
-    "time": 292.12
+    "word": "influence",
+    "time": 223.46
   },
   {
-    "word": "percentage",
-    "time": 295.98
+    "word": "future",
+    "time": 230.76
   },
   {
-    "word": "percent",
-    "time": 301.08
+    "word": "power",
+    "time": 235.88
   },
   {
-    "word": "election",
-    "time": 306.14
+    "word": "right",
+    "time": 237.96
   },
   {
-    "word": "example",
-    "time": 312.9
+    "word": "support",
+    "time": 242.14
   },
   {
-    "word": "September",
-    "time": 317.0
+    "word": "losers",
+    "time": 244.44
   },
   {
-    "word": "acceptable",
-    "time": 320.44
+    "word": "marginal",
+    "time": 246.48
   },
   {
-    "word": "acceptable",
-    "time": 324.28
+    "word": "political",
+    "time": 250.72
   },
   {
-    "word": "attempted",
-    "time": 327.54
+    "word": "surveys",
+    "time": 254.44
   },
   {
-    "word": "result",
-    "time": 329.82
+    "word": "educated",
+    "time": 258.12
   },
   {
-    "word": "percent",
-    "time": 332.88
+    "word": "middle",
+    "time": 260.2
   },
   {
-    "word": "million",
-    "time": 335.18
+    "word": "middle",
+    "time": 262.4
   },
   {
-    "word": "acceptable",
+    "word": "supporting",
+    "time": 264.76
+  },
+  {
+    "word": "halves",
+    "time": 267.48
+  },
+  {
+    "word": "future",
+    "time": 272.38
+  },
+  {
+    "word": "committing",
+    "time": 277.92
+  },
+  {
+    "word": "position",
+    "time": 282.6
+  },
+  {
+    "word": "stature",
+    "time": 287.12
+  },
+  {
+    "word": "fastest",
+    "time": 289.54
+  },
+  {
+    "word": "naive",
+    "time": 292.88
+  },
+  {
+    "word": "suburb",
+    "time": 298.82
+  },
+  {
+    "word": "educated",
+    "time": 301.52
+  },
+  {
+    "word": "resort",
+    "time": 304.18
+  },
+  {
+    "word": "influence",
+    "time": 307.6
+  },
+  {
+    "word": "resort",
+    "time": 310.46
+  },
+  {
+    "word": "options",
+    "time": 312.78
+  },
+  {
+    "word": "profile",
+    "time": 315.4
+  },
+  {
+    "word": "means",
+    "time": 318.36
+  },
+  {
+    "word": "left",
+    "time": 322.74
+  },
+  {
+    "word": "fear",
+    "time": 327.56
+  },
+  {
+    "word": "minority",
+    "time": 332.6
+  },
+  {
+    "word": "grievances",
+    "time": 335.82
+  },
+  {
+    "word": "politics",
     "time": 338.62
   },
   {
-    "word": "people",
-    "time": 344.02
+    "word": "President",
+    "time": 346.46
   },
   {
-    "word": "political",
-    "time": 346.1
+    "word": "seizing",
+    "time": 350.04
   },
   {
-    "word": "increasing",
-    "time": 348.8
+    "word": "fear",
+    "time": 353.92
   },
   {
-    "word": "Pape",
-    "time": 351.24
+    "word": "transitional",
+    "time": 357.36
   },
   {
-    "word": "political",
-    "time": 353.5
-  },
-  {
-    "word": "periods",
-    "time": 355.7
-  },
-  {
-    "word": "violence",
-    "time": 358.92
+    "word": "period",
+    "time": 359.76
   }
 ]

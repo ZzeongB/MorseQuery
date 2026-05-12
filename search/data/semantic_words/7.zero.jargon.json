@@ -1,149 +1,200 @@
 [
   {
-    "word": "Professor",
-    "time": 0.74,
+    "word": "radicalization",
+    "time": 4.1,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 7.0
   },
   {
-    "word": "administration",
-    "time": 24.68,
+    "word": "political",
+    "time": 7.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.9523
   },
   {
-    "word": "theory",
-    "time": 33.72,
+    "word": "United",
+    "time": 12.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.5909
   },
   {
-    "word": "terrorist",
-    "time": 50.08,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "word": "immigration",
+    "time": 56.4,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.8894
   },
   {
-    "word": "fringe",
-    "time": 81.32,
+    "word": "tipping",
+    "time": 62.48,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0809
   },
   {
-    "word": "FBI",
-    "time": 116.66,
+    "word": "transitioning",
+    "time": 64.82,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 6.699
   },
   {
-    "word": "violent",
-    "time": 129.32,
+    "word": "America",
+    "time": 78.34,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 3
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.4007
   },
   {
-    "word": "debate",
-    "time": 142.06,
+    "word": "economic",
+    "time": 100.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.5952
   },
   {
-    "word": "Minnesota",
-    "time": 158.7,
+    "word": "surveys",
+    "time": 129.46,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.5376
   },
   {
-    "word": "killing",
-    "time": 167.1,
+    "word": "upheaval",
+    "time": 132.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.6777999999999995
   },
   {
-    "word": "Governor",
-    "time": 173.02,
+    "word": "party",
+    "time": 157.68,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 2.9248000000000003
   },
   {
-    "word": "President",
-    "time": 176.02,
+    "word": "quintiles",
+    "time": 182.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 7.0
   },
   {
-    "word": "University",
-    "time": 225.44,
+    "word": "Republican",
+    "time": 191.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.684
   },
   {
-    "word": "Security",
-    "time": 227.6,
+    "word": "losers",
+    "time": 244.44,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.308
   },
   {
-    "word": "attitudes",
-    "time": 239.66,
+    "word": "marginal",
+    "time": 246.48,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.5376
   },
   {
-    "word": "data",
-    "time": 245.52,
+    "word": "stature",
+    "time": 287.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.0655
   },
   {
-    "word": "research",
-    "time": 274.18,
+    "word": "influence",
+    "time": 307.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.1221
   },
   {
-    "word": "percentage",
-    "time": 295.98,
+    "word": "left",
+    "time": 322.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 2.6071999999999997
   },
   {
-    "word": "election",
-    "time": 306.14,
+    "word": "minority",
+    "time": 332.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.943099999999999
   },
   {
-    "word": "Pape",
-    "time": 351.24,
+    "word": "grievances",
+    "time": 335.82,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.3979
   },
   {
-    "word": "periods",
-    "time": 355.7,
+    "word": "politics",
+    "time": 338.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.0725999999999996
+  },
+  {
+    "word": "transitional",
+    "time": 357.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 5.6198
   }
 ]
