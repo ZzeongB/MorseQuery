@@ -415,6 +415,11 @@ function findPrevIndexByTime(items, currentTime, getTime) {
     return { targetIndex: currentIndex - 1, blocked: false };
 }
 
+function shouldReplayCurrentOnInitialLeft(currentTime) {
+    if (!studyMode || !taskActive || activeTargetTime === null) return false;
+    return Math.abs(currentTime - activeTargetTime) <= PREV_TIME_TOLERANCE;
+}
+
 function findNextIndexByTime(items, currentTime, getTime) {
     if (!items || items.length === 0) return { targetIndex: -1, blocked: false };
 
@@ -645,6 +650,7 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
 
     const currentTime = audio.currentTime;
     const currentKeyword = findCurrentItemByTime(keywords, currentTime, (item) => item.time);
+    const currentIndex = findCurrentIndexByTime(keywords, currentTime, (item) => item.time);
     const { targetIndex, blocked } = findPrevIndexByTime(keywords, currentTime, (item) => item.time);
 
     console.log('[keyword_prev]', {
@@ -654,6 +660,28 @@ function jumpToPreviousKeyword(useKeyword2 = false) {
         targetKeyword: targetIndex >= 0 ? keywords[targetIndex] : null,
         blocked,
     });
+
+    if (shouldReplayCurrentOnInitialLeft(currentTime) && currentIndex >= 0) {
+        const target = keywords[currentIndex];
+        if (useKeyword2) keyword2Index = currentIndex;
+        else keywordIndex = currentIndex;
+
+        if (setAudioTimeFromArrow(
+            target.time,
+            useKeyword2 ? 'keyword2_prev_initial_replay' : 'keyword_prev_initial_replay',
+            useKeyword2 ? 'keyword2_prev_blocked' : 'keyword_prev_blocked',
+            {
+                keyword: target.word,
+                keywordTime: target.time,
+                keywordIndex: currentIndex,
+            },
+        ) === null) {
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
+        return;
+    }
 
     if (blocked || targetIndex < 0) {
         if (!moveToSearchIntervalStart(
@@ -751,7 +779,23 @@ function jumpToPreviousWord() {
     if (searchableWords.length === 0) return;
 
     const currentTime = audio.currentTime;
+    const currentIndex = findCurrentIndexByTime(searchableWords, currentTime, (item) => item.start);
     const { targetIndex, blocked } = findPrevIndexByTime(searchableWords, currentTime, (item) => item.start);
+
+    if (shouldReplayCurrentOnInitialLeft(currentTime) && currentIndex >= 0) {
+        const target = searchableWords[currentIndex];
+        wordIndex = currentIndex;
+        if (setAudioTimeFromArrow(target.start, 'word_prev_initial_replay', 'word_prev_blocked', {
+            word: target.word,
+            wordStart: target.start,
+            wordIndex: currentIndex,
+        }) === null) {
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
+        return;
+    }
 
     if (blocked || targetIndex < 0) {
         if (!moveToSearchIntervalStart('word_prev_to_interval_start', { currentTime })) {
@@ -833,7 +877,22 @@ function jumpToPreviousSentence() {
     if (searchableSentences.length === 0) return;
 
     const currentTime = audio.currentTime;
+    const currentIndex = findCurrentIndexByTime(searchableSentences, currentTime, (item) => item.start);
     const { targetIndex, blocked } = findPrevIndexByTime(searchableSentences, currentTime, (item) => item.start);
+
+    if (shouldReplayCurrentOnInitialLeft(currentTime) && currentIndex >= 0) {
+        const target = searchableSentences[currentIndex];
+        sentenceIndex = currentIndex;
+        if (setAudioTimeFromArrow(target.start, 'sentence_prev_initial_replay', 'sentence_prev_blocked', {
+            sentenceIndex: currentIndex,
+            sentenceStart: target.start,
+        }) === null) {
+            return;
+        }
+        applySearchPlaybackRate();
+        audio.play();
+        return;
+    }
 
     if (blocked || targetIndex < 0) {
         if (!moveToSearchIntervalStart('sentence_prev_to_interval_start', { currentTime })) {
