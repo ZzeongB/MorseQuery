@@ -1,0 +1,1436 @@
+{
+  "segments_by_file": {
+    "10.srt": [
+      {
+        "segment_start": 242.08,
+        "segment_end": 602.08,
+        "segment_start_min": 4.034666666666667,
+        "segment_end_min": 10.034666666666668,
+        "anchor_srt": {
+          "index": 105,
+          "text": "say, \"We're waiting for Mr. Khamenei to",
+          "start": 240.6,
+          "end": 242.08
+        },
+        "score": -0.3809624790440684,
+        "mean_diff": 0.035704187622598305,
+        "preferred_ratio": 0.8333333333333334,
+        "distribution": {
+          "mean": 4.07313436123348,
+          "std": 1.1140762710308172,
+          "median": 3.9747,
+          "n_words": 227
+        },
+        "target_distribution": {
+          "mean": 5.694083333333334,
+          "std": 0.43510562095758865,
+          "min": 5.2518,
+          "max": 6.5229
+        },
+        "selected_targets": [
+          {
+            "word": "cohort",
+            "time": 248.82666666666665,
+            "uniqueness": 5.9586,
+            "is_preferred": true
+          },
+          {
+            "word": "ubiquity",
+            "time": 361.93142857142857,
+            "uniqueness": 6.5229,
+            "is_preferred": true
+          },
+          {
+            "word": "protests",
+            "time": 405.8,
+            "uniqueness": 5.2518,
+            "is_preferred": true
+          },
+          {
+            "word": "thrones",
+            "time": 473.24,
+            "uniqueness": 5.5686,
+            "is_preferred": true
+          },
+          {
+            "word": "superpowers",
+            "time": 517.32925,
+            "uniqueness": 5.5527999999999995,
+            "is_preferred": false
+          },
+          {
+            "word": "clout",
+            "time": 583.5828571428572,
+            "uniqueness": 5.3098,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 600.8,
+        "segment_end": 960.8,
+        "segment_start_min": 10.013333333333332,
+        "segment_end_min": 16.013333333333332,
+        "anchor_srt": {
+          "index": 251,
+          "text": "it's audio or visual. The extent that",
+          "start": 597.0,
+          "end": 600.8
+        },
+        "score": -0.365885194354486,
+        "mean_diff": 0.050781472312180664,
+        "preferred_ratio": 0.8333333333333334,
+        "distribution": {
+          "mean": 3.986648701298701,
+          "std": 1.0588547571711748,
+          "median": 3.90135,
+          "n_words": 154
+        },
+        "target_distribution": {
+          "mean": 5.190216666666667,
+          "std": 0.1364880631736302,
+          "min": 5.0605,
+          "max": 5.4318
+        },
+        "selected_targets": [
+          {
+            "word": "logistics",
+            "time": 611.72,
+            "uniqueness": 5.4318,
+            "is_preferred": true
+          },
+          {
+            "word": "delegate",
+            "time": 669.08,
+            "uniqueness": 5.1308,
+            "is_preferred": true
+          },
+          {
+            "word": "hideout",
+            "time": 731.1866666666667,
+            "uniqueness": 5.0915,
+            "is_preferred": true
+          },
+          {
+            "word": "lifelong",
+            "time": 832.12,
+            "uniqueness": 5.1079,
+            "is_preferred": true
+          },
+          {
+            "word": "peers",
+            "time": 857.6850000000001,
+            "uniqueness": 5.0605,
+            "is_preferred": true
+          },
+          {
+            "word": "dictatorship",
+            "time": 928.216,
+            "uniqueness": 5.3187999999999995,
+            "is_preferred": false
+          }
+        ]
+      },
+      {
+        "segment_start": 547.88,
+        "segment_end": 907.88,
+        "segment_start_min": 9.131333333333334,
+        "segment_end_min": 15.131333333333334,
+        "anchor_srt": {
+          "index": 229,
+          "text": "compound. Right. That's been a big",
+          "start": 545.64,
+          "end": 547.88
+        },
+        "score": -0.3519780681473601,
+        "mean_diff": 0.1480219318526399,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 3.889408241758242,
+          "std": 1.000476369771188,
+          "median": 3.81195,
+          "n_words": 182
+        },
+        "target_distribution": {
+          "mean": 5.188716666666667,
+          "std": 0.13510918321449839,
+          "min": 5.0605,
+          "max": 5.4318
+        },
+        "selected_targets": [
+          {
+            "word": "clout",
+            "time": 583.5828571428572,
+            "uniqueness": 5.3098,
+            "is_preferred": true
+          },
+          {
+            "word": "logistics",
+            "time": 611.72,
+            "uniqueness": 5.4318,
+            "is_preferred": true
+          },
+          {
+            "word": "delegate",
+            "time": 669.08,
+            "uniqueness": 5.1308,
+            "is_preferred": true
+          },
+          {
+            "word": "hideout",
+            "time": 731.1866666666667,
+            "uniqueness": 5.0915,
+            "is_preferred": true
+          },
+          {
+            "word": "lifelong",
+            "time": 832.12,
+            "uniqueness": 5.1079,
+            "is_preferred": true
+          },
+          {
+            "word": "peers",
+            "time": 857.6850000000001,
+            "uniqueness": 5.0605,
+            "is_preferred": true
+          }
+        ]
+      }
+    ],
+    "6.srt": [
+      {
+        "segment_start": 596.28,
+        "segment_end": 956.28,
+        "segment_start_min": 9.937999999999999,
+        "segment_end_min": 15.937999999999999,
+        "anchor_srt": {
+          "index": 251,
+          "text": "She wrote that the Voting Rights Act",
+          "start": 594.56,
+          "end": 596.28
+        },
+        "score": -0.4926485973388388,
+        "mean_diff": 0.007351402661161188,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 4.030078770949721,
+          "std": 1.1470813552833612,
+          "median": 3.9543,
+          "n_words": 179
+        },
+        "target_distribution": {
+          "mean": 6.016066666666667,
+          "std": 0.4949672099128273,
+          "min": 5.3872,
+          "max": 6.699
+        },
+        "selected_targets": [
+          {
+            "word": "marchers",
+            "time": 601.36,
+            "uniqueness": 6.699,
+            "is_preferred": true
+          },
+          {
+            "word": "deconstruction",
+            "time": 673.0,
+            "uniqueness": 5.9586,
+            "is_preferred": true
+          },
+          {
+            "word": "guardrails",
+            "time": 772.6,
+            "uniqueness": 6.5229,
+            "is_preferred": true
+          },
+          {
+            "word": "redraw",
+            "time": 828.6,
+            "uniqueness": 6.0969,
+            "is_preferred": true
+          },
+          {
+            "word": "provision",
+            "time": 889.8,
+            "uniqueness": 5.3872,
+            "is_preferred": true
+          },
+          {
+            "word": "sprint",
+            "time": 950.42,
+            "uniqueness": 5.4318,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 220.64,
+        "segment_end": 580.64,
+        "segment_start_min": 3.677333333333333,
+        "segment_end_min": 9.677333333333333,
+        "anchor_srt": {
+          "index": 90,
+          "text": "case that was decided on Wednesday, this",
+          "start": 218.24,
+          "end": 220.64
+        },
+        "score": -0.47516702265080024,
+        "mean_diff": 0.02483297734919976,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 4.012597196261682,
+          "std": 1.2060997183288316,
+          "median": 3.9247500000000004,
+          "n_words": 214
+        },
+        "target_distribution": {
+          "mean": 6.163683333333332,
+          "std": 0.3058211973068942,
+          "min": 5.5085999999999995,
+          "max": 6.3979
+        },
+        "selected_targets": [
+          {
+            "word": "redrew",
+            "time": 237.5,
+            "uniqueness": 6.2218,
+            "is_preferred": true
+          },
+          {
+            "word": "dissent",
+            "time": 297.04,
+            "uniqueness": 5.5085999999999995,
+            "is_preferred": true
+          },
+          {
+            "word": "lawmaker",
+            "time": 372.08,
+            "uniqueness": 6.3979,
+            "is_preferred": true
+          },
+          {
+            "word": "rulings",
+            "time": 416.88,
+            "uniqueness": 6.301,
+            "is_preferred": true
+          },
+          {
+            "word": "disparities",
+            "time": 491.4,
+            "uniqueness": 6.3979,
+            "is_preferred": true
+          },
+          {
+            "word": "erode",
+            "time": 535.4,
+            "uniqueness": 6.1549,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 669.68,
+        "segment_end": 1029.6799999999998,
+        "segment_start_min": 11.161333333333333,
+        "segment_end_min": 17.16133333333333,
+        "anchor_srt": {
+          "index": 282,
+          "text": "So, it stands to reason",
+          "start": 667.76,
+          "end": 669.68
+        },
+        "score": -0.4648324769915275,
+        "mean_diff": 0.03516752300847248,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 4.002262650602409,
+          "std": 1.128612397124173,
+          "median": 3.9358500000000003,
+          "n_words": 166
+        },
+        "target_distribution": {
+          "mean": 5.915716666666667,
+          "std": 0.39784221921370894,
+          "min": 5.3872,
+          "max": 6.5229
+        },
+        "selected_targets": [
+          {
+            "word": "deconstruction",
+            "time": 673.0,
+            "uniqueness": 5.9586,
+            "is_preferred": true
+          },
+          {
+            "word": "guardrails",
+            "time": 772.6,
+            "uniqueness": 6.5229,
+            "is_preferred": true
+          },
+          {
+            "word": "redraw",
+            "time": 828.6,
+            "uniqueness": 6.0969,
+            "is_preferred": true
+          },
+          {
+            "word": "provision",
+            "time": 889.8,
+            "uniqueness": 5.3872,
+            "is_preferred": true
+          },
+          {
+            "word": "sprint",
+            "time": 950.42,
+            "uniqueness": 5.4318,
+            "is_preferred": true
+          },
+          {
+            "word": "encompasses",
+            "time": 975.0,
+            "uniqueness": 6.0969,
+            "is_preferred": true
+          }
+        ]
+      }
+    ],
+    "7.srt": [
+      {
+        "segment_start": 729.32,
+        "segment_end": 1089.3200000000002,
+        "segment_start_min": 12.155333333333335,
+        "segment_end_min": 18.155333333333335,
+        "anchor_srt": {
+          "index": 282,
+          "text": "And social change, major social change,",
+          "start": 725.64,
+          "end": 729.32
+        },
+        "score": -0.3163112342169428,
+        "mean_diff": 0.01702209911639052,
+        "preferred_ratio": 0.6666666666666666,
+        "distribution": {
+          "mean": 4.054452272727272,
+          "std": 1.061272180584563,
+          "median": 3.91805,
+          "n_words": 132
+        },
+        "target_distribution": {
+          "mean": 5.603966666666667,
+          "std": 0.46437485456854305,
+          "min": 5.0809,
+          "max": 6.301
+        },
+        "selected_targets": [
+          {
+            "word": "dominant",
+            "time": 747.7142857142858,
+            "uniqueness": 5.0809,
+            "is_preferred": false
+          },
+          {
+            "word": "accelerate",
+            "time": 848.03,
+            "uniqueness": 5.1805,
+            "is_preferred": true
+          },
+          {
+            "word": "scrambles",
+            "time": 866.8114285714286,
+            "uniqueness": 6.1549,
+            "is_preferred": false
+          },
+          {
+            "word": "bipartisan",
+            "time": 945.0057142857142,
+            "uniqueness": 6.301,
+            "is_preferred": true
+          },
+          {
+            "word": "suburb",
+            "time": 1028.04,
+            "uniqueness": 5.5085999999999995,
+            "is_preferred": true
+          },
+          {
+            "word": "grievances",
+            "time": 1065.24,
+            "uniqueness": 5.3979,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 1823.04,
+        "segment_end": 2183.04,
+        "segment_start_min": 30.384,
+        "segment_end_min": 36.384,
+        "anchor_srt": {
+          "index": 693,
+          "text": "be reducing the wealth shift, and not",
+          "start": 1820.4,
+          "end": 1823.04
+        },
+        "score": -0.20356152674619504,
+        "mean_diff": 0.12977180658713827,
+        "preferred_ratio": 0.6666666666666666,
+        "distribution": {
+          "mean": 4.16720198019802,
+          "std": 1.0934747830582092,
+          "median": 4.0747,
+          "n_words": 101
+        },
+        "target_distribution": {
+          "mean": 5.8712333333333335,
+          "std": 0.4660288212355781,
+          "min": 5.1549,
+          "max": 6.301
+        },
+        "selected_targets": [
+          {
+            "word": "upfront",
+            "time": 1837.1885714285715,
+            "uniqueness": 5.3279,
+            "is_preferred": false
+          },
+          {
+            "word": "oval",
+            "time": 1934.12,
+            "uniqueness": 5.1549,
+            "is_preferred": true
+          },
+          {
+            "word": "kamala",
+            "time": 1964.32,
+            "uniqueness": 6.301,
+            "is_preferred": true
+          },
+          {
+            "word": "determinants",
+            "time": 2025.192,
+            "uniqueness": 6.301,
+            "is_preferred": true
+          },
+          {
+            "word": "mayors",
+            "time": 2078.399,
+            "uniqueness": 5.9208,
+            "is_preferred": false
+          },
+          {
+            "word": "inbox",
+            "time": 2161.733333333333,
+            "uniqueness": 6.2218,
+            "is_preferred": true
+          }
+        ]
+      }
+    ],
+    "8.srt": [
+      {
+        "segment_start": 375.48,
+        "segment_end": 735.48,
+        "segment_start_min": 6.258,
+        "segment_end_min": 12.258000000000001,
+        "anchor_srt": {
+          "index": 141,
+          "text": "petition circulators watching this thing",
+          "start": 372.68,
+          "end": 375.48
+        },
+        "score": -0.49174259424626143,
+        "mean_diff": 0.008257405753738567,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 4.029172767857143,
+          "std": 1.1342409315970732,
+          "median": 3.9654,
+          "n_words": 224
+        },
+        "target_distribution": {
+          "mean": 5.675583333333333,
+          "std": 0.3821463830203753,
+          "min": 5.1805,
+          "max": 6.1549
+        },
+        "selected_targets": [
+          {
+            "word": "sidelines",
+            "time": 411.46285714285716,
+            "uniqueness": 5.2366,
+            "is_preferred": true
+          },
+          {
+            "word": "economists",
+            "time": 481.28,
+            "uniqueness": 6.1549,
+            "is_preferred": true
+          },
+          {
+            "word": "jockeying",
+            "time": 555.08,
+            "uniqueness": 6.0,
+            "is_preferred": true
+          },
+          {
+            "word": "relocate",
+            "time": 603.1771428571428,
+            "uniqueness": 5.1805,
+            "is_preferred": true
+          },
+          {
+            "word": "taxed",
+            "time": 673.64,
+            "uniqueness": 5.9586,
+            "is_preferred": true
+          },
+          {
+            "word": "taxpayer",
+            "time": 710.92,
+            "uniqueness": 5.5229,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 338.88,
+        "segment_end": 698.88,
+        "segment_start_min": 5.648,
+        "segment_end_min": 11.648,
+        "anchor_srt": {
+          "index": 126,
+          "text": "tax say that it would affect about 200",
+          "start": 335.16,
+          "end": 338.88
+        },
+        "score": -0.4331664221337994,
+        "mean_diff": 0.06683357786620059,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 3.970596595744681,
+          "std": 1.12379975727729,
+          "median": 3.8871,
+          "n_words": 235
+        },
+        "target_distribution": {
+          "mean": 5.8716,
+          "std": 0.5275334776106629,
+          "min": 5.1805,
+          "max": 6.699
+        },
+        "selected_targets": [
+          {
+            "word": "circulators",
+            "time": 373.24,
+            "uniqueness": 6.699,
+            "is_preferred": true
+          },
+          {
+            "word": "sidelines",
+            "time": 411.46285714285716,
+            "uniqueness": 5.2366,
+            "is_preferred": true
+          },
+          {
+            "word": "economists",
+            "time": 481.28,
+            "uniqueness": 6.1549,
+            "is_preferred": true
+          },
+          {
+            "word": "jockeying",
+            "time": 555.08,
+            "uniqueness": 6.0,
+            "is_preferred": true
+          },
+          {
+            "word": "relocate",
+            "time": 603.1771428571428,
+            "uniqueness": 5.1805,
+            "is_preferred": true
+          },
+          {
+            "word": "taxed",
+            "time": 673.64,
+            "uniqueness": 5.9586,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 136.4,
+        "segment_end": 496.4,
+        "segment_start_min": 2.2733333333333334,
+        "segment_end_min": 8.273333333333333,
+        "anchor_srt": {
+          "index": 53,
+          "text": "about some of the cuts that he's done",
+          "start": 133.76,
+          "end": 136.4
+        },
+        "score": -0.3596067633260551,
+        "mean_diff": 0.14039323667394488,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 3.897036936936937,
+          "std": 1.1120158177408865,
+          "median": 3.84635,
+          "n_words": 222
+        },
+        "target_distribution": {
+          "mean": 5.75675,
+          "std": 0.5628246936954109,
+          "min": 5.041,
+          "max": 6.699
+        },
+        "selected_targets": [
+          {
+            "word": "healthcare",
+            "time": 189.61333333333334,
+            "uniqueness": 5.5229,
+            "is_preferred": true
+          },
+          {
+            "word": "collects",
+            "time": 230.16,
+            "uniqueness": 5.041,
+            "is_preferred": true
+          },
+          {
+            "word": "californians",
+            "time": 296.72,
+            "uniqueness": 5.8861,
+            "is_preferred": true
+          },
+          {
+            "word": "circulators",
+            "time": 373.24,
+            "uniqueness": 6.699,
+            "is_preferred": true
+          },
+          {
+            "word": "sidelines",
+            "time": 411.46285714285716,
+            "uniqueness": 5.2366,
+            "is_preferred": true
+          },
+          {
+            "word": "economists",
+            "time": 481.28,
+            "uniqueness": 6.1549,
+            "is_preferred": true
+          }
+        ]
+      }
+    ],
+    "9.srt": [
+      {
+        "segment_start": 766.56,
+        "segment_end": 1126.56,
+        "segment_start_min": 12.776,
+        "segment_end_min": 18.776,
+        "anchor_srt": {
+          "index": 328,
+          "text": "seen raised about what happened on",
+          "start": 764.64,
+          "end": 766.56
+        },
+        "score": -0.4263439985745485,
+        "mean_diff": 0.07365600142545148,
+        "preferred_ratio": 1.0,
+        "distribution": {
+          "mean": 3.9637741721854303,
+          "std": 0.9116729158485868,
+          "median": 3.9059,
+          "n_words": 151
+        },
+        "target_distribution": {
+          "mean": 5.652266666666667,
+          "std": 0.32928045628140284,
+          "min": 5.2596,
+          "max": 6.2218
+        },
+        "selected_targets": [
+          {
+            "word": "observes",
+            "time": 796.9733333333334,
+            "uniqueness": 5.9208,
+            "is_preferred": true
+          },
+          {
+            "word": "disagreements",
+            "time": 842.1193333333333,
+            "uniqueness": 5.6021,
+            "is_preferred": true
+          },
+          {
+            "word": "tripwires",
+            "time": 919.56925,
+            "uniqueness": 6.2218,
+            "is_preferred": true
+          },
+          {
+            "word": "google",
+            "time": 960.1800000000001,
+            "uniqueness": 5.3565000000000005,
+            "is_preferred": true
+          },
+          {
+            "word": "commando",
+            "time": 1064.1599999999999,
+            "uniqueness": 5.2596,
+            "is_preferred": true
+          },
+          {
+            "word": "measurement",
+            "time": 1072.32,
+            "uniqueness": 5.5527999999999995,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 872.0,
+        "segment_end": 1232.0,
+        "segment_start_min": 14.533333333333333,
+        "segment_end_min": 20.533333333333335,
+        "anchor_srt": {
+          "index": 378,
+          "text": "not the hotel. The actual thing you're",
+          "start": 870.04,
+          "end": 872.0
+        },
+        "score": -0.30963833213624464,
+        "mean_diff": 0.023695001197088672,
+        "preferred_ratio": 0.6666666666666666,
+        "distribution": {
+          "mean": 4.013735172413793,
+          "std": 0.869155770534003,
+          "median": 3.9374,
+          "n_words": 145
+        },
+        "target_distribution": {
+          "mean": 5.576933333333334,
+          "std": 0.3622011902551154,
+          "min": 5.1487,
+          "max": 6.2218
+        },
+        "selected_targets": [
+          {
+            "word": "tripwires",
+            "time": 919.56925,
+            "uniqueness": 6.2218,
+            "is_preferred": true
+          },
+          {
+            "word": "google",
+            "time": 960.1800000000001,
+            "uniqueness": 5.3565000000000005,
+            "is_preferred": true
+          },
+          {
+            "word": "marshals",
+            "time": 1043.36,
+            "uniqueness": 5.1487,
+            "is_preferred": false
+          },
+          {
+            "word": "measurement",
+            "time": 1072.32,
+            "uniqueness": 5.5527999999999995,
+            "is_preferred": true
+          },
+          {
+            "word": "grievance",
+            "time": 1117.4879999999998,
+            "uniqueness": 5.3279,
+            "is_preferred": false
+          },
+          {
+            "word": "advisers",
+            "time": 1218.5933333333332,
+            "uniqueness": 5.8539,
+            "is_preferred": true
+          }
+        ]
+      },
+      {
+        "segment_start": 875.8,
+        "segment_end": 1235.8,
+        "segment_start_min": 14.596666666666666,
+        "segment_end_min": 20.596666666666668,
+        "anchor_srt": {
+          "index": 380,
+          "text": "all of these senior government",
+          "start": 874.0,
+          "end": 875.8
+        },
+        "score": -0.3079610907569344,
+        "mean_diff": 0.025372242576398918,
+        "preferred_ratio": 0.6666666666666666,
+        "distribution": {
+          "mean": 4.012057931034483,
+          "std": 0.8696604363629691,
+          "median": 3.9374,
+          "n_words": 145
+        },
+        "target_distribution": {
+          "mean": 5.576933333333334,
+          "std": 0.3622011902551154,
+          "min": 5.1487,
+          "max": 6.2218
+        },
+        "selected_targets": [
+          {
+            "word": "tripwires",
+            "time": 919.56925,
+            "uniqueness": 6.2218,
+            "is_preferred": true
+          },
+          {
+            "word": "google",
+            "time": 960.1800000000001,
+            "uniqueness": 5.3565000000000005,
+            "is_preferred": true
+          },
+          {
+            "word": "marshals",
+            "time": 1043.36,
+            "uniqueness": 5.1487,
+            "is_preferred": false
+          },
+          {
+            "word": "measurement",
+            "time": 1072.32,
+            "uniqueness": 5.5527999999999995,
+            "is_preferred": true
+          },
+          {
+            "word": "grievance",
+            "time": 1117.4879999999998,
+            "uniqueness": 5.3279,
+            "is_preferred": false
+          },
+          {
+            "word": "advisers",
+            "time": 1218.5933333333332,
+            "uniqueness": 5.8539,
+            "is_preferred": true
+          }
+        ]
+      }
+    ]
+  },
+  "sampled_srt_checks": {
+    "10.srt": [
+      {
+        "srt_index": 26,
+        "srt_text": "It's Monday, [music] April 27th.",
+        "srt_start": 59.12,
+        "srt_end": 63.12,
+        "segment_start": 63.12,
+        "segment_end": 423.12,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 105,
+        "srt_text": "say, \"We're waiting for Mr. Khamenei to",
+        "srt_start": 240.6,
+        "srt_end": 242.08,
+        "segment_start": 242.08,
+        "segment_end": 602.08,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 115,
+        "srt_text": "just lingering on for a moment, which is",
+        "srt_start": 261.799,
+        "srt_end": 263.28,
+        "segment_start": 263.28,
+        "segment_end": 623.28,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 143,
+        "srt_text": "commander. And they also have a big",
+        "srt_start": 330.84,
+        "srt_end": 334.0,
+        "segment_start": 334.0,
+        "segment_end": 694.0,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 229,
+        "srt_text": "compound. Right. That's been a big",
+        "srt_start": 545.64,
+        "srt_end": 547.88,
+        "segment_start": 547.88,
+        "segment_end": 907.88,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 251,
+        "srt_text": "it's audio or visual. The extent that",
+        "srt_start": 597.0,
+        "srt_end": 600.8,
+        "segment_start": 600.8,
+        "segment_end": 960.8,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 282,
+        "srt_text": "in which there's this empowered group of",
+        "srt_start": 675.72,
+        "srt_end": 678.12,
+        "segment_start": 678.12,
+        "segment_end": 1038.12,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 559,
+        "srt_text": "lot of other countries have done.",
+        "srt_start": 1379.32,
+        "srt_end": 1381.4,
+        "segment_start": 1381.4,
+        "segment_end": 1741.4,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 655,
+        "srt_text": "that the United States has a lot of",
+        "srt_start": 1615.76,
+        "srt_end": 1618.44,
+        "segment_start": 1618.44,
+        "segment_end": 1978.44,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 693,
+        "srt_text": "these peace talks,",
+        "srt_start": 1714.4,
+        "srt_end": 1716.159,
+        "segment_start": 1716.159,
+        "segment_end": 2076.159,
+        "is_valid": true,
+        "invalid_reason": null
+      }
+    ],
+    "6.srt": [
+      {
+        "srt_index": 26,
+        "srt_text": "achievement of the Civil Rights",
+        "srt_start": 68.88,
+        "srt_end": 70.96,
+        "segment_start": 70.96,
+        "segment_end": 430.96,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 90,
+        "srt_text": "case that was decided on Wednesday, this",
+        "srt_start": 218.24,
+        "srt_end": 220.64,
+        "segment_start": 220.64,
+        "segment_end": 580.64,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 105,
+        "srt_text": "unlawful. Creating a second",
+        "srt_start": 256.079,
+        "srt_end": 258.4,
+        "segment_start": 258.4,
+        "segment_end": 618.4,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 115,
+        "srt_text": "the right to vote, but that this",
+        "srt_start": 278.4,
+        "srt_end": 280.52,
+        "segment_start": 280.52,
+        "segment_end": 640.52,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 143,
+        "srt_text": "eliminating the district would have to",
+        "srt_start": 353.16,
+        "srt_end": 355.0,
+        "segment_start": 355.0,
+        "segment_end": 715.0,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 229,
+        "srt_text": "Adam, in skimming some of the majority's",
+        "srt_start": 537.04,
+        "srt_end": 540.04,
+        "segment_start": 540.04,
+        "segment_end": 900.04,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 251,
+        "srt_text": "She wrote that the Voting Rights Act",
+        "srt_start": 594.56,
+        "srt_end": 596.28,
+        "segment_start": 596.28,
+        "segment_end": 956.28,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 282,
+        "srt_text": "So, it stands to reason",
+        "srt_start": 667.76,
+        "srt_end": 669.68,
+        "segment_start": 669.68,
+        "segment_end": 1029.6799999999998,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 433,
+        "srt_text": "would eliminate four of the eight",
+        "srt_start": 1039.199,
+        "srt_end": 1041.76,
+        "segment_start": 1041.76,
+        "segment_end": 1401.76,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 559,
+        "srt_text": "entertain this. And he simply said, \"We",
+        "srt_start": 1345.08,
+        "srt_end": 1347.96,
+        "segment_start": 1347.96,
+        "segment_end": 1707.96,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      }
+    ],
+    "7.srt": [
+      {
+        "srt_index": 26,
+        "srt_text": "The question that keeps coming up is how",
+        "srt_start": 53.28,
+        "srt_end": 55.88,
+        "segment_start": 55.88,
+        "segment_end": 415.88,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 105,
+        "srt_text": "Shapiro in Pennsylvania. We of course",
+        "srt_start": 264.28,
+        "srt_end": 266.28,
+        "segment_start": 266.28,
+        "segment_end": 626.28,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 115,
+        "srt_text": "implicated in this, it's the broader",
+        "srt_start": 287.4,
+        "srt_end": 289.84,
+        "segment_start": 289.84,
+        "segment_end": 649.8399999999999,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 143,
+        "srt_text": "and we did further survey research, what",
+        "srt_start": 363.64,
+        "srt_end": 366.0,
+        "segment_start": 366.0,
+        "segment_end": 726.0,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 229,
+        "srt_text": "measure that? What do we know about the",
+        "srt_start": 588.84,
+        "srt_end": 591.2,
+        "segment_start": 591.2,
+        "segment_end": 951.2,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 251,
+        "srt_text": "targeted because they support Trump's",
+        "srt_start": 648.56,
+        "srt_end": 650.92,
+        "segment_start": 650.92,
+        "segment_end": 1010.92,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 282,
+        "srt_text": "And social change, major social change,",
+        "srt_start": 725.64,
+        "srt_end": 729.32,
+        "segment_start": 729.32,
+        "segment_end": 1089.3200000000002,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 559,
+        "srt_text": "hammer and so forth that the attacker",
+        "srt_start": 1465.32,
+        "srt_end": 1467.8,
+        "segment_start": 1467.8,
+        "segment_end": 1827.8,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 655,
+        "srt_text": "like to imagine they're not very close",
+        "srt_start": 1720.44,
+        "srt_end": 1723.679,
+        "segment_start": 1723.679,
+        "segment_end": 2083.679,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 693,
+        "srt_text": "be reducing the wealth shift, and not",
+        "srt_start": 1820.4,
+        "srt_end": 1823.04,
+        "segment_start": 1823.04,
+        "segment_end": 2183.04,
+        "is_valid": true,
+        "invalid_reason": null
+      }
+    ],
+    "8.srt": [
+      {
+        "srt_index": 13,
+        "srt_text": "Those who have prospered from here in",
+        "srt_start": 35.76,
+        "srt_end": 38.32,
+        "segment_start": 38.32,
+        "segment_end": 398.32,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 53,
+        "srt_text": "about some of the cuts that he's done",
+        "srt_start": 133.76,
+        "srt_end": 136.4,
+        "segment_start": 136.4,
+        "segment_end": 496.4,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 58,
+        "srt_text": "pushback from many billionaires who are",
+        "srt_start": 145.68,
+        "srt_end": 148.36,
+        "segment_start": 148.36,
+        "segment_end": 508.36,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 72,
+        "srt_text": "at the state level and would have to be",
+        "srt_start": 185.36,
+        "srt_end": 188.4,
+        "segment_start": 188.4,
+        "segment_end": 548.4,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 115,
+        "srt_text": "this initiative is that one, it's taxing",
+        "srt_start": 307.52,
+        "srt_end": 309.92,
+        "segment_start": 309.92,
+        "segment_end": 669.9200000000001,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 126,
+        "srt_text": "tax say that it would affect about 200",
+        "srt_start": 335.16,
+        "srt_end": 338.88,
+        "segment_start": 338.88,
+        "segment_end": 698.88,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 141,
+        "srt_text": "petition circulators watching this thing",
+        "srt_start": 372.68,
+        "srt_end": 375.48,
+        "segment_start": 375.48,
+        "segment_end": 735.48,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 328,
+        "srt_text": "the particularities of how this bill",
+        "srt_start": 870.68,
+        "srt_end": 873.32,
+        "segment_start": 873.32,
+        "segment_end": 1233.3200000000002,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 378,
+        "srt_text": "campaign season where voters are",
+        "srt_start": 1023.56,
+        "srt_end": 1025.52,
+        "segment_start": 1025.52,
+        "segment_end": 1385.52,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 380,
+        "srt_text": "on these tax issues.",
+        "srt_start": 1029.88,
+        "srt_end": 1032.16,
+        "segment_start": 1032.16,
+        "segment_end": 1392.16,
+        "is_valid": true,
+        "invalid_reason": null
+      }
+    ],
+    "9.srt": [
+      {
+        "srt_index": 13,
+        "srt_text": "District Court against Cole Thomas",
+        "srt_start": 26.68,
+        "srt_end": 29.08,
+        "segment_start": 29.08,
+        "segment_end": 389.08,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 53,
+        "srt_text": "That wasn't the only charge, but it's",
+        "srt_start": 116.12,
+        "srt_end": 117.56,
+        "segment_start": 117.56,
+        "segment_end": 477.56,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 58,
+        "srt_text": "complaint are transportation of a",
+        "srt_start": 125.88,
+        "srt_end": 127.64,
+        "segment_start": 127.64,
+        "segment_end": 487.64,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 72,
+        "srt_text": "the evidence better, and as they have a",
+        "srt_start": 157.12,
+        "srt_end": 159.0,
+        "segment_start": 159.0,
+        "segment_end": 519.0,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 115,
+        "srt_text": "across the country, and attempting to",
+        "srt_start": 255.56,
+        "srt_end": 257.56,
+        "segment_start": 257.56,
+        "segment_end": 617.56,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 126,
+        "srt_text": "factor for him.",
+        "srt_start": 283.16,
+        "srt_end": 285.28,
+        "segment_start": 285.28,
+        "segment_end": 645.28,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 141,
+        "srt_text": "were. That's why this note to his family",
+        "srt_start": 321.44,
+        "srt_end": 325.16,
+        "segment_start": 325.16,
+        "segment_end": 685.1600000000001,
+        "is_valid": false,
+        "invalid_reason": "missing_candidate_in_minute"
+      },
+      {
+        "srt_index": 328,
+        "srt_text": "seen raised about what happened on",
+        "srt_start": 764.64,
+        "srt_end": 766.56,
+        "segment_start": 766.56,
+        "segment_end": 1126.56,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 378,
+        "srt_text": "not the hotel. The actual thing you're",
+        "srt_start": 870.04,
+        "srt_end": 872.0,
+        "segment_start": 872.0,
+        "segment_end": 1232.0,
+        "is_valid": true,
+        "invalid_reason": null
+      },
+      {
+        "srt_index": 380,
+        "srt_text": "all of these senior government",
+        "srt_start": 874.0,
+        "srt_end": 875.8,
+        "segment_start": 875.8,
+        "segment_end": 1235.8,
+        "is_valid": true,
+        "invalid_reason": null
+      }
+    ]
+  }
+}
