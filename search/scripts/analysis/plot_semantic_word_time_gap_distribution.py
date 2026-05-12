@@ -4,12 +4,20 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
 import textwrap
 from pathlib import Path
 from typing import Any
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
+MPLCONFIGDIR = Path("/tmp") / "morsequery-matplotlib"
+XDG_CACHE_HOME = Path("/tmp") / "morsequery-cache"
+MPLCONFIGDIR.mkdir(parents=True, exist_ok=True)
+XDG_CACHE_HOME.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLBACKEND", "Agg")
+os.environ.setdefault("MPLCONFIGDIR", str(MPLCONFIGDIR))
+os.environ.setdefault("XDG_CACHE_HOME", str(XDG_CACHE_HOME))
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 

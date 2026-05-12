@@ -8,11 +8,113 @@ from pathlib import Path
 
 STRICT_MAX_SEARCH_OFFSET_SECONDS = 299.99
 ROOT_DIR = Path(__file__).resolve().parents[2]
+DEFAULT_UNIQUENESS_SCORE = 7.0
 
 
 def load_json(path: Path):
     with path.open() as f:
         return json.load(f)
+
+
+def load_uniqueness_lookup(path: Path) -> dict[str, dict[str, float]]:
+    if not path.exists():
+        return {}
+
+    data = load_json(path)
+    if not isinstance(data, dict):
+        return {}
+
+    analysis_results = data.get("analysis_results", [])
+    if not isinstance(analysis_results, list):
+        return {}
+
+    lookup: dict[str, dict[str, float]] = {}
+    for item in analysis_results:
+        if not isinstance(item, dict):
+            continue
+        srt_file = item.get("srt_file")
+        word_data = item.get("word_data")
+        if not isinstance(srt_file, str) or not isinstance(word_data, list):
+            continue
+
+        stem = Path(srt_file).stem
+        stem_lookup: dict[str, float] = {}
+        for word_item in word_data:
+            if not isinstance(word_item, dict):
+                continue
+            word = word_item.get("word")
+            uniqueness = word_item.get("uniqueness")
+            if not isinstance(word, str) or not isinstance(uniqueness, (int, float)):
+                continue
+            stem_lookup[word.lower()] = float(uniqueness)
+
+        lookup[stem] = stem_lookup
+
+    return lookup
+
+
+def attach_uniqueness_scores(
+    interruptions: list[dict],
+    *,
+    video_id: str,
+    uniqueness_lookup: dict[str, dict[str, float]],
+) -> None:
+    stem_lookup = uniqueness_lookup.get(video_id, {})
+    for interruption in interruptions:
+        target_word = interruption.get("target_word")
+        if not isinstance(target_word, str):
+            interruption["target_word_uniqueness"] = DEFAULT_UNIQUENESS_SCORE
+            continue
+        interruption["target_word_uniqueness"] = stem_lookup.get(
+            target_word.lower(),
+            DEFAULT_UNIQUENESS_SCORE,
+        )
+
+
+def candidate_uniqueness(item: dict) -> float:
+    uniqueness = item.get("uniqueness")
+    if isinstance(uniqueness, (int, float)):
+        return float(uniqueness)
+    target_word = item.get("word")
+    if isinstance(target_word, str):
+        return DEFAULT_UNIQUENESS_SCORE
+    return DEFAULT_UNIQUENESS_SCORE
+
+
+def filter_candidates_by_uniqueness(
+    candidates: list[dict],
+    *,
+    min_uniqueness: float,
+    max_uniqueness: float,
+) -> list[dict]:
+    return [
+        item
+        for item in candidates
+        if isinstance(item, dict)
+        and min_uniqueness <= candidate_uniqueness(item) < max_uniqueness
+    ]
+
+
+def mean_and_sd(values: list[float]) -> tuple[float, float]:
+    if not values:
+        return DEFAULT_UNIQUENESS_SCORE, 0.0
+    mean = sum(values) / len(values)
+    if len(values) == 1:
+        return mean, 0.0
+    variance = sum((value - mean) ** 2 for value in values) / (len(values) - 1)
+    return mean, math.sqrt(variance)
+
+
+def uniqueness_distribution_penalty(
+    selected_scores: list[float],
+    candidate_score: float,
+    *,
+    target_mean: float,
+    target_sd: float,
+) -> float:
+    new_scores = selected_scores + [candidate_score]
+    new_mean, new_sd = mean_and_sd(new_scores)
+    return abs(new_mean - target_mean) + abs(new_sd - target_sd)
 
 
 def sample_positive_normal(rng: random.Random, mean: float, sigma: float) -> float:
@@ -269,6 +371,9 @@ def generate_minute_slot_interruptions(
     short_delay_tolerance: float = 5.0,
     long_delay_mean: float = 50.0,
     long_delay_tolerance: float = 5.0,
+    target_uniqueness_mean: float = DEFAULT_UNIQUENESS_SCORE,
+    target_uniqueness_sd: float = 0.0,
+    uniqueness_balance_weight: float = 1.0,
 ):
     minute_count = max(1, math.floor(target_window_seconds / 60.0))
     total_count = long_count + short_count
@@ -305,12 +410,14 @@ def generate_minute_slot_interruptions(
                 distance = abs(delay - short_delay_mean)
                 short_cands.append((distance, idx, target_time, delay))
 
-        minute_candidates.append({
-            "minute_idx": minute_idx,
-            "search_start_time": search_start_time,
-            "long": long_cands,
-            "short": short_cands,
-        })
+        minute_candidates.append(
+            {
+                "minute_idx": minute_idx,
+                "search_start_time": search_start_time,
+                "long": long_cands,
+                "short": short_cands,
+            }
+        )
 
     # Step 2: Greedy selection with priority for constrained minutes
     # If a minute only has candidates for one type, assign that type first
@@ -320,11 +427,26 @@ def generate_minute_slot_interruptions(
     long_selected = 0
     short_selected = 0
 
+    selected_scores: list[float] = []
+
     def pick_best_candidate(mc, delay_type):
         available = [c for c in mc[delay_type] if c[1] not in used_indexes]
         if not available:
             return None
-        return min(available, key=lambda c: c[0])
+        return min(
+            available,
+            key=lambda c: (
+                c[0]
+                + uniqueness_balance_weight
+                * uniqueness_distribution_penalty(
+                    selected_scores,
+                    candidate_uniqueness(candidates[c[1]]),
+                    target_mean=target_uniqueness_mean,
+                    target_sd=target_uniqueness_sd,
+                ),
+                c[1],
+            ),
+        )
 
     def add_interruption(mc, delay_type, candidate):
         nonlocal long_selected, short_selected
@@ -336,13 +458,16 @@ def generate_minute_slot_interruptions(
         else:
             short_selected += 1
         chosen = candidates[chosen_idx]
-        interruptions.append({
-            "target_word": chosen["word"],
-            "target_word_time": round(target_time, 2),
-            "delay_type": delay_type,
-            "delay_seconds": round(delay, 2),
-            "search_start_time": round(mc["search_start_time"], 2),
-        })
+        selected_scores.append(candidate_uniqueness(chosen))
+        interruptions.append(
+            {
+                "target_word": chosen["word"],
+                "target_word_time": round(target_time, 2),
+                "delay_type": delay_type,
+                "delay_seconds": round(delay, 2),
+                "search_start_time": round(mc["search_start_time"], 2),
+            }
+        )
 
     # Phase 1: Assign minutes that only have one type available
     for mc in minute_candidates:
@@ -368,7 +493,8 @@ def generate_minute_slot_interruptions(
     remaining_short = short_count - short_selected
 
     flexible_minutes = [
-        mc for mc in minute_candidates
+        mc
+        for mc in minute_candidates
         if mc["minute_idx"] not in used_minutes
         and any(c[1] not in used_indexes for c in mc["long"])
         and any(c[1] not in used_indexes for c in mc["short"])
@@ -383,11 +509,12 @@ def generate_minute_slot_interruptions(
     for delay_type, needed in order:
         sorted_minutes = sorted(
             [mc for mc in flexible_minutes if mc["minute_idx"] not in used_minutes],
-            key=lambda m: len([c for c in m[delay_type] if c[1] not in used_indexes])
+            key=lambda m: len([c for c in m[delay_type] if c[1] not in used_indexes]),
         )
         for mc in sorted_minutes:
-            if (delay_type == "long" and long_selected >= long_count) or \
-               (delay_type == "short" and short_selected >= short_count):
+            if (delay_type == "long" and long_selected >= long_count) or (
+                delay_type == "short" and short_selected >= short_count
+            ):
                 break
             candidate = pick_best_candidate(mc, delay_type)
             if candidate:
@@ -395,9 +522,13 @@ def generate_minute_slot_interruptions(
 
     if not allow_partial:
         if long_selected < long_count:
-            raise ValueError(f"Could only find {long_selected}/{long_count} long interruptions")
+            raise ValueError(
+                f"Could only find {long_selected}/{long_count} long interruptions"
+            )
         if short_selected < short_count:
-            raise ValueError(f"Could only find {short_selected}/{short_count} short interruptions")
+            raise ValueError(
+                f"Could only find {short_selected}/{short_count} short interruptions"
+            )
 
     interruptions.sort(key=lambda item: item["target_word_time"])
     for idx, interruption in enumerate(interruptions, start=1):
@@ -521,6 +652,29 @@ def main():
         default=None,
         help="Suffix to strip from video_id for output filename (e.g., '.zero').",
     )
+    parser.add_argument(
+        "--word-uniqueness-analysis",
+        default="data/analysis/word_uniqueness_analysis.json",
+        help="Path to word uniqueness analysis JSON used to attach target-word scores.",
+    )
+    parser.add_argument(
+        "--uniqueness-balance-weight",
+        type=float,
+        default=1.0,
+        help="Weight for keeping selected target-word uniqueness distributions similar.",
+    )
+    parser.add_argument(
+        "--min-target-uniqueness",
+        type=float,
+        default=4.0,
+        help="Minimum allowed uniqueness score for target-word candidates.",
+    )
+    parser.add_argument(
+        "--max-target-uniqueness",
+        type=float,
+        default=6.8,
+        help="Exclusive maximum allowed uniqueness score for target-word candidates.",
+    )
     args = parser.parse_args()
 
     rng = random.Random(args.seed)
@@ -529,6 +683,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
 
     audio_windows = load_json(Path(args.audio_windows))
+    uniqueness_lookup = load_uniqueness_lookup(Path(args.word_uniqueness_analysis))
     default_target_window_seconds = float(
         audio_windows.get("default_target_window_seconds", 300)
     )
@@ -543,9 +698,27 @@ def main():
             if path.name[: -len(args.keywords_suffix)] in allowed_stems
         ]
 
+    pooled_candidate_scores: list[float] = []
+    for keyword_path in keyword_paths:
+        candidates = filter_candidates_by_uniqueness(
+            load_json(keyword_path),
+            min_uniqueness=args.min_target_uniqueness,
+            max_uniqueness=args.max_target_uniqueness,
+        )
+        if not isinstance(candidates, list):
+            continue
+        pooled_candidate_scores.extend(
+            candidate_uniqueness(item) for item in candidates if isinstance(item, dict)
+        )
+    target_uniqueness_mean, target_uniqueness_sd = mean_and_sd(pooled_candidate_scores)
+
     for keyword_path in keyword_paths:
         video_id = keyword_path.name[: -len(args.keywords_suffix)]
-        candidates = load_json(keyword_path)
+        candidates = filter_candidates_by_uniqueness(
+            load_json(keyword_path),
+            min_uniqueness=args.min_target_uniqueness,
+            max_uniqueness=args.max_target_uniqueness,
+        )
         video_config = resolve_video_config(video_configs, video_id)
         audio_start_time = float(video_config.get("audio_start_time", 0))
         target_window_seconds = float(
@@ -565,6 +738,9 @@ def main():
                 short_delay_tolerance=args.delay_tolerance,
                 long_delay_mean=args.long_mean,
                 long_delay_tolerance=args.delay_tolerance,
+                target_uniqueness_mean=target_uniqueness_mean,
+                target_uniqueness_sd=target_uniqueness_sd,
+                uniqueness_balance_weight=args.uniqueness_balance_weight,
             )
         else:
             interruptions, search_window_end_time = generate_interruptions(
@@ -587,6 +763,12 @@ def main():
         if args.strip_video_suffix and video_id.endswith(args.strip_video_suffix):
             output_video_id = video_id[: -len(args.strip_video_suffix)]
 
+        attach_uniqueness_scores(
+            interruptions,
+            video_id=output_video_id,
+            uniqueness_lookup=uniqueness_lookup,
+        )
+
         output_path = output_dir / f"{output_video_id}.json"
         payload = {
             "video_id": output_video_id,
@@ -601,9 +783,7 @@ def main():
             json.dump(payload, f, ensure_ascii=False, indent=2)
             f.write("\n")
 
-        print(
-            f"{video_id}: wrote {len(interruptions)} interruptions to {output_path}"
-        )
+        print(f"{video_id}: wrote {len(interruptions)} interruptions to {output_path}")
 
     plot_script = ROOT_DIR / "scripts" / "analysis" / "plot_jargon_word_distribution.py"
     subprocess.run([sys.executable, str(plot_script)], check=True, cwd=ROOT_DIR)

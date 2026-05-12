@@ -188,7 +188,7 @@ def score_6min_segment(word_data, candidates, segment_start):
     }, None
 
 
-def sample_srt_end_checks(entries, total_duration, sample_size=10, seed=42):
+def sample_srt_end_checks(entries, total_duration, sample_size=50, seed=42):
     """Sample SRT cue-end segment starts that still allow a full 6-minute window."""
     max_start = total_duration - 360
     valid_entries = [entry for entry in entries if entry["end"] <= max_start]
@@ -455,7 +455,7 @@ def main():
         candidates = candidates_by_file.get(file_name, [])
         srt_entries = load_srt_entries(srt_dir / file_name)
         sampled_entries = sample_srt_end_checks(
-            srt_entries, total_duration, sample_size=10, seed=42
+            srt_entries, total_duration, sample_size=50, seed=42
         )
 
         print(f"\nProcessing {file_name} (duration: {total_duration/60:.1f} min)...")

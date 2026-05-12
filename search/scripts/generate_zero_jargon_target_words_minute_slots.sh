@@ -22,6 +22,7 @@ for stem in "${stems[@]}"; do
     --keywords-suffix ".zero.jargon.json" \
     --audio-windows "$ROOT_DIR/data/study/audio_windows.json" \
     --output-dir "$ROOT_DIR/data/study/target_words" \
+    --strip-video-suffix ".zero" \
     --selection-mode minute_slots \
     --delay-tolerance 10 \
     "${extra_args[@]}" \

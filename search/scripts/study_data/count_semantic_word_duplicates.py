@@ -7,6 +7,7 @@ import json
 import re
 import sys
 from bisect import bisect_left, bisect_right
+from math import floor
 from pathlib import Path
 from typing import Any
 
@@ -107,6 +108,23 @@ def count_occurrences_in_window(
     return max(count, 0)
 
 
+def count_occurrences_in_minute_bucket(
+    times: list[float],
+    center: float,
+) -> int:
+    bucket_start = floor(center / 60.0) * 60.0
+    bucket_end = bucket_start + 60.0
+    left = bisect_left(times, bucket_start)
+    right = bisect_left(times, bucket_end)
+
+    count = right - left
+    exact_left = bisect_left(times, center)
+    exact_right = bisect_right(times, center)
+    if exact_right > exact_left:
+        count -= 1
+    return max(count, 0)
+
+
 def augment_semantic_words(
     semantic_words: list[dict[str, Any]],
     occurrences: dict[str, list[float]],
@@ -121,6 +139,7 @@ def augment_semantic_words(
             entry["duplicate_count_1m"] = None
             entry["duplicate_count_2m"] = None
             entry["duplicate_count_3m"] = None
+            entry["duplicate_count_minute_bucket"] = None
             augmented.append(entry)
             continue
 
@@ -140,6 +159,10 @@ def augment_semantic_words(
             times,
             center,
             90.0,
+        )
+        entry["duplicate_count_minute_bucket"] = count_occurrences_in_minute_bucket(
+            times,
+            center,
         )
         augmented.append(entry)
     return augmented
@@ -173,9 +196,13 @@ def main() -> None:
     zero_count_1m = sum(1 for item in output if item.get("duplicate_count_1m") == 0)
     zero_count_2m = sum(1 for item in output if item.get("duplicate_count_2m") == 0)
     zero_count_3m = sum(1 for item in output if item.get("duplicate_count_3m") == 0)
+    zero_count_minute_bucket = sum(
+        1 for item in output if item.get("duplicate_count_minute_bucket") == 0
+    )
     print(f"Unique within 1m window: {zero_count_1m}")
     print(f"Unique within 2m window: {zero_count_2m}")
     print(f"Unique within 3m window: {zero_count_3m}")
+    print(f"Unique within minute bucket: {zero_count_minute_bucket}")
 
 
 if __name__ == "__main__":
