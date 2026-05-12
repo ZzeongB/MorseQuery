@@ -21,12 +21,12 @@
     "0_tutorial_full": {
       "audio_file": "0.mp3",
       "display_name": "Tutorial (Full)",
-      "transcript_id": "0_ts_edit"
+      "transcript_id": "0"
     },
     "0_tutorial_50": {
       "audio_file": "0.mp3",
       "display_name": "Tutorial (50sec)",
-      "transcript_id": "0_ts_edit"
+      "transcript_id": "0"
     }
   }
 }
