@@ -1,0 +1,69 @@
+Target Words Frequency from OpenLexicon (Videos 6-10)
+============================================================
+
+LgSUBTLWF: Log SUBTLEX Word Frequency
+  - Lower value = rarer word
+  - < 3.0: rare
+  - 3.0-4.0: somewhat rare
+  - > 4.0: common
+  - NOT_IN_LEXICON: not found (very rare)
+
+============================================================
+Video 6
+============================================================
+Target Word          LgSUBTLWF       Note
+------------------------------------------------------------
+President            3.86            (somewhat rare)
+Republicans          1.79            (rare)
+election             2.75            (rare)
+state                3.74            (somewhat rare)
+VRA                  NOT_IN_LEXICON  (very rare - not in lexicon)
+rationale            1.30            (rare)
+
+============================================================
+Video 7
+============================================================
+Target Word          LgSUBTLWF       Note
+------------------------------------------------------------
+terrorist            2.79            (rare)
+FBI                  NOT_IN_LEXICON  (very rare - not in lexicon)
+violent              2.93            (rare)
+Security             3.68            (somewhat rare)
+data                 3.12            (somewhat rare)
+election             2.75            (rare)
+
+============================================================
+Video 8
+============================================================
+Target Word          LgSUBTLWF       Note
+------------------------------------------------------------
+signatures           2.17            (rare)
+5%                   NOT_IN_LEXICON  (very rare - not in lexicon)
+Republicans          1.79            (rare)
+hospitals            2.50            (rare)
+polling              1.32            (rare)
+Trump                2.06            (rare)
+
+============================================================
+Video 9
+============================================================
+Target Word          LgSUBTLWF       Note
+------------------------------------------------------------
+House                4.42            (common)
+Protestant           1.90            (rare)
+weapons              3.31            (somewhat rare)
+attack               3.59            (somewhat rare)
+motivation           2.18            (rare)
+capital              2.81            (rare)
+
+============================================================
+Video 10
+============================================================
+Target Word          LgSUBTLWF       Note
+------------------------------------------------------------
+Natalie              0.00            (rare)
+unilateral           1.20            (rare)
+framework            1.32            (rare)
+regime               2.08            (rare)
+clerics              NOT_IN_LEXICON  (very rare - not in lexicon)
+economy              2.47            (rare)

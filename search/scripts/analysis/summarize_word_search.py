@@ -25,6 +25,8 @@ os.environ["MPLCONFIGDIR"] = str((RESULT_DIR / ".matplotlib").resolve())
 os.environ["XDG_CACHE_HOME"] = str((RESULT_DIR / ".cache").resolve())
 
 import matplotlib.pyplot as plt
+import numpy as np
+from scipy import stats
 
 
 def extract_participant_id(log_base_name: str) -> str:
@@ -219,32 +221,55 @@ def write_summary_csv(rows, suffix: str = "", by_participant: bool = False):
     return csv_path
 
 
-def plot_search_times(rows, suffix: str = ""):
-    """Plot search times by condition and word search type."""
+def plot_search_times(rows, suffix: str = "", include_failures: bool = True):
+    """Plot search times by condition and word search type.
+
+    Args:
+        rows: Trial rows to plot
+        suffix: Filename suffix
+        include_failures: If True, treat failed cases as 60 seconds
+    """
     plot_path = RESULT_DIR / f"word_search_time_by_condition{suffix}.png"
     condition_order = ["discontinuous", "keyword", "keyword2", "sentence", "word"]
     type_order = ["all", "long", "short"]
 
     grouped = defaultdict(list)
     for row in rows:
-        if row["word_search_time_sec"] == "" or not row["word_search_success"]:
+        if row["word_search_success"]:
+            # Successful case: use actual time
+            if row["word_search_time_sec"] == "":
+                continue
+            time_sec = row["word_search_time_sec"]
+        elif include_failures and row["word_search_failure"]:
+            # Failed case: use 60 seconds
+            time_sec = 60.0
+        else:
             continue
-        grouped[(row["condition"], row["word_search_type"])].append(row["word_search_time_sec"])
-        grouped[(row["condition"], "all")].append(row["word_search_time_sec"])
+        grouped[(row["condition"], row["word_search_type"])].append(time_sec)
+        grouped[(row["condition"], "all")].append(time_sec)
 
     fig, axes = plt.subplots(1, 3, figsize=(15, 4), sharey=True)
 
     for ax, word_type in zip(axes, type_order):
         xs = []
         ys = []
+        cis = []
         for condition in condition_order:
             times = grouped.get((condition, word_type), [])
             if not times:
                 continue
             xs.append(condition)
-            ys.append(sum(times) / len(times))
+            mean_val = sum(times) / len(times)
+            ys.append(mean_val)
+            # Calculate 90% CI
+            if len(times) > 1:
+                sem = stats.sem(times)
+                ci = sem * stats.t.ppf(0.95, len(times) - 1)  # 90% CI (two-tailed)
+            else:
+                ci = 0
+            cis.append(ci)
 
-        ax.bar(xs, ys, color="#4C78A8")
+        ax.bar(xs, ys, color="#4C78A8", yerr=cis, capsize=4, error_kw={"elinewidth": 1.5, "capthick": 1.5})
         ax.set_title(word_type)
         ax.set_xlabel("condition")
         ax.tick_params(axis="x", rotation=45)
