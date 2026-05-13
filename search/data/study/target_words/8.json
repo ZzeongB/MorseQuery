@@ -2,63 +2,63 @@
   "video_id": "8",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 268.38,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
     {
-      "target_word": "polling",
-      "target_word_time": 13.4,
+      "target_word": "universities",
+      "target_word_time": 107.6,
       "delay_type": "long",
-      "delay_seconds": 46.6,
-      "search_start_time": 60.0,
+      "delay_seconds": 56.17,
+      "search_start_time": 163.77,
       "id": 1,
-      "target_word_uniqueness": 5.6777999999999995
-    },
-    {
-      "target_word": "Medicaid",
-      "target_word_time": 72.08,
-      "delay_type": "long",
-      "delay_seconds": 47.92,
-      "search_start_time": 120.0,
-      "id": 2,
-      "target_word_uniqueness": 5.4201999999999995
+      "target_word_uniqueness": 5.1427
     },
     {
       "target_word": "deadline",
       "target_word_time": 165.02,
       "delay_type": "short",
-      "delay_seconds": 14.98,
-      "search_start_time": 180.0,
-      "id": 3,
+      "delay_seconds": 5.25,
+      "search_start_time": 170.27,
+      "id": 2,
       "target_word_uniqueness": 4.5229
+    },
+    {
+      "target_word": "investing",
+      "target_word_time": 204.44,
+      "delay_type": "short",
+      "delay_seconds": 11.47,
+      "search_start_time": 215.91,
+      "id": 3,
+      "target_word_uniqueness": 5.0506
+    },
+    {
+      "target_word": "jockeying",
+      "target_word_time": 179.66,
+      "delay_type": "long",
+      "delay_seconds": 43.81,
+      "search_start_time": 223.47,
+      "id": 4,
+      "target_word_uniqueness": 6.0
     },
     {
       "target_word": "founders",
       "target_word_time": 191.12,
       "delay_type": "long",
-      "delay_seconds": 48.88,
-      "search_start_time": 240.0,
-      "id": 4,
+      "delay_seconds": 44.99,
+      "search_start_time": 236.11,
+      "id": 5,
       "target_word_uniqueness": 5.4089
     },
     {
-      "target_word": "Aspen",
-      "target_word_time": 283.3,
+      "target_word": "jewels",
+      "target_word_time": 253.6,
       "delay_type": "short",
-      "delay_seconds": 16.7,
-      "search_start_time": 300.0,
-      "id": 5,
-      "target_word_uniqueness": 5.0132
-    },
-    {
-      "target_word": "retroactive",
-      "target_word_time": 354.1,
-      "delay_type": "short",
-      "delay_seconds": 5.9,
-      "search_start_time": 360.0,
+      "delay_seconds": 14.78,
+      "search_start_time": 268.38,
       "id": 6,
-      "target_word_uniqueness": 5.6777999999999995
+      "target_word_uniqueness": 4.4306
     }
   ]
 }

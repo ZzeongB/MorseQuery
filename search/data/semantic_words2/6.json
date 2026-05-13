@@ -60,6 +60,10 @@
     "time": 46.88
   },
   {
+    "word": "argument",
+    "time": 49.38
+  },
+  {
     "word": "decisions",
     "time": 54.42
   },
@@ -92,10 +96,6 @@
     "time": 81.22
   },
   {
-    "word": "election",
-    "time": 83.92
-  },
-  {
     "word": "Adam",
     "time": 98.8
   },
@@ -112,8 +112,8 @@
     "time": 105.88
   },
   {
-    "word": "ruling",
-    "time": 108.76
+    "word": "American",
+    "time": 110.84
   },
   {
     "word": "Nick",
@@ -124,20 +124,8 @@
     "time": 129.16
   },
   {
-    "word": "Supreme",
-    "time": 131.5
-  },
-  {
-    "word": "minority",
-    "time": 135.4
-  },
-  {
     "word": "Voting",
     "time": 144.72
-  },
-  {
-    "word": "ruling",
-    "time": 148.84
   },
   {
     "word": "redistricting",
@@ -156,16 +144,16 @@
     "time": 162.14
   },
   {
-    "word": "election",
-    "time": 166.2
-  },
-  {
     "word": "chapter",
     "time": 170.96
   },
   {
-    "word": "guardrails",
-    "time": 176.36
+    "word": "national",
+    "time": 173.58
+  },
+  {
+    "word": "midterms",
+    "time": 184.4
   },
   {
     "word": "break",
@@ -220,10 +208,6 @@
     "time": 226.54
   },
   {
-    "word": "votes",
-    "time": 231.62
-  },
-  {
     "word": "voters",
     "time": 235.18
   },
@@ -232,20 +216,12 @@
     "time": 239.5
   },
   {
-    "word": "votes",
-    "time": 243.96
-  },
-  {
-    "word": "Louisiana",
-    "time": 246.12
-  },
-  {
     "word": "Republican-controlled",
     "time": 248.18
   },
   {
-    "word": "ruling",
-    "time": 254.22
+    "word": "political",
+    "time": 251.34
   },
   {
     "word": "congressional",
@@ -286,6 +262,14 @@
   {
     "word": "calendar",
     "time": 299.78
+  },
+  {
+    "word": "Missouri",
+    "time": 302.42
+  },
+  {
+    "word": "political",
+    "time": 307.26
   },
   {
     "word": "states",

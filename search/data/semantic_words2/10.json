@@ -4,6 +4,10 @@
     "time": 3.9
   },
   {
+    "word": "cohort",
+    "time": 7.02
+  },
+  {
     "word": "guards",
     "time": 9.3
   },
@@ -80,10 +84,6 @@
     "time": 71.54
   },
   {
-    "word": "ministers",
-    "time": 74.38
-  },
-  {
     "word": "revolutionary",
     "time": 77.16
   },
@@ -124,6 +124,10 @@
     "time": 104.74
   },
   {
+    "word": "war",
+    "time": 108.2
+  },
+  {
     "word": "country",
     "time": 113.12
   },
@@ -142,10 +146,6 @@
   {
     "word": "borders",
     "time": 140.1
-  },
-  {
-    "word": "proxy",
-    "time": 144.52
   },
   {
     "word": "Iran",
@@ -180,10 +180,6 @@
     "time": 166.92
   },
   {
-    "word": "politics",
-    "time": 169.68
-  },
-  {
     "word": "economy",
     "time": 171.78
   },
@@ -200,16 +196,20 @@
     "time": 185.22
   },
   {
+    "word": "authority",
+    "time": 188.6
+  },
+  {
+    "word": "war",
+    "time": 191.86
+  },
+  {
     "word": "guards",
     "time": 195.9
   },
   {
     "word": "Ayatollah",
     "time": 198.12
-  },
-  {
-    "word": "Israel",
-    "time": 201.02
   },
   {
     "word": "opportunity",
@@ -242,10 +242,6 @@
   {
     "word": "succession",
     "time": 229.08
-  },
-  {
-    "word": "Thrones",
-    "time": 231.14
   },
   {
     "word": "Ayatollah",
@@ -324,6 +320,10 @@
     "time": 286.96
   },
   {
+    "word": "Islamic",
+    "time": 289.84
+  },
+  {
     "word": "guards",
     "time": 294.86
   },
@@ -386,6 +386,10 @@
   {
     "word": "weak",
     "time": 350.28
+  },
+  {
+    "word": "address",
+    "time": 352.78
   },
   {
     "word": "audio",

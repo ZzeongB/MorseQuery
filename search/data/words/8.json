@@ -274,8 +274,7 @@
           "word": "polling",
           "start": 13.4,
           "end": 13.68,
-          "freq": 1.322,
-          "is_target": true
+          "freq": 1.322
         },
         {
           "word": "shows",
@@ -1193,8 +1192,7 @@
           "word": "Medicaid",
           "start": 72.08,
           "end": 72.46,
-          "freq": -1,
-          "is_target": true
+          "freq": -1
         },
         {
           "word": "cuts",
@@ -1730,7 +1728,8 @@
           "word": "universities",
           "start": 107.6,
           "end": 108.14,
-          "freq": 1.857
+          "freq": 1.857,
+          "is_target": true
         },
         {
           "word": "around",
@@ -3149,7 +3148,8 @@
           "word": "jockeying",
           "start": 179.66,
           "end": 180.3,
-          "freq": 1.0
+          "freq": 1.0,
+          "is_target": true
         },
         {
           "word": "and",
@@ -3594,7 +3594,8 @@
           "word": "investing",
           "start": 204.44,
           "end": 204.82,
-          "freq": 1.949
+          "freq": 1.949,
+          "is_target": true
         },
         {
           "word": "in",
@@ -4447,21 +4448,21 @@
           "start": 250.8,
           "end": 251.6,
           "freq": 5.257
-        },
+        }
+      ],
+      "word": "tax liability if",
+      "start": 249.6,
+      "end": 251.6,
+      "freq": 2.201
+    },
+    {
+      "words": [
         {
           "word": "it",
           "start": 251.6,
           "end": 251.72,
           "freq": 5.984
-        }
-      ],
-      "word": "tax liability if it",
-      "start": 249.6,
-      "end": 251.72,
-      "freq": 2.201
-    },
-    {
-      "words": [
+        },
         {
           "word": "passes.",
           "start": 251.72,
@@ -4491,27 +4492,28 @@
           "start": 253.36,
           "end": 253.6,
           "freq": 4.524
-        },
+        }
+      ],
+      "word": "it passes. By what? Moving their",
+      "start": 251.6,
+      "end": 253.6,
+      "freq": 2.809
+    },
+    {
+      "words": [
         {
           "word": "jewels",
           "start": 253.6,
           "end": 254.0,
-          "freq": 2.569
+          "freq": 2.569,
+          "is_target": true
         },
         {
           "word": "and",
           "start": 254.0,
           "end": 254.34,
           "freq": 5.834
-        }
-      ],
-      "word": "passes. By what? Moving their jewels and",
-      "start": 251.72,
-      "end": 254.34,
-      "freq": 2.569
-    },
-    {
-      "words": [
+        },
         {
           "word": "boats",
           "start": 254.34,
@@ -4541,7 +4543,15 @@
           "start": 255.64,
           "end": 255.84,
           "freq": 4.195
-        },
+        }
+      ],
+      "word": "jewels and boats and paintings and stuff?",
+      "start": 253.6,
+      "end": 255.84,
+      "freq": 2.569
+    },
+    {
+      "words": [
         {
           "word": "What",
           "start": 255.92,
@@ -4585,10 +4595,10 @@
           "freq": 5.857
         }
       ],
-      "word": "boats and paintings and stuff? What are we talking? Yes, exactly that.",
-      "start": 254.34,
+      "word": "What are we talking? Yes, exactly that.",
+      "start": 255.92,
       "end": 258.02,
-      "freq": 2.76
+      "freq": 4.101
     },
     {
       "words": [
@@ -5094,8 +5104,7 @@
           "word": "Aspen,",
           "start": 283.3,
           "end": 283.88,
-          "freq": 1.987,
-          "is_target": true
+          "freq": 1.987
         },
         {
           "word": "or",
@@ -6244,15 +6253,7 @@
           "start": 347.46,
           "end": 347.72,
           "freq": 5.335
-        }
-      ],
-      "word": "property and assets. And so",
-      "start": 345.5,
-      "end": 347.72,
-      "freq": 2.417
-    },
-    {
-      "words": [
+        },
         {
           "word": "there",
           "start": 347.72,
@@ -6276,7 +6277,15 @@
           "start": 348.54,
           "end": 348.78,
           "freq": 5.054
-        },
+        }
+      ],
+      "word": "property and assets. And so there are people who",
+      "start": 345.5,
+      "end": 348.78,
+      "freq": 2.417
+    },
+    {
+      "words": [
         {
           "word": "just",
           "start": 348.78,
@@ -6288,15 +6297,7 @@
           "start": 349.1,
           "end": 349.84,
           "freq": 4.505
-        }
-      ],
-      "word": "there are people who just feel",
-      "start": 347.72,
-      "end": 349.84,
-      "freq": 4.505
-    },
-    {
-      "words": [
+        },
         {
           "word": "that",
           "start": 349.84,
@@ -6320,7 +6321,15 @@
           "start": 351.06,
           "end": 351.88,
           "freq": 4.426
-        },
+        }
+      ],
+      "word": "just feel that that is wrong.",
+      "start": 348.78,
+      "end": 351.88,
+      "freq": 4.426
+    },
+    {
+      "words": [
         {
           "word": "They're",
           "start": 352.28,
@@ -6344,22 +6353,21 @@
           "start": 353.78,
           "end": 354.1,
           "freq": 6.018
-        }
-      ],
-      "word": "that that is wrong. They're arguing that a",
-      "start": 349.84,
-      "end": 354.1,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "retroactive",
           "start": 354.1,
           "end": 354.92,
-          "freq": 1.322,
-          "is_target": true
-        },
+          "freq": 1.322
+        }
+      ],
+      "word": "They're arguing that a retroactive",
+      "start": 352.28,
+      "end": 354.92,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "tax",
           "start": 354.92,
@@ -6395,15 +6403,7 @@
           "start": 356.66,
           "end": 356.98,
           "freq": 4.75
-        }
-      ],
-      "word": "retroactive tax because it would tax people",
-      "start": 354.1,
-      "end": 356.98,
-      "freq": 1.322
-    },
-    {
-      "words": [
+        },
         {
           "word": "who",
           "start": 356.98,
@@ -6415,7 +6415,15 @@
           "start": 357.16,
           "end": 357.28,
           "freq": 5.424
-        },
+        }
+      ],
+      "word": "tax because it would tax people who are",
+      "start": 354.92,
+      "end": 357.28,
+      "freq": 2.871
+    },
+    {
+      "words": [
         {
           "word": "in",
           "start": 357.28,
@@ -6459,8 +6467,8 @@
           "freq": -1
         }
       ],
-      "word": "who are in the state as of January 1st.",
-      "start": 356.98,
+      "word": "in the state as of January 1st.",
+      "start": 357.28,
       "end": 359.6,
       "freq": -1
     }

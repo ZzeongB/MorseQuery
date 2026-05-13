@@ -892,8 +892,7 @@
           "word": "immigration.",
           "start": 56.4,
           "end": 57.06,
-          "freq": 2.111,
-          "is_target": true
+          "freq": 2.111
         },
         {
           "word": "So",
@@ -1647,8 +1646,7 @@
           "word": "economic",
           "start": 100.76,
           "end": 101.58,
-          "freq": 2.405,
-          "is_target": true
+          "freq": 2.405
         },
         {
           "word": "prospects.",
@@ -2198,26 +2196,27 @@
           "start": 131.34,
           "end": 132.0,
           "freq": 5.609
-        }
-      ],
-      "word": "surveys. Right. Basically, this",
-      "start": 129.46,
-      "end": 132.0,
-      "freq": 1.462
-    },
-    {
-      "words": [
+        },
         {
           "word": "huge",
           "start": 132.0,
           "end": 132.9,
           "freq": 3.392
-        },
+        }
+      ],
+      "word": "surveys. Right. Basically, this huge",
+      "start": 129.46,
+      "end": 132.9,
+      "freq": 1.462
+    },
+    {
+      "words": [
         {
           "word": "upheaval",
           "start": 132.9,
           "end": 134.08,
-          "freq": 1.322
+          "freq": 1.322,
+          "is_target": true
         },
         {
           "word": "on",
@@ -2230,15 +2229,7 @@
           "start": 134.42,
           "end": 134.64,
           "freq": 5.609
-        }
-      ],
-      "word": "huge upheaval on this",
-      "start": 132.0,
-      "end": 134.64,
-      "freq": 1.322
-    },
-    {
-      "words": [
+        },
         {
           "word": "level",
           "start": 134.64,
@@ -2276,10 +2267,10 @@
           "freq": 4.928
         }
       ],
-      "word": "level of demographic change that we're",
-      "start": 134.64,
+      "word": "upheaval on this level of demographic change that we're",
+      "start": 132.9,
       "end": 136.92,
-      "freq": 1.653
+      "freq": 1.322
     },
     {
       "words": [
@@ -4127,15 +4118,7 @@
           "start": 242.5,
           "end": 242.72,
           "freq": 5.546
-        }
-      ],
-      "word": "often think of the support for",
-      "start": 240.68,
-      "end": 242.72,
-      "freq": 3.413
-    },
-    {
-      "words": [
+        },
         {
           "word": "political",
           "start": 242.72,
@@ -4159,12 +4142,21 @@
           "start": 244.14,
           "end": 244.44,
           "freq": 6.177
-        },
+        }
+      ],
+      "word": "often think of the support for political violence among the",
+      "start": 240.68,
+      "end": 244.44,
+      "freq": 3.048
+    },
+    {
+      "words": [
         {
           "word": "losers",
           "start": 244.44,
           "end": 244.94,
-          "freq": 2.692
+          "freq": 2.692,
+          "is_target": true
         },
         {
           "word": "of",
@@ -4185,8 +4177,8 @@
           "freq": 4.584
         }
       ],
-      "word": "political violence among the losers of society, those",
-      "start": 242.72,
+      "word": "losers of society, those",
+      "start": 244.44,
       "end": 246.48,
       "freq": 2.692
     },
@@ -4866,21 +4858,21 @@
           "start": 282.6,
           "end": 283.24,
           "freq": 3.566
-        }
-      ],
-      "word": "necessarily the people who are in the worst position,",
-      "start": 280.78,
-      "end": 283.24,
-      "freq": 2.76
-    },
-    {
-      "words": [
+        },
         {
           "word": "but",
           "start": 283.24,
           "end": 284.02,
           "freq": 5.353
-        },
+        }
+      ],
+      "word": "necessarily the people who are in the worst position, but",
+      "start": 280.78,
+      "end": 284.02,
+      "freq": 2.76
+    },
+    {
+      "words": [
         {
           "word": "the",
           "start": 284.02,
@@ -4928,15 +4920,7 @@
           "start": 285.54,
           "end": 285.8,
           "freq": 6.063
-        }
-      ],
-      "word": "but the people who might have the most to",
-      "start": 283.24,
-      "end": 285.8,
-      "freq": 4.253
-    },
-    {
-      "words": [
+        },
         {
           "word": "lose,",
           "start": 285.8,
@@ -4966,12 +4950,21 @@
           "start": 286.86,
           "end": 287.12,
           "freq": 4.524
-        },
+        }
+      ],
+      "word": "the people who might have the most to lose, who could see their",
+      "start": 284.02,
+      "end": 287.12,
+      "freq": 3.923
+    },
+    {
+      "words": [
         {
           "word": "stature",
           "start": 287.12,
           "end": 287.7,
-          "freq": 1.935
+          "freq": 1.935,
+          "is_target": true
         },
         {
           "word": "decline",
@@ -4998,8 +4991,8 @@
           "freq": 6.177
         }
       ],
-      "word": "lose, who could see their stature decline the most, the",
-      "start": 285.8,
+      "word": "stature decline the most, the",
+      "start": 287.12,
       "end": 289.54,
       "freq": 1.935
     },
@@ -6281,8 +6274,7 @@
           "word": "transitional",
           "start": 357.36,
           "end": 358.16,
-          "freq": 1.38,
-          "is_target": true
+          "freq": 1.38
         },
         {
           "word": "20",

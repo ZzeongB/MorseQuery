@@ -8,6 +8,10 @@
     "time": 4.0
   },
   {
+    "word": "polling",
+    "time": 13.4
+  },
+  {
     "word": "voters",
     "time": 15.58
   },
@@ -56,6 +60,10 @@
     "time": 66.2
   },
   {
+    "word": "Medicaid",
+    "time": 72.08
+  },
+  {
     "word": "Trump",
     "time": 74.36
   },
@@ -86,10 +94,6 @@
   {
     "word": "economists",
     "time": 105.16
-  },
-  {
-    "word": "universities",
-    "time": 107.6
   },
   {
     "word": "proposal",
@@ -148,6 +152,10 @@
     "time": 162.38
   },
   {
+    "word": "California",
+    "time": 170.84
+  },
+  {
     "word": "year",
     "time": 173.14
   },
@@ -156,20 +164,12 @@
     "time": 177.26
   },
   {
-    "word": "jockeying",
-    "time": 179.66
-  },
-  {
     "word": "high-profile",
     "time": 182.48
   },
   {
     "word": "state",
     "time": 186.86
-  },
-  {
-    "word": "founders",
-    "time": 191.12
   },
   {
     "word": "Sergey",
@@ -182,10 +182,6 @@
   {
     "word": "Florida",
     "time": 198.22
-  },
-  {
-    "word": "investing",
-    "time": 204.44
   },
   {
     "word": "David",
@@ -204,12 +200,20 @@
     "time": 219.28
   },
   {
+    "word": "California",
+    "time": 232.5
+  },
+  {
     "word": "residence",
     "time": 235.16
   },
   {
     "word": "billionaires",
     "time": 238.1
+  },
+  {
+    "word": "California",
+    "time": 240.3
   },
   {
     "word": "tax",
@@ -252,6 +256,10 @@
     "time": 297.6
   },
   {
+    "word": "California",
+    "time": 304.64
+  },
+  {
     "word": "pay",
     "time": 307.84
   },
@@ -290,6 +298,10 @@
   {
     "word": "property",
     "time": 345.5
+  },
+  {
+    "word": "retroactive",
+    "time": 354.1
   },
   {
     "word": "tax",

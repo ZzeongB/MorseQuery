@@ -8,6 +8,10 @@
     "time": 3.28
   },
   {
+    "word": "suspect",
+    "time": 5.68
+  },
+  {
     "word": "letter",
     "time": 12.66
   },
@@ -128,6 +132,10 @@
     "time": 106.72
   },
   {
+    "word": "government",
+    "time": 108.88
+  },
+  {
     "word": "Secret",
     "time": 111.1
   },
@@ -140,12 +148,20 @@
     "time": 124.18
   },
   {
+    "word": "law",
+    "time": 127.82
+  },
+  {
     "word": "Secret",
     "time": 129.84
   },
   {
     "word": "California",
     "time": 133.16
+  },
+  {
+    "word": "law",
+    "time": 135.32
   },
   {
     "word": "threat",
@@ -164,24 +180,32 @@
     "time": 166.18
   },
   {
+    "word": "agencies",
+    "time": 168.36
+  },
+  {
     "word": "question",
     "time": 170.9
   },
   {
-    "word": "Congress",
-    "time": 175.72
+    "word": "law",
+    "time": 180.8
   },
   {
     "word": "files",
     "time": 183.82
   },
   {
+    "word": "government",
+    "time": 192.06
+  },
+  {
     "word": "president",
     "time": 205.06
   },
   {
-    "word": "candidate",
-    "time": 207.24
+    "word": "language",
+    "time": 209.34
   },
   {
     "word": "attempts",
@@ -194,10 +218,6 @@
   {
     "word": "Minneapolis",
     "time": 218.96
-  },
-  {
-    "word": "staffers",
-    "time": 221.02
   },
   {
     "word": "age",
@@ -220,16 +240,8 @@
     "time": 247.24
   },
   {
-    "word": "politicians",
-    "time": 250.58
-  },
-  {
     "word": "judges",
     "time": 252.64
-  },
-  {
-    "word": "hospitals",
-    "time": 255.34
   },
   {
     "word": "American",
@@ -238,6 +250,14 @@
   {
     "word": "threats",
     "time": 261.9
+  },
+  {
+    "word": "law",
+    "time": 270.08
+  },
+  {
+    "word": "agencies",
+    "time": 272.6
   },
   {
     "word": "cops",
@@ -252,8 +272,8 @@
     "time": 283.1
   },
   {
-    "word": "hostility",
-    "time": 285.16
+    "word": "language",
+    "time": 289.1
   },
   {
     "word": "dangerous",
@@ -272,12 +292,12 @@
     "time": 302.16
   },
   {
-    "word": "attempts",
-    "time": 307.98
+    "word": "measurement",
+    "time": 305.8
   },
   {
-    "word": "candidate",
-    "time": 310.92
+    "word": "attempts",
+    "time": 307.98
   },
   {
     "word": "years",
@@ -334,9 +354,5 @@
   {
     "word": "considered",
     "time": 354.92
-  },
-  {
-    "word": "politicians",
-    "time": 357.76
   }
 ]

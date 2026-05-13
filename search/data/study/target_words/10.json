@@ -2,63 +2,63 @@
   "video_id": "10",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 282.55,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
-    {
-      "target_word": "cohort",
-      "target_word_time": 7.02,
-      "delay_type": "long",
-      "delay_seconds": 52.98,
-      "search_start_time": 60.0,
-      "id": 1,
-      "target_word_uniqueness": 5.9586
-    },
     {
       "target_word": "ministers",
       "target_word_time": 74.38,
       "delay_type": "long",
-      "delay_seconds": 45.62,
-      "search_start_time": 120.0,
-      "id": 2,
+      "delay_seconds": 52.95,
+      "search_start_time": 127.33,
+      "id": 1,
       "target_word_uniqueness": 5.1192
     },
     {
-      "target_word": "economy",
-      "target_word_time": 171.78,
+      "target_word": "dominant",
+      "target_word_time": 130.6,
       "delay_type": "short",
-      "delay_seconds": 8.22,
-      "search_start_time": 180.0,
+      "delay_seconds": 9.51,
+      "search_start_time": 140.11,
+      "id": 2,
+      "target_word_uniqueness": 5.0809
+    },
+    {
+      "target_word": "proxy",
+      "target_word_time": 144.52,
+      "delay_type": "short",
+      "delay_seconds": 11.15,
+      "search_start_time": 155.67,
       "id": 3,
-      "target_word_uniqueness": 4.527200000000001
+      "target_word_uniqueness": 5.3279
     },
     {
-      "target_word": "leadership",
-      "target_word_time": 182.78,
-      "delay_type": "long",
-      "delay_seconds": 57.22,
-      "search_start_time": 240.0,
+      "target_word": "Israel",
+      "target_word_time": 201.02,
+      "delay_type": "short",
+      "delay_seconds": 13.96,
+      "search_start_time": 214.98,
       "id": 4,
-      "target_word_uniqueness": 4.6021
+      "target_word_uniqueness": 5.2366
     },
     {
-      "target_word": "Islamic",
-      "target_word_time": 289.84,
-      "delay_type": "short",
-      "delay_seconds": 10.16,
-      "search_start_time": 300.0,
+      "target_word": "politics",
+      "target_word_time": 169.68,
+      "delay_type": "long",
+      "delay_seconds": 47.16,
+      "search_start_time": 216.84,
       "id": 5,
-      "target_word_uniqueness": 6.1549
+      "target_word_uniqueness": 4.0725999999999996
     },
     {
-      "target_word": "audio",
-      "target_word_time": 355.18,
-      "delay_type": "short",
-      "delay_seconds": 4.82,
-      "search_start_time": 360.0,
+      "target_word": "Thrones",
+      "target_word_time": 231.14,
+      "delay_type": "long",
+      "delay_seconds": 51.41,
+      "search_start_time": 282.55,
       "id": 6,
-      "target_word_uniqueness": 4.5451999999999995
+      "target_word_uniqueness": 5.5686
     }
   ]
 }

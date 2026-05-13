@@ -2,54 +2,63 @@
   "video_id": "6",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 282.7,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
     {
       "target_word": "ruling",
       "target_word_time": 108.76,
       "delay_type": "short",
-      "delay_seconds": 11.24,
-      "search_start_time": 120.0,
+      "delay_seconds": 16.73,
+      "search_start_time": 125.49,
       "id": 1,
       "target_word_uniqueness": 4.6777999999999995
     },
     {
+      "target_word": "election",
+      "target_word_time": 83.92,
+      "delay_type": "long",
+      "delay_seconds": 51.7,
+      "search_start_time": 135.62,
+      "id": 2,
+      "target_word_uniqueness": 4.2509999999999994
+    },
+    {
+      "target_word": "Supreme",
+      "target_word_time": 131.5,
+      "delay_type": "short",
+      "delay_seconds": 13.28,
+      "search_start_time": 144.78,
+      "id": 3,
+      "target_word_uniqueness": 4.3487
+    },
+    {
       "target_word": "minority",
       "target_word_time": 135.4,
-      "delay_type": "long",
-      "delay_seconds": 44.6,
-      "search_start_time": 180.0,
-      "id": 2,
+      "delay_type": "short",
+      "delay_seconds": 13.94,
+      "search_start_time": 149.34,
+      "id": 4,
       "target_word_uniqueness": 4.943099999999999
     },
     {
-      "target_word": "midterms",
-      "target_word_time": 184.4,
+      "target_word": "guardrails",
+      "target_word_time": 176.36,
       "delay_type": "long",
-      "delay_seconds": 55.6,
-      "search_start_time": 240.0,
-      "id": 3,
-      "target_word_uniqueness": 5.3279
-    },
-    {
-      "target_word": "provision",
-      "target_word_time": 293.58,
-      "delay_type": "short",
-      "delay_seconds": 6.42,
-      "search_start_time": 300.0,
-      "id": 4,
-      "target_word_uniqueness": 5.3872
-    },
-    {
-      "target_word": "Missouri",
-      "target_word_time": 302.42,
-      "delay_type": "long",
-      "delay_seconds": 57.58,
-      "search_start_time": 360.0,
+      "delay_seconds": 50.5,
+      "search_start_time": 226.86,
       "id": 5,
-      "target_word_uniqueness": 4.6459
+      "target_word_uniqueness": 6.5229
+    },
+    {
+      "target_word": "votes",
+      "target_word_time": 231.62,
+      "delay_type": "long",
+      "delay_seconds": 51.08,
+      "search_start_time": 282.7,
+      "id": 6,
+      "target_word_uniqueness": 4.3969000000000005
     }
   ]
 }

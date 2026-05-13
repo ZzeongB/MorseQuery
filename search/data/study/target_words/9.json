@@ -2,54 +2,63 @@
   "video_id": "9",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 299.99,
+  "search_window_end_time": 298.61,
   "search_window_seconds": 60.0,
-  "selection_mode": "minute_slots",
+  "selection_mode": "gaussian_delay",
   "interruptions": [
     {
-      "target_word": "gunman",
-      "target_word_time": 49.6,
+      "target_word": "candidate",
+      "target_word_time": 207.24,
       "delay_type": "short",
-      "delay_seconds": 10.4,
-      "search_start_time": 60.0,
+      "delay_seconds": 12.19,
+      "search_start_time": 219.43,
       "id": 1,
-      "target_word_uniqueness": 4.9706
+      "target_word_uniqueness": 4.3614999999999995
     },
     {
-      "target_word": "agencies",
-      "target_word_time": 168.36,
-      "delay_type": "short",
-      "delay_seconds": 11.64,
-      "search_start_time": 180.0,
+      "target_word": "Congress",
+      "target_word_time": 175.72,
+      "delay_type": "long",
+      "delay_seconds": 49.87,
+      "search_start_time": 225.59,
       "id": 2,
-      "target_word_uniqueness": 4.782500000000001
+      "target_word_uniqueness": 4.376799999999999
+    },
+    {
+      "target_word": "hospitals",
+      "target_word_time": 255.34,
+      "delay_type": "short",
+      "delay_seconds": 18.45,
+      "search_start_time": 273.79,
+      "id": 3,
+      "target_word_uniqueness": 4.5003
     },
     {
       "target_word": "staffers",
       "target_word_time": 221.02,
-      "delay_type": "short",
-      "delay_seconds": 18.98,
-      "search_start_time": 240.0,
-      "id": 3,
+      "delay_type": "long",
+      "delay_seconds": 55.74,
+      "search_start_time": 276.76,
+      "id": 4,
       "target_word_uniqueness": 5.8861
+    },
+    {
+      "target_word": "hostility",
+      "target_word_time": 285.16,
+      "delay_type": "short",
+      "delay_seconds": 10.21,
+      "search_start_time": 295.37,
+      "id": 5,
+      "target_word_uniqueness": 4.853899999999999
     },
     {
       "target_word": "politicians",
       "target_word_time": 250.58,
       "delay_type": "long",
-      "delay_seconds": 49.42,
-      "search_start_time": 300.0,
-      "id": 4,
+      "delay_seconds": 48.03,
+      "search_start_time": 298.61,
+      "id": 6,
       "target_word_uniqueness": 4.556
-    },
-    {
-      "target_word": "measurement",
-      "target_word_time": 305.8,
-      "delay_type": "long",
-      "delay_seconds": 54.2,
-      "search_start_time": 360.0,
-      "id": 5,
-      "target_word_uniqueness": 5.5527999999999995
     }
   ]
 }
