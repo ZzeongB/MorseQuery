@@ -2,63 +2,63 @@
   "video_id": "9",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 298.61,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
-  "selection_mode": "gaussian_delay",
+  "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "candidate",
-      "target_word_time": 207.24,
-      "delay_type": "short",
-      "delay_seconds": 12.19,
-      "search_start_time": 219.43,
+      "target_word": "magnetometers",
+      "target_word_time": 16.38,
+      "delay_type": "long",
+      "delay_seconds": 43.62,
+      "search_start_time": 60.0,
       "id": 1,
-      "target_word_uniqueness": 4.3614999999999995
+      "target_word_uniqueness": 7.0
     },
     {
       "target_word": "Congress",
-      "target_word_time": 175.72,
-      "delay_type": "long",
-      "delay_seconds": 49.87,
-      "search_start_time": 225.59,
+      "target_word_time": 106.5,
+      "delay_type": "short",
+      "delay_seconds": 13.5,
+      "search_start_time": 120.0,
       "id": 2,
       "target_word_uniqueness": 4.376799999999999
     },
     {
-      "target_word": "hospitals",
-      "target_word_time": 255.34,
-      "delay_type": "short",
-      "delay_seconds": 18.45,
-      "search_start_time": 273.79,
+      "target_word": "candidate",
+      "target_word_time": 138.02,
+      "delay_type": "long",
+      "delay_seconds": 41.98,
+      "search_start_time": 180.0,
       "id": 3,
-      "target_word_uniqueness": 4.5003
+      "target_word_uniqueness": 4.3614999999999995
     },
     {
-      "target_word": "staffers",
-      "target_word_time": 221.02,
-      "delay_type": "long",
-      "delay_seconds": 55.74,
-      "search_start_time": 276.76,
-      "id": 4,
-      "target_word_uniqueness": 5.8861
-    },
-    {
-      "target_word": "hostility",
-      "target_word_time": 285.16,
+      "target_word": "commando",
+      "target_word_time": 227.94,
       "delay_type": "short",
-      "delay_seconds": 10.21,
-      "search_start_time": 295.37,
-      "id": 5,
-      "target_word_uniqueness": 4.853899999999999
+      "delay_seconds": 12.06,
+      "search_start_time": 240.0,
+      "id": 4,
+      "target_word_uniqueness": 5.2596
     },
     {
-      "target_word": "politicians",
-      "target_word_time": 250.58,
+      "target_word": "elected",
+      "target_word_time": 290.64,
+      "delay_type": "short",
+      "delay_seconds": 9.36,
+      "search_start_time": 300.0,
+      "id": 5,
+      "target_word_uniqueness": 4.4306
+    },
+    {
+      "target_word": "motivation",
+      "target_word_time": 314.12,
       "delay_type": "long",
-      "delay_seconds": 48.03,
-      "search_start_time": 298.61,
+      "delay_seconds": 45.88,
+      "search_start_time": 360.0,
       "id": 6,
-      "target_word_uniqueness": 4.556
+      "target_word_uniqueness": 4.8182
     }
   ]
 }

@@ -1,346 +1,1066 @@
 [
   {
-    "word": "literal",
-    "time": 1.9
-  },
-  {
-    "word": "civil",
-    "time": 4.36
-  },
-  {
-    "word": "ushered",
-    "time": 6.8
-  },
-  {
-    "word": "nation",
-    "time": 10.7
-  },
-  {
-    "word": "democracy",
-    "time": 12.86
-  },
-  {
-    "word": "reauthorized",
-    "time": 18.62
-  },
-  {
-    "word": "people's",
-    "time": 20.68
-  },
-  {
-    "word": "members",
-    "time": 27.5
-  },
-  {
-    "word": "dissent",
-    "time": 29.699999999999996
-  },
-  {
-    "word": "chapter",
-    "time": 32.18
-  },
-  {
-    "word": "demolition",
-    "time": 34.94
-  },
-  {
-    "word": "Voting",
-    "time": 37.0
-  },
-  {
-    "word": "competing",
-    "time": 39.94
-  },
-  {
-    "word": "overstating",
-    "time": 42.5
-  },
-  {
-    "word": "Justice",
-    "time": 46.88
-  },
-  {
-    "word": "argument",
-    "time": 49.38
-  },
-  {
-    "word": "decisions",
-    "time": 54.42
-  },
-  {
-    "word": "consequential",
-    "time": 57.8
-  },
-  {
-    "word": "challenge",
-    "time": 63.58
-  },
-  {
-    "word": "Voting",
-    "time": 66.18
-  },
-  {
-    "word": "voters",
-    "time": 68.36
-  },
-  {
-    "word": "deconstruction",
-    "time": 76.26
-  },
-  {
-    "word": "Act",
-    "time": 78.36
-  },
-  {
-    "word": "impact",
-    "time": 81.22
-  },
-  {
-    "word": "Adam",
-    "time": 98.8
-  },
-  {
-    "word": "Michael",
-    "time": 100.98
-  },
-  {
-    "word": "break",
-    "time": 103.74
-  },
-  {
-    "word": "Corsaniti",
-    "time": 105.88
-  },
-  {
-    "word": "American",
-    "time": 110.84
-  },
-  {
     "word": "Nick",
-    "time": 123.28
+    "time": 0.0
   },
   {
     "word": "Adam",
-    "time": 129.16
+    "time": 5.9
   },
   {
-    "word": "Voting",
-    "time": 144.72
+    "word": "minority",
+    "time": 12.12
+  },
+  {
+    "word": "country",
+    "time": 14.6
+  },
+  {
+    "word": "reporting",
+    "time": 19.52
+  },
+  {
+    "word": "Rights",
+    "time": 21.76
+  },
+  {
+    "word": "ruling",
+    "time": 25.56
   },
   {
     "word": "redistricting",
-    "time": 152.24
+    "time": 28.96
   },
   {
     "word": "rubber",
-    "time": 155.7
+    "time": 32.42
   },
   {
     "word": "road",
-    "time": 158.44
+    "time": 35.16
   },
   {
     "word": "implications",
-    "time": 162.14
+    "time": 38.88
   },
   {
-    "word": "chapter",
-    "time": 170.96
+    "word": "election",
+    "time": 42.92
+  },
+  {
+    "word": "New",
+    "time": 47.44
   },
   {
     "word": "national",
-    "time": 173.58
+    "time": 50.3
+  },
+  {
+    "word": "guardrails",
+    "time": 53.08
   },
   {
     "word": "midterms",
-    "time": 184.4
+    "time": 61.12
   },
   {
-    "word": "break",
-    "time": 187.62
+    "word": "states",
+    "time": 65.62
   },
   {
     "word": "Louisiana",
-    "time": 191.04
+    "time": 67.76
   },
   {
-    "word": "map",
-    "time": 196.04
+    "word": "decision",
+    "time": 71.96
   },
   {
     "word": "will",
-    "time": 200.02
+    "time": 76.76
   },
   {
     "word": "districts",
-    "time": 202.36
+    "time": 79.1
   },
   {
     "word": "governor",
-    "time": 205.34
+    "time": 82.06
   },
   {
     "word": "window",
-    "time": 209.1
+    "time": 85.82
   },
   {
     "word": "window",
-    "time": 211.46
+    "time": 88.18
   },
   {
     "word": "Louisiana",
-    "time": 214.3
+    "time": 91.02
   },
   {
     "word": "weekend",
-    "time": 217.22
+    "time": 93.94
   },
   {
     "word": "voters",
-    "time": 221.54
+    "time": 98.26
   },
   {
     "word": "candidates",
-    "time": 224.32
+    "time": 101.04
   },
   {
     "word": "districts",
-    "time": 226.54
+    "time": 103.26
   },
   {
-    "word": "voters",
-    "time": 235.18
+    "word": "bar",
+    "time": 106.3
   },
   {
     "word": "primary",
-    "time": 239.5
+    "time": 116.24
+  },
+  {
+    "word": "legally",
+    "time": 119.74
   },
   {
     "word": "Republican-controlled",
-    "time": 248.18
+    "time": 124.9
   },
   {
     "word": "political",
-    "time": 251.34
+    "time": 128.06
+  },
+  {
+    "word": "ruling",
+    "time": 130.94
   },
   {
     "word": "congressional",
-    "time": 259.02
+    "time": 135.74
   },
   {
     "word": "Republican",
-    "time": 262.36
+    "time": 139.08
   },
   {
     "word": "congressional",
-    "time": 264.78
+    "time": 141.5
   },
   {
     "word": "districts",
-    "time": 268.92
+    "time": 145.64
   },
   {
-    "word": "step",
-    "time": 274.36
+    "word": "Louisiana",
+    "time": 152.76
   },
   {
     "word": "states",
-    "time": 282.44
+    "time": 159.18
   },
   {
     "word": "primary",
-    "time": 285.54
+    "time": 162.26
   },
   {
     "word": "South",
-    "time": 288.12
-  },
-  {
-    "word": "provision",
-    "time": 293.58
+    "time": 164.84
   },
   {
     "word": "calendar",
-    "time": 299.78
+    "time": 176.5
   },
   {
     "word": "Missouri",
-    "time": 302.42
+    "time": 179.16
   },
   {
     "word": "political",
-    "time": 307.26
+    "time": 183.98
   },
   {
     "word": "states",
-    "time": 311.68
+    "time": 188.4
   },
   {
     "word": "Tennessee",
-    "time": 314.28
+    "time": 191.0
   },
   {
     "word": "Republicans",
-    "time": 320.72
-  },
-  {
-    "word": "Senator",
-    "time": 322.74
-  },
-  {
-    "word": "governor",
-    "time": 325.04
+    "time": 197.44
   },
   {
     "word": "state",
-    "time": 327.46
+    "time": 204.2
   },
   {
     "word": "Democratic",
-    "time": 329.54
+    "time": 206.26
   },
   {
     "word": "midterm",
-    "time": 331.82
+    "time": 208.54
   },
   {
-    "word": "social",
-    "time": 333.96
+    "word": "Tennessee",
+    "time": 215.5
   },
   {
-    "word": "finish",
-    "time": 336.18
-  },
-  {
-    "word": "turning",
-    "time": 338.3
-  },
-  {
-    "word": "red",
-    "time": 341.64
-  },
-  {
-    "word": "will",
-    "time": 344.1
+    "word": "Republican",
+    "time": 219.24
   },
   {
     "word": "Republicans",
-    "time": 346.6
+    "time": 223.32
   },
   {
     "word": "seats",
-    "time": 349.04
+    "time": 225.8
   },
   {
-    "word": "tight",
-    "time": 353.62
+    "word": "state",
+    "time": 234.2
   },
   {
-    "word": "dramatic",
-    "time": 356.18
+    "word": "governor",
+    "time": 236.38
   },
   {
-    "word": "support",
-    "time": 358.44
+    "word": "maps",
+    "time": 238.96
+  },
+  {
+    "word": "Senator",
+    "time": 244.3
+  },
+  {
+    "word": "Tennessee",
+    "time": 246.86
+  },
+  {
+    "word": "southwestern",
+    "time": 249.88
+  },
+  {
+    "word": "Democratic",
+    "time": 252.58
+  },
+  {
+    "word": "Memphis",
+    "time": 255.92
+  },
+  {
+    "word": "minority",
+    "time": 258.02
+  },
+  {
+    "word": "black",
+    "time": 261.54
+  },
+  {
+    "word": "black",
+    "time": 263.88
+  },
+  {
+    "word": "Republicans",
+    "time": 267.9
+  },
+  {
+    "word": "gerrymander",
+    "time": 270.06
+  },
+  {
+    "word": "black",
+    "time": 273.24
+  },
+  {
+    "word": "Republican",
+    "time": 276.5
+  },
+  {
+    "word": "district",
+    "time": 288.68
+  },
+  {
+    "word": "Middle",
+    "time": 293.38
+  },
+  {
+    "word": "calendar",
+    "time": 297.74
+  },
+  {
+    "word": "challenges",
+    "time": 300.1
+  },
+  {
+    "word": "challenges",
+    "time": 302.36
+  },
+  {
+    "word": "Republicans",
+    "time": 304.58
+  },
+  {
+    "word": "ruling",
+    "time": 308.36
+  },
+  {
+    "word": "governor",
+    "time": 314.56
+  },
+  {
+    "word": "aggressive",
+    "time": 317.62
+  },
+  {
+    "word": "Democratic",
+    "time": 321.96
+  },
+  {
+    "word": "state",
+    "time": 324.36
+  },
+  {
+    "word": "redrawing",
+    "time": 327.78
+  },
+  {
+    "word": "New",
+    "time": 332.72
+  },
+  {
+    "word": "decision",
+    "time": 336.68
+  },
+  {
+    "word": "state",
+    "time": 339.76
+  },
+  {
+    "word": "midterms",
+    "time": 342.2
+  },
+  {
+    "word": "ruling",
+    "time": 344.96
+  },
+  {
+    "word": "Republicans",
+    "time": 351.22
+  },
+  {
+    "word": "New",
+    "time": 353.66
+  },
+  {
+    "word": "will",
+    "time": 357.64
+  },
+  {
+    "word": "New",
+    "time": 361.46
+  },
+  {
+    "word": "legal",
+    "time": 365.02
+  },
+  {
+    "word": "New",
+    "time": 367.66
+  },
+  {
+    "word": "midterms",
+    "time": 371.2
+  },
+  {
+    "word": "legally",
+    "time": 377.22
+  },
+  {
+    "word": "New",
+    "time": 379.32
+  },
+  {
+    "word": "discouraged",
+    "time": 383.64
+  },
+  {
+    "word": "message",
+    "time": 386.6
+  },
+  {
+    "word": "New",
+    "time": 392.9
+  },
+  {
+    "word": "discriminate",
+    "time": 395.08
+  },
+  {
+    "word": "gerrymandering",
+    "time": 398.08
+  },
+  {
+    "word": "federal",
+    "time": 402.3
+  },
+  {
+    "word": "New",
+    "time": 406.4
+  },
+  {
+    "word": "will",
+    "time": 417.26
+  },
+  {
+    "word": "party",
+    "time": 422.26
+  },
+  {
+    "word": "gerrymandering",
+    "time": 425.28
+  },
+  {
+    "word": "will",
+    "time": 431.18
+  },
+  {
+    "word": "Republican",
+    "time": 435.24
+  },
+  {
+    "word": "November",
+    "time": 438.2
+  },
+  {
+    "word": "decision",
+    "time": 441.02
+  },
+  {
+    "word": "year",
+    "time": 445.5
+  },
+  {
+    "word": "New",
+    "time": 447.86
+  },
+  {
+    "word": "multi-seat",
+    "time": 452.36
+  },
+  {
+    "word": "double",
+    "time": 454.62
+  },
+  {
+    "word": "Texas",
+    "time": 460.38
+  },
+  {
+    "word": "polling",
+    "time": 466.84
+  },
+  {
+    "word": "political",
+    "time": 470.66
+  },
+  {
+    "word": "war",
+    "time": 473.74
+  },
+  {
+    "word": "unpopularity",
+    "time": 477.4
+  },
+  {
+    "word": "conversation",
+    "time": 481.06
+  },
+  {
+    "word": "arms",
+    "time": 488.04
+  },
+  {
+    "word": "parties",
+    "time": 491.66
+  },
+  {
+    "word": "Voting",
+    "time": 498.46
+  },
+  {
+    "word": "ruling",
+    "time": 503.24
+  },
+  {
+    "word": "House",
+    "time": 508.3
+  },
+  {
+    "word": "Democratic",
+    "time": 510.56
+  },
+  {
+    "word": "Republican",
+    "time": 512.62
+  },
+  {
+    "word": "Nate",
+    "time": 515.1
+  },
+  {
+    "word": "Democrats",
+    "time": 519.7
+  },
+  {
+    "word": "Democrats",
+    "time": 523.78
+  },
+  {
+    "word": "nimble",
+    "time": 526.4
+  },
+  {
+    "word": "Republican",
+    "time": 528.54
+  },
+  {
+    "word": "California",
+    "time": 530.84
+  },
+  {
+    "word": "calls",
+    "time": 534.68
+  },
+  {
+    "word": "seize",
+    "time": 537.78
+  },
+  {
+    "word": "states",
+    "time": 540.32
+  },
+  {
+    "word": "2026",
+    "time": 547.56
+  },
+  {
+    "word": "Virginia",
+    "time": 551.84
+  },
+  {
+    "word": "courts",
+    "time": 555.0
+  },
+  {
+    "word": "political",
+    "time": 558.34
+  },
+  {
+    "word": "decision",
+    "time": 560.58
+  },
+  {
+    "word": "wars",
+    "time": 563.16
+  },
+  {
+    "word": "spiral",
+    "time": 567.46
+  },
+  {
+    "word": "Democrats",
+    "time": 571.8
+  },
+  {
+    "word": "process",
+    "time": 575.52
+  },
+  {
+    "word": "maps",
+    "time": 577.78
+  },
+  {
+    "word": "governor",
+    "time": 580.32
+  },
+  {
+    "word": "states",
+    "time": 584.06
+  },
+  {
+    "word": "Democrats",
+    "time": 586.96
+  },
+  {
+    "word": "map",
+    "time": 589.04
+  },
+  {
+    "word": "aggressive",
+    "time": 591.72
+  },
+  {
+    "word": "ruling",
+    "time": 594.52
+  },
+  {
+    "word": "hyper-partisan",
+    "time": 596.68
+  },
+  {
+    "word": "battles",
+    "time": 598.98
+  },
+  {
+    "word": "Maryland",
+    "time": 602.02
+  },
+  {
+    "word": "Republican",
+    "time": 605.22
+  },
+  {
+    "word": "Democrats",
+    "time": 608.26
+  },
+  {
+    "word": "Chicago",
+    "time": 612.64
+  },
+  {
+    "word": "Republican",
+    "time": 614.88
+  },
+  {
+    "word": "map",
+    "time": 618.1
+  },
+  {
+    "word": "governor",
+    "time": 623.38
+  },
+  {
+    "word": "time",
+    "time": 633.22
+  },
+  {
+    "word": "gerrymandering",
+    "time": 637.14
+  },
+  {
+    "word": "political",
+    "time": 641.3
+  },
+  {
+    "word": "political",
+    "time": 647.78
+  },
+  {
+    "word": "extreme",
+    "time": 656.08
+  },
+  {
+    "word": "Voting",
+    "time": 659.32
+  },
+  {
+    "word": "law",
+    "time": 662.12
+  },
+  {
+    "word": "ruling",
+    "time": 673.62
+  },
+  {
+    "word": "congressional",
+    "time": 676.0
+  },
+  {
+    "word": "majority",
+    "time": 678.44
+  },
+  {
+    "word": "studied",
+    "time": 682.16
+  },
+  {
+    "word": "gerrymandering",
+    "time": 684.42
+  },
+  {
+    "word": "black",
+    "time": 689.2
+  },
+  {
+    "word": "diluted",
+    "time": 692.22
+  },
+  {
+    "word": "year",
+    "time": 700.76
+  },
+  {
+    "word": "black",
+    "time": 704.24
+  },
+  {
+    "word": "seats",
+    "time": 706.92
+  },
+  {
+    "word": "Missouri",
+    "time": 709.42
+  },
+  {
+    "word": "guardrails",
+    "time": 714.78
+  },
+  {
+    "word": "spiral",
+    "time": 718.24
+  },
+  {
+    "word": "conversation",
+    "time": 722.14
+  },
+  {
+    "word": "impact",
+    "time": 724.64
+  },
+  {
+    "word": "ruling",
+    "time": 727.32
+  },
+  {
+    "word": "county",
+    "time": 730.22
+  },
+  {
+    "word": "state",
+    "time": 734.12
+  },
+  {
+    "word": "districts",
+    "time": 736.24
+  },
+  {
+    "word": "city",
+    "time": 738.42
+  },
+  {
+    "word": "partisan",
+    "time": 741.68
+  },
+  {
+    "word": "black",
+    "time": 747.38
+  },
+  {
+    "word": "races",
+    "time": 750.8
+  },
+  {
+    "word": "pipeline",
+    "time": 753.28
+  },
+  {
+    "word": "officials",
+    "time": 756.18
+  },
+  {
+    "word": "political",
+    "time": 760.68
+  },
+  {
+    "word": "Congress",
+    "time": 763.44
+  },
+  {
+    "word": "black",
+    "time": 767.7
+  },
+  {
+    "word": "government",
+    "time": 770.54
+  },
+  {
+    "word": "flip",
+    "time": 773.72
+  },
+  {
+    "word": "blue",
+    "time": 776.02
+  },
+  {
+    "word": "Democratic",
+    "time": 779.6
+  },
+  {
+    "word": "districts",
+    "time": 781.94
+  },
+  {
+    "word": "black",
+    "time": 785.06
+  },
+  {
+    "word": "black",
+    "time": 789.74
+  },
+  {
+    "word": "party",
+    "time": 791.82
+  },
+  {
+    "word": "impact",
+    "time": 796.06
+  },
+  {
+    "word": "Democratic",
+    "time": 800.48
+  },
+  {
+    "word": "elections",
+    "time": 802.78
+  },
+  {
+    "word": "two-party",
+    "time": 807.58
+  },
+  {
+    "word": "race",
+    "time": 810.5
+  },
+  {
+    "word": "will",
+    "time": 818.32
+  },
+  {
+    "word": "hyper-partisan",
+    "time": 827.82
+  },
+  {
+    "word": "advantage",
+    "time": 836.06
+  },
+  {
+    "word": "power",
+    "time": 839.02
+  },
+  {
+    "word": "national",
+    "time": 841.1
+  },
+  {
+    "word": "Voting",
+    "time": 843.48
+  },
+  {
+    "word": "desire",
+    "time": 848.24
+  },
+  {
+    "word": "partisan",
+    "time": 850.92
+  },
+  {
+    "word": "decision",
+    "time": 854.82
+  },
+  {
+    "word": "American",
+    "time": 857.98
+  },
+  {
+    "word": "context",
+    "time": 860.24
+  },
+  {
+    "word": "war",
+    "time": 888.06
+  },
+  {
+    "word": "disaster",
+    "time": 890.12
+  },
+  {
+    "word": "President",
+    "time": 892.3
+  },
+  {
+    "word": "quagmire",
+    "time": 894.86
+  },
+  {
+    "word": "appearance",
+    "time": 898.02
+  },
+  {
+    "word": "war",
+    "time": 900.48
+  },
+  {
+    "word": "Secretary",
+    "time": 902.7
+  },
+  {
+    "word": "Congress",
+    "time": 906.18
+  },
+  {
+    "word": "Trump",
+    "time": 908.28
+  },
+  {
+    "word": "Congressman",
+    "time": 915.96
+  },
+  {
+    "word": "quagmire",
+    "time": 919.14
+  },
+  {
+    "word": "propaganda",
+    "time": 921.32
+  },
+  {
+    "word": "Hegseth",
+    "time": 927.56
+  },
+  {
+    "word": "financial",
+    "time": 930.76
+  },
+  {
+    "word": "billion",
+    "time": 934.52
+  },
+  {
+    "word": "chair",
+    "time": 938.58
+  },
+  {
+    "word": "governor",
+    "time": 941.28
+  },
+  {
+    "word": "Wednesday",
+    "time": 945.44
+  },
+  {
+    "word": "Reserve",
+    "time": 947.46
+  },
+  {
+    "word": "central",
+    "time": 951.36
+  },
+  {
+    "word": "time",
+    "time": 954.24
+  },
+  {
+    "word": "departure",
+    "time": 956.68
+  },
+  {
+    "word": "protect",
+    "time": 960.48
+  },
+  {
+    "word": "attacks",
+    "time": 962.72
+  },
+  {
+    "word": "attacks",
+    "time": 965.96
+  },
+  {
+    "word": "renovation",
+    "time": 969.68
+  },
+  {
+    "word": "investigation",
+    "time": 972.14
+  },
+  {
+    "word": "Powell",
+    "time": 976.68
+  },
+  {
+    "word": "choice",
+    "time": 979.82
+  },
+  {
+    "word": "board",
+    "time": 981.82
+  },
+  {
+    "word": "transparently",
+    "time": 984.48
+  },
+  {
+    "word": "attacks",
+    "time": 987.66
+  },
+  {
+    "word": "public",
+    "time": 992.32
+  },
+  {
+    "word": "monetary",
+    "time": 994.36
+  },
+  {
+    "word": "political",
+    "time": 996.88
+  },
+  {
+    "word": "episode",
+    "time": 1000.86
+  },
+  {
+    "word": "Jessica",
+    "time": 1003.52
+  },
+  {
+    "word": "Devin",
+    "time": 1006.38
+  },
+  {
+    "word": "Liz",
+    "time": 1008.92
+  },
+  {
+    "word": "Michael",
+    "time": 1011.48
+  },
+  {
+    "word": "Rony",
+    "time": 1014.6
+  },
+  {
+    "word": "Marion",
+    "time": 1017.1
+  },
+  {
+    "word": "Wonderly",
+    "time": 1020.0
+  },
+  {
+    "word": "Alyssa",
+    "time": 1023.34
+  },
+  {
+    "word": "Daily",
+    "time": 1035.32
   }
 ]

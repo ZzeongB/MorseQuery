@@ -1,358 +1,358 @@
 [
   {
-    "word": "Saturday",
-    "time": 0.0
-  },
-  {
-    "word": "hotel",
-    "time": 3.28
-  },
-  {
-    "word": "suspect",
-    "time": 5.68
-  },
-  {
-    "word": "letter",
-    "time": 12.66
-  },
-  {
-    "word": "security",
-    "time": 16.42
-  },
-  {
-    "word": "police",
-    "time": 18.96
-  },
-  {
-    "word": "guests",
-    "time": 21.0
-  },
-  {
-    "word": "simplistic",
-    "time": 23.14
-  },
-  {
-    "word": "measures",
-    "time": 25.42
-  },
-  {
-    "word": "security",
-    "time": 29.64
-  },
-  {
-    "word": "night",
-    "time": 31.88
-  },
-  {
-    "word": "security",
-    "time": 34.32
-  },
-  {
-    "word": "night",
-    "time": 36.36
-  },
-  {
-    "word": "multi-layered",
-    "time": 43.2
-  },
-  {
     "word": "event",
-    "time": 45.86
-  },
-  {
-    "word": "gunman",
-    "time": 49.6
-  },
-  {
-    "word": "layers",
-    "time": 52.58
-  },
-  {
-    "word": "securing",
-    "time": 56.72
-  },
-  {
-    "word": "security",
-    "time": 59.7
-  },
-  {
-    "word": "security",
-    "time": 68.58
+    "time": 0.54
   },
   {
     "word": "hotel",
-    "time": 71.98
+    "time": 2.76
   },
   {
     "word": "disagreements",
-    "time": 74.8
+    "time": 5.58
   },
   {
     "word": "security",
-    "time": 78.98
+    "time": 9.76
   },
   {
     "word": "building",
-    "time": 82.04
-  },
-  {
-    "word": "magnetometers",
-    "time": 85.6
+    "time": 12.82
   },
   {
     "word": "building",
-    "time": 88.68
-  },
-  {
-    "word": "hotel",
-    "time": 90.68
+    "time": 19.48
   },
   {
     "word": "ballroom",
-    "time": 92.78
+    "time": 23.56
   },
   {
     "word": "security",
-    "time": 95.24
+    "time": 26.02
   },
   {
     "word": "perimeter",
-    "time": 97.24
+    "time": 28.02
   },
   {
     "word": "improvement",
-    "time": 100.34
+    "time": 31.12
   },
   {
-    "word": "hotel",
-    "time": 103.86
+    "word": "protect",
+    "time": 33.76
   },
   {
-    "word": "gathering",
-    "time": 106.72
+    "word": "protect",
+    "time": 36.7
   },
   {
-    "word": "government",
-    "time": 108.88
+    "word": "senior",
+    "time": 38.96
   },
   {
     "word": "Secret",
-    "time": 111.1
+    "time": 41.88
   },
   {
     "word": "security",
-    "time": 117.28
+    "time": 48.08
   },
   {
     "word": "security",
-    "time": 124.18
+    "time": 54.96
   },
   {
     "word": "law",
-    "time": 127.82
+    "time": 58.62
   },
   {
     "word": "Secret",
-    "time": 129.84
+    "time": 60.62
   },
   {
     "word": "California",
-    "time": 133.16
+    "time": 63.94
   },
   {
     "word": "law",
-    "time": 135.32
+    "time": 66.1
   },
   {
     "word": "threat",
-    "time": 141.98
+    "time": 72.78
   },
   {
     "word": "tripwires",
-    "time": 152.74
+    "time": 83.52
   },
   {
-    "word": "Devlin",
-    "time": 161.06
-  },
-  {
-    "word": "investigation",
-    "time": 166.18
-  },
-  {
-    "word": "agencies",
-    "time": 168.36
-  },
-  {
-    "word": "question",
-    "time": 170.9
+    "word": "public",
+    "time": 95.84
   },
   {
     "word": "law",
-    "time": 180.8
+    "time": 98.54
+  },
+  {
+    "word": "question",
+    "time": 101.72
+  },
+  {
+    "word": "law",
+    "time": 111.6
   },
   {
     "word": "files",
-    "time": 183.82
+    "time": 114.62
   },
   {
     "word": "government",
-    "time": 192.06
+    "time": 122.86
+  },
+  {
+    "word": "system",
+    "time": 133.16
   },
   {
     "word": "president",
-    "time": 205.06
+    "time": 135.84
   },
   {
     "word": "language",
-    "time": 209.34
+    "time": 140.12
   },
   {
     "word": "attempts",
-    "time": 211.46
+    "time": 142.26
   },
   {
     "word": "attacks",
-    "time": 216.96
+    "time": 147.74
   },
   {
     "word": "Minneapolis",
-    "time": 218.96
+    "time": 149.74
   },
   {
-    "word": "age",
-    "time": 228.3
+    "word": "staffers",
+    "time": 151.82
   },
   {
-    "word": "Devlin",
-    "time": 231.04
+    "word": "examples",
+    "time": 153.96
+  },
+  {
+    "word": "political",
+    "time": 159.78
+  },
+  {
+    "word": "experience",
+    "time": 163.88
   },
   {
     "word": "question",
-    "time": 239.54
+    "time": 170.34
   },
   {
     "word": "threats",
-    "time": 244.5
+    "time": 175.28
   },
   {
     "word": "threats",
-    "time": 247.24
+    "time": 178.04
+  },
+  {
+    "word": "politicians",
+    "time": 181.36
   },
   {
     "word": "judges",
-    "time": 252.64
+    "time": 183.44
+  },
+  {
+    "word": "hospitals",
+    "time": 186.12
   },
   {
     "word": "American",
-    "time": 258.08
+    "time": 188.88
   },
   {
     "word": "threats",
-    "time": 261.9
+    "time": 192.68
   },
   {
     "word": "law",
-    "time": 270.08
+    "time": 200.86
   },
   {
     "word": "agencies",
-    "time": 272.6
+    "time": 203.38
   },
   {
     "word": "cops",
-    "time": 275.88
+    "time": 206.66
   },
   {
     "word": "agents",
-    "time": 277.94
+    "time": 208.72
   },
   {
     "word": "information",
-    "time": 283.1
+    "time": 213.88
+  },
+  {
+    "word": "hostility",
+    "time": 215.96
   },
   {
     "word": "language",
-    "time": 289.1
+    "time": 219.9
   },
   {
     "word": "dangerous",
-    "time": 294.82
-  },
-  {
-    "word": "commando",
-    "time": 297.14
+    "time": 225.62
   },
   {
     "word": "challenge",
-    "time": 299.2
+    "time": 230.0
   },
   {
     "word": "political",
-    "time": 302.16
+    "time": 232.94
   },
   {
     "word": "measurement",
-    "time": 305.8
+    "time": 236.6
   },
   {
     "word": "attempts",
-    "time": 307.98
+    "time": 238.76
   },
   {
     "word": "years",
-    "time": 313.54
+    "time": 244.34
   },
   {
     "word": "question",
-    "time": 317.26
+    "time": 248.08
   },
   {
     "word": "forms",
-    "time": 320.06
+    "time": 250.84
   },
   {
     "word": "question",
-    "time": 322.5
+    "time": 253.3
   },
   {
     "word": "political",
-    "time": 326.14
-  },
-  {
-    "word": "golden",
-    "time": 329.78
+    "time": 256.92
   },
   {
     "word": "political",
-    "time": 333.0
+    "time": 263.78
   },
   {
     "word": "political",
-    "time": 339.0
+    "time": 269.8
   },
   {
     "word": "question",
-    "time": 341.86
-  },
-  {
-    "word": "count",
-    "time": 344.74
+    "time": 272.66
   },
   {
     "word": "school",
-    "time": 346.9
+    "time": 277.68
   },
   {
-    "word": "thousand",
-    "time": 349.0
+    "word": "political",
+    "time": 281.16
   },
   {
-    "word": "commits",
-    "time": 352.0
+    "word": "mass",
+    "time": 283.36
   },
   {
-    "word": "considered",
-    "time": 354.92
+    "word": "political",
+    "time": 286.06
+  },
+  {
+    "word": "politicians",
+    "time": 288.56
+  },
+  {
+    "word": "political",
+    "time": 294.22
+  },
+  {
+    "word": "victim",
+    "time": 300.72
+  },
+  {
+    "word": "victim",
+    "time": 302.72
+  },
+  {
+    "word": "political",
+    "time": 305.7
+  },
+  {
+    "word": "political",
+    "time": 309.02
+  },
+  {
+    "word": "political",
+    "time": 311.46
+  },
+  {
+    "word": "violence",
+    "time": 316.3
+  },
+  {
+    "word": "ballroom",
+    "time": 320.2
+  },
+  {
+    "word": "school",
+    "time": 324.1
+  },
+  {
+    "word": "younger",
+    "time": 328.4
+  },
+  {
+    "word": "experience",
+    "time": 331.22
+  },
+  {
+    "word": "incident",
+    "time": 335.18
+  },
+  {
+    "word": "Saturday",
+    "time": 340.1
+  },
+  {
+    "word": "danger",
+    "time": 343.62
+  },
+  {
+    "word": "response",
+    "time": 346.02
+  },
+  {
+    "word": "schools",
+    "time": 350.16
+  },
+  {
+    "word": "public",
+    "time": 352.24
+  },
+  {
+    "word": "powerful",
+    "time": 357.58
   }
 ]

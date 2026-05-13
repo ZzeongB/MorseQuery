@@ -1,255 +1,23 @@
 [
   {
-    "word": "literal",
-    "time": 1.9,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "civil",
-    "time": 4.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "ushered",
-    "time": 6.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "nation",
-    "time": 10.7,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "democracy",
-    "time": 12.86,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "reauthorized",
-    "time": 18.62,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "people's",
-    "time": 20.68,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "members",
-    "time": 27.5,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "dissent",
-    "time": 29.699999999999996,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "chapter",
-    "time": 32.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "demolition",
-    "time": 34.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Voting",
-    "time": 37.0,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "competing",
-    "time": 39.94,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "overstating",
-    "time": 42.5,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Justice",
-    "time": 46.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "argument",
-    "time": 49.38,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "decisions",
-    "time": 54.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "consequential",
-    "time": 57.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "challenge",
-    "time": 63.58,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "voters",
-    "time": 68.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "deconstruction",
-    "time": 76.26,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Act",
-    "time": 78.36,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "election",
-    "time": 83.92,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Adam",
-    "time": 98.8,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Michael",
-    "time": 100.98,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "break",
-    "time": 103.74,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Corsaniti",
-    "time": 105.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "ruling",
-    "time": 108.76,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 3,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "American",
-    "time": 110.84,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
     "word": "Nick",
-    "time": 123.28,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
+    "time": 0.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Adam",
-    "time": 129.16,
+    "time": 5.9,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Supreme",
-    "time": 131.5,
+    "time": 8.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -257,15 +25,31 @@
   },
   {
     "word": "minority",
-    "time": 135.4,
+    "time": 12.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "country",
+    "time": 14.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "reporting",
+    "time": 19.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "rubber",
-    "time": 155.7,
+    "time": 32.42,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -273,7 +57,7 @@
   },
   {
     "word": "road",
-    "time": 158.44,
+    "time": 35.16,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -281,23 +65,23 @@
   },
   {
     "word": "implications",
-    "time": 162.14,
+    "time": 38.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "chapter",
-    "time": 170.96,
+    "word": "New",
+    "time": 47.44,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "national",
-    "time": 173.58,
+    "time": 50.3,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -305,7 +89,7 @@
   },
   {
     "word": "guardrails",
-    "time": 176.36,
+    "time": 53.08,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -313,31 +97,31 @@
   },
   {
     "word": "midterms",
-    "time": 184.4,
+    "time": 61.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "break",
-    "time": 187.62,
+    "word": "states",
+    "time": 65.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "map",
-    "time": 196.04,
+    "word": "decision",
+    "time": 71.96,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "will",
-    "time": 200.02,
+    "time": 76.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -345,7 +129,7 @@
   },
   {
     "word": "governor",
-    "time": 205.34,
+    "time": 82.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -353,7 +137,7 @@
   },
   {
     "word": "weekend",
-    "time": 217.22,
+    "time": 93.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -361,39 +145,47 @@
   },
   {
     "word": "candidates",
-    "time": 224.32,
+    "time": 101.04,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "votes",
-    "time": 231.62,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
+    "word": "bar",
+    "time": 106.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "redraw",
+    "time": 109.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "primary",
-    "time": 239.5,
+    "time": 116.24,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "votes",
-    "time": 243.96,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
+    "word": "legally",
+    "time": 119.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "political",
-    "time": 251.34,
+    "time": 128.06,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -401,15 +193,7 @@
   },
   {
     "word": "ruling",
-    "time": 254.22,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "step",
-    "time": 274.36,
+    "time": 130.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -417,23 +201,15 @@
   },
   {
     "word": "primary",
-    "time": 285.54,
+    "time": 162.26,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "South",
-    "time": 288.12,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
     "word": "provision",
-    "time": 293.58,
+    "time": 170.3,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -441,7 +217,7 @@
   },
   {
     "word": "Missouri",
-    "time": 302.42,
+    "time": 179.16,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -449,15 +225,15 @@
   },
   {
     "word": "political",
-    "time": 307.26,
+    "time": 183.98,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Senator",
-    "time": 322.74,
+    "word": "Marsha",
+    "time": 200.0,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -465,47 +241,591 @@
   },
   {
     "word": "Democratic",
-    "time": 329.54,
+    "time": 206.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "midterm",
+    "time": 208.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "seats",
+    "time": 225.8,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "maps",
+    "time": 238.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Senator",
+    "time": 244.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "southwestern",
+    "time": 249.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "midterm",
-    "time": 331.82,
+    "word": "Democratic",
+    "time": 252.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "minority",
+    "time": 258.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gerrymander",
+    "time": 270.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "cartographical",
+    "time": 283.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Middle",
+    "time": 293.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "calendar",
+    "time": 297.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Florida",
+    "time": 311.8,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "social",
-    "time": 333.96,
+    "word": "aggressive",
+    "time": 317.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "finish",
-    "time": 336.18,
+    "word": "Democratic",
+    "time": 321.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "redrawing",
+    "time": 327.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "turning",
-    "time": 338.3,
+    "word": "decision",
+    "time": 336.68,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "will",
+    "time": 357.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 4,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "midterms",
+    "time": 371.2,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "legally",
+    "time": 377.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "red",
-    "time": 341.64,
+    "word": "discouraged",
+    "time": 383.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "message",
+    "time": 386.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "discriminate",
+    "time": 395.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gerrymandering",
+    "time": 398.08,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "federal",
+    "time": 402.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "party",
+    "time": 422.26,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gerrymandering",
+    "time": 425.28,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "November",
+    "time": 438.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "decision",
+    "time": 441.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "New",
+    "time": 447.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 5,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "double",
+    "time": 454.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Texas",
+    "time": 460.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "polling",
+    "time": 466.84,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 470.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "war",
+    "time": 473.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "unpopularity",
+    "time": 477.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "conversation",
+    "time": 481.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "arms",
+    "time": 488.04,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "parties",
+    "time": 491.66,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Supreme",
+    "time": 494.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Voting",
+    "time": 498.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "House",
+    "time": 508.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Democratic",
+    "time": 510.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "nimble",
+    "time": 526.4,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "California",
+    "time": 530.84,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "calls",
+    "time": 534.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "seize",
+    "time": 537.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "2026",
+    "time": 547.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Virginia",
+    "time": 551.84,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "courts",
+    "time": 555.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 558.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "decision",
+    "time": 560.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "wars",
+    "time": 563.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "spiral",
+    "time": 567.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "governor",
+    "time": 580.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "aggressive",
+    "time": 591.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "ruling",
+    "time": 594.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "battles",
+    "time": 598.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Maryland",
+    "time": 602.02,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Chicago",
+    "time": 612.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "map",
+    "time": 618.1,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "governor",
+    "time": 623.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "time",
+    "time": 633.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gerrymandering",
+    "time": 637.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "extreme",
+    "time": 656.08,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Voting",
+    "time": 659.32,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "law",
+    "time": 662.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Supreme",
+    "time": 664.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "congressional",
+    "time": 676.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "majority",
+    "time": 678.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "studied",
+    "time": 682.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "gerrymandering",
+    "time": 684.42,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "diluted",
+    "time": 692.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "year",
+    "time": 700.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -513,31 +833,503 @@
   },
   {
     "word": "seats",
-    "time": 349.04,
+    "time": 706.92,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "tight",
-    "time": 353.62,
+    "word": "Missouri",
+    "time": 709.42,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "dramatic",
-    "time": 356.18,
+    "word": "guardrails",
+    "time": 714.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "support",
-    "time": 358.44,
+    "word": "spiral",
+    "time": 718.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "conversation",
+    "time": 722.14,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "county",
+    "time": 730.22,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "city",
+    "time": 738.42,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "partisan",
+    "time": 741.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "races",
+    "time": 750.8,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "pipeline",
+    "time": 753.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 760.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "government",
+    "time": 770.54,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "flip",
+    "time": 773.72,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "blue",
+    "time": 776.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Democratic",
+    "time": 779.6,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "impact",
+    "time": 796.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "elections",
+    "time": 802.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "race",
+    "time": 810.5,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "will",
+    "time": 818.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "advantage",
+    "time": 836.06,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "national",
+    "time": 841.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Voting",
+    "time": 843.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "desire",
+    "time": 848.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "partisan",
+    "time": 850.92,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "decision",
+    "time": 854.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "American",
+    "time": 857.98,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "context",
+    "time": 860.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "disaster",
+    "time": 890.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "President",
+    "time": 892.3,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "quagmire",
+    "time": 894.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "appearance",
+    "time": 898.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Secretary",
+    "time": 902.7,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Congress",
+    "time": 906.18,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Trump",
+    "time": 908.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Congressman",
+    "time": 915.96,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "quagmire",
+    "time": 919.14,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "propaganda",
+    "time": 921.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "financial",
+    "time": 930.76,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "billion",
+    "time": 934.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "chair",
+    "time": 938.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "governor",
+    "time": 941.28,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Wednesday",
+    "time": 945.44,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Reserve",
+    "time": 947.46,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "central",
+    "time": 951.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "departure",
+    "time": 956.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "protect",
+    "time": 960.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "renovation",
+    "time": 969.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "choice",
+    "time": 979.82,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "board",
+    "time": 981.82,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "transparently",
+    "time": 984.48,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "public",
+    "time": 992.32,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "monetary",
+    "time": 994.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 996.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "episode",
+    "time": 1000.86,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Jessica",
+    "time": 1003.52,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Devin",
+    "time": 1006.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Liz",
+    "time": 1008.92,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Michael",
+    "time": 1011.48,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Rony",
+    "time": 1014.6,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Marion",
+    "time": 1017.1,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Wonderly",
+    "time": 1020.0,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Alyssa",
+    "time": 1023.34,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "Daily",
+    "time": 1035.32,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,

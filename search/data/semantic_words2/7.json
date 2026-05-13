@@ -60,16 +60,8 @@
     "time": 51.2
   },
   {
-    "word": "immigration",
-    "time": 56.4
-  },
-  {
     "word": "tipping",
     "time": 62.48
-  },
-  {
-    "word": "transitioning",
-    "time": 64.82
   },
   {
     "word": "white",
@@ -78,10 +70,6 @@
   {
     "word": "period",
     "time": 70.22
-  },
-  {
-    "word": "immigration",
-    "time": 72.68
   },
   {
     "word": "lightning",
@@ -154,6 +142,10 @@
   {
     "word": "support",
     "time": 126.88
+  },
+  {
+    "word": "upheaval",
+    "time": 132.9
   },
   {
     "word": "demographic",
@@ -272,6 +264,14 @@
     "time": 242.14
   },
   {
+    "word": "losers",
+    "time": 244.44
+  },
+  {
+    "word": "marginal",
+    "time": 246.48
+  },
+  {
     "word": "political",
     "time": 250.72
   },
@@ -378,10 +378,6 @@
   {
     "word": "fear",
     "time": 353.92
-  },
-  {
-    "word": "transitional",
-    "time": 357.36
   },
   {
     "word": "period",

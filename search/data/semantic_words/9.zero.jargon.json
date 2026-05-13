@@ -1,34 +1,7 @@
 [
   {
-    "word": "suspect",
-    "time": 5.68,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 3.6469
-  },
-  {
-    "word": "measures",
-    "time": 25.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 4.5702
-  },
-  {
-    "word": "gunman",
-    "time": 49.6,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 4.9706
-  },
-  {
     "word": "magnetometers",
-    "time": 85.6,
+    "time": 16.38,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -36,17 +9,8 @@
     "uniqueness": 7.0
   },
   {
-    "word": "government",
-    "time": 108.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 3.4778
-  },
-  {
     "word": "Secret",
-    "time": 111.1,
+    "time": 41.88,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -54,17 +18,17 @@
     "uniqueness": 3.2529
   },
   {
-    "word": "security",
-    "time": 124.18,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 6,
+    "word": "law",
+    "time": 58.62,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
     "duplicate_count_minute_bucket": 0,
-    "uniqueness": 3.3178
+    "uniqueness": 3.2267
   },
   {
     "word": "California",
-    "time": 133.16,
+    "time": 63.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -73,7 +37,7 @@
   },
   {
     "word": "threat",
-    "time": 141.98,
+    "time": 72.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -82,7 +46,7 @@
   },
   {
     "word": "tripwires",
-    "time": 152.74,
+    "time": 83.52,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -90,35 +54,8 @@
     "uniqueness": 6.2218
   },
   {
-    "word": "Devlin",
-    "time": 161.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 7.0
-  },
-  {
-    "word": "investigation",
-    "time": 166.18,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 3.8262
-  },
-  {
-    "word": "agencies",
-    "time": 168.36,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0,
-    "uniqueness": 4.782500000000001
-  },
-  {
     "word": "Congress",
-    "time": 175.72,
+    "time": 106.5,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -126,17 +63,26 @@
     "uniqueness": 4.376799999999999
   },
   {
-    "word": "law",
-    "time": 180.8,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 4,
+    "word": "government",
+    "time": 122.86,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0,
-    "uniqueness": 3.2267
+    "uniqueness": 3.4778
+  },
+  {
+    "word": "system",
+    "time": 133.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.3309
   },
   {
     "word": "president",
-    "time": 205.06,
+    "time": 135.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -145,7 +91,7 @@
   },
   {
     "word": "candidate",
-    "time": 207.24,
+    "time": 138.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -153,8 +99,17 @@
     "uniqueness": 4.3614999999999995
   },
   {
+    "word": "attacks",
+    "time": 147.74,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.237299999999999
+  },
+  {
     "word": "Minneapolis",
-    "time": 218.96,
+    "time": 149.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -163,7 +118,7 @@
   },
   {
     "word": "staffers",
-    "time": 221.02,
+    "time": 151.82,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -171,8 +126,17 @@
     "uniqueness": 5.8861
   },
   {
+    "word": "political",
+    "time": 159.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.9523
+  },
+  {
     "word": "politicians",
-    "time": 250.58,
+    "time": 181.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -181,7 +145,7 @@
   },
   {
     "word": "judges",
-    "time": 252.64,
+    "time": 183.44,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -190,7 +154,7 @@
   },
   {
     "word": "hospitals",
-    "time": 255.34,
+    "time": 186.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -199,7 +163,7 @@
   },
   {
     "word": "American",
-    "time": 258.08,
+    "time": 188.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -207,8 +171,17 @@
     "uniqueness": 3.2828
   },
   {
+    "word": "agencies",
+    "time": 203.38,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.782500000000001
+  },
+  {
     "word": "cops",
-    "time": 275.88,
+    "time": 206.66,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -217,7 +190,7 @@
   },
   {
     "word": "information",
-    "time": 283.1,
+    "time": 213.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -226,7 +199,7 @@
   },
   {
     "word": "hostility",
-    "time": 285.16,
+    "time": 215.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -235,7 +208,7 @@
   },
   {
     "word": "language",
-    "time": 289.1,
+    "time": 219.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -244,7 +217,7 @@
   },
   {
     "word": "commando",
-    "time": 297.14,
+    "time": 227.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -253,11 +226,83 @@
   },
   {
     "word": "measurement",
-    "time": 305.8,
+    "time": 236.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0,
     "uniqueness": 5.5527999999999995
+  },
+  {
+    "word": "mass",
+    "time": 283.36,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.055
+  },
+  {
+    "word": "elected",
+    "time": 290.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.4306
+  },
+  {
+    "word": "motivation",
+    "time": 314.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.8182
+  },
+  {
+    "word": "incident",
+    "time": 335.18,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.0535
+  },
+  {
+    "word": "danger",
+    "time": 343.62,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.6521
+  },
+  {
+    "word": "response",
+    "time": 346.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 4.085100000000001
+  },
+  {
+    "word": "public",
+    "time": 352.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.4406
+  },
+  {
+    "word": "powerful",
+    "time": 357.58,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0,
+    "uniqueness": 3.7467
   }
 ]

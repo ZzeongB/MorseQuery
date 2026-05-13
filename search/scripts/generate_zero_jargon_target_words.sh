@@ -16,6 +16,7 @@ fi
   --keywords-suffix ".zero.jargon.json" \
   --audio-windows "$ROOT_DIR/data/study/audio_windows.json" \
   --output-dir "$ROOT_DIR/data/study/target_words" \
+  --selection-mode minute_slots \
   --stems "${stems[@]}"
 
 "$PYTHON_BIN" "$ROOT_DIR/scripts/study_data/build_semantic_words2.py" \

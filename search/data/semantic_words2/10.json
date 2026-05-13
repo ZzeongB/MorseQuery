@@ -4,10 +4,6 @@
     "time": 3.9
   },
   {
-    "word": "cohort",
-    "time": 7.02
-  },
-  {
     "word": "guards",
     "time": 9.3
   },
@@ -140,12 +136,20 @@
     "time": 120.34
   },
   {
+    "word": "dominant",
+    "time": 130.6
+  },
+  {
     "word": "supreme",
     "time": 135.7
   },
   {
     "word": "borders",
     "time": 140.1
+  },
+  {
+    "word": "proxy",
+    "time": 144.52
   },
   {
     "word": "Iran",
@@ -212,6 +216,10 @@
     "time": 198.12
   },
   {
+    "word": "Israel",
+    "time": 201.02
+  },
+  {
     "word": "opportunity",
     "time": 204.1
   },
@@ -240,8 +248,8 @@
     "time": 223.08
   },
   {
-    "word": "succession",
-    "time": 229.08
+    "word": "Thrones",
+    "time": 231.14
   },
   {
     "word": "Ayatollah",
@@ -320,10 +328,6 @@
     "time": 286.96
   },
   {
-    "word": "Islamic",
-    "time": 289.84
-  },
-  {
     "word": "guards",
     "time": 294.86
   },
@@ -342,10 +346,6 @@
   {
     "word": "question",
     "time": 305.8
-  },
-  {
-    "word": "amputated",
-    "time": 313.24
   },
   {
     "word": "prosthetic",

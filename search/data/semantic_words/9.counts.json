@@ -1,175 +1,23 @@
 [
   {
-    "word": "Saturday",
-    "time": 0.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 2
-  },
-  {
-    "word": "hotel",
-    "time": 3.28,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "suspect",
-    "time": 5.68,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "letter",
-    "time": 12.66,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "security",
-    "time": 16.42,
-    "duplicate_count_1m": 4,
-    "duplicate_count_2m": 6,
-    "duplicate_count_3m": 8,
-    "duplicate_count_minute_bucket": 5
-  },
-  {
-    "word": "police",
-    "time": 18.96,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 1
-  },
-  {
-    "word": "guests",
-    "time": 21.0,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "simplistic",
-    "time": 23.14,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "measures",
-    "time": 25.42,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "security",
-    "time": 29.64,
-    "duplicate_count_1m": 4,
-    "duplicate_count_2m": 7,
-    "duplicate_count_3m": 9,
-    "duplicate_count_minute_bucket": 5
-  },
-  {
-    "word": "night",
-    "time": 31.88,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 1
-  },
-  {
-    "word": "security",
-    "time": 34.32,
-    "duplicate_count_1m": 5,
-    "duplicate_count_2m": 7,
-    "duplicate_count_3m": 10,
-    "duplicate_count_minute_bucket": 5
-  },
-  {
-    "word": "night",
-    "time": 36.36,
-    "duplicate_count_1m": 1,
-    "duplicate_count_2m": 1,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 1
-  },
-  {
-    "word": "multi-layered",
-    "time": 43.2,
-    "duplicate_count_1m": null,
-    "duplicate_count_2m": null,
-    "duplicate_count_3m": null,
-    "duplicate_count_minute_bucket": null
-  },
-  {
     "word": "event",
-    "time": 45.86,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 3,
-    "duplicate_count_minute_bucket": 1
-  },
-  {
-    "word": "gunman",
-    "time": 49.6,
+    "time": 0.54,
     "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "layers",
-    "time": 52.58,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "securing",
-    "time": 56.72,
-    "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "security",
-    "time": 59.7,
-    "duplicate_count_1m": 3,
-    "duplicate_count_2m": 9,
-    "duplicate_count_3m": 10,
-    "duplicate_count_minute_bucket": 5
-  },
-  {
-    "word": "security",
-    "time": 68.58,
-    "duplicate_count_1m": 3,
-    "duplicate_count_2m": 10,
-    "duplicate_count_3m": 10,
-    "duplicate_count_minute_bucket": 3
-  },
-  {
     "word": "hotel",
-    "time": 71.98,
+    "time": 2.76,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
-    "duplicate_count_3m": 4,
+    "duplicate_count_3m": 3,
     "duplicate_count_minute_bucket": 3
   },
   {
     "word": "disagreements",
-    "time": 74.8,
+    "time": 5.58,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -177,15 +25,15 @@
   },
   {
     "word": "security",
-    "time": 78.98,
-    "duplicate_count_1m": 3,
-    "duplicate_count_2m": 8,
-    "duplicate_count_3m": 10,
+    "time": 9.76,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
     "duplicate_count_minute_bucket": 3
   },
   {
     "word": "building",
-    "time": 82.04,
+    "time": 12.82,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -193,7 +41,7 @@
   },
   {
     "word": "magnetometers",
-    "time": 85.6,
+    "time": 16.38,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -201,23 +49,15 @@
   },
   {
     "word": "building",
-    "time": 88.68,
+    "time": 19.48,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 1
   },
   {
-    "word": "hotel",
-    "time": 90.68,
-    "duplicate_count_1m": 3,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 4,
-    "duplicate_count_minute_bucket": 3
-  },
-  {
     "word": "ballroom",
-    "time": 92.78,
+    "time": 23.56,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -225,15 +65,15 @@
   },
   {
     "word": "security",
-    "time": 95.24,
-    "duplicate_count_1m": 4,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 10,
+    "time": 26.02,
+    "duplicate_count_1m": 3,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
     "duplicate_count_minute_bucket": 3
   },
   {
     "word": "perimeter",
-    "time": 97.24,
+    "time": 28.02,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -241,39 +81,39 @@
   },
   {
     "word": "improvement",
-    "time": 100.34,
+    "time": 31.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "hotel",
-    "time": 103.86,
+    "word": "protect",
+    "time": 33.76,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 3,
-    "duplicate_count_minute_bucket": 3
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
   },
   {
-    "word": "gathering",
-    "time": 106.72,
+    "word": "protect",
+    "time": 36.7,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "senior",
+    "time": 38.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "government",
-    "time": 108.88,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Secret",
-    "time": 111.1,
+    "time": 41.88,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -281,31 +121,31 @@
   },
   {
     "word": "security",
-    "time": 117.28,
+    "time": 48.08,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 5,
-    "duplicate_count_3m": 7,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
     "duplicate_count_minute_bucket": 3
   },
   {
     "word": "security",
-    "time": 124.18,
+    "time": 54.96,
     "duplicate_count_1m": 2,
-    "duplicate_count_2m": 4,
-    "duplicate_count_3m": 6,
-    "duplicate_count_minute_bucket": 0
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 3
   },
   {
     "word": "law",
-    "time": 127.82,
+    "time": 58.62,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 3,
-    "duplicate_count_minute_bucket": 2
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "Secret",
-    "time": 129.84,
+    "time": 60.62,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -313,7 +153,7 @@
   },
   {
     "word": "California",
-    "time": 133.16,
+    "time": 63.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -321,7 +161,7 @@
   },
   {
     "word": "law",
-    "time": 135.32,
+    "time": 66.1,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 3,
@@ -329,7 +169,7 @@
   },
   {
     "word": "threat",
-    "time": 141.98,
+    "time": 72.78,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -337,39 +177,31 @@
   },
   {
     "word": "tripwires",
-    "time": 152.74,
+    "time": 83.52,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "Devlin",
-    "time": 161.06,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "investigation",
-    "time": 166.18,
+    "word": "public",
+    "time": 95.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "agencies",
-    "time": 168.36,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 2,
-    "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 0
+    "word": "law",
+    "time": 98.54,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
   },
   {
     "word": "question",
-    "time": 170.9,
+    "time": 101.72,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 2,
@@ -377,7 +209,7 @@
   },
   {
     "word": "Congress",
-    "time": 175.72,
+    "time": 106.5,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -385,31 +217,39 @@
   },
   {
     "word": "law",
-    "time": 180.8,
+    "time": 111.6,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 4,
-    "duplicate_count_minute_bucket": 0
+    "duplicate_count_minute_bucket": 2
   },
   {
     "word": "files",
-    "time": 183.82,
+    "time": 114.62,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
-    "duplicate_count_minute_bucket": 1
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "government",
-    "time": 192.06,
+    "time": 122.86,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
+    "word": "system",
+    "time": 133.16,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
     "word": "president",
-    "time": 205.06,
+    "time": 135.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -417,7 +257,7 @@
   },
   {
     "word": "candidate",
-    "time": 207.24,
+    "time": 138.02,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -425,7 +265,7 @@
   },
   {
     "word": "language",
-    "time": 209.34,
+    "time": 140.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -433,7 +273,7 @@
   },
   {
     "word": "attempts",
-    "time": 211.46,
+    "time": 142.26,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -441,7 +281,7 @@
   },
   {
     "word": "attacks",
-    "time": 216.96,
+    "time": 147.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -449,7 +289,7 @@
   },
   {
     "word": "Minneapolis",
-    "time": 218.96,
+    "time": 149.74,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -457,31 +297,39 @@
   },
   {
     "word": "staffers",
-    "time": 221.02,
+    "time": 151.82,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "age",
-    "time": 228.3,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
-    "duplicate_count_3m": 0,
-    "duplicate_count_minute_bucket": 0
-  },
-  {
-    "word": "Devlin",
-    "time": 231.04,
-    "duplicate_count_1m": 0,
-    "duplicate_count_2m": 0,
+    "word": "examples",
+    "time": 153.96,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 0
   },
   {
+    "word": "political",
+    "time": 159.78,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "experience",
+    "time": 163.88,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
     "word": "question",
-    "time": 239.54,
+    "time": 170.34,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 4,
@@ -489,23 +337,23 @@
   },
   {
     "word": "threats",
-    "time": 244.5,
+    "time": 175.28,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 2
+    "duplicate_count_minute_bucket": 1
   },
   {
     "word": "threats",
-    "time": 247.24,
+    "time": 178.04,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 2
+    "duplicate_count_minute_bucket": 1
   },
   {
     "word": "politicians",
-    "time": 250.58,
+    "time": 181.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -513,7 +361,7 @@
   },
   {
     "word": "judges",
-    "time": 252.64,
+    "time": 183.44,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -521,7 +369,7 @@
   },
   {
     "word": "hospitals",
-    "time": 255.34,
+    "time": 186.12,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -529,7 +377,7 @@
   },
   {
     "word": "American",
-    "time": 258.08,
+    "time": 188.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -537,15 +385,15 @@
   },
   {
     "word": "threats",
-    "time": 261.9,
+    "time": 192.68,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 2,
     "duplicate_count_3m": 2,
-    "duplicate_count_minute_bucket": 2
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "law",
-    "time": 270.08,
+    "time": 200.86,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -553,7 +401,7 @@
   },
   {
     "word": "agencies",
-    "time": 272.6,
+    "time": 203.38,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -561,7 +409,7 @@
   },
   {
     "word": "cops",
-    "time": 275.88,
+    "time": 206.66,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -569,7 +417,7 @@
   },
   {
     "word": "agents",
-    "time": 277.94,
+    "time": 208.72,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
@@ -577,7 +425,7 @@
   },
   {
     "word": "information",
-    "time": 283.1,
+    "time": 213.88,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -585,7 +433,7 @@
   },
   {
     "word": "hostility",
-    "time": 285.16,
+    "time": 215.96,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -593,7 +441,7 @@
   },
   {
     "word": "language",
-    "time": 289.1,
+    "time": 219.9,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 1,
@@ -601,7 +449,7 @@
   },
   {
     "word": "dangerous",
-    "time": 294.82,
+    "time": 225.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -609,7 +457,7 @@
   },
   {
     "word": "commando",
-    "time": 297.14,
+    "time": 227.94,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -617,7 +465,7 @@
   },
   {
     "word": "challenge",
-    "time": 299.2,
+    "time": 230.0,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -625,15 +473,15 @@
   },
   {
     "word": "political",
-    "time": 302.16,
+    "time": 232.94,
     "duplicate_count_1m": 2,
     "duplicate_count_2m": 6,
-    "duplicate_count_3m": 7,
-    "duplicate_count_minute_bucket": 6
+    "duplicate_count_3m": 13,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "measurement",
-    "time": 305.8,
+    "time": 236.6,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -641,7 +489,7 @@
   },
   {
     "word": "attempts",
-    "time": 307.98,
+    "time": 238.76,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -649,7 +497,7 @@
   },
   {
     "word": "candidate",
-    "time": 310.92,
+    "time": 241.7,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -657,7 +505,7 @@
   },
   {
     "word": "years",
-    "time": 313.54,
+    "time": 244.34,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -665,15 +513,15 @@
   },
   {
     "word": "question",
-    "time": 317.26,
+    "time": 248.08,
     "duplicate_count_1m": 3,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 4,
-    "duplicate_count_minute_bucket": 3
+    "duplicate_count_minute_bucket": 2
   },
   {
     "word": "forms",
-    "time": 320.06,
+    "time": 250.84,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -681,23 +529,63 @@
   },
   {
     "word": "question",
-    "time": 322.5,
+    "time": 253.3,
     "duplicate_count_1m": 3,
     "duplicate_count_2m": 3,
     "duplicate_count_3m": 4,
-    "duplicate_count_minute_bucket": 3
+    "duplicate_count_minute_bucket": 2
   },
   {
     "word": "political",
-    "time": 326.14,
+    "time": 256.92,
     "duplicate_count_1m": 6,
-    "duplicate_count_2m": 6,
-    "duplicate_count_3m": 6,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12,
     "duplicate_count_minute_bucket": 6
   },
   {
-    "word": "golden",
-    "time": 329.78,
+    "word": "political",
+    "time": 263.78,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 6
+  },
+  {
+    "word": "political",
+    "time": 269.8,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 6
+  },
+  {
+    "word": "question",
+    "time": 272.66,
+    "duplicate_count_1m": 2,
+    "duplicate_count_2m": 3,
+    "duplicate_count_3m": 3,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "school",
+    "time": 277.68,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "political",
+    "time": 281.16,
+    "duplicate_count_1m": 8,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 6
+  },
+  {
+    "word": "mass",
+    "time": 283.36,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
@@ -705,71 +593,175 @@
   },
   {
     "word": "political",
-    "time": 333.0,
-    "duplicate_count_1m": 5,
-    "duplicate_count_2m": 6,
-    "duplicate_count_3m": 6,
+    "time": 286.06,
+    "duplicate_count_1m": 10,
+    "duplicate_count_2m": 12,
+    "duplicate_count_3m": 12,
     "duplicate_count_minute_bucket": 6
+  },
+  {
+    "word": "politicians",
+    "time": 288.56,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "elected",
+    "time": 290.64,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
   },
   {
     "word": "political",
-    "time": 339.0,
-    "duplicate_count_1m": 5,
-    "duplicate_count_2m": 6,
-    "duplicate_count_3m": 6,
+    "time": 294.22,
+    "duplicate_count_1m": 8,
+    "duplicate_count_2m": 11,
+    "duplicate_count_3m": 12,
     "duplicate_count_minute_bucket": 6
   },
   {
-    "word": "question",
-    "time": 341.86,
-    "duplicate_count_1m": 2,
-    "duplicate_count_2m": 3,
-    "duplicate_count_3m": 3,
-    "duplicate_count_minute_bucket": 3
-  },
-  {
-    "word": "count",
-    "time": 344.74,
+    "word": "victim",
+    "time": 300.72,
     "duplicate_count_1m": 1,
     "duplicate_count_2m": 1,
     "duplicate_count_3m": 1,
     "duplicate_count_minute_bucket": 1
   },
   {
+    "word": "victim",
+    "time": 302.72,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "political",
+    "time": 305.7,
+    "duplicate_count_1m": 7,
+    "duplicate_count_2m": 11,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "political",
+    "time": 309.02,
+    "duplicate_count_1m": 7,
+    "duplicate_count_2m": 11,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "political",
+    "time": 311.46,
+    "duplicate_count_1m": 6,
+    "duplicate_count_2m": 10,
+    "duplicate_count_3m": 12,
+    "duplicate_count_minute_bucket": 4
+  },
+  {
+    "word": "motivation",
+    "time": 314.12,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "violence",
+    "time": 316.3,
+    "duplicate_count_1m": 5,
+    "duplicate_count_2m": 9,
+    "duplicate_count_3m": 11,
+    "duplicate_count_minute_bucket": 2
+  },
+  {
+    "word": "ballroom",
+    "time": 320.2,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
     "word": "school",
-    "time": 346.9,
+    "time": 324.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 2,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "younger",
+    "time": 328.4,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "thousand",
-    "time": 349.0,
+    "word": "experience",
+    "time": 331.22,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "commits",
-    "time": 352.0,
+    "word": "incident",
+    "time": 335.18,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "considered",
-    "time": 354.92,
+    "word": "Saturday",
+    "time": 340.1,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 1,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "danger",
+    "time": 343.62,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,
     "duplicate_count_minute_bucket": 0
   },
   {
-    "word": "politicians",
-    "time": 357.76,
+    "word": "response",
+    "time": 346.02,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "schools",
+    "time": 350.16,
+    "duplicate_count_1m": 1,
+    "duplicate_count_2m": 1,
+    "duplicate_count_3m": 2,
+    "duplicate_count_minute_bucket": 1
+  },
+  {
+    "word": "public",
+    "time": 352.24,
+    "duplicate_count_1m": 0,
+    "duplicate_count_2m": 0,
+    "duplicate_count_3m": 0,
+    "duplicate_count_minute_bucket": 0
+  },
+  {
+    "word": "powerful",
+    "time": 357.58,
     "duplicate_count_1m": 0,
     "duplicate_count_2m": 0,
     "duplicate_count_3m": 0,

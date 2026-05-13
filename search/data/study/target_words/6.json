@@ -2,63 +2,63 @@
   "video_id": "6",
   "audio_start_time": 0.0,
   "target_window_seconds": 360.0,
-  "search_window_end_time": 282.7,
+  "search_window_end_time": 299.99,
   "search_window_seconds": 60.0,
-  "selection_mode": "gaussian_delay",
+  "selection_mode": "minute_slots",
   "interruptions": [
     {
-      "target_word": "ruling",
-      "target_word_time": 108.76,
-      "delay_type": "short",
-      "delay_seconds": 16.73,
-      "search_start_time": 125.49,
-      "id": 1,
-      "target_word_uniqueness": 4.6777999999999995
-    },
-    {
-      "target_word": "election",
-      "target_word_time": 83.92,
-      "delay_type": "long",
-      "delay_seconds": 51.7,
-      "search_start_time": 135.62,
-      "id": 2,
-      "target_word_uniqueness": 4.2509999999999994
-    },
-    {
       "target_word": "Supreme",
-      "target_word_time": 131.5,
-      "delay_type": "short",
-      "delay_seconds": 13.28,
-      "search_start_time": 144.78,
-      "id": 3,
+      "target_word_time": 8.22,
+      "delay_type": "long",
+      "delay_seconds": 51.78,
+      "search_start_time": 60.0,
+      "id": 1,
       "target_word_uniqueness": 4.3487
     },
     {
-      "target_word": "minority",
-      "target_word_time": 135.4,
+      "target_word": "redraw",
+      "target_word_time": 109.2,
       "delay_type": "short",
-      "delay_seconds": 13.94,
-      "search_start_time": 149.34,
+      "delay_seconds": 10.8,
+      "search_start_time": 120.0,
+      "id": 2,
+      "target_word_uniqueness": 6.0969
+    },
+    {
+      "target_word": "provision",
+      "target_word_time": 170.3,
+      "delay_type": "short",
+      "delay_seconds": 9.7,
+      "search_start_time": 180.0,
+      "id": 3,
+      "target_word_uniqueness": 5.3872
+    },
+    {
+      "target_word": "Marsha",
+      "target_word_time": 200.0,
+      "delay_type": "long",
+      "delay_seconds": 40.0,
+      "search_start_time": 240.0,
       "id": 4,
-      "target_word_uniqueness": 4.943099999999999
+      "target_word_uniqueness": 7.0
     },
     {
-      "target_word": "guardrails",
-      "target_word_time": 176.36,
-      "delay_type": "long",
-      "delay_seconds": 50.5,
-      "search_start_time": 226.86,
+      "target_word": "cartographical",
+      "target_word_time": 283.38,
+      "delay_type": "short",
+      "delay_seconds": 16.62,
+      "search_start_time": 300.0,
       "id": 5,
-      "target_word_uniqueness": 6.5229
+      "target_word_uniqueness": 6.699
     },
     {
-      "target_word": "votes",
-      "target_word_time": 231.62,
+      "target_word": "Florida",
+      "target_word_time": 311.8,
       "delay_type": "long",
-      "delay_seconds": 51.08,
-      "search_start_time": 282.7,
+      "delay_seconds": 48.2,
+      "search_start_time": 360.0,
       "id": 6,
-      "target_word_uniqueness": 4.3969000000000005
+      "target_word_uniqueness": 4.0273
     }
   ]
 }

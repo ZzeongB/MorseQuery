@@ -13,7 +13,7 @@ fi
 
 for stem in "${stems[@]}"; do
   extra_args=()
-  if [ "$stem" = "10" ]; then
+  if [ "$stem" = "9" ] || [ "$stem" = "10" ]; then
     extra_args+=(--allow-partial)
   fi
 
