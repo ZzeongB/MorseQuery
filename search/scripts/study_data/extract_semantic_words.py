@@ -117,6 +117,25 @@ def plot_semantic_word_gap_distribution(output_json: Path) -> None:
     )
 
 
+def update_semantic_word_gap_comparison_if_ready() -> None:
+    comparison_ids = ("6", "7", "8", "9", "10")
+    semantic_dir = ROOT_DIR / "data" / "semantic_words"
+    if not all((semantic_dir / f"{item_id}.json").exists() for item_id in comparison_ids):
+        return
+
+    comparison_script = (
+        ROOT_DIR / "scripts" / "analysis" / "analyze_semantic_word_gaps_6_10.py"
+    )
+    subprocess.run(
+        [
+            sys.executable,
+            str(comparison_script),
+        ],
+        check=True,
+        cwd=ROOT_DIR,
+    )
+
+
 def transcript_words(transcript: dict[str, Any]) -> list[dict[str, Any]]:
     words: list[dict[str, Any]] = []
     for segment in transcript.get("segments", []):
@@ -295,6 +314,7 @@ def main() -> None:
         encoding="utf-8",
     )
     plot_semantic_word_gap_distribution(args.output_json)
+    update_semantic_word_gap_comparison_if_ready()
     print(f"Wrote semantic words: {args.output_json}")
     print(f"Extracted {len(semantic_words)} semantic terms")
 

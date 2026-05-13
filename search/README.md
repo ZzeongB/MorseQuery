@@ -1,3 +1,16 @@
+## Audio Encoding
+
+MP3 files must be encoded with **CBR (Constant Bitrate)** for accurate millisecond-level seeking in web browsers.
+
+```bash
+# Convert VBR to CBR 128kbps
+ffmpeg -i input.mp3 -acodec libmp3lame -b:a 128k output.mp3
+```
+
+VBR (Variable Bitrate) causes seeking inaccuracy because frame sizes vary. CBR ensures consistent frame sizes for precise playback timing.
+
+---
+
 ## Video links
 1. https://www.youtube.com/watch?v=YQb7Xq0enTI&list=PL3EED4C1D684D3ADF&index=25 1:05~
 2. https://www.youtube.com/watch?v=GcReek3z_38&list=PL8dPuuaLjXtNppY8ZHMPDH5TKK2UpU8Ng&index=7 1:06~

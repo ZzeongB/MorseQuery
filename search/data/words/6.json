@@ -1,0 +1,6320 @@
+{
+  "version": 9,
+  "min_duration_seconds": 2.0,
+  "items": [
+    {
+      "words": [
+        {
+          "word": "Nick,",
+          "start": 0.0,
+          "end": 0.64,
+          "freq": 3.486
+        },
+        {
+          "word": "welcome",
+          "start": 0.8,
+          "end": 0.96,
+          "freq": 3.961
+        },
+        {
+          "word": "back",
+          "start": 0.96,
+          "end": 1.12,
+          "freq": 5.011
+        },
+        {
+          "word": "to",
+          "start": 1.12,
+          "end": 1.24,
+          "freq": 6.063
+        },
+        {
+          "word": "The",
+          "start": 1.24,
+          "end": 1.28,
+          "freq": 6.177
+        },
+        {
+          "word": "Daily.",
+          "start": 1.28,
+          "end": 1.44,
+          "freq": 2.902
+        },
+        {
+          "word": "Thanks",
+          "start": 2.06,
+          "end": 2.44,
+          "freq": 4.502
+        }
+      ],
+      "word": "Nick, welcome back to The Daily. Thanks",
+      "start": 0.0,
+      "end": 2.44,
+      "freq": 2.902
+    },
+    {
+      "words": [
+        {
+          "word": "for",
+          "start": 2.44,
+          "end": 2.56,
+          "freq": 5.546
+        },
+        {
+          "word": "having",
+          "start": 2.56,
+          "end": 2.66,
+          "freq": 4.169
+        },
+        {
+          "word": "me.",
+          "start": 2.66,
+          "end": 2.8,
+          "freq": 5.673
+        },
+        {
+          "word": "We",
+          "start": 3.24,
+          "end": 3.88,
+          "freq": 5.662
+        },
+        {
+          "word": "now",
+          "start": 3.88,
+          "end": 4.22,
+          "freq": 5.213
+        },
+        {
+          "word": "quite",
+          "start": 4.22,
+          "end": 4.82,
+          "freq": 4.014
+        }
+      ],
+      "word": "for having me. We now quite",
+      "start": 2.44,
+      "end": 4.82,
+      "freq": 4.014
+    },
+    {
+      "words": [
+        {
+          "word": "clearly",
+          "start": 4.82,
+          "end": 5.1,
+          "freq": 3.185
+        },
+        {
+          "word": "understand",
+          "start": 5.1,
+          "end": 5.58,
+          "freq": 4.391
+        },
+        {
+          "word": "from",
+          "start": 5.58,
+          "end": 5.9,
+          "freq": 5.017
+        },
+        {
+          "word": "Adam",
+          "start": 5.9,
+          "end": 6.08,
+          "freq": 3.277
+        },
+        {
+          "word": "Liptak",
+          "start": 6.08,
+          "end": 6.54,
+          "freq": -1
+        },
+        {
+          "word": "that",
+          "start": 6.54,
+          "end": 7.34,
+          "freq": 5.857
+        },
+        {
+          "word": "because",
+          "start": 7.34,
+          "end": 7.86,
+          "freq": 4.737
+        },
+        {
+          "word": "of",
+          "start": 7.86,
+          "end": 8.12,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 8.12,
+          "end": 8.22,
+          "freq": 6.177
+        }
+      ],
+      "word": "clearly understand from Adam Liptak that because of the",
+      "start": 4.82,
+      "end": 8.22,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Supreme",
+          "start": 8.22,
+          "end": 8.44,
+          "freq": 2.651,
+          "is_target": true
+        },
+        {
+          "word": "Court",
+          "start": 8.44,
+          "end": 8.64,
+          "freq": 3.711
+        },
+        {
+          "word": "ruling,",
+          "start": 8.64,
+          "end": 8.96,
+          "freq": 2.322
+        },
+        {
+          "word": "the",
+          "start": 9.3,
+          "end": 9.36,
+          "freq": 6.177
+        },
+        {
+          "word": "Voting",
+          "start": 9.36,
+          "end": 9.64,
+          "freq": 2.384
+        },
+        {
+          "word": "Rights",
+          "start": 9.64,
+          "end": 10.04,
+          "freq": 3.179
+        },
+        {
+          "word": "Act's",
+          "start": 10.04,
+          "end": 10.56,
+          "freq": 2.804
+        }
+      ],
+      "word": "Supreme Court ruling, the Voting Rights Act's",
+      "start": 8.22,
+      "end": 10.56,
+      "freq": 2.322
+    },
+    {
+      "words": [
+        {
+          "word": "protection",
+          "start": 10.56,
+          "end": 11.2,
+          "freq": 3.079
+        },
+        {
+          "word": "of",
+          "start": 11.2,
+          "end": 12.12,
+          "freq": 5.771
+        },
+        {
+          "word": "minority",
+          "start": 12.12,
+          "end": 12.64,
+          "freq": 2.057
+        }
+      ],
+      "word": "protection of minority",
+      "start": 10.56,
+      "end": 12.64,
+      "freq": 2.057
+    },
+    {
+      "words": [
+        {
+          "word": "election",
+          "start": 12.64,
+          "end": 13.1,
+          "freq": 2.749
+        },
+        {
+          "word": "districts",
+          "start": 13.1,
+          "end": 13.66,
+          "freq": 1.477
+        },
+        {
+          "word": "across",
+          "start": 13.66,
+          "end": 14.4,
+          "freq": 3.681
+        },
+        {
+          "word": "the",
+          "start": 14.4,
+          "end": 14.6,
+          "freq": 6.177
+        },
+        {
+          "word": "country",
+          "start": 14.6,
+          "end": 14.8,
+          "freq": 3.917
+        },
+        {
+          "word": "has",
+          "start": 14.8,
+          "end": 15.0,
+          "freq": 4.762
+        },
+        {
+          "word": "been",
+          "start": 15.0,
+          "end": 15.28,
+          "freq": 4.947
+        }
+      ],
+      "word": "election districts across the country has been",
+      "start": 12.64,
+      "end": 15.28,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "deeply",
+          "start": 15.28,
+          "end": 16.3,
+          "freq": 2.868
+        },
+        {
+          "word": "weakened.",
+          "start": 16.3,
+          "end": 17.54,
+          "freq": 1.892
+        },
+        {
+          "word": "And",
+          "start": 17.54,
+          "end": 18.56,
+          "freq": 5.834
+        }
+      ],
+      "word": "deeply weakened. And",
+      "start": 15.28,
+      "end": 18.56,
+      "freq": 1.892
+    },
+    {
+      "words": [
+        {
+          "word": "you've",
+          "start": 18.56,
+          "end": 18.82,
+          "freq": -1
+        },
+        {
+          "word": "spent",
+          "start": 18.82,
+          "end": 19.0,
+          "freq": 3.553
+        },
+        {
+          "word": "years",
+          "start": 19.0,
+          "end": 19.52,
+          "freq": 4.463
+        },
+        {
+          "word": "reporting",
+          "start": 19.52,
+          "end": 20.22,
+          "freq": 2.771
+        },
+        {
+          "word": "on",
+          "start": 20.22,
+          "end": 20.48,
+          "freq": 5.55
+        },
+        {
+          "word": "the",
+          "start": 20.48,
+          "end": 20.58,
+          "freq": 6.177
+        },
+        {
+          "word": "question",
+          "start": 20.58,
+          "end": 20.9,
+          "freq": 4.005
+        },
+        {
+          "word": "of",
+          "start": 20.9,
+          "end": 21.44,
+          "freq": 5.771
+        }
+      ],
+      "word": "you've spent years reporting on the question of",
+      "start": 18.56,
+      "end": 21.44,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "voting",
+          "start": 21.44,
+          "end": 21.76,
+          "freq": 2.384
+        },
+        {
+          "word": "rights",
+          "start": 21.76,
+          "end": 22.16,
+          "freq": 3.179
+        },
+        {
+          "word": "and",
+          "start": 22.16,
+          "end": 22.8,
+          "freq": 5.834
+        },
+        {
+          "word": "gerrymandering,",
+          "start": 22.8,
+          "end": 23.5,
+          "freq": -1
+        },
+        {
+          "word": "and",
+          "start": 23.5,
+          "end": 24.6,
+          "freq": 5.834
+        }
+      ],
+      "word": "voting rights and gerrymandering, and",
+      "start": 21.44,
+      "end": 24.6,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "you've",
+          "start": 24.6,
+          "end": 24.8,
+          "freq": -1
+        },
+        {
+          "word": "been",
+          "start": 24.8,
+          "end": 24.9,
+          "freq": 4.947
+        },
+        {
+          "word": "anticipating",
+          "start": 24.9,
+          "end": 25.32,
+          "freq": 1.732
+        },
+        {
+          "word": "this",
+          "start": 25.32,
+          "end": 25.56,
+          "freq": 5.609
+        },
+        {
+          "word": "ruling",
+          "start": 25.56,
+          "end": 25.78,
+          "freq": 2.322
+        },
+        {
+          "word": "because",
+          "start": 25.78,
+          "end": 26.1,
+          "freq": 4.737
+        },
+        {
+          "word": "we",
+          "start": 26.1,
+          "end": 26.78,
+          "freq": 5.662
+        },
+        {
+          "word": "are",
+          "start": 26.78,
+          "end": 26.92,
+          "freq": 5.424
+        },
+        {
+          "word": "in",
+          "start": 26.92,
+          "end": 27.02,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 27.02,
+          "end": 27.14,
+          "freq": 6.177
+        }
+      ],
+      "word": "you've been anticipating this ruling because we are in the",
+      "start": 24.6,
+      "end": 27.14,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "middle",
+          "start": 27.14,
+          "end": 27.4,
+          "freq": 3.658
+        },
+        {
+          "word": "of",
+          "start": 27.4,
+          "end": 27.64,
+          "freq": 5.771
+        },
+        {
+          "word": "a",
+          "start": 27.64,
+          "end": 27.8,
+          "freq": 6.018
+        },
+        {
+          "word": "fierce",
+          "start": 27.8,
+          "end": 28.3,
+          "freq": 2.389
+        },
+        {
+          "word": "nationwide",
+          "start": 28.3,
+          "end": 28.96,
+          "freq": 1.839
+        },
+        {
+          "word": "redistricting",
+          "start": 28.96,
+          "end": 29.7,
+          "freq": 0.699
+        }
+      ],
+      "word": "middle of a fierce nationwide redistricting",
+      "start": 27.14,
+      "end": 29.7,
+      "freq": 0.699
+    },
+    {
+      "words": [
+        {
+          "word": "battle",
+          "start": 29.7,
+          "end": 30.08,
+          "freq": 3.334
+        },
+        {
+          "word": "already.",
+          "start": 30.08,
+          "end": 30.76,
+          "freq": 4.211
+        },
+        {
+          "word": "So",
+          "start": 31.06,
+          "end": 31.22,
+          "freq": 5.335
+        },
+        {
+          "word": "when",
+          "start": 31.22,
+          "end": 32.26,
+          "freq": 5.016
+        },
+        {
+          "word": "the",
+          "start": 32.26,
+          "end": 32.42,
+          "freq": 6.177
+        }
+      ],
+      "word": "battle already. So when the",
+      "start": 29.7,
+      "end": 32.42,
+      "freq": 3.334
+    },
+    {
+      "words": [
+        {
+          "word": "rubber",
+          "start": 32.42,
+          "end": 32.68,
+          "freq": 2.854
+        },
+        {
+          "word": "of",
+          "start": 32.68,
+          "end": 32.98,
+          "freq": 5.771
+        },
+        {
+          "word": "this",
+          "start": 32.98,
+          "end": 33.34,
+          "freq": 5.609
+        },
+        {
+          "word": "ruling",
+          "start": 33.34,
+          "end": 33.82,
+          "freq": 2.322
+        },
+        {
+          "word": "meets",
+          "start": 33.82,
+          "end": 34.48,
+          "freq": 2.678
+        },
+        {
+          "word": "the",
+          "start": 34.48,
+          "end": 35.16,
+          "freq": 6.177
+        }
+      ],
+      "word": "rubber of this ruling meets the",
+      "start": 32.42,
+      "end": 35.16,
+      "freq": 2.322
+    },
+    {
+      "words": [
+        {
+          "word": "road,",
+          "start": 35.16,
+          "end": 35.66,
+          "freq": 3.757
+        },
+        {
+          "word": "in",
+          "start": 36.16,
+          "end": 36.54,
+          "freq": 5.698
+        },
+        {
+          "word": "your",
+          "start": 36.54,
+          "end": 36.72,
+          "freq": 5.517
+        },
+        {
+          "word": "estimation,",
+          "start": 36.72,
+          "end": 37.22,
+          "freq": 1.415
+        },
+        {
+          "word": "what",
+          "start": 37.54,
+          "end": 37.94,
+          "freq": 5.701
+        },
+        {
+          "word": "are",
+          "start": 37.94,
+          "end": 38.04,
+          "freq": 5.424
+        },
+        {
+          "word": "going",
+          "start": 38.04,
+          "end": 38.1,
+          "freq": 5.035
+        },
+        {
+          "word": "to",
+          "start": 38.1,
+          "end": 38.12,
+          "freq": 6.063
+        },
+        {
+          "word": "be",
+          "start": 38.12,
+          "end": 38.2,
+          "freq": 5.467
+        },
+        {
+          "word": "the",
+          "start": 38.2,
+          "end": 38.32,
+          "freq": 6.177
+        }
+      ],
+      "word": "road, in your estimation, what are going to be the",
+      "start": 35.16,
+      "end": 38.32,
+      "freq": 1.415
+    },
+    {
+      "words": [
+        {
+          "word": "practical",
+          "start": 38.32,
+          "end": 38.88,
+          "freq": 2.762
+        },
+        {
+          "word": "implications",
+          "start": 38.88,
+          "end": 39.6,
+          "freq": 1.903
+        },
+        {
+          "word": "of",
+          "start": 39.6,
+          "end": 40.08,
+          "freq": 5.771
+        },
+        {
+          "word": "it",
+          "start": 40.08,
+          "end": 40.22,
+          "freq": 5.984
+        },
+        {
+          "word": "starting",
+          "start": 40.22,
+          "end": 40.78,
+          "freq": 3.551
+        }
+      ],
+      "word": "practical implications of it starting",
+      "start": 38.32,
+      "end": 40.78,
+      "freq": 1.903
+    },
+    {
+      "words": [
+        {
+          "word": "right",
+          "start": 40.78,
+          "end": 41.4,
+          "freq": 5.311
+        },
+        {
+          "word": "now",
+          "start": 41.4,
+          "end": 42.48,
+          "freq": 5.213
+        },
+        {
+          "word": "in",
+          "start": 42.48,
+          "end": 42.76,
+          "freq": 5.698
+        },
+        {
+          "word": "this",
+          "start": 42.76,
+          "end": 42.92,
+          "freq": 5.609
+        }
+      ],
+      "word": "right now in this",
+      "start": 40.78,
+      "end": 42.92,
+      "freq": 5.213
+    },
+    {
+      "words": [
+        {
+          "word": "election",
+          "start": 42.92,
+          "end": 43.2,
+          "freq": 2.749
+        },
+        {
+          "word": "year?",
+          "start": 43.2,
+          "end": 43.4,
+          "freq": 4.152
+        },
+        {
+          "word": "I",
+          "start": 43.4,
+          "end": 43.98,
+          "freq": 6.309
+        },
+        {
+          "word": "think",
+          "start": 43.98,
+          "end": 44.14,
+          "freq": 5.138
+        },
+        {
+          "word": "one",
+          "start": 44.14,
+          "end": 44.52,
+          "freq": 5.195
+        },
+        {
+          "word": "thing",
+          "start": 44.52,
+          "end": 44.86,
+          "freq": 4.745
+        },
+        {
+          "word": "that's",
+          "start": 44.86,
+          "end": 45.4,
+          "freq": -1
+        }
+      ],
+      "word": "election year? I think one thing that's",
+      "start": 42.92,
+      "end": 45.4,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "clear",
+          "start": 45.4,
+          "end": 45.74,
+          "freq": 3.943
+        },
+        {
+          "word": "is",
+          "start": 45.74,
+          "end": 46.52,
+          "freq": 5.662
+        },
+        {
+          "word": "that",
+          "start": 46.52,
+          "end": 46.64,
+          "freq": 5.857
+        },
+        {
+          "word": "this",
+          "start": 46.64,
+          "end": 46.8,
+          "freq": 5.609
+        },
+        {
+          "word": "is",
+          "start": 46.8,
+          "end": 46.92,
+          "freq": 5.662
+        },
+        {
+          "word": "starting",
+          "start": 46.92,
+          "end": 47.2,
+          "freq": 3.551
+        },
+        {
+          "word": "a",
+          "start": 47.2,
+          "end": 47.44,
+          "freq": 6.018
+        },
+        {
+          "word": "new",
+          "start": 47.44,
+          "end": 47.68,
+          "freq": 4.567
+        }
+      ],
+      "word": "clear is that this is starting a new",
+      "start": 45.4,
+      "end": 47.68,
+      "freq": 3.551
+    },
+    {
+      "words": [
+        {
+          "word": "chapter",
+          "start": 47.68,
+          "end": 48.22,
+          "freq": 2.782
+        },
+        {
+          "word": "in",
+          "start": 48.22,
+          "end": 49.14,
+          "freq": 5.698
+        },
+        {
+          "word": "what",
+          "start": 49.14,
+          "end": 49.62,
+          "freq": 5.701
+        },
+        {
+          "word": "has",
+          "start": 49.62,
+          "end": 49.72,
+          "freq": 4.762
+        }
+      ],
+      "word": "chapter in what has",
+      "start": 47.68,
+      "end": 49.72,
+      "freq": 2.782
+    },
+    {
+      "words": [
+        {
+          "word": "become",
+          "start": 49.72,
+          "end": 49.96,
+          "freq": 3.771
+        },
+        {
+          "word": "a",
+          "start": 49.96,
+          "end": 50.3,
+          "freq": 6.018
+        },
+        {
+          "word": "national",
+          "start": 50.3,
+          "end": 50.7,
+          "freq": 3.289
+        },
+        {
+          "word": "redistricting",
+          "start": 50.7,
+          "end": 51.28,
+          "freq": 0.699
+        },
+        {
+          "word": "arms",
+          "start": 51.28,
+          "end": 51.9,
+          "freq": 3.484
+        }
+      ],
+      "word": "become a national redistricting arms",
+      "start": 49.72,
+      "end": 51.9,
+      "freq": 0.699
+    },
+    {
+      "words": [
+        {
+          "word": "race.",
+          "start": 51.9,
+          "end": 52.22,
+          "freq": 3.499
+        },
+        {
+          "word": "You",
+          "start": 52.44,
+          "end": 52.88,
+          "freq": 6.329
+        },
+        {
+          "word": "know,",
+          "start": 52.88,
+          "end": 52.94,
+          "freq": 5.465
+        },
+        {
+          "word": "the",
+          "start": 53.0,
+          "end": 53.08,
+          "freq": 6.177
+        },
+        {
+          "word": "guardrails",
+          "start": 53.08,
+          "end": 53.58,
+          "freq": -1
+        },
+        {
+          "word": "that",
+          "start": 53.58,
+          "end": 53.74,
+          "freq": 5.857
+        },
+        {
+          "word": "were",
+          "start": 53.74,
+          "end": 53.86,
+          "freq": 4.928
+        },
+        {
+          "word": "once",
+          "start": 53.86,
+          "end": 54.16,
+          "freq": 4.245
+        },
+        {
+          "word": "there",
+          "start": 54.16,
+          "end": 54.4,
+          "freq": 5.346
+        },
+        {
+          "word": "that",
+          "start": 54.4,
+          "end": 54.58,
+          "freq": 5.857
+        }
+      ],
+      "word": "race. You know, the guardrails that were once there that",
+      "start": 51.9,
+      "end": 54.58,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "kept",
+          "start": 54.58,
+          "end": 55.04,
+          "freq": 3.659
+        },
+        {
+          "word": "legislatures",
+          "start": 55.04,
+          "end": 55.86,
+          "freq": 0.301
+        },
+        {
+          "word": "in",
+          "start": 55.86,
+          "end": 56.02,
+          "freq": 5.698
+        },
+        {
+          "word": "check",
+          "start": 56.02,
+          "end": 56.38,
+          "freq": 4.153
+        },
+        {
+          "word": "are",
+          "start": 56.38,
+          "end": 57.08,
+          "freq": 5.424
+        },
+        {
+          "word": "now",
+          "start": 57.08,
+          "end": 57.26,
+          "freq": 5.213
+        },
+        {
+          "word": "even",
+          "start": 57.26,
+          "end": 57.52,
+          "freq": 4.65
+        }
+      ],
+      "word": "kept legislatures in check are now even",
+      "start": 54.58,
+      "end": 57.52,
+      "freq": 0.301
+    },
+    {
+      "words": [
+        {
+          "word": "fewer.",
+          "start": 57.52,
+          "end": 57.92,
+          "freq": 2.185
+        },
+        {
+          "word": "And",
+          "start": 58.3,
+          "end": 58.8,
+          "freq": 5.834
+        },
+        {
+          "word": "so",
+          "start": 58.8,
+          "end": 58.96,
+          "freq": 5.335
+        },
+        {
+          "word": "when",
+          "start": 58.96,
+          "end": 59.12,
+          "freq": 5.016
+        },
+        {
+          "word": "we",
+          "start": 59.12,
+          "end": 59.26,
+          "freq": 5.662
+        },
+        {
+          "word": "pivot",
+          "start": 59.26,
+          "end": 59.56,
+          "freq": 1.38
+        },
+        {
+          "word": "to",
+          "start": 59.56,
+          "end": 59.74,
+          "freq": 6.063
+        },
+        {
+          "word": "what",
+          "start": 59.74,
+          "end": 59.92,
+          "freq": 5.701
+        },
+        {
+          "word": "that",
+          "start": 59.92,
+          "end": 60.06,
+          "freq": 5.857
+        },
+        {
+          "word": "might",
+          "start": 60.06,
+          "end": 60.24,
+          "freq": 4.42
+        },
+        {
+          "word": "look",
+          "start": 60.24,
+          "end": 60.48,
+          "freq": 4.997
+        },
+        {
+          "word": "like",
+          "start": 60.48,
+          "end": 60.76,
+          "freq": 5.309
+        },
+        {
+          "word": "to",
+          "start": 60.76,
+          "end": 61.02,
+          "freq": 6.063
+        },
+        {
+          "word": "the",
+          "start": 61.02,
+          "end": 61.12,
+          "freq": 6.177
+        }
+      ],
+      "word": "fewer. And so when we pivot to what that might look like to the",
+      "start": 57.52,
+      "end": 61.12,
+      "freq": 1.38
+    },
+    {
+      "words": [
+        {
+          "word": "midterms,",
+          "start": 61.12,
+          "end": 61.68,
+          "freq": -1
+        },
+        {
+          "word": "the",
+          "start": 61.9,
+          "end": 62.6,
+          "freq": 6.177
+        },
+        {
+          "word": "picture",
+          "start": 62.6,
+          "end": 62.88,
+          "freq": 3.849
+        },
+        {
+          "word": "is",
+          "start": 62.88,
+          "end": 62.98,
+          "freq": 5.662
+        },
+        {
+          "word": "a",
+          "start": 62.98,
+          "end": 63.1,
+          "freq": 6.018
+        },
+        {
+          "word": "little",
+          "start": 63.1,
+          "end": 63.22,
+          "freq": 4.868
+        }
+      ],
+      "word": "midterms, the picture is a little",
+      "start": 61.12,
+      "end": 63.22,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "muddy,",
+          "start": 63.22,
+          "end": 63.56,
+          "freq": 2.188
+        },
+        {
+          "word": "but",
+          "start": 63.74,
+          "end": 63.84,
+          "freq": 5.353
+        },
+        {
+          "word": "we",
+          "start": 63.84,
+          "end": 64.18,
+          "freq": 5.662
+        },
+        {
+          "word": "can",
+          "start": 64.18,
+          "end": 64.36,
+          "freq": 5.428
+        },
+        {
+          "word": "break",
+          "start": 64.36,
+          "end": 64.72,
+          "freq": 4.052
+        },
+        {
+          "word": "it",
+          "start": 64.72,
+          "end": 64.84,
+          "freq": 5.984
+        },
+        {
+          "word": "down",
+          "start": 64.84,
+          "end": 65.02,
+          "freq": 4.881
+        },
+        {
+          "word": "by",
+          "start": 65.02,
+          "end": 65.2,
+          "freq": 4.835
+        },
+        {
+          "word": "a",
+          "start": 65.2,
+          "end": 65.38,
+          "freq": 6.018
+        },
+        {
+          "word": "few",
+          "start": 65.38,
+          "end": 65.62,
+          "freq": 4.187
+        }
+      ],
+      "word": "muddy, but we can break it down by a few",
+      "start": 63.22,
+      "end": 65.62,
+      "freq": 2.188
+    },
+    {
+      "words": [
+        {
+          "word": "states.",
+          "start": 65.62,
+          "end": 66.0,
+          "freq": 3.441
+        },
+        {
+          "word": "The",
+          "start": 66.3,
+          "end": 66.8,
+          "freq": 6.177
+        },
+        {
+          "word": "first",
+          "start": 66.8,
+          "end": 67.18,
+          "freq": 4.632
+        },
+        {
+          "word": "would",
+          "start": 67.18,
+          "end": 67.66,
+          "freq": 4.955
+        },
+        {
+          "word": "be",
+          "start": 67.66,
+          "end": 67.76,
+          "freq": 5.467
+        }
+      ],
+      "word": "states. The first would be",
+      "start": 65.62,
+      "end": 67.76,
+      "freq": 3.441
+    },
+    {
+      "words": [
+        {
+          "word": "Louisiana.",
+          "start": 67.76,
+          "end": 68.32,
+          "freq": 2.356
+        },
+        {
+          "word": "They're",
+          "start": 68.32,
+          "end": 69.32,
+          "freq": -1
+        },
+        {
+          "word": "most",
+          "start": 69.32,
+          "end": 69.54,
+          "freq": 4.253
+        },
+        {
+          "word": "directly",
+          "start": 69.54,
+          "end": 69.9,
+          "freq": 3.035
+        }
+      ],
+      "word": "Louisiana. They're most directly",
+      "start": 67.76,
+      "end": 69.9,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "impacted",
+          "start": 69.9,
+          "end": 70.72,
+          "freq": 1.431
+        },
+        {
+          "word": "by",
+          "start": 70.72,
+          "end": 71.72,
+          "freq": 4.835
+        },
+        {
+          "word": "this",
+          "start": 71.72,
+          "end": 71.96,
+          "freq": 5.609
+        }
+      ],
+      "word": "impacted by this",
+      "start": 69.9,
+      "end": 71.96,
+      "freq": 1.431
+    },
+    {
+      "words": [
+        {
+          "word": "decision,",
+          "start": 71.96,
+          "end": 72.3,
+          "freq": 3.449
+        },
+        {
+          "word": "and",
+          "start": 72.32,
+          "end": 72.66,
+          "freq": 5.834
+        },
+        {
+          "word": "their",
+          "start": 72.66,
+          "end": 72.76,
+          "freq": 4.524
+        },
+        {
+          "word": "map",
+          "start": 72.76,
+          "end": 72.96,
+          "freq": 3.211
+        },
+        {
+          "word": "was",
+          "start": 72.96,
+          "end": 73.12,
+          "freq": 5.46
+        },
+        {
+          "word": "struck",
+          "start": 73.12,
+          "end": 73.32,
+          "freq": 2.917
+        },
+        {
+          "word": "down.",
+          "start": 73.32,
+          "end": 73.58,
+          "freq": 4.881
+        },
+        {
+          "word": "But",
+          "start": 74.12,
+          "end": 74.68,
+          "freq": 5.353
+        },
+        {
+          "word": "that",
+          "start": 74.68,
+          "end": 74.88,
+          "freq": 5.857
+        }
+      ],
+      "word": "decision, and their map was struck down. But that",
+      "start": 71.96,
+      "end": 74.88,
+      "freq": 2.917
+    },
+    {
+      "words": [
+        {
+          "word": "doesn't",
+          "start": 74.88,
+          "end": 75.46,
+          "freq": -1
+        },
+        {
+          "word": "mean",
+          "start": 75.46,
+          "end": 75.72,
+          "freq": 4.802
+        },
+        {
+          "word": "immediately",
+          "start": 75.72,
+          "end": 76.28,
+          "freq": 3.389
+        },
+        {
+          "word": "that",
+          "start": 76.28,
+          "end": 76.6,
+          "freq": 5.857
+        },
+        {
+          "word": "there",
+          "start": 76.6,
+          "end": 76.76,
+          "freq": 5.346
+        },
+        {
+          "word": "will",
+          "start": 76.76,
+          "end": 76.88,
+          "freq": 5.035
+        },
+        {
+          "word": "be",
+          "start": 76.88,
+          "end": 77.08,
+          "freq": 5.467
+        },
+        {
+          "word": "one",
+          "start": 77.08,
+          "end": 77.48,
+          "freq": 5.195
+        },
+        {
+          "word": "or",
+          "start": 77.48,
+          "end": 77.6,
+          "freq": 4.939
+        },
+        {
+          "word": "two",
+          "start": 77.6,
+          "end": 77.88,
+          "freq": 4.736
+        },
+        {
+          "word": "new",
+          "start": 77.88,
+          "end": 78.48,
+          "freq": 4.567
+        }
+      ],
+      "word": "doesn't mean immediately that there will be one or two new",
+      "start": 74.88,
+      "end": 78.48,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Republican",
+          "start": 78.48,
+          "end": 79.1,
+          "freq": 2.316
+        },
+        {
+          "word": "districts.",
+          "start": 79.1,
+          "end": 79.52,
+          "freq": 1.477
+        },
+        {
+          "word": "It's",
+          "start": 79.52,
+          "end": 80.06,
+          "freq": 3.942
+        },
+        {
+          "word": "up",
+          "start": 80.06,
+          "end": 80.4,
+          "freq": 5.272
+        },
+        {
+          "word": "to",
+          "start": 80.4,
+          "end": 80.66,
+          "freq": 6.063
+        },
+        {
+          "word": "the",
+          "start": 80.66,
+          "end": 80.86,
+          "freq": 6.177
+        }
+      ],
+      "word": "Republican districts. It's up to the",
+      "start": 78.48,
+      "end": 80.86,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "legislature",
+          "start": 80.86,
+          "end": 81.36,
+          "freq": 1.613
+        },
+        {
+          "word": "and",
+          "start": 81.36,
+          "end": 81.92,
+          "freq": 5.834
+        },
+        {
+          "word": "the",
+          "start": 81.92,
+          "end": 82.06,
+          "freq": 6.177
+        },
+        {
+          "word": "governor",
+          "start": 82.06,
+          "end": 82.34,
+          "freq": 3.137
+        },
+        {
+          "word": "there",
+          "start": 82.34,
+          "end": 82.66,
+          "freq": 5.346
+        },
+        {
+          "word": "to",
+          "start": 82.66,
+          "end": 83.2,
+          "freq": 6.063
+        }
+      ],
+      "word": "legislature and the governor there to",
+      "start": 80.86,
+      "end": 83.2,
+      "freq": 1.613
+    },
+    {
+      "words": [
+        {
+          "word": "begin",
+          "start": 83.2,
+          "end": 83.38,
+          "freq": 3.463
+        },
+        {
+          "word": "that",
+          "start": 83.38,
+          "end": 83.56,
+          "freq": 5.857
+        },
+        {
+          "word": "process.",
+          "start": 83.56,
+          "end": 83.96,
+          "freq": 3.155
+        },
+        {
+          "word": "And",
+          "start": 84.26,
+          "end": 84.82,
+          "freq": 5.834
+        },
+        {
+          "word": "they",
+          "start": 84.82,
+          "end": 84.9,
+          "freq": 5.321
+        },
+        {
+          "word": "have",
+          "start": 84.9,
+          "end": 84.98,
+          "freq": 5.497
+        },
+        {
+          "word": "a",
+          "start": 84.98,
+          "end": 85.18,
+          "freq": 6.018
+        },
+        {
+          "word": "very",
+          "start": 85.18,
+          "end": 85.52,
+          "freq": 4.801
+        }
+      ],
+      "word": "begin that process. And they have a very",
+      "start": 83.2,
+      "end": 85.52,
+      "freq": 3.155
+    },
+    {
+      "words": [
+        {
+          "word": "short",
+          "start": 85.52,
+          "end": 85.82,
+          "freq": 3.64
+        },
+        {
+          "word": "window.",
+          "start": 85.82,
+          "end": 86.12,
+          "freq": 3.642
+        },
+        {
+          "word": "And",
+          "start": 86.36,
+          "end": 86.48,
+          "freq": 5.834
+        },
+        {
+          "word": "just",
+          "start": 86.48,
+          "end": 86.88,
+          "freq": 5.384
+        },
+        {
+          "word": "explain",
+          "start": 86.88,
+          "end": 87.16,
+          "freq": 3.754
+        },
+        {
+          "word": "that.",
+          "start": 87.16,
+          "end": 87.3,
+          "freq": 5.857
+        },
+        {
+          "word": "Why",
+          "start": 87.36,
+          "end": 87.64,
+          "freq": 5.059
+        },
+        {
+          "word": "do",
+          "start": 87.64,
+          "end": 87.76,
+          "freq": 5.495
+        },
+        {
+          "word": "they",
+          "start": 87.76,
+          "end": 87.82,
+          "freq": 5.321
+        },
+        {
+          "word": "have",
+          "start": 87.82,
+          "end": 87.92,
+          "freq": 5.497
+        },
+        {
+          "word": "a",
+          "start": 87.92,
+          "end": 88.0,
+          "freq": 6.018
+        }
+      ],
+      "word": "short window. And just explain that. Why do they have a",
+      "start": 85.52,
+      "end": 88.0,
+      "freq": 3.64
+    },
+    {
+      "words": [
+        {
+          "word": "short",
+          "start": 88.0,
+          "end": 88.18,
+          "freq": 3.64
+        },
+        {
+          "word": "window?",
+          "start": 88.18,
+          "end": 88.44,
+          "freq": 3.642
+        },
+        {
+          "word": "So",
+          "start": 89.0,
+          "end": 89.48,
+          "freq": 5.335
+        },
+        {
+          "word": "early",
+          "start": 89.48,
+          "end": 90.1,
+          "freq": 3.741
+        }
+      ],
+      "word": "short window? So early",
+      "start": 88.0,
+      "end": 90.1,
+      "freq": 3.64
+    },
+    {
+      "words": [
+        {
+          "word": "voting",
+          "start": 90.1,
+          "end": 90.34,
+          "freq": 2.384
+        },
+        {
+          "word": "in",
+          "start": 90.34,
+          "end": 91.02,
+          "freq": 5.698
+        },
+        {
+          "word": "Louisiana",
+          "start": 91.02,
+          "end": 91.52,
+          "freq": 2.356
+        },
+        {
+          "word": "is",
+          "start": 91.52,
+          "end": 92.12,
+          "freq": 5.662
+        }
+      ],
+      "word": "voting in Louisiana is",
+      "start": 90.1,
+      "end": 92.12,
+      "freq": 2.356
+    },
+    {
+      "words": [
+        {
+          "word": "scheduled",
+          "start": 92.12,
+          "end": 92.64,
+          "freq": 2.685
+        },
+        {
+          "word": "to",
+          "start": 92.64,
+          "end": 92.88,
+          "freq": 6.063
+        },
+        {
+          "word": "happen",
+          "start": 92.88,
+          "end": 93.3,
+          "freq": 4.113
+        },
+        {
+          "word": "this",
+          "start": 93.3,
+          "end": 93.94,
+          "freq": 5.609
+        },
+        {
+          "word": "weekend.",
+          "start": 93.94,
+          "end": 94.36,
+          "freq": 3.494
+        },
+        {
+          "word": "And",
+          "start": 94.36,
+          "end": 95.2,
+          "freq": 5.834
+        }
+      ],
+      "word": "scheduled to happen this weekend. And",
+      "start": 92.12,
+      "end": 95.2,
+      "freq": 2.685
+    },
+    {
+      "words": [
+        {
+          "word": "that's",
+          "start": 95.2,
+          "end": 95.38,
+          "freq": -1
+        },
+        {
+          "word": "a",
+          "start": 95.38,
+          "end": 95.56,
+          "freq": 6.018
+        },
+        {
+          "word": "critical",
+          "start": 95.56,
+          "end": 96.08,
+          "freq": 2.797
+        },
+        {
+          "word": "moment",
+          "start": 96.08,
+          "end": 96.68,
+          "freq": 3.979
+        },
+        {
+          "word": "because",
+          "start": 96.68,
+          "end": 97.16,
+          "freq": 4.737
+        },
+        {
+          "word": "what",
+          "start": 97.16,
+          "end": 97.8,
+          "freq": 5.701
+        },
+        {
+          "word": "that",
+          "start": 97.8,
+          "end": 97.92,
+          "freq": 5.857
+        },
+        {
+          "word": "means",
+          "start": 97.92,
+          "end": 98.1,
+          "freq": 4.047
+        },
+        {
+          "word": "is",
+          "start": 98.1,
+          "end": 98.26,
+          "freq": 5.662
+        }
+      ],
+      "word": "that's a critical moment because what that means is",
+      "start": 95.2,
+      "end": 98.26,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "voters",
+          "start": 98.26,
+          "end": 98.62,
+          "freq": 2.029
+        },
+        {
+          "word": "are",
+          "start": 98.62,
+          "end": 98.94,
+          "freq": 5.424
+        },
+        {
+          "word": "casting",
+          "start": 98.94,
+          "end": 99.66,
+          "freq": 2.328
+        },
+        {
+          "word": "ballots",
+          "start": 99.66,
+          "end": 100.12,
+          "freq": 1.204
+        },
+        {
+          "word": "now",
+          "start": 100.12,
+          "end": 100.5,
+          "freq": 5.213
+        },
+        {
+          "word": "for",
+          "start": 100.5,
+          "end": 101.04,
+          "freq": 5.546
+        }
+      ],
+      "word": "voters are casting ballots now for",
+      "start": 98.26,
+      "end": 101.04,
+      "freq": 1.204
+    },
+    {
+      "words": [
+        {
+          "word": "candidates",
+          "start": 101.04,
+          "end": 101.52,
+          "freq": 2.297
+        },
+        {
+          "word": "in",
+          "start": 101.52,
+          "end": 102.42,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 102.42,
+          "end": 102.64,
+          "freq": 6.177
+        },
+        {
+          "word": "existing",
+          "start": 102.64,
+          "end": 103.26,
+          "freq": 1.996
+        }
+      ],
+      "word": "candidates in the existing",
+      "start": 101.04,
+      "end": 103.26,
+      "freq": 1.996
+    },
+    {
+      "words": [
+        {
+          "word": "districts.",
+          "start": 103.26,
+          "end": 103.74,
+          "freq": 1.477
+        },
+        {
+          "word": "So",
+          "start": 103.94,
+          "end": 104.66,
+          "freq": 5.335
+        },
+        {
+          "word": "it",
+          "start": 104.66,
+          "end": 105.36,
+          "freq": 5.984
+        },
+        {
+          "word": "would",
+          "start": 105.36,
+          "end": 105.46,
+          "freq": 4.955
+        },
+        {
+          "word": "be",
+          "start": 105.46,
+          "end": 105.66,
+          "freq": 5.467
+        },
+        {
+          "word": "a",
+          "start": 105.66,
+          "end": 105.94,
+          "freq": 6.018
+        }
+      ],
+      "word": "districts. So it would be a",
+      "start": 103.26,
+      "end": 105.94,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "high",
+          "start": 105.94,
+          "end": 106.3,
+          "freq": 3.998
+        },
+        {
+          "word": "bar",
+          "start": 106.3,
+          "end": 106.52,
+          "freq": 3.642
+        },
+        {
+          "word": "to",
+          "start": 106.52,
+          "end": 106.7,
+          "freq": 6.063
+        },
+        {
+          "word": "clear",
+          "start": 106.7,
+          "end": 106.96,
+          "freq": 3.943
+        },
+        {
+          "word": "to",
+          "start": 106.96,
+          "end": 107.36,
+          "freq": 6.063
+        },
+        {
+          "word": "toss",
+          "start": 107.36,
+          "end": 107.9,
+          "freq": 2.801
+        },
+        {
+          "word": "out",
+          "start": 107.9,
+          "end": 108.1,
+          "freq": 5.295
+        },
+        {
+          "word": "those",
+          "start": 108.1,
+          "end": 108.34,
+          "freq": 4.584
+        },
+        {
+          "word": "votes,",
+          "start": 108.34,
+          "end": 108.66,
+          "freq": 2.603
+        }
+      ],
+      "word": "high bar to clear to toss out those votes,",
+      "start": 105.94,
+      "end": 108.66,
+      "freq": 2.603
+    },
+    {
+      "words": [
+        {
+          "word": "redraw",
+          "start": 109.2,
+          "end": 109.5,
+          "freq": -1,
+          "is_target": true
+        },
+        {
+          "word": "the",
+          "start": 109.5,
+          "end": 109.66,
+          "freq": 6.177
+        },
+        {
+          "word": "districts,",
+          "start": 109.66,
+          "end": 110.1,
+          "freq": 1.477
+        },
+        {
+          "word": "restart",
+          "start": 110.32,
+          "end": 110.6,
+          "freq": -1
+        },
+        {
+          "word": "the",
+          "start": 110.6,
+          "end": 110.82,
+          "freq": 6.177
+        },
+        {
+          "word": "process",
+          "start": 110.82,
+          "end": 111.3,
+          "freq": 3.155
+        },
+        {
+          "word": "when",
+          "start": 111.3,
+          "end": 111.92,
+          "freq": 5.016
+        },
+        {
+          "word": "voters",
+          "start": 111.92,
+          "end": 112.24,
+          "freq": 2.029
+        },
+        {
+          "word": "have",
+          "start": 112.24,
+          "end": 112.44,
+          "freq": 5.497
+        },
+        {
+          "word": "already",
+          "start": 112.44,
+          "end": 112.9,
+          "freq": 4.211
+        }
+      ],
+      "word": "redraw the districts, restart the process when voters have already",
+      "start": 109.2,
+      "end": 112.9,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "started",
+          "start": 112.9,
+          "end": 113.52,
+          "freq": 3.981
+        },
+        {
+          "word": "to",
+          "start": 113.52,
+          "end": 113.92,
+          "freq": 6.063
+        },
+        {
+          "word": "participate",
+          "start": 113.92,
+          "end": 115.06,
+          "freq": 2.352
+        },
+        {
+          "word": "in",
+          "start": 115.06,
+          "end": 115.8,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 115.8,
+          "end": 115.92,
+          "freq": 6.177
+        }
+      ],
+      "word": "started to participate in the",
+      "start": 112.9,
+      "end": 115.92,
+      "freq": 2.352
+    },
+    {
+      "words": [
+        {
+          "word": "upcoming",
+          "start": 115.92,
+          "end": 116.24,
+          "freq": 1.949
+        },
+        {
+          "word": "primary",
+          "start": 116.24,
+          "end": 116.58,
+          "freq": 2.648
+        },
+        {
+          "word": "election",
+          "start": 116.58,
+          "end": 117.02,
+          "freq": 2.749
+        },
+        {
+          "word": "because",
+          "start": 117.02,
+          "end": 117.82,
+          "freq": 4.737
+        },
+        {
+          "word": "you'd",
+          "start": 117.82,
+          "end": 118.54,
+          "freq": -1
+        }
+      ],
+      "word": "upcoming primary election because you'd",
+      "start": 115.92,
+      "end": 118.54,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "effectively",
+          "start": 118.54,
+          "end": 118.86,
+          "freq": 2.068
+        },
+        {
+          "word": "be",
+          "start": 118.86,
+          "end": 119.12,
+          "freq": 5.467
+        },
+        {
+          "word": "tossing",
+          "start": 119.12,
+          "end": 119.52,
+          "freq": 2.146
+        },
+        {
+          "word": "out",
+          "start": 119.52,
+          "end": 119.74,
+          "freq": 5.295
+        },
+        {
+          "word": "legally",
+          "start": 119.74,
+          "end": 120.38,
+          "freq": 2.59
+        },
+        {
+          "word": "cast",
+          "start": 120.38,
+          "end": 120.7,
+          "freq": 3.072
+        }
+      ],
+      "word": "effectively be tossing out legally cast",
+      "start": 118.54,
+      "end": 120.7,
+      "freq": 2.068
+    },
+    {
+      "words": [
+        {
+          "word": "votes.",
+          "start": 120.7,
+          "end": 121.04,
+          "freq": 2.603
+        },
+        {
+          "word": "Got",
+          "start": 121.04,
+          "end": 122.16,
+          "freq": 5.227
+        },
+        {
+          "word": "it.",
+          "start": 122.16,
+          "end": 122.3,
+          "freq": 5.984
+        },
+        {
+          "word": "So",
+          "start": 122.44,
+          "end": 122.52,
+          "freq": 5.335
+        },
+        {
+          "word": "in",
+          "start": 122.52,
+          "end": 122.84,
+          "freq": 5.698
+        }
+      ],
+      "word": "votes. Got it. So in",
+      "start": 120.7,
+      "end": 122.84,
+      "freq": 2.603
+    },
+    {
+      "words": [
+        {
+          "word": "Louisiana,",
+          "start": 122.84,
+          "end": 123.36,
+          "freq": 2.356
+        },
+        {
+          "word": "the",
+          "start": 123.78,
+          "end": 124.9,
+          "freq": 6.177
+        }
+      ],
+      "word": "Louisiana, the",
+      "start": 122.84,
+      "end": 124.9,
+      "freq": 2.356
+    },
+    {
+      "words": [
+        {
+          "word": "Republican",
+          "start": 124.9,
+          "end": 125.74,
+          "freq": 2.316
+        },
+        {
+          "word": "-controlled",
+          "start": 125.74,
+          "end": 126.2,
+          "freq": 2.553
+        },
+        {
+          "word": "legislature,",
+          "start": 126.2,
+          "end": 126.6,
+          "freq": 1.613
+        },
+        {
+          "word": "which",
+          "start": 126.74,
+          "end": 126.84,
+          "freq": 4.386
+        },
+        {
+          "word": "of",
+          "start": 126.84,
+          "end": 126.98,
+          "freq": 5.771
+        },
+        {
+          "word": "course",
+          "start": 126.98,
+          "end": 127.22,
+          "freq": 4.395
+        }
+      ],
+      "word": "Republican -controlled legislature, which of course",
+      "start": 124.9,
+      "end": 127.22,
+      "freq": 1.613
+    },
+    {
+      "words": [
+        {
+          "word": "draws",
+          "start": 127.22,
+          "end": 127.68,
+          "freq": 2.292
+        },
+        {
+          "word": "the",
+          "start": 127.68,
+          "end": 128.06,
+          "freq": 6.177
+        },
+        {
+          "word": "political",
+          "start": 128.06,
+          "end": 128.66,
+          "freq": 3.048
+        },
+        {
+          "word": "maps,",
+          "start": 128.66,
+          "end": 129.36,
+          "freq": 2.401
+        },
+        {
+          "word": "is",
+          "start": 129.6,
+          "end": 130.26,
+          "freq": 5.662
+        }
+      ],
+      "word": "draws the political maps, is",
+      "start": 127.22,
+      "end": 130.26,
+      "freq": 2.292
+    },
+    {
+      "words": [
+        {
+          "word": "seeing",
+          "start": 130.26,
+          "end": 130.72,
+          "freq": 3.748
+        },
+        {
+          "word": "this",
+          "start": 130.72,
+          "end": 130.94,
+          "freq": 5.609
+        },
+        {
+          "word": "ruling",
+          "start": 130.94,
+          "end": 131.26,
+          "freq": 2.322
+        },
+        {
+          "word": "as",
+          "start": 131.26,
+          "end": 131.88,
+          "freq": 5.053
+        },
+        {
+          "word": "a",
+          "start": 131.88,
+          "end": 132.46,
+          "freq": 6.018
+        }
+      ],
+      "word": "seeing this ruling as a",
+      "start": 130.26,
+      "end": 132.46,
+      "freq": 2.322
+    },
+    {
+      "words": [
+        {
+          "word": "rationale",
+          "start": 132.46,
+          "end": 132.86,
+          "freq": 1.301
+        },
+        {
+          "word": "to",
+          "start": 132.86,
+          "end": 133.28,
+          "freq": 6.063
+        },
+        {
+          "word": "move",
+          "start": 133.28,
+          "end": 133.54,
+          "freq": 4.329
+        },
+        {
+          "word": "very",
+          "start": 133.54,
+          "end": 133.9,
+          "freq": 4.801
+        },
+        {
+          "word": "quickly",
+          "start": 133.9,
+          "end": 134.3,
+          "freq": 3.46
+        },
+        {
+          "word": "before",
+          "start": 134.3,
+          "end": 135.06,
+          "freq": 4.607
+        },
+        {
+          "word": "this",
+          "start": 135.06,
+          "end": 135.46,
+          "freq": 5.609
+        },
+        {
+          "word": "year's",
+          "start": 135.46,
+          "end": 135.74,
+          "freq": 4.463
+        }
+      ],
+      "word": "rationale to move very quickly before this year's",
+      "start": 132.46,
+      "end": 135.74,
+      "freq": 1.301
+    },
+    {
+      "words": [
+        {
+          "word": "congressional",
+          "start": 135.74,
+          "end": 136.12,
+          "freq": 2.025
+        },
+        {
+          "word": "midterms",
+          "start": 136.12,
+          "end": 136.66,
+          "freq": -1
+        },
+        {
+          "word": "to",
+          "start": 136.66,
+          "end": 137.1,
+          "freq": 6.063
+        },
+        {
+          "word": "make",
+          "start": 137.1,
+          "end": 137.46,
+          "freq": 4.85
+        },
+        {
+          "word": "the",
+          "start": 137.46,
+          "end": 137.7,
+          "freq": 6.177
+        },
+        {
+          "word": "state",
+          "start": 137.7,
+          "end": 138.12,
+          "freq": 3.74
+        },
+        {
+          "word": "more",
+          "start": 138.12,
+          "end": 139.08,
+          "freq": 4.821
+        }
+      ],
+      "word": "congressional midterms to make the state more",
+      "start": 135.74,
+      "end": 139.08,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Republican",
+          "start": 139.08,
+          "end": 139.92,
+          "freq": 2.316
+        },
+        {
+          "word": "-friendly",
+          "start": 139.92,
+          "end": 140.66,
+          "freq": 3.123
+        },
+        {
+          "word": "for",
+          "start": 140.66,
+          "end": 141.5,
+          "freq": 5.546
+        }
+      ],
+      "word": "Republican -friendly for",
+      "start": 139.08,
+      "end": 141.5,
+      "freq": 2.316
+    },
+    {
+      "words": [
+        {
+          "word": "congressional",
+          "start": 141.5,
+          "end": 141.88,
+          "freq": 2.025
+        },
+        {
+          "word": "races.",
+          "start": 141.88,
+          "end": 142.24,
+          "freq": 2.543
+        },
+        {
+          "word": "Exactly.",
+          "start": 142.96,
+          "end": 143.52,
+          "freq": 4.101
+        },
+        {
+          "word": "It",
+          "start": 143.78,
+          "end": 144.06,
+          "freq": 5.984
+        },
+        {
+          "word": "could",
+          "start": 144.06,
+          "end": 144.3,
+          "freq": 4.92
+        },
+        {
+          "word": "be",
+          "start": 144.3,
+          "end": 144.58,
+          "freq": 5.467
+        },
+        {
+          "word": "one",
+          "start": 144.58,
+          "end": 145.12,
+          "freq": 5.195
+        },
+        {
+          "word": "to",
+          "start": 145.12,
+          "end": 145.48,
+          "freq": 6.063
+        },
+        {
+          "word": "two",
+          "start": 145.48,
+          "end": 145.64,
+          "freq": 4.736
+        }
+      ],
+      "word": "congressional races. Exactly. It could be one to two",
+      "start": 141.5,
+      "end": 145.64,
+      "freq": 2.025
+    },
+    {
+      "words": [
+        {
+          "word": "districts",
+          "start": 145.64,
+          "end": 146.02,
+          "freq": 1.477
+        },
+        {
+          "word": "to",
+          "start": 146.02,
+          "end": 146.24,
+          "freq": 6.063
+        },
+        {
+          "word": "wipe",
+          "start": 146.24,
+          "end": 146.56,
+          "freq": 2.936
+        },
+        {
+          "word": "out",
+          "start": 146.56,
+          "end": 146.68,
+          "freq": 5.295
+        },
+        {
+          "word": "all",
+          "start": 146.68,
+          "end": 146.84,
+          "freq": 5.42
+        },
+        {
+          "word": "Democrats",
+          "start": 146.84,
+          "end": 147.2,
+          "freq": 1.839
+        },
+        {
+          "word": "there.",
+          "start": 147.2,
+          "end": 147.56,
+          "freq": 5.346
+        },
+        {
+          "word": "But",
+          "start": 147.7,
+          "end": 148.14,
+          "freq": 5.353
+        },
+        {
+          "word": "we",
+          "start": 148.14,
+          "end": 148.4,
+          "freq": 5.662
+        },
+        {
+          "word": "just",
+          "start": 148.4,
+          "end": 148.62,
+          "freq": 5.384
+        }
+      ],
+      "word": "districts to wipe out all Democrats there. But we just",
+      "start": 145.64,
+      "end": 148.62,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "don't",
+          "start": 148.62,
+          "end": 148.88,
+          "freq": -1
+        },
+        {
+          "word": "know",
+          "start": 148.88,
+          "end": 149.16,
+          "freq": 5.465
+        },
+        {
+          "word": "until",
+          "start": 149.16,
+          "end": 149.58,
+          "freq": 4.188
+        },
+        {
+          "word": "they",
+          "start": 149.58,
+          "end": 149.84,
+          "freq": 5.321
+        },
+        {
+          "word": "take",
+          "start": 149.84,
+          "end": 150.42,
+          "freq": 4.984
+        },
+        {
+          "word": "that",
+          "start": 150.42,
+          "end": 150.72,
+          "freq": 5.857
+        }
+      ],
+      "word": "don't know until they take that",
+      "start": 148.62,
+      "end": 150.72,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "formal",
+          "start": 150.72,
+          "end": 151.08,
+          "freq": 2.628
+        },
+        {
+          "word": "step.",
+          "start": 151.08,
+          "end": 151.42,
+          "freq": 3.782
+        },
+        {
+          "word": "Got",
+          "start": 151.82,
+          "end": 152.02,
+          "freq": 5.227
+        },
+        {
+          "word": "it.",
+          "start": 152.02,
+          "end": 152.14,
+          "freq": 5.984
+        },
+        {
+          "word": "So",
+          "start": 152.38,
+          "end": 152.56,
+          "freq": 5.335
+        },
+        {
+          "word": "that's",
+          "start": 152.56,
+          "end": 152.76,
+          "freq": -1
+        }
+      ],
+      "word": "formal step. Got it. So that's",
+      "start": 150.72,
+      "end": 152.76,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Louisiana.",
+          "start": 152.76,
+          "end": 153.18,
+          "freq": 2.356
+        },
+        {
+          "word": "Yes.",
+          "start": 153.68,
+          "end": 154.22,
+          "freq": 5.008
+        },
+        {
+          "word": "And",
+          "start": 156.3,
+          "end": 156.86,
+          "freq": 5.834
+        },
+        {
+          "word": "there",
+          "start": 156.86,
+          "end": 157.2,
+          "freq": 5.346
+        },
+        {
+          "word": "is",
+          "start": 157.2,
+          "end": 157.62,
+          "freq": 5.662
+        },
+        {
+          "word": "a",
+          "start": 157.62,
+          "end": 157.98,
+          "freq": 6.018
+        }
+      ],
+      "word": "Louisiana. Yes. And there is a",
+      "start": 152.76,
+      "end": 157.98,
+      "freq": 2.356
+    },
+    {
+      "words": [
+        {
+          "word": "handful",
+          "start": 157.98,
+          "end": 158.44,
+          "freq": 2.465
+        },
+        {
+          "word": "of",
+          "start": 158.44,
+          "end": 158.94,
+          "freq": 5.771
+        },
+        {
+          "word": "other",
+          "start": 158.94,
+          "end": 159.18,
+          "freq": 4.574
+        },
+        {
+          "word": "states",
+          "start": 159.18,
+          "end": 159.48,
+          "freq": 3.441
+        },
+        {
+          "word": "that",
+          "start": 159.48,
+          "end": 159.74,
+          "freq": 5.857
+        },
+        {
+          "word": "are",
+          "start": 159.74,
+          "end": 159.86,
+          "freq": 5.424
+        },
+        {
+          "word": "in",
+          "start": 159.86,
+          "end": 159.98,
+          "freq": 5.698
+        },
+        {
+          "word": "a",
+          "start": 159.98,
+          "end": 160.26,
+          "freq": 6.018
+        }
+      ],
+      "word": "handful of other states that are in a",
+      "start": 157.98,
+      "end": 160.26,
+      "freq": 2.465
+    },
+    {
+      "words": [
+        {
+          "word": "similar",
+          "start": 160.26,
+          "end": 160.7,
+          "freq": 2.843
+        },
+        {
+          "word": "position,",
+          "start": 160.7,
+          "end": 161.28,
+          "freq": 3.566
+        },
+        {
+          "word": "at",
+          "start": 161.62,
+          "end": 161.74,
+          "freq": 5.215
+        },
+        {
+          "word": "least",
+          "start": 161.74,
+          "end": 161.92,
+          "freq": 4.025
+        },
+        {
+          "word": "within",
+          "start": 161.92,
+          "end": 162.14,
+          "freq": 3.48
+        },
+        {
+          "word": "the",
+          "start": 162.14,
+          "end": 162.26,
+          "freq": 6.177
+        }
+      ],
+      "word": "similar position, at least within the",
+      "start": 160.26,
+      "end": 162.26,
+      "freq": 2.843
+    },
+    {
+      "words": [
+        {
+          "word": "primary",
+          "start": 162.26,
+          "end": 162.62,
+          "freq": 2.648
+        },
+        {
+          "word": "calendar.",
+          "start": 162.62,
+          "end": 163.0,
+          "freq": 2.561
+        },
+        {
+          "word": "And",
+          "start": 163.22,
+          "end": 163.66,
+          "freq": 5.834
+        },
+        {
+          "word": "they're",
+          "start": 163.66,
+          "end": 163.8,
+          "freq": -1
+        },
+        {
+          "word": "mostly",
+          "start": 163.8,
+          "end": 164.3,
+          "freq": 3.124
+        },
+        {
+          "word": "found",
+          "start": 164.3,
+          "end": 164.6,
+          "freq": 4.305
+        },
+        {
+          "word": "in",
+          "start": 164.6,
+          "end": 164.74,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 164.74,
+          "end": 164.84,
+          "freq": 6.177
+        }
+      ],
+      "word": "primary calendar. And they're mostly found in the",
+      "start": 162.26,
+      "end": 164.84,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "South.",
+          "start": 164.84,
+          "end": 165.1,
+          "freq": 3.517
+        },
+        {
+          "word": "And",
+          "start": 165.1,
+          "end": 165.84,
+          "freq": 5.834
+        },
+        {
+          "word": "they",
+          "start": 165.84,
+          "end": 166.04,
+          "freq": 5.321
+        },
+        {
+          "word": "had",
+          "start": 166.04,
+          "end": 166.38,
+          "freq": 4.932
+        },
+        {
+          "word": "these",
+          "start": 166.38,
+          "end": 166.7,
+          "freq": 4.664
+        },
+        {
+          "word": "districts",
+          "start": 166.7,
+          "end": 167.18,
+          "freq": 1.477
+        },
+        {
+          "word": "that",
+          "start": 167.18,
+          "end": 167.5,
+          "freq": 5.857
+        }
+      ],
+      "word": "South. And they had these districts that",
+      "start": 164.84,
+      "end": 167.5,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "were",
+          "start": 167.5,
+          "end": 167.76,
+          "freq": 4.928
+        },
+        {
+          "word": "at",
+          "start": 167.76,
+          "end": 168.34,
+          "freq": 5.215
+        },
+        {
+          "word": "least",
+          "start": 168.34,
+          "end": 168.48,
+          "freq": 4.025
+        },
+        {
+          "word": "somewhat",
+          "start": 168.48,
+          "end": 168.86,
+          "freq": 2.667
+        },
+        {
+          "word": "protected",
+          "start": 168.86,
+          "end": 169.36,
+          "freq": 2.744
+        },
+        {
+          "word": "by",
+          "start": 169.36,
+          "end": 169.92,
+          "freq": 4.835
+        },
+        {
+          "word": "the",
+          "start": 169.92,
+          "end": 170.3,
+          "freq": 6.177
+        }
+      ],
+      "word": "were at least somewhat protected by the",
+      "start": 167.5,
+      "end": 170.3,
+      "freq": 2.667
+    },
+    {
+      "words": [
+        {
+          "word": "provision",
+          "start": 170.3,
+          "end": 170.56,
+          "freq": 1.613,
+          "is_target": true
+        },
+        {
+          "word": "in",
+          "start": 170.56,
+          "end": 170.7,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 170.7,
+          "end": 170.78,
+          "freq": 6.177
+        },
+        {
+          "word": "Voting",
+          "start": 170.78,
+          "end": 171.0,
+          "freq": 2.384
+        },
+        {
+          "word": "Rights",
+          "start": 171.0,
+          "end": 171.18,
+          "freq": 3.179
+        },
+        {
+          "word": "Act",
+          "start": 171.18,
+          "end": 171.5,
+          "freq": 3.745
+        },
+        {
+          "word": "that",
+          "start": 171.5,
+          "end": 171.86,
+          "freq": 5.857
+        },
+        {
+          "word": "the",
+          "start": 171.86,
+          "end": 172.04,
+          "freq": 6.177
+        },
+        {
+          "word": "Supreme",
+          "start": 172.04,
+          "end": 172.24,
+          "freq": 2.651
+        },
+        {
+          "word": "Court",
+          "start": 172.24,
+          "end": 172.54,
+          "freq": 3.711
+        },
+        {
+          "word": "ruled",
+          "start": 172.54,
+          "end": 173.04,
+          "freq": 2.45
+        },
+        {
+          "word": "on",
+          "start": 173.04,
+          "end": 173.2,
+          "freq": 5.55
+        },
+        {
+          "word": "today.",
+          "start": 173.2,
+          "end": 173.42,
+          "freq": 4.345
+        }
+      ],
+      "word": "provision in the Voting Rights Act that the Supreme Court ruled on today.",
+      "start": 170.3,
+      "end": 173.42,
+      "freq": 1.613
+    },
+    {
+      "words": [
+        {
+          "word": "And",
+          "start": 173.98,
+          "end": 174.66,
+          "freq": 5.834
+        },
+        {
+          "word": "those",
+          "start": 174.66,
+          "end": 175.14,
+          "freq": 4.584
+        },
+        {
+          "word": "looking",
+          "start": 175.14,
+          "end": 175.84,
+          "freq": 4.344
+        },
+        {
+          "word": "just",
+          "start": 175.84,
+          "end": 176.18,
+          "freq": 5.384
+        },
+        {
+          "word": "at",
+          "start": 176.18,
+          "end": 176.42,
+          "freq": 5.215
+        },
+        {
+          "word": "the",
+          "start": 176.42,
+          "end": 176.5,
+          "freq": 6.177
+        }
+      ],
+      "word": "And those looking just at the",
+      "start": 173.98,
+      "end": 176.5,
+      "freq": 4.344
+    },
+    {
+      "words": [
+        {
+          "word": "calendar",
+          "start": 176.5,
+          "end": 176.88,
+          "freq": 2.561
+        },
+        {
+          "word": "include",
+          "start": 176.88,
+          "end": 177.68,
+          "freq": 2.755
+        },
+        {
+          "word": "South",
+          "start": 177.68,
+          "end": 178.16,
+          "freq": 3.517
+        },
+        {
+          "word": "Carolina,",
+          "start": 178.16,
+          "end": 178.74,
+          "freq": -1
+        }
+      ],
+      "word": "calendar include South Carolina,",
+      "start": 176.5,
+      "end": 178.74,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Missouri",
+          "start": 179.16,
+          "end": 179.8,
+          "freq": 2.354
+        },
+        {
+          "word": "and",
+          "start": 179.8,
+          "end": 180.54,
+          "freq": 5.834
+        },
+        {
+          "word": "Tennessee.",
+          "start": 180.54,
+          "end": 180.94,
+          "freq": 2.312
+        },
+        {
+          "word": "Now,",
+          "start": 181.38,
+          "end": 182.06,
+          "freq": 5.213
+        }
+      ],
+      "word": "Missouri and Tennessee. Now,",
+      "start": 179.16,
+      "end": 182.06,
+      "freq": 2.312
+    },
+    {
+      "words": [
+        {
+          "word": "it's",
+          "start": 182.1,
+          "end": 182.32,
+          "freq": 3.942
+        },
+        {
+          "word": "unclear",
+          "start": 182.32,
+          "end": 182.92,
+          "freq": 1.881
+        },
+        {
+          "word": "whether",
+          "start": 182.92,
+          "end": 183.32,
+          "freq": 3.535
+        },
+        {
+          "word": "there",
+          "start": 183.32,
+          "end": 183.72,
+          "freq": 5.346
+        },
+        {
+          "word": "is",
+          "start": 183.72,
+          "end": 183.84,
+          "freq": 5.662
+        },
+        {
+          "word": "the",
+          "start": 183.84,
+          "end": 183.98,
+          "freq": 6.177
+        },
+        {
+          "word": "political",
+          "start": 183.98,
+          "end": 184.32,
+          "freq": 3.048
+        },
+        {
+          "word": "will",
+          "start": 184.32,
+          "end": 184.82,
+          "freq": 5.035
+        },
+        {
+          "word": "or",
+          "start": 184.82,
+          "end": 185.16,
+          "freq": 4.939
+        }
+      ],
+      "word": "it's unclear whether there is the political will or",
+      "start": 182.1,
+      "end": 185.16,
+      "freq": 1.881
+    },
+    {
+      "words": [
+        {
+          "word": "desire",
+          "start": 185.16,
+          "end": 185.68,
+          "freq": 3.015
+        },
+        {
+          "word": "to",
+          "start": 185.68,
+          "end": 186.28,
+          "freq": 6.063
+        },
+        {
+          "word": "do",
+          "start": 186.28,
+          "end": 186.6,
+          "freq": 5.495
+        },
+        {
+          "word": "it",
+          "start": 186.6,
+          "end": 186.82,
+          "freq": 5.984
+        },
+        {
+          "word": "immediately",
+          "start": 186.82,
+          "end": 187.48,
+          "freq": 3.389
+        },
+        {
+          "word": "in",
+          "start": 187.48,
+          "end": 188.2,
+          "freq": 5.698
+        },
+        {
+          "word": "those",
+          "start": 188.2,
+          "end": 188.4,
+          "freq": 4.584
+        }
+      ],
+      "word": "desire to do it immediately in those",
+      "start": 185.16,
+      "end": 188.4,
+      "freq": 3.015
+    },
+    {
+      "words": [
+        {
+          "word": "states.",
+          "start": 188.4,
+          "end": 188.72,
+          "freq": 3.441
+        },
+        {
+          "word": "But",
+          "start": 189.1,
+          "end": 189.78,
+          "freq": 5.353
+        },
+        {
+          "word": "let's",
+          "start": 189.78,
+          "end": 190.38,
+          "freq": 2.963
+        },
+        {
+          "word": "look",
+          "start": 190.38,
+          "end": 190.88,
+          "freq": 4.997
+        },
+        {
+          "word": "at",
+          "start": 190.88,
+          "end": 191.0,
+          "freq": 5.215
+        }
+      ],
+      "word": "states. But let's look at",
+      "start": 188.4,
+      "end": 191.0,
+      "freq": 2.963
+    },
+    {
+      "words": [
+        {
+          "word": "Tennessee",
+          "start": 191.0,
+          "end": 191.34,
+          "freq": 2.312
+        },
+        {
+          "word": "to",
+          "start": 191.34,
+          "end": 191.54,
+          "freq": 6.063
+        },
+        {
+          "word": "start.",
+          "start": 191.54,
+          "end": 191.78,
+          "freq": 4.239
+        },
+        {
+          "word": "There,",
+          "start": 196.54000000000002,
+          "end": 197.18,
+          "freq": 5.346
+        }
+      ],
+      "word": "Tennessee to start. There,",
+      "start": 191.0,
+      "end": 197.18,
+      "freq": 2.312
+    },
+    {
+      "words": [
+        {
+          "word": "Republicans",
+          "start": 197.44,
+          "end": 197.96,
+          "freq": 1.792
+        },
+        {
+          "word": "have",
+          "start": 197.96,
+          "end": 198.14,
+          "freq": 5.497
+        },
+        {
+          "word": "been",
+          "start": 198.14,
+          "end": 198.28,
+          "freq": 4.947
+        },
+        {
+          "word": "loud",
+          "start": 198.28,
+          "end": 198.62,
+          "freq": 3.308
+        },
+        {
+          "word": "today,",
+          "start": 198.62,
+          "end": 198.94,
+          "freq": 4.345
+        },
+        {
+          "word": "including",
+          "start": 199.22,
+          "end": 199.46,
+          "freq": 3.148
+        },
+        {
+          "word": "Senator",
+          "start": 199.46,
+          "end": 200.0,
+          "freq": 3.228
+        }
+      ],
+      "word": "Republicans have been loud today, including Senator",
+      "start": 197.44,
+      "end": 200.0,
+      "freq": 1.792
+    },
+    {
+      "words": [
+        {
+          "word": "Marsha",
+          "start": 200.0,
+          "end": 200.52,
+          "freq": 0.0,
+          "is_target": true
+        },
+        {
+          "word": "Blackburn,",
+          "start": 200.52,
+          "end": 201.0,
+          "freq": -1
+        },
+        {
+          "word": "who's",
+          "start": 201.14,
+          "end": 201.24,
+          "freq": -1
+        },
+        {
+          "word": "also",
+          "start": 201.24,
+          "end": 201.42,
+          "freq": 4.022
+        },
+        {
+          "word": "running",
+          "start": 201.42,
+          "end": 201.62,
+          "freq": 3.906
+        },
+        {
+          "word": "for",
+          "start": 201.62,
+          "end": 201.76,
+          "freq": 5.546
+        },
+        {
+          "word": "governor,",
+          "start": 201.76,
+          "end": 202.08,
+          "freq": 3.137
+        },
+        {
+          "word": "in",
+          "start": 202.5,
+          "end": 203.08,
+          "freq": 5.698
+        },
+        {
+          "word": "calling",
+          "start": 203.08,
+          "end": 203.54,
+          "freq": 3.8
+        },
+        {
+          "word": "for",
+          "start": 203.54,
+          "end": 203.94,
+          "freq": 5.546
+        },
+        {
+          "word": "the",
+          "start": 203.94,
+          "end": 204.2,
+          "freq": 6.177
+        }
+      ],
+      "word": "Marsha Blackburn, who's also running for governor, in calling for the",
+      "start": 200.0,
+      "end": 204.2,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "state",
+          "start": 204.2,
+          "end": 204.48,
+          "freq": 3.74
+        },
+        {
+          "word": "to",
+          "start": 204.48,
+          "end": 204.84,
+          "freq": 6.063
+        },
+        {
+          "word": "dismantle",
+          "start": 204.84,
+          "end": 205.46,
+          "freq": 1.672
+        },
+        {
+          "word": "its",
+          "start": 205.46,
+          "end": 205.72,
+          "freq": 3.942
+        },
+        {
+          "word": "remaining",
+          "start": 205.72,
+          "end": 206.26,
+          "freq": 2.538
+        }
+      ],
+      "word": "state to dismantle its remaining",
+      "start": 204.2,
+      "end": 206.26,
+      "freq": 1.672
+    },
+    {
+      "words": [
+        {
+          "word": "Democratic",
+          "start": 206.26,
+          "end": 206.66,
+          "freq": 2.26
+        },
+        {
+          "word": "district",
+          "start": 206.66,
+          "end": 207.32,
+          "freq": 3.029
+        },
+        {
+          "word": "ahead",
+          "start": 207.32,
+          "end": 208.14,
+          "freq": 4.005
+        },
+        {
+          "word": "of",
+          "start": 208.14,
+          "end": 208.44,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 208.44,
+          "end": 208.54,
+          "freq": 6.177
+        }
+      ],
+      "word": "Democratic district ahead of the",
+      "start": 206.26,
+      "end": 208.54,
+      "freq": 2.26
+    },
+    {
+      "words": [
+        {
+          "word": "midterm",
+          "start": 208.54,
+          "end": 208.84,
+          "freq": -1
+        },
+        {
+          "word": "elections.",
+          "start": 208.84,
+          "end": 209.34,
+          "freq": 2.093
+        },
+        {
+          "word": "Right.",
+          "start": 209.34,
+          "end": 209.78,
+          "freq": 5.311
+        },
+        {
+          "word": "I",
+          "start": 209.84,
+          "end": 209.92,
+          "freq": 6.309
+        },
+        {
+          "word": "saw",
+          "start": 209.92,
+          "end": 210.16,
+          "freq": 4.312
+        },
+        {
+          "word": "her",
+          "start": 210.16,
+          "end": 210.46,
+          "freq": 5.16
+        },
+        {
+          "word": "on",
+          "start": 210.46,
+          "end": 210.68,
+          "freq": 5.55
+        }
+      ],
+      "word": "midterm elections. Right. I saw her on",
+      "start": 208.54,
+      "end": 210.68,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "social",
+          "start": 210.68,
+          "end": 210.88,
+          "freq": 3.232
+        },
+        {
+          "word": "media.",
+          "start": 210.88,
+          "end": 211.1,
+          "freq": 3.056
+        },
+        {
+          "word": "She's",
+          "start": 211.26,
+          "end": 211.56,
+          "freq": -1
+        },
+        {
+          "word": "basically",
+          "start": 211.56,
+          "end": 211.88,
+          "freq": 3.123
+        },
+        {
+          "word": "saying,",
+          "start": 211.88,
+          "end": 212.28,
+          "freq": 4.173
+        },
+        {
+          "word": "let's",
+          "start": 212.64,
+          "end": 212.92,
+          "freq": 2.963
+        }
+      ],
+      "word": "social media. She's basically saying, let's",
+      "start": 210.68,
+      "end": 212.92,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "finish",
+          "start": 212.92,
+          "end": 213.48,
+          "freq": 3.703
+        },
+        {
+          "word": "the",
+          "start": 213.48,
+          "end": 213.74,
+          "freq": 6.177
+        },
+        {
+          "word": "job",
+          "start": 213.74,
+          "end": 214.3,
+          "freq": 4.324
+        },
+        {
+          "word": "of",
+          "start": 214.3,
+          "end": 215.04,
+          "freq": 5.771
+        }
+      ],
+      "word": "finish the job of",
+      "start": 212.92,
+      "end": 215.04,
+      "freq": 3.703
+    },
+    {
+      "words": [
+        {
+          "word": "turning",
+          "start": 215.04,
+          "end": 215.5,
+          "freq": 3.314
+        },
+        {
+          "word": "Tennessee",
+          "start": 215.5,
+          "end": 216.14,
+          "freq": 2.312
+        },
+        {
+          "word": "100",
+          "start": 216.14,
+          "end": 217.3,
+          "freq": -1
+        }
+      ],
+      "word": "turning Tennessee 100",
+      "start": 215.04,
+      "end": 217.3,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "percent",
+          "start": 217.3,
+          "end": 218.36,
+          "freq": 3.119
+        },
+        {
+          "word": "red",
+          "start": 218.36,
+          "end": 219.24,
+          "freq": 3.878
+        },
+        {
+          "word": "Republican.",
+          "start": 219.24,
+          "end": 220.08,
+          "freq": 2.316
+        },
+        {
+          "word": "There",
+          "start": 220.08,
+          "end": 220.82,
+          "freq": 5.346
+        },
+        {
+          "word": "will",
+          "start": 220.82,
+          "end": 221.04,
+          "freq": 5.035
+        },
+        {
+          "word": "only",
+          "start": 221.04,
+          "end": 221.54,
+          "freq": 4.742
+        },
+        {
+          "word": "be",
+          "start": 221.54,
+          "end": 221.68,
+          "freq": 5.467
+        },
+        {
+          "word": "a",
+          "start": 221.68,
+          "end": 221.8,
+          "freq": 6.018
+        }
+      ],
+      "word": "percent red Republican. There will only be a",
+      "start": 217.3,
+      "end": 221.8,
+      "freq": 2.316
+    },
+    {
+      "words": [
+        {
+          "word": "structure",
+          "start": 221.8,
+          "end": 222.06,
+          "freq": 2.716
+        },
+        {
+          "word": "in",
+          "start": 222.06,
+          "end": 222.26,
+          "freq": 5.698
+        },
+        {
+          "word": "place",
+          "start": 222.26,
+          "end": 222.66,
+          "freq": 4.488
+        },
+        {
+          "word": "for",
+          "start": 222.66,
+          "end": 223.32,
+          "freq": 5.546
+        },
+        {
+          "word": "Republicans",
+          "start": 223.32,
+          "end": 223.92,
+          "freq": 1.792
+        },
+        {
+          "word": "to",
+          "start": 223.92,
+          "end": 224.38,
+          "freq": 6.063
+        }
+      ],
+      "word": "structure in place for Republicans to",
+      "start": 221.8,
+      "end": 224.38,
+      "freq": 1.792
+    },
+    {
+      "words": [
+        {
+          "word": "win",
+          "start": 224.38,
+          "end": 224.82,
+          "freq": 3.837
+        },
+        {
+          "word": "House",
+          "start": 224.82,
+          "end": 225.8,
+          "freq": 4.418
+        },
+        {
+          "word": "seats",
+          "start": 225.8,
+          "end": 226.14,
+          "freq": 3.046
+        },
+        {
+          "word": "here.",
+          "start": 226.14,
+          "end": 226.46,
+          "freq": 5.363
+        }
+      ],
+      "word": "win House seats here.",
+      "start": 224.38,
+      "end": 226.46,
+      "freq": 3.046
+    },
+    {
+      "words": [
+        {
+          "word": "Exactly.",
+          "start": 227.27999999999997,
+          "end": 227.92,
+          "freq": 4.101
+        },
+        {
+          "word": "Now,",
+          "start": 228.36,
+          "end": 228.74,
+          "freq": 5.213
+        },
+        {
+          "word": "they",
+          "start": 228.88,
+          "end": 229.12,
+          "freq": 5.321
+        },
+        {
+          "word": "would",
+          "start": 229.12,
+          "end": 229.28,
+          "freq": 4.955
+        },
+        {
+          "word": "be",
+          "start": 229.28,
+          "end": 229.52,
+          "freq": 5.467
+        },
+        {
+          "word": "in",
+          "start": 229.52,
+          "end": 229.74,
+          "freq": 5.698
+        },
+        {
+          "word": "a",
+          "start": 229.74,
+          "end": 229.86,
+          "freq": 6.018
+        },
+        {
+          "word": "pretty",
+          "start": 229.86,
+          "end": 230.34,
+          "freq": 4.301
+        }
+      ],
+      "word": "Exactly. Now, they would be in a pretty",
+      "start": 227.27999999999997,
+      "end": 230.34,
+      "freq": 4.101
+    },
+    {
+      "words": [
+        {
+          "word": "tight",
+          "start": 230.34,
+          "end": 230.68,
+          "freq": 3.415
+        },
+        {
+          "word": "sprint,",
+          "start": 230.68,
+          "end": 231.08,
+          "freq": 1.568
+        },
+        {
+          "word": "but",
+          "start": 231.08,
+          "end": 231.92,
+          "freq": 5.353
+        },
+        {
+          "word": "with",
+          "start": 231.92,
+          "end": 232.54,
+          "freq": 5.411
+        },
+        {
+          "word": "some",
+          "start": 232.54,
+          "end": 232.9,
+          "freq": 4.945
+        }
+      ],
+      "word": "tight sprint, but with some",
+      "start": 230.34,
+      "end": 232.9,
+      "freq": 1.568
+    },
+    {
+      "words": [
+        {
+          "word": "dramatic",
+          "start": 232.9,
+          "end": 233.52,
+          "freq": 2.699
+        },
+        {
+          "word": "action",
+          "start": 233.52,
+          "end": 233.92,
+          "freq": 3.494
+        },
+        {
+          "word": "in",
+          "start": 233.92,
+          "end": 234.12,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 234.12,
+          "end": 234.2,
+          "freq": 6.177
+        },
+        {
+          "word": "state",
+          "start": 234.2,
+          "end": 234.38,
+          "freq": 3.74
+        },
+        {
+          "word": "legislature",
+          "start": 234.38,
+          "end": 234.92,
+          "freq": 1.613
+        },
+        {
+          "word": "in",
+          "start": 234.92,
+          "end": 235.16,
+          "freq": 5.698
+        }
+      ],
+      "word": "dramatic action in the state legislature in",
+      "start": 232.9,
+      "end": 235.16,
+      "freq": 1.613
+    },
+    {
+      "words": [
+        {
+          "word": "support",
+          "start": 235.16,
+          "end": 235.5,
+          "freq": 3.413
+        },
+        {
+          "word": "of",
+          "start": 235.5,
+          "end": 235.72,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 235.72,
+          "end": 235.88,
+          "freq": 6.177
+        },
+        {
+          "word": "current",
+          "start": 235.88,
+          "end": 236.38,
+          "freq": 2.939
+        },
+        {
+          "word": "governor,",
+          "start": 236.38,
+          "end": 236.74,
+          "freq": 3.137
+        },
+        {
+          "word": "they",
+          "start": 237.06,
+          "end": 237.56,
+          "freq": 5.321
+        },
+        {
+          "word": "would",
+          "start": 237.56,
+          "end": 237.68,
+          "freq": 4.955
+        },
+        {
+          "word": "be",
+          "start": 237.68,
+          "end": 237.8,
+          "freq": 5.467
+        }
+      ],
+      "word": "support of the current governor, they would be",
+      "start": 235.16,
+      "end": 237.8,
+      "freq": 2.939
+    },
+    {
+      "words": [
+        {
+          "word": "able",
+          "start": 237.8,
+          "end": 238.02,
+          "freq": 3.912
+        },
+        {
+          "word": "to",
+          "start": 238.02,
+          "end": 238.28,
+          "freq": 6.063
+        },
+        {
+          "word": "redraw",
+          "start": 238.28,
+          "end": 238.78,
+          "freq": -1
+        },
+        {
+          "word": "their",
+          "start": 238.78,
+          "end": 238.96,
+          "freq": 4.524
+        },
+        {
+          "word": "maps",
+          "start": 238.96,
+          "end": 239.3,
+          "freq": 2.401
+        },
+        {
+          "word": "ahead",
+          "start": 239.3,
+          "end": 239.94,
+          "freq": 4.005
+        },
+        {
+          "word": "of",
+          "start": 239.94,
+          "end": 240.06,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 240.06,
+          "end": 240.14,
+          "freq": 6.177
+        }
+      ],
+      "word": "able to redraw their maps ahead of the",
+      "start": 237.8,
+      "end": 240.14,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "midterms.",
+          "start": 240.14,
+          "end": 240.62,
+          "freq": -1
+        },
+        {
+          "word": "And",
+          "start": 240.78,
+          "end": 241.08,
+          "freq": 5.834
+        },
+        {
+          "word": "describe",
+          "start": 241.08,
+          "end": 241.36,
+          "freq": 2.938
+        },
+        {
+          "word": "the",
+          "start": 241.36,
+          "end": 241.58,
+          "freq": 6.177
+        },
+        {
+          "word": "seat",
+          "start": 241.58,
+          "end": 241.76,
+          "freq": 3.604
+        },
+        {
+          "word": "that",
+          "start": 241.76,
+          "end": 241.9,
+          "freq": 5.857
+        },
+        {
+          "word": "would",
+          "start": 241.9,
+          "end": 242.06,
+          "freq": 4.955
+        },
+        {
+          "word": "be",
+          "start": 242.06,
+          "end": 242.44,
+          "freq": 5.467
+        }
+      ],
+      "word": "midterms. And describe the seat that would be",
+      "start": 240.14,
+      "end": 242.44,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "wiped",
+          "start": 242.44,
+          "end": 243.04,
+          "freq": 2.604
+        },
+        {
+          "word": "out",
+          "start": 243.04,
+          "end": 243.52,
+          "freq": 5.295
+        },
+        {
+          "word": "if",
+          "start": 243.52,
+          "end": 244.3,
+          "freq": 5.257
+        },
+        {
+          "word": "Senator",
+          "start": 244.3,
+          "end": 244.76,
+          "freq": 3.228
+        }
+      ],
+      "word": "wiped out if Senator",
+      "start": 242.44,
+      "end": 244.76,
+      "freq": 2.604
+    },
+    {
+      "words": [
+        {
+          "word": "Blackburn",
+          "start": 244.76,
+          "end": 245.34,
+          "freq": -1
+        },
+        {
+          "word": "got",
+          "start": 245.34,
+          "end": 246.0,
+          "freq": 5.227
+        },
+        {
+          "word": "her",
+          "start": 246.0,
+          "end": 246.18,
+          "freq": 5.16
+        },
+        {
+          "word": "way",
+          "start": 246.18,
+          "end": 246.58,
+          "freq": 4.861
+        },
+        {
+          "word": "in",
+          "start": 246.58,
+          "end": 246.86,
+          "freq": 5.698
+        }
+      ],
+      "word": "Blackburn got her way in",
+      "start": 244.76,
+      "end": 246.86,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Tennessee.",
+          "start": 246.86,
+          "end": 247.14,
+          "freq": 2.312
+        },
+        {
+          "word": "So",
+          "start": 247.14,
+          "end": 248.34,
+          "freq": 5.335
+        },
+        {
+          "word": "this",
+          "start": 248.34,
+          "end": 248.82,
+          "freq": 5.609
+        },
+        {
+          "word": "district",
+          "start": 248.82,
+          "end": 249.3,
+          "freq": 3.029
+        },
+        {
+          "word": "in",
+          "start": 249.3,
+          "end": 249.76,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 249.76,
+          "end": 249.88,
+          "freq": 6.177
+        }
+      ],
+      "word": "Tennessee. So this district in the",
+      "start": 246.86,
+      "end": 249.88,
+      "freq": 2.312
+    },
+    {
+      "words": [
+        {
+          "word": "southwestern",
+          "start": 249.88,
+          "end": 250.54,
+          "freq": 1.23
+        },
+        {
+          "word": "part",
+          "start": 250.54,
+          "end": 250.96,
+          "freq": 4.125
+        },
+        {
+          "word": "of",
+          "start": 250.96,
+          "end": 251.08,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 251.08,
+          "end": 251.16,
+          "freq": 6.177
+        },
+        {
+          "word": "state",
+          "start": 251.16,
+          "end": 251.44,
+          "freq": 3.74
+        },
+        {
+          "word": "is",
+          "start": 251.44,
+          "end": 252.06,
+          "freq": 5.662
+        },
+        {
+          "word": "the",
+          "start": 252.06,
+          "end": 252.2,
+          "freq": 6.177
+        }
+      ],
+      "word": "southwestern part of the state is the",
+      "start": 249.88,
+      "end": 252.2,
+      "freq": 1.23
+    },
+    {
+      "words": [
+        {
+          "word": "lone",
+          "start": 252.2,
+          "end": 252.58,
+          "freq": 2.43
+        },
+        {
+          "word": "Democratic",
+          "start": 252.58,
+          "end": 252.94,
+          "freq": 2.26
+        },
+        {
+          "word": "district",
+          "start": 252.94,
+          "end": 253.4,
+          "freq": 3.029
+        },
+        {
+          "word": "in",
+          "start": 253.4,
+          "end": 253.86,
+          "freq": 5.698
+        },
+        {
+          "word": "Tennessee.",
+          "start": 253.86,
+          "end": 254.3,
+          "freq": 2.312
+        },
+        {
+          "word": "It",
+          "start": 254.4,
+          "end": 255.24,
+          "freq": 5.984
+        }
+      ],
+      "word": "lone Democratic district in Tennessee. It",
+      "start": 252.2,
+      "end": 255.24,
+      "freq": 2.26
+    },
+    {
+      "words": [
+        {
+          "word": "encompasses",
+          "start": 255.24,
+          "end": 255.92,
+          "freq": 0.903
+        },
+        {
+          "word": "Memphis",
+          "start": 255.92,
+          "end": 256.44,
+          "freq": 2.403
+        },
+        {
+          "word": "and",
+          "start": 256.44,
+          "end": 257.26,
+          "freq": 5.834
+        },
+        {
+          "word": "is",
+          "start": 257.26,
+          "end": 257.6,
+          "freq": 5.662
+        },
+        {
+          "word": "a",
+          "start": 257.6,
+          "end": 257.74,
+          "freq": 6.018
+        }
+      ],
+      "word": "encompasses Memphis and is a",
+      "start": 255.24,
+      "end": 257.74,
+      "freq": 0.903
+    },
+    {
+      "words": [
+        {
+          "word": "majority",
+          "start": 257.74,
+          "end": 258.02,
+          "freq": 2.418
+        },
+        {
+          "word": "minority",
+          "start": 258.02,
+          "end": 258.3,
+          "freq": 2.057
+        },
+        {
+          "word": "district",
+          "start": 258.3,
+          "end": 258.74,
+          "freq": 3.029
+        },
+        {
+          "word": "with",
+          "start": 258.74,
+          "end": 259.28,
+          "freq": 5.411
+        },
+        {
+          "word": "roughly",
+          "start": 259.28,
+          "end": 259.78,
+          "freq": 2.207
+        },
+        {
+          "word": "60",
+          "start": 259.78,
+          "end": 260.44,
+          "freq": -1
+        }
+      ],
+      "word": "majority minority district with roughly 60",
+      "start": 257.74,
+      "end": 260.44,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "percent",
+          "start": 260.44,
+          "end": 260.86,
+          "freq": 3.119
+        },
+        {
+          "word": "of",
+          "start": 260.86,
+          "end": 261.42,
+          "freq": 5.771
+        },
+        {
+          "word": "a",
+          "start": 261.42,
+          "end": 261.54,
+          "freq": 6.018
+        },
+        {
+          "word": "black",
+          "start": 261.54,
+          "end": 261.74,
+          "freq": 3.933
+        },
+        {
+          "word": "voting",
+          "start": 261.74,
+          "end": 262.0,
+          "freq": 2.384
+        },
+        {
+          "word": "age",
+          "start": 262.0,
+          "end": 262.16,
+          "freq": 3.606
+        },
+        {
+          "word": "population",
+          "start": 262.16,
+          "end": 262.7,
+          "freq": 2.667
+        },
+        {
+          "word": "and",
+          "start": 262.7,
+          "end": 263.3,
+          "freq": 5.834
+        },
+        {
+          "word": "a",
+          "start": 263.3,
+          "end": 263.5,
+          "freq": 6.018
+        }
+      ],
+      "word": "percent of a black voting age population and a",
+      "start": 260.44,
+      "end": 263.5,
+      "freq": 2.384
+    },
+    {
+      "words": [
+        {
+          "word": "major",
+          "start": 263.5,
+          "end": 263.88,
+          "freq": 3.728
+        },
+        {
+          "word": "black",
+          "start": 263.88,
+          "end": 264.28,
+          "freq": 3.933
+        },
+        {
+          "word": "population",
+          "start": 264.28,
+          "end": 264.76,
+          "freq": 2.667
+        },
+        {
+          "word": "city",
+          "start": 264.76,
+          "end": 265.16,
+          "freq": 3.936
+        },
+        {
+          "word": "like",
+          "start": 265.16,
+          "end": 265.82,
+          "freq": 5.309
+        }
+      ],
+      "word": "major black population city like",
+      "start": 263.5,
+      "end": 265.82,
+      "freq": 2.667
+    },
+    {
+      "words": [
+        {
+          "word": "Memphis",
+          "start": 265.82,
+          "end": 266.28,
+          "freq": 2.403
+        },
+        {
+          "word": "in",
+          "start": 266.28,
+          "end": 266.64,
+          "freq": 5.698
+        },
+        {
+          "word": "there.",
+          "start": 266.64,
+          "end": 266.84,
+          "freq": 5.346
+        },
+        {
+          "word": "So",
+          "start": 266.84,
+          "end": 267.74,
+          "freq": 5.335
+        },
+        {
+          "word": "if",
+          "start": 267.74,
+          "end": 267.9,
+          "freq": 5.257
+        }
+      ],
+      "word": "Memphis in there. So if",
+      "start": 265.82,
+      "end": 267.9,
+      "freq": 2.403
+    },
+    {
+      "words": [
+        {
+          "word": "Republicans",
+          "start": 267.9,
+          "end": 268.28,
+          "freq": 1.792
+        },
+        {
+          "word": "were",
+          "start": 268.28,
+          "end": 268.56,
+          "freq": 4.928
+        },
+        {
+          "word": "to",
+          "start": 268.56,
+          "end": 268.68,
+          "freq": 6.063
+        },
+        {
+          "word": "take",
+          "start": 268.68,
+          "end": 269.02,
+          "freq": 4.984
+        },
+        {
+          "word": "a",
+          "start": 269.02,
+          "end": 269.68,
+          "freq": 6.018
+        },
+        {
+          "word": "ruthless",
+          "start": 269.68,
+          "end": 270.06,
+          "freq": 2.326
+        }
+      ],
+      "word": "Republicans were to take a ruthless",
+      "start": 267.9,
+      "end": 270.06,
+      "freq": 1.792
+    },
+    {
+      "words": [
+        {
+          "word": "gerrymander",
+          "start": 270.06,
+          "end": 270.72,
+          "freq": 0.0
+        },
+        {
+          "word": "to",
+          "start": 270.72,
+          "end": 270.9,
+          "freq": 6.063
+        },
+        {
+          "word": "that",
+          "start": 270.9,
+          "end": 271.04,
+          "freq": 5.857
+        },
+        {
+          "word": "city,",
+          "start": 271.04,
+          "end": 271.28,
+          "freq": 3.936
+        },
+        {
+          "word": "they'd",
+          "start": 271.4,
+          "end": 271.56,
+          "freq": -1
+        },
+        {
+          "word": "be",
+          "start": 271.56,
+          "end": 271.74,
+          "freq": 5.467
+        },
+        {
+          "word": "splitting",
+          "start": 271.74,
+          "end": 272.42,
+          "freq": 2.31
+        }
+      ],
+      "word": "gerrymander to that city, they'd be splitting",
+      "start": 270.06,
+      "end": 272.42,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "apart",
+          "start": 272.42,
+          "end": 272.82,
+          "freq": 3.38
+        },
+        {
+          "word": "these",
+          "start": 272.82,
+          "end": 273.24,
+          "freq": 4.664
+        },
+        {
+          "word": "black",
+          "start": 273.24,
+          "end": 273.46,
+          "freq": 3.933
+        },
+        {
+          "word": "voters",
+          "start": 273.46,
+          "end": 273.86,
+          "freq": 2.029
+        },
+        {
+          "word": "into",
+          "start": 273.86,
+          "end": 274.64,
+          "freq": 4.634
+        },
+        {
+          "word": "a",
+          "start": 274.64,
+          "end": 275.32,
+          "freq": 6.018
+        },
+        {
+          "word": "number",
+          "start": 275.32,
+          "end": 275.82,
+          "freq": 4.09
+        },
+        {
+          "word": "of",
+          "start": 275.82,
+          "end": 276.28,
+          "freq": 5.771
+        },
+        {
+          "word": "other",
+          "start": 276.28,
+          "end": 276.5,
+          "freq": 4.574
+        }
+      ],
+      "word": "apart these black voters into a number of other",
+      "start": 272.42,
+      "end": 276.5,
+      "freq": 2.029
+    },
+    {
+      "words": [
+        {
+          "word": "Republican",
+          "start": 276.5,
+          "end": 276.98,
+          "freq": 2.316
+        },
+        {
+          "word": "districts.",
+          "start": 276.98,
+          "end": 277.6,
+          "freq": 1.477
+        },
+        {
+          "word": "Got",
+          "start": 277.84,
+          "end": 278.36,
+          "freq": 5.227
+        },
+        {
+          "word": "it.",
+          "start": 278.36,
+          "end": 278.54,
+          "freq": 5.984
+        },
+        {
+          "word": "A",
+          "start": 278.86,
+          "end": 279.24,
+          "freq": 6.018
+        },
+        {
+          "word": "pretty",
+          "start": 279.24,
+          "end": 279.46,
+          "freq": 4.301
+        },
+        {
+          "word": "big",
+          "start": 279.46,
+          "end": 279.92,
+          "freq": 4.542
+        }
+      ],
+      "word": "Republican districts. Got it. A pretty big",
+      "start": 276.5,
+      "end": 279.92,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "undertaking.",
+          "start": 279.92,
+          "end": 281.14,
+          "freq": 1.613
+        },
+        {
+          "word": "Yeah.",
+          "start": 281.62,
+          "end": 282.1,
+          "freq": 5.183
+        },
+        {
+          "word": "And",
+          "start": 282.3,
+          "end": 282.42,
+          "freq": 5.834
+        },
+        {
+          "word": "there's",
+          "start": 282.42,
+          "end": 282.82,
+          "freq": -1
+        },
+        {
+          "word": "also",
+          "start": 282.82,
+          "end": 283.1,
+          "freq": 4.022
+        },
+        {
+          "word": "the",
+          "start": 283.1,
+          "end": 283.38,
+          "freq": 6.177
+        }
+      ],
+      "word": "undertaking. Yeah. And there's also the",
+      "start": 279.92,
+      "end": 283.38,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "cartographical",
+          "start": 283.38,
+          "end": 284.48,
+          "freq": -1,
+          "is_target": true
+        },
+        {
+          "word": "challenge",
+          "start": 284.48,
+          "end": 285.04,
+          "freq": 3.006
+        },
+        {
+          "word": "to",
+          "start": 285.04,
+          "end": 285.3,
+          "freq": 6.063
+        },
+        {
+          "word": "use",
+          "start": 285.3,
+          "end": 285.66,
+          "freq": 4.244
+        },
+        {
+          "word": "a",
+          "start": 285.66,
+          "end": 285.98,
+          "freq": 6.018
+        },
+        {
+          "word": "multi",
+          "start": 285.98,
+          "end": 286.52,
+          "freq": -1
+        }
+      ],
+      "word": "cartographical challenge to use a multi",
+      "start": 283.38,
+      "end": 286.52,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "-syllable",
+          "start": 286.52,
+          "end": 286.92,
+          "freq": 1.633
+        },
+        {
+          "word": "word",
+          "start": 286.92,
+          "end": 287.22,
+          "freq": 4.08
+        },
+        {
+          "word": "there",
+          "start": 287.22,
+          "end": 287.42,
+          "freq": 5.346
+        },
+        {
+          "word": "where",
+          "start": 287.42,
+          "end": 287.66,
+          "freq": 4.97
+        },
+        {
+          "word": "when",
+          "start": 287.66,
+          "end": 288.52,
+          "freq": 5.016
+        },
+        {
+          "word": "a",
+          "start": 288.52,
+          "end": 288.68,
+          "freq": 6.018
+        }
+      ],
+      "word": "-syllable word there where when a",
+      "start": 286.52,
+      "end": 288.68,
+      "freq": 1.633
+    },
+    {
+      "words": [
+        {
+          "word": "district",
+          "start": 288.68,
+          "end": 289.0,
+          "freq": 3.029
+        },
+        {
+          "word": "is",
+          "start": 289.0,
+          "end": 289.3,
+          "freq": 5.662
+        },
+        {
+          "word": "in",
+          "start": 289.3,
+          "end": 289.46,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 289.46,
+          "end": 289.62,
+          "freq": 6.177
+        },
+        {
+          "word": "corner",
+          "start": 289.62,
+          "end": 289.92,
+          "freq": 3.428
+        },
+        {
+          "word": "of",
+          "start": 289.92,
+          "end": 290.34,
+          "freq": 5.771
+        },
+        {
+          "word": "a",
+          "start": 290.34,
+          "end": 290.48,
+          "freq": 6.018
+        },
+        {
+          "word": "state,",
+          "start": 290.48,
+          "end": 290.66,
+          "freq": 3.74
+        },
+        {
+          "word": "it's",
+          "start": 290.94,
+          "end": 291.04,
+          "freq": 3.942
+        },
+        {
+          "word": "a",
+          "start": 291.04,
+          "end": 291.14,
+          "freq": 6.018
+        },
+        {
+          "word": "lot",
+          "start": 291.14,
+          "end": 291.44,
+          "freq": 4.463
+        }
+      ],
+      "word": "district is in the corner of a state, it's a lot",
+      "start": 288.68,
+      "end": 291.44,
+      "freq": 3.029
+    },
+    {
+      "words": [
+        {
+          "word": "harder",
+          "start": 291.44,
+          "end": 291.7,
+          "freq": 3.189
+        },
+        {
+          "word": "to",
+          "start": 291.7,
+          "end": 291.86,
+          "freq": 6.063
+        },
+        {
+          "word": "carve",
+          "start": 291.86,
+          "end": 292.08,
+          "freq": 2.201
+        },
+        {
+          "word": "up",
+          "start": 292.08,
+          "end": 292.32,
+          "freq": 5.272
+        },
+        {
+          "word": "than",
+          "start": 292.32,
+          "end": 292.8,
+          "freq": 4.576
+        },
+        {
+          "word": "if",
+          "start": 292.8,
+          "end": 292.98,
+          "freq": 5.257
+        },
+        {
+          "word": "it",
+          "start": 292.98,
+          "end": 293.04,
+          "freq": 5.984
+        },
+        {
+          "word": "were",
+          "start": 293.04,
+          "end": 293.16,
+          "freq": 4.928
+        },
+        {
+          "word": "in",
+          "start": 293.16,
+          "end": 293.3,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 293.3,
+          "end": 293.38,
+          "freq": 6.177
+        },
+        {
+          "word": "middle",
+          "start": 293.38,
+          "end": 293.62,
+          "freq": 3.658
+        },
+        {
+          "word": "and",
+          "start": 293.62,
+          "end": 293.96,
+          "freq": 5.834
+        },
+        {
+          "word": "you",
+          "start": 293.96,
+          "end": 294.08,
+          "freq": 6.329
+        },
+        {
+          "word": "can",
+          "start": 294.08,
+          "end": 294.22,
+          "freq": 5.428
+        }
+      ],
+      "word": "harder to carve up than if it were in the middle and you can",
+      "start": 291.44,
+      "end": 294.22,
+      "freq": 2.201
+    },
+    {
+      "words": [
+        {
+          "word": "split",
+          "start": 294.22,
+          "end": 294.48,
+          "freq": 3.291
+        },
+        {
+          "word": "it",
+          "start": 294.48,
+          "end": 294.58,
+          "freq": 5.984
+        },
+        {
+          "word": "apart",
+          "start": 294.58,
+          "end": 294.78,
+          "freq": 3.38
+        },
+        {
+          "word": "like",
+          "start": 294.78,
+          "end": 294.98,
+          "freq": 5.309
+        },
+        {
+          "word": "a",
+          "start": 294.98,
+          "end": 295.08,
+          "freq": 6.018
+        },
+        {
+          "word": "piece",
+          "start": 295.08,
+          "end": 295.24,
+          "freq": 3.803
+        },
+        {
+          "word": "of",
+          "start": 295.24,
+          "end": 295.4,
+          "freq": 5.771
+        },
+        {
+          "word": "pie.",
+          "start": 295.4,
+          "end": 295.52,
+          "freq": 3.166
+        },
+        {
+          "word": "So",
+          "start": 295.52,
+          "end": 296.3,
+          "freq": 5.335
+        },
+        {
+          "word": "there",
+          "start": 296.3,
+          "end": 297.06,
+          "freq": 5.346
+        },
+        {
+          "word": "are",
+          "start": 297.06,
+          "end": 297.38,
+          "freq": 5.424
+        },
+        {
+          "word": "both",
+          "start": 297.38,
+          "end": 297.74,
+          "freq": 4.178
+        }
+      ],
+      "word": "split it apart like a piece of pie. So there are both",
+      "start": 294.22,
+      "end": 297.74,
+      "freq": 3.166
+    },
+    {
+      "words": [
+        {
+          "word": "calendar",
+          "start": 297.74,
+          "end": 298.18,
+          "freq": 2.561
+        },
+        {
+          "word": "challenges,",
+          "start": 298.18,
+          "end": 298.74,
+          "freq": 2.041
+        },
+        {
+          "word": "geographical",
+          "start": 299.7,
+          "end": 300.1,
+          "freq": 1.505
+        }
+      ],
+      "word": "calendar challenges, geographical",
+      "start": 297.74,
+      "end": 300.1,
+      "freq": 1.505
+    },
+    {
+      "words": [
+        {
+          "word": "challenges,",
+          "start": 300.1,
+          "end": 300.82,
+          "freq": 2.041
+        },
+        {
+          "word": "and",
+          "start": 300.84,
+          "end": 301.56,
+          "freq": 5.834
+        },
+        {
+          "word": "time",
+          "start": 301.56,
+          "end": 302.36,
+          "freq": 5.0
+        }
+      ],
+      "word": "challenges, and time",
+      "start": 300.1,
+      "end": 302.36,
+      "freq": 2.041
+    },
+    {
+      "words": [
+        {
+          "word": "challenges",
+          "start": 302.36,
+          "end": 302.88,
+          "freq": 2.041
+        },
+        {
+          "word": "in",
+          "start": 302.88,
+          "end": 303.18,
+          "freq": 5.698
+        },
+        {
+          "word": "Tennessee.",
+          "start": 303.18,
+          "end": 303.52,
+          "freq": 2.312
+        },
+        {
+          "word": "But",
+          "start": 303.92,
+          "end": 304.58,
+          "freq": 5.353
+        }
+      ],
+      "word": "challenges in Tennessee. But",
+      "start": 302.36,
+      "end": 304.58,
+      "freq": 2.041
+    },
+    {
+      "words": [
+        {
+          "word": "Republicans",
+          "start": 304.58,
+          "end": 305.22,
+          "freq": 1.792
+        },
+        {
+          "word": "also",
+          "start": 305.22,
+          "end": 305.6,
+          "freq": 4.022
+        },
+        {
+          "word": "have",
+          "start": 305.6,
+          "end": 306.06,
+          "freq": 5.497
+        },
+        {
+          "word": "a",
+          "start": 306.06,
+          "end": 306.38,
+          "freq": 6.018
+        },
+        {
+          "word": "very",
+          "start": 306.38,
+          "end": 306.84,
+          "freq": 4.801
+        }
+      ],
+      "word": "Republicans also have a very",
+      "start": 304.58,
+      "end": 306.84,
+      "freq": 1.792
+    },
+    {
+      "words": [
+        {
+          "word": "immediate",
+          "start": 306.84,
+          "end": 307.42,
+          "freq": 2.757
+        },
+        {
+          "word": "use",
+          "start": 307.42,
+          "end": 307.98,
+          "freq": 4.244
+        },
+        {
+          "word": "of",
+          "start": 307.98,
+          "end": 308.16,
+          "freq": 5.771
+        },
+        {
+          "word": "this",
+          "start": 308.16,
+          "end": 308.36,
+          "freq": 5.609
+        },
+        {
+          "word": "ruling",
+          "start": 308.36,
+          "end": 308.72,
+          "freq": 2.322
+        },
+        {
+          "word": "when",
+          "start": 308.72,
+          "end": 309.28,
+          "freq": 5.016
+        }
+      ],
+      "word": "immediate use of this ruling when",
+      "start": 306.84,
+      "end": 309.28,
+      "freq": 2.322
+    },
+    {
+      "words": [
+        {
+          "word": "it",
+          "start": 309.28,
+          "end": 309.38,
+          "freq": 5.984
+        },
+        {
+          "word": "comes",
+          "start": 309.38,
+          "end": 309.6,
+          "freq": 4.067
+        },
+        {
+          "word": "to",
+          "start": 309.6,
+          "end": 309.76,
+          "freq": 6.063
+        },
+        {
+          "word": "new",
+          "start": 309.76,
+          "end": 309.94,
+          "freq": 4.567
+        },
+        {
+          "word": "maps",
+          "start": 309.94,
+          "end": 310.18,
+          "freq": 2.401
+        },
+        {
+          "word": "in",
+          "start": 310.18,
+          "end": 310.52,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 310.52,
+          "end": 310.6,
+          "freq": 6.177
+        },
+        {
+          "word": "midterms,",
+          "start": 310.6,
+          "end": 311.06,
+          "freq": -1
+        },
+        {
+          "word": "and",
+          "start": 311.18,
+          "end": 311.46,
+          "freq": 5.834
+        },
+        {
+          "word": "that's",
+          "start": 311.46,
+          "end": 311.68,
+          "freq": -1
+        },
+        {
+          "word": "in",
+          "start": 311.68,
+          "end": 311.8,
+          "freq": 5.698
+        }
+      ],
+      "word": "it comes to new maps in the midterms, and that's in",
+      "start": 309.28,
+      "end": 311.8,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "Florida.",
+          "start": 311.8,
+          "end": 312.2,
+          "freq": 2.973,
+          "is_target": true
+        },
+        {
+          "word": "Now,",
+          "start": 312.6,
+          "end": 313.24,
+          "freq": 5.213
+        },
+        {
+          "word": "earlier",
+          "start": 313.4,
+          "end": 313.8,
+          "freq": 3.303
+        },
+        {
+          "word": "this",
+          "start": 313.8,
+          "end": 314.04,
+          "freq": 5.609
+        }
+      ],
+      "word": "Florida. Now, earlier this",
+      "start": 311.8,
+      "end": 314.04,
+      "freq": 2.973
+    },
+    {
+      "words": [
+        {
+          "word": "week,",
+          "start": 314.04,
+          "end": 314.32,
+          "freq": 4.085
+        },
+        {
+          "word": "Governor",
+          "start": 314.56,
+          "end": 314.74,
+          "freq": 3.137
+        },
+        {
+          "word": "Ron",
+          "start": 314.74,
+          "end": 314.94,
+          "freq": 0.0
+        },
+        {
+          "word": "DeSantis",
+          "start": 314.94,
+          "end": 315.34,
+          "freq": -1
+        },
+        {
+          "word": "introduced",
+          "start": 315.34,
+          "end": 315.94,
+          "freq": 2.774
+        },
+        {
+          "word": "a",
+          "start": 315.94,
+          "end": 316.12,
+          "freq": 6.018
+        },
+        {
+          "word": "new",
+          "start": 316.12,
+          "end": 316.24,
+          "freq": 4.567
+        }
+      ],
+      "word": "week, Governor Ron DeSantis introduced a new",
+      "start": 314.04,
+      "end": 316.24,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "map,",
+          "start": 316.24,
+          "end": 316.56,
+          "freq": 3.211
+        },
+        {
+          "word": "and",
+          "start": 316.68,
+          "end": 316.9,
+          "freq": 5.834
+        },
+        {
+          "word": "it's",
+          "start": 316.9,
+          "end": 317.06,
+          "freq": 3.942
+        },
+        {
+          "word": "in",
+          "start": 317.06,
+          "end": 317.12,
+          "freq": 5.698
+        },
+        {
+          "word": "a",
+          "start": 317.12,
+          "end": 317.22,
+          "freq": 6.018
+        },
+        {
+          "word": "very",
+          "start": 317.22,
+          "end": 317.62,
+          "freq": 4.801
+        },
+        {
+          "word": "aggressive",
+          "start": 317.62,
+          "end": 318.2,
+          "freq": 2.608
+        },
+        {
+          "word": "gerrymander.",
+          "start": 318.2,
+          "end": 318.88,
+          "freq": 0.0
+        },
+        {
+          "word": "It",
+          "start": 319.14,
+          "end": 319.68,
+          "freq": 5.984
+        },
+        {
+          "word": "would",
+          "start": 319.68,
+          "end": 319.9,
+          "freq": 4.955
+        }
+      ],
+      "word": "map, and it's in a very aggressive gerrymander. It would",
+      "start": 316.24,
+      "end": 319.9,
+      "freq": 0.0
+    },
+    {
+      "words": [
+        {
+          "word": "eliminate",
+          "start": 319.9,
+          "end": 320.44,
+          "freq": 2.486
+        },
+        {
+          "word": "four",
+          "start": 320.44,
+          "end": 321.16,
+          "freq": 4.115
+        },
+        {
+          "word": "of",
+          "start": 321.16,
+          "end": 321.46,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 321.46,
+          "end": 321.62,
+          "freq": 6.177
+        },
+        {
+          "word": "eight",
+          "start": 321.62,
+          "end": 321.96,
+          "freq": 3.7
+        }
+      ],
+      "word": "eliminate four of the eight",
+      "start": 319.9,
+      "end": 321.96,
+      "freq": 2.486
+    },
+    {
+      "words": [
+        {
+          "word": "Democratic",
+          "start": 321.96,
+          "end": 322.68,
+          "freq": 2.26
+        },
+        {
+          "word": "districts",
+          "start": 322.68,
+          "end": 323.52,
+          "freq": 1.477
+        },
+        {
+          "word": "currently",
+          "start": 323.52,
+          "end": 324.12,
+          "freq": 2.546
+        },
+        {
+          "word": "in",
+          "start": 324.12,
+          "end": 324.26,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 324.26,
+          "end": 324.36,
+          "freq": 6.177
+        }
+      ],
+      "word": "Democratic districts currently in the",
+      "start": 321.96,
+      "end": 324.36,
+      "freq": 1.477
+    },
+    {
+      "words": [
+        {
+          "word": "state.",
+          "start": 324.36,
+          "end": 324.62,
+          "freq": 3.74
+        },
+        {
+          "word": "Half.",
+          "start": 324.62,
+          "end": 325.22,
+          "freq": 4.007
+        },
+        {
+          "word": "Wow.",
+          "start": 325.4,
+          "end": 325.5,
+          "freq": 3.912
+        },
+        {
+          "word": "Yeah,",
+          "start": 325.9,
+          "end": 326.12,
+          "freq": 5.183
+        },
+        {
+          "word": "it's",
+          "start": 326.3,
+          "end": 326.66,
+          "freq": 3.942
+        },
+        {
+          "word": "a",
+          "start": 326.66,
+          "end": 326.78,
+          "freq": 6.018
+        }
+      ],
+      "word": "state. Half. Wow. Yeah, it's a",
+      "start": 324.36,
+      "end": 326.78,
+      "freq": 3.74
+    },
+    {
+      "words": [
+        {
+          "word": "it's",
+          "start": 326.78,
+          "end": 327.06,
+          "freq": 3.942
+        },
+        {
+          "word": "a",
+          "start": 327.06,
+          "end": 327.16,
+          "freq": 6.018
+        },
+        {
+          "word": "significant",
+          "start": 327.16,
+          "end": 327.78,
+          "freq": 2.521
+        },
+        {
+          "word": "redrawing",
+          "start": 327.78,
+          "end": 328.38,
+          "freq": -1
+        },
+        {
+          "word": "of",
+          "start": 328.38,
+          "end": 328.64,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 328.64,
+          "end": 328.74,
+          "freq": 6.177
+        },
+        {
+          "word": "state's",
+          "start": 328.74,
+          "end": 329.16,
+          "freq": 3.441
+        }
+      ],
+      "word": "it's a significant redrawing of the state's",
+      "start": 326.78,
+      "end": 329.16,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "political",
+          "start": 329.16,
+          "end": 329.76,
+          "freq": 3.048
+        },
+        {
+          "word": "divisions.",
+          "start": 329.76,
+          "end": 330.32,
+          "freq": 2.117
+        },
+        {
+          "word": "Now,",
+          "start": 330.6,
+          "end": 331.2,
+          "freq": 5.213
+        },
+        {
+          "word": "in",
+          "start": 331.34,
+          "end": 331.52,
+          "freq": 5.698
+        }
+      ],
+      "word": "political divisions. Now, in",
+      "start": 329.16,
+      "end": 331.52,
+      "freq": 2.117
+    },
+    {
+      "words": [
+        {
+          "word": "justifying",
+          "start": 331.52,
+          "end": 332.26,
+          "freq": 1.146
+        },
+        {
+          "word": "drawing",
+          "start": 332.26,
+          "end": 332.72,
+          "freq": 2.913
+        },
+        {
+          "word": "new",
+          "start": 332.72,
+          "end": 332.96,
+          "freq": 4.567
+        },
+        {
+          "word": "maps,",
+          "start": 332.96,
+          "end": 333.4,
+          "freq": 2.401
+        },
+        {
+          "word": "Governor",
+          "start": 334.02,
+          "end": 334.26,
+          "freq": 3.137
+        }
+      ],
+      "word": "justifying drawing new maps, Governor",
+      "start": 331.52,
+      "end": 334.26,
+      "freq": 1.146
+    },
+    {
+      "words": [
+        {
+          "word": "DeSantis",
+          "start": 334.26,
+          "end": 334.78,
+          "freq": -1
+        },
+        {
+          "word": "had",
+          "start": 334.78,
+          "end": 335.3,
+          "freq": 4.932
+        },
+        {
+          "word": "pointed",
+          "start": 335.3,
+          "end": 335.7,
+          "freq": 2.589
+        },
+        {
+          "word": "to",
+          "start": 335.7,
+          "end": 335.9,
+          "freq": 6.063
+        },
+        {
+          "word": "this",
+          "start": 335.9,
+          "end": 336.18,
+          "freq": 5.609
+        },
+        {
+          "word": "looming",
+          "start": 336.18,
+          "end": 336.68,
+          "freq": 1.447
+        }
+      ],
+      "word": "DeSantis had pointed to this looming",
+      "start": 334.26,
+      "end": 336.68,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "decision",
+          "start": 336.68,
+          "end": 337.06,
+          "freq": 3.449
+        },
+        {
+          "word": "before",
+          "start": 337.06,
+          "end": 337.36,
+          "freq": 4.607
+        },
+        {
+          "word": "the",
+          "start": 337.36,
+          "end": 337.54,
+          "freq": 6.177
+        },
+        {
+          "word": "court",
+          "start": 337.54,
+          "end": 337.86,
+          "freq": 3.711
+        },
+        {
+          "word": "as",
+          "start": 337.86,
+          "end": 338.68,
+          "freq": 5.053
+        },
+        {
+          "word": "a",
+          "start": 338.68,
+          "end": 338.82,
+          "freq": 6.018
+        }
+      ],
+      "word": "decision before the court as a",
+      "start": 336.68,
+      "end": 338.82,
+      "freq": 3.449
+    },
+    {
+      "words": [
+        {
+          "word": "reason",
+          "start": 338.82,
+          "end": 339.32,
+          "freq": 3.994
+        },
+        {
+          "word": "that",
+          "start": 339.32,
+          "end": 339.62,
+          "freq": 5.857
+        },
+        {
+          "word": "the",
+          "start": 339.62,
+          "end": 339.76,
+          "freq": 6.177
+        },
+        {
+          "word": "state",
+          "start": 339.76,
+          "end": 340.02,
+          "freq": 3.74
+        },
+        {
+          "word": "needed",
+          "start": 340.02,
+          "end": 340.52,
+          "freq": 3.683
+        },
+        {
+          "word": "to",
+          "start": 340.52,
+          "end": 340.7,
+          "freq": 6.063
+        },
+        {
+          "word": "redraw",
+          "start": 340.7,
+          "end": 341.16,
+          "freq": -1
+        },
+        {
+          "word": "its",
+          "start": 341.16,
+          "end": 341.62,
+          "freq": 3.942
+        }
+      ],
+      "word": "reason that the state needed to redraw its",
+      "start": 338.82,
+      "end": 341.62,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "maps",
+          "start": 341.62,
+          "end": 341.84,
+          "freq": 2.401
+        },
+        {
+          "word": "ahead",
+          "start": 341.84,
+          "end": 342.02,
+          "freq": 4.005
+        },
+        {
+          "word": "of",
+          "start": 342.02,
+          "end": 342.12,
+          "freq": 5.771
+        },
+        {
+          "word": "the",
+          "start": 342.12,
+          "end": 342.2,
+          "freq": 6.177
+        },
+        {
+          "word": "midterms.",
+          "start": 342.2,
+          "end": 342.7,
+          "freq": -1
+        },
+        {
+          "word": "And",
+          "start": 343.20000000000005,
+          "end": 343.54,
+          "freq": 5.834
+        },
+        {
+          "word": "he",
+          "start": 343.54,
+          "end": 343.88,
+          "freq": 5.59
+        }
+      ],
+      "word": "maps ahead of the midterms. And he",
+      "start": 341.62,
+      "end": 343.88,
+      "freq": -1
+    },
+    {
+      "words": [
+        {
+          "word": "anticipated",
+          "start": 343.88,
+          "end": 344.44,
+          "freq": 2.13
+        },
+        {
+          "word": "that",
+          "start": 344.44,
+          "end": 344.86,
+          "freq": 5.857
+        },
+        {
+          "word": "the",
+          "start": 344.86,
+          "end": 344.96,
+          "freq": 6.177
+        },
+        {
+          "word": "ruling",
+          "start": 344.96,
+          "end": 345.2,
+          "freq": 2.322
+        },
+        {
+          "word": "would",
+          "start": 345.2,
+          "end": 345.4,
+          "freq": 4.955
+        },
+        {
+          "word": "go",
+          "start": 345.4,
+          "end": 345.88,
+          "freq": 5.287
+        }
+      ],
+      "word": "anticipated that the ruling would go",
+      "start": 343.88,
+      "end": 345.88,
+      "freq": 2.13
+    },
+    {
+      "words": [
+        {
+          "word": "essentially",
+          "start": 345.88,
+          "end": 346.76,
+          "freq": 2.223
+        },
+        {
+          "word": "Republicans",
+          "start": 346.76,
+          "end": 347.8,
+          "freq": 1.792
+        },
+        {
+          "word": "way.",
+          "start": 347.8,
+          "end": 348.28,
+          "freq": 4.861
+        },
+        {
+          "word": "Exactly.",
+          "start": 348.8,
+          "end": 349.2,
+          "freq": 4.101
+        },
+        {
+          "word": "And",
+          "start": 349.56,
+          "end": 349.9,
+          "freq": 5.834
+        },
+        {
+          "word": "so",
+          "start": 349.9,
+          "end": 350.18,
+          "freq": 5.335
+        },
+        {
+          "word": "today,",
+          "start": 350.18,
+          "end": 350.74,
+          "freq": 4.345
+        }
+      ],
+      "word": "essentially Republicans way. Exactly. And so today,",
+      "start": 345.88,
+      "end": 350.74,
+      "freq": 1.792
+    },
+    {
+      "words": [
+        {
+          "word": "Republicans",
+          "start": 351.22,
+          "end": 351.74,
+          "freq": 1.792
+        },
+        {
+          "word": "in",
+          "start": 351.74,
+          "end": 351.98,
+          "freq": 5.698
+        },
+        {
+          "word": "the",
+          "start": 351.98,
+          "end": 352.08,
+          "freq": 6.177
+        },
+        {
+          "word": "state",
+          "start": 352.08,
+          "end": 352.28,
+          "freq": 3.74
+        },
+        {
+          "word": "legislature",
+          "start": 352.28,
+          "end": 352.84,
+          "freq": 1.613
+        },
+        {
+          "word": "pass",
+          "start": 352.84,
+          "end": 353.42,
+          "freq": 3.741
+        },
+        {
+          "word": "these",
+          "start": 353.42,
+          "end": 353.66,
+          "freq": 4.664
+        },
+        {
+          "word": "new",
+          "start": 353.66,
+          "end": 353.8,
+          "freq": 4.567
+        }
+      ],
+      "word": "Republicans in the state legislature pass these new",
+      "start": 351.22,
+      "end": 353.8,
+      "freq": 1.613
+    },
+    {
+      "words": [
+        {
+          "word": "maps.",
+          "start": 353.8,
+          "end": 354.14,
+          "freq": 2.401
+        },
+        {
+          "word": "And",
+          "start": 354.14,
+          "end": 354.94,
+          "freq": 5.834
+        },
+        {
+          "word": "while",
+          "start": 354.94,
+          "end": 355.34,
+          "freq": 4.251
+        },
+        {
+          "word": "it's",
+          "start": 355.34,
+          "end": 355.68,
+          "freq": 3.942
+        },
+        {
+          "word": "likely",
+          "start": 355.68,
+          "end": 356.74,
+          "freq": 3.119
+        }
+      ],
+      "word": "maps. And while it's likely",
+      "start": 353.8,
+      "end": 356.74,
+      "freq": 2.401
+    },
+    {
+      "words": [
+        {
+          "word": "that",
+          "start": 356.74,
+          "end": 357.3,
+          "freq": 5.857
+        },
+        {
+          "word": "they",
+          "start": 357.3,
+          "end": 357.64,
+          "freq": 5.321
+        },
+        {
+          "word": "will",
+          "start": 357.64,
+          "end": 357.96,
+          "freq": 5.035
+        },
+        {
+          "word": "see",
+          "start": 357.96,
+          "end": 358.38,
+          "freq": 5.115
+        },
+        {
+          "word": "a",
+          "start": 358.38,
+          "end": 358.56,
+          "freq": 6.018
+        },
+        {
+          "word": "legal",
+          "start": 358.56,
+          "end": 358.78,
+          "freq": 3.26
+        },
+        {
+          "word": "challenge",
+          "start": 358.78,
+          "end": 359.16,
+          "freq": 3.006
+        },
+        {
+          "word": "from",
+          "start": 359.16,
+          "end": 359.44,
+          "freq": 5.017
+        },
+        {
+          "word": "Democrats,",
+          "start": 359.44,
+          "end": 359.86,
+          "freq": 1.839
+        }
+      ],
+      "word": "that they will see a legal challenge from Democrats,",
+      "start": 356.74,
+      "end": 359.86,
+      "freq": 1.839
+    }
+  ]
+}

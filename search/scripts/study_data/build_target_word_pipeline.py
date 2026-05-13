@@ -136,7 +136,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--selection-mode",
         choices=("gaussian_delay", "minute_slots"),
-        default="gaussian_delay",
+        default="minute_slots",
         help="How to select target words from jargon candidates.",
     )
     parser.add_argument(

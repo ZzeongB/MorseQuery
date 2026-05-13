@@ -91,7 +91,7 @@ def filter_candidates_by_uniqueness(
         item
         for item in candidates
         if isinstance(item, dict)
-        and min_uniqueness <= candidate_uniqueness(item) < max_uniqueness
+        and min_uniqueness <= candidate_uniqueness(item) <= max_uniqueness
     ]
 
 
@@ -419,106 +419,147 @@ def generate_minute_slot_interruptions(
             }
         )
 
-    # Step 2: Greedy selection with priority for constrained minutes
-    # If a minute only has candidates for one type, assign that type first
-    used_indexes = set()
-    used_minutes = set()
-    interruptions = []
-    long_selected = 0
-    short_selected = 0
+    # Step 2: Backtracking assignment. The previous greedy pass could miss valid
+    # minute/type combinations even when a full solution exists.
+    minute_order = sorted(
+        minute_candidates,
+        key=lambda mc: (
+            int(bool(mc["long"])) + int(bool(mc["short"])),
+            len(mc["long"]) + len(mc["short"]),
+            mc["minute_idx"],
+        ),
+    )
 
-    selected_scores: list[float] = []
+    best_exact: tuple[float, list[dict]] | None = None
+    best_partial: tuple[int, float, list[dict]] | None = None
 
-    def pick_best_candidate(mc, delay_type):
-        available = [c for c in mc[delay_type] if c[1] not in used_indexes]
-        if not available:
-            return None
-        return min(
-            available,
-            key=lambda c: (
-                c[0]
-                + uniqueness_balance_weight
-                * uniqueness_distribution_penalty(
+    def search(
+        pos: int,
+        remaining_long: int,
+        remaining_short: int,
+        used_indexes: set[int],
+        selected_scores: list[float],
+        chosen_interruptions: list[dict],
+        total_cost: float,
+    ) -> None:
+        nonlocal best_exact, best_partial
+
+        if remaining_long < 0 or remaining_short < 0:
+            return
+
+        minutes_left = len(minute_order) - pos
+        required_left = remaining_long + remaining_short
+        if not allow_partial and required_left > minutes_left:
+            return
+
+        if pos >= len(minute_order):
+            long_selected = long_count - remaining_long
+            short_selected = short_count - remaining_short
+            selected_count = long_selected + short_selected
+            if remaining_long == 0 and remaining_short == 0:
+                if best_exact is None or total_cost < best_exact[0]:
+                    best_exact = (total_cost, list(chosen_interruptions))
+            elif allow_partial:
+                candidate = (selected_count, total_cost, list(chosen_interruptions))
+                if best_partial is None or selected_count > best_partial[0] or (
+                    selected_count == best_partial[0] and total_cost < best_partial[1]
+                ):
+                    best_partial = candidate
+            return
+
+        mc = minute_order[pos]
+        branch_options: list[tuple[str | None, list[tuple[float, int, float, float]]]] = []
+        if remaining_long > 0:
+            branch_options.append(("long", mc["long"]))
+        if remaining_short > 0:
+            branch_options.append(("short", mc["short"]))
+        if allow_partial or required_left < minutes_left:
+            branch_options.append((None, []))
+
+        def branch_priority(
+            option: tuple[str | None, list[tuple[float, int, float, float]]]
+        ) -> tuple[int, int]:
+            delay_type, bucket = option
+            if delay_type is None:
+                return (2, 0)
+            needed = remaining_long if delay_type == "long" else remaining_short
+            return (0 if len(bucket) <= needed else 1, len(bucket))
+
+        for delay_type, bucket in sorted(branch_options, key=branch_priority):
+            if delay_type is None:
+                search(
+                    pos + 1,
+                    remaining_long,
+                    remaining_short,
+                    used_indexes,
                     selected_scores,
-                    candidate_uniqueness(candidates[c[1]]),
+                    chosen_interruptions,
+                    total_cost,
+                )
+                continue
+
+            available = [c for c in bucket if c[1] not in used_indexes]
+            ranked = sorted(
+                available,
+                key=lambda c: (
+                    c[0]
+                    + uniqueness_balance_weight
+                    * uniqueness_distribution_penalty(
+                        selected_scores,
+                        candidate_uniqueness(candidates[c[1]]),
+                        target_mean=target_uniqueness_mean,
+                        target_sd=target_uniqueness_sd,
+                    ),
+                    c[1],
+                ),
+            )
+            for distance, chosen_idx, target_time, delay in ranked:
+                chosen = candidates[chosen_idx]
+                score = candidate_uniqueness(chosen)
+                penalty = uniqueness_balance_weight * uniqueness_distribution_penalty(
+                    selected_scores,
+                    score,
                     target_mean=target_uniqueness_mean,
                     target_sd=target_uniqueness_sd,
-                ),
-                c[1],
-            ),
-        )
+                )
+                next_interruptions = chosen_interruptions + [
+                    {
+                        "target_word": chosen["word"],
+                        "target_word_time": round(target_time, 2),
+                        "delay_type": delay_type,
+                        "delay_seconds": round(delay, 2),
+                        "search_start_time": round(mc["search_start_time"], 2),
+                    }
+                ]
+                search(
+                    pos + 1,
+                    remaining_long - (1 if delay_type == "long" else 0),
+                    remaining_short - (1 if delay_type == "short" else 0),
+                    used_indexes | {chosen_idx},
+                    selected_scores + [score],
+                    next_interruptions,
+                    total_cost + distance + penalty,
+                )
 
-    def add_interruption(mc, delay_type, candidate):
-        nonlocal long_selected, short_selected
-        _distance, chosen_idx, target_time, delay = candidate
-        used_indexes.add(chosen_idx)
-        used_minutes.add(mc["minute_idx"])
-        if delay_type == "long":
-            long_selected += 1
-        else:
-            short_selected += 1
-        chosen = candidates[chosen_idx]
-        selected_scores.append(candidate_uniqueness(chosen))
-        interruptions.append(
-            {
-                "target_word": chosen["word"],
-                "target_word_time": round(target_time, 2),
-                "delay_type": delay_type,
-                "delay_seconds": round(delay, 2),
-                "search_start_time": round(mc["search_start_time"], 2),
-            }
-        )
+    search(
+        0,
+        long_count,
+        short_count,
+        set(),
+        [],
+        [],
+        0.0,
+    )
 
-    # Phase 1: Assign minutes that only have one type available
-    for mc in minute_candidates:
-        if mc["minute_idx"] in used_minutes:
-            continue
-        has_long = any(c[1] not in used_indexes for c in mc["long"])
-        has_short = any(c[1] not in used_indexes for c in mc["short"])
+    chosen_solution: list[dict] | None = None
+    if best_exact is not None:
+        chosen_solution = best_exact[1]
+    elif allow_partial and best_partial is not None:
+        chosen_solution = best_partial[2]
 
-        if has_long and not has_short and long_selected < long_count:
-            # Only long available - must use long
-            candidate = pick_best_candidate(mc, "long")
-            if candidate:
-                add_interruption(mc, "long", candidate)
-        elif has_short and not has_long and short_selected < short_count:
-            # Only short available - must use short
-            candidate = pick_best_candidate(mc, "short")
-            if candidate:
-                add_interruption(mc, "short", candidate)
-
-    # Phase 2: Fill remaining from flexible minutes (have both types)
-    # Prioritize by scarcity of the needed type
-    remaining_long = long_count - long_selected
-    remaining_short = short_count - short_selected
-
-    flexible_minutes = [
-        mc
-        for mc in minute_candidates
-        if mc["minute_idx"] not in used_minutes
-        and any(c[1] not in used_indexes for c in mc["long"])
-        and any(c[1] not in used_indexes for c in mc["short"])
-    ]
-
-    # Assign longs first if more longs needed, otherwise shorts first
-    if remaining_long >= remaining_short:
-        order = [("long", remaining_long), ("short", remaining_short)]
-    else:
-        order = [("short", remaining_short), ("long", remaining_long)]
-
-    for delay_type, needed in order:
-        sorted_minutes = sorted(
-            [mc for mc in flexible_minutes if mc["minute_idx"] not in used_minutes],
-            key=lambda m: len([c for c in m[delay_type] if c[1] not in used_indexes]),
-        )
-        for mc in sorted_minutes:
-            if (delay_type == "long" and long_selected >= long_count) or (
-                delay_type == "short" and short_selected >= short_count
-            ):
-                break
-            candidate = pick_best_candidate(mc, delay_type)
-            if candidate:
-                add_interruption(mc, delay_type, candidate)
+    interruptions = chosen_solution or []
+    long_selected = sum(1 for item in interruptions if item["delay_type"] == "long")
+    short_selected = sum(1 for item in interruptions if item["delay_type"] == "short")
 
     if not allow_partial:
         if long_selected < long_count:
@@ -638,7 +679,7 @@ def main():
     parser.add_argument(
         "--selection-mode",
         choices=("gaussian_delay", "minute_slots"),
-        default="gaussian_delay",
+        default="minute_slots",
         help="How to select target words from jargon candidates.",
     )
     parser.add_argument(
@@ -672,8 +713,8 @@ def main():
     parser.add_argument(
         "--max-target-uniqueness",
         type=float,
-        default=6.8,
-        help="Exclusive maximum allowed uniqueness score for target-word candidates.",
+        default=7.0,
+        help="Inclusive maximum allowed uniqueness score for target-word candidates.",
     )
     args = parser.parse_args()
 
@@ -787,6 +828,11 @@ def main():
 
     plot_script = ROOT_DIR / "scripts" / "analysis" / "plot_jargon_word_distribution.py"
     subprocess.run([sys.executable, str(plot_script)], check=True, cwd=ROOT_DIR)
+
+    uniqueness_plot_script = (
+        ROOT_DIR / "scripts" / "analysis" / "plot_target_word_uniqueness_study.py"
+    )
+    subprocess.run([sys.executable, str(uniqueness_plot_script)], check=True, cwd=ROOT_DIR)
 
 
 if __name__ == "__main__":
