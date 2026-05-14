@@ -182,18 +182,24 @@ def plot_panel(ax, stats_by_video: list[dict], key: str, color: str, ylabel: str
     labels = [item["video_id"] for item in stats_by_video]
     datasets = [item[key]["values"] for item in stats_by_video]
 
-    violin = ax.violinplot(
+    boxplot = ax.boxplot(
         datasets,
         positions=x,
-        widths=0.82,
-        showmeans=False,
-        showmedians=False,
-        showextrema=False,
+        widths=0.62,
+        patch_artist=True,
+        showfliers=False,
     )
-    for body in violin["bodies"]:
-        body.set_facecolor(color)
-        body.set_edgecolor("black")
-        body.set_alpha(0.5)
+    for box in boxplot["boxes"]:
+        box.set_facecolor(color)
+        box.set_edgecolor("black")
+        box.set_alpha(0.5)
+    for median in boxplot["medians"]:
+        median.set_color("black")
+        median.set_linewidth(1.5)
+    for whisker in boxplot["whiskers"]:
+        whisker.set_color("black")
+    for cap in boxplot["caps"]:
+        cap.set_color("black")
 
     for idx, item in enumerate(stats_by_video):
         values = item[key]["values"]
@@ -240,6 +246,7 @@ def main():
         fontsize=8,
         bbox={"facecolor": "white", "alpha": 0.8, "edgecolor": "none"},
     )
+    axes[0].set_ylim(bottom=0)
     plot_panel(
         axes[1],
         stats_by_video,
@@ -260,6 +267,7 @@ def main():
         fontsize=8,
         bbox={"facecolor": "white", "alpha": 0.8, "edgecolor": "none"},
     )
+    axes[1].set_ylim(bottom=0)
     plot_panel(
         axes[2],
         stats_by_video,
@@ -281,6 +289,7 @@ def main():
         fontsize=8,
         bbox={"facecolor": "white", "alpha": 0.8, "edgecolor": "none"},
     )
+    axes[2].set_ylim(bottom=0)
 
     fig.suptitle("Study Target vs 6-Min Transcript Uniqueness (Videos 6-10)", fontsize=14, fontweight="bold")
     plt.tight_layout()
