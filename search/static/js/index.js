@@ -1715,6 +1715,9 @@ audio.addEventListener('timeupdate', () => {
 });
 
 audio.addEventListener('seeking', () => {
+    // Skip clamping for programmatic seeks (already clamped in setAudioTime)
+    if (suppressNextSeekLog) return;
+
     const clampedTime = clampToPlayedTime(
         clampToActiveSearchInterval(clampToStudyPlaybackBounds(audio.currentTime)),
     );
