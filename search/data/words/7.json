@@ -917,21 +917,21 @@
           "start": 58.94,
           "end": 59.9,
           "freq": 5.857
-        }
-      ],
-      "word": "immigration. So no surprise that",
-      "start": 56.4,
-      "end": 59.9,
-      "freq": 2.111
-    },
-    {
-      "words": [
+        },
         {
           "word": "as",
           "start": 59.9,
           "end": 60.46,
           "freq": 5.053
-        },
+        }
+      ],
+      "word": "immigration. So no surprise that as",
+      "start": 56.4,
+      "end": 60.46,
+      "freq": 2.111
+    },
+    {
+      "words": [
         {
           "word": "we",
           "start": 60.46,
@@ -981,8 +981,8 @@
           "freq": 6.177
         }
       ],
-      "word": "as we are now in what I call the",
-      "start": 59.9,
+      "word": "we are now in what I call the",
+      "start": 60.46,
       "end": 62.48,
       "freq": 4.643
     },
@@ -3075,21 +3075,21 @@
           "start": 178.86,
           "end": 179.58,
           "freq": -1
-        }
-      ],
-      "word": "it's coming out of the entire bottom 90",
-      "start": 176.5,
-      "end": 179.58,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "percent",
           "start": 179.58,
           "end": 180.32,
           "freq": 3.119
-        },
+        }
+      ],
+      "word": "it's coming out of the entire bottom 90 percent",
+      "start": 176.5,
+      "end": 180.32,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "pretty",
           "start": 180.32,
@@ -3127,8 +3127,8 @@
           "freq": 4.029
         }
       ],
-      "word": "percent pretty much evenly at the different",
-      "start": 179.58,
+      "word": "pretty much evenly at the different",
+      "start": 180.32,
       "end": 182.56,
       "freq": 1.591
     },

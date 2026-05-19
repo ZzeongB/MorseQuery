@@ -6090,21 +6090,21 @@
           "start": 299.54,
           "end": 299.76,
           "freq": 5.857
-        }
-      ],
-      "word": "motivated by politics. And so in that",
-      "start": 296.74,
-      "end": 299.76,
-      "freq": 2.201
-    },
-    {
-      "words": [
+        },
         {
           "word": "scenario,",
           "start": 299.76,
           "end": 300.24,
           "freq": 2.505
-        },
+        }
+      ],
+      "word": "motivated by politics. And so in that scenario,",
+      "start": 296.74,
+      "end": 300.24,
+      "freq": 2.201
+    },
+    {
+      "words": [
         {
           "word": "the",
           "start": 300.58,
@@ -6142,8 +6142,8 @@
           "freq": 6.018
         }
       ],
-      "word": "scenario, the victim isn't, you know, a",
-      "start": 299.76,
+      "word": "the victim isn't, you know, a",
+      "start": 300.58,
       "end": 302.16,
       "freq": -1
     },

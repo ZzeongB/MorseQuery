@@ -5496,21 +5496,21 @@
           "start": 299.42,
           "end": 299.86,
           "freq": 5.46
-        }
-      ],
-      "word": "injuries. Mostab al -Khamenei was",
-      "start": 297.26,
-      "end": 299.86,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "gravely",
           "start": 299.86,
           "end": 300.44,
           "freq": 1.813
-        },
+        }
+      ],
+      "word": "injuries. Mostab al -Khamenei was gravely",
+      "start": 297.26,
+      "end": 300.44,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "injured",
           "start": 300.44,
@@ -5542,8 +5542,8 @@
           "freq": 5.857
         }
       ],
-      "word": "gravely injured in the airstrikes that",
-      "start": 299.86,
+      "word": "injured in the airstrikes that",
+      "start": 300.44,
       "end": 302.34,
       "freq": -1
     },

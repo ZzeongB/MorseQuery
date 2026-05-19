@@ -1026,21 +1026,21 @@
           "start": 59.56,
           "end": 59.66,
           "freq": 6.018
-        }
-      ],
-      "word": "United Healthcare Workers West. Kind of a",
-      "start": 57.12,
-      "end": 59.66,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "mouthful.",
           "start": 59.66,
           "end": 60.16,
           "freq": 1.94
-        },
+        }
+      ],
+      "word": "United Healthcare Workers West. Kind of a mouthful.",
+      "start": 57.12,
+      "end": 60.16,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "This",
           "start": 60.66,
@@ -1054,8 +1054,8 @@
           "freq": 3.046
         }
       ],
-      "word": "mouthful. This union",
-      "start": 59.66,
+      "word": "This union",
+      "start": 60.66,
       "end": 61.78,
       "freq": 1.94
     },
@@ -3128,21 +3128,21 @@
           "start": 179.48,
           "end": 179.66,
           "freq": 5.771
-        }
-      ],
-      "word": "of the year, there was a lot of",
-      "start": 176.96,
-      "end": 179.66,
-      "freq": 4.152
-    },
-    {
-      "words": [
+        },
         {
           "word": "jockeying",
           "start": 179.66,
           "end": 180.3,
           "freq": 1.0
-        },
+        }
+      ],
+      "word": "of the year, there was a lot of jockeying",
+      "start": 176.96,
+      "end": 180.3,
+      "freq": 4.152
+    },
+    {
+      "words": [
         {
           "word": "and",
           "start": 180.3,
@@ -3180,8 +3180,8 @@
           "freq": 4.301
         }
       ],
-      "word": "jockeying and there were a few pretty",
-      "start": 179.66,
+      "word": "and there were a few pretty",
+      "start": 180.3,
       "end": 182.48,
       "freq": 1.0
     },
@@ -4243,21 +4243,21 @@
           "start": 239.58,
           "end": 239.68,
           "freq": 6.063
-        }
-      ],
-      "word": "meanwhile, the billionaires who want to",
-      "start": 236.98,
-      "end": 239.68,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "remain",
           "start": 239.68,
           "end": 240.04,
           "freq": 3.229
-        },
+        }
+      ],
+      "word": "meanwhile, the billionaires who want to remain",
+      "start": 236.98,
+      "end": 240.04,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "in",
           "start": 240.04,
@@ -4283,8 +4283,8 @@
           "freq": 4.947
         }
       ],
-      "word": "remain in California have been",
-      "start": 239.68,
+      "word": "in California have been",
+      "start": 240.04,
       "end": 241.9,
       "freq": 3.229
     },
@@ -5376,21 +5376,21 @@
           "start": 299.62,
           "end": 299.8,
           "freq": 5.467
-        }
-      ],
-      "word": "it's actually worth, because that's what you'll be taxed on. But to be",
-      "start": 295.72,
-      "end": 299.8,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "fair,",
           "start": 299.8,
           "end": 300.2,
           "freq": 3.684
-        },
+        }
+      ],
+      "word": "it's actually worth, because that's what you'll be taxed on. But to be fair,",
+      "start": 295.72,
+      "end": 300.2,
+      "freq": -1
+    },
+    {
+      "words": [
         {
           "word": "there",
           "start": 300.54,
@@ -5422,8 +5422,8 @@
           "freq": 5.424
         }
       ],
-      "word": "fair, there are people who are",
-      "start": 299.8,
+      "word": "there are people who are",
+      "start": 300.54,
       "end": 302.22,
       "freq": 3.684
     },
