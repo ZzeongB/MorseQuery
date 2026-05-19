@@ -1,0 +1,6 @@
+id,1,2,3,4,5
+p1,sentence,keyword,word,discontinuous,keyword2
+p2,sentence,keyword,keyword2,word,discontinuous
+p3,keyword2,discontiuous,keyword,word,sentence
+p4,keyword,word,sentence,keyword2,discontinuous
+p5,discontinuous,word,sentence,keyword,keyword2
