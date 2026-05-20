@@ -148,7 +148,7 @@ function getActiveSearchInterval() {
     const navigationMin = studyInterruptions?.navigation_min_time ?? playbackBounds?.min ?? 0;
 
     return {
-        min: Math.max(navigationMin, activeTargetTime - getSearchWindowSeconds()),
+        min: 0,
         max: activeTargetTime,
     };
 }
