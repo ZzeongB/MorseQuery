@@ -53,14 +53,6 @@
       "delay_type": "long",
       "search_start_time": 106.18653459821427,
       "id": 6
-    },
-    {
-      "target_word": "causes",
-      "target_word_time": 55.366534598214265,
-      "delay_seconds": 55,
-      "delay_type": "short",
-      "search_start_time": 110.36653459821427,
-      "id": 7
     }
   ]
 }
