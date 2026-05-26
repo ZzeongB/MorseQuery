@@ -1935,15 +1935,7 @@
           "start": 119.88,
           "end": 120.02,
           "freq": 5.59
-        }
-      ],
-      "word": "maverick operator in the world of unions. And when he",
-      "start": 116.62,
-      "end": 120.02,
-      "freq": 1.857
-    },
-    {
-      "words": [
+        },
         {
           "word": "starts",
           "start": 120.02,
@@ -2011,10 +2003,10 @@
           "freq": 1.968
         }
       ],
-      "word": "starts this thing, it's not like he has a huge coalition",
-      "start": 120.02,
+      "word": "maverick operator in the world of unions. And when he starts this thing, it's not like he has a huge coalition",
+      "start": 116.62,
       "end": 122.34,
-      "freq": 1.968
+      "freq": 1.857
     },
     {
       "words": [
@@ -3134,15 +3126,7 @@
           "start": 179.66,
           "end": 180.3,
           "freq": 1.0
-        }
-      ],
-      "word": "of the year, there was a lot of jockeying",
-      "start": 176.96,
-      "end": 180.3,
-      "freq": 4.152
-    },
-    {
-      "words": [
+        },
         {
           "word": "and",
           "start": 180.3,
@@ -3180,8 +3164,8 @@
           "freq": 4.301
         }
       ],
-      "word": "and there were a few pretty",
-      "start": 180.3,
+      "word": "of the year, there was a lot of jockeying and there were a few pretty",
+      "start": 176.96,
       "end": 182.48,
       "freq": 1.0
     },
@@ -4249,15 +4233,7 @@
           "start": 239.68,
           "end": 240.04,
           "freq": 3.229
-        }
-      ],
-      "word": "meanwhile, the billionaires who want to remain",
-      "start": 236.98,
-      "end": 240.04,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "in",
           "start": 240.04,
@@ -4283,10 +4259,10 @@
           "freq": 4.947
         }
       ],
-      "word": "in California have been",
-      "start": 240.04,
+      "word": "meanwhile, the billionaires who want to remain in California have been",
+      "start": 236.98,
       "end": 241.9,
-      "freq": 3.229
+      "freq": -1
     },
     {
       "words": [

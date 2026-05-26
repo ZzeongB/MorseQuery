@@ -4165,15 +4165,7 @@
           "start": 240.06,
           "end": 240.14,
           "freq": 6.177
-        }
-      ],
-      "word": "able to redraw their maps ahead of the",
-      "start": 237.8,
-      "end": 240.14,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "midterms.",
           "start": 240.14,
@@ -4223,8 +4215,8 @@
           "freq": 5.467
         }
       ],
-      "word": "midterms. And describe the seat that would be",
-      "start": 240.14,
+      "word": "able to redraw their maps ahead of the midterms. And describe the seat that would be",
+      "start": 237.8,
       "end": 242.44,
       "freq": -1
     },
@@ -5260,15 +5252,7 @@
           "start": 299.7,
           "end": 300.1,
           "freq": 1.505
-        }
-      ],
-      "word": "calendar challenges, geographical",
-      "start": 297.74,
-      "end": 300.1,
-      "freq": 1.505
-    },
-    {
-      "words": [
+        },
         {
           "word": "challenges,",
           "start": 300.1,
@@ -5288,10 +5272,10 @@
           "freq": 5.0
         }
       ],
-      "word": "challenges, and time",
-      "start": 300.1,
+      "word": "calendar challenges, geographical challenges, and time",
+      "start": 297.74,
       "end": 302.36,
-      "freq": 2.041
+      "freq": 1.505
     },
     {
       "words": [

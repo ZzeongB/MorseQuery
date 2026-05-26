@@ -2229,15 +2229,7 @@
           "start": 119.58,
           "end": 120.34,
           "freq": 5.609
-        }
-      ],
-      "word": "clerics fading. So this",
-      "start": 117.6,
-      "end": 120.34,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "ubiquity",
           "start": 120.34,
@@ -2275,8 +2267,8 @@
           "freq": 4.884
         }
       ],
-      "word": "ubiquity of the guards, that's something",
-      "start": 120.34,
+      "word": "clerics fading. So this ubiquity of the guards, that's something",
+      "start": 117.6,
       "end": 122.56,
       "freq": -1
     },
@@ -5502,15 +5494,7 @@
           "start": 299.86,
           "end": 300.44,
           "freq": 1.813
-        }
-      ],
-      "word": "injuries. Mostab al -Khamenei was gravely",
-      "start": 297.26,
-      "end": 300.44,
-      "freq": -1
-    },
-    {
-      "words": [
+        },
         {
           "word": "injured",
           "start": 300.44,
@@ -5542,8 +5526,8 @@
           "freq": 5.857
         }
       ],
-      "word": "injured in the airstrikes that",
-      "start": 300.44,
+      "word": "injuries. Mostab al -Khamenei was gravely injured in the airstrikes that",
+      "start": 297.26,
       "end": 302.34,
       "freq": -1
     },
