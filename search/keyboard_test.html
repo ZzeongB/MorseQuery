@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Input Test</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 50px; }
+    #prompt { font-size: 64px; padding: 40px; border: 2px solid #333; display: inline-block; min-width: 200px; }
+    #feedback { font-size: 32px; margin-top: 30px; height: 40px; }
+    #feedback.correct { color: green; }
+    #feedback.wrong { color: red; }
+    #streak { font-size: 18px; color: #666; margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Press the correct arrow key</h2>
+  <div id="prompt">-</div>
+  <div id="feedback"></div>
+  <div id="streak">Consecutive corrects: 0</div>
+  <script>
+    let currentDirection = null;
+    let consecutiveCorrects = 0;
+    let waiting = false;
+
+    function showNextPrompt() {
+      currentDirection = Math.random() < 0.5 ? 'left' : 'right';
+      const symbol = currentDirection === 'left' ? '← Left' : 'Right →';
+      document.getElementById('prompt').textContent = symbol;
+      document.getElementById('feedback').textContent = '';
+      document.getElementById('feedback').className = '';
+      waiting = false;
+    }
+
+    document.addEventListener('keydown', e => {
+      if (waiting) return;
+
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const pressedDirection = e.key === 'ArrowLeft' ? 'left' : 'right';
+        const feedback = document.getElementById('feedback');
+
+        if (pressedDirection === currentDirection) {
+          feedback.textContent = 'Correct!';
+          feedback.className = 'correct';
+          consecutiveCorrects++;
+          document.getElementById('streak').textContent = 'Consecutive corrects: ' + consecutiveCorrects;
+          waiting = true;
+          setTimeout(showNextPrompt, 800);
+        } else {
+          feedback.textContent = 'Try again!';
+          feedback.className = 'wrong';
+          consecutiveCorrects = 0;
+          document.getElementById('streak').textContent = 'Consecutive corrects: ' + consecutiveCorrects;
+          // Don't set waiting = true, allow retry on the same prompt
+        }
+      }
+    });
+
+    // Start with first prompt
+    showNextPrompt();
+  </script>
+</body>
+</html>
