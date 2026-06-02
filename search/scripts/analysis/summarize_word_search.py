@@ -69,8 +69,14 @@ def load_interruption_meta(participant_id: str | None = None):
     return meta
 
 
-def build_trial_rows(meta, participant_id: str | None = None):
-    """Build trial rows, optionally filtered by participant ID."""
+def build_trial_rows(meta, participant_id: str | None = None, threshold: float = 2.0):
+    """Build trial rows, optionally filtered by participant ID.
+
+    Args:
+        meta: Interruption metadata
+        participant_id: Optional participant ID to filter
+        threshold: Distance threshold in seconds for success (default 2.0)
+    """
     rows = []
     for path in sorted(LOGS_DIR.glob("*.json")):
         with path.open() as f:
@@ -93,10 +99,10 @@ def build_trial_rows(meta, participant_id: str | None = None):
             success = (
                 task.get("outcome") == "spacebar"
                 and distance is not None
-                and abs(distance) <= 2
+                and abs(distance) <= threshold
             )
             failure = task.get("outcome") == "timeout" or (
-                distance is not None and abs(distance) > 2
+                distance is not None and abs(distance) > threshold
             )
             rows.append(
                 {
@@ -667,8 +673,12 @@ def write_wide_format_csv(rows, suffix: str = "", include_failures: bool = True)
     """Write wide format CSV with participants as rows and condition_type as columns.
 
     Format: participant_id, discontinuous_short, keyword_short, ..., discontinuous_long, ...
+
+    Also writes separate _short and _long files with only the respective columns.
     """
     csv_path = RESULT_DIR / f"word_search_summary_wide{suffix}.csv"
+    csv_path_short = RESULT_DIR / f"word_search_summary_wide_short{suffix}.csv"
+    csv_path_long = RESULT_DIR / f"word_search_summary_wide_long{suffix}.csv"
     condition_order = ["discontinuous", "keyword", "keyword2", "sentence", "word"]
     type_order = ["short", "long"]
 
@@ -697,13 +707,18 @@ def write_wide_format_csv(rows, suffix: str = "", include_failures: bool = True)
         for condition in condition_order:
             columns.append(f"{condition}_{word_type}")
 
-    # Build wide format rows
+    columns_short = [f"{condition}_short" for condition in condition_order]
+    columns_long = [f"{condition}_long" for condition in condition_order]
+
+    sorted_pids = sorted(participant_data.keys())
+
+    # Build wide format rows (all)
     with csv_path.open("w", newline="") as f:
         writer = csv.writer(f)
         header = ["participant_id"] + columns
         writer.writerow(header)
 
-        for pid in sorted(participant_data.keys()):
+        for pid in sorted_pids:
             row_data = [pid]
             for word_type in type_order:
                 for condition in condition_order:
@@ -715,7 +730,41 @@ def write_wide_format_csv(rows, suffix: str = "", include_failures: bool = True)
                         row_data.append("")
             writer.writerow(row_data)
 
-    return csv_path
+    # Build wide format rows (short only)
+    with csv_path_short.open("w", newline="") as f:
+        writer = csv.writer(f)
+        header = ["participant_id"] + columns_short
+        writer.writerow(header)
+
+        for pid in sorted_pids:
+            row_data = [pid]
+            for condition in condition_order:
+                times = participant_data[pid][condition].get("short", [])
+                if times:
+                    mean_time = sum(times) / len(times)
+                    row_data.append(f"{mean_time:.2f}")
+                else:
+                    row_data.append("")
+            writer.writerow(row_data)
+
+    # Build wide format rows (long only)
+    with csv_path_long.open("w", newline="") as f:
+        writer = csv.writer(f)
+        header = ["participant_id"] + columns_long
+        writer.writerow(header)
+
+        for pid in sorted_pids:
+            row_data = [pid]
+            for condition in condition_order:
+                times = participant_data[pid][condition].get("long", [])
+                if times:
+                    mean_time = sum(times) / len(times)
+                    row_data.append(f"{mean_time:.2f}")
+                else:
+                    row_data.append("")
+            writer.writerow(row_data)
+
+    return csv_path, csv_path_short, csv_path_long
 
 
 def run_posthoc_tests(rows, include_failures: bool = True) -> dict:
@@ -870,6 +919,12 @@ def main():
         default=None,
         help="Directory to save results (default: result)",
     )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=2.0,
+        help="Distance threshold in seconds for success (default: 2.0)",
+    )
     args = parser.parse_args()
 
     if args.logs_dir:
@@ -883,7 +938,7 @@ def main():
         # Per-participant summaries + aggregate
         all_rows = []
         meta = load_interruption_meta()
-        all_rows = build_trial_rows(meta)
+        all_rows = build_trial_rows(meta, threshold=args.threshold)
 
         # Write per-participant breakdown
         trial_path = write_trial_csv(all_rows, suffix="_by_id")
@@ -896,12 +951,14 @@ def main():
         agg_summary_path = write_summary_csv(all_rows, suffix="_aggregate", by_participant=False)
 
         # Write wide format (participant x condition matrix)
-        wide_path = write_wide_format_csv(all_rows)
+        wide_path, wide_path_short, wide_path_long = write_wide_format_csv(all_rows)
 
         print(f"Per-participant trials: {trial_path}")
         print(f"Per-participant summary: {summary_path}")
         print(f"Aggregate summary: {agg_summary_path}")
         print(f"Wide format: {wide_path}")
+        print(f"Wide format (short): {wide_path_short}")
+        print(f"Wide format (long): {wide_path_long}")
         print(f"Plot: {plot_path}")
 
         # Audio analysis
@@ -918,7 +975,7 @@ def main():
         # Single participant
         suffix = f"_{args.id}"
         meta = load_interruption_meta(participant_id=args.id)
-        rows = build_trial_rows(meta, participant_id=args.id)
+        rows = build_trial_rows(meta, participant_id=args.id, threshold=args.threshold)
 
         if not rows:
             print(f"No data found for participant '{args.id}'")
@@ -939,7 +996,7 @@ def main():
     else:
         # Default: aggregate all participants (no per-participant breakdown)
         meta = load_interruption_meta()
-        rows = build_trial_rows(meta)
+        rows = build_trial_rows(meta, threshold=args.threshold)
 
         trial_path = write_trial_csv(rows)
         summary_path = write_summary_csv(rows)

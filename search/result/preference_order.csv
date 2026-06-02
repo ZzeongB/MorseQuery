@@ -1,6 +1,15 @@
 id,1,2,3,4,5
-p13,keyword,sentence,discontinuous,keyword2,word
-p12,sentence,keyword,keyword2,discontinuous,word
+p1,keyword,word,sentence,keyword2,discontinuous
+p2,keyword,keyword2,sentence,word,discontinuous
+p3,keyword,word,sentence,discontinuous,keyword2
+p4,keyword,word,discontinuous,keyword2,sentence
+p5,keyword,word,sentence,keyword2,discontinuous
+p6,keyword,word,sentence,discontinuous,keyword2
+p7,keyword2,word,keyword,sentence,discontinuous
 p9,keyword,word,keyword2,discontinuous,sentence
 p10,keyword,sentence,discontinuous,word,keyword2
 p11,discontinuous,keyword,sentence,word,keyword2
+p12,sentence,keyword,keyword2,discontinuous,word
+p13,keyword,sentence,discontinuous,keyword2,word
+p14,word,keyword,sentence,keyword2,discontinuous
+p15,keyword,word,keyword2,discontinuous,sentence
