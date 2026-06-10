@@ -4,11 +4,14 @@ import base64
 import io
 import json
 import re
+import threading
 from datetime import datetime
 from pathlib import Path
 
 from flask import Flask, jsonify, render_template, request, send_from_directory
 from pydub import AudioSegment
+
+from media_key_monitor import MediaKeyMonitor
 
 from config import (
     INTERRUPTIONS_DIR,
@@ -1424,5 +1427,60 @@ def save_study_session():
     return jsonify({"status": "saved", "file": session_path.name})
 
 
+# ============== Media Key Monitor ==============
+
+# Store latest media key event for potential API access
+_last_media_event = {"type": None, "timestamp": None}
+_media_monitor = None
+
+
+def _on_swipe_left():
+    _last_media_event["type"] = "swipe_left"
+    _last_media_event["timestamp"] = datetime.now().isoformat()
+    print("[MediaKey] Swipe Left (Previous)")
+
+
+def _on_swipe_right():
+    _last_media_event["type"] = "swipe_right"
+    _last_media_event["timestamp"] = datetime.now().isoformat()
+    print("[MediaKey] Swipe Right (Next)")
+
+
+def _on_play_pause():
+    _last_media_event["type"] = "play_pause"
+    _last_media_event["timestamp"] = datetime.now().isoformat()
+    print("[MediaKey] Play/Pause")
+
+
+def start_flask_server():
+    """Start Flask server in a background thread."""
+    # Disable reloader when running with media monitor (reloader spawns subprocess)
+    app.run(host="0.0.0.0", port=5003, debug=True, use_reloader=False)
+
+
+def start_media_monitor_main_thread():
+    """Start media key monitor on the main thread (required for macOS)."""
+    global _media_monitor
+    _media_monitor = MediaKeyMonitor(
+        on_swipe_left=_on_swipe_left,
+        on_swipe_right=_on_swipe_right,
+        on_play_pause=_on_play_pause,
+    )
+    _media_monitor.start()
+
+
+@app.route("/api/media-key/latest")
+def get_latest_media_key():
+    """Return the latest media key event."""
+    return jsonify(_last_media_event)
+
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5003, debug=True)
+    # Flask runs in background thread, media monitor runs on main thread
+    # (macOS requires NSRunLoop on main thread for media key events)
+    flask_thread = threading.Thread(target=start_flask_server, daemon=True)
+    flask_thread.start()
+    print("[Flask] Server started at http://localhost:5003")
+    print("[MediaKey] Monitor running on main thread...")
+
+    start_media_monitor_main_thread()

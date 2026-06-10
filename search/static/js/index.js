@@ -1762,6 +1762,71 @@ if (jumpSecondsInput) {
 btnStartStudy.addEventListener('click', startStudySession);
 btnStopStudy.addEventListener('click', stopStudySession);
 
+// Media Session API handlers for Sony XM5 swipe gestures
+if ('mediaSession' in navigator) {
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+        console.log('[MediaSession] Previous Track (Swipe Left)');
+        if (studyMode && !taskActive && !isDebugPage) return;
+        logUserAction('media_previous');
+
+        switch (currentMode) {
+            case 'discontinuous':
+                jumpBack();
+                break;
+            case 'keyword':
+                jumpToPreviousKeyword(false);
+                break;
+            case 'keyword2':
+                jumpToPreviousKeyword(true);
+                break;
+            case 'word':
+                jumpToPreviousWord();
+                break;
+            case 'sentence':
+                jumpToPreviousSentence();
+                break;
+            default:
+                break;
+        }
+    });
+
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+        console.log('[MediaSession] Next Track (Swipe Right)');
+        if (studyMode && !taskActive && !isDebugPage) return;
+        logUserAction('media_next');
+
+        switch (currentMode) {
+            case 'discontinuous':
+                jumpForward();
+                break;
+            case 'keyword':
+                jumpToNextKeyword(false);
+                break;
+            case 'keyword2':
+                jumpToNextKeyword(true);
+                break;
+            case 'word':
+                jumpToNextWord();
+                break;
+            case 'sentence':
+                jumpToNextSentence();
+                break;
+            default:
+                break;
+        }
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => {
+        console.log('[MediaSession] Play');
+        audio.play();
+    });
+
+    navigator.mediaSession.setActionHandler('pause', () => {
+        console.log('[MediaSession] Pause');
+        audio.pause();
+    });
+}
+
 loadFiles();
 loadStudyConfig();
 setMode('discontinuous');
