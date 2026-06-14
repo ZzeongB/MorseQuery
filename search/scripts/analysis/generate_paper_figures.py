@@ -289,9 +289,91 @@ def assign_bracket_rows(brackets):
     return row_assignments
 
 
-def plot_nasa_tlx(df, use_brackets=False):
+def add_significance_column(posthoc_df, p_col="p_corr"):
+    """Add significance level column and sort by p_corr ascending."""
+    df = posthoc_df.copy()
+
+    def get_sig_level(p):
+        if p < 0.001:
+            return "p < .001"
+        elif p < 0.01:
+            return "p < .01"
+        elif p < 0.05:
+            return "p < .05"
+        else:
+            return "n.s."
+
+    df["Sig."] = df[p_col].apply(get_sig_level)
+    df = df.sort_values(by=p_col, ascending=True)
+    return df
+
+
+def run_nasa_tlx_anova(df):
+    """Run RM-ANOVA and post-hoc tests for NASA-TLX dimensions with Holm correction."""
+    dimension_order = [
+        "Mental Demand",
+        "Physical Demand",
+        "Temporal Demand",
+        "Performance",
+        "Effort",
+        "Frustration",
+    ]
+
+    significance_by_dim = {}
+
+    for dim in dimension_order:
+        df_dim = df[["Participant ID", "Condition", dim]].copy()
+        df_dim.columns = ["subject", "condition", "score"]
+
+        print(f"\n{dim} RM-ANOVA:")
+        try:
+            aov = pg.rm_anova(
+                data=df_dim,
+                dv="score",
+                within="condition",
+                subject="subject",
+            )
+            print(aov.to_string(index=False))
+
+            # Check if significant
+            p_col_aov = "p-unc" if "p-unc" in aov.columns else "p_unc"
+            if aov[p_col_aov].values[0] < 0.05:
+                posthoc = pg.pairwise_tests(
+                    data=df_dim,
+                    dv="score",
+                    within="condition",
+                    subject="subject",
+                    padjust="holm",
+                )
+                p_col = "p_corr" if "p_corr" in posthoc.columns else "p-corr"
+                posthoc = add_significance_column(posthoc, p_col)
+                print(f"\n{dim} Post-hoc (Holm corrected):")
+                print(posthoc.to_string(index=False))
+
+                # Collect significant pairs
+                significant_pairs = []
+                p_col = "p_corr" if "p_corr" in posthoc.columns else "p-corr"
+                for _, row in posthoc.iterrows():
+                    if row[p_col] < 0.05:
+                        c1_idx = CONDITION_ORDER.index(row["A"])
+                        c2_idx = CONDITION_ORDER.index(row["B"])
+                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                        significant_pairs.append((c1_idx, c2_idx, marker))
+
+                if significant_pairs:
+                    significance_by_dim[dim] = significant_pairs
+        except Exception as e:
+            print(f"Error running NASA-TLX ANOVA for {dim}: {e}")
+
+    return significance_by_dim
+
+
+def plot_nasa_tlx(df, use_brackets=False, significance_by_dim=None):
     """Create NASA-TLX grouped barplot with all 6 subscales in one row."""
     output_dir = get_output_dir()
+
+    if significance_by_dim is None:
+        significance_by_dim = {}
 
     dimension_order = [
         "Mental Demand",
@@ -350,27 +432,6 @@ def plot_nasa_tlx(df, use_brackets=False):
     # Remove top and right spines
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
-
-    # Significance brackets within each dimension group
-    # New condition order indices:
-    # Temporal(0), Sentence(1), Word(2), Keyword(Target Present)(3), Keyword(Target Absent)(4)
-    # Mental Demand: Temporal vs Keyword(TP) p=.041 -> (0, 3)
-    # Performance: Keyword(TP) vs Keyword(TA) p=.031 -> (3, 4)
-    # Effort: Temporal vs Word p=.039 -> (0, 2)
-    #         Keyword(TA) vs Word p=.001 -> (2, 4)
-    #         Temporal vs Keyword(TP) p=.022 -> (0, 3)
-    #         Keyword(TP) vs Keyword(TA) p=.002 -> (3, 4)
-
-    significance_by_dim = {
-        "Mental Demand": [(0, 3, "*")],
-        "Performance": [(3, 4, "*")],
-        "Effort": [
-            (0, 2, "*"),
-            (2, 4, "**"),
-            (0, 3, "*"),
-            (3, 4, "**"),
-        ],
-    }
 
     # Calculate bar positions for grouped barplot
     n_dims = len(dimension_order)
@@ -497,10 +558,6 @@ def run_word_search_anova():
                 subject="participant_id",
                 padjust="holm",
             )
-            print(f"\n{lag_type} Post-hoc (Holm corrected):")
-            print(f"Columns: {posthoc.columns.tolist()}")
-            print(posthoc.to_string(index=False))
-
             # Collect significant pairs - find the p-value column
             p_col = None
             for col in ["p-corr", "p_corr", "p-unc", "p_unc", "pval"]:
@@ -509,11 +566,17 @@ def run_word_search_anova():
                     break
 
             if p_col:
+                posthoc = add_significance_column(posthoc, p_col)
+
+            print(f"\n{lag_type} Post-hoc (Holm corrected):")
+            print(posthoc.to_string(index=False))
+
+            if p_col:
                 for _, row in posthoc.iterrows():
                     if row[p_col] < 0.05:
                         c1_idx = CONDITION_ORDER.index(row["A"])
                         c2_idx = CONDITION_ORDER.index(row["B"])
-                        marker = "**" if row[p_col] < 0.01 else "*"
+                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
                         significant_pairs[lag_type].append((c1_idx, c2_idx, marker))
             else:
                 print(f"Warning: No p-value column found in post-hoc results")
@@ -752,10 +815,6 @@ def run_search_accuracy_anova(rows):
                 subject="participant_id",
                 padjust="holm",
             )
-            print(f"\n{lag_type} Search Accuracy Post-hoc (Holm corrected):")
-            print(f"Columns: {posthoc.columns.tolist()}")
-            print(posthoc.to_string(index=False))
-
             p_col = None
             for col in ["p-corr", "p_corr", "p-unc", "p_unc", "pval"]:
                 if col in posthoc.columns:
@@ -763,11 +822,17 @@ def run_search_accuracy_anova(rows):
                     break
 
             if p_col:
+                posthoc = add_significance_column(posthoc, p_col)
+
+            print(f"\n{lag_type} Search Accuracy Post-hoc (Holm corrected):")
+            print(posthoc.to_string(index=False))
+
+            if p_col:
                 for _, row in posthoc.iterrows():
                     if row[p_col] < 0.05:
                         c1_idx = CONDITION_ORDER.index(row["A"])
                         c2_idx = CONDITION_ORDER.index(row["B"])
-                        marker = "**" if row[p_col] < 0.01 else "*"
+                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
                         significant_pairs[lag_type].append((c1_idx, c2_idx, marker))
             else:
                 print(
@@ -972,16 +1037,29 @@ def run_preference_friedman():
         for i, r in enumerate(pairwise_results):
             r["p_corr"] = p_corrected[i]
 
-    print(f"\nPreference Order Post-hoc (Wilcoxon with Holm correction):")
-    print(f"  {'A':<30} {'B':<30} {'p_unc':<10} {'p_corr':<10}")
+    # Add significance level and sort by p_corr
     for r in pairwise_results:
-        print(f"  {r['A']:<30} {r['B']:<30} {r['p_unc']:<10.4f} {r['p_corr']:<10.4f}")
+        p = r["p_corr"]
+        if p < 0.001:
+            r["Sig."] = "p < .001"
+        elif p < 0.01:
+            r["Sig."] = "p < .01"
+        elif p < 0.05:
+            r["Sig."] = "p < .05"
+        else:
+            r["Sig."] = "n.s."
+    pairwise_results = sorted(pairwise_results, key=lambda x: x["p_corr"])
+
+    print(f"\nPreference Order Post-hoc (Wilcoxon with Holm correction):")
+    print(f"  {'A':<30} {'B':<30} {'p_unc':<10} {'p_corr':<10} {'Sig.':<10}")
+    for r in pairwise_results:
+        print(f"  {r['A']:<30} {r['B']:<30} {r['p_unc']:<10.4f} {r['p_corr']:<10.4f} {r['Sig.']:<10}")
 
     # Collect significant pairs
     significant_pairs = []
     for r in pairwise_results:
         if r["p_corr"] < 0.05:
-            marker = "**" if r["p_corr"] < 0.01 else "*"
+            marker = "***" if r["p_corr"] < 0.001 else "**" if r["p_corr"] < 0.01 else "*"
             significant_pairs.append((r["i"], r["j"], marker))
 
     return significant_pairs
@@ -1080,9 +1158,54 @@ def plot_preference_order(use_brackets=False, significant_pairs=None):
     return output_path
 
 
-def plot_sus_score(df, use_brackets=False):
+def run_sus_anova(df):
+    """Run RM-ANOVA and post-hoc tests for SUS score with Holm correction."""
+    df_sus = df[["Participant ID", "Condition", "SUS score"]].copy()
+    df_sus.columns = ["subject", "condition", "score"]
+
+    print("\nSUS Score RM-ANOVA:")
+    try:
+        aov = pg.rm_anova(
+            data=df_sus,
+            dv="score",
+            within="condition",
+            subject="subject",
+        )
+        print(aov.to_string(index=False))
+
+        posthoc = pg.pairwise_tests(
+            data=df_sus,
+            dv="score",
+            within="condition",
+            subject="subject",
+            padjust="holm",
+        )
+        # Collect significant pairs
+        p_col = "p_corr" if "p_corr" in posthoc.columns else "p-corr"
+        posthoc = add_significance_column(posthoc, p_col)
+        print("\nSUS Post-hoc (Holm corrected):")
+        print(posthoc.to_string(index=False))
+
+        significant_pairs = []
+        for _, row in posthoc.iterrows():
+            if row[p_col] < 0.05:
+                c1_idx = CONDITION_ORDER.index(row["A"])
+                c2_idx = CONDITION_ORDER.index(row["B"])
+                marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                significant_pairs.append((c1_idx, c2_idx, marker))
+
+        return significant_pairs
+    except Exception as e:
+        print(f"Error running SUS ANOVA: {e}")
+        return []
+
+
+def plot_sus_score(df, use_brackets=False, significant_pairs=None):
     """Create SUS score barplot with condition colors."""
     output_dir = get_output_dir()
+
+    if significant_pairs is None:
+        significant_pairs = []
 
     df = df.copy()
     df["Condition"] = pd.Categorical(
@@ -1090,7 +1213,7 @@ def plot_sus_score(df, use_brackets=False):
     )
 
     # Calculate means and SEs by condition
-    stats = (
+    stats_df = (
         df.groupby("Condition", observed=True)["SUS score"]
         .agg(["mean", "sem"])
         .reindex(CONDITION_ORDER)
@@ -1104,9 +1227,9 @@ def plot_sus_score(df, use_brackets=False):
     x = np.arange(len(CONDITION_ORDER))
     bars = ax.bar(
         x,
-        stats["mean"],
+        stats_df["mean"],
         width=bar_width,
-        yerr=stats["sem"],
+        yerr=stats_df["sem"],
         capsize=4,
         color=[CONDITION_COLORS[c] for c in CONDITION_ORDER],  # Condition colors
         edgecolor="white",
@@ -1131,23 +1254,21 @@ def plot_sus_score(df, use_brackets=False):
     ax.spines["top"].set_visible(False)
     ax.spines["right"].set_visible(False)
 
-    # Add significance markers from post-hoc analysis
-    # Original: Word vs Keyword2 p=.028, Keyword vs Keyword2 p=.038
-    # New indices: Word(2) vs Keyword(TA)(4), Keyword(TP)(3) vs Keyword(TA)(4)
-    brackets = [(2, 4, "*"), (3, 4, "*")]
-    row_assignments = assign_bracket_rows(brackets)
-    adjusted_endpoints = adjust_shared_endpoints(brackets, offset=0.05)
-    y_base = 98
-    row_height = 12 if use_brackets else 6
+    # Add significance brackets from Holm-corrected post-hoc analysis
+    if significant_pairs:
+        row_assignments = assign_bracket_rows(significant_pairs)
+        adjusted_endpoints = adjust_shared_endpoints(significant_pairs, offset=0.05)
+        y_base = 98
+        row_height = 12 if use_brackets else 6
 
-    for i, (c1, c2, marker) in enumerate(brackets):
-        adj_c1, adj_c2 = adjusted_endpoints[i]
-        y = y_base + row_assignments[i] * row_height
-        if use_brackets:
-            add_significance_bracket(ax, adj_c1, adj_c2, y, 2, marker)
-        else:
-            x_mid = (c1 + c2) / 2
-            add_significance_marker(ax, x_mid, y, marker)
+        for i, (c1, c2, marker) in enumerate(significant_pairs):
+            adj_c1, adj_c2 = adjusted_endpoints[i]
+            y = y_base + row_assignments[i] * row_height
+            if use_brackets:
+                add_significance_bracket(ax, adj_c1, adj_c2, y, 2, marker)
+            else:
+                x_mid = (c1 + c2) / 2
+                add_significance_marker(ax, x_mid, y, marker)
 
     plt.tight_layout()
 
@@ -1190,21 +1311,21 @@ def main():
     preference_significant_pairs = run_preference_friedman()
     print()
 
+    print("Running RM-ANOVA for NASA-TLX...")
+    nasa_tlx_significant = run_nasa_tlx_anova(survey_df)
+    print()
+
+    print("Running RM-ANOVA for SUS...")
+    sus_significant_pairs = run_sus_anova(survey_df)
+    print()
+
     # Generate figures - both with and without brackets
     print("Generating figures...")
     print()
 
-    # # Without brackets (default)
-    # print("--- Without brackets ---")
-    # plot_nasa_tlx(survey_df, use_brackets=False)
-    # plot_word_search_time(
-    #     word_search_rows, use_brackets=False, significant_pairs=significant_pairs
-    # )
-    # plot_sus_score(survey_df, use_brackets=False)
-
     # With brackets
     print("\n--- With brackets ---")
-    plot_nasa_tlx(survey_df, use_brackets=True)
+    plot_nasa_tlx(survey_df, use_brackets=True, significance_by_dim=nasa_tlx_significant)
     plot_word_search_time(
         word_search_rows, use_brackets=True, significant_pairs=significant_pairs
     )
@@ -1213,7 +1334,7 @@ def main():
         use_brackets=True,
         significant_pairs=accuracy_significant_pairs,
     )
-    plot_sus_score(survey_df, use_brackets=True)
+    plot_sus_score(survey_df, use_brackets=True, significant_pairs=sus_significant_pairs)
     plot_preference_order(
         use_brackets=True,
         significant_pairs=preference_significant_pairs,

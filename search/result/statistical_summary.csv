@@ -1,0 +1,16 @@
+Measure,Type,Test,F,df1,df2,p,η²p,χ²,W
+Word Search Time,all,RM-ANOVA,16.223,4,56,0.0,0.451,,
+Word Search Time,long,RM-ANOVA,4.782,4,56,0.0022,0.166,,
+Word Search Time,short,RM-ANOVA,7.907,4,56,0.0,0.306,,
+Search Accuracy,all,RM-ANOVA,6.323,4,56,0.0003,0.23,,
+Search Accuracy,long,RM-ANOVA,1.712,4,56,0.1602,0.064,,
+Search Accuracy,short,RM-ANOVA,4.384,4,56,0.0037,0.189,,
+Preference Order,all,Friedman,,4,,0.0,,26.56,0.443
+Usability (SUS),all,RM-ANOVA,6.238,4,56,0.0003,0.163,,
+Task Load (Overall),all,RM-ANOVA,5.178,4,56,0.0013,0.098,,
+Task Load (Mental Demand),all,RM-ANOVA,3.507,4,56,0.0126,0.084,,
+Task Load (Physical Demand),all,RM-ANOVA,0.972,4,56,0.4301,0.025,,
+Task Load (Temporal Demand),all,RM-ANOVA,1.788,4,56,0.1442,0.045,,
+Task Load (Performance),all,RM-ANOVA,5.212,4,56,0.0012,0.171,,
+Task Load (Effort),all,RM-ANOVA,11.806,4,56,0.0,0.22,,
+Task Load (Frustration),all,RM-ANOVA,0.747,4,56,0.564,0.017,,

@@ -1,0 +1,111 @@
+Measure,Type,A,B,t,p_corr,sig
+Word Search Time,all,discontinuous,keyword,3.92,0.0153,*
+Word Search Time,all,discontinuous,keyword2,-2.43,0.2891,
+Word Search Time,all,discontinuous,sentence,-0.76,1.0,
+Word Search Time,all,discontinuous,word,4.3,0.0073,**
+Word Search Time,all,keyword,keyword2,-6.26,0.0002,***
+Word Search Time,all,keyword,sentence,-4.05,0.0118,*
+Word Search Time,all,keyword,word,-0.68,1.0,
+Word Search Time,all,keyword2,sentence,1.53,1.0,
+Word Search Time,all,keyword2,word,6.97,0.0001,***
+Word Search Time,all,sentence,word,3.91,0.0158,*
+Word Search Time,long,discontinuous,keyword,0.73,1.0,
+Word Search Time,long,discontinuous,keyword2,-2.41,0.3032,
+Word Search Time,long,discontinuous,sentence,-1.4,1.0,
+Word Search Time,long,discontinuous,word,1.0,1.0,
+Word Search Time,long,keyword,keyword2,-3.97,0.0139,*
+Word Search Time,long,keyword,sentence,-1.94,0.7253,
+Word Search Time,long,keyword,word,0.56,1.0,
+Word Search Time,long,keyword2,sentence,1.0,1.0,
+Word Search Time,long,keyword2,word,4.06,0.0116,*
+Word Search Time,long,sentence,word,2.15,0.4947,
+Word Search Time,short,discontinuous,keyword,4.65,0.0037,**
+Word Search Time,short,discontinuous,keyword2,-0.17,1.0,
+Word Search Time,short,discontinuous,sentence,0.17,1.0,
+Word Search Time,short,discontinuous,word,3.78,0.0204,*
+Word Search Time,short,keyword,keyword2,-3.63,0.0273,*
+Word Search Time,short,keyword,sentence,-3.98,0.0137,*
+Word Search Time,short,keyword,word,-1.68,1.0,
+Word Search Time,short,keyword2,sentence,0.39,1.0,
+Word Search Time,short,keyword2,word,2.9,0.1164,
+Word Search Time,short,sentence,word,3.08,0.0809,
+Search Accuracy,all,discontinuous,keyword,-1.78,0.9614,
+Search Accuracy,all,discontinuous,keyword2,1.84,0.8779,
+Search Accuracy,all,discontinuous,sentence,-0.0,1.0,
+Search Accuracy,all,discontinuous,word,-2.7,0.1717,
+Search Accuracy,all,keyword,keyword2,4.05,0.0118,*
+Search Accuracy,all,keyword,sentence,2.09,0.5518,
+Search Accuracy,all,keyword,word,-1.0,1.0,
+Search Accuracy,all,keyword2,sentence,-1.59,1.0,
+Search Accuracy,all,keyword2,word,-5.29,0.0011,**
+Search Accuracy,all,sentence,word,-2.7,0.1717,
+Search Accuracy,short,discontinuous,keyword,-2.81,0.1401,
+Search Accuracy,short,discontinuous,keyword2,0.59,1.0,
+Search Accuracy,short,discontinuous,sentence,-0.35,1.0,
+Search Accuracy,short,discontinuous,word,-2.48,0.2661,
+Search Accuracy,short,keyword,keyword2,2.83,0.1342,
+Search Accuracy,short,keyword,sentence,2.84,0.1305,
+Search Accuracy,short,keyword,word,1.0,1.0,
+Search Accuracy,short,keyword2,sentence,-1.2,1.0,
+Search Accuracy,short,keyword2,word,-2.54,0.2339,
+Search Accuracy,short,sentence,word,-2.48,0.2668,
+Preference Order,all,keyword,word,11.0,0.0394,*
+Preference Order,all,keyword,sentence,3.5,0.0112,*
+Preference Order,all,keyword,keyword2,4.5,0.0145,*
+Preference Order,all,keyword,discontinuous,1.0,0.0071,**
+Preference Order,all,word,sentence,44.5,1.0,
+Preference Order,all,word,keyword2,26.0,0.4993,
+Preference Order,all,word,discontinuous,24.0,0.3887,
+Preference Order,all,sentence,keyword2,41.5,1.0,
+Preference Order,all,sentence,discontinuous,30.0,0.8121,
+Preference Order,all,keyword2,discontinuous,50.5,1.0,
+Usability (SUS),all,Discontinuous,Keyword,-3.0,0.0962,
+Usability (SUS),all,Discontinuous,Keyword2,1.46,1.0,
+Usability (SUS),all,Discontinuous,Sentence,-1.15,1.0,
+Usability (SUS),all,Discontinuous,Word,-2.88,0.1221,
+Usability (SUS),all,Keyword,Keyword2,3.73,0.0226,*
+Usability (SUS),all,Keyword,Sentence,1.86,0.8432,
+Usability (SUS),all,Keyword,Word,0.81,1.0,
+Usability (SUS),all,Keyword2,Sentence,-2.26,0.4027,
+Usability (SUS),all,Keyword2,Word,-3.25,0.0585,
+Usability (SUS),all,Sentence,Word,-1.28,1.0,
+Task Load (Overall),all,Discontinuous,Keyword,2.74,0.1594,
+Task Load (Overall),all,Discontinuous,Keyword2,-0.68,1.0,
+Task Load (Overall),all,Discontinuous,Sentence,0.85,1.0,
+Task Load (Overall),all,Discontinuous,Word,2.03,0.6205,
+Task Load (Overall),all,Keyword,Keyword2,-4.3,0.0073,**
+Task Load (Overall),all,Keyword,Sentence,-1.92,0.7571,
+Task Load (Overall),all,Keyword,Word,-1.44,1.0,
+Task Load (Overall),all,Keyword2,Sentence,1.6,1.0,
+Task Load (Overall),all,Keyword2,Word,4.62,0.004,**
+Task Load (Overall),all,Sentence,Word,1.23,1.0,
+Task Load (Mental Demand),all,Discontinuous,Keyword,3.83,0.0183,*
+Task Load (Mental Demand),all,Discontinuous,Keyword2,0.23,1.0,
+Task Load (Mental Demand),all,Discontinuous,Sentence,1.1,1.0,
+Task Load (Mental Demand),all,Discontinuous,Word,2.43,0.2904,
+Task Load (Mental Demand),all,Keyword,Keyword2,-2.28,0.3854,
+Task Load (Mental Demand),all,Keyword,Sentence,-2.1,0.5423,
+Task Load (Mental Demand),all,Keyword,Word,-0.96,1.0,
+Task Load (Mental Demand),all,Keyword2,Sentence,0.59,1.0,
+Task Load (Mental Demand),all,Keyword2,Word,2.18,0.4722,
+Task Load (Mental Demand),all,Sentence,Word,2.26,0.4057,
+Task Load (Performance),all,Discontinuous,Keyword,-3.11,0.0775,
+Task Load (Performance),all,Discontinuous,Keyword2,0.15,1.0,
+Task Load (Performance),all,Discontinuous,Sentence,-0.49,1.0,
+Task Load (Performance),all,Discontinuous,Word,-2.78,0.1477,
+Task Load (Performance),all,Keyword,Keyword2,4.0,0.0132,*
+Task Load (Performance),all,Keyword,Sentence,2.31,0.3693,
+Task Load (Performance),all,Keyword,Word,0.76,1.0,
+Task Load (Performance),all,Keyword2,Sentence,-0.65,1.0,
+Task Load (Performance),all,Keyword2,Word,-3.52,0.0338,*
+Task Load (Performance),all,Sentence,Word,-2.1,0.5423,
+Task Load (Effort),all,Discontinuous,Keyword,4.18,0.0093,**
+Task Load (Effort),all,Discontinuous,Keyword2,0.0,1.0,
+Task Load (Effort),all,Discontinuous,Sentence,1.98,0.6824,
+Task Load (Effort),all,Discontinuous,Word,3.83,0.0185,*
+Task Load (Effort),all,Keyword,Keyword2,-5.61,0.0006,***
+Task Load (Effort),all,Keyword,Sentence,-3.26,0.0566,
+Task Load (Effort),all,Keyword,Word,-1.07,1.0,
+Task Load (Effort),all,Keyword2,Sentence,2.58,0.217,
+Task Load (Effort),all,Keyword2,Word,5.6,0.0007,***
+Task Load (Effort),all,Sentence,Word,2.57,0.2238,

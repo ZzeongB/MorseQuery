@@ -1,0 +1,17 @@
+measure,condition_type,test,statistic,value,df1,df2,p,effect_size,effect_size_type
+Word Search Time,all,RM-ANOVA,F,16.2226,4,56,0.0,0.4511,η²p
+Word Search Time,long,RM-ANOVA,F,4.7815,4,56,0.0022,0.166,η²p
+Word Search Time,short,RM-ANOVA,F,7.9073,4,56,0.0,0.3061,η²p
+Search Accuracy,all,RM-ANOVA,F,6.3226,4,56,0.0003,0.2304,η²p
+Search Accuracy,long,RM-ANOVA,F,1.7119,4,56,0.1602,0.0642,η²p
+Search Accuracy,short,RM-ANOVA,F,4.3838,4,56,0.0037,0.189,η²p
+Preference Order,all,Kendall's W,W,0.4427,,,,,
+Preference Order,all,Friedman Test,χ²,26.56,4,,0.0,,
+Usability (SUS),all,RM-ANOVA,F,6.2376,4,56,0.0003,0.1633,η²p
+Task Load (NASA-TLX Overall),all,RM-ANOVA,F,5.1785,4,56,0.0013,0.0979,η²p
+Task Load (Mental Demand),all,RM-ANOVA,F,3.5067,4,56,0.0126,0.0845,η²p
+Task Load (Physical Demand),all,RM-ANOVA,F,0.9721,4,56,0.4301,0.0254,η²p
+Task Load (Temporal Demand),all,RM-ANOVA,F,1.7877,4,56,0.1442,0.0454,η²p
+Task Load (Performance),all,RM-ANOVA,F,5.2116,4,56,0.0012,0.1712,η²p
+Task Load (Effort),all,RM-ANOVA,F,11.8055,4,56,0.0,0.2196,η²p
+Task Load (Frustration),all,RM-ANOVA,F,0.7472,4,56,0.564,0.0167,η²p
