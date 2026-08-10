@@ -1,9 +1,9 @@
 participant_id,condition,audio,task_index,word_search_type,outcome,distance_seconds,word_search_success,word_search_failure,word_search_time_sec
-p0,discontinuous,6.mp3,1,long,spacebar,0.6380549999999996,True,False,12.052
-p0,discontinuous,6.mp3,2,short,spacebar,1.0694600000000065,True,False,9.405
-p0,discontinuous,6.mp3,3,long,spacebar,1.3765999999999963,True,False,21.388
-p0,discontinuous,6.mp3,4,long,spacebar,0.8634329999999864,True,False,27.316
-p0,discontinuous,6.mp3,5,short,spacebar,1.0115649999999619,True,False,42.369
+p0,temporal,6.mp3,1,long,spacebar,0.6380549999999996,True,False,12.052
+p0,temporal,6.mp3,2,short,spacebar,1.0694600000000065,True,False,9.405
+p0,temporal,6.mp3,3,long,spacebar,1.3765999999999963,True,False,21.388
+p0,temporal,6.mp3,4,long,spacebar,0.8634329999999864,True,False,27.316
+p0,temporal,6.mp3,5,short,spacebar,1.0115649999999619,True,False,42.369
 p0,keyword2,8.mp3,1,short,timeout,,False,True,
 p0,keyword2,8.mp3,2,short,spacebar,1.505714999999995,True,False,6.323
 p0,keyword2,8.mp3,3,short,spacebar,0.5490150000000256,True,False,4.426

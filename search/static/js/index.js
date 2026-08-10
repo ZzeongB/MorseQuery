@@ -24,14 +24,14 @@ const feedbackContent = document.getElementById('feedback-content');
 const prepOverlay = document.getElementById('prep-overlay');
 const prepCountDisplay = document.getElementById('prep-count-display');
 const modeButtons = {
-    discontinuous: document.getElementById('mode-discontinuous'),
+    temporal: document.getElementById('mode-temporal'),
     keyword: document.getElementById('mode-keyword'),
     keyword2: document.getElementById('mode-keyword2'),
     word: document.getElementById('mode-word'),
     sentence: document.getElementById('mode-sentence'),
 };
 
-let currentMode = 'discontinuous';
+let currentMode = 'temporal';
 let transcript = null;
 let customKeywords = [];
 let customKeywords2 = [];
@@ -478,7 +478,7 @@ function renderTranscript() {
 
     const jumpSeconds = jumpSecondsInput ? (parseInt(jumpSecondsInput.value, 10) || 15) : 15;
 
-    if (currentMode === 'discontinuous') {
+    if (currentMode === 'temporal') {
         const blocks = [];
 
         transcript.segments.forEach((seg) => {
@@ -529,7 +529,7 @@ function renderTranscript() {
 function updateCurrentSegment() {
     const currentTime = audio.currentTime;
 
-    if (currentMode === 'discontinuous' || currentMode === 'sentence') {
+    if (currentMode === 'temporal' || currentMode === 'sentence') {
         document.querySelectorAll('#transcript .segment').forEach((el) => {
             const start = parseFloat(el.dataset.start);
             const end = parseFloat(el.dataset.end);
@@ -562,7 +562,7 @@ function setMode(mode) {
 
     const jumpBackSetting = document.getElementById('jump-back-setting');
     if (jumpBackSetting) {
-        jumpBackSetting.style.display = mode === 'discontinuous' ? 'block' : 'none';
+        jumpBackSetting.style.display = mode === 'temporal' ? 'block' : 'none';
     }
 
     stopSpeedupReplay();
@@ -1603,7 +1603,7 @@ document.addEventListener('keydown', (e) => {
         logUserAction('left');
 
         switch (currentMode) {
-            case 'discontinuous':
+            case 'temporal':
                 jumpBack();
                 break;
             case 'keyword':
@@ -1629,7 +1629,7 @@ document.addEventListener('keydown', (e) => {
         logUserAction('right');
 
         switch (currentMode) {
-            case 'discontinuous':
+            case 'temporal':
                 jumpForward();
                 break;
             case 'keyword':
@@ -1655,8 +1655,8 @@ document.addEventListener('keydown', (e) => {
         logUserAction('up');
 
         switch (currentMode) {
-            case 'discontinuous':
-                // No replay in discontinuous mode - do nothing
+            case 'temporal':
+                // No replay in temporal mode - do nothing
                 break;
             case 'keyword':
                 replayCurrentKeyword(false);
@@ -1753,7 +1753,7 @@ if (toggleTranscriptBtn) {
 
 if (jumpSecondsInput) {
     jumpSecondsInput.addEventListener('change', () => {
-        if (currentMode === 'discontinuous') {
+        if (currentMode === 'temporal') {
             renderTranscript();
         }
     });
@@ -1770,7 +1770,7 @@ if ('mediaSession' in navigator) {
         logUserAction('media_previous');
 
         switch (currentMode) {
-            case 'discontinuous':
+            case 'temporal':
                 jumpBack();
                 break;
             case 'keyword':
@@ -1796,7 +1796,7 @@ if ('mediaSession' in navigator) {
         logUserAction('media_next');
 
         switch (currentMode) {
-            case 'discontinuous':
+            case 'temporal':
                 jumpForward();
                 break;
             case 'keyword':
@@ -1818,15 +1818,27 @@ if ('mediaSession' in navigator) {
 
     navigator.mediaSession.setActionHandler('play', () => {
         console.log('[MediaSession] Play');
+        // In study mode with task active, act like spacebar
+        if (studyMode && taskActive) {
+            logUserAction('media_play_as_space');
+            handleSpacebarConfirmation();
+            return;
+        }
         audio.play();
     });
 
     navigator.mediaSession.setActionHandler('pause', () => {
         console.log('[MediaSession] Pause');
+        // In study mode with task active, act like spacebar
+        if (studyMode && taskActive) {
+            logUserAction('media_pause_as_space');
+            handleSpacebarConfirmation();
+            return;
+        }
         audio.pause();
     });
 }
 
 loadFiles();
 loadStudyConfig();
-setMode('discontinuous');
+setMode('temporal');

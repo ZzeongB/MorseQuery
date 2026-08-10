@@ -1,4 +1,4 @@
-participant_id,discontinuous_long,keyword_long,keyword2_long,sentence_long,word_long
+participant_id,temporal_long,keyword_long,keyword2_long,sentence_long,word_long
 p1,18.93,26.48,43.79,27.54,37.81
 p10,16.13,20.53,28.95,37.55,29.37
 p11,35.37,30.37,38.70,25.76,31.95

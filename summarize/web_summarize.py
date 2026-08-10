@@ -237,7 +237,6 @@ def _make_vad_transcript_callback(speaker_id: str, session_id: str, source_id: s
     ) -> None:
         if not transcript or not transcript.strip():
             return
-
         text = transcript.strip()
         timestamp = time.time()
 

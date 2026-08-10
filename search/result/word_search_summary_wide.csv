@@ -1,4 +1,4 @@
-participant_id,discontinuous_short,keyword_short,keyword2_short,sentence_short,word_short,discontinuous_long,keyword_long,keyword2_long,sentence_long,word_long
+participant_id,temporal_short,keyword_short,keyword2_short,sentence_short,word_short,temporal_long,keyword_long,keyword2_long,sentence_long,word_long
 p1,43.93,8.87,15.95,17.85,4.23,18.93,26.48,43.79,27.54,37.81
 p10,45.28,4.03,34.96,12.49,7.84,16.13,20.53,28.95,37.55,29.37
 p11,27.74,8.49,34.41,27.06,4.18,35.37,30.37,38.70,25.76,31.95

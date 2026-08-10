@@ -3,7 +3,7 @@
 RM-ANOVA analysis for word_search_trials.csv
 
 Analyzes:
-1. Main effect of condition (discontinuous, keyword, keyword2, sentence, word)
+1. Main effect of condition (temporal, keyword, keyword2, sentence, word)
 2. Main effect of word_search_type (short, long)
 3. Interaction effect between condition and word_search_type
 4. Per-participant breakdown
@@ -13,11 +13,13 @@ import pandas as pd
 import numpy as np
 from pathlib import Path
 import warnings
-warnings.filterwarnings('ignore')
+
+warnings.filterwarnings("ignore")
 
 # Try to import statistical packages
 try:
     import pingouin as pg
+
     HAS_PINGOUIN = True
 except ImportError:
     HAS_PINGOUIN = False
@@ -25,6 +27,7 @@ except ImportError:
 
 try:
     from scipy import stats
+
     HAS_SCIPY = True
 except ImportError:
     HAS_SCIPY = False
@@ -38,9 +41,9 @@ def load_data():
     df = pd.read_csv(data_path)
 
     # For failed trials, set word_search_time_sec to 60 seconds
-    df['word_search_time_sec'] = df.apply(
-        lambda row: 60.0 if row['word_search_failure'] else row['word_search_time_sec'],
-        axis=1
+    df["word_search_time_sec"] = df.apply(
+        lambda row: 60.0 if row["word_search_failure"] else row["word_search_time_sec"],
+        axis=1,
     )
     df_valid = df.copy()
 
@@ -65,26 +68,34 @@ def descriptive_stats(df_valid):
 
     # By condition
     print("\n--- By Condition ---")
-    cond_stats = df_valid.groupby('condition')['word_search_time_sec'].agg(['mean', 'std', 'count'])
-    cond_stats.columns = ['Mean', 'SD', 'N']
+    cond_stats = df_valid.groupby("condition")["word_search_time_sec"].agg(
+        ["mean", "std", "count"]
+    )
+    cond_stats.columns = ["Mean", "SD", "N"]
     print(cond_stats.round(3))
 
     # By word_search_type
     print("\n--- By Word Search Type ---")
-    type_stats = df_valid.groupby('word_search_type')['word_search_time_sec'].agg(['mean', 'std', 'count'])
-    type_stats.columns = ['Mean', 'SD', 'N']
+    type_stats = df_valid.groupby("word_search_type")["word_search_time_sec"].agg(
+        ["mean", "std", "count"]
+    )
+    type_stats.columns = ["Mean", "SD", "N"]
     print(type_stats.round(3))
 
     # By condition x word_search_type
     print("\n--- By Condition x Word Search Type ---")
-    cross_stats = df_valid.groupby(['condition', 'word_search_type'])['word_search_time_sec'].agg(['mean', 'std', 'count'])
-    cross_stats.columns = ['Mean', 'SD', 'N']
+    cross_stats = df_valid.groupby(["condition", "word_search_type"])[
+        "word_search_time_sec"
+    ].agg(["mean", "std", "count"])
+    cross_stats.columns = ["Mean", "SD", "N"]
     print(cross_stats.round(3))
 
     # By participant
     print("\n--- By Participant ---")
-    part_stats = df_valid.groupby('participant_id')['word_search_time_sec'].agg(['mean', 'std', 'count'])
-    part_stats.columns = ['Mean', 'SD', 'N']
+    part_stats = df_valid.groupby("participant_id")["word_search_time_sec"].agg(
+        ["mean", "std", "count"]
+    )
+    part_stats.columns = ["Mean", "SD", "N"]
     print(part_stats.round(3))
     print()
 
@@ -101,15 +112,21 @@ def run_rm_anova_pingouin(df_valid):
 
     # For RM-ANOVA, we need aggregated data per participant x condition x type
     # Aggregate to get mean per participant per condition per type
-    df_agg = df_valid.groupby(['participant_id', 'condition', 'word_search_type'])['word_search_time_sec'].mean().reset_index()
+    df_agg = (
+        df_valid.groupby(["participant_id", "condition", "word_search_type"])[
+            "word_search_time_sec"
+        ]
+        .mean()
+        .reset_index()
+    )
 
     # Check for missing cells
     print("\n--- Data Balance Check ---")
     pivot_check = df_agg.pivot_table(
-        index='participant_id',
-        columns=['condition', 'word_search_type'],
-        values='word_search_time_sec',
-        aggfunc='count'
+        index="participant_id",
+        columns=["condition", "word_search_type"],
+        values="word_search_time_sec",
+        aggfunc="count",
     )
     print("Cells per participant (should all be 1 for balanced design):")
     print(pivot_check)
@@ -119,17 +136,19 @@ def run_rm_anova_pingouin(df_valid):
     print("\n--- RM-ANOVA: Main Effect of Condition ---")
     try:
         aov_condition = pg.rm_anova(
-            data=df_agg.groupby(['participant_id', 'condition'])['word_search_time_sec'].mean().reset_index(),
-            dv='word_search_time_sec',
-            within='condition',
-            subject='participant_id',
-            detailed=True
+            data=df_agg.groupby(["participant_id", "condition"])["word_search_time_sec"]
+            .mean()
+            .reset_index(),
+            dv="word_search_time_sec",
+            within="condition",
+            subject="participant_id",
+            detailed=True,
         )
         print(aov_condition.to_string())
 
         # Effect size interpretation
-        if 'np2' in aov_condition.columns:
-            eta2 = aov_condition['np2'].values[0]
+        if "np2" in aov_condition.columns:
+            eta2 = aov_condition["np2"].values[0]
             print(f"\nPartial eta-squared: {eta2:.4f}")
             if eta2 < 0.01:
                 print("Effect size: negligible")
@@ -146,16 +165,20 @@ def run_rm_anova_pingouin(df_valid):
     print("\n--- RM-ANOVA: Main Effect of Word Search Type ---")
     try:
         aov_type = pg.rm_anova(
-            data=df_agg.groupby(['participant_id', 'word_search_type'])['word_search_time_sec'].mean().reset_index(),
-            dv='word_search_time_sec',
-            within='word_search_type',
-            subject='participant_id',
-            detailed=True
+            data=df_agg.groupby(["participant_id", "word_search_type"])[
+                "word_search_time_sec"
+            ]
+            .mean()
+            .reset_index(),
+            dv="word_search_time_sec",
+            within="word_search_type",
+            subject="participant_id",
+            detailed=True,
         )
         print(aov_type.to_string())
 
-        if 'np2' in aov_type.columns:
-            eta2 = aov_type['np2'].values[0]
+        if "np2" in aov_type.columns:
+            eta2 = aov_type["np2"].values[0]
             print(f"\nPartial eta-squared: {eta2:.4f}")
             if eta2 < 0.01:
                 print("Effect size: negligible")
@@ -173,10 +196,10 @@ def run_rm_anova_pingouin(df_valid):
     try:
         aov_2way = pg.rm_anova(
             data=df_agg,
-            dv='word_search_time_sec',
-            within=['condition', 'word_search_type'],
-            subject='participant_id',
-            detailed=True
+            dv="word_search_time_sec",
+            within=["condition", "word_search_type"],
+            subject="participant_id",
+            detailed=True,
         )
         print(aov_2way.to_string())
         print()
@@ -187,11 +210,13 @@ def run_rm_anova_pingouin(df_valid):
     print("\n--- Post-hoc Pairwise Comparisons: Condition ---")
     try:
         posthoc_cond = pg.pairwise_tests(
-            data=df_agg.groupby(['participant_id', 'condition'])['word_search_time_sec'].mean().reset_index(),
-            dv='word_search_time_sec',
-            within='condition',
-            subject='participant_id',
-            padjust='bonferroni'
+            data=df_agg.groupby(["participant_id", "condition"])["word_search_time_sec"]
+            .mean()
+            .reset_index(),
+            dv="word_search_time_sec",
+            within="condition",
+            subject="participant_id",
+            padjust="bonferroni",
         )
         print(posthoc_cond.to_string())
     except Exception as e:
@@ -201,11 +226,15 @@ def run_rm_anova_pingouin(df_valid):
     print("\n--- Post-hoc Pairwise Comparisons: Word Search Type ---")
     try:
         posthoc_type = pg.pairwise_tests(
-            data=df_agg.groupby(['participant_id', 'word_search_type'])['word_search_time_sec'].mean().reset_index(),
-            dv='word_search_time_sec',
-            within='word_search_type',
-            subject='participant_id',
-            padjust='bonferroni'
+            data=df_agg.groupby(["participant_id", "word_search_type"])[
+                "word_search_time_sec"
+            ]
+            .mean()
+            .reset_index(),
+            dv="word_search_time_sec",
+            within="word_search_type",
+            subject="participant_id",
+            padjust="bonferroni",
         )
         print(posthoc_type.to_string())
     except Exception as e:
@@ -223,15 +252,18 @@ def run_participant_analysis(df_valid):
     print("PER-PARTICIPANT ANALYSIS")
     print("=" * 60)
 
-    participants = df_valid['participant_id'].unique()
+    participants = df_valid["participant_id"].unique()
 
     for pid in sorted(participants):
         print(f"\n--- Participant: {pid} ---")
-        df_p = df_valid[df_valid['participant_id'] == pid]
+        df_p = df_valid[df_valid["participant_id"] == pid]
 
         # Condition effect (one-way ANOVA for this participant)
-        conditions = df_p['condition'].unique()
-        groups = [df_p[df_p['condition'] == c]['word_search_time_sec'].values for c in conditions]
+        conditions = df_p["condition"].unique()
+        groups = [
+            df_p[df_p["condition"] == c]["word_search_time_sec"].values
+            for c in conditions
+        ]
 
         if len(groups) >= 2 and all(len(g) >= 2 for g in groups):
             f_stat, p_val = stats.f_oneway(*groups)
@@ -239,15 +271,25 @@ def run_participant_analysis(df_valid):
             print(" *" if p_val < 0.05 else "")
 
         # Word search type effect (t-test for this participant)
-        short_times = df_p[df_p['word_search_type'] == 'short']['word_search_time_sec'].values
-        long_times = df_p[df_p['word_search_type'] == 'long']['word_search_time_sec'].values
+        short_times = df_p[df_p["word_search_type"] == "short"][
+            "word_search_time_sec"
+        ].values
+        long_times = df_p[df_p["word_search_type"] == "long"][
+            "word_search_time_sec"
+        ].values
 
         if len(short_times) >= 2 and len(long_times) >= 2:
             t_stat, p_val = stats.ttest_ind(short_times, long_times)
-            print(f"  Word search type effect: t = {t_stat:.3f}, p = {p_val:.4f}", end="")
+            print(
+                f"  Word search type effect: t = {t_stat:.3f}, p = {p_val:.4f}", end=""
+            )
             print(" *" if p_val < 0.05 else "")
-            print(f"    Short: M = {np.mean(short_times):.2f}, SD = {np.std(short_times):.2f}")
-            print(f"    Long:  M = {np.mean(long_times):.2f}, SD = {np.std(long_times):.2f}")
+            print(
+                f"    Short: M = {np.mean(short_times):.2f}, SD = {np.std(short_times):.2f}"
+            )
+            print(
+                f"    Long:  M = {np.mean(long_times):.2f}, SD = {np.std(long_times):.2f}"
+            )
     print()
 
 
@@ -265,7 +307,13 @@ def run_mixed_effects_analysis(df_valid):
     print("=" * 60)
 
     # Aggregate data
-    df_agg = df_valid.groupby(['participant_id', 'condition', 'word_search_type'])['word_search_time_sec'].mean().reset_index()
+    df_agg = (
+        df_valid.groupby(["participant_id", "condition", "word_search_type"])[
+            "word_search_time_sec"
+        ]
+        .mean()
+        .reset_index()
+    )
 
     # Linear Mixed Effects Model
     print("\n--- Linear Mixed Effects Model ---")
@@ -279,7 +327,7 @@ def run_mixed_effects_analysis(df_valid):
         model = smf.mixedlm(
             "word_search_time_sec ~ C(condition) + C(word_search_type)",
             df_agg,
-            groups=df_agg["participant_id"]
+            groups=df_agg["participant_id"],
         )
         result = model.fit()
         print(result.summary())
@@ -290,9 +338,15 @@ def run_mixed_effects_analysis(df_valid):
     print("\n--- statsmodels AnovaRM ---")
     try:
         # Need complete cases - aggregate to have one observation per cell
-        df_agg2 = df_valid.groupby(['participant_id', 'condition'])['word_search_time_sec'].mean().reset_index()
+        df_agg2 = (
+            df_valid.groupby(["participant_id", "condition"])["word_search_time_sec"]
+            .mean()
+            .reset_index()
+        )
 
-        aovrm = AnovaRM(df_agg2, 'word_search_time_sec', 'participant_id', within=['condition'])
+        aovrm = AnovaRM(
+            df_agg2, "word_search_time_sec", "participant_id", within=["condition"]
+        )
         result = aovrm.fit()
         print(result)
     except Exception as e:
@@ -309,10 +363,16 @@ def sphericity_test(df_valid):
     print("SPHERICITY TEST (Mauchly's Test)")
     print("=" * 60)
 
-    df_agg = df_valid.groupby(['participant_id', 'condition'])['word_search_time_sec'].mean().reset_index()
+    df_agg = (
+        df_valid.groupby(["participant_id", "condition"])["word_search_time_sec"]
+        .mean()
+        .reset_index()
+    )
 
     # Pivot for sphericity test
-    df_wide = df_agg.pivot(index='participant_id', columns='condition', values='word_search_time_sec')
+    df_wide = df_agg.pivot(
+        index="participant_id", columns="condition", values="word_search_time_sec"
+    )
 
     try:
         _, W, chi2, dof, pval = pg.sphericity(df_wide)

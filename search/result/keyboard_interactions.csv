@@ -1,0 +1,449 @@
+participant,condition,trial,left,right,up,delay_type,total
+p1,Keyword (No Target),1,28,0,0,long,28
+p1,Keyword (No Target),2,26,1,0,long,27
+p1,Keyword (No Target),3,4,0,0,short,4
+p1,Keyword (No Target),4,10,1,0,short,11
+p1,Keyword (No Target),5,5,0,0,short,5
+p1,Keyword (No Target),6,16,0,0,long,16
+p1,Keyword (Target),1,6,0,0,short,6
+p1,Keyword (Target),2,3,1,0,short,4
+p1,Keyword (Target),3,17,0,0,long,17
+p1,Keyword (Target),4,16,0,0,long,16
+p1,Keyword (Target),5,13,0,0,long,13
+p1,Keyword (Target),6,4,0,0,short,4
+p1,Sentence,1,6,0,0,long,6
+p1,Sentence,2,5,0,0,short,5
+p1,Sentence,3,9,0,0,long,9
+p1,Sentence,4,4,1,0,short,5
+p1,Sentence,5,4,0,0,short,4
+p1,Sentence,6,5,0,0,long,5
+p1,Temporal,1,6,0,0,long,6
+p1,Temporal,2,13,2,0,short,15
+p1,Temporal,3,10,0,0,short,10
+p1,Temporal,4,3,0,0,long,3
+p1,Temporal,5,2,0,0,short,2
+p1,Temporal,6,7,0,0,long,7
+p1,Word,1,1,0,0,short,1
+p1,Word,2,35,0,0,long,35
+p1,Word,3,22,0,0,long,22
+p1,Word,4,23,0,0,long,23
+p1,Word,5,6,0,0,short,6
+p1,Word,6,1,0,0,short,1
+p2,Keyword (No Target),1,15,0,0,long,15
+p2,Keyword (No Target),2,33,11,0,short,44
+p2,Keyword (No Target),3,29,7,0,short,36
+p2,Keyword (No Target),4,11,0,0,long,11
+p2,Keyword (No Target),5,53,14,0,short,67
+p2,Keyword (No Target),6,15,0,0,long,15
+p2,Keyword (Target),1,15,0,0,long,15
+p2,Keyword (Target),2,4,0,0,short,4
+p2,Keyword (Target),3,13,0,0,long,13
+p2,Keyword (Target),4,7,0,0,short,7
+p2,Keyword (Target),5,3,0,0,short,3
+p2,Keyword (Target),6,20,0,0,long,20
+p2,Sentence,1,14,0,0,long,14
+p2,Sentence,2,17,0,0,long,17
+p2,Sentence,3,4,0,0,short,4
+p2,Sentence,4,4,0,0,short,4
+p2,Sentence,5,27,0,0,short,27
+p2,Sentence,6,9,0,0,long,9
+p2,Temporal,1,1,0,0,short,1
+p2,Temporal,2,6,0,0,long,6
+p2,Temporal,3,17,5,0,long,22
+p2,Temporal,4,12,4,0,long,16
+p2,Temporal,5,13,5,0,short,18
+p2,Temporal,6,2,1,0,short,3
+p2,Word,1,9,0,0,short,9
+p2,Word,2,3,0,0,short,3
+p2,Word,3,20,0,0,long,20
+p2,Word,4,22,0,0,long,22
+p2,Word,5,27,0,0,long,27
+p2,Word,6,3,0,0,short,3
+p3,Keyword (No Target),1,1,0,0,short,1
+p3,Keyword (No Target),2,34,0,0,long,34
+p3,Keyword (No Target),3,31,1,0,long,32
+p3,Keyword (No Target),4,26,0,0,long,26
+p3,Keyword (No Target),5,5,0,0,short,5
+p3,Keyword (No Target),6,1,0,0,short,1
+p3,Keyword (Target),1,22,0,0,long,22
+p3,Keyword (Target),2,21,1,0,long,22
+p3,Keyword (Target),3,3,0,0,short,3
+p3,Keyword (Target),4,6,0,0,short,6
+p3,Keyword (Target),5,6,2,0,short,8
+p3,Keyword (Target),6,14,0,0,long,14
+p3,Sentence,1,6,0,0,long,6
+p3,Sentence,2,4,1,0,short,5
+p3,Sentence,3,2,0,0,short,2
+p3,Sentence,4,4,0,0,long,4
+p3,Sentence,5,3,0,0,short,3
+p3,Sentence,6,15,1,0,long,16
+p3,Temporal,1,1,0,0,short,1
+p3,Temporal,2,1,0,0,short,1
+p3,Temporal,3,6,0,0,long,6
+p3,Temporal,4,4,0,0,long,4
+p3,Temporal,5,6,1,0,long,7
+p3,Temporal,6,1,0,0,short,1
+p3,Word,1,20,1,0,long,21
+p3,Word,2,6,0,0,short,6
+p3,Word,3,19,0,0,long,19
+p3,Word,4,5,0,0,short,5
+p3,Word,5,29,18,0,short,47
+p3,Word,6,17,1,0,long,18
+p4,Keyword (No Target),1,23,6,0,short,29
+p4,Keyword (No Target),2,2,0,0,short,2
+p4,Keyword (No Target),3,19,1,0,long,20
+p4,Keyword (No Target),4,16,2,0,long,18
+p4,Keyword (No Target),5,20,5,0,long,25
+p4,Keyword (No Target),6,2,0,0,short,2
+p4,Keyword (Target),1,18,3,0,long,21
+p4,Keyword (Target),2,4,2,0,short,6
+p4,Keyword (Target),3,4,2,0,short,6
+p4,Keyword (Target),4,13,2,0,long,15
+p4,Keyword (Target),5,4,0,0,short,4
+p4,Keyword (Target),6,14,0,0,long,14
+p4,Sentence,1,2,0,0,short,2
+p4,Sentence,2,24,2,0,long,26
+p4,Sentence,3,25,10,0,long,35
+p4,Sentence,4,36,10,0,long,46
+p4,Sentence,5,28,12,0,short,40
+p4,Sentence,6,1,0,0,short,1
+p4,Temporal,1,3,0,0,long,3
+p4,Temporal,2,1,0,0,short,1
+p4,Temporal,3,3,0,0,long,3
+p4,Temporal,4,3,1,0,short,4
+p4,Temporal,5,22,5,0,short,27
+p4,Temporal,6,5,0,0,long,5
+p4,Word,1,27,1,0,long,28
+p4,Word,2,25,0,0,long,25
+p4,Word,3,4,0,0,short,4
+p4,Word,4,8,0,0,short,8
+p4,Word,5,41,7,0,short,48
+p4,Word,6,20,2,0,long,22
+p5,Keyword (No Target),1,21,0,0,long,21
+p5,Keyword (No Target),2,25,0,0,short,25
+p5,Keyword (No Target),3,25,1,0,long,26
+p5,Keyword (No Target),4,13,1,0,short,14
+p5,Keyword (No Target),5,4,1,0,short,5
+p5,Keyword (No Target),6,19,0,0,long,19
+p5,Keyword (Target),1,1,0,0,short,1
+p5,Keyword (Target),2,20,0,0,long,20
+p5,Keyword (Target),3,59,2,0,long,61
+p5,Keyword (Target),4,15,0,0,long,15
+p5,Keyword (Target),5,5,1,0,short,6
+p5,Keyword (Target),6,1,0,0,short,1
+p5,Sentence,1,23,1,0,short,24
+p5,Sentence,2,6,0,0,short,6
+p5,Sentence,3,12,3,0,long,15
+p5,Sentence,4,15,1,0,long,16
+p5,Sentence,5,30,23,0,long,53
+p5,Temporal,1,9,0,0,long,9
+p5,Temporal,2,9,1,0,long,10
+p5,Temporal,3,3,1,0,short,4
+p5,Temporal,4,2,0,0,short,2
+p5,Temporal,5,2,0,2,short,4
+p5,Temporal,6,4,0,0,long,4
+p5,Word,1,25,3,0,long,28
+p5,Word,2,5,1,0,short,6
+p5,Word,3,5,1,0,short,6
+p5,Word,4,17,2,0,long,19
+p5,Word,5,7,1,0,short,8
+p5,Word,6,20,2,0,long,22
+p6,Keyword (No Target),1,28,2,0,long,30
+p6,Keyword (No Target),2,17,0,0,long,17
+p6,Keyword (No Target),3,18,2,0,short,20
+p6,Keyword (No Target),4,23,2,0,short,25
+p6,Keyword (No Target),5,24,6,0,short,30
+p6,Keyword (No Target),6,16,1,0,long,17
+p6,Keyword (Target),1,4,0,0,short,4
+p6,Keyword (Target),2,2,0,0,short,2
+p6,Keyword (Target),3,13,0,0,long,13
+p6,Keyword (Target),4,13,1,0,long,14
+p6,Keyword (Target),5,10,0,0,long,10
+p6,Keyword (Target),6,3,0,0,short,3
+p6,Sentence,1,9,0,0,long,9
+p6,Sentence,2,16,5,0,short,21
+p6,Sentence,3,6,0,0,long,6
+p6,Sentence,4,18,5,0,short,23
+p6,Sentence,5,5,2,0,short,7
+p6,Sentence,6,9,3,0,long,12
+p6,Temporal,1,6,0,0,long,6
+p6,Temporal,2,10,6,0,short,16
+p6,Temporal,3,6,2,0,short,8
+p6,Temporal,4,3,0,0,long,3
+p6,Temporal,5,2,0,0,short,2
+p6,Temporal,6,4,0,0,long,4
+p6,Word,1,1,0,0,short,1
+p6,Word,2,23,0,0,long,23
+p6,Word,3,22,1,0,long,23
+p6,Word,4,18,0,0,long,18
+p6,Word,5,5,0,0,short,5
+p6,Word,6,1,0,0,short,1
+p7,Keyword (No Target),1,20,0,0,long,20
+p7,Keyword (No Target),2,5,0,0,short,5
+p7,Keyword (No Target),3,2,0,0,short,2
+p7,Keyword (No Target),4,16,0,0,long,16
+p7,Keyword (No Target),5,5,0,0,short,5
+p7,Keyword (No Target),6,15,0,0,long,15
+p7,Keyword (Target),1,14,1,0,long,15
+p7,Keyword (Target),2,4,1,0,short,5
+p7,Keyword (Target),3,19,0,0,long,19
+p7,Keyword (Target),4,7,0,0,short,7
+p7,Keyword (Target),5,3,0,0,short,3
+p7,Keyword (Target),6,14,0,0,long,14
+p7,Sentence,1,9,0,0,long,9
+p7,Sentence,2,16,0,0,long,16
+p7,Sentence,3,5,0,0,short,5
+p7,Sentence,4,2,0,0,short,2
+p7,Sentence,5,4,0,0,short,4
+p7,Sentence,6,10,0,0,long,10
+p7,Temporal,1,1,0,0,short,1
+p7,Temporal,2,5,0,0,long,5
+p7,Temporal,3,10,4,0,long,14
+p7,Temporal,4,26,5,1,long,32
+p7,Temporal,5,2,0,0,short,2
+p7,Temporal,6,1,0,0,short,1
+p7,Word,1,7,1,0,short,8
+p7,Word,2,4,0,0,short,4
+p7,Word,3,26,0,0,long,26
+p7,Word,4,21,0,0,long,21
+p7,Word,5,18,0,0,long,18
+p7,Word,6,3,0,0,short,3
+p8,Keyword (No Target),1,1,0,0,short,1
+p8,Keyword (No Target),2,34,2,0,long,36
+p8,Keyword (No Target),3,28,8,2,long,38
+p8,Keyword (No Target),4,29,4,1,long,34
+p8,Keyword (No Target),5,12,4,0,short,16
+p8,Keyword (No Target),6,1,0,0,short,1
+p8,Keyword (Target),1,15,0,0,long,15
+p8,Keyword (Target),2,2,0,0,long,2
+p8,Keyword (Target),3,3,0,0,short,3
+p8,Keyword (Target),4,6,0,2,short,8
+p8,Keyword (Target),5,3,0,3,short,6
+p8,Keyword (Target),6,17,3,3,long,23
+p8,Sentence,1,8,0,0,long,8
+p8,Sentence,2,1,0,0,short,1
+p8,Sentence,3,4,1,0,short,5
+p8,Sentence,4,4,0,0,long,4
+p8,Sentence,5,2,0,0,short,2
+p8,Sentence,6,14,1,0,long,15
+p8,Temporal,1,13,3,0,short,16
+p8,Temporal,2,9,5,0,short,14
+p8,Temporal,3,4,0,0,long,4
+p8,Temporal,4,7,2,0,long,9
+p8,Temporal,5,10,5,0,long,15
+p8,Temporal,6,2,1,0,short,3
+p8,Word,1,28,3,0,long,31
+p8,Word,2,10,2,0,short,12
+p8,Word,3,60,13,0,long,73
+p8,Word,4,7,0,1,short,8
+p8,Word,5,4,0,0,short,4
+p8,Word,6,31,11,0,long,42
+p9,Keyword (No Target),1,25,12,0,short,37
+p9,Keyword (No Target),2,4,0,0,short,4
+p9,Keyword (No Target),3,15,0,0,long,15
+p9,Keyword (No Target),4,12,1,0,long,13
+p9,Keyword (No Target),5,46,31,0,long,77
+p9,Keyword (No Target),6,26,5,0,short,31
+p9,Keyword (Target),1,21,1,0,long,22
+p9,Keyword (Target),2,3,0,0,short,3
+p9,Keyword (Target),3,3,1,0,short,4
+p9,Keyword (Target),4,23,5,0,long,28
+p9,Keyword (Target),5,4,0,0,short,4
+p9,Keyword (Target),6,15,0,0,long,15
+p9,Sentence,1,2,0,0,short,2
+p9,Sentence,2,21,3,0,long,24
+p9,Sentence,3,19,8,0,long,27
+p9,Sentence,4,33,4,0,long,37
+p9,Sentence,5,17,5,0,short,22
+p9,Sentence,6,1,0,0,short,1
+p9,Temporal,1,10,3,0,long,13
+p9,Temporal,2,11,6,0,short,17
+p9,Temporal,3,8,3,0,long,11
+p9,Temporal,4,3,0,0,short,3
+p9,Temporal,5,18,4,0,short,22
+p9,Temporal,6,8,2,0,long,10
+p9,Word,1,30,3,0,long,33
+p9,Word,2,27,0,0,long,27
+p9,Word,3,31,19,0,short,50
+p9,Word,4,8,0,0,short,8
+p9,Word,5,5,0,0,short,5
+p9,Word,6,19,0,0,long,19
+p10,Keyword (No Target),1,20,0,0,long,20
+p10,Keyword (No Target),2,3,0,0,short,3
+p10,Keyword (No Target),3,18,0,2,long,20
+p10,Keyword (No Target),4,8,0,0,short,8
+p10,Keyword (No Target),5,30,12,0,short,42
+p10,Keyword (Target),1,1,0,0,short,1
+p10,Keyword (Target),2,22,2,0,long,24
+p10,Keyword (Target),3,18,0,3,long,21
+p10,Keyword (Target),4,14,0,0,long,14
+p10,Keyword (Target),5,5,0,0,short,5
+p10,Keyword (Target),6,1,0,0,short,1
+p10,Sentence,1,7,3,0,short,10
+p10,Sentence,2,3,0,0,short,3
+p10,Sentence,3,15,0,0,long,15
+p10,Sentence,4,14,0,0,long,14
+p10,Sentence,5,10,2,0,long,12
+p10,Sentence,6,2,0,0,short,2
+p10,Temporal,1,6,0,0,long,6
+p10,Temporal,2,5,0,0,long,5
+p10,Temporal,3,7,0,0,short,7
+p10,Temporal,4,2,0,0,short,2
+p10,Temporal,5,14,3,0,short,17
+p10,Temporal,6,4,0,0,long,4
+p10,Word,1,31,3,0,long,34
+p10,Word,2,5,0,0,short,5
+p10,Word,3,7,1,0,short,8
+p10,Word,4,22,0,0,long,22
+p10,Word,5,8,0,0,short,8
+p10,Word,6,28,1,0,long,29
+p11,Keyword (No Target),1,25,2,0,long,27
+p11,Keyword (No Target),2,16,0,0,long,16
+p11,Keyword (No Target),3,3,0,0,short,3
+p11,Keyword (No Target),4,28,0,0,short,28
+p11,Keyword (No Target),5,12,1,0,short,13
+p11,Keyword (No Target),6,17,0,0,long,17
+p11,Keyword (Target),1,6,0,0,short,6
+p11,Keyword (Target),2,2,0,0,short,2
+p11,Keyword (Target),3,23,0,0,long,23
+p11,Keyword (Target),4,15,0,0,long,15
+p11,Keyword (Target),5,11,0,0,long,11
+p11,Keyword (Target),6,4,0,0,short,4
+p11,Sentence,1,8,0,0,long,8
+p11,Sentence,2,5,0,0,short,5
+p11,Sentence,3,9,0,0,long,9
+p11,Sentence,4,3,0,0,short,3
+p11,Sentence,5,12,3,0,short,15
+p11,Sentence,6,3,0,0,long,3
+p11,Temporal,1,8,0,0,long,8
+p11,Temporal,2,7,1,0,short,8
+p11,Temporal,3,3,2,0,short,5
+p11,Temporal,4,8,1,0,long,9
+p11,Temporal,5,2,0,0,short,2
+p11,Temporal,6,4,0,0,long,4
+p11,Word,1,1,0,0,short,1
+p11,Word,2,25,0,0,long,25
+p11,Word,3,21,1,0,long,22
+p11,Word,4,25,0,0,long,25
+p11,Word,5,6,0,0,short,6
+p11,Word,6,1,0,0,short,1
+p12,Keyword (No Target),1,25,0,0,long,25
+p12,Keyword (No Target),2,2,0,0,short,2
+p12,Keyword (No Target),3,2,0,0,short,2
+p12,Keyword (No Target),4,16,0,0,long,16
+p12,Keyword (No Target),5,8,0,0,short,8
+p12,Keyword (No Target),6,27,0,0,long,27
+p12,Keyword (Target),1,23,0,0,long,23
+p12,Keyword (Target),2,4,0,0,short,4
+p12,Keyword (Target),3,22,9,0,long,31
+p12,Keyword (Target),4,8,0,0,short,8
+p12,Keyword (Target),5,3,0,0,short,3
+p12,Keyword (Target),6,27,0,0,long,27
+p12,Sentence,1,9,0,0,long,9
+p12,Sentence,2,15,0,0,long,15
+p12,Sentence,3,4,0,0,short,4
+p12,Sentence,4,4,0,0,short,4
+p12,Sentence,5,11,0,0,short,11
+p12,Sentence,6,8,0,0,long,8
+p12,Temporal,1,1,0,0,short,1
+p12,Temporal,2,8,0,0,long,8
+p12,Temporal,3,8,0,0,long,8
+p12,Temporal,4,5,0,0,long,5
+p12,Temporal,5,1,0,0,short,1
+p12,Temporal,6,1,0,0,short,1
+p12,Word,1,5,0,0,short,5
+p12,Word,2,23,0,0,short,23
+p12,Word,3,31,0,0,long,31
+p12,Word,4,68,2,1,long,71
+p12,Word,5,30,0,0,long,30
+p12,Word,6,2,0,0,short,2
+p13,Keyword (No Target),1,1,0,0,short,1
+p13,Keyword (No Target),2,30,1,0,long,31
+p13,Keyword (No Target),3,20,0,0,long,20
+p13,Keyword (No Target),4,18,0,0,long,18
+p13,Keyword (No Target),5,7,0,0,short,7
+p13,Keyword (No Target),6,1,0,0,short,1
+p13,Keyword (Target),1,18,1,0,long,19
+p13,Keyword (Target),2,16,1,0,long,17
+p13,Keyword (Target),3,25,5,0,short,30
+p13,Keyword (Target),4,8,1,0,short,9
+p13,Keyword (Target),5,4,1,0,short,5
+p13,Keyword (Target),6,16,0,0,long,16
+p13,Sentence,1,8,0,0,long,8
+p13,Sentence,2,8,0,0,short,8
+p13,Sentence,3,5,0,0,short,5
+p13,Sentence,4,7,1,0,long,8
+p13,Sentence,5,4,0,0,short,4
+p13,Sentence,6,13,1,0,long,14
+p13,Temporal,1,6,0,0,short,6
+p13,Temporal,2,5,0,0,short,5
+p13,Temporal,3,10,4,0,long,14
+p13,Temporal,4,4,0,0,long,4
+p13,Temporal,5,6,0,0,long,6
+p13,Temporal,6,1,0,0,short,1
+p13,Word,1,20,0,0,long,20
+p13,Word,2,8,0,0,short,8
+p13,Word,3,19,0,0,long,19
+p13,Word,4,8,2,0,short,10
+p13,Word,5,45,5,0,short,50
+p13,Word,6,16,1,0,long,17
+p14,Keyword (No Target),1,11,0,0,short,11
+p14,Keyword (No Target),2,5,0,0,short,5
+p14,Keyword (No Target),3,17,0,0,long,17
+p14,Keyword (No Target),4,13,0,0,long,13
+p14,Keyword (No Target),5,10,0,0,long,10
+p14,Keyword (No Target),6,2,0,0,short,2
+p14,Keyword (Target),1,18,0,0,long,18
+p14,Keyword (Target),2,3,0,0,short,3
+p14,Keyword (Target),3,7,0,0,short,7
+p14,Keyword (Target),4,13,0,0,long,13
+p14,Keyword (Target),5,4,0,0,short,4
+p14,Keyword (Target),6,22,0,0,long,22
+p14,Sentence,1,2,0,0,short,2
+p14,Sentence,2,25,1,0,long,26
+p14,Sentence,3,10,0,0,long,10
+p14,Sentence,4,13,4,0,long,17
+p14,Sentence,5,3,0,0,short,3
+p14,Sentence,6,1,0,0,short,1
+p14,Temporal,1,4,0,0,long,4
+p14,Temporal,2,2,0,0,short,2
+p14,Temporal,3,4,0,0,long,4
+p14,Temporal,4,1,0,0,short,1
+p14,Temporal,5,2,0,0,short,2
+p14,Temporal,6,6,0,0,long,6
+p14,Word,1,31,0,0,long,31
+p14,Word,2,23,0,0,long,23
+p14,Word,3,5,0,0,short,5
+p14,Word,4,6,0,0,short,6
+p14,Word,5,7,0,0,short,7
+p14,Word,6,19,0,0,long,19
+p15,Keyword (No Target),1,22,3,0,long,25
+p15,Keyword (No Target),2,4,0,1,short,5
+p15,Keyword (No Target),3,20,0,0,long,20
+p15,Keyword (No Target),4,8,0,1,short,9
+p15,Keyword (No Target),5,2,0,1,short,3
+p15,Keyword (No Target),6,19,0,0,long,19
+p15,Keyword (Target),1,1,0,0,short,1
+p15,Keyword (Target),2,21,1,0,long,22
+p15,Keyword (Target),3,39,21,0,long,60
+p15,Keyword (Target),4,14,1,0,long,15
+p15,Keyword (Target),5,5,0,0,short,5
+p15,Keyword (Target),6,1,0,0,short,1
+p15,Sentence,1,25,3,0,short,28
+p15,Sentence,2,17,8,0,short,25
+p15,Sentence,3,22,8,0,long,30
+p15,Sentence,4,11,1,0,long,12
+p15,Sentence,5,5,0,1,long,6
+p15,Sentence,6,1,0,0,short,1
+p15,Temporal,1,8,0,0,long,8
+p15,Temporal,2,5,0,0,long,5
+p15,Temporal,3,1,0,0,short,1
+p15,Temporal,4,3,1,0,short,4
+p15,Temporal,5,5,2,0,short,7
+p15,Temporal,6,4,0,0,long,4
+p15,Word,1,21,1,0,long,22
+p15,Word,2,6,0,0,short,6
+p15,Word,3,7,0,0,short,7
+p15,Word,4,19,1,0,long,20
+p15,Word,5,7,0,0,short,7
+p15,Word,6,24,2,0,long,26

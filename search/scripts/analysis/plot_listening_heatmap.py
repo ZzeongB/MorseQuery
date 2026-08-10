@@ -55,7 +55,9 @@ def load_listening_data():
     Returns:
         dict: {participant_id: {condition: {"listening": [...], "interruptions": [...], "jumps": [...]}}}
     """
-    data = defaultdict(lambda: defaultdict(lambda: {"listening": [], "interruptions": [], "jumps": []}))
+    data = defaultdict(
+        lambda: defaultdict(lambda: {"listening": [], "interruptions": [], "jumps": []})
+    )
 
     for path in sorted(LOGS_DIR.glob("*.jsonl")):
         with path.open() as f:
@@ -78,34 +80,42 @@ def load_listening_data():
 
                     if start is not None and end is not None and duration_ms > 50:
                         # Record jump (start -> end transition)
-                        data[pid][condition]["jumps"].append({
-                            "start": start,
-                            "end": end,
-                        })
+                        data[pid][condition]["jumps"].append(
+                            {
+                                "start": start,
+                                "end": end,
+                            }
+                        )
 
                         if progress and progress > 0:
                             # Forward listening: count the whole range
-                            data[pid][condition]["listening"].append({
-                                "start": start,
-                                "end": end,
-                            })
+                            data[pid][condition]["listening"].append(
+                                {
+                                    "start": start,
+                                    "end": end,
+                                }
+                            )
                         else:
                             # Backward jump or pause: count just the end position (brief listen)
-                            data[pid][condition]["listening"].append({
-                                "start": end,
-                                "end": end + 0.5,
-                            })
+                            data[pid][condition]["listening"].append(
+                                {
+                                    "start": end,
+                                    "end": end + 0.5,
+                                }
+                            )
 
                 elif event.get("event") == "interruption":
                     target_time = event.get("targetTime")
                     word = event.get("word", "")
                     delay_type = event.get("delayType", "unknown")
                     if target_time is not None:
-                        data[pid][condition]["interruptions"].append({
-                            "time": target_time,
-                            "word": word,
-                            "delay_type": delay_type,
-                        })
+                        data[pid][condition]["interruptions"].append(
+                            {
+                                "time": target_time,
+                                "word": word,
+                                "delay_type": delay_type,
+                            }
+                        )
 
     return data
 
@@ -133,7 +143,9 @@ def build_heatmap_array(listening_events: list, max_time: float) -> np.ndarray:
     return heatmap
 
 
-def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path, show_jumps: bool = False):
+def plot_participant_heatmap(
+    pid: str, conditions_data: dict, output_path: Path, show_jumps: bool = False
+):
     """Plot heatmap for a single participant (time-based x-axis).
 
     Args:
@@ -142,7 +154,7 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
         output_path: Path to save the figure
         show_jumps: If True, overlay jump arrows on the heatmap
     """
-    condition_order = ["discontinuous", "sentence", "word", "keyword2", "keyword"]
+    condition_order = ["temporal", "sentence", "word", "keyword2", "keyword"]
     conditions = [c for c in condition_order if c in conditions_data]
 
     if not conditions:
@@ -169,11 +181,13 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
     all_interruptions = []
     for i, cond in enumerate(conditions):
         for intr in conditions_data[cond]["interruptions"]:
-            all_interruptions.append({
-                "row": i,
-                "time": intr["time"],
-                "word": intr["word"],
-            })
+            all_interruptions.append(
+                {
+                    "row": i,
+                    "time": intr["time"],
+                    "word": intr["word"],
+                }
+            )
 
     # Subtract 1 from all values (everyone listens at least once)
     heatmap_matrix = np.maximum(heatmap_matrix - 1, 0)
@@ -183,7 +197,15 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
     fig, ax = plt.subplots(figsize=(16, len(conditions) * row_height + 1.5))
 
     # Custom red colormap (white to red)
-    colors = ["#FFFFFF", "#FFCCCC", "#FF9999", "#FF6666", "#FF3333", "#FF0000", "#CC0000"]
+    colors = [
+        "#FFFFFF",
+        "#FFCCCC",
+        "#FF9999",
+        "#FF6666",
+        "#FF3333",
+        "#FF0000",
+        "#CC0000",
+    ]
     cmap = LinearSegmentedColormap.from_list("white_red", colors)
 
     # Clip values to 95th percentile for better visualization
@@ -205,7 +227,7 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
 
         # Plot heatmap row
         im = ax.imshow(
-            heatmap_clipped[i:i+1],
+            heatmap_clipped[i : i + 1],
             aspect="auto",
             cmap=cmap,
             extent=[0, max_time, y_pos, y_pos + bar_height],
@@ -233,8 +255,7 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
         )
         # Draw triangle marker at the top
         ax.scatter(
-            intr["time"], y_pos + bar_height,
-            marker="v", color="blue", s=25, zorder=5
+            intr["time"], y_pos + bar_height, marker="v", color="blue", s=25, zorder=5
         )
 
     # Labels
@@ -261,7 +282,9 @@ def plot_participant_heatmap(pid: str, conditions_data: dict, output_path: Path,
     print(f"Saved: {output_path}")
 
 
-def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_path: Path):
+def plot_participant_heatmap_by_task(
+    pid: str, conditions_data: dict, output_path: Path
+):
     """Plot heatmap with 6 side-by-side 1-minute windows (short 3 + long 3).
 
     Fixed 60-second segments: 0-60, 60-120, 120-180, 180-240, 240-300, 300-360
@@ -273,7 +296,7 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
         conditions_data: {condition: {"listening": [...], "interruptions": [...], "jumps": [...]}}
         output_path: Path to save the figure
     """
-    condition_order = ["discontinuous", "sentence", "word", "keyword2", "keyword"]
+    condition_order = ["temporal", "sentence", "word", "keyword2", "keyword"]
     conditions = [c for c in condition_order if c in conditions_data]
 
     if not conditions:
@@ -307,20 +330,22 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
             intr_time = intr["time"]
             segment_idx = int(intr_time // window_duration)
             if segment_idx < n_segments:
-                segment_info.append({
-                    "segment_idx": segment_idx,
-                    "delay_type": intr.get("delay_type", "unknown"),
-                    "intr_time": intr_time,
-                })
+                segment_info.append(
+                    {
+                        "segment_idx": segment_idx,
+                        "delay_type": intr.get("delay_type", "unknown"),
+                        "intr_time": intr_time,
+                    }
+                )
 
         # Separate segments into short and long
         short_segments = sorted(
             [s for s in segment_info if s["delay_type"] == "short"],
-            key=lambda x: x["segment_idx"]
+            key=lambda x: x["segment_idx"],
         )
         long_segments = sorted(
             [s for s in segment_info if s["delay_type"] == "long"],
-            key=lambda x: x["segment_idx"]
+            key=lambda x: x["segment_idx"],
         )
 
         # Process short segments (positions 0, 1, 2 in output)
@@ -377,7 +402,15 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
     fig, ax = plt.subplots(figsize=(16, len(conditions) * row_height + 1.5))
 
     # Custom red colormap
-    colors = ["#FFFFFF", "#FFCCCC", "#FF9999", "#FF6666", "#FF3333", "#FF0000", "#CC0000"]
+    colors = [
+        "#FFFFFF",
+        "#FFCCCC",
+        "#FF9999",
+        "#FF6666",
+        "#FF3333",
+        "#FF0000",
+        "#CC0000",
+    ]
     cmap = LinearSegmentedColormap.from_list("white_red", colors)
 
     # Get vmax
@@ -398,7 +431,7 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
         row_positions.append(y_pos + bar_height / 2)
 
         im = ax.imshow(
-            heatmap_clipped[i:i+1],
+            heatmap_clipped[i : i + 1],
             aspect="auto",
             cmap=cmap,
             extent=[0, total_bins, y_pos, y_pos + bar_height],
@@ -424,8 +457,7 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
             alpha=0.9,
         )
         ax.scatter(
-            marker_x, y_pos + bar_height,
-            marker="v", color="blue", s=25, zorder=5
+            marker_x, y_pos + bar_height, marker="v", color="blue", s=25, zorder=5
         )
 
     # Draw vertical lines between tasks
@@ -456,17 +488,43 @@ def plot_participant_heatmap_by_task(pid: str, conditions_data: dict, output_pat
 
     # Add Short/Long labels at top
     total_height = len(conditions) * (bar_height + gap) - gap
-    ax.text(1.5 * n_bins, total_height + 0.4, "Short", ha="center", va="center",
-            fontsize=12, fontweight="bold")
-    ax.text(4.5 * n_bins, total_height + 0.4, "Long", ha="center", va="center",
-            fontsize=12, fontweight="bold")
+    ax.text(
+        1.5 * n_bins,
+        total_height + 0.4,
+        "Short",
+        ha="center",
+        va="center",
+        fontsize=12,
+        fontweight="bold",
+    )
+    ax.text(
+        4.5 * n_bins,
+        total_height + 0.4,
+        "Long",
+        ha="center",
+        va="center",
+        fontsize=12,
+        fontweight="bold",
+    )
 
     # Add task numbers
     for task_idx in range(3):
-        ax.text((task_idx + 0.5) * n_bins, total_height + 0.15, f"S{task_idx+1}",
-                ha="center", va="center", fontsize=9)
-        ax.text((task_idx + 3.5) * n_bins, total_height + 0.15, f"L{task_idx+1}",
-                ha="center", va="center", fontsize=9)
+        ax.text(
+            (task_idx + 0.5) * n_bins,
+            total_height + 0.15,
+            f"S{task_idx+1}",
+            ha="center",
+            va="center",
+            fontsize=9,
+        )
+        ax.text(
+            (task_idx + 3.5) * n_bins,
+            total_height + 0.15,
+            f"L{task_idx+1}",
+            ha="center",
+            va="center",
+            fontsize=9,
+        )
 
     ax.set_ylim(-0.1, total_height + 0.6)
     ax.set_xlim(0, total_bins)
@@ -481,11 +539,30 @@ def main():
     global LOGS_DIR, RESULT_DIR
 
     import argparse
+
     parser = argparse.ArgumentParser(description="Plot listening heatmaps")
-    parser.add_argument("--jumps", action="store_true", help="Show jump arrows on heatmap (only for time-based)")
-    parser.add_argument("--by-time", action="store_true", help="Use time-based x-axis (default is by-task)")
-    parser.add_argument("--logs-dir", type=str, default=None, help="Directory containing log files (default: logs/study)")
-    parser.add_argument("--result-dir", type=str, default=None, help="Directory to save results (default: result/figures)")
+    parser.add_argument(
+        "--jumps",
+        action="store_true",
+        help="Show jump arrows on heatmap (only for time-based)",
+    )
+    parser.add_argument(
+        "--by-time",
+        action="store_true",
+        help="Use time-based x-axis (default is by-task)",
+    )
+    parser.add_argument(
+        "--logs-dir",
+        type=str,
+        default=None,
+        help="Directory containing log files (default: logs/study)",
+    )
+    parser.add_argument(
+        "--result-dir",
+        type=str,
+        default=None,
+        help="Directory to save results (default: result/figures)",
+    )
     args = parser.parse_args()
 
     if args.logs_dir:

@@ -4,7 +4,7 @@ Generate paper figures with consistent styling.
 
 Changes from original:
 1. Condition renaming:
-   - discontinuous -> Temporal
+   - temporal -> Temporal
    - keyword -> Keyword (Target Present)
    - keyword2 -> Keyword (Target Absent)
    - word -> Word
@@ -30,11 +30,12 @@ import pandas as pd
 import pingouin as pg
 import seaborn as sns
 from scipy import stats
+from matplotlib.patches import Patch
 
 # Condition mapping (old -> new)
 CONDITION_MAP = {
-    "Discontinuous": "Temporal",
-    "discontinuous": "Temporal",
+    "temporal": "Temporal",
+    "temporal": "Temporal",
     "Keyword": "Keyword (Target Present)",
     "keyword": "Keyword (Target Present)",
     "Keyword2": "Keyword (Target Absent)",
@@ -357,7 +358,13 @@ def run_nasa_tlx_anova(df):
                     if row[p_col] < 0.05:
                         c1_idx = CONDITION_ORDER.index(row["A"])
                         c2_idx = CONDITION_ORDER.index(row["B"])
-                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                        marker = (
+                            "***"
+                            if row[p_col] < 0.001
+                            else "**"
+                            if row[p_col] < 0.01
+                            else "*"
+                        )
                         significant_pairs.append((c1_idx, c2_idx, marker))
 
                 if significant_pairs:
@@ -492,7 +499,7 @@ def run_word_search_anova():
 
     # Condition name mapping for CSV columns
     col_map = {
-        "discontinuous": "Temporal",
+        "temporal": "Temporal",
         "keyword": "Keyword (Target Present)",
         "keyword2": "Keyword (Target Absent)",
         "word": "Word",
@@ -576,7 +583,13 @@ def run_word_search_anova():
                     if row[p_col] < 0.05:
                         c1_idx = CONDITION_ORDER.index(row["A"])
                         c2_idx = CONDITION_ORDER.index(row["B"])
-                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                        marker = (
+                            "***"
+                            if row[p_col] < 0.001
+                            else "**"
+                            if row[p_col] < 0.01
+                            else "*"
+                        )
                         significant_pairs[lag_type].append((c1_idx, c2_idx, marker))
             else:
                 print(f"Warning: No p-value column found in post-hoc results")
@@ -730,6 +743,98 @@ def plot_word_search_time(rows, use_brackets=False, significant_pairs=None):
     return output_path
 
 
+def plot_word_search_time_overall(rows, use_brackets=False, significant_pairs=None):
+    """Create overall-only word search time bar chart: X=condition."""
+    output_dir = get_output_dir()
+
+    if significant_pairs is None:
+        significant_pairs = {}
+
+    data_records = []
+    for row in rows:
+        condition = row["condition"]
+
+        if row["word_search_success"]:
+            if row["word_search_time_sec"] is None:
+                continue
+            time_sec = row["word_search_time_sec"]
+        elif row["word_search_failure"]:
+            time_sec = 60.0
+        else:
+            continue
+
+        data_records.append({"Condition": condition, "Time": time_sec})
+
+    df = pd.DataFrame(data_records)
+    df["Condition"] = pd.Categorical(
+        df["Condition"], categories=CONDITION_ORDER, ordered=True
+    )
+
+    fig, ax = plt.subplots(figsize=(4, 3.4))
+
+    sns.barplot(
+        data=df,
+        x="Condition",
+        y="Time",
+        ax=ax,
+        order=CONDITION_ORDER,
+        palette=[CONDITION_COLORS[c] for c in CONDITION_ORDER],
+        errorbar="se",
+        capsize=0.05,
+        err_kws={"linewidth": 1.0},
+    )
+
+    ax.set_xlabel("")
+    ax.set_ylabel("Time (sec)", fontsize=10)
+    ax.set_ylim(0, 80)
+    ax.set_yticks([0, 10, 20, 30, 40, 50, 60])
+    ax.set_xticklabels(CONDITION_DISPLAY_LABELS)
+    ax.tick_params(axis="x", rotation=0, labelsize=9)
+    ax.tick_params(axis="y", labelsize=9)
+
+    ax.yaxis.grid(True, linestyle="-", alpha=0.2, color="gray")
+    ax.set_axisbelow(True)
+    ax.spines["top"].set_visible(False)
+    ax.spines["right"].set_visible(False)
+
+    overall_brackets = significant_pairs.get("Overall", [])
+    if overall_brackets and use_brackets:
+        row_assignments = assign_bracket_rows(overall_brackets)
+        adjusted_endpoints = adjust_shared_endpoints(overall_brackets, offset=0.08)
+        y_base = 48
+        row_height = 6
+
+        for i, (_, _, marker) in enumerate(overall_brackets):
+            x1, x2 = adjusted_endpoints[i]
+            y = y_base + row_assignments[i] * row_height
+            add_significance_bracket(ax, x1, x2, y, 1.8, marker, fontsize=8)
+
+    rank_palette = sns.blend_palette(["#1a9850", "#f0f0f0", "#d73027"], n_colors=5)
+    legend_handles = [
+        Patch(facecolor=rank_palette[i], edgecolor="none", label=str(i + 1))
+        for i in range(5)
+    ]
+    ax.legend(
+        handles=legend_handles,
+        loc="upper center",
+        bbox_to_anchor=(0.5, -0.14),
+        ncol=5,
+        fontsize=8,
+        title_fontsize=9,
+        frameon=False,
+    )
+
+    plt.tight_layout()
+
+    suffix = "_bracket" if use_brackets else ""
+    output_path = output_dir / f"word_search_time_overall{suffix}.svg"
+    plt.savefig(output_path, format="svg", bbox_inches="tight")
+    plt.close()
+
+    print(f"\nOverall word search time figure saved to: {output_path}")
+    return output_path
+
+
 def build_search_accuracy_df(rows):
     """Build participant-level search accuracy table for plotting and RM-ANOVA."""
     data_records = []
@@ -832,7 +937,13 @@ def run_search_accuracy_anova(rows):
                     if row[p_col] < 0.05:
                         c1_idx = CONDITION_ORDER.index(row["A"])
                         c2_idx = CONDITION_ORDER.index(row["B"])
-                        marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                        marker = (
+                            "***"
+                            if row[p_col] < 0.001
+                            else "**"
+                            if row[p_col] < 0.01
+                            else "*"
+                        )
                         significant_pairs[lag_type].append((c1_idx, c2_idx, marker))
             else:
                 print(
@@ -973,7 +1084,7 @@ def load_preference_data():
             feature = feature.strip()
             # Fix typo in data
             if feature == "discontiuous":
-                feature = "discontinuous"
+                feature = "temporal"
             # Map to new condition names
             condition = CONDITION_MAP.get(feature, feature)
             feature_ranks[condition].append(rank)
@@ -989,7 +1100,9 @@ def run_preference_friedman():
     rank_matrix = np.array([feature_ranks[cond] for cond in CONDITION_ORDER]).T
 
     # Friedman test
-    stat, p_value = stats.friedmanchisquare(*[rank_matrix[:, i] for i in range(len(CONDITION_ORDER))])
+    stat, p_value = stats.friedmanchisquare(
+        *[rank_matrix[:, i] for i in range(len(CONDITION_ORDER))]
+    )
     print(f"\nPreference Order Friedman Test:")
     print(f"  Chi-square = {stat:.3f}, p = {p_value:.4f}")
 
@@ -1007,14 +1120,16 @@ def run_preference_friedman():
             # Wilcoxon signed-rank test
             try:
                 stat_w, p_w = stats.wilcoxon(ranks_i, ranks_j)
-                pairwise_results.append({
-                    "A": cond_i,
-                    "B": cond_j,
-                    "i": i,
-                    "j": j,
-                    "statistic": stat_w,
-                    "p_unc": p_w,
-                })
+                pairwise_results.append(
+                    {
+                        "A": cond_i,
+                        "B": cond_j,
+                        "i": i,
+                        "j": j,
+                        "statistic": stat_w,
+                        "p_unc": p_w,
+                    }
+                )
             except Exception as e:
                 print(f"  Warning: Wilcoxon test failed for {cond_i} vs {cond_j}: {e}")
 
@@ -1053,13 +1168,17 @@ def run_preference_friedman():
     print(f"\nPreference Order Post-hoc (Wilcoxon with Holm correction):")
     print(f"  {'A':<30} {'B':<30} {'p_unc':<10} {'p_corr':<10} {'Sig.':<10}")
     for r in pairwise_results:
-        print(f"  {r['A']:<30} {r['B']:<30} {r['p_unc']:<10.4f} {r['p_corr']:<10.4f} {r['Sig.']:<10}")
+        print(
+            f"  {r['A']:<30} {r['B']:<30} {r['p_unc']:<10.4f} {r['p_corr']:<10.4f} {r['Sig.']:<10}"
+        )
 
     # Collect significant pairs
     significant_pairs = []
     for r in pairwise_results:
         if r["p_corr"] < 0.05:
-            marker = "***" if r["p_corr"] < 0.001 else "**" if r["p_corr"] < 0.01 else "*"
+            marker = (
+                "***" if r["p_corr"] < 0.001 else "**" if r["p_corr"] < 0.01 else "*"
+            )
             significant_pairs.append((r["i"], r["j"], marker))
 
     return significant_pairs
@@ -1086,8 +1205,8 @@ def plot_preference_order(use_brackets=False, significant_pairs=None):
     x = np.arange(len(CONDITION_ORDER))
     width = 0.65
 
-    # Use a reversed red-blue diverging palette for rank preference.
-    rank_palette = sns.color_palette("RdBu_r", n_colors=5)
+    # Use a green-light gray-red diverging palette for rank preference.
+    rank_palette = sns.blend_palette(["#1a9850", "#f0f0f0", "#d73027"], n_colors=5)
     rank_colors = {rank: rank_palette[rank - 1] for rank in ranks}
 
     fig, ax = plt.subplots(figsize=(4, 3.4))
@@ -1191,7 +1310,9 @@ def run_sus_anova(df):
             if row[p_col] < 0.05:
                 c1_idx = CONDITION_ORDER.index(row["A"])
                 c2_idx = CONDITION_ORDER.index(row["B"])
-                marker = "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                marker = (
+                    "***" if row[p_col] < 0.001 else "**" if row[p_col] < 0.01 else "*"
+                )
                 significant_pairs.append((c1_idx, c2_idx, marker))
 
         return significant_pairs
@@ -1325,7 +1446,9 @@ def main():
 
     # With brackets
     print("\n--- With brackets ---")
-    plot_nasa_tlx(survey_df, use_brackets=True, significance_by_dim=nasa_tlx_significant)
+    plot_nasa_tlx(
+        survey_df, use_brackets=True, significance_by_dim=nasa_tlx_significant
+    )
     plot_word_search_time(
         word_search_rows, use_brackets=True, significant_pairs=significant_pairs
     )
@@ -1334,7 +1457,9 @@ def main():
         use_brackets=True,
         significant_pairs=accuracy_significant_pairs,
     )
-    plot_sus_score(survey_df, use_brackets=True, significant_pairs=sus_significant_pairs)
+    plot_sus_score(
+        survey_df, use_brackets=True, significant_pairs=sus_significant_pairs
+    )
     plot_preference_order(
         use_brackets=True,
         significant_pairs=preference_significant_pairs,

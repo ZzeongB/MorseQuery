@@ -1,7 +1,7 @@
 participant_id,condition,word_search_type,n_trials,n_success,n_failure,success_rate,mean_word_search_time_sec
-p0,discontinuous,all,5,5,0,1.0,22.506
-p0,discontinuous,long,3,3,0,1.0,20.252
-p0,discontinuous,short,2,2,0,1.0,25.887
+p0,temporal,all,5,5,0,1.0,22.506
+p0,temporal,long,3,3,0,1.0,20.252
+p0,temporal,short,2,2,0,1.0,25.887
 p0,keyword,all,5,5,0,1.0,6.724199999999999
 p0,keyword,long,3,3,0,1.0,9.934666666666667
 p0,keyword,short,2,2,0,1.0,1.9085
@@ -14,9 +14,9 @@ p0,sentence,short,4,4,0,1.0,16.0185
 p0,word,all,5,5,0,1.0,13.144400000000001
 p0,word,long,1,1,0,1.0,25.295
 p0,word,short,4,4,0,1.0,10.106750000000002
-p2,discontinuous,all,6,6,0,1.0,18.645833333333332
-p2,discontinuous,long,3,3,0,1.0,15.748
-p2,discontinuous,short,3,3,0,1.0,21.543666666666667
+p2,temporal,all,6,6,0,1.0,18.645833333333332
+p2,temporal,long,3,3,0,1.0,15.748
+p2,temporal,short,3,3,0,1.0,21.543666666666667
 p2,keyword,all,6,6,0,1.0,17.860333333333333
 p2,keyword,long,3,3,0,1.0,26.989
 p2,keyword,short,3,3,0,1.0,8.731666666666667
@@ -29,9 +29,9 @@ p2,sentence,short,3,3,0,1.0,20.365
 p2,word,all,6,4,2,0.6666666666666666,20.235
 p2,word,long,3,1,2,0.3333333333333333,58.924
 p2,word,short,3,3,0,1.0,7.338666666666666
-p3,discontinuous,all,6,6,0,1.0,19.85616666666667
-p3,discontinuous,long,3,3,0,1.0,30.71666666666667
-p3,discontinuous,short,3,3,0,1.0,8.995666666666667
+p3,temporal,all,6,6,0,1.0,19.85616666666667
+p3,temporal,long,3,3,0,1.0,30.71666666666667
+p3,temporal,short,3,3,0,1.0,8.995666666666667
 p3,keyword,all,6,6,0,1.0,15.707
 p3,keyword,long,3,3,0,1.0,24.399333333333335
 p3,keyword,short,3,3,0,1.0,7.014666666666666

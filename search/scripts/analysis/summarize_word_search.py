@@ -34,6 +34,7 @@ import pandas as pd
 
 try:
     import pingouin as pg
+
     HAS_PINGOUIN = True
 except ImportError:
     HAS_PINGOUIN = False
@@ -116,7 +117,9 @@ def build_trial_rows(meta, participant_id: str | None = None, threshold: float =
                     "word_search_success": success,
                     "word_search_failure": failure,
                     "word_search_time_sec": (
-                        "" if task.get("responseTimeMs") is None else task["responseTimeMs"] / 1000
+                        ""
+                        if task.get("responseTimeMs") is None
+                        else task["responseTimeMs"] / 1000
                     ),
                 }
             )
@@ -181,29 +184,33 @@ def write_summary_csv(rows, suffix: str = "", by_participant: bool = False):
 
         with csv_path.open("w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow([
-                "participant_id",
-                "condition",
-                "word_search_type",
-                "n_trials",
-                "n_success",
-                "n_failure",
-                "success_rate",
-                "mean_word_search_time_sec",
-            ])
-            for (pid, condition, word_search_type) in sorted(grouped):
+            writer.writerow(
+                [
+                    "participant_id",
+                    "condition",
+                    "word_search_type",
+                    "n_trials",
+                    "n_success",
+                    "n_failure",
+                    "success_rate",
+                    "mean_word_search_time_sec",
+                ]
+            )
+            for pid, condition, word_search_type in sorted(grouped):
                 group = grouped[(pid, condition, word_search_type)]
                 stats = compute_summary_stats(group)
-                writer.writerow([
-                    pid,
-                    condition,
-                    word_search_type,
-                    stats["n_trials"],
-                    stats["n_success"],
-                    stats["n_failure"],
-                    stats["success_rate"],
-                    stats["mean_word_search_time_sec"],
-                ])
+                writer.writerow(
+                    [
+                        pid,
+                        condition,
+                        word_search_type,
+                        stats["n_trials"],
+                        stats["n_success"],
+                        stats["n_failure"],
+                        stats["success_rate"],
+                        stats["mean_word_search_time_sec"],
+                    ]
+                )
     else:
         # Group by (condition, word_search_type) only
         grouped = defaultdict(list)
@@ -213,27 +220,31 @@ def write_summary_csv(rows, suffix: str = "", by_participant: bool = False):
 
         with csv_path.open("w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow([
-                "condition",
-                "word_search_type",
-                "n_trials",
-                "n_success",
-                "n_failure",
-                "success_rate",
-                "mean_word_search_time_sec",
-            ])
-            for (condition, word_search_type) in sorted(grouped):
+            writer.writerow(
+                [
+                    "condition",
+                    "word_search_type",
+                    "n_trials",
+                    "n_success",
+                    "n_failure",
+                    "success_rate",
+                    "mean_word_search_time_sec",
+                ]
+            )
+            for condition, word_search_type in sorted(grouped):
                 group = grouped[(condition, word_search_type)]
                 stats = compute_summary_stats(group)
-                writer.writerow([
-                    condition,
-                    word_search_type,
-                    stats["n_trials"],
-                    stats["n_success"],
-                    stats["n_failure"],
-                    stats["success_rate"],
-                    stats["mean_word_search_time_sec"],
-                ])
+                writer.writerow(
+                    [
+                        condition,
+                        word_search_type,
+                        stats["n_trials"],
+                        stats["n_success"],
+                        stats["n_failure"],
+                        stats["success_rate"],
+                        stats["mean_word_search_time_sec"],
+                    ]
+                )
     return csv_path
 
 
@@ -278,12 +289,14 @@ def run_repeated_measures_anova(rows, include_failures: bool = True) -> dict:
                 if word_type_filter is not None and wtype != word_type_filter:
                     continue
                 mean_time = sum(times) / len(times)
-                records.append({
-                    "participant_id": pid,
-                    "condition": condition,
-                    "word_search_type": wtype,
-                    "mean_time": mean_time,
-                })
+                records.append(
+                    {
+                        "participant_id": pid,
+                        "condition": condition,
+                        "word_search_type": wtype,
+                        "mean_time": mean_time,
+                    }
+                )
         return pd.DataFrame(records)
 
     def extract_anova_results(aov_df):
@@ -292,12 +305,14 @@ def run_repeated_measures_anova(rows, include_failures: bool = True) -> dict:
         # DF is in a single column, with df1 in row 0 and df2 in row 1
         return {
             "F": aov_df.loc[0, "F"],
-            "p": aov_df.loc[0, "p_unc"] if "p_unc" in aov_df.columns else aov_df.loc[0, "p-unc"],
+            "p": aov_df.loc[0, "p_unc"]
+            if "p_unc" in aov_df.columns
+            else aov_df.loc[0, "p-unc"],
             "df1": int(aov_df.loc[0, "DF"]),
             "df2": int(aov_df.loc[1, "DF"]) if len(aov_df) > 1 else 0,
-            "eta_sq": aov_df.loc[0, "ng2"] if "ng2" in aov_df.columns else (
-                aov_df.loc[0, "np2"] if "np2" in aov_df.columns else None
-            ),
+            "eta_sq": aov_df.loc[0, "ng2"]
+            if "ng2" in aov_df.columns
+            else (aov_df.loc[0, "np2"] if "np2" in aov_df.columns else None),
             "table": aov_df,
         }
 
@@ -378,12 +393,14 @@ def run_audio_analysis(rows, include_failures: bool = True) -> dict:
     for pid, cond_data in participant_data.items():
         for (audio, condition), times in cond_data.items():
             mean_time = sum(times) / len(times)
-            records.append({
-                "participant_id": pid,
-                "audio": audio,
-                "condition": condition,
-                "mean_time": mean_time,
-            })
+            records.append(
+                {
+                    "participant_id": pid,
+                    "audio": audio,
+                    "condition": condition,
+                    "mean_time": mean_time,
+                }
+            )
 
     df = pd.DataFrame(records)
 
@@ -392,7 +409,9 @@ def run_audio_analysis(rows, include_failures: bool = True) -> dict:
 
     # 1) One-way RM-ANOVA on audio (aggregate across conditions per participant-audio)
     try:
-        df_audio = df.groupby(["participant_id", "audio"])["mean_time"].mean().reset_index()
+        df_audio = (
+            df.groupby(["participant_id", "audio"])["mean_time"].mean().reset_index()
+        )
         aov_audio = pg.rm_anova(
             data=df_audio,
             dv="mean_time",
@@ -402,12 +421,14 @@ def run_audio_analysis(rows, include_failures: bool = True) -> dict:
         )
         results["audio_main_effect"] = {
             "F": aov_audio.loc[0, "F"],
-            "p": aov_audio.loc[0, "p-unc"] if "p-unc" in aov_audio.columns else aov_audio.loc[0, "p_unc"],
+            "p": aov_audio.loc[0, "p-unc"]
+            if "p-unc" in aov_audio.columns
+            else aov_audio.loc[0, "p_unc"],
             "df1": int(aov_audio.loc[0, "DF"]),
             "df2": int(aov_audio.loc[1, "DF"]) if len(aov_audio) > 1 else 0,
-            "eta_sq": aov_audio.loc[0, "ng2"] if "ng2" in aov_audio.columns else (
-                aov_audio.loc[0, "np2"] if "np2" in aov_audio.columns else None
-            ),
+            "eta_sq": aov_audio.loc[0, "ng2"]
+            if "ng2" in aov_audio.columns
+            else (aov_audio.loc[0, "np2"] if "np2" in aov_audio.columns else None),
         }
     except Exception as e:
         results["audio_main_effect"] = {"error": str(e)}
@@ -435,16 +456,26 @@ def run_audio_analysis(rows, include_failures: bool = True) -> dict:
 
             results[key] = {
                 "F": row_data["F"],
-                "p": row_data["p-unc"] if "p-unc" in aov_2way.columns else row_data.get("p_unc", None),
-                "df1": int(row_data["DF1"]) if "DF1" in aov_2way.columns else int(row_data.get("ddof1", 0)),
-                "df2": int(row_data["DF2"]) if "DF2" in aov_2way.columns else int(row_data.get("ddof2", 0)),
-                "eta_sq": row_data["ng2"] if "ng2" in aov_2way.columns else row_data.get("np2", None),
+                "p": row_data["p-unc"]
+                if "p-unc" in aov_2way.columns
+                else row_data.get("p_unc", None),
+                "df1": int(row_data["DF1"])
+                if "DF1" in aov_2way.columns
+                else int(row_data.get("ddof1", 0)),
+                "df2": int(row_data["DF2"])
+                if "DF2" in aov_2way.columns
+                else int(row_data.get("ddof2", 0)),
+                "eta_sq": row_data["ng2"]
+                if "ng2" in aov_2way.columns
+                else row_data.get("np2", None),
             }
     except Exception as e:
         results["two_way_anova"] = {"error": str(e)}
 
     # 3) Descriptive stats by audio
-    audio_stats = df.groupby("audio")["mean_time"].agg(["mean", "std", "count"]).reset_index()
+    audio_stats = (
+        df.groupby("audio")["mean_time"].agg(["mean", "std", "count"]).reset_index()
+    )
     results["audio_descriptive"] = audio_stats.to_dict("records")
 
     return results
@@ -465,8 +496,18 @@ def format_audio_analysis(audio_results: dict) -> str:
         p_val = r.get("p")
         if p_val is None:
             return "p-value not available"
-        sig = "***" if p_val < 0.001 else "**" if p_val < 0.01 else "*" if p_val < 0.05 else " (n.s.)"
-        return f"F({r['df1']}, {r['df2']}) = {r['F']:.3f}, p = {p_val:.4f}{sig}{eta_str}"
+        sig = (
+            "***"
+            if p_val < 0.001
+            else "**"
+            if p_val < 0.01
+            else "*"
+            if p_val < 0.05
+            else " (n.s.)"
+        )
+        return (
+            f"F({r['df1']}, {r['df2']}) = {r['F']:.3f}, p = {p_val:.4f}{sig}{eta_str}"
+        )
 
     # Audio main effect
     lines.append("\n1) AUDIO MAIN EFFECT (one-way RM-ANOVA):")
@@ -479,7 +520,11 @@ def format_audio_analysis(audio_results: dict) -> str:
     # Two-way ANOVA results
     lines.append("\n2) TWO-WAY RM-ANOVA (condition x audio):")
     lines.append("-" * 40)
-    for key, label in [("condition_effect", "Condition"), ("audio_effect_2way", "Audio"), ("interaction", "Condition x Audio")]:
+    for key, label in [
+        ("condition_effect", "Condition"),
+        ("audio_effect_2way", "Audio"),
+        ("interaction", "Condition x Audio"),
+    ]:
         if key in audio_results:
             lines.append(f"   [{label}] {format_single_result(audio_results[key])}")
 
@@ -491,8 +536,12 @@ def format_audio_analysis(audio_results: dict) -> str:
     lines.append("-" * 40)
     if "audio_descriptive" in audio_results:
         lines.append(f"   {'Audio':<10} {'Mean':>10} {'SD':>10} {'N':>6}")
-        for stat in sorted(audio_results["audio_descriptive"], key=lambda x: x["audio"]):
-            lines.append(f"   {stat['audio']:<10} {stat['mean']:>10.2f} {stat['std']:>10.2f} {stat['count']:>6}")
+        for stat in sorted(
+            audio_results["audio_descriptive"], key=lambda x: x["audio"]
+        ):
+            lines.append(
+                f"   {stat['audio']:<10} {stat['mean']:>10.2f} {stat['std']:>10.2f} {stat['count']:>6}"
+            )
 
     lines.append("=" * 60)
     return "\n".join(lines)
@@ -509,8 +558,18 @@ def format_anova_results(anova_results: dict) -> str:
     def format_single_result(r):
         """Format a single ANOVA result."""
         eta_str = f", η²g = {r['eta_sq']:.3f}" if r.get("eta_sq") is not None else ""
-        sig = "***" if r["p"] < 0.001 else "**" if r["p"] < 0.01 else "*" if r["p"] < 0.05 else " (n.s.)"
-        return f"F({r['df1']}, {r['df2']}) = {r['F']:.3f}, p = {r['p']:.4f}{sig}{eta_str}"
+        sig = (
+            "***"
+            if r["p"] < 0.001
+            else "**"
+            if r["p"] < 0.01
+            else "*"
+            if r["p"] < 0.05
+            else " (n.s.)"
+        )
+        return (
+            f"F({r['df1']}, {r['df2']}) = {r['F']:.3f}, p = {r['p']:.4f}{sig}{eta_str}"
+        )
 
     # Overall
     lines.append("\n1) OVERALL (ignoring long/short):")
@@ -533,9 +592,15 @@ def format_anova_results(anova_results: dict) -> str:
     return "\n".join(lines)
 
 
-def plot_search_times(rows, suffix: str = "", include_failures: bool = True, title: str = None,
-                      show_individual_points: bool = False, show_participant_means: bool = False,
-                      save_to_figures: bool = False):
+def plot_search_times(
+    rows,
+    suffix: str = "",
+    include_failures: bool = True,
+    title: str = None,
+    show_individual_points: bool = False,
+    show_participant_means: bool = False,
+    save_to_figures: bool = False,
+):
     """Plot search times by condition and word search type.
 
     Args:
@@ -553,7 +618,7 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
         plot_path = figures_dir / f"word_search_time_by_condition{suffix}.png"
     else:
         plot_path = RESULT_DIR / f"word_search_time_by_condition{suffix}.png"
-    condition_order = ["discontinuous", "keyword", "keyword2", "sentence", "word"]
+    condition_order = ["temporal", "keyword", "keyword2", "sentence", "word"]
     type_order = ["all", "long", "short"]
 
     grouped = defaultdict(list)
@@ -574,7 +639,9 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
         grouped[(row["condition"], "all")].append(time_sec)
         # Track per-participant
         pid = row["participant_id"]
-        participant_grouped[pid][(row["condition"], row["word_search_type"])].append(time_sec)
+        participant_grouped[pid][(row["condition"], row["word_search_type"])].append(
+            time_sec
+        )
         participant_grouped[pid][(row["condition"], "all")].append(time_sec)
 
     # Run ANOVA and print results
@@ -609,7 +676,15 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
                 sem = 0
             cis.append(sem)
 
-        ax.bar(xs, ys, color="#4C78A8", yerr=cis, capsize=4, error_kw={"elinewidth": 1.5, "capthick": 1.5}, alpha=0.7)
+        ax.bar(
+            xs,
+            ys,
+            color="#4C78A8",
+            yerr=cis,
+            capsize=4,
+            error_kw={"elinewidth": 1.5, "capthick": 1.5},
+            alpha=0.7,
+        )
 
         # Plot all individual trial points for each participant
         if show_individual_points:
@@ -620,8 +695,17 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
                         # Add jitter to x position for each trial
                         jitter = np.random.uniform(-0.2, 0.2, len(times))
                         x_jittered = [i + j for j in jitter]
-                        ax.scatter(x_jittered, times, color=pid_colors[pid], s=30, alpha=0.6,
-                                   edgecolors="white", linewidths=0.5, label=pid if i == 0 else None, zorder=3)
+                        ax.scatter(
+                            x_jittered,
+                            times,
+                            color=pid_colors[pid],
+                            s=30,
+                            alpha=0.6,
+                            edgecolors="white",
+                            linewidths=0.5,
+                            label=pid if i == 0 else None,
+                            zorder=3,
+                        )
 
         # Plot participant means (one point per participant per condition)
         if show_participant_means:
@@ -631,8 +715,17 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
                     if times:
                         mean_time = sum(times) / len(times)
                         jitter = np.random.uniform(-0.2, 0.2)
-                        ax.scatter(i + jitter, mean_time, color=pid_colors[pid], s=50, alpha=0.85,
-                                   edgecolors="white", linewidths=0.8, label=pid if i == 0 else None, zorder=3)
+                        ax.scatter(
+                            i + jitter,
+                            mean_time,
+                            color=pid_colors[pid],
+                            s=50,
+                            alpha=0.85,
+                            edgecolors="white",
+                            linewidths=0.8,
+                            label=pid if i == 0 else None,
+                            zorder=3,
+                        )
 
         ax.set_title(word_type)
         ax.set_xlabel("condition")
@@ -645,10 +738,26 @@ def plot_search_times(rows, suffix: str = "", include_failures: bool = True, tit
     # Add legend for participants if showing points
     show_legend = show_individual_points or show_participant_means
     if show_legend:
-        handles = [plt.Line2D([0], [0], marker='o', color='w', markerfacecolor=pid_colors[pid],
-                              markersize=8, label=pid) for pid in all_pids]
-        fig.legend(handles=handles, loc='upper right', bbox_to_anchor=(0.99, 0.95),
-                   title="Participant", fontsize=8, title_fontsize=9)
+        handles = [
+            plt.Line2D(
+                [0],
+                [0],
+                marker="o",
+                color="w",
+                markerfacecolor=pid_colors[pid],
+                markersize=8,
+                label=pid,
+            )
+            for pid in all_pids
+        ]
+        fig.legend(
+            handles=handles,
+            loc="upper right",
+            bbox_to_anchor=(0.99, 0.95),
+            title="Participant",
+            fontsize=8,
+            title_fontsize=9,
+        )
 
     if title:
         fig.suptitle(title, fontsize=14, fontweight="bold")
@@ -672,14 +781,14 @@ def get_all_participant_ids() -> list[str]:
 def write_wide_format_csv(rows, suffix: str = "", include_failures: bool = True):
     """Write wide format CSV with participants as rows and condition_type as columns.
 
-    Format: participant_id, discontinuous_short, keyword_short, ..., discontinuous_long, ...
+    Format: participant_id, temporal_short, keyword_short, ..., temporal_long, ...
 
     Also writes separate _short and _long files with only the respective columns.
     """
     csv_path = RESULT_DIR / f"word_search_summary_wide{suffix}.csv"
     csv_path_short = RESULT_DIR / f"word_search_summary_wide_short{suffix}.csv"
     csv_path_long = RESULT_DIR / f"word_search_summary_wide_long{suffix}.csv"
-    condition_order = ["discontinuous", "keyword", "keyword2", "sentence", "word"]
+    condition_order = ["temporal", "keyword", "keyword2", "sentence", "word"]
     type_order = ["short", "long"]
 
     # Compute participant-level mean times per (condition, word_search_type)
@@ -810,11 +919,13 @@ def run_posthoc_tests(rows, include_failures: bool = True) -> dict:
                 if word_type_filter is not None and wtype != word_type_filter:
                     continue
                 mean_time = sum(times) / len(times)
-                records.append({
-                    "participant_id": pid,
-                    "condition": condition,
-                    "mean_time": mean_time,
-                })
+                records.append(
+                    {
+                        "participant_id": pid,
+                        "condition": condition,
+                        "mean_time": mean_time,
+                    }
+                )
         return pd.DataFrame(records)
 
     # Run post-hoc for each word_type
@@ -834,7 +945,9 @@ def run_posthoc_tests(rows, include_failures: bool = True) -> dict:
             )
             results[wtype] = {
                 "table": posthoc,
-                "significant_pairs": posthoc[posthoc["p_corr"] < 0.05][["A", "B", "T", "p_corr"]].to_dict("records"),
+                "significant_pairs": posthoc[posthoc["p_corr"] < 0.05][
+                    ["A", "B", "T", "p_corr"]
+                ].to_dict("records"),
             }
         except Exception as e:
             results[wtype] = {"error": str(e)}
@@ -861,8 +974,18 @@ def format_posthoc_results(posthoc_results: dict) -> str:
         if table is not None and len(table) > 0:
             for _, row in table.iterrows():
                 p_corr = row["p_corr"]
-                sig = "***" if p_corr < 0.001 else "**" if p_corr < 0.01 else "*" if p_corr < 0.05 else ""
-                lines.append(f"   {row['A']:15} vs {row['B']:15}: t = {row['T']:6.2f}, p = {p_corr:.4f} {sig}")
+                sig = (
+                    "***"
+                    if p_corr < 0.001
+                    else "**"
+                    if p_corr < 0.01
+                    else "*"
+                    if p_corr < 0.05
+                    else ""
+                )
+                lines.append(
+                    f"   {row['A']:15} vs {row['B']:15}: t = {row['T']:6.2f}, p = {p_corr:.4f} {sig}"
+                )
         else:
             lines.append("   No comparisons available")
 
@@ -943,12 +1066,19 @@ def main():
         # Write per-participant breakdown
         trial_path = write_trial_csv(all_rows, suffix="_by_id")
         summary_path = write_summary_csv(all_rows, suffix="_by_id", by_participant=True)
-        plot_path = plot_search_times(all_rows, suffix="_aggregated", title="(All) Search Time",
-                                      show_individual_points=args.show_points, show_participant_means=args.show_means,
-                                      save_to_figures=args.save_to_figures)
+        plot_path = plot_search_times(
+            all_rows,
+            suffix="_aggregated",
+            title="(All) Search Time",
+            show_individual_points=args.show_points,
+            show_participant_means=args.show_means,
+            save_to_figures=args.save_to_figures,
+        )
 
         # Also write aggregate summary (without participant grouping)
-        agg_summary_path = write_summary_csv(all_rows, suffix="_aggregate", by_participant=False)
+        agg_summary_path = write_summary_csv(
+            all_rows, suffix="_aggregate", by_participant=False
+        )
 
         # Write wide format (participant x condition matrix)
         wide_path, wide_path_short, wide_path_long = write_wide_format_csv(all_rows)
@@ -984,9 +1114,14 @@ def main():
 
         trial_path = write_trial_csv(rows, suffix=suffix)
         summary_path = write_summary_csv(rows, suffix=suffix, by_participant=False)
-        plot_path = plot_search_times(rows, suffix=suffix, title=f"({args.id.upper()}) Search Time",
-                                      show_individual_points=args.show_points, show_participant_means=args.show_means,
-                                      save_to_figures=args.save_to_figures)
+        plot_path = plot_search_times(
+            rows,
+            suffix=suffix,
+            title=f"({args.id.upper()}) Search Time",
+            show_individual_points=args.show_points,
+            show_participant_means=args.show_means,
+            save_to_figures=args.save_to_figures,
+        )
 
         print(f"Participant: {args.id}")
         print(f"Trials: {trial_path}")
@@ -1000,9 +1135,13 @@ def main():
 
         trial_path = write_trial_csv(rows)
         summary_path = write_summary_csv(rows)
-        plot_path = plot_search_times(rows, title="(All) Search Time",
-                                      show_individual_points=args.show_points, show_participant_means=args.show_means,
-                                      save_to_figures=args.save_to_figures)
+        plot_path = plot_search_times(
+            rows,
+            title="(All) Search Time",
+            show_individual_points=args.show_points,
+            show_participant_means=args.show_means,
+            save_to_figures=args.save_to_figures,
+        )
 
         print(f"Trials: {trial_path}")
         print(f"Summary: {summary_path}")

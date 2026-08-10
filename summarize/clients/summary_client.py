@@ -27,12 +27,10 @@ from config import (
     OPENAI_REALTIME_URL,
     OPENAI_SESSION_CONFIG,
 )
+from clients.prompt import SUMMARY_SESSION_INSTRUCTIONS
 from flask_socketio import SocketIO
 from logger import get_logger, get_session_subdir, log_print
 from pydub import AudioSegment
-
-from .prompt import SUMMARY_SESSION_INSTRUCTIONS
-
 
 class TranscriptSyncMode(Enum):
     """Transcription synchronization mode for summarization."""
@@ -44,6 +42,8 @@ class TranscriptSyncMode(Enum):
 
 _VAD_TRANSCRIPT_BATCH_TARGET = 2
 _VAD_TRANSCRIPT_DEBOUNCE_SEC = 0.55
+_LOCAL_SPEECH_RMS_THRESHOLD = 280.0
+_LOCAL_SILENCE_COMMIT_SEC = 0.45
 
 
 class SummaryClient:
@@ -117,6 +117,7 @@ class SummaryClient:
         self._rms_history_max_len = 10
         self._speech_segment_rms_samples: list[float] = []
         self._last_speech_segment_rms: float = 0.0
+        self._local_silence_started_ts: Optional[float] = None
 
         # Transcript synchronization state
         self._sync_lock = threading.Lock()
@@ -324,9 +325,19 @@ class SummaryClient:
 
         session_config = {
             **OPENAI_SESSION_CONFIG,
-            "instructions": SUMMARY_SESSION_INSTRUCTIONS,
         }
-        ws.send(json.dumps({"type": "session.update", "session": session_config}))
+        transcription_config = (
+            session_config.get("audio", {})
+            .get("input", {})
+            .get("transcription", {})
+        )
+        if isinstance(transcription_config, dict):
+            transcription_config["prompt"] = SUMMARY_SESSION_INSTRUCTIONS
+        self.logger.log(
+            "summary_prompt_sent",
+            prompt=SUMMARY_SESSION_INSTRUCTIONS,
+        )
+        ws.send(json.dumps({"type": "transcription_session.update", "session": session_config}))
 
         # Start audio streaming if source is configured
         if (self.source == "mic" and self.device_indices) or (
@@ -338,14 +349,14 @@ class SummaryClient:
         event = json.loads(message)
         etype = event.get("type", "")
 
-        if etype == "session.created":
+        if etype in {"session.created", "transcription_session.created"}:
             session_info = event.get("session", {})
             self.logger.log(
                 "summary_openai_session_created", session_id=session_info.get("id")
             )
             return
 
-        if etype == "session.updated":
+        if etype in {"session.updated", "transcription_session.updated"}:
             self.logger.log("summary_openai_session_updated")
             return
 
@@ -485,6 +496,7 @@ class SummaryClient:
             self.recent_audio_buffer.pop(0)
 
         # Calculate RMS
+        rms = 0.0
         try:
             arr = np.frombuffer(data, dtype=np.int16)
             if len(arr) > 0:
@@ -498,6 +510,8 @@ class SummaryClient:
                         self._speech_segment_rms_samples.append(rms)
         except Exception:
             pass
+
+        self._update_local_vad(rms)
 
         audio_b64 = base64.b64encode(data).decode()
 
@@ -517,6 +531,86 @@ class SummaryClient:
                 except Exception:
                     return False
         return False
+
+    def _update_local_vad(self, rms: float) -> None:
+        now = time.time()
+        with self._vad_state_lock:
+            speaking = self._is_speaking
+
+        if rms >= _LOCAL_SPEECH_RMS_THRESHOLD:
+            if not speaking:
+                with self._vad_state_lock:
+                    self._is_speaking = True
+                    self._speech_start_ts = now
+                    self._speech_segment_rms_samples.clear()
+                with self._sync_lock:
+                    self._pending_speech_count += 1
+                self._local_silence_started_ts = None
+                self.logger.log(
+                    "summary_vad_boundary",
+                    boundary_type="speech_started",
+                    received_at_ts=now,
+                    mic_id=self.mic_id,
+                    source="local_rms",
+                )
+                boundary_hook = getattr(self, "_on_local_boundary_event", None)
+                if callable(boundary_hook):
+                    boundary_hook("speech_started", now, {"source": "local_rms"})
+            else:
+                self._local_silence_started_ts = None
+            return
+
+        if not speaking:
+            return
+
+        if self._local_silence_started_ts is None:
+            self._local_silence_started_ts = now
+            return
+
+        if now - self._local_silence_started_ts < _LOCAL_SILENCE_COMMIT_SEC:
+            return
+
+        with self._vad_state_lock:
+            self._is_speaking = False
+            self._speech_stop_ts = now
+            self._last_speech_start_ts = self._speech_start_ts
+            self._last_speech_stop_ts = now
+            self._speech_start_ts = None
+            if self._speech_segment_rms_samples:
+                self._last_speech_segment_rms = sum(self._speech_segment_rms_samples) / len(
+                    self._speech_segment_rms_samples
+                )
+            else:
+                self._last_speech_segment_rms = 0.0
+            segment_rms = self._last_speech_segment_rms
+        self._local_silence_started_ts = None
+        self.logger.log(
+            "summary_vad_boundary",
+            boundary_type="speech_stopped",
+            received_at_ts=now,
+            mic_id=self.mic_id,
+            segment_rms=segment_rms,
+            source="local_rms",
+        )
+        boundary_hook = getattr(self, "_on_local_boundary_event", None)
+        if callable(boundary_hook):
+            boundary_hook(
+                "speech_stopped",
+                now,
+                {"source": "local_rms", "segment_rms": segment_rms},
+            )
+        self._commit_audio_buffer()
+
+    def _commit_audio_buffer(self) -> None:
+        with self._lock:
+            ws = self.ws
+            if ws is None or self._shutdown_event.is_set():
+                return
+            try:
+                ws.send(json.dumps({"type": "input_audio_buffer.commit"}))
+                self.logger.log("input_audio_buffer_commit_sent")
+            except Exception as exc:
+                self.logger.log("input_audio_buffer_commit_failed", error=str(exc))
 
     def _stream_audio(self) -> None:
         """Stream audio from configured source."""
@@ -709,7 +803,6 @@ class SummaryClient:
                 OPENAI_REALTIME_URL,
                 header=[
                     f"Authorization: Bearer {OPENAI_API_KEY}",
-                    "OpenAI-Beta: realtime=v1",
                 ],
                 on_open=self.on_open,
                 on_message=self.on_message,

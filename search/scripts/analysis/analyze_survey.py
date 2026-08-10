@@ -45,7 +45,7 @@ NASA_TLX_COLUMNS = {
 }
 
 # Condition order for plotting
-CONDITION_ORDER = ["Discontinuous", "Keyword", "Keyword2", "Word", "Sentence"]
+CONDITION_ORDER = ["temporal", "Keyword", "Keyword2", "Word", "Sentence"]
 
 
 def load_data():
@@ -109,7 +109,7 @@ def assign_bracket_rows(brackets):
         placed = False
         for row_idx, row_ranges in enumerate(rows):
             overlaps = False
-            for (r_left, r_right) in row_ranges:
+            for r_left, r_right in row_ranges:
                 # Check if ranges overlap (with small margin for visual clarity)
                 if not (right < r_left or left > r_right):
                     overlaps = True
@@ -148,14 +148,14 @@ def plot_nasa_tlx_barplot(df):
 
     # Significance markers from post-hoc analysis
     # Format: {dimension: [(condition1_idx, condition2_idx, marker), ...]}
-    # Condition order: Discontinuous(0), Keyword(1), Keyword2(2), Word(3), Sentence(4)
+    # Condition order: temporal(0), Keyword(1), Keyword2(2), Word(3), Sentence(4)
     significance = {
-        "Mental Demand": [(0, 1, "*")],  # Discontinuous vs Keyword p=.041
+        "Mental Demand": [(0, 1, "*")],  # temporal vs Keyword p=.041
         "Performance": [(1, 2, "*")],  # Keyword vs Keyword2 p=.031
         "Effort": [
-            (0, 3, "*"),  # Discontinuous vs Word p=.039
+            (0, 3, "*"),  # temporal vs Word p=.039
             (2, 3, "**"),  # Keyword2 vs Word p=.001
-            (0, 1, "*"),  # Discontinuous vs Keyword p=.022
+            (0, 1, "*"),  # temporal vs Keyword p=.022
             (1, 2, "**"),  # Keyword vs Keyword2 p=.002
         ],
     }

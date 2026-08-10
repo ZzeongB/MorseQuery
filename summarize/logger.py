@@ -11,6 +11,7 @@ from config import LOG_DIR
 SESSIONS_DIR = LOG_DIR / "sessions"
 SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
 _session_root_dirs: dict[str, Path] = {}
+EVENTS_LOG_FILENAME = "events.json"
 SESSION_LOG_FILENAME = "session_log.json"
 SESSION_FULL_LOG_FILENAME = "session_full_log.json"
 ALLOWED_EVENT_TYPES = {
@@ -23,6 +24,7 @@ ALLOWED_EVENT_TYPES = {
     "listening_end",
     "session_start",
     "session_stop",
+    "summary_prompt_sent",
     "vad_transcript",
 }
 
@@ -90,6 +92,7 @@ class JsonLogger:
         self.session_id = get_root_session_id(session_id)
         self.start_time = datetime.now()
         session_dir = get_session_dir(self.session_id)
+        self.events_log_file = session_dir / EVENTS_LOG_FILENAME
         self.log_file = session_dir / SESSION_LOG_FILENAME
         self.full_log_file = session_dir / SESSION_FULL_LOG_FILENAME
         self.events: list[dict] = []
@@ -98,6 +101,7 @@ class JsonLogger:
             "INFO",
             "JsonLogger initialized",
             session_id=self.session_id,
+            events_log_file=str(self.events_log_file),
             log_file=str(self.log_file),
             full_log_file=str(self.full_log_file),
         )
@@ -116,6 +120,7 @@ class JsonLogger:
         if event_type not in ALLOWED_EVENT_TYPES:
             return
         self.events.append(event)
+        self._save(self.events_log_file, self.events)
         self._save(self.log_file, self.events)
 
     def _save(self, filepath: Path, events: list[dict]) -> None:

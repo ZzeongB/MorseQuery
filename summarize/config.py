@@ -15,26 +15,28 @@ GOOGLE_API_KEY = os.environ.get("GOOGLE_API_KEY")
 CARTESIA_API_KEY = os.environ.get("CARTESIA_API_KEY")
 
 # OpenAI Realtime API
-OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-4o-realtime-preview"
+OPENAI_REALTIME_URL = "wss://api.openai.com/v1/realtime?model=gpt-realtime"
 
 # Audio settings
 AUDIO_RATE = 24000
 AUDIO_CHUNK = 2400  # 100ms chunks
 
-# OpenAI Realtime Session Config (for SummaryClient)
+# OpenAI Realtime Session Config (GA transcription session)
 OPENAI_SESSION_CONFIG = {
-    "modalities": ["text", "audio"],
-    "input_audio_format": "pcm16",
-    "turn_detection": {
-        "type": "server_vad",
-        "threshold": 0.5,
-        "prefix_padding_ms": 200,
-        "silence_duration_ms": 400,
-        "create_response": False,
-    },
-    "input_audio_transcription": {
-        "model": "gpt-4o-transcribe",
-        "language": "en",
+    "type": "transcription",
+    "audio": {
+        "input": {
+            "format": {
+                "type": "audio/pcm",
+                "rate": AUDIO_RATE,
+            },
+            "transcription": {
+                "model": "gpt-realtime-whisper",
+                "language": "en",
+                "delay": "low",
+            },
+            "turn_detection": None,
+        }
     },
 }
 

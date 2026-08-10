@@ -44,7 +44,7 @@ def load_preference_data(csv_path: Path) -> dict[str, list[int]]:
             feature = feature.strip()
             # Fix typo in data
             if feature == "discontiuous":
-                feature = "discontinuous"
+                feature = "temporal"
             feature_ranks[feature].append(rank)
 
     return dict(feature_ranks)
@@ -57,7 +57,7 @@ def plot_preference_stacked_bar(feature_ranks: dict[str, list[int]], output_path
     Y-axis: count
     Stacked colors: rank 1 (best) to rank 5 (worst)
     """
-    features = ["discontinuous", "keyword", "keyword2", "word", "sentence"]
+    features = ["temporal", "keyword", "keyword2", "word", "sentence"]
     ranks = [1, 2, 3, 4, 5]
 
     # Count how many times each feature got each rank
@@ -178,7 +178,9 @@ def run_statistical_analysis(feature_ranks: dict[str, list[int]], features: list
 
     # 3. Friedman Test
     print("\n--- Friedman Test (Differences among conditions) ---")
-    friedman_stat, friedman_p = stats.friedmanchisquare(*[feature_ranks[f] for f in features])
+    friedman_stat, friedman_p = stats.friedmanchisquare(
+        *[feature_ranks[f] for f in features]
+    )
     print(f"  χ²({n_conditions - 1}) = {friedman_stat:.3f}, p = {friedman_p:.4f}")
     if friedman_p < 0.05:
         print("  Result: SIGNIFICANT difference among conditions (p < 0.05)")
@@ -190,7 +192,9 @@ def run_statistical_analysis(feature_ranks: dict[str, list[int]], features: list
         print("\n--- Post-hoc Pairwise Comparisons (Wilcoxon signed-rank) ---")
         n_comparisons = n_conditions * (n_conditions - 1) // 2
         alpha_corrected = 0.05 / n_comparisons
-        print(f"  Bonferroni corrected α = {alpha_corrected:.4f} ({n_comparisons} comparisons)")
+        print(
+            f"  Bonferroni corrected α = {alpha_corrected:.4f} ({n_comparisons} comparisons)"
+        )
         print()
 
         results = []
@@ -200,7 +204,15 @@ def run_statistical_analysis(feature_ranks: dict[str, list[int]], features: list
             # Wilcoxon signed-rank test
             stat, p = stats.wilcoxon(ranks1, ranks2, alternative="two-sided")
             mean_diff = np.mean(ranks1) - np.mean(ranks2)
-            sig = "***" if p < 0.001 else "**" if p < 0.01 else "*" if p < alpha_corrected else ""
+            sig = (
+                "***"
+                if p < 0.001
+                else "**"
+                if p < 0.01
+                else "*"
+                if p < alpha_corrected
+                else ""
+            )
             results.append((f1, f2, mean_diff, stat, p, sig))
 
         # Sort by p-value
@@ -231,7 +243,7 @@ def main():
     print(f"Loaded preferences for {len(list(feature_ranks.values())[0])} participants")
     print(f"Features: {list(feature_ranks.keys())}")
 
-    features = ["keyword", "word", "sentence", "keyword2", "discontinuous"]
+    features = ["keyword", "word", "sentence", "keyword2", "temporal"]
 
     # Run statistical analysis
     run_statistical_analysis(feature_ranks, features)

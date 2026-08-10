@@ -1,7 +1,7 @@
 condition,word_search_type,n_trials,n_success,n_failure,success_rate,mean_word_search_time_sec
-discontinuous,all,17,17,0,1.0,20.20835294117647
-discontinuous,long,9,9,0,1.0,22.23888888888889
-discontinuous,short,8,8,0,1.0,17.924
+temporal,all,17,17,0,1.0,20.20835294117647
+temporal,long,9,9,0,1.0,22.23888888888889
+temporal,short,8,8,0,1.0,17.924
 keyword,all,17,17,0,1.0,13.825
 keyword,long,9,9,0,1.0,20.441
 keyword,short,8,8,0,1.0,6.382
